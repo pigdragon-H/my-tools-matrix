@@ -51,16 +51,16 @@ export const tools: Tool[] = [
           "深入解析定期定額原理，教你善用 ROI 計算機精準預測財富成長軌跡。",
       },
       {
-        id: "dca-vs-lump-sum",
-        title: "定期定額 vs 單筆投入：哪種策略更適合你？",
+        id: "roi-vs-lump-sum",
+        title: "定期定額 vs 單筆投資：哪種策略在台股更賺錢？",
         description:
-          "用數據比較兩種投資策略的風險與報酬，找出最適合你的方式。",
+          "用真實台股數據比較兩種投資策略的風險與報酬，搭配 ROI 計算機找出最適合你的方式。",
       },
       {
-        id: "compound-interest-power",
-        title: "複利的力量：為什麼越早投資越好？",
+        id: "roi-best-buy-point",
+        title: "存股族必看：用 ROI 計算機找出最佳買點，讓報酬率翻倍",
         description:
-          "用實際案例說明複利效應，以及時間對投資報酬的關鍵影響。",
+          "殖利率評估法、本益比法與技術分析三管齊下，系統性找出存股最佳買點。",
       },
     ],
   },
@@ -78,22 +78,22 @@ export const tools: Tool[] = [
     isFeatured: true,
     seoArticles: [
       {
-        id: "car-depreciation-guide",
-        title: "中古車折舊完全指南：哪些車款最保值？",
+        id: "car-depreciation-5-tips",
+        title: "買中古車前必做的 5 個殘值評估，避免買到「越開越虧」的車",
         description:
-          "分析台灣中古車市場折舊規律，教你用數據做出最聰明的購車決策。",
+          "從品牌保值率到事故記錄，5 個步驟完整評估中古車殘值，讓你買車不吃虧。",
       },
       {
-        id: "car-brands-residual-value",
-        title: "2024 台灣各品牌汽車保值率排行榜",
+        id: "japan-vs-german-car-depreciation",
+        title: "日系 vs 德系中古車折舊率大比較：買哪個品牌最保值？",
         description:
-          "Toyota、Honda、BMW 等主流品牌 5 年殘值比較，買車前必看。",
+          "用真實數據比較 Toyota、Honda、BMW、Benz 的 5 年保值率，幫你做出最聰明的購車決策。",
       },
       {
-        id: "used-car-buying-tips",
-        title: "買中古車前必做的 5 件事：避免踩雷完全指南",
+        id: "used-car-sell-best-time",
+        title: "中古車怎麼賣最划算？掌握殘值最高點的完整攻略",
         description:
-          "從折舊試算到車況檢查，教你如何用最低風險買到最值錢的中古車。",
+          "從折舊曲線到賣車管道，教你找出最佳賣車時機，讓愛車賣出最好的價格。",
       },
     ],
   },
@@ -112,22 +112,22 @@ export const tools: Tool[] = [
     isFeatured: true,
     seoArticles: [
       {
-        id: "tdee-calculator-guide",
-        title: "TDEE 完全指南：如何計算你的每日熱量需求",
+        id: "tdee-fat-loss-guide",
+        title: "減脂期間怎麼吃？TDEE 熱量缺口完整攻略",
         description:
-          "深入解析 TDEE 計算原理，教你根據目標設定最適合的熱量攝取量。",
+          "用 TDEE 計算熱量缺口，科學設定三大營養素比例，讓你健康有效地減去多餘體脂。",
       },
       {
-        id: "macros-for-muscle-gain",
-        title: "增肌期三大營養素怎麼分配？科學化飲食計畫",
+        id: "tdee-muscle-gain-guide",
+        title: "增肌飲食計畫：用 TDEE 計算每日蛋白質需求，打造理想體態",
         description:
-          "蛋白質、碳水化合物、脂肪的黃金比例，讓你的增肌計畫事半功倍。",
+          "增肌期熱量盈餘設定、蛋白質需求計算與三大營養素分配，科學化增肌飲食完整指南。",
       },
       {
-        id: "fat-loss-calorie-deficit",
-        title: "減脂必知：熱量赤字怎麼設定才不傷肌肉？",
+        id: "tdee-eating-out-guide",
+        title: "外食族如何控制熱量？TDEE 實戰應用指南",
         description:
-          "科學設定熱量赤字，搭配 TDEE 計算機，讓你健康有效地減去多餘體脂。",
+          "台灣常見外食熱量表、點餐策略與聚餐應對技巧，讓外食族也能輕鬆達成健康目標。",
       },
     ],
   },
