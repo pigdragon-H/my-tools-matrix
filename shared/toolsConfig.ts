@@ -51,6 +51,18 @@ export const tools: Tool[] = [
           "深入解析定期定額原理，教你善用 ROI 計算機精準預測財富成長軌跡。",
       },
       {
+        id: "roi-dca-vs-lumpsum",
+        title: "定期定額 vs 單筆投資：哪種方式報酬率更高？",
+        description:
+          "深度比較定期定額與單筆投資的優缺點，用數據找出最適合你的投資策略。",
+      },
+      {
+        id: "roi-stock-best-price",
+        title: "存股族必看：用 ROI 計算機找出最佳買點",
+        description:
+          "結合殖利率、本益比與技術分析，系統性找出存股最佳進場時機。",
+      },
+      {
         id: "roi-vs-lump-sum",
         title: "定期定額 vs 單筆投資：哪種策略在台股更賺錢？",
         description:
@@ -82,6 +94,18 @@ export const tools: Tool[] = [
         title: "買中古車前必做的 5 個殘值評估，避免買到「越開越虧」的車",
         description:
           "從品牌保值率到事故記錄，5 個步驟完整評估中古車殘值，讓你買車不吃虧。",
+      },
+      {
+        id: "car-japan-vs-germany",
+        title: "日系 vs 德系中古車折舊率大比較",
+        description:
+          "Toyota、Honda 對決 BMW、Benz，用數據告訴你哪個品牌 5 年後最保值。",
+      },
+      {
+        id: "car-sell-best-timing",
+        title: "中古車怎麼賣最划算？掌握殘值最高點",
+        description:
+          "從折舊曲線分析最佳賣車時機，讓你的愛車賣出最理想的價格。",
       },
       {
         id: "japan-vs-german-car-depreciation",
