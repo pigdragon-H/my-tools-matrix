@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1778954967467,
+      "tag": "0000_lush_whizzer",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1778955656381,
+      "tag": "0001_slimy_fabian_cortez",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1778997244499,
+      "tag": "0002_flashy_young_avengers",
+      "breakpoints": true
+    }
+  ]
+}
