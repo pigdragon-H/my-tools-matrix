@@ -11,6 +11,9 @@ import ToolPage from "./pages/ToolPage";
 import BlogList from "./pages/BlogList";
 import BlogCategoryPage from "./pages/BlogCategoryPage";
 import BlogArticle from "./pages/BlogArticle";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function Router() {
   return (
@@ -36,6 +39,13 @@ function Router() {
           <Route path="/blog/:category" component={BlogCategoryPage} />
           {/* 層三：文章頁面 /blog/:category/:articleId */}
           <Route path="/blog/:category/:articleId" component={BlogArticle} />
+
+          {/* 法律頁面 */}
+          <Route path="/privacy-policy" component={PrivacyPolicy} />
+          <Route path="/terms-of-service" component={TermsOfService} />
+
+          {/* 後台管理 */}
+          <Route path="/admin" component={AdminDashboard} />
 
           <Route path="/404" component={NotFound} />
           <Route component={NotFound} />

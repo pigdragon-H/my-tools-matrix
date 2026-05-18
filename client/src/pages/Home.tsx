@@ -149,7 +149,7 @@ export default function Home() {
               <span className="font-bold text-primary">工具矩陣</span>
               <span className="text-xs text-muted-foreground">讓每個決策都有數據支撐</span>
             </div>
-            <div className="flex gap-4 text-xs text-muted-foreground">
+            <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
               <Link href="/blog" className="hover:text-foreground transition-colors">
                 部落格
               </Link>
@@ -158,6 +158,13 @@ export default function Home() {
               </Link>
               <Link href="/tools/health" className="hover:text-foreground transition-colors">
                 健康工具
+              </Link>
+              <span className="text-border">|</span>
+              <Link href="/privacy-policy" className="hover:text-foreground transition-colors">
+                隱私權政策
+              </Link>
+              <Link href="/terms-of-service" className="hover:text-foreground transition-colors">
+                服務條款
               </Link>
             </div>
           </div>

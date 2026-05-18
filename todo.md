@@ -168,3 +168,13 @@
 - [ ] client/public/sitemap.xml 更新（新增 15 個工具 URL）
 - [ ] pnpm build 零錯誤
 - [ ] ZIP 打包下載
+
+## Phase 13: 法律頁面 + 後台工具統計儀表板
+
+- [ ] 建立 /privacy-policy 頁面（台灣法規 + AdSense + 用戶資料收集說明）
+- [ ] 建立 /terms-of-service 頁面（台灣法規 + 服務條款）
+- [ ] App.tsx 新增兩個路由
+- [ ] Footer 新增隱私權政策與服務條款連結
+- [ ] server/routers/admin.ts 新增 getToolStats 查詢（從 calculation_results 聚合）
+- [ ] 後台新增工具使用統計儀表板（工具排行、使用次數、分類分佈圓餅圖）
+- [ ] TypeScript 零錯誤，build 成功，存 checkpoint，打包 ZIP
