@@ -20,8 +20,15 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { getLoginUrl } from "@/const";
 import { categories } from "@shared/categoriesConfig";
+import { tools } from "@shared/toolsConfig";
 import { CategoryIcon } from "./CategoryIcon";
 import { cn } from "@/lib/utils";
+
+// 預先計算每個分類的工具數量（動態，新增工具自動更新）
+const toolCountByCategory: Record<string, number> = {};
+for (const tool of tools) {
+  toolCountByCategory[tool.category] = (toolCountByCategory[tool.category] ?? 0) + 1;
+}
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -69,21 +76,37 @@ export function Navbar() {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <div className="grid grid-cols-2 gap-0.5">
-                {categories.map((cat) => (
-                  <DropdownMenuItem key={cat.key} asChild>
-                    <Link href={`/tools/${cat.key}`}>
-                      <div className="flex items-center gap-2 px-2 py-1.5 cursor-pointer w-full">
-                        <div className={cn("rounded p-1", cat.bgColor)}>
-                          <CategoryIcon iconName={cat.icon} className={cn("h-3.5 w-3.5", cat.color)} />
+                {categories.map((cat, idx) => {
+                  const count = toolCountByCategory[cat.key] ?? 0;
+                  const seq = String(idx + 1).padStart(2, "0");
+                  return (
+                    <DropdownMenuItem key={cat.key} asChild>
+                      <Link href={`/tools/${cat.key}`}>
+                        <div className={cn(
+                          "flex items-center gap-2 px-2 py-1.5 cursor-pointer w-full",
+                          count === 0 && "opacity-50"
+                        )}>
+                          <div className={cn("rounded p-1 shrink-0", cat.bgColor)}>
+                            <CategoryIcon iconName={cat.icon} className={cn("h-3.5 w-3.5", cat.color)} />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-xs font-medium truncate">
+                              <span className="text-muted-foreground mr-1">{seq}.</span>
+                              {cat.name}
+                            </p>
+                            <p className="text-xs text-muted-foreground truncate">
+                              {cat.nameEn}
+                              <span className={cn(
+                                "ml-1 font-medium",
+                                count > 0 ? "text-primary" : "text-muted-foreground"
+                              )}>({count})</span>
+                            </p>
+                          </div>
                         </div>
-                        <div className="min-w-0">
-                          <p className="text-xs font-medium truncate">{cat.name}</p>
-                          <p className="text-xs text-muted-foreground truncate">{cat.nameEn}</p>
-                        </div>
-                      </div>
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
+                      </Link>
+                    </DropdownMenuItem>
+                  );
+                })}
               </div>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
@@ -204,18 +227,37 @@ export function Navbar() {
               工具分類
             </p>
             <div className="grid grid-cols-2 gap-1">
-              {categories.map((cat) => (
-                <Link
-                  key={cat.key}
-                  href={`/tools/${cat.key}`}
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <div className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-accent cursor-pointer">
-                    <CategoryIcon iconName={cat.icon} className={cn("h-4 w-4", cat.color)} />
-                    <span className="text-sm">{cat.name}</span>
-                  </div>
-                </Link>
-              ))}
+              {categories.map((cat, idx) => {
+                const count = toolCountByCategory[cat.key] ?? 0;
+                const seq = String(idx + 1).padStart(2, "0");
+                return (
+                  <Link
+                    key={cat.key}
+                    href={`/tools/${cat.key}`}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    <div className={cn(
+                      "flex items-center gap-2 rounded-md px-2 py-2 hover:bg-accent cursor-pointer",
+                      count === 0 && "opacity-50"
+                    )}>
+                      <CategoryIcon iconName={cat.icon} className={cn("h-4 w-4", cat.color)} />
+                      <div className="min-w-0">
+                        <p className="text-sm leading-tight truncate">
+                          <span className="text-muted-foreground text-xs mr-0.5">{seq}.</span>
+                          {cat.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {cat.nameEn}
+                          <span className={cn(
+                            "ml-1",
+                            count > 0 ? "text-primary font-medium" : ""
+                          )}>({count})</span>
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
 
             <div className="border-t border-border pt-3 mt-3 space-y-1">
