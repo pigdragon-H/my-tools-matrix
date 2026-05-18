@@ -70,7 +70,7 @@ export function Navbar() {
                 <ChevronDown className="h-3.5 w-3.5 opacity-60" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-72 p-2" sideOffset={4}>
+            <DropdownMenuContent align="start" className="w-80 p-2" sideOffset={4}>
               <DropdownMenuLabel className="text-xs text-muted-foreground font-normal px-2 py-1.5">
                 12 個工具分類
               </DropdownMenuLabel>
@@ -90,11 +90,11 @@ export function Navbar() {
                             <CategoryIcon iconName={cat.icon} className={cn("h-3.5 w-3.5", cat.color)} />
                           </div>
                           <div className="min-w-0 flex-1">
-                            <p className="text-xs font-medium truncate">
+                            <p className="text-xs font-medium">
                               <span className="text-muted-foreground mr-1">{seq}.</span>
                               {cat.name}
                             </p>
-                            <p className="text-xs text-muted-foreground truncate">
+                            <p className="text-xs text-muted-foreground">
                               {cat.nameEn}
                               <span className={cn(
                                 "ml-1 font-medium",
@@ -237,20 +237,23 @@ export function Navbar() {
                     onClick={() => setMobileOpen(false)}
                   >
                     <div className={cn(
-                      "flex items-center gap-2 rounded-md px-2 py-2 hover:bg-accent cursor-pointer",
+                      "flex items-center gap-1.5 rounded-md px-2 py-2 hover:bg-accent cursor-pointer",
                       count === 0 && "opacity-50"
                     )}>
-                      <CategoryIcon iconName={cat.icon} className={cn("h-4 w-4", cat.color)} />
-                      <div className="min-w-0">
-                        <p className="text-sm leading-tight truncate">
-                          <span className="text-muted-foreground text-xs mr-0.5">{seq}.</span>
+                      <div className={cn("rounded p-1 shrink-0", cat.bgColor)}>
+                        <CategoryIcon iconName={cat.icon} className={cn("h-3.5 w-3.5", cat.color)} />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs font-medium leading-tight">
+                          <span className="text-muted-foreground mr-0.5">{seq}.</span>
                           {cat.name}
                         </p>
                         <p className="text-xs text-muted-foreground">
                           {cat.nameEn}
+                          {" "}
                           <span className={cn(
-                            "ml-1",
-                            count > 0 ? "text-primary font-medium" : ""
+                            "font-medium",
+                            count > 0 ? "text-primary" : ""
                           )}>({count})</span>
                         </p>
                       </div>
