@@ -4,6 +4,25 @@ This template gives you a React 19 + Tailwind 4 + Express 4 + tRPC 11 stack with
 
 ---
 
+## 工具矩陣專案文件索引
+
+> 本專案為台灣繁體中文工具矩陣網站，包含 42 個線上計算工具、9 篇 SEO 文章，部署於 Railway。
+> **接手開發前請依序閱讀以下四份文件。**
+
+| 文件 | 說明 | 優先度 |
+|------|------|-------|
+| [`PROJECT_BRIEF.md`](./PROJECT_BRIEF.md) | 專案總覽：目標、現有工具清單、新增工具流程 | ⭐⭐⭐ 必讀 |
+| [`HANDOVER_CHECKLIST.md`](./HANDOVER_CHECKLIST.md) | 交接核對清單：環境確認、功能測試、部署驗證 | ⭐⭐⭐ 必讀 |
+| [`DEVELOPMENT_GUIDE.md`](./DEVELOPMENT_GUIDE.md) | 開發規範：元件結構、tRPC 用法、常見錯誤 | ⭐⭐ 開發前讀 |
+| [`ARCHITECTURE_SNAPSHOT.md`](./ARCHITECTURE_SNAPSHOT.md) | 架構快照：完整工具清單、DB Schema、API 端點 | ⭐ 查詢用 |
+
+**快速連結：**
+- 生產網址：https://my-tools-matrix-production.up.railway.app
+- GitHub Repo：https://github.com/pigdragon-H/my-tools-matrix
+- 後台管理：https://my-tools-matrix-production.up.railway.app/admin（需 admin 角色）
+
+---
+
 ## Quick Facts
 
 - **tRPC-first:** define procedures in `server/routers.ts`, consume them with `trpc.*` hooks.
