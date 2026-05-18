@@ -22,13 +22,6 @@
       "when": 1778997244499,
       "tag": "0002_flashy_young_avengers",
       "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1779060361095,
-      "tag": "0003_yielding_chamber",
-      "breakpoints": true
     }
   ]
 }

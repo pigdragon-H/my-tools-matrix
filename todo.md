@@ -84,3 +84,24 @@
 - [x] 確認 blog router 支援子目錄路徑
 - [x] pnpm build 零錯誤
 - [x] ZIP 打包下載
+
+## Phase 10: 工具擴充（3→10 個工具）
+
+### 財經類新工具
+- [ ] 開發 MortgageCalculator.tsx（房貸試算工具）
+- [ ] 開發 RetirementCalculator.tsx（退休金4%法則計算機）
+- [ ] 開發 DCACalculator.tsx（股票平均成本/攤平計算機）
+- [ ] 開發 IncomeTaxCalculator.tsx（薪資所得稅試算器）
+
+### 健康類新工具
+- [ ] 開發 BmiCalculator.tsx（BMI 計算機）
+- [ ] 開發 SleepCycleCalculator.tsx（睡眠週期計算器）
+- [ ] 開發 CalorieDeficitCalculator.tsx（熱量赤字/盈餘計算機）
+- [ ] 開發 WaterIntakeCalculator.tsx（每日飲水量計算機）
+
+### 設定更新
+- [ ] 更新 toolsConfig.ts 加入 8 個新工具
+- [ ] 更新 App.tsx 加入 8 個新路由
+- [ ] pnpm build 零錯誤
+- [ ] 存 checkpoint
+- [ ] 打包 ZIP

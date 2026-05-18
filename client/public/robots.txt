@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# 禁止爬取 API 端點
+Disallow: /api/
+
+# Sitemap 位置
+Sitemap: https://my-tools-matrix-production.up.railway.app/sitemap.xml

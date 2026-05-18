@@ -13,9 +13,19 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 // 工具組件映射（懶加載）
 const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.ReactElement>> = {
+  // 財經投資
   "finance/roi-calculator": lazy(() => import("@/tools/finance/RoiCalculator")),
   "finance/car-depreciation": lazy(() => import("@/tools/finance/CarDepreciation")),
+  "finance/mortgage-calculator": lazy(() => import("@/tools/finance/MortgageCalculator")),
+  "finance/retirement-calculator": lazy(() => import("@/tools/finance/RetirementCalculator")),
+  "finance/dca-calculator": lazy(() => import("@/tools/finance/DCACalculator")),
+  "finance/income-tax-calculator": lazy(() => import("@/tools/finance/IncomeTaxCalculator")),
+  // 健康生活
   "health/tdee-calculator": lazy(() => import("@/tools/health/TdeeCalculator")),
+  "health/bmi-calculator": lazy(() => import("@/tools/health/BmiCalculator")),
+  "health/sleep-cycle-calculator": lazy(() => import("@/tools/health/SleepCycleCalculator")),
+  "health/calorie-deficit-calculator": lazy(() => import("@/tools/health/CalorieDeficitCalculator")),
+  "health/water-intake-calculator": lazy(() => import("@/tools/health/WaterIntakeCalculator")),
 };
 
 function ToolSkeleton() {
