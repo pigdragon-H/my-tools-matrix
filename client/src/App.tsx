@@ -14,6 +14,7 @@ import BlogArticle from "./pages/BlogArticle";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import AdminDashboard from "./pages/AdminDashboard";
+import Login from "./pages/Login";
 
 function Router() {
   return (
@@ -46,6 +47,9 @@ function Router() {
 
           {/* 後台管理 */}
           <Route path="/admin" component={AdminDashboard} />
+
+          {/* 登入頁面 */}
+          <Route path="/login" component={Login} />
 
           <Route path="/404" component={NotFound} />
           <Route component={NotFound} />

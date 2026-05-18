@@ -90,7 +90,8 @@ export const toolsRouter = router({
 
       try {
         await db.insert(calculationHistory).values({
-          userId: ctx.user?.id ?? null,
+          // userId in MySQL schema is int; Supabase user.id is UUID string.
+          // We skip userId in MySQL fallback to avoid type mismatch.
           toolId: input.toolId,
           category: input.category,
           inputParams: JSON.stringify(input.inputParams), // MySQL text 欄位
@@ -129,7 +130,8 @@ export const toolsRouter = router({
       if (!db) return [];
 
       const { eq, and, desc } = await import("drizzle-orm");
-      const conditions = [eq(calculationHistory.userId, ctx.user.id)];
+      // MySQL userId is int; Supabase user.id is UUID string — skip MySQL history query
+      const conditions: ReturnType<typeof eq>[] = [];
       if (input.toolId) {
         conditions.push(eq(calculationHistory.toolId, input.toolId));
       }

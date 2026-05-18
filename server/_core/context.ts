@@ -1,20 +1,26 @@
 import type { CreateExpressContextOptions } from "@trpc/server/adapters/express";
-import type { User } from "../../drizzle/schema";
-import { sdk } from "./sdk";
+import { verifySupabaseToken, type SupabaseUser } from "../lib/supabaseAdmin";
 
 export type TrpcContext = {
   req: CreateExpressContextOptions["req"];
   res: CreateExpressContextOptions["res"];
-  user: User | null;
+  user: SupabaseUser | null;
 };
 
 export async function createContext(
   opts: CreateExpressContextOptions
 ): Promise<TrpcContext> {
-  let user: User | null = null;
+  let user: SupabaseUser | null = null;
 
   try {
-    user = await sdk.authenticateRequest(opts.req);
+    // Extract Bearer token from Authorization header
+    const authHeader = opts.req.headers.authorization;
+    if (authHeader?.startsWith("Bearer ")) {
+      const token = authHeader.slice(7);
+      if (token) {
+        user = await verifySupabaseToken(token);
+      }
+    }
   } catch (error) {
     // Authentication is optional for public procedures.
     user = null;

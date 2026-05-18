@@ -7,7 +7,7 @@ import { Lock, Sparkles, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
+
 
 interface PaywallGuardProps {
   children: React.ReactNode;
@@ -40,7 +40,7 @@ export function PaywallGuard({ children, isPremium, toolName }: PaywallGuardProp
           <CardContent className="flex flex-col gap-3">
             <Button
               className="w-full"
-              onClick={() => window.location.href = getLoginUrl()}
+              onClick={() => window.location.href = "/login"}
             >
               <LogIn className="mr-2 h-4 w-4" />
               立即登入

@@ -4,7 +4,7 @@
 // ============================================================
 
 import { useState, useCallback } from "react";
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
 import { Menu, X, Sun, Moon, ChevronDown, Layers, BookOpen, LogIn, LogOut, Search } from "lucide-react";
 import { SearchDialog } from "./SearchDialog";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
+import { useLocation } from "wouter";
 import { categories } from "@shared/categoriesConfig";
 import { tools } from "@shared/toolsConfig";
 import { CategoryIcon } from "./CategoryIcon";
@@ -35,7 +35,7 @@ export function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { user, isAuthenticated, logout } = useAuth();
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
 
   const openSearch = useCallback(() => setSearchOpen(true), []);
 
@@ -199,7 +199,7 @@ export function Navbar() {
               size="sm"
               variant="default"
               className="hidden md:flex gap-1.5 text-sm h-8"
-              onClick={() => (window.location.href = getLoginUrl())}
+              onClick={() => setLocation("/login")}
             >
               <LogIn className="h-3.5 w-3.5" />
               登入
@@ -271,7 +271,7 @@ export function Navbar() {
                 <Button
                   size="sm"
                   className="w-full mt-2 gap-2"
-                  onClick={() => (window.location.href = getLoginUrl())}
+                  onClick={() => setLocation("/login")}
                 >
                   <LogIn className="h-3.5 w-3.5" />
                   登入

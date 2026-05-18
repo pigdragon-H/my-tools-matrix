@@ -1,5 +1,3 @@
-import { COOKIE_NAME } from "@shared/const";
-import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { toolsRouter } from "./routers/tools";
@@ -9,10 +7,11 @@ import { adminRouter } from "./routers/admin";
 export const appRouter = router({
   system: systemRouter,
   auth: router({
+    // Returns the current user from Supabase JWT context
     me: publicProcedure.query((opts) => opts.ctx.user),
-    logout: publicProcedure.mutation(({ ctx }) => {
-      const cookieOptions = getSessionCookieOptions(ctx.req);
-      ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
+    // Logout is handled client-side via supabase.auth.signOut()
+    // This endpoint is kept for compatibility but does nothing server-side
+    logout: publicProcedure.mutation(() => {
       return { success: true } as const;
     }),
   }),
