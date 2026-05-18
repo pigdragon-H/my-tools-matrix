@@ -211,6 +211,110 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- ==================== 財經工具（Phase 12 新增 4 個） ==================== -->
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/insurance-calculator</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/utility-cost-calculator</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/asset-depreciation</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/currency-converter</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ==================== 職場工具（Phase 12 新增 2 個） ==================== -->
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/url-shortener</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/markdown-to-html</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ==================== 開發工具分類頁 ==================== -->
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ==================== 開發工具（Phase 12 新增 9 個） ==================== -->
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/cron-generator</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/base64-json-formatter</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/jwt-decoder</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/regex-tester</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/uuid-password-generator</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/responsive-breakpoint-tester</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/css-grid-flexbox-generator</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/image-converter</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/timezone-converter</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- ==================== 知識庫首頁 ==================== -->
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/blog</loc>

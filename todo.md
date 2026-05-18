@@ -137,3 +137,34 @@
 - [ ] 更新 client/public/sitemap.xml
 - [ ] TypeScript 零錯誤，build 成功
 - [ ] 打包 ZIP
+
+## Phase 12: 工具擴充（27→42 個工具）
+
+### 財經投資（finance）— 4 個
+- [ ] /tools/finance/insurance-calculator（保險／年金給付計算器）
+- [ ] /tools/finance/utility-cost-calculator（電費／生活成本計算器）
+- [ ] /tools/finance/asset-depreciation（固定資產折舊計算器）
+- [ ] /tools/finance/currency-converter（貨幣匯率轉換器）
+
+### 職場效率（productivity）— 2 個
+- [ ] /tools/productivity/url-shortener（縮網址與點擊分析後台）
+- [ ] /tools/productivity/markdown-to-html（Markdown 轉 HTML 排版工具）
+
+### 開發工具（dev）— 9 個
+- [ ] /tools/dev/cron-generator（Cron Job 表達式生成器）
+- [ ] /tools/dev/base64-json-formatter（Base64 / JSON 格式化工具）
+- [ ] /tools/dev/jwt-decoder（JWT 解碼與檢查器）
+- [ ] /tools/dev/regex-tester（Regex 測試器）
+- [ ] /tools/dev/uuid-password-generator（UUID / 隨機密碼生成器）
+- [ ] /tools/dev/responsive-breakpoint-tester（響應式斷點測試器）
+- [ ] /tools/dev/css-grid-flexbox-generator（CSS Grid / Flexbox 視覺化生成器）
+- [ ] /tools/dev/image-converter（圖片格式轉換壓縮工具）
+- [ ] /tools/dev/timezone-converter（時區轉換與跨國會議協調器）
+
+### 系統更新
+- [ ] shared/toolsConfig.ts 新增 15 個工具設定
+- [ ] client/src/pages/ToolPage.tsx 新增 15 個路由映射
+- [ ] categoriesConfig.ts 確認 dev 分類存在
+- [ ] client/public/sitemap.xml 更新（新增 15 個工具 URL）
+- [ ] pnpm build 零錯誤
+- [ ] ZIP 打包下載

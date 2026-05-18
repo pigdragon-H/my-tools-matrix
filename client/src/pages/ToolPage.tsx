@@ -39,12 +39,30 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "health/ovulation-tracker": lazy(() => import("@/tools/health/OvulationTracker")),
   "health/astrology-calculator": lazy(() => import("@/tools/health/AstrologyCalculator")),
   "health/pomodoro-tracker": lazy(() => import("@/tools/health/PomodoroTracker")),
+  // 財經投資（Phase 12）
+  "finance/insurance-calculator": lazy(() => import("@/tools/finance/InsuranceCalculator")),
+  "finance/utility-cost-calculator": lazy(() => import("@/tools/finance/UtilityCostCalculator")),
+  "finance/asset-depreciation": lazy(() => import("@/tools/finance/AssetDepreciation")),
+  "finance/currency-converter": lazy(() => import("@/tools/finance/CurrencyConverter")),
+  // 職場效率（Phase 12）
+  "productivity/url-shortener": lazy(() => import("@/tools/productivity/UrlShortener")),
+  "productivity/markdown-to-html": lazy(() => import("@/tools/productivity/MarkdownToHtml")),
   // 職場效率（productivity）
   "productivity/social-media-checker": lazy(() => import("@/tools/productivity/SocialMediaChecker")),
   "productivity/roas-cpc-calculator": lazy(() => import("@/tools/productivity/RoasCpcCalculator")),
   "productivity/freelancer-rate-calculator": lazy(() => import("@/tools/productivity/FreelancerRateCalculator")),
   "productivity/invoice-generator": lazy(() => import("@/tools/productivity/InvoiceGenerator")),
   "productivity/utm-builder": lazy(() => import("@/tools/productivity/UtmBuilder")),
+  // 開發工具（dev）
+  "dev/cron-generator": lazy(() => import("@/tools/dev/CronGenerator")),
+  "dev/base64-json-formatter": lazy(() => import("@/tools/dev/Base64JsonFormatter")),
+  "dev/jwt-decoder": lazy(() => import("@/tools/dev/JwtDecoder")),
+  "dev/regex-tester": lazy(() => import("@/tools/dev/RegexTester")),
+  "dev/uuid-password-generator": lazy(() => import("@/tools/dev/UuidPasswordGenerator")),
+  "dev/responsive-breakpoint-tester": lazy(() => import("@/tools/dev/ResponsiveBreakpointTester")),
+  "dev/css-grid-flexbox-generator": lazy(() => import("@/tools/dev/CssGridFlexboxGenerator")),
+  "dev/image-converter": lazy(() => import("@/tools/dev/ImageConverter")),
+  "dev/timezone-converter": lazy(() => import("@/tools/dev/TimezoneConverter")),
 };
 
 function ToolSkeleton() {
