@@ -20,12 +20,31 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/retirement-calculator": lazy(() => import("@/tools/finance/RetirementCalculator")),
   "finance/dca-calculator": lazy(() => import("@/tools/finance/DCACalculator")),
   "finance/income-tax-calculator": lazy(() => import("@/tools/finance/IncomeTaxCalculator")),
+  // 財經投資（Phase 11）
+  "finance/rent-vs-buy": lazy(() => import("@/tools/finance/RentVsBuy")),
+  "finance/inflation-calculator": lazy(() => import("@/tools/finance/InflationCalculator")),
+  "finance/credit-card-payoff": lazy(() => import("@/tools/finance/CreditCardPayoff")),
+  "finance/irr-npv-calculator": lazy(() => import("@/tools/finance/IrrNpvCalculator")),
+  "finance/education-fund": lazy(() => import("@/tools/finance/EducationFund")),
+  "finance/dividend-reinvestment": lazy(() => import("@/tools/finance/DividendReinvestment")),
+  "finance/crypto-dca-backtest": lazy(() => import("@/tools/finance/CryptoDcaBacktest")),
   // 健康生活
   "health/tdee-calculator": lazy(() => import("@/tools/health/TdeeCalculator")),
   "health/bmi-calculator": lazy(() => import("@/tools/health/BmiCalculator")),
   "health/sleep-cycle-calculator": lazy(() => import("@/tools/health/SleepCycleCalculator")),
   "health/calorie-deficit-calculator": lazy(() => import("@/tools/health/CalorieDeficitCalculator")),
   "health/water-intake-calculator": lazy(() => import("@/tools/health/WaterIntakeCalculator")),
+  // 健康生活（Phase 11）
+  "health/macros-calculator": lazy(() => import("@/tools/health/MacrosCalculator")),
+  "health/ovulation-tracker": lazy(() => import("@/tools/health/OvulationTracker")),
+  "health/astrology-calculator": lazy(() => import("@/tools/health/AstrologyCalculator")),
+  "health/pomodoro-tracker": lazy(() => import("@/tools/health/PomodoroTracker")),
+  // 職場效率（productivity）
+  "productivity/social-media-checker": lazy(() => import("@/tools/productivity/SocialMediaChecker")),
+  "productivity/roas-cpc-calculator": lazy(() => import("@/tools/productivity/RoasCpcCalculator")),
+  "productivity/freelancer-rate-calculator": lazy(() => import("@/tools/productivity/FreelancerRateCalculator")),
+  "productivity/invoice-generator": lazy(() => import("@/tools/productivity/InvoiceGenerator")),
+  "productivity/utm-builder": lazy(() => import("@/tools/productivity/UtmBuilder")),
 };
 
 function ToolSkeleton() {

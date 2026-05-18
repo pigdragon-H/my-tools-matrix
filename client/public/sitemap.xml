@@ -69,6 +69,50 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- ==================== 財經工具（Phase 11 新增 7 個） ==================== -->
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/rent-vs-buy</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/inflation-calculator</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/credit-card-payoff</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/irr-npv-calculator</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/education-fund</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/dividend-reinvestment</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/crypto-dca-backtest</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- ==================== 健康工具頁面 ==================== -->
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/health/tdee-calculator</loc>
@@ -96,6 +140,72 @@
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/health/water-intake-calculator</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ==================== 健康工具（Phase 11 新增 4 個） ==================== -->
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/macros-calculator</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/ovulation-tracker</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/astrology-calculator</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/pomodoro-tracker</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ==================== 職場效率分類頁 ==================== -->
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ==================== 職場工具（Phase 11 新增 5 個） ==================== -->
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/social-media-checker</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/roas-cpc-calculator</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/freelancer-rate-calculator</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/invoice-generator</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/utm-builder</loc>
     <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

@@ -105,3 +105,35 @@
 - [ ] pnpm build 零錯誤
 - [ ] 存 checkpoint
 - [ ] 打包 ZIP
+
+## Phase 11: 工具擴充（11→27 個工具）
+
+### 財經投資 finance（7 個）
+- [ ] /tools/finance/rent-vs-buy — 買房 vs 租房財務效益對比
+- [ ] /tools/finance/inflation-calculator — 通膨調整購買力計算器
+- [ ] /tools/finance/credit-card-payoff — 信用卡債務還款計劃
+- [ ] /tools/finance/irr-npv-calculator — IRR/NPV 投資評估計算器
+- [ ] /tools/finance/education-fund — 子女教育基金計算器
+- [ ] /tools/finance/dividend-reinvestment — 股票股息再投資模擬器（DRIP）
+- [ ] /tools/finance/crypto-dca-backtest — 加密貨幣 DCA 歷史回測工具
+
+### 健康生活 health（4 個）
+- [ ] /tools/health/macros-calculator — 巨量營養素 Macros 分配器
+- [ ] /tools/health/ovulation-tracker — 排卵期與經期預測追蹤器
+- [ ] /tools/health/astrology-calculator — 人類圖／星盤基礎查詢
+- [ ] /tools/health/pomodoro-tracker — 番茄鐘專注統計器
+
+### 職場生產力 productivity（5 個）
+- [ ] /tools/productivity/social-media-checker — 社群媒體字數與 Emoji 檢查器
+- [ ] /tools/productivity/roas-cpc-calculator — ROAS/CPC 廣告計算機
+- [ ] /tools/productivity/freelancer-rate-calculator — Freelancer 報價時薪轉換器
+- [ ] /tools/productivity/invoice-generator — 線上發票 PDF 自動生成器
+- [ ] /tools/productivity/utm-builder — UTM 標籤自動生成器
+
+### 基礎設施更新
+- [ ] 更新 shared/toolsConfig.ts（新增 16 個工具）
+- [ ] 更新 client/src/pages/ToolPage.tsx（新增 16 個路由映射）
+- [ ] 確認 categoriesConfig.ts productivity 分類存在
+- [ ] 更新 client/public/sitemap.xml
+- [ ] TypeScript 零錯誤，build 成功
+- [ ] 打包 ZIP
