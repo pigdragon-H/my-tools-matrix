@@ -159,6 +159,9 @@ export default function Home() {
               <Link href="/blog" className="hover:text-foreground transition-colors">
                 部落格
               </Link>
+              <Link href="/about" className="hover:text-foreground transition-colors">
+                關於我們
+              </Link>
               <Link href="/tools/finance" className="hover:text-foreground transition-colors">
                 財經工具
               </Link>

@@ -9,6 +9,13 @@
     <priority>1.0</priority>
   </url>
 
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/about</loc>
+    <lastmod>2026-05-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- ==================== 工具總覽 ==================== -->
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools</loc>
