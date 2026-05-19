@@ -3,6 +3,7 @@
 // 顯示 12 個分類卡片（非工具列表）
 // ============================================================
 
+import { useEffect } from "react";
 import { Link } from "wouter";
 import { ArrowRight, Zap, Shield, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,8 +11,13 @@ import { Badge } from "@/components/ui/badge";
 import { categories } from "@shared/categoriesConfig";
 import { getToolsByCategory } from "@shared/toolsConfig";
 import { CategoryIcon } from "@/components/CategoryIcon";
+import { defaultSeo, setSeoMeta } from "@/lib/seo";
 
 export default function Home() {
+  useEffect(() => {
+    setSeoMeta(defaultSeo);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* ── Hero Section ────────────────────────────────────── */}
