@@ -43,7 +43,7 @@ function Router() {
           <Route path="/blog/:category/:articleId" component={BlogArticle} />
 
           {/* 瘜?? */}
-          <Route path="/privacy-policy" component={PrivacyPolicy} />
+          <Route path="/about" component={About} />`r`n          <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route path="/terms-of-service" component={TermsOfService} />
 
           {/* 敺蝞∠? */}
@@ -74,4 +74,5 @@ function App() {
 }
 
 export default App;
+
 
