@@ -2,7 +2,7 @@
 // CategoryPage - /tools/:category 分類工具列表頁
 // ============================================================
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useParams } from "wouter";
 import { ArrowLeft, Search, Lock, Megaphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,6 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getCategoryByKey } from "@shared/categoriesConfig";
 import { getToolsByCategory } from "@shared/toolsConfig";
 import { CategoryIcon } from "@/components/CategoryIcon";
-import { setSeoMeta } from "@/lib/seo";
 import type { Tool } from "@shared/toolsConfig";
 
 export default function CategoryPage() {
@@ -23,15 +22,6 @@ export default function CategoryPage() {
 
   const catInfo = getCategoryByKey(category ?? "");
   const allTools = getToolsByCategory(category ?? "");
-
-  useEffect(() => {
-    if (!catInfo) return;
-
-    setSeoMeta({
-      title: `${catInfo.name}工具｜工具矩陣`,
-      description: `${catInfo.name}工具集合：${catInfo.description}。工具矩陣提供免費、快速、適合台灣使用情境的線上計算與決策輔助工具。`,
-    });
-  }, [catInfo]);
 
   const filteredTools = allTools.filter((tool: Tool) => {
     const matchSearch =

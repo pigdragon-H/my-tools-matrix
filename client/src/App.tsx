@@ -1,4 +1,4 @@
-﻿import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
@@ -11,7 +11,6 @@ import ToolPage from "./pages/ToolPage";
 import BlogList from "./pages/BlogList";
 import BlogCategoryPage from "./pages/BlogCategoryPage";
 import BlogArticle from "./pages/BlogArticle";
-import About from "./pages/About";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -23,34 +22,33 @@ function Router() {
       <Navbar />
       <main className="flex-1">
         <Switch>
-          {/* 擐?嚗＊蝷?12 ??憿??*/}
+          {/* 首頁：顯示 12 個分類卡片 */}
           <Route path="/" component={Home} />
 
-          {/* 銝惜撌亙?嗆? */}
-          {/* 撅支?嚗??極?瑞蜇閬踝????擐?嚗?*/}
+          {/* 三層工具架構 */}
+          {/* 層一：所有工具總覽（重定向至首頁） */}
           <Route path="/tools" component={Home} />
-          {/* 撅支?嚗?憿極?瑕?銵券? /tools/:category */}
+          {/* 層二：分類工具列表頁 /tools/:category */}
           <Route path="/tools/:category" component={CategoryPage} />
-          {/* 撅支?嚗擃極?琿???/tools/:category/:toolName */}
+          {/* 層三：具體工具頁面 /tools/:category/:toolName */}
           <Route path="/tools/:category/:toolName" component={ToolPage} />
 
-          {/* ?亥?摨思?撅斗瑽?*/}
-          {/* 撅支?嚗霅澈擐? - 12 ??憿??*/}
+          {/* 知識庫三層架構 */}
+          {/* 層一：知識庫首頁 - 12 個分類卡片 */}
           <Route path="/blog" component={BlogList} />
-          {/* 撅支?嚗?憿?蝡?銵?/blog/:category */}
+          {/* 層二：分類文章列表 /blog/:category */}
           <Route path="/blog/:category" component={BlogCategoryPage} />
-          {/* 撅支?嚗?蝡???/blog/:category/:articleId */}
+          {/* 層三：文章頁面 /blog/:category/:articleId */}
           <Route path="/blog/:category/:articleId" component={BlogArticle} />
 
-          {/* 瘜?? */}
-          <Route path="/about" component={About} />
+          {/* 法律頁面 */}
           <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route path="/terms-of-service" component={TermsOfService} />
 
-          {/* 敺蝞∠? */}
+          {/* 後台管理 */}
           <Route path="/admin" component={AdminDashboard} />
 
-          {/* ?餃? */}
+          {/* 登入頁面 */}
           <Route path="/login" component={Login} />
 
           <Route path="/404" component={NotFound} />
@@ -75,6 +73,3 @@ function App() {
 }
 
 export default App;
-
-
-

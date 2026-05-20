@@ -1,4 +1,3 @@
-import { initializeAnalytics } from "@/lib/analytics";
 import { trpc } from "@/lib/trpc";
 import { supabase } from "@/lib/supabase";
 import { UNAUTHED_ERR_MSG } from "@shared/const";
@@ -8,8 +7,6 @@ import { createRoot } from "react-dom/client";
 import superjson from "superjson";
 import App from "./App";
 import "./index.css";
-
-initializeAnalytics();
 
 const queryClient = new QueryClient();
 
