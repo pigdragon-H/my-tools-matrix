@@ -1,0 +1,1062 @@
+[
+  {
+    "tool_id": "emergency-fund-calculator",
+    "title_zh": "緊急備用金計算器",
+    "title_en": "Emergency Fund Calculator",
+    "definition_zh": "緊急備用金是一筆專門為應對突發財務狀況（如失業、醫療費用或重大維修）而準備的現金儲備。它作為財務安全網，讓人們在遇到意外時不需依賴高息貸款。專家通常建議準備3至6個月的生活費。",
+    "definition_en": "An emergency fund is a cash reserve specifically set aside to cover unexpected financial expenses or emergencies, such as a sudden job loss, medical bills, or major home and auto repairs. It acts as a financial safety net, allowing individuals to navigate unforeseen circumstances without relying on high-interest credit cards or loans. Financial experts generally recommend saving enough to cover three to six months' worth of essential living expenses, though the exact amount may vary based on income stability and personal obligations.",
+    "formula": "Emergency\\ Fund = (Monthly\\ Fixed\\ Expenses + Monthly\\ Variable\\ Expenses) \\times Months\\ to\\ Save",
+    "formula_explained": "1. Monthly Fixed Expenses（每月固定支出）：每個月必須支付的固定費用，如房租、房貸、車貸、保險費等。\\n2. Monthly Variable Expenses（每月變動支出）：每個月為了維持基本生活所需的變動費用，如伙食費、水電瓦斯費、交通費等。\\n3. Months to Save（準備月數）：預計準備的月數，通常建議為3至6個月，視個人職業穩定度與家庭狀況而定。",
+    "variables": [
+      {
+        "description": "每個月必須支付的固定費用，如房租、房貸、車貸、保險費等。",
+        "name_zh": "每月固定支出",
+        "symbol": "Monthly Fixed Expenses"
+      },
+      {
+        "description": "每個月為了維持基本生活所需的變動費用，如伙食費、水電瓦斯費、交通費等。",
+        "name_zh": "每月變動支出",
+        "symbol": "Monthly Variable Expenses"
+      },
+      {
+        "description": "預計準備的月數，通常建議為3至6個月，視個人職業穩定度與家庭狀況而定。",
+        "name_zh": "準備月數",
+        "symbol": "Months to Save"
+      }
+    ],
+    "real_world_example": "小明每個月的房租和貸款等固定支出為20,000元，伙食和交通等基本生活支出為15,000元。他希望準備6個月的緊急備用金。根據公式，他每個月的總支出為35,000元，乘以6個月，小明需要準備的緊急備用金總額為210,000元。",
+    "use_cases": [
+      "突然面臨失業或轉換工作跑道，需要資金維持日常基本生活開銷。",
+      "發生意外事故或突發疾病，需要支付大筆醫療費用。",
+      "家中重要設備損壞或汽車拋錨，需要緊急進行維修。"
+    ],
+    "common_mistakes": [
+      "將緊急備用金用於投資股票或儲蓄險，導致急需時無法變現或產生虧損。",
+      "只計算個人開銷，忽略了家庭整體支出（如房租、車貸、保險費等固定支出）。"
+    ],
+    "faq": [
+      {
+        "q": "緊急備用金應該存多少才夠？",
+        "a": "一般建議準備3到6個月的每月基本生活支出。如果收入不穩定或有較多家庭責任，可以考慮準備6到12個月的備用金。"
+      },
+      {
+        "q": "緊急備用金可以拿去投資嗎？",
+        "a": "不建議。緊急備用金的主要目的是應急，必須具備高流動性且保本。投資股票或儲蓄險可能面臨虧損或無法隨時取出的風險。"
+      },
+      {
+        "q": "緊急備用金應該存放在哪裡？",
+        "a": "建議存放在高活存利率的銀行帳戶或定存中，確保隨時可以提領且不會有本金損失的風險。"
+      },
+      {
+        "q": "如果我還有負債，應該先還債還是先存緊急備用金？",
+        "a": "建議先存一筆小額的緊急備用金（例如1個月的生活費），以防突發狀況，然後再集中資源償還高利率的債務。"
+      },
+      {
+        "q": "什麼情況下可以動用緊急備用金？",
+        "a": "只有在遇到真正的緊急情況時才能動用，例如突然失業、發生意外需要支付醫療費用，或是必須的房屋及車輛維修。日常消費或計畫中的支出不應使用此筆資金。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "緊急備用金計算",
+      "緊急預備金多少才夠",
+      "緊急預備金存哪裡"
+    ],
+    "seo_keywords_en": [
+      "emergency fund calculator",
+      "how much emergency fund"
+    ],
+    "source": "https://www.bankrate.com/banking/savings/starting-an-emergency-fund/"
+  },
+  {
+    "tool_id": "net-worth-calculator",
+    "title_zh": "淨資產計算器",
+    "title_en": "Net Worth Calculator",
+    "definition_zh": "淨資產是衡量個人或企業財務健康狀況的指標，計算方式為將所有擁有的資產總值減去所有負債總額。它能反映出在特定時間點的真實財務狀況。",
+    "definition_en": "Net worth is a financial metric that represents the value of all assets owned by an individual or entity minus the total of all liabilities owed. It provides a snapshot of an individual's or company's financial health and standing at a specific point in time.",
+    "formula": "Net Worth = Total Assets - Total Liabilities",
+    "formula_explained": "Total Assets（總資產）代表個人或企業擁有的所有具經濟價值的項目總和；Total Liabilities（總負債）代表所有未償還的債務和財務義務總和。兩者相減即為淨資產。",
+    "variables": [
+      {
+        "symbol": "A",
+        "name_zh": "總資產",
+        "description": "包括現金、投資、房地產等所有擁有的財產價值"
+      },
+      {
+        "symbol": "L",
+        "name_zh": "總負債",
+        "description": "包括房貸、車貸、信用卡債務等所有欠款總額"
+      }
+    ],
+    "real_world_example": "假設小明擁有一間價值 1,000 萬的房子、銀行存款 100 萬、股票投資 50 萬。他的資產總計 1,150 萬。同時，他還有 600 萬的房貸和 10 萬的車貸，負債總計 610 萬。因此，小明的淨資產為 1,150 萬 - 610 萬 = 540 萬。",
+    "use_cases": [
+      "評估個人或家庭的整體財務健康狀況",
+      "制定退休計畫和設定長期財務目標",
+      "申請貸款或抵押貸款時提供財務證明"
+    ],
+    "common_mistakes": [
+      "忘記扣除未償還的債務或貸款",
+      "將未來預期收入或未歸屬的股票期權計入當前資產"
+    ],
+    "faq": [
+      {
+        "q": "什麼是資產？",
+        "a": "資產是指您擁有的任何有價值的東西，包括現金、銀行存款、投資、房地產和車輛等。"
+      },
+      {
+        "q": "什麼是負債？",
+        "a": "負債是指您欠別人的錢，例如房屋貸款、汽車貸款、信用卡餘額和學生貸款等。"
+      },
+      {
+        "q": "淨資產可以是負數嗎？",
+        "a": "可以。如果您的總負債超過了您的總資產，您的淨資產就會是負數。這在剛畢業背負學貸的年輕人中很常見。"
+      },
+      {
+        "q": "應該多久計算一次淨資產？",
+        "a": "建議每年或每半年計算一次，以追蹤您的財務進展並確保您正朝著財務目標前進。"
+      },
+      {
+        "q": "如何增加我的淨資產？",
+        "a": "您可以透過增加資產（如儲蓄、投資、增加收入）或減少負債（如償還貸款、減少信用卡債務）來增加淨資產。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "淨資產計算器",
+      "如何計算淨資產",
+      "個人資產負債表"
+    ],
+    "seo_keywords_en": [
+      "net worth calculator",
+      "calculate net worth"
+    ],
+    "source": "https://www.investopedia.com/terms/n/networth.asp"
+  },
+  {
+    "tool_id": "budget-planner",
+    "title_zh": "預算規劃器",
+    "title_en": "Budget Planner",
+    "definition_zh": "基於50/30/20法則的預算規劃工具，將稅後收入分為50%必需品、30%想要的事物及20%儲蓄與還款，幫助使用者建立健康的財務分配習慣。",
+    "definition_en": "A budget planning tool based on the 50/30/20 rule, which allocates after-tax income into 50% for needs, 30% for wants, and 20% for savings and debt repayment. It helps users establish healthy financial habits and manage their money effectively.",
+    "formula": "Needs = I \\times 0.50, Wants = I \\times 0.30, Savings = I \\times 0.20",
+    "formula_explained": "公式中，I 代表稅後總收入（After-tax Income）。Needs 代表必需品支出，佔收入的50%；Wants 代表非必需的想要支出，佔收入的30%；Savings 代表儲蓄與債務還款，佔收入的20%。",
+    "variables": [
+      {
+        "symbol": "I",
+        "name_zh": "稅後收入",
+        "description": "扣除稅金後的實際可支配總收入"
+      },
+      {
+        "symbol": "Needs",
+        "name_zh": "必需品支出",
+        "description": "維持生活必須的開銷，如房租、水電、基本飲食等"
+      },
+      {
+        "symbol": "Wants",
+        "name_zh": "想要支出",
+        "description": "非必需的娛樂、購物、外食等開銷"
+      },
+      {
+        "symbol": "Savings",
+        "name_zh": "儲蓄與還款",
+        "description": "用於存錢、投資或償還債務的金額"
+      }
+    ],
+    "real_world_example": "假設小明每月的稅後收入為50,000元。根據50/30/20法則，他應該將25,000元（50%）用於房租和水電等必需品，15,000元（30%）用於看電影和聚餐等娛樂花費，剩下的10,000元（20%）則存入銀行或用於投資理財。",
+    "use_cases": [
+      "社會新鮮人首次規劃每月薪水分配",
+      "家庭檢視並調整每月各項開銷比例",
+      "月光族建立儲蓄習慣與控制衝動消費"
+    ],
+    "common_mistakes": [
+      "將稅前收入而非稅後收入用於計算比例",
+      "將「想要」的開銷（如昂貴的衣服）誤認為「需要」"
+    ],
+    "faq": [
+      {
+        "q": "什麼是50/30/20法則？",
+        "a": "這是一種簡單的預算分配方法，將稅後收入分為50%必需品、30%想要的事物和20%儲蓄。"
+      },
+      {
+        "q": "如果我的必需品開銷超過50%怎麼辦？",
+        "a": "可以嘗試減少「想要」的開銷，將其比例降低，以彌補必需品超出的部分，或尋求降低固定開銷的方法。"
+      },
+      {
+        "q": "還債應該算在哪個類別？",
+        "a": "最低還款額通常算在50%的必需品中，而額外加速還款的部分則算在20%的儲蓄與還款中。"
+      },
+      {
+        "q": "這個法則適合所有人嗎？",
+        "a": "這是一個基礎指南，高收入者可能可以存下超過20%，而低收入者可能需要將超過50%用於必需品，應依個人情況微調。"
+      },
+      {
+        "q": "我應該用稅前還是稅後收入計算？",
+        "a": "應該使用稅後收入（即實際拿到手的薪水）來進行計算，這樣才符合實際可支配的金額。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "50 30 20法則",
+      "預算分配",
+      "理財規劃"
+    ],
+    "seo_keywords_en": [
+      "50/30/20 budget rule",
+      "budget planner"
+    ],
+    "source": "https://www.investopedia.com/ask/answers/022916/what-502030-budget-rule.asp"
+  },
+  {
+    "tool_id": "savings-goal-calculator",
+    "title_zh": "儲蓄目標計算器",
+    "title_en": "Savings Goal Calculator",
+    "definition_zh": "儲蓄目標計算器是一種財務工具，幫助使用者計算為了在特定時間內達成特定財務目標，每期（如每月）需要存入多少資金。它考慮了目標金額、現有儲蓄、時間範圍和預期利率，協助制定切實可行的儲蓄計畫。",
+    "definition_en": "A savings goal calculator is a financial tool that helps individuals determine how much money they need to save periodically (e.g., monthly) to reach a specific financial target within a set timeframe. It takes into account the target amount, current savings, time horizon, and expected interest rate or rate of return. By calculating the required contributions, it allows users to create a realistic savings plan for objectives like an emergency fund, a down payment on a house, or a major purchase.",
+    "formula": "PMT = (FV - PV * (1 + r/n)^(n*t)) * (r/n) / ((1 + r/n)^(n*t) - 1)",
+    "formula_explained": "PMT代表每期需要存入的金額；FV代表未來的儲蓄目標總額；PV代表目前的初始儲蓄金額；r代表年利率（以小數表示）；n代表每年的複利次數（如每月存入則為12）；t代表達成目標所需的年數。這個公式基於年金未來值公式推導而來，計算出在考慮複利的情況下，為達到目標所需的定期存款額。",
+    "variables": [
+      {
+        "symbol": "PMT",
+        "name_zh": "每期存款金額",
+        "description": "為了達到目標，每個週期（通常是每月）需要存入的固定金額。"
+      },
+      {
+        "symbol": "FV",
+        "name_zh": "未來價值（目標金額）",
+        "description": "您希望在計畫結束時達到的總儲蓄目標金額。"
+      },
+      {
+        "symbol": "PV",
+        "name_zh": "現值（初始儲蓄）",
+        "description": "您目前已經準備好並投入該儲蓄計畫的初始資金。"
+      },
+      {
+        "symbol": "r",
+        "name_zh": "年利率",
+        "description": "預期的年度投資回報率或存款利率，以小數形式表示（例如5%為0.05）。"
+      },
+      {
+        "symbol": "n",
+        "name_zh": "每年複利次數",
+        "description": "一年中計算利息的次數，如果是按月存款和計息，則為12。"
+      },
+      {
+        "symbol": "t",
+        "name_zh": "年數",
+        "description": "距離達成儲蓄目標所需要的時間，以年為單位。"
+      }
+    ],
+    "real_world_example": "小明計畫在3年後存到300,000元作為購車頭期款。他目前有50,000元的初始儲蓄，並將資金放在年利率為2%的儲蓄帳戶中，每月計息一次。透過儲蓄目標計算器，小明算出他每個月大約需要額外存入6,635元，才能在3年後順利達到300,000元的目標。",
+    "use_cases": [
+      "規劃購屋頭期款的每月儲蓄計畫",
+      "準備結婚基金或大型旅遊基金",
+      "建立緊急預備金的階段性目標"
+    ],
+    "common_mistakes": [
+      "忽略通貨膨脹對未來購買力的影響，導致實際儲蓄不足",
+      "未考慮投資回報率或設定過高的預期回報率，導致目標難以達成"
+    ],
+    "faq": [
+      {
+        "q": "儲蓄目標計算器如何幫助我？",
+        "a": "它可以幫您明確每月需要存多少錢才能在預定時間內達到目標，讓您的儲蓄計畫更具體可行。"
+      },
+      {
+        "q": "我應該將預期利率設定為多少？",
+        "a": "這取決於您的資金存放位置。如果是普通儲蓄帳戶，利率通常較低（如1-2%）；如果是投資組合，可能會有較高的預期回報（如5-8%），但風險也較高。"
+      },
+      {
+        "q": "如果我無法達到計算出的每月儲蓄金額怎麼辦？",
+        "a": "您可以考慮延長達成目標的時間，或者尋找減少日常開支、增加收入的方法來提高儲蓄能力。"
+      },
+      {
+        "q": "通貨膨脹會影響我的儲蓄目標嗎？",
+        "a": "會的。隨著時間推移，物價上漲會降低貨幣的購買力。對於長期目標，建議將目標金額適度調高以應對通膨。"
+      },
+      {
+        "q": "我需要多久重新計算一次？",
+        "a": "建議每半年或一年重新檢視一次，或者當您的收入、開支或利率發生重大變化時重新計算，以確保計畫仍在正軌上。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "儲蓄目標計算器",
+      "每月存錢計算",
+      "財務目標規劃"
+    ],
+    "seo_keywords_en": [
+      "savings goal calculator",
+      "monthly savings calculator"
+    ],
+    "source": "https://www.investor.gov/financial-tools-calculators/calculators/savings-goal-calculator"
+  },
+  {
+    "tool_id": "debt-payoff-calculator",
+    "title_zh": "還債計畫計算器",
+    "title_en": "Debt Payoff Calculator",
+    "definition_zh": "還債計畫計算器是一種財務工具，根據當前餘額、利率和月付額，幫助使用者計算還清債務所需的時間與總利息，並可比較不同還款策略（如雪球法或雪崩法）。",
+    "definition_en": "A debt payoff calculator is a financial tool that helps individuals determine how long it will take to pay off their debts and how much total interest they will pay, based on their current balance, interest rate, and monthly payment amount. It allows users to compare different repayment strategies, such as the debt snowball or debt avalanche methods, to optimize their path to becoming debt-free.",
+    "formula": "N = - \\frac{\\ln(1 - \\frac{r \\cdot P}{PMT})}{\\ln(1 + r)}",
+    "formula_explained": "這個公式用來計算還清債務所需的總期數（通常為月數）。其中 N 代表總期數，P 代表當前債務本金餘額，r 代表每期（每月）的利率，PMT 代表每期的固定還款金額。透過對數函數（ln），可以精確計算出在複利影響下，需要多少個月才能將餘額歸零。",
+    "variables": [
+      {
+        "description": "還清債務所需的總期數（通常為月數）",
+        "name_zh": "總期數",
+        "symbol": "N"
+      },
+      {
+        "description": "當前未償還的債務本金總額",
+        "name_zh": "本金餘額",
+        "symbol": "P"
+      },
+      {
+        "description": "每期（每月）的利率，即年利率除以12",
+        "name_zh": "每期利率",
+        "symbol": "r"
+      },
+      {
+        "description": "每期（每月）固定的還款金額",
+        "name_zh": "每期還款額",
+        "symbol": "PMT"
+      }
+    ],
+    "real_world_example": "假設小明有一筆 $10,000 的信用卡債務，年利率為 18%（月利率 1.5%）。如果他每月只還 $200，需要 94 個月（近 8 年）才能還清，總利息高達 $8,622。若他將月付額提高到 $500，只需 24 個月即可還清，總利息降至 $1,978，省下超過 $6,600 的利息。",
+    "use_cases": [
+      "評估不同每月還款額對還清信用卡債務所需時間的影響。",
+      "比較雪球法與雪崩法在多筆債務整合時的利息差異。",
+      "制定個人財務目標，確定何時能完全無債一身輕。"
+    ],
+    "common_mistakes": [
+      "只付最低應繳金額，導致利息暴增且還款期無限延長。",
+      "忽略高利率債務，未優先償還利息最高的債務（未採用雪崩法）。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是雪球法（Debt Snowball）？",
+        "a": "雪球法是指優先償還餘額最小的債務，以獲得心理成就感，然後將釋放出的資金用於償還下一個較小的債務。"
+      },
+      {
+        "q": "什麼是雪崩法（Debt Avalanche）？",
+        "a": "雪崩法是指優先償還利率最高的債務，這在數學上能為您節省最多的總利息支出。"
+      },
+      {
+        "q": "如果我只付最低應繳金額會怎樣？",
+        "a": "只付最低應繳金額會導致大部分還款用於支付利息，本金減少緩慢，最終將花費數年甚至數十年才能還清，且總利息驚人。"
+      },
+      {
+        "q": "增加月付額有什麼好處？",
+        "a": "即使每月只多還一點錢，也能顯著縮短還款期並大幅減少您需要支付的總利息。"
+      },
+      {
+        "q": "我應該先投資還是先還債？",
+        "a": "通常建議先償還高利率債務（如信用卡），因為其利率通常高於投資的預期回報率。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "還債計算器",
+      "信用卡還款計算",
+      "債務雪球法"
+    ],
+    "seo_keywords_en": [
+      "debt payoff calculator",
+      "debt snowball calculator"
+    ],
+    "source": "https://www.investopedia.com/terms/p/personalfinance.asp"
+  },
+  {
+    "tool_id": "stock-profit-loss-calculator",
+    "title_zh": "股票損益計算器",
+    "title_en": "Stock Profit/Loss Calculator",
+    "definition_zh": "股票損益計算器用於計算買賣股票後的總利潤或虧損，以及投資報酬率（ROI）。它考慮了買入價格、賣出價格、交易股數以及相關的交易佣金或手續費。",
+    "definition_en": "A stock profit/loss calculator is a tool used to determine the total profit or loss and the return on investment (ROI) from trading stocks. It factors in the purchase price, selling price, number of shares traded, and any associated commissions or fees.",
+    "formula": "Profit = (P_{sell} \\times N - C_{sell}) - (P_{buy} \\times N + C_{buy})",
+    "formula_explained": "P_sell 代表每股賣出價格；N 代表交易的股數；C_sell 代表賣出時的交易手續費或佣金；P_buy 代表每股買入價格；C_buy 代表買入時的交易手續費或佣金。總利潤為賣出淨收入減去買入總成本。",
+    "variables": [
+      {
+        "symbol": "P_sell",
+        "name_zh": "賣出價格",
+        "description": "賣出股票時的每股價格"
+      },
+      {
+        "symbol": "P_buy",
+        "name_zh": "買入價格",
+        "description": "買入股票時的每股價格"
+      },
+      {
+        "symbol": "N",
+        "name_zh": "股數",
+        "description": "交易的股票數量"
+      },
+      {
+        "symbol": "C_sell",
+        "name_zh": "賣出手續費",
+        "description": "賣出股票時產生的佣金或手續費"
+      },
+      {
+        "symbol": "C_buy",
+        "name_zh": "買入手續費",
+        "description": "買入股票時產生的佣金或手續費"
+      }
+    ],
+    "real_world_example": "假設你以每股 50 美元的價格買入 100 股蘋果公司股票，買入手續費為 10 美元。後來以每股 60 美元的價格賣出，賣出手續費為 10 美元。總成本為 5010 美元，總收入為 5990 美元。總利潤 = 5990 - 5010 = 980 美元。投資報酬率 (ROI) = (980 / 5010) * 100% ≈ 19.56%。",
+    "use_cases": [
+      "投資者在賣出股票前預估潛在的利潤或虧損。",
+      "計算包含手續費在內的真實投資報酬率，以評估交易策略。",
+      "年底報稅時，計算資本利得或虧損以進行稅務申報。"
+    ],
+    "common_mistakes": [
+      "忽略了買入和賣出時的交易手續費或稅金，導致高估實際利潤。",
+      "混淆了年化報酬率與總投資報酬率，未能考慮持有時間的影響。"
+    ],
+    "faq": [
+      {
+        "q": "股票損益計算器會考慮稅金嗎？",
+        "a": "基本的計算器通常只考慮手續費和佣金。資本利得稅通常需要根據個人的稅務狀況額外計算。"
+      },
+      {
+        "q": "什麼是投資報酬率 (ROI)？",
+        "a": "投資報酬率是衡量投資獲利能力的指標，計算方式為淨利潤除以總投資成本的百分比。"
+      },
+      {
+        "q": "如果股票有配息，會算在損益裡嗎？",
+        "a": "標準的買賣損益公式不包含配息。若要計算總報酬（Total Return），則需要將期間內收到的股息加入總收入中。"
+      },
+      {
+        "q": "手續費對小額投資影響大嗎？",
+        "a": "非常大。對於小額交易，固定的手續費會佔據較高比例的成本，從而顯著降低整體的投資報酬率。"
+      },
+      {
+        "q": "如何計算做空（Short Selling）的損益？",
+        "a": "做空的計算邏輯相反：利潤 = (賣出價格 * 股數 - 賣出手續費) - (買回價格 * 股數 + 買回手續費)。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "股票損益計算機",
+      "投資報酬率計算",
+      "股票獲利試算"
+    ],
+    "seo_keywords_en": [
+      "stock profit calculator",
+      "ROI calculator"
+    ],
+    "source": "https://www.investopedia.com/terms/r/returnoninvestment.asp"
+  },
+  {
+    "tool_id": "dividend-yield-calculator",
+    "title_zh": "股息殖利率計算器",
+    "title_en": "Dividend Yield Calculator",
+    "definition_zh": "股息殖利率是一個財務比率，顯示公司每年支付的股息相對於其股票價格的比例，用以衡量投資者從股息中獲得的收益率。",
+    "definition_en": "The dividend yield is a financial ratio that shows how much a company pays out in dividends each year relative to its stock price. It represents the dividend-only return of a stock investment and is expressed as a percentage, helping investors evaluate the income-generating potential of a stock.",
+    "formula": "Dividend Yield = (Annual Dividends Per Share / Price Per Share) * 100%",
+    "formula_explained": "Annual Dividends Per Share（每股年度股息）代表公司在一年內為每股股票支付的總股息金額；Price Per Share（每股價格）代表該股票目前的市場交易價格。將兩者相除後乘以100%即可得到百分比形式的股息殖利率。",
+    "variables": [
+      {
+        "symbol": "D",
+        "name_zh": "每股年度股息",
+        "description": "公司在一年內為每股股票支付的總股息金額"
+      },
+      {
+        "symbol": "P",
+        "name_zh": "每股價格",
+        "description": "股票目前的市場交易價格"
+      }
+    ],
+    "real_world_example": "假設某公司目前的股票價格為每股 50 美元，並且該公司每年支付每股 2 美元的股息。那麼該股票的股息殖利率為 (2 / 50) * 100% = 4%。這意味著投資者每年可以從股息中獲得 4% 的回報。",
+    "use_cases": [
+      "評估收益型投資：幫助尋求穩定現金流的投資者比較不同股票的股息回報率。",
+      "衡量股票估值：當股息穩定時，較高的股息殖利率可能暗示股票被低估，反之亦然。",
+      "比較不同資產類別：將股票的股息殖利率與債券殖利率或銀行存款利率進行比較，以決定資金配置。"
+    ],
+    "common_mistakes": [
+      "忽視股息削減風險：高股息殖利率可能是因為股價大幅下跌，公司未來可能無法維持高股息支付。",
+      "僅看殖利率而忽略資本利得：投資者可能為了追求高股息而忽略了公司基本面，導致股價下跌的損失超過股息收入。"
+    ],
+    "faq": [
+      {
+        "q": "股息殖利率會隨時間改變嗎？",
+        "a": "會的，因為股票價格每天都在波動，且公司可能會調整其股息支付金額，這兩者都會影響股息殖利率。"
+      },
+      {
+        "q": "高股息殖利率總是好的嗎？",
+        "a": "不一定。異常高的股息殖利率可能是因為股價暴跌，這通常是公司面臨財務困難的警訊。"
+      },
+      {
+        "q": "股息殖利率和股息發放率有何不同？",
+        "a": "股息殖利率是股息與股價的比例；而股息發放率是公司支付的股息佔其淨利潤的比例。"
+      },
+      {
+        "q": "成長型公司的股息殖利率通常如何？",
+        "a": "成長型公司通常將大部分利潤再投資於業務擴張，因此它們的股息殖利率通常較低，甚至為零。"
+      },
+      {
+        "q": "如何找到股票的股息殖利率？",
+        "a": "大多數財經網站和證券經紀商的報價頁面都會提供股票的當前股息殖利率。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "股息殖利率",
+      "股票收益率",
+      "股息計算"
+    ],
+    "seo_keywords_en": [
+      "Dividend Yield",
+      "Stock Dividend Return"
+    ],
+    "source": "https://www.investopedia.com/terms/d/dividendyield.asp"
+  },
+  {
+    "tool_id": "pe-ratio-calculator",
+    "title_zh": "本益比計算器",
+    "title_en": "P/E Ratio Calculator",
+    "definition_zh": "本益比（P/E Ratio）是衡量公司當前股價與其每股盈餘（EPS）之間關係的財務指標。它代表投資者為獲得公司每一元的盈餘，願意支付多少價格。本益比常用於評估股票是高估還是低估，並比較同行業公司的相對價值。",
+    "definition_en": "The price-to-earnings (P/E) ratio is a financial metric that measures a company's current share price relative to its earnings per share (EPS). It indicates how much investors are willing to pay for each dollar of a company's earnings. A high P/E ratio may suggest that a stock is overvalued or that investors expect high growth rates in the future, while a low P/E ratio might indicate that the stock is undervalued or that the company is experiencing difficulties. It is widely used by investors to compare the relative value of different stocks within the same industry.",
+    "formula": "P/E = \\frac{P}{EPS}",
+    "formula_explained": "P (Price) 代表公司目前的每股股票市場價格；EPS (Earnings Per Share) 代表公司過去12個月（或預估未來12個月）的每股盈餘。將股價除以每股盈餘，即可得出本益比。",
+    "variables": [
+      {
+        "symbol": "P",
+        "name_zh": "每股市價",
+        "description": "公司股票在股票市場上的當前交易價格。"
+      },
+      {
+        "symbol": "EPS",
+        "name_zh": "每股盈餘",
+        "description": "公司在特定期間（通常為一年）內的淨利潤除以流通在外的普通股股數。"
+      }
+    ],
+    "real_world_example": "假設A公司的目前股價為150元，過去一年的每股盈餘（EPS）為10元。那麼A公司的本益比為 150 ÷ 10 = 15倍。這意味著投資者願意為A公司每1元的獲利支付15元的價格。如果投資者買入該股票，在公司獲利保持不變的情況下，大約需要15年才能透過公司的盈餘回本。",
+    "use_cases": [
+      "評估單一股票的市場估值是否合理（高估或低估）",
+      "比較同行業中不同公司的相對投資價值",
+      "結合預估盈餘（Forward EPS）來預測股票未來的潛在表現"
+    ],
+    "common_mistakes": [
+      "忽略產業差異，將不同產業的本益比直接比較",
+      "僅看單一年度的本益比，未考慮公司未來的成長性或一次性收益的影響"
+    ],
+    "faq": [
+      {
+        "q": "什麼是好的本益比？",
+        "a": "沒有絕對「好」的本益比，通常取決於產業平均水平和公司的成長潛力。一般而言，10到20倍被認為是合理的範圍，但高成長科技股的本益比通常較高。"
+      },
+      {
+        "q": "本益比可以為負數嗎？",
+        "a": "當公司處於虧損狀態（每股盈餘為負）時，本益比在數學上為負數。但實務上，虧損公司的本益比通常標示為「N/A」（不適用），因為負本益比缺乏實質的估值意義。"
+      },
+      {
+        "q": "Trailing P/E 和 Forward P/E 有何不同？",
+        "a": "Trailing P/E（歷史本益比）使用過去12個月的實際每股盈餘計算；而 Forward P/E（預估本益比）則使用分析師預測的未來12個月每股盈餘來計算。"
+      },
+      {
+        "q": "本益比越低越好嗎？",
+        "a": "不一定。雖然低本益比可能代表股票被低估（價值股），但也可能暗示市場對該公司未來前景悲觀，或者公司正面臨經營困難（價值陷阱）。"
+      },
+      {
+        "q": "為什麼不同產業的本益比差異很大？",
+        "a": "不同產業的成長性、資本密集度和風險特徵不同。例如，科技業通常具有較高的成長預期，因此本益比偏高；而公用事業成長穩定但緩慢，本益比通常較低。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "本益比計算機",
+      "PE Ratio怎麼算",
+      "股票估值工具"
+    ],
+    "seo_keywords_en": [
+      "P/E ratio calculator",
+      "price to earnings ratio"
+    ],
+    "source": "https://www.investopedia.com/terms/p/price-earningsratio.asp"
+  },
+  {
+    "tool_id": "compound-interest-calculator",
+    "title_zh": "複利計算器",
+    "title_en": "Compound Interest Calculator",
+    "definition_zh": "複利是指在初始本金和先前累積的利息上所賺取的利息，即「利滾利」。它能讓資金隨時間呈指數級增長。",
+    "definition_en": "Compound interest is the interest on savings calculated on both the initial principal and the accumulated interest from previous periods. It can be thought of as \"interest on interest,\" allowing sums to grow at a faster rate than simple interest, which is calculated only on the principal amount.",
+    "formula": "A = P(1 + r/n)^{nt}",
+    "formula_explained": "A 代表未來總金額（包含本金與利息）；P 代表初始本金；r 代表年利率（以小數表示）；n 代表每年複利計算的次數；t 代表投資或貸款的年數。",
+    "variables": [
+      {
+        "symbol": "A",
+        "name_zh": "未來總金額",
+        "description": "投資或貸款在期末的總價值，包含本金與累積利息。"
+      },
+      {
+        "symbol": "P",
+        "name_zh": "初始本金",
+        "description": "最初投資或借貸的金額。"
+      },
+      {
+        "symbol": "r",
+        "name_zh": "年利率",
+        "description": "每年的名目利率，計算時需轉換為小數（例如 5% 為 0.05）。"
+      },
+      {
+        "symbol": "n",
+        "name_zh": "每年複利次數",
+        "description": "一年內計算並加入利息的次數（如每月複利則為12）。"
+      },
+      {
+        "symbol": "t",
+        "name_zh": "年數",
+        "description": "資金投資或借貸的總年數。"
+      }
+    ],
+    "real_world_example": "假設你投資 10,000 元，年利率為 5%，每年複利一次。第一年後，你將獲得 500 元利息，總額為 10,500 元。第二年，利息將基於 10,500 元計算，產生 525 元利息，總額變為 11,025 元。10年後，總額將增長至約 16,289 元。",
+    "use_cases": [
+      "評估長期投資（如退休金、股票、基金）的未來價值增長。",
+      "比較不同儲蓄帳戶或定存方案的實際收益率。",
+      "計算信用卡債務或貸款在未償還情況下，利息隨時間累積的真實成本。"
+    ],
+    "common_mistakes": [
+      "混淆名目利率與實質年利率（APY），忽略了複利頻率對最終收益的影響。",
+      "低估了時間的力量，延遲投資導致錯失複利帶來的指數級增長效應。"
+    ],
+    "faq": [
+      {
+        "q": "單利和複利有什麼區別？",
+        "a": "單利僅根據初始本金計算利息，而複利則是根據本金加上之前累積的所有利息來計算，因此複利增長速度更快。"
+      },
+      {
+        "q": "複利頻率如何影響最終金額？",
+        "a": "複利頻率越高（例如每天複利相對於每年複利），最終累積的金額就越多，因為利息更頻繁地加入本金中產生新利息。"
+      },
+      {
+        "q": "什麼是72法則？",
+        "a": "72法則是一個快速估算投資翻倍所需時間的公式。將72除以年利率，即可得出資金大約需要多少年才能翻倍。"
+      },
+      {
+        "q": "貸款時複利對我有什麼影響？",
+        "a": "在貸款（如信用卡債務）中，複利會對你不利，因為未償還的利息會產生更多利息，導致債務迅速膨脹。"
+      },
+      {
+        "q": "如何最大化複利的效益？",
+        "a": "儘早開始投資、保持穩定的回報率、選擇較高的複利頻率，並將獲得的利息持續再投資，是最大化複利效益的關鍵。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "複利計算器",
+      "投資報酬率計算",
+      "利滾利公式"
+    ],
+    "seo_keywords_en": [
+      "compound interest calculator",
+      "investment growth calculator"
+    ],
+    "source": "https://www.investopedia.com/terms/c/compoundinterest.asp"
+  },
+  {
+    "tool_id": "loan-calculator",
+    "title_zh": "貸款計算器",
+    "title_en": "Loan Calculator",
+    "definition_zh": "貸款計算器是一種財務工具，用於根據貸款本金、利率和貸款期限，估算每月還款金額、總利息和貸款總成本，幫助借款人規劃預算並比較不同的貸款方案。",
+    "definition_en": "A loan calculator is a financial tool used to estimate monthly payments, total interest, and the overall cost of a loan based on the principal amount, interest rate, and loan term. It helps borrowers plan their budgets and compare different loan options.",
+    "formula": "PMT = (P * r * (1 + r)^n) / ((1 + r)^n - 1)",
+    "formula_explained": "PMT代表每月還款金額；P代表貸款本金（總額）；r代表月利率（年利率除以12）；n代表總還款期數（以月為單位）。公式計算出在固定利率和固定期限下，每月需要償還的等額本息。",
+    "variables": [
+      {
+        "symbol": "PMT",
+        "name_zh": "每月還款額",
+        "description": "每個月需要償還的固定金額，包含本金與利息。"
+      },
+      {
+        "symbol": "P",
+        "name_zh": "貸款本金",
+        "description": "向金融機構借貸的總金額。"
+      },
+      {
+        "symbol": "r",
+        "name_zh": "月利率",
+        "description": "年利率除以12個月得到的每期利率。"
+      },
+      {
+        "symbol": "n",
+        "name_zh": "總期數",
+        "description": "貸款的總月份數（例如5年即為60個月）。"
+      }
+    ],
+    "real_world_example": "假設您申請了一筆20,000美元的汽車貸款，年利率為5%，貸款期限為5年（60個月）。月利率為0.004167。代入公式計算，您的每月還款金額約為377.42美元。在5年期間，您總共將支付22,645.20美元，其中包含2,645.20美元的總利息。",
+    "use_cases": [
+      "購房前評估不同房貸方案的每月還款壓力",
+      "購買汽車時計算車貸的總利息支出",
+      "申請個人信貸前規劃每月的財務預算"
+    ],
+    "common_mistakes": [
+      "只關注每月還款額而忽略總利息支出",
+      "未考慮提前還款可能產生的違約金或手續費"
+    ],
+    "faq": [
+      {
+        "q": "貸款計算器算出的金額準確嗎？",
+        "a": "計算器提供的是估算值，實際還款金額可能因銀行的具體計息方式、手續費或利率浮動而略有不同。"
+      },
+      {
+        "q": "什麼是等額本息還款？",
+        "a": "等額本息是指在還款期內，每月償還同等數額的貸款（包括本金和利息），每月還款額固定。"
+      },
+      {
+        "q": "貸款期限長短有什麼影響？",
+        "a": "貸款期限越長，每月還款壓力越小，但最終支付的總利息會越多；期限越短則相反。"
+      },
+      {
+        "q": "可以計算提前還款的影響嗎？",
+        "a": "基礎的貸款計算器通常不包含提前還款功能，但進階的計算器可以幫助您評估提前還款能節省多少利息。"
+      },
+      {
+        "q": "利率是年利率還是月利率？",
+        "a": "通常輸入的是年利率（APR），計算器會在內部將其轉換為月利率進行計算。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "貸款計算器",
+      "房貸試算",
+      "車貸計算"
+    ],
+    "seo_keywords_en": [
+      "loan calculator",
+      "monthly payment calculator"
+    ],
+    "source": "https://www.calculatorsoup.com/calculators/financial/loan-calculator-simple.php"
+  },
+  {
+    "tool_id": "tip-calculator",
+    "title_zh": "小費計算器",
+    "title_en": "Tip Calculator",
+    "definition_zh": "小費計算器是一種用於計算服務（如餐廳用餐）應付小費金額的工具。它根據總帳單的百分比計算小費，並能協助將包含小費的總金額在多人之間進行分攤。",
+    "definition_en": "A tip calculator is a tool used to determine the appropriate gratuity amount to leave for a service, typically at a restaurant. It calculates the tip based on a percentage of the total bill and can also help split the total cost, including the tip, among multiple people.",
+    "formula": "Tip Amount = Bill Amount \\times (Tip Percentage / 100)",
+    "formula_explained": "Tip Amount（小費金額）：最終需要支付的小費數額。Bill Amount（帳單金額）：消費的總金額，通常建議使用稅前金額。Tip Percentage（小費百分比）：決定給予小費的比例，如15%或20%。",
+    "variables": [
+      {
+        "symbol": "T",
+        "name_zh": "小費金額",
+        "description": "根據帳單金額和百分比計算出的應付小費。"
+      },
+      {
+        "symbol": "B",
+        "name_zh": "帳單金額",
+        "description": "消費的總金額，通常為稅前金額。"
+      },
+      {
+        "symbol": "P",
+        "name_zh": "小費百分比",
+        "description": "給予小費的比例，通常以百分比表示（如15%）。"
+      }
+    ],
+    "real_world_example": "假設您在餐廳的稅前帳單金額為 $85，您決定給予 20% 的小費。計算方式為：$85 × (20 / 100) = $17。因此，您需要支付 $17 的小費，總共支付 $102。如果由兩人平分，每人需支付 $51。",
+    "use_cases": [
+      "在餐廳用餐後，快速計算應給服務生的小費金額。",
+      "與朋友聚餐時，計算包含小費的總金額並平均分攤給每個人。",
+      "出國旅遊時，根據當地的給小費習慣，計算適當的小費比例。"
+    ],
+    "common_mistakes": [
+      "忘記將稅前金額作為計算小費的基礎，導致支付過多小費。",
+      "在分攤帳單時，未將小費金額平均分配給每個人，導致計算錯誤。"
+    ],
+    "faq": [
+      {
+        "q": "小費應該按稅前還是稅後金額計算？",
+        "a": "通常建議按稅前金額計算小費，以避免對稅金支付小費。"
+      },
+      {
+        "q": "一般餐廳的小費比例是多少？",
+        "a": "在美國，一般餐廳的小費比例通常在15%到20%之間，視服務品質而定。"
+      },
+      {
+        "q": "如果服務很差，我可以不給小費嗎？",
+        "a": "雖然小費是自願的，但即使服務不佳，通常還是會給予較低比例（如10%）的小費，除非服務極度糟糕。"
+      },
+      {
+        "q": "外帶需要給小費嗎？",
+        "a": "外帶通常不需要給像內用一樣高比例的小費，但給予10%左右的小費或零錢是常見的禮貌做法。"
+      },
+      {
+        "q": "如何快速在腦中計算20%的小費？",
+        "a": "可以先將帳單金額除以10（即10%），然後將結果乘以2，即可快速得出20%的小費金額。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "小費計算器",
+      "餐廳小費計算",
+      "分攤帳單計算"
+    ],
+    "seo_keywords_en": [
+      "tip calculator",
+      "gratuity calculator"
+    ],
+    "source": "https://www.calculator.net/tip-calculator.html"
+  },
+  {
+    "tool_id": "break-even-calculator",
+    "title_zh": "損益兩平計算器",
+    "title_en": "Break-Even Calculator",
+    "definition_zh": "損益兩平點是指企業的總收入等於總成本，既不盈利也不虧損的銷售量或營收水準。此計算器幫助企業確定需要銷售多少產品或服務才能覆蓋所有固定和變動成本。",
+    "definition_en": "The break-even point is the level of production or sales at which total revenues equal total costs, resulting in neither profit nor loss. A break-even calculator helps businesses determine the exact number of units they need to sell to cover all fixed and variable costs.",
+    "formula": "BEP = FC / (P - VC)",
+    "formula_explained": "BEP 代表損益兩平點（單位數量）；FC 代表固定成本，即不隨產量變動的費用（如租金）；P 代表單位售價，即每件產品的銷售價格；VC 代表單位變動成本，即每生產一件產品所增加的成本（如原料）。",
+    "variables": [
+      {
+        "symbol": "BEP",
+        "name_zh": "損益兩平點",
+        "description": "達到總收入等於總成本所需的銷售數量。"
+      },
+      {
+        "symbol": "FC",
+        "name_zh": "固定成本",
+        "description": "不隨生產量變動的成本，如租金、保險費等。"
+      },
+      {
+        "symbol": "P",
+        "name_zh": "單位售價",
+        "description": "每單位產品或服務的銷售價格。"
+      },
+      {
+        "symbol": "VC",
+        "name_zh": "單位變動成本",
+        "description": "隨生產量變動的成本，如直接材料、直接人工等。"
+      }
+    ],
+    "real_world_example": "假設一家咖啡店每月的固定成本為 30,000 元（租金、水電等）。每杯咖啡的售價為 50 元，每杯咖啡的變動成本（咖啡豆、杯子等）為 20 元。損益兩平點 = 30,000 / (50 - 20) = 1,000 杯。這意味著咖啡店每月需要賣出 1,000 杯咖啡才能達到損益兩平，超過 1,000 杯後才開始獲利。",
+    "use_cases": [
+      "創業者在撰寫商業計畫書時，評估新業務的可行性與風險。",
+      "企業在推出新產品前，決定定價策略與銷售目標。",
+      "管理層在考慮擴張或增加固定資產投資時，分析對獲利能力的影響。"
+    ],
+    "common_mistakes": [
+      "忽略了某些隱性固定成本或變動成本，導致計算出的損益兩平點偏低。",
+      "假設單位售價和單位變動成本在所有銷售量下都保持不變，未考慮規模經濟或折扣。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是損益兩平點？",
+        "a": "損益兩平點是指企業的總收入等於總成本，既不盈利也不虧損的狀態。"
+      },
+      {
+        "q": "如何降低損益兩平點？",
+        "a": "可以透過降低固定成本、降低單位變動成本或提高單位售價來降低損益兩平點。"
+      },
+      {
+        "q": "損益兩平分析有什麼局限性？",
+        "a": "它通常假設成本和價格是線性的，且未考慮市場需求變化和庫存積壓的風險。"
+      },
+      {
+        "q": "損益兩平點可以用銷售額來表示嗎？",
+        "a": "可以，損益兩平銷售額 = 固定成本 / 邊際貢獻率（即 (單位售價 - 單位變動成本) / 單位售價）。"
+      },
+      {
+        "q": "為什麼了解損益兩平點很重要？",
+        "a": "它能幫助企業設定明確的銷售目標，評估定價策略，並了解業務的風險水平。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "損益兩平計算器",
+      "損益兩平點公式",
+      "損益兩平分析"
+    ],
+    "seo_keywords_en": [
+      "Break-Even Calculator",
+      "Break-Even Point Formula"
+    ],
+    "source": "https://www.investopedia.com/terms/b/breakevenpoint.asp"
+  },
+  {
+    "tool_id": "profit-margin-calculator",
+    "title_zh": "利潤率計算器",
+    "title_en": "Profit Margin Calculator",
+    "definition_zh": "利潤率計算器用於衡量企業的盈利能力，透過計算毛利率、營業利潤率和淨利率，幫助評估企業在扣除各項成本後保留的收入比例。",
+    "definition_en": "A profit margin calculator is a financial tool used to measure a company's profitability. It calculates gross, operating, and net profit margins by determining the percentage of revenue that remains after deducting various costs, such as the cost of goods sold (COGS) and operating expenses.",
+    "formula": "\\text{Profit Margin} = \\left( \\frac{\\text{Revenue} - \\text{Costs}}{\\text{Revenue}} \\right) \\times 100\\%",
+    "formula_explained": "Revenue（營收）代表企業銷售商品或服務的總收入；Costs（成本）代表與產生營收相關的各項費用（如銷貨成本、營業費用等）；Profit Margin（利潤率）則是以百分比表示的盈利能力指標。",
+    "variables": [
+      {
+        "symbol": "R",
+        "name_zh": "營收",
+        "description": "企業在特定期間內透過銷售商品或提供服務所獲得的總收入。"
+      },
+      {
+        "symbol": "C",
+        "name_zh": "成本",
+        "description": "企業在營運過程中所產生的各項費用，包含銷貨成本、營業費用及稅金等。"
+      },
+      {
+        "symbol": "PM",
+        "name_zh": "利潤率",
+        "description": "扣除成本後的利潤佔總營收的百分比，反映企業的盈利效率。"
+      }
+    ],
+    "real_world_example": "某家零售店一個月的總營收為 500,000 元，其銷貨成本、租金、人事及其他營業費用總計為 400,000 元。其淨利潤為 100,000 元。透過公式計算：(500,000 - 400,000) / 500,000 × 100% = 20%。這表示該店的淨利率為 20%。",
+    "use_cases": [
+      "企業主評估公司整體盈利能力及營運效率。",
+      "投資者分析不同公司的財務健康狀況以進行投資決策。",
+      "財務經理制定產品定價策略及成本控制方案。"
+    ],
+    "common_mistakes": [
+      "混淆毛利率與淨利率，未扣除所有營業費用及稅金即計算淨利。",
+      "在計算營收時包含了非經常性收入，導致利潤率被高估。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是毛利率？",
+        "a": "毛利率是毛利（營收減去銷貨成本）佔總營收的百分比，反映產品的基本盈利能力。"
+      },
+      {
+        "q": "淨利率和營業利潤率有何不同？",
+        "a": "營業利潤率僅扣除營業成本和費用，而淨利率則進一步扣除了利息、稅金等所有非營業支出。"
+      },
+      {
+        "q": "利潤率多少算好？",
+        "a": "這取決於行業特性。一般而言，軟體業的利潤率較高，而零售業的利潤率較低。通常 10% 被視為平均水準，20% 則非常優秀。"
+      },
+      {
+        "q": "如何提高公司的利潤率？",
+        "a": "可以透過提高產品售價、降低生產成本、優化營運流程或減少不必要的開支來提升利潤率。"
+      },
+      {
+        "q": "利潤率可以是負數嗎？",
+        "a": "可以。當企業的總成本大於總營收時，就會產生虧損，此時的利潤率即為負數。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "利潤率計算器",
+      "毛利率計算",
+      "淨利率公式"
+    ],
+    "seo_keywords_en": [
+      "Profit Margin Calculator",
+      "Net Profit Margin Formula"
+    ],
+    "source": "https://www.investopedia.com/terms/p/profitmargin.asp"
+  },
+  {
+    "tool_id": "exchange-rate-calculator",
+    "title_zh": "匯率計算器",
+    "title_en": "Exchange Rate Calculator",
+    "definition_zh": "匯率計算器是一種金融工具，用於根據當前的匯率將一種貨幣的金額轉換為另一種貨幣的等值金額，幫助使用者了解不同貨幣之間的實際購買力。",
+    "definition_en": "An exchange rate calculator is a financial tool used to convert an amount in one currency to its equivalent value in another currency based on current exchange rates, helping users understand the relative purchasing power between different currencies.",
+    "formula": "Converted Amount = Original Amount × Exchange Rate",
+    "formula_explained": "Converted Amount 代表轉換後的目標貨幣金額；Original Amount 代表原始貨幣的金額；Exchange Rate 代表兩種貨幣之間的匯率（即一單位原始貨幣可兌換多少單位的目標貨幣）。",
+    "variables": [
+      {
+        "symbol": "CA",
+        "name_zh": "轉換後金額",
+        "description": "轉換後的目標貨幣總額"
+      },
+      {
+        "symbol": "OA",
+        "name_zh": "原始金額",
+        "description": "需要轉換的原始貨幣總額"
+      },
+      {
+        "symbol": "ER",
+        "name_zh": "匯率",
+        "description": "一單位原始貨幣兌換目標貨幣的比率"
+      }
+    ],
+    "real_world_example": "假設您要將 1,000 美元（USD）轉換為歐元（EUR），當前匯率為 1 USD = 0.92 EUR。使用公式：1,000 × 0.92 = 920。因此，1,000 美元可以兌換 920 歐元。",
+    "use_cases": [
+      "出國旅遊前計算需要兌換的外幣金額",
+      "進行跨境網購時評估商品的實際花費",
+      "企業進行國際貿易時計算成本與利潤"
+    ],
+    "common_mistakes": [
+      "忽略銀行或兌換機構可能收取的手續費或匯差",
+      "使用過期的匯率進行計算，導致金額估算不準確"
+    ],
+    "faq": [
+      {
+        "q": "匯率多久更新一次？",
+        "a": "外匯市場的匯率是即時變動的，多數線上計算器會每分鐘或每天更新一次。"
+      },
+      {
+        "q": "計算器顯示的匯率是我實際能換到的匯率嗎？",
+        "a": "通常不是。計算器顯示的多為中間價，實際兌換時銀行會收取手續費或使用買入/賣出價。"
+      },
+      {
+        "q": "什麼是買入價和賣出價？",
+        "a": "買入價是銀行向您買入外幣的價格，賣出價是銀行賣給您外幣的價格，兩者之間的差額為銀行的利潤。"
+      },
+      {
+        "q": "如何獲得最划算的匯率？",
+        "a": "可以比較不同銀行或線上換匯平台的匯率，並注意隱藏的手續費。"
+      },
+      {
+        "q": "匯率波動受什麼因素影響？",
+        "a": "受各國利率、通貨膨脹、政治穩定性及經濟表現等多種宏觀經濟因素影響。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "匯率換算",
+      "外幣兌換計算",
+      "即時匯率查詢"
+    ],
+    "seo_keywords_en": [
+      "currency converter",
+      "exchange rate calculator"
+    ],
+    "source": "https://www.investopedia.com/terms/e/exchangerate.asp"
+  },
+  {
+    "tool_id": "gold-price-calculator",
+    "title_zh": "金價計算器",
+    "title_en": "Gold Price Calculator",
+    "definition_zh": "金價計算器是一種金融工具，用於根據黃金的重量、純度（K數）和當前市場現貨價格，計算特定黃金資產的實際價值與投資報酬率。",
+    "definition_en": "A gold price calculator is a financial tool used to determine the actual value and investment return of a specific gold asset based on its weight, purity (karat), and the current market spot price of gold.",
+    "formula": "V = W \\times (K / 24) \\times P",
+    "formula_explained": "V 代表黃金的總價值；W 代表黃金的重量（如公克或盎司）；K 代表黃金的純度（24K為純金）；P 代表每單位重量的當前市場現貨價格。",
+    "variables": [
+      {
+        "symbol": "W",
+        "name_zh": "重量",
+        "description": "黃金的實體重量，通常以公克(g)或金衡盎司(oz)為單位。"
+      },
+      {
+        "symbol": "K",
+        "name_zh": "純度(K數)",
+        "description": "黃金的純度，24K代表99.9%以上的純金。"
+      },
+      {
+        "symbol": "P",
+        "name_zh": "單位現貨價格",
+        "description": "當前市場上每單位重量黃金的價格。"
+      }
+    ],
+    "real_world_example": "假設您擁有一條重50公克的18K金項鍊，當前黃金現貨價格為每公克2,500元。計算方式為：50 × (18 / 24) × 2,500 = 93,750元。因此，該條項鍊的黃金價值為93,750元。",
+    "use_cases": [
+      "投資者評估實體黃金（如金條、金幣）的當前市場價值與潛在回報。",
+      "民眾在典當或出售舊金飾前，估算其合理回收價格以避免損失。",
+      "珠寶商計算製作金飾的原料成本，以制定合理的商品售價。"
+    ],
+    "common_mistakes": [
+      "忽略黃金純度（K數），誤將18K或14K金以24K純金的價格計算。",
+      "混淆重量單位，例如將常衡盎司與金衡盎司（Troy Ounce）搞混，導致計算結果偏差。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是金衡盎司？",
+        "a": "金衡盎司（Troy Ounce）是貴金屬的標準計量單位，1金衡盎司約等於31.1035公克，比一般的常衡盎司稍重。"
+      },
+      {
+        "q": "為什麼銀樓的回收價比計算器算出來的低？",
+        "a": "銀樓在回收黃金時通常會扣除一定比例的「耗損」（約3%至5%），並考慮熔煉成本與利潤，因此實際回收價會低於純黃金價值。"
+      },
+      {
+        "q": "18K金的含金量是多少？",
+        "a": "18K金的含金量為18/24，即75%的純黃金，其餘25%為其他金屬（如銅、銀）以增加硬度。"
+      },
+      {
+        "q": "金價計算器能預測未來的黃金價格嗎？",
+        "a": "不能。金價計算器僅根據當前的市場現貨價格計算現值，無法預測未來的價格走勢。"
+      },
+      {
+        "q": "黃金現貨價格多久變動一次？",
+        "a": "黃金現貨價格在交易日內會隨著全球市場的供需情況即時變動，通常每分鐘都在更新。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "金價計算器",
+      "黃金回收試算",
+      "黃金價格換算"
+    ],
+    "seo_keywords_en": [
+      "gold price calculator",
+      "scrap gold value"
+    ],
+    "source": "https://www.investopedia.com/articles/basics/08/invest-in-gold.asp"
+  }
+]

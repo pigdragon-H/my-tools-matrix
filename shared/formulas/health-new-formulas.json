@@ -1,0 +1,692 @@
+[
+  {
+    "tool_id": "body-fat-calculator",
+    "title_zh": "體脂率計算器",
+    "title_en": "Body Fat Calculator",
+    "definition_zh": "使用美國海軍圍度法（U.S. Navy Method），透過測量身高、頸圍、腰圍（女性需加測臀圍），來估算人體脂肪百分比的工具。此方法簡單且不需特殊儀器。",
+    "definition_en": "The Body Fat Calculator uses the U.S. Navy Method to estimate body fat percentage based on simple circumference measurements. It requires height, neck, and waist measurements for men, and additionally hip measurements for women. This method provides a quick and accessible way to assess body composition without specialized equipment.",
+    "formula": "Men: % Body Fat = 86.010 × log10(W - N) - 70.041 × log10(H) + 36.76 ; Women: % Body Fat = 163.205 × log10(W + Hp - N) - 97.684 × log10(H) - 78.387",
+    "formula_explained": "W：腰圍（Waist），男性測量肚臍處，女性測量腰部最細處。N：頸圍（Neck），測量喉結下方。Hp：臀圍（Hip），女性專用，測量臀部最寬處。H：身高（Height）。（註：以上公式變數單位為英吋）",
+    "variables": [
+      {
+        "symbol": "W",
+        "name_zh": "腰圍",
+        "description": "腹部周長，男性測量肚臍高度，女性測量腰部最細處"
+      },
+      {
+        "symbol": "N",
+        "name_zh": "頸圍",
+        "description": "頸部周長，測量喉結下方"
+      },
+      {
+        "symbol": "Hp",
+        "name_zh": "臀圍",
+        "description": "臀部周長，僅女性需要，測量臀部最寬處"
+      },
+      {
+        "symbol": "H",
+        "name_zh": "身高",
+        "description": "受測者的身高"
+      }
+    ],
+    "real_world_example": "一位身高70英吋（約178公分）的男性，測量其頸圍為15英吋，腰圍為32英吋。代入美國海軍公式：86.010 × log10(32 - 15) - 70.041 × log10(70) + 36.76。計算得出其體脂率約為11.6%。這表示他的體脂處於健康且較為精實的範圍。",
+    "use_cases": [
+      "健身愛好者追蹤減脂進度與身體組成變化",
+      "軍隊或紀律部隊進行定期的體能與體態標準考核",
+      "一般民眾在家中僅用皮尺快速評估自身健康風險"
+    ],
+    "common_mistakes": [
+      "測量時皮尺拉得太緊或太鬆，導致圍度數據不準確",
+      "男性與女性的測量位置混淆（例如女性腰圍應量最細處而非肚臍）"
+    ],
+    "faq": [
+      {
+        "q": "美國海軍體脂計算器準確嗎？",
+        "a": "它是一個方便的估算工具，誤差通常在3-4%左右，不如DEXA掃描或水下秤重精確，但非常適合日常追蹤。"
+      },
+      {
+        "q": "為什麼男女的計算公式不同？",
+        "a": "因為男性和女性的脂肪分佈模式不同，女性通常在臀部和大腿累積較多脂肪，因此女性公式加入了臀圍。"
+      },
+      {
+        "q": "測量時需要注意什麼？",
+        "a": "請保持自然站立，不要刻意吸氣或憋氣，並確保皮尺與地面平行且緊貼皮膚但不擠壓肌肉。"
+      },
+      {
+        "q": "多久應該測量一次體脂率？",
+        "a": "建議每2到4週測量一次即可，過於頻繁的測量容易受到水分和食物攝取的影響而產生波動。"
+      },
+      {
+        "q": "如果沒有英吋皮尺怎麼辦？",
+        "a": "可以使用公分皮尺測量，然後將結果除以2.54轉換為英吋，或者直接使用公制版本的海軍公式進行計算。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "體脂率計算器",
+      "美國海軍體脂公式",
+      "如何測量體脂"
+    ],
+    "seo_keywords_en": [
+      "Navy Body Fat Calculator",
+      "Body Fat Percentage Formula"
+    ],
+    "source": "https://www.calculator.net/body-fat-calculator.html"
+  },
+  {
+    "tool_id": "ideal-weight-calculator",
+    "title_zh": "理想體重計算器",
+    "title_en": "Ideal Weight Calculator",
+    "definition_zh": "理想體重計算器根據身高和性別，利用Devine、Robinson或Miller等醫學公式，估算個人維持健康狀態的最佳體重範圍。",
+    "definition_en": "The Ideal Weight Calculator estimates the optimal healthy body weight for an individual based on their height and gender, using established medical formulas such as Devine, Robinson, or Miller.",
+    "formula": "Men: 50.0 + 2.3 * (Height_in - 60); Women: 45.5 + 2.3 * (Height_in - 60)",
+    "formula_explained": "Devine公式中，男性基礎體重為50公斤，女性為45.5公斤。身高超過5英尺（60英吋）的部分，每英吋增加2.3公斤。",
+    "variables": [
+      {
+        "symbol": "Height_in",
+        "name_zh": "身高(英吋)",
+        "description": "個人的身高，以英吋為單位，用於計算超過60英吋的部分。"
+      },
+      {
+        "symbol": "Gender",
+        "name_zh": "性別",
+        "description": "個人的生理性別，男性和女性有不同的基礎體重標準。"
+      }
+    ],
+    "real_world_example": "一位身高5英尺10英吋（70英吋）的男性，使用Devine公式計算：50.0 + 2.3 * (70 - 60) = 50.0 + 23 = 73公斤。他的理想體重約為73公斤。",
+    "use_cases": [
+      "醫生在開立特定藥物時，用來計算精確的藥物劑量。",
+      "營養師為客戶制定減重或增肌計畫時，設定合理的體重目標。",
+      "一般民眾評估自身體重是否在健康範圍內，作為健康管理的參考。"
+    ],
+    "common_mistakes": [
+      "忽略肌肉量與骨架大小的差異，僅依賴公式結果而產生不切實際的體重焦慮。",
+      "將理想體重與審美標準混淆，忽視了公式主要是基於醫學和健康考量。"
+    ],
+    "faq": [
+      {
+        "q": "理想體重計算器準確嗎？",
+        "a": "它提供了一個基於群體統計的醫學參考值，但無法反映個人的肌肉量、骨架大小或體脂率，因此僅供參考。"
+      },
+      {
+        "q": "Devine、Robinson和Miller公式有何不同？",
+        "a": "這些公式的基礎體重和每英吋增加的重量係數略有不同，Devine最常用於藥物劑量計算，而其他公式則提供不同的估算範圍。"
+      },
+      {
+        "q": "我應該追求計算出的精確體重嗎？",
+        "a": "不需要。理想體重是一個範圍，保持在健康範圍內並擁有良好的體脂率和肌肉量比單一數字更重要。"
+      },
+      {
+        "q": "這個計算器適用於兒童嗎？",
+        "a": "不適用。這些公式是為成年人設計的，兒童和青少年的體重評估應使用生長曲線圖。"
+      },
+      {
+        "q": "如果我的體重超過理想體重，代表我不健康嗎？",
+        "a": "不一定。如果您是運動員或肌肉量較大，體重可能會超過理想值，但依然非常健康。建議結合體脂率進行綜合評估。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "理想體重計算器",
+      "標準體重公式",
+      "Devine公式"
+    ],
+    "seo_keywords_en": [
+      "Ideal Weight Calculator",
+      "Devine formula"
+    ],
+    "source": "https://www.calculator.net/ideal-weight-calculator.html"
+  },
+  {
+    "tool_id": "bmr-calculator",
+    "title_zh": "基礎代謝率計算器",
+    "title_en": "BMR Calculator",
+    "definition_zh": "基礎代謝率（BMR）是指人體在清醒且極端安靜狀態下，維持生命所需消耗的最低熱量。Mifflin-St Jeor方程式是目前公認最準確的計算公式。",
+    "definition_en": "The Basal Metabolic Rate (BMR) is the number of calories your body needs to accomplish its most basic life-sustaining functions while at rest. The Mifflin-St Jeor equation is widely considered the most accurate formula for calculating BMR in modern clinical settings.",
+    "formula": "Men: BMR = 10W + 6.25H - 5A + 5; Women: BMR = 10W + 6.25H - 5A - 161",
+    "formula_explained": "公式中，W代表體重（公斤），H代表身高（公分），A代表年齡（歲）。男性最後加5，女性最後減161，這是為了反映性別在身體組成上的差異。",
+    "variables": [
+      {
+        "symbol": "W",
+        "name_zh": "體重",
+        "description": "個人的體重，單位為公斤(kg)"
+      },
+      {
+        "symbol": "H",
+        "name_zh": "身高",
+        "description": "個人的身高，單位為公分(cm)"
+      },
+      {
+        "symbol": "A",
+        "name_zh": "年齡",
+        "description": "個人的年齡，單位為歲(years)"
+      }
+    ],
+    "real_world_example": "以一位30歲、身高165公分、體重60公斤的女性為例，她的BMR計算為：(10 × 60) + (6.25 × 165) - (5 × 30) - 161 = 600 + 1031.25 - 150 - 161 = 1320.25大卡。這表示她整天躺著不動，身體也會消耗約1320大卡。",
+    "use_cases": [
+      "制定個人化的減重或增肌飲食計畫",
+      "評估每日最低熱量需求以避免營養不良",
+      "營養師或健身教練為客戶設計專屬的熱量攝取建議"
+    ],
+    "common_mistakes": [
+      "混淆基礎代謝率(BMR)與每日總消耗熱量(TDEE)，導致熱量攝取計算錯誤",
+      "輸入體重或身高時使用錯誤的單位（如將磅當作公斤，英吋當作公分）"
+    ],
+    "faq": [
+      {
+        "q": "BMR和TDEE有什麼不同？",
+        "a": "BMR是身體在靜止狀態下維持基本運作所需的熱量；TDEE則是BMR加上日常活動和運動所消耗的總熱量。"
+      },
+      {
+        "q": "Mifflin-St Jeor公式比其他公式準確嗎？",
+        "a": "是的，研究顯示Mifflin-St Jeor公式比傳統的Harris-Benedict公式更符合現代人的體型和生活型態，準確度較高。"
+      },
+      {
+        "q": "我應該每天攝取剛好等於BMR的熱量嗎？",
+        "a": "不建議。BMR只是維持生命的最低熱量，實際攝取量應參考TDEE，並根據減重或增肌目標進行調整。"
+      },
+      {
+        "q": "年齡會影響基礎代謝率嗎？",
+        "a": "會的。隨著年齡增長，肌肉量通常會減少，導致基礎代謝率逐漸下降。"
+      },
+      {
+        "q": "如何提高我的基礎代謝率？",
+        "a": "增加肌肉量是提高BMR最有效的方法，可以透過重量訓練和攝取充足蛋白質來達成。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "基礎代謝率計算機",
+      "BMR計算",
+      "Mifflin-St Jeor公式"
+    ],
+    "seo_keywords_en": [
+      "BMR calculator",
+      "Mifflin-St Jeor equation"
+    ],
+    "source": "https://www.calculator.net/bmr-calculator.html"
+  },
+  {
+    "tool_id": "pregnancy-calculator",
+    "title_zh": "懷孕週數計算器",
+    "title_en": "Pregnancy Week Calculator",
+    "definition_zh": "懷孕週數計算器是一種工具，根據最後一次月經的第一天（LMP）或超音波檢查結果，估算孕婦目前的懷孕週數及預產期（EDD），幫助孕婦追蹤胎兒發育進度。",
+    "definition_en": "A pregnancy week calculator is a tool that estimates a pregnant woman's current week of pregnancy and estimated due date (EDD) based on the first day of her last menstrual period (LMP) or ultrasound results, helping track fetal development.",
+    "formula": "EDD = LMP + 280 days; Current Week = (Current Date - LMP) / 7",
+    "formula_explained": "EDD (Estimated Due Date) 為預產期；LMP (Last Menstrual Period) 為最後一次月經的第一天；Current Date 為當前日期。預產期通常設定為 LMP 加上 280 天（40 週）。目前懷孕週數則是當前日期與 LMP 的天數差除以 7。",
+    "variables": [
+      {
+        "symbol": "EDD",
+        "name_zh": "預產期",
+        "description": "預計分娩的日期"
+      },
+      {
+        "symbol": "LMP",
+        "name_zh": "最後一次月經首日",
+        "description": "最後一次月經開始的第一天日期"
+      },
+      {
+        "symbol": "Current Date",
+        "name_zh": "當前日期",
+        "description": "計算當天的日期"
+      }
+    ],
+    "real_world_example": "假設一位孕婦的最後一次月經首日（LMP）是 2023 年 1 月 1 日。根據 Naegele 規則，預產期（EDD）為 2023 年 1 月 1 日加上 280 天，即 2023 年 10 月 8 日。若今天是 2023 年 3 月 12 日，距離 LMP 已過 70 天，則目前懷孕週數為 70 / 7 = 10 週。",
+    "use_cases": [
+      "孕婦在家自行估算預產期及目前懷孕進度",
+      "醫療人員在初次產檢時快速計算孕期以安排後續檢查",
+      "孕婦根據懷孕週數規劃產假及準備待產包"
+    ],
+    "common_mistakes": [
+      "忘記或記錯最後一次月經的確切日期，導致計算結果偏差",
+      "月經週期不規律（非28天）卻未進行相應調整，直接套用標準公式"
+    ],
+    "faq": [
+      {
+        "q": "預產期當天一定會生嗎？",
+        "a": "不一定。只有約 5% 的嬰兒會在預產期當天出生，大多數嬰兒會在預產期前後兩週內出生。"
+      },
+      {
+        "q": "如果我的月經週期不規律，計算器還準確嗎？",
+        "a": "如果週期不規律，基於 LMP 的計算可能不準確，通常需要依賴早期超音波檢查來校正預產期。"
+      },
+      {
+        "q": "懷孕週數是從受孕那天開始算嗎？",
+        "a": "不是。醫學上通常從最後一次月經的第一天開始計算，這比實際受孕時間早約兩週。"
+      },
+      {
+        "q": "超音波預產期和計算器算出的不同，該聽哪個？",
+        "a": "通常以懷孕早期的超音波檢查結果為準，因為它能更準確地測量胎兒大小來推算孕齡。"
+      },
+      {
+        "q": "我可以使用排卵日來計算預產期嗎？",
+        "a": "可以。如果知道確切的排卵日或受孕日，預產期為該日期加上 266 天（38 週）。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "懷孕週數計算",
+      "預產期計算器",
+      "孕期計算"
+    ],
+    "seo_keywords_en": [
+      "pregnancy calculator",
+      "due date calculator"
+    ],
+    "source": "https://www.calculator.net/pregnancy-calculator.html"
+  },
+  {
+    "tool_id": "due-date-calculator",
+    "title_zh": "預產期計算器（Naegele法則）",
+    "title_en": "Due Date Calculator (Naegele's Rule)",
+    "definition_zh": "預產期計算器（Naegele法則）是一種估算孕婦分娩日期的標準方法。透過在最後一次月經的第一天加上7天，然後減去3個月來計算，假設月經週期為標準的28天。",
+    "definition_en": "A due date calculator using Naegele's rule estimates the expected date of delivery (EDD) by adding seven days to the first day of the woman's last menstrual period (LMP) and then subtracting three months. It assumes a standard 28-day menstrual cycle with ovulation occurring on day 14.",
+    "formula": "EDD = LMP + 7 \\text{ days} - 3 \\text{ months} + 1 \\text{ year}",
+    "formula_explained": "EDD (Estimated Date of Delivery) 代表預計分娩日期，即預產期。LMP (Last Menstrual Period) 代表最後一次月經的第一天。公式的邏輯是在LMP的基礎上加上7天，然後減去3個月（並加上1年），這等同於加上280天，即標準的40週妊娠期。",
+    "variables": [
+      {
+        "symbol": "EDD",
+        "name_zh": "預產期",
+        "description": "預計分娩的日期（Estimated Date of Delivery）"
+      },
+      {
+        "symbol": "LMP",
+        "name_zh": "最後一次月經",
+        "description": "最後一次月經週期的第一天（Last Menstrual Period）"
+      }
+    ],
+    "real_world_example": "假設一位孕婦的最後一次月經第一天（LMP）是2023年8月10日。根據Naegele法則，首先加上7天，得到8月17日。然後減去3個月，月份變為5月。最後加上1年，年份變為2024年。因此，她的預產期（EDD）估計為2024年5月17日。",
+    "use_cases": [
+      "孕婦在家初步估算自己的預產期",
+      "產科醫生在初診時快速計算預計分娩日期",
+      "生育計畫應用程式中作為核心演算法提供預產期預測"
+    ],
+    "common_mistakes": [
+      "忽略月經週期長度差異，預設所有女性皆為28天週期",
+      "將最後一次月經結束的日期誤認為開始日期"
+    ],
+    "faq": [
+      {
+        "q": "Naegele法則準確嗎？",
+        "a": "它是一個估算值，只有約5%的嬰兒會在預產期當天出生，大多數會在預產期前後兩週內出生。"
+      },
+      {
+        "q": "如果我的月經週期不是28天怎麼辦？",
+        "a": "Naegele法則基於28天週期。如果週期較長或較短，預產期可能需要相應調整，建議諮詢醫生。"
+      },
+      {
+        "q": "什麼是LMP？",
+        "a": "LMP代表最後一次月經（Last Menstrual Period），計算預產期時使用的是最後一次月經的第一天。"
+      },
+      {
+        "q": "超音波檢查會改變預產期嗎？",
+        "a": "是的，早期的超音波檢查通常能提供更準確的胎齡估計，醫生可能會根據超音波結果調整預產期。"
+      },
+      {
+        "q": "為什麼要減去3個月再加7天？",
+        "a": "這是一個簡化的數學公式，等同於加上280天（40週），這是人類平均的妊娠期長度。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "預產期計算器",
+      "Naegele法則",
+      "懷孕週期計算"
+    ],
+    "seo_keywords_en": [
+      "due date calculator",
+      "Naegele's rule"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Estimated_date_of_delivery"
+  },
+  {
+    "tool_id": "blood-pressure-calculator",
+    "title_zh": "血壓計算器",
+    "title_en": "Blood Pressure Calculator",
+    "definition_zh": "根據美國心臟協會（AHA）標準，透過輸入收縮壓與舒張壓，評估使用者的血壓讀數是否處於正常範圍，或屬於高血壓的不同階段。",
+    "definition_en": "A tool that evaluates whether blood pressure readings are normal or fall into various stages of hypertension, based on the American Heart Association (AHA) guidelines.",
+    "formula": "BP_Category = f(SYS, DIA)",
+    "formula_explained": "SYS 代表收縮壓（心臟收縮時的壓力），DIA 代表舒張壓（心臟舒張時的壓力）。根據這兩個數值的大小，將血壓分為正常、血壓升高、高血壓第一期、高血壓第二期及高血壓危象。",
+    "variables": [
+      {
+        "symbol": "SYS",
+        "name_zh": "收縮壓",
+        "description": "心臟收縮時血管內的最高壓力，單位為 mmHg。"
+      },
+      {
+        "symbol": "DIA",
+        "name_zh": "舒張壓",
+        "description": "心臟舒張時血管內的最低壓力，單位為 mmHg。"
+      }
+    ],
+    "real_world_example": "林小姐測量血壓，結果為收縮壓 125 mmHg，舒張壓 78 mmHg。根據 AHA 標準，她的收縮壓介於 120-129 且舒張壓低於 80，因此屬於「血壓升高」（Elevated）階段，需注意飲食與運動。",
+    "use_cases": [
+      "民眾居家進行日常血壓監測與自我健康管理。",
+      "高血壓患者記錄並評估降壓藥物的治療效果。",
+      "健康檢查後，快速了解自身血壓數值所代表的健康風險。"
+    ],
+    "common_mistakes": [
+      "測量前未靜坐休息至少5分鐘，或剛喝完咖啡、運動後立即測量，導致數值失真。",
+      "測量時壓脈帶綁得太緊或太鬆，且測量位置未與心臟保持同一水平。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是收縮壓和舒張壓？",
+        "a": "收縮壓是心臟跳動時血管內的壓力（較高值），舒張壓是心臟在跳動間歇時血管內的壓力（較低值）。"
+      },
+      {
+        "q": "正常的血壓範圍是多少？",
+        "a": "根據美國心臟協會（AHA）標準，正常血壓應為收縮壓低於120 mmHg且舒張壓低於80 mmHg。"
+      },
+      {
+        "q": "測量血壓的最佳時間是什麼時候？",
+        "a": "建議在早晨起床後排尿後、服藥前，以及晚上就寢前進行測量，並保持每天在固定時間測量。"
+      },
+      {
+        "q": "為什麼在家測量的血壓和在醫院測量的不一樣？",
+        "a": "可能是因為「白袍高血壓」（在醫院因緊張導致血壓升高），或是家用血壓計未定期校準所致。"
+      },
+      {
+        "q": "如果血壓讀數顯示為高血壓危象該怎麼辦？",
+        "a": "如果收縮壓超過180或舒張壓超過120，請安靜休息5分鐘後再測。如果數值仍然很高，應立即尋求醫療協助。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "血壓計算器",
+      "高血壓標準",
+      "正常血壓範圍"
+    ],
+    "seo_keywords_en": [
+      "blood pressure calculator",
+      "AHA blood pressure chart"
+    ],
+    "source": "https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings"
+  },
+  {
+    "tool_id": "heart-rate-calculator",
+    "title_zh": "心率計算器",
+    "title_en": "Heart Rate Zone Calculator",
+    "definition_zh": "Karvonen 公式是一種用於計算運動目標心率的數學公式。它透過結合最大心率和靜息心率來計算心率儲備，從而提供更個人化、更準確的目標心率區間，幫助人們優化心肺訓練效果。",
+    "definition_en": "The Karvonen formula is a mathematical equation used to determine an individual's target heart rate (THR) for exercise. Unlike basic formulas that only use maximum heart rate, the Karvonen method factors in resting heart rate to calculate the heart rate reserve (HRR). This provides a more personalized and accurate target heart rate zone, helping individuals optimize their cardiovascular training, whether for fat burning, aerobic endurance, or anaerobic performance.",
+    "formula": "THR = ((MHR - RHR) × Intensity) + RHR",
+    "formula_explained": "THR (Target Heart Rate) 代表目標心率，即運動時期望達到的心跳速率；MHR (Maximum Heart Rate) 代表最大心率，通常用 220 減去年齡來估算；RHR (Resting Heart Rate) 代表靜息心率，即安靜狀態下的心跳速率；Intensity 代表運動強度百分比，根據訓練目標（如燃脂、有氧耐力）選擇不同的比例。",
+    "variables": [
+      {
+        "description": "運動時期望達到的每分鐘心跳次數",
+        "name_zh": "目標心率",
+        "symbol": "THR"
+      },
+      {
+        "description": "個人所能達到的最高心跳速率，通常以 220 減去年齡估算",
+        "name_zh": "最大心率",
+        "symbol": "MHR"
+      },
+      {
+        "description": "在完全安靜、放鬆狀態下的每分鐘心跳次數",
+        "name_zh": "靜息心率",
+        "symbol": "RHR"
+      },
+      {
+        "description": "期望達到的運動強度百分比，例如 60% 或 70%",
+        "name_zh": "運動強度",
+        "symbol": "Intensity"
+      }
+    ],
+    "real_world_example": "假設小明今年 30 歲，他的靜息心率為 70 次/分鐘。他想進行中等強度的有氧運動（強度設為 70%）。首先計算最大心率：220 - 30 = 190。接著代入公式：((190 - 70) × 0.70) + 70 = (120 × 0.70) + 70 = 84 + 70 = 154。因此，小明在運動時的目標心率應保持在 154 次/分鐘左右。",
+    "use_cases": [
+      "制定個人化的有氧運動訓練計畫，確保運動強度達到預期效果。",
+      "監控減脂運動過程中的心率，使其保持在最佳的燃脂心率區間。",
+      "運動員或健身愛好者用來評估和調整不同訓練階段（如恢復、耐力、無氧）的強度。"
+    ],
+    "common_mistakes": [
+      "未準確測量靜息心率（Resting Heart Rate），導致計算出的目標心率區間產生偏差。",
+      "忽略了年齡對最大心率的影響，或者使用了不適合自身體能狀況的運動強度百分比。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是靜息心率（RHR）？",
+        "a": "靜息心率是指在完全休息狀態下，每分鐘的心跳次數。通常建議在早晨剛醒來、還未起床時測量最為準確。"
+      },
+      {
+        "q": "如何計算最大心率（MHR）？",
+        "a": "最常用的簡單估算公式是：220 減去你的年齡。例如，30歲的人最大心率約為 190 次/分鐘。"
+      },
+      {
+        "q": "什麼是心率儲備（HRR）？",
+        "a": "心率儲備是最大心率與靜息心率的差值（MHR - RHR），代表了你的心臟在運動時可以增加跳動的潛力範圍。"
+      },
+      {
+        "q": "我應該選擇多大的運動強度？",
+        "a": "這取決於你的訓練目標。一般來說，50%-60% 適合熱身，60%-70% 適合燃脂，70%-80% 適合提升心肺耐力（有氧區間）。"
+      },
+      {
+        "q": "Karvonen 公式比一般公式好在哪裡？",
+        "a": "一般公式只考慮年齡，而 Karvonen 公式加入了個人的靜息心率，因此能更真實地反映個人的體能狀況，計算出的目標心率更為精準。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "Karvonen公式",
+      "目標心率計算器",
+      "心率區間計算"
+    ],
+    "seo_keywords_en": [
+      "Karvonen formula calculator",
+      "target heart rate zone"
+    ],
+    "source": "https://www.omnicalculator.com/health/karvonen-formula"
+  },
+  {
+    "tool_id": "vitamin-calculator",
+    "title_zh": "維生素攝取量計算器",
+    "title_en": "Vitamin Intake Calculator",
+    "definition_zh": "維生素計算器是一種根據個人的年齡、性別及生理狀態（如懷孕或哺乳），計算各種維生素的膳食參考攝取量（DRI）的工具，幫助使用者確保達到每日營養需求。",
+    "definition_en": "A Vitamin Intake Calculator is a tool that determines the Dietary Reference Intake (DRI), including Recommended Dietary Allowance (RDA) or Adequate Intake (AI), for various vitamins based on an individual's age, sex, and physiological status (such as pregnancy or lactation). It helps users ensure they are meeting their daily nutritional requirements to maintain optimal health and prevent deficiencies.",
+    "formula": "DRI = f(Age, Sex, Physiological\\_Status, Vitamin\\_Type)",
+    "formula_explained": "DRI（膳食參考攝取量）是由多個變數決定的函數。Age（年齡）影響生長發育階段的需求；Sex（性別）影響生理代謝的差異；Physiological_Status（生理狀態）如懷孕或哺乳會增加特定維生素的需求；Vitamin_Type（維生素種類）決定了具體的參考數值標準。",
+    "variables": [
+      {
+        "symbol": "Age",
+        "name_zh": "年齡",
+        "description": "使用者的年齡，不同年齡層有不同的營養需求標準。"
+      },
+      {
+        "symbol": "Sex",
+        "name_zh": "性別",
+        "description": "使用者的性別（男/女），影響特定維生素的建議攝取量。"
+      },
+      {
+        "symbol": "Physiological_Status",
+        "name_zh": "生理狀態",
+        "description": "如是否懷孕或哺乳，這些狀態會顯著改變維生素需求。"
+      },
+      {
+        "symbol": "Vitamin_Type",
+        "name_zh": "維生素種類",
+        "description": "欲查詢的特定維生素（如維生素A、C、D等）。"
+      }
+    ],
+    "real_world_example": "一位30歲的未懷孕女性想知道她每日需要多少維生素C。透過維生素計算器，輸入年齡（30歲）和性別（女性），計算器根據標準膳食參考攝取量（DRI），得出她每日的維生素C建議攝取量（RDA）為75毫克。",
+    "use_cases": [
+      "個人日常飲食規劃與營養評估",
+      "營養師為客戶制定客製化飲食建議",
+      "孕婦或特殊生理狀態者確認營養需求"
+    ],
+    "common_mistakes": [
+      "將不同維生素的單位混淆（如將IU與微克混淆）",
+      "忽略了食物中已有的維生素攝取量，導致過量補充"
+    ],
+    "faq": [
+      {
+        "q": "什麼是膳食參考攝取量（DRI）？",
+        "a": "DRI是一組用於規劃和評估健康人群營養攝取量的參考值，包含建議膳食攝取量（RDA）和足夠攝取量（AI）。"
+      },
+      {
+        "q": "為什麼不同年齡和性別的維生素需求不同？",
+        "a": "因為不同生命階段和性別的生理需求、生長發育速度及代謝率不同，因此對維生素的需求量也會有所差異。"
+      },
+      {
+        "q": "我可以只靠補充劑來滿足維生素需求嗎？",
+        "a": "不建議。維生素應主要來自均衡飲食，補充劑僅用於彌補飲食中的不足，過量攝取某些維生素（如脂溶性維生素）可能有害。"
+      },
+      {
+        "q": "什麼是脂溶性維生素和水溶性維生素？",
+        "a": "脂溶性維生素（如A、D、E、K）可儲存於體內脂肪中；水溶性維生素（如B群、C）則不易儲存，需每日透過飲食補充。"
+      },
+      {
+        "q": "孕婦的維生素需求會增加嗎？",
+        "a": "是的，孕婦和哺乳期婦女對某些維生素（如葉酸、維生素D）的需求會顯著增加，以支持胎兒發育和母體健康。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "維生素計算器",
+      "每日維生素攝取量",
+      "膳食參考攝取量"
+    ],
+    "seo_keywords_en": [
+      "Vitamin Intake Calculator",
+      "Dietary Reference Intakes"
+    ],
+    "source": "https://www.omnicalculator.com/health/vitamin"
+  },
+  {
+    "tool_id": "alcohol-calculator",
+    "title_zh": "血液酒精濃度計算器",
+    "title_en": "Blood Alcohol Calculator",
+    "definition_zh": "血液酒精濃度計算器利用Widmark公式，根據飲酒量、體重、性別及飲酒時間，估算人體血液中的酒精含量（BAC），並預測恢復清醒所需的時間。",
+    "definition_en": "A Blood Alcohol Calculator estimates a person's Blood Alcohol Concentration (BAC) using the Widmark formula. It takes into account factors such as the amount of alcohol consumed, body weight, gender, and the time elapsed since drinking began. This tool provides an approximation of intoxication levels and the estimated time required to reach sobriety, though individual metabolism rates may vary.",
+    "formula": "BAC = [A / (W × r)] × 100 - (β × t)",
+    "formula_explained": "A代表消耗的純酒精克數；W代表體重（以克為單位）；r為性別常數（男性約為0.68，女性約為0.55）；β為酒精代謝率（通常約為每小時0.015%）；t為從開始飲酒起經過的小時數。公式先計算出初始的BAC，再扣除隨時間代謝掉的酒精量。",
+    "variables": [
+      {
+        "symbol": "A",
+        "name_zh": "純酒精量",
+        "description": "消耗的純酒精總量，通常以克（g）為單位。"
+      },
+      {
+        "symbol": "W",
+        "name_zh": "體重",
+        "description": "個人的體重，通常以克（g）為單位進行計算。"
+      },
+      {
+        "symbol": "r",
+        "name_zh": "性別常數",
+        "description": "Widmark分布係數，男性通常為0.68，女性為0.55。"
+      },
+      {
+        "symbol": "β",
+        "name_zh": "代謝率",
+        "description": "身體代謝酒精的速度，平均約為每小時0.015%。"
+      },
+      {
+        "symbol": "t",
+        "name_zh": "時間",
+        "description": "從開始飲酒到現在所經過的時間，以小時為單位。"
+      }
+    ],
+    "real_world_example": "一名體重80公斤（80,000克）的男性，在2小時內喝了4罐啤酒（約含56克純酒精）。根據公式，初始BAC為 [56 / (80000 × 0.68)] × 100 = 0.103%。扣除2小時的代謝量（0.015% × 2 = 0.03%），其當前BAC約為0.073%。",
+    "use_cases": [
+      "聚會飲酒後，初步評估自身的血液酒精濃度。",
+      "了解不同飲品和飲酒量對身體酒精濃度的影響。",
+      "估算需要多少時間才能讓血液中的酒精完全代謝。"
+    ],
+    "common_mistakes": [
+      "忽略了酒精代謝率（每小時約0.015%），導致高估當前的血液酒精濃度。",
+      "誤以為食物或咖啡能加速酒精代謝，實際上它們只能減緩吸收，無法改變代謝速度。"
+    ],
+    "faq": [
+      {
+        "q": "這個計算器的結果準確嗎？",
+        "a": "結果僅為估算值。個人的新陳代謝、食物攝取、健康狀況及飲酒速度等因素都會影響實際的血液酒精濃度。"
+      },
+      {
+        "q": "我可以用這個結果來決定是否能開車嗎？",
+        "a": "絕對不行。計算結果僅供參考，不能作為判斷是否安全或合法駕駛的依據。"
+      },
+      {
+        "q": "性別為什麼會影響計算結果？",
+        "a": "因為男性和女性的體脂率和體內水分比例不同，這會影響酒精在體內的分布，因此Widmark公式中使用了不同的性別常數。"
+      },
+      {
+        "q": "喝咖啡或洗冷水澡能降低BAC嗎？",
+        "a": "不能。這些方法可能會讓你感覺清醒一些，但無法加速肝臟代謝酒精的速度。"
+      },
+      {
+        "q": "酒精的代謝速度是多少？",
+        "a": "一般人代謝酒精的速度大約是每小時降低0.015%的血液酒精濃度。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "血液酒精濃度計算器",
+      "Widmark公式",
+      "BAC計算"
+    ],
+    "seo_keywords_en": [
+      "Blood Alcohol Calculator",
+      "Widmark formula BAC"
+    ],
+    "source": "https://gambonelaw.com/faqs/the-widmark-formula-and-calculating-your-bac-level/"
+  },
+  {
+    "tool_id": "age-calculator",
+    "title_zh": "年齡計算器",
+    "title_en": "Age Calculator",
+    "definition_zh": "年齡計算器是一種實用工具，用於根據個人的出生日期和當前日期（或指定日期）精確計算其年齡，通常以年、月、日為單位顯示結果。",
+    "definition_en": "An age calculator is a practical tool used to determine a person's exact age in years, months, and days by comparing their date of birth with the current date or a specific target date.",
+    "formula": "Age = Target Date - Date of Birth",
+    "formula_explained": "年齡（Age）等於目標日期（Target Date）減去出生日期（Date of Birth）。計算時需考慮閏年及各月份天數的差異，通常先計算年份差，再計算月份差，最後計算天數差，若天數或月份為負，則需向前借位。",
+    "variables": [
+      {
+        "symbol": "Target Date",
+        "name_zh": "目標日期",
+        "description": "計算年齡的基準日期，通常為當前日期。"
+      },
+      {
+        "symbol": "Date of Birth",
+        "name_zh": "出生日期",
+        "description": "個人的出生年、月、日。"
+      },
+      {
+        "symbol": "Age",
+        "name_zh": "年齡",
+        "description": "計算得出的精確年齡，包含年、月、日。"
+      }
+    ],
+    "real_world_example": "假設小明的出生日期為1990年5月15日，今天的日期是2023年10月20日。使用年齡計算器，首先計算年份差：2023 - 1990 = 33年。接著計算月份差：10 - 5 = 5個月。最後計算天數差：20 - 15 = 5天。因此，小明的精確年齡為33歲5個月又5天。",
+    "use_cases": [
+      "醫療保健：醫生需根據患者的精確年齡（尤其是嬰幼兒的月齡或日齡）來決定藥物劑量或評估生長發育指標。",
+      "法律與行政：確認個人是否達到法定年齡以辦理身份證、駕照、結婚登記或簽署法律合約。",
+      "教育與入學：學校或教育機構用來核對學生是否符合特定年級或考試的年齡限制。"
+    ],
+    "common_mistakes": [
+      "忽略閏年：在計算天數時，未考慮閏年2月有29天，導致天數計算出現誤差。",
+      "借位計算錯誤：當目標日期的天數或月份小於出生日期時，未正確向上一級（月或年）借位，導致結果不準確。"
+    ],
+    "faq": [
+      {
+        "q": "年齡計算器可以計算到天數嗎？",
+        "a": "可以，專業的年齡計算器不僅能計算出歲數，還能精確到幾個月又幾天。"
+      },
+      {
+        "q": "如何處理閏年的計算？",
+        "a": "計算器內建日曆算法，會自動識別閏年並將2月的29天納入計算，確保結果準確。"
+      },
+      {
+        "q": "我可以計算未來某個日期的年齡嗎？",
+        "a": "可以，只需將目標日期設定為未來的某一天，計算器即可算出您在該日期的年齡。"
+      },
+      {
+        "q": "為什麼不同國家的年齡計算方式可能不同？",
+        "a": "有些文化（如韓國傳統年齡）在出生時即算作1歲，且在新年增加歲數，而標準年齡計算器通常採用國際通用的實歲（周歲）計算方式。"
+      },
+      {
+        "q": "嬰兒的年齡如何表示？",
+        "a": "對於未滿一歲的嬰兒，年齡通常以幾個月又幾天，甚至直接以總天數或週數來表示，以符合醫療或發育評估的需求。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "年齡計算器",
+      "精確年齡計算",
+      "出生日期計算"
+    ],
+    "seo_keywords_en": [
+      "age calculator",
+      "exact age from date of birth"
+    ],
+    "source": "https://www.calculator.net/age-calculator.html"
+  }
+]
