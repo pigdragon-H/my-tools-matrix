@@ -1,0 +1,642 @@
+[
+  {
+    "tool_id": "bmi-calculator",
+    "title_zh": "BMI 計算器",
+    "title_en": "Body Mass Index Calculator",
+    "definition_zh": "身體質量指數（BMI）是一種常用的身高體重指標，用於對成人的體重過輕、超重和肥胖進行分類。它的定義是體重（公斤）除以身高（公尺）的平方。",
+    "definition_en": "Body Mass Index (BMI) is a simple index of weight-to-height that is commonly used to classify underweight, overweight and obesity in adults. It is defined as the weight in kilograms divided by the square of the height in metres.",
+    "formula": "BMI = weight(kg) / height(m)²",
+    "formula_explained": "BMI（身體質量指數）的計算公式中，weight 代表體重，單位為公斤（kg）；height 代表身高，單位為公尺（m）。將體重除以身高的平方即可得出 BMI 值。",
+    "variables": [
+      {
+        "symbol": "weight",
+        "name_zh": "體重",
+        "description": "個人的體重，以公斤（kg）為單位。"
+      },
+      {
+        "symbol": "height",
+        "name_zh": "身高",
+        "description": "個人的身高，以公尺（m）為單位。"
+      }
+    ],
+    "real_world_example": "假設一位成年人的體重為 70 公斤，身高為 1.75 公尺。其 BMI 計算方式為 70 ÷ (1.75)² = 70 ÷ 3.0625 ≈ 22.86。這個數值落在 18.5 到 24.9 的正常範圍內，表示體重健康。",
+    "use_cases": [
+      "個人日常健康管理與體重監控",
+      "醫生或營養師評估患者是否有肥胖或營養不良風險",
+      "健身教練為學員制定減重或增肌計畫的初步參考"
+    ],
+    "common_mistakes": [
+      "未考慮肌肉量：健美運動員可能因肌肉量大而 BMI 偏高，但並非肥胖。",
+      "身高單位錯誤：計算時誤用公分（cm）而非公尺（m），導致結果完全錯誤。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是健康的 BMI 範圍？",
+        "a": "根據世界衛生組織（WHO）的標準，成人的正常 BMI 範圍是 18.5 到 24.9。"
+      },
+      {
+        "q": "BMI 適用於兒童嗎？",
+        "a": "兒童和青少年的 BMI 計算方式相同，但需要對照特定年齡和性別的百分位數圖表來解讀。"
+      },
+      {
+        "q": "BMI 能準確測量體脂率嗎？",
+        "a": "不能。BMI 只是身高與體重的比例，無法區分脂肪和肌肉的重量。"
+      },
+      {
+        "q": "老年人的 BMI 標準一樣嗎？",
+        "a": "有些研究建議老年人維持稍微高一點的 BMI（如 25-27）可能有助於健康和預防骨質疏鬆。"
+      },
+      {
+        "q": "孕婦可以使用 BMI 嗎？",
+        "a": "孕婦的體重會自然增加，一般不建議在孕期使用標準 BMI 來評估，應諮詢醫生。"
+      }
+    ],
+    "related_tools": [
+      "bmr-calculator",
+      "tdee-calculator",
+      "body-fat-calculator"
+    ],
+    "seo_keywords_zh": [
+      "BMI計算",
+      "身體質量指數",
+      "標準體重"
+    ],
+    "seo_keywords_en": [
+      "BMI calculator",
+      "Body Mass Index"
+    ],
+    "source": "https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight"
+  },
+  {
+    "tool_id": "bmr-calculator",
+    "title_zh": "基礎代謝率計算器",
+    "title_en": "Basal Metabolic Rate Calculator",
+    "definition_zh": "基礎代謝率（BMR）是指人體在靜息狀態下，維持生命基本運作（如呼吸、血液循環、細胞生長等）所需的最低熱量消耗。",
+    "definition_en": "Basal Metabolic Rate (BMR) is the minimum number of calories your body needs to perform basic, life-sustaining functions at rest, such as breathing, circulation, and cell production.",
+    "formula": "Men: BMR = 10W + 6.25H - 5A + 5; Women: BMR = 10W + 6.25H - 5A - 161",
+    "formula_explained": "此為Mifflin-St Jeor公式。W代表體重（公斤），H代表身高（公分），A代表年齡（歲）。男性公式最後加5，女性公式最後減161。此公式被認為是目前最準確的BMR估算方法之一。",
+    "variables": [
+      {
+        "symbol": "W",
+        "name_zh": "體重",
+        "description": "個人的體重，單位為公斤（kg）。"
+      },
+      {
+        "symbol": "H",
+        "name_zh": "身高",
+        "description": "個人的身高，單位為公分（cm）。"
+      },
+      {
+        "symbol": "A",
+        "name_zh": "年齡",
+        "description": "個人的年齡，單位為歲（years）。"
+      }
+    ],
+    "real_world_example": "以一位35歲、身高170公分、體重68公斤的女性為例，她的BMR計算如下：(10 × 68) + (6.25 × 170) - (5 × 35) - 161 = 680 + 1062.5 - 175 - 161 = 1406.5 大卡。這表示她每天即使完全不活動，身體也需要約1407大卡來維持基本運作。",
+    "use_cases": [
+      "制定減重計畫時，作為計算每日總熱量消耗（TDEE）的基礎。",
+      "評估個人代謝健康狀況，了解身體基本能量需求。",
+      "運動員或健身愛好者用來規劃增肌或減脂的飲食策略。"
+    ],
+    "common_mistakes": [
+      "將BMR與TDEE（總熱量消耗）混淆，以為BMR就是每天可以吃的總熱量。",
+      "忽略活動量，只吃符合BMR的熱量，導致身體能量不足，影響健康。"
+    ],
+    "faq": [
+      {
+        "q": "BMR和RMR有什麼不同？",
+        "a": "BMR是維持生命所需的最低熱量，測量條件嚴格；RMR是靜息代謝率，測量條件較寬鬆，兩者數值通常相差約10%。"
+      },
+      {
+        "q": "如何提高我的BMR？",
+        "a": "增加肌肉量是提高BMR的有效方法，因為肌肉組織比脂肪組織消耗更多熱量。此外，保持充足睡眠和均衡飲食也有幫助。"
+      },
+      {
+        "q": "年齡會影響BMR嗎？",
+        "a": "會的，隨著年齡增長，肌肉量通常會減少，導致BMR逐漸下降。"
+      },
+      {
+        "q": "我每天應該吃多少熱量？",
+        "a": "這取決於您的目標。若要維持體重，需將BMR乘以活動係數（TDEE）；若要減重，則攝取量應低於TDEE。"
+      },
+      {
+        "q": "節食會降低BMR嗎？",
+        "a": "會的，極低熱量飲食會導致身體進入「節能模式」，從而降低BMR以防止體重過度下降。"
+      }
+    ],
+    "related_tools": [
+      "tdee-calculator",
+      "calorie-calculator"
+    ],
+    "seo_keywords_zh": [
+      "BMR計算器",
+      "基礎代謝率",
+      "每日熱量消耗"
+    ],
+    "seo_keywords_en": [
+      "BMR calculator",
+      "basal metabolic rate"
+    ],
+    "source": "https://www.healthline.com/health/how-to-calculate-your-basal-metabolic-rate"
+  },
+  {
+    "tool_id": "tdee-calculator",
+    "title_zh": "每日總消耗熱量計算器",
+    "title_en": "Total Daily Energy Expenditure Calculator",
+    "definition_zh": "每日總消耗熱量（TDEE）是指人體在24小時內所消耗的總熱量。它包含了基礎代謝率（BMR）、食物熱效應（TEF）以及日常活動和運動所消耗的熱量。了解TDEE有助於制定減重、增肌或維持體重的飲食計畫。",
+    "definition_en": "Total Daily Energy Expenditure (TDEE) is the total number of calories your body burns in a 24-hour period. It accounts for all energy used throughout the day, including your Basal Metabolic Rate (BMR), the thermic effect of food (TEF), and physical activity. TDEE is a crucial metric for weight management, as it helps determine the daily caloric intake needed to maintain, lose, or gain weight.",
+    "formula": "TDEE = BMR × PAL",
+    "formula_explained": "TDEE的計算是基於基礎代謝率（BMR）乘以活動量乘數（PAL）。BMR通常使用Mifflin-St Jeor公式計算：男性 = (10 × 體重kg) + (6.25 × 身高cm) - (5 × 年齡) + 5；女性 = (10 × 體重kg) + (6.25 × 身高cm) - (5 × 年齡) - 161。PAL則是根據個人的日常活動程度，從1.2（久坐）到1.9（極度活躍）不等。",
+    "variables": [
+      {
+        "symbol": "BMR",
+        "name_zh": "基礎代謝率",
+        "description": "身體在靜止狀態下維持基本生理機能（如呼吸、心跳）所需的最低熱量。"
+      },
+      {
+        "symbol": "PAL",
+        "name_zh": "活動量乘數",
+        "description": "根據個人的日常活動程度（如久坐、輕度活動、中度活動、高度活動）所設定的乘數，通常介於1.2到1.9之間。"
+      }
+    ],
+    "real_world_example": "一位30歲女性，身高165公分，體重60公斤，工作為辦公室內勤（久坐，PAL=1.2）。她的BMR約為1324大卡。將BMR乘以PAL（1324 × 1.2），得出她的TDEE約為1589大卡。若她想維持體重，每天應攝取約1589大卡。",
+    "use_cases": [
+      "制定減重計畫：透過計算TDEE，設定適當的熱量赤字，以達到健康減重的目標。",
+      "規劃增肌飲食：了解TDEE後，增加適當的熱量攝取（熱量盈餘），配合重量訓練以促進肌肉生長。",
+      "維持健康體重：計算出TDEE後，控制每日熱量攝取與消耗平衡，避免體重過度波動。"
+    ],
+    "common_mistakes": [
+      "高估活動量：許多人會選擇過高的活動係數，導致計算出的TDEE偏高，進而攝取過多熱量。",
+      "忽略體重變化：TDEE會隨著體重減輕或增加而改變，若未定期重新計算，可能導致減重停滯或復胖。"
+    ],
+    "faq": [
+      {
+        "q": "TDEE和BMR有什麼不同？",
+        "a": "BMR（基礎代謝率）是身體在靜止狀態下維持生命所需的最低熱量；而TDEE（每日總消耗熱量）則是BMR加上日常活動和運動所消耗的總熱量。"
+      },
+      {
+        "q": "我應該多久重新計算一次TDEE？",
+        "a": "建議每當體重變化超過2-3公斤，或是日常活動量有顯著改變時，就應該重新計算TDEE，以確保飲食計畫的準確性。"
+      },
+      {
+        "q": "如果我想減重，應該攝取多少熱量？",
+        "a": "一般建議在TDEE的基礎上減少300-500大卡，創造熱量赤字，以達到健康減重的效果。"
+      },
+      {
+        "q": "TDEE計算器準確嗎？",
+        "a": "TDEE計算器提供的是一個估算值，實際消耗量會因個人體質、肌肉量和代謝狀況而有所差異。建議將其作為參考基準，並根據實際體重變化進行調整。"
+      },
+      {
+        "q": "為什麼我的體重沒有下降，即使我吃得比TDEE少？",
+        "a": "可能的原因包括高估了活動量、低估了攝取的熱量、水分滯留，或是代謝適應。建議重新檢視飲食紀錄和活動量，必要時諮詢專業營養師。"
+      }
+    ],
+    "related_tools": [
+      "bmr-calculator",
+      "calorie-calculator",
+      "bmi-calculator"
+    ],
+    "seo_keywords_zh": [
+      "TDEE計算器",
+      "每日總消耗熱量",
+      "TDEE怎麼算"
+    ],
+    "seo_keywords_en": [
+      "TDEE calculator",
+      "Total Daily Energy Expenditure"
+    ],
+    "source": "https://www.ncbi.nlm.nih.gov/books/NBK591031/"
+  },
+  {
+    "tool_id": "body-fat-calculator",
+    "title_zh": "體脂率計算器",
+    "title_en": "Body Fat Percentage Calculator",
+    "definition_zh": "體脂率是指人體內脂肪總重量佔人體總體重的百分比。它包含維持生命必需的脂肪和儲存脂肪。與單純的體重或身體質量指數（BMI）相比，體脂率能更準確地反映身體組成，區分脂肪與肌肉量，是評估健康和體適能的重要指標。",
+    "definition_en": "Body fat percentage is the total mass of fat divided by total body mass, multiplied by 100. It consists of essential body fat, which is necessary to maintain life and reproductive functions, and storage body fat, which accumulates in adipose tissue. It is widely considered a more accurate measure of fitness and health than body weight or Body Mass Index (BMI) alone, as it distinguishes between fat mass and lean muscle mass.",
+    "formula": "Body Fat % = (1.20 × BMI) + (0.23 × Age) - (10.8 × Gender) - 5.4",
+    "formula_explained": "此為 Deurenberg 公式，用於透過 BMI 估算體脂率。公式中，BMI 為身體質量指數（體重/身高平方），Age 為年齡（歲）。Gender 為性別變數，男性代入 1，女性代入 0。最後減去常數 5.4。此公式考慮了年齡增長導致的體脂增加以及男女天生體脂率的差異。",
+    "variables": [
+      {
+        "symbol": "BMI",
+        "name_zh": "身體質量指數",
+        "description": "以體重（公斤）除以身高（公尺）的平方計算出的數值。"
+      },
+      {
+        "symbol": "Age",
+        "name_zh": "年齡",
+        "description": "受測者的年齡，以歲為單位。隨著年齡增長，體脂率通常會自然上升。"
+      },
+      {
+        "symbol": "Gender",
+        "name_zh": "性別",
+        "description": "性別變數，在公式中男性設定為 1，女性設定為 0，以反映男女生理上的體脂差異。"
+      }
+    ],
+    "real_world_example": "以一位30歲的男性為例，身高175公分，體重75公斤。首先計算其BMI為 75 / (1.75)² = 24.49。代入 Deurenberg 公式：(1.20 × 24.49) + (0.23 × 30) - (10.8 × 1) - 5.4 = 29.388 + 6.9 - 10.8 - 5.4 = 20.088。因此，該男性的估算體脂率約為 20.1%，屬於一般健康範圍。",
+    "use_cases": [
+      "健身與減重計畫：幫助使用者追蹤減脂進度，確保減少的是脂肪而非肌肉。",
+      "健康風險評估：醫療人員用來評估患者罹患心血管疾病、糖尿病等與肥胖相關疾病的風險。",
+      "運動員體能管理：協助運動員監控身體組成，以達到最佳的競技狀態和體能表現。"
+    ],
+    "common_mistakes": [
+      "誤以為體脂率越低越好，忽略了必需脂肪對維持內分泌和生理機能的重要性。",
+      "僅依賴單一測量方法（如家用體脂計）的絕對數值，而未考慮水分變化或測量時間對結果的影響。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是健康的體脂率範圍？",
+        "a": "健康體脂率因性別和年齡而異。一般而言，成年男性健康範圍約為14-24%，成年女性約為21-31%。運動員的體脂率通常較低。"
+      },
+      {
+        "q": "家用體脂計準確嗎？",
+        "a": "家用體脂計多採用生物電阻抗分析（BIA），容易受體內水分、進食和運動影響，數值可能會有誤差，建議在每天固定時間（如早晨空腹）測量以觀察趨勢。"
+      },
+      {
+        "q": "體脂率和BMI有什麼不同？",
+        "a": "BMI僅用身高和體重計算，無法區分肌肉和脂肪；體脂率則直接反映體內脂肪的比例，能更準確地評估肥胖程度和健康風險。"
+      },
+      {
+        "q": "如何有效降低體脂率？",
+        "a": "降低體脂率需要結合均衡飲食（控制熱量攝取、增加蛋白質）和規律運動（包含有氧運動和重量訓練），並保持充足睡眠與減少壓力。"
+      },
+      {
+        "q": "體脂率可以降到0嗎？",
+        "a": "不行。人體需要一定比例的「必需脂肪」來維持器官運作、荷爾蒙分泌和體溫調節。男性必需脂肪約為2-5%，女性約為10-13%。"
+      }
+    ],
+    "related_tools": [
+      "bmi-calculator",
+      "bmr-calculator",
+      "ideal-weight-calculator"
+    ],
+    "seo_keywords_zh": [
+      "體脂率計算器",
+      "體脂率標準",
+      "如何計算體脂"
+    ],
+    "seo_keywords_en": [
+      "body fat percentage calculator",
+      "body fat formula"
+    ],
+    "source": "https://globalrph.com/medcalcs/estimation-of-total-body-fat/"
+  },
+  {
+    "tool_id": "ideal-weight-calculator",
+    "title_zh": "理想體重計算器",
+    "title_en": "Ideal Body Weight Calculator",
+    "definition_zh": "理想體重（IBW）是根據身高和性別估算個人健康體重的醫學計算方法。最初用於確定藥物劑量和評估營養狀況。雖然它提供了健康體重範圍的參考，但未考慮肌肉量、骨密度或年齡等身體組成的差異。最常用的計算公式是 Devine 公式。",
+    "definition_en": "Ideal Body Weight (IBW) is a medical calculation used to estimate a healthy weight for an individual based on their height and gender. It was originally developed to determine appropriate dosages for certain medications and to assess nutritional status. While it provides a general guideline for a healthy weight range, it does not account for variations in body composition, such as muscle mass, bone density, or age. The most commonly used formula for calculating IBW is the Devine formula, which establishes a baseline weight for a height of 5 feet and adds a specific amount of weight for each additional inch.",
+    "formula": "Men: IBW (kg) = 50 + 2.3 × (Height(in) - 60); Women: IBW (kg) = 45.5 + 2.3 × (Height(in) - 60)",
+    "formula_explained": "Devine 公式是計算理想體重最常用的方法。對於男性，基準身高 5 英尺（60 英寸）的理想體重為 50 公斤，超過 5 英尺的部分每英寸增加 2.3 公斤。對於女性，基準身高 5 英尺的理想體重為 45.5 公斤，超過部分同樣每英寸增加 2.3 公斤。公式中的變數主要是性別和身高（以英寸為單位）。",
+    "variables": [
+      {
+        "symbol": "IBW",
+        "name_zh": "理想體重",
+        "description": "計算得出的目標體重，單位為公斤 (kg)"
+      },
+      {
+        "symbol": "Height",
+        "name_zh": "身高",
+        "description": "個人的身高，公式中通常轉換為英寸 (in) 進行計算"
+      },
+      {
+        "symbol": "Gender",
+        "name_zh": "性別",
+        "description": "男性和女性有不同的基準重量（男性50kg，女性45.5kg）"
+      }
+    ],
+    "real_world_example": "以一位身高 170 公分（約 67 英寸）的女性為例。根據 Devine 公式，她的理想體重計算方式為：45.5 + 2.3 × (67 - 60) = 45.5 + 2.3 × 7 = 45.5 + 16.1 = 61.6 公斤。這表示對於這位身高的女性，醫學上建議的理想體重約為 61.6 公斤。",
+    "use_cases": [
+      "臨床醫療中用於計算特定藥物（如抗生素）的精確劑量。",
+      "營養師用於評估患者的營養狀況並制定飲食計畫。",
+      "一般大眾作為設定健康減重或增重目標的初步參考。"
+    ],
+    "common_mistakes": [
+      "誤以為理想體重是唯一健康標準，忽略了體脂率和肌肉量。",
+      "將理想體重等同於『最美體重』，過度追求低體重而導致營養不良。"
+    ],
+    "faq": [
+      {
+        "q": "理想體重和BMI有什麼不同？",
+        "a": "理想體重給出一個具體的目標重量，而BMI是體重與身高的比例指數，提供一個健康範圍。兩者都是評估工具，但側重點不同。"
+      },
+      {
+        "q": "為什麼男性的理想體重通常比女性高？",
+        "a": "因為男性的骨骼通常較重，且肌肉量佔比通常高於女性，這些生理差異反映在計算公式中。"
+      },
+      {
+        "q": "如果我超過了理想體重，代表我不健康嗎？",
+        "a": "不一定。理想體重未考慮肌肉量。如果你有較多肌肉（如運動員），體重可能超過理想值但依然非常健康。應結合體脂率綜合評估。"
+      },
+      {
+        "q": "年齡會影響理想體重嗎？",
+        "a": "標準的理想體重公式（如Devine公式）主要基於身高和性別，並未將年齡納入計算。但隨著年齡增長，身體組成會改變，因此老年人可能需要不同的健康體重標準。"
+      },
+      {
+        "q": "我應該完全按照理想體重來減肥嗎？",
+        "a": "不建議。理想體重只是一個參考值。減肥目標應根據個人健康狀況、體型和醫生建議來制定，追求整體健康比單純追求數字更重要。"
+      }
+    ],
+    "related_tools": [
+      "bmi-calculator",
+      "bmr-calculator",
+      "body-fat-calculator"
+    ],
+    "seo_keywords_zh": [
+      "理想體重計算器",
+      "標準體重計算",
+      "Devine公式"
+    ],
+    "seo_keywords_en": [
+      "Ideal Body Weight Calculator",
+      "Devine Formula Weight"
+    ],
+    "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8646317/"
+  },
+  {
+    "tool_id": "calorie-calculator",
+    "title_zh": "卡路里計算器",
+    "title_en": "Calorie Calculator",
+    "definition_zh": "卡路里計算器是一種估算個人每日所需熱量的工具，用於維持、減輕或增加體重。它通常使用 Mifflin-St Jeor 等公式計算基礎代謝率（BMR），再乘以活動係數得出總每日能量消耗（TDEE）。",
+    "definition_en": "A calorie calculator is a tool that estimates the number of calories a person needs to consume each day to maintain, lose, or gain weight. It typically uses formulas like the Mifflin-St Jeor equation to calculate Basal Metabolic Rate (BMR) and multiplies it by an activity factor to determine Total Daily Energy Expenditure (TDEE).",
+    "formula": "TDEE = BMR × Activity Factor; BMR (Men) = 10 × weight(kg) + 6.25 × height(cm) - 5 × age(y) + 5; BMR (Women) = 10 × weight(kg) + 6.25 × height(cm) - 5 × age(y) - 161",
+    "formula_explained": "TDEE（總每日能量消耗）是維持目前體重所需的總熱量。BMR（基礎代謝率）是身體在靜息狀態下維持基本生理功能所需的熱量。Activity Factor（活動係數）根據個人的日常活動量而定（如久坐1.2，輕度活動1.375，中度活動1.55，高度活動1.725，極度活動1.9）。公式中的 weight 為體重（公斤），height 為身高（公分），age 為年齡（歲）。",
+    "variables": [
+      {
+        "symbol": "weight",
+        "name_zh": "體重",
+        "description": "個人的體重，以公斤（kg）為單位。"
+      },
+      {
+        "symbol": "height",
+        "name_zh": "身高",
+        "description": "個人的身高，以公分（cm）為單位。"
+      },
+      {
+        "symbol": "age",
+        "name_zh": "年齡",
+        "description": "個人的年齡，以歲（years）為單位。"
+      },
+      {
+        "symbol": "Activity Factor",
+        "name_zh": "活動係數",
+        "description": "反映個人日常身體活動程度的乘數，範圍通常從1.2（久坐）到1.9（極度活躍）。"
+      }
+    ],
+    "real_world_example": "一位30歲女性，身高165公分，體重60公斤，從事辦公室工作（久坐，活動係數1.2）。她的BMR = 10×60 + 6.25×165 - 5×30 - 161 = 1320.25 kcal。她的TDEE = 1320.25 × 1.2 ≈ 1584 kcal。若她想維持體重，每天需攝取約1584大卡。",
+    "use_cases": [
+      "制定減重或增肌的飲食計畫",
+      "評估目前的飲食熱量是否符合身體需求",
+      "運動員或健身愛好者調整賽季或訓練期的能量攝取"
+    ],
+    "common_mistakes": [
+      "高估運動消耗的熱量，導致攝取過多食物",
+      "忽略液體卡路里（如含糖飲料、酒精）的計算"
+    ],
+    "faq": [
+      {
+        "q": "我應該每天吃多少卡路里來減肥？",
+        "a": "一般建議在每日總能量消耗（TDEE）的基礎上減少 500 卡路里，這樣每週大約可以減輕 0.5 公斤。"
+      },
+      {
+        "q": "卡路里計算器準確嗎？",
+        "a": "它提供的是一個估算值。實際需求會因肌肉量、遺傳、荷爾蒙和整體健康狀況而有所不同。"
+      },
+      {
+        "q": "我需要計算巨量營養素（碳水、蛋白質、脂肪）嗎？",
+        "a": "雖然總卡路里決定體重變化，但適當的巨量營養素比例對維持肌肉量、飽足感和整體健康很重要。"
+      },
+      {
+        "q": "運動天和休息天的卡路里需求一樣嗎？",
+        "a": "不一樣。運動天消耗的熱量較多，如果您是根據每日活動量來計算，可以適度增加攝取；但若已使用平均活動係數計算 TDEE，則可保持一致。"
+      },
+      {
+        "q": "為什麼我吃得比計算的少卻沒有變瘦？",
+        "a": "可能是因為低估了攝取的熱量、高估了運動消耗，或者身體代謝適應了低熱量飲食。建議重新評估飲食紀錄或諮詢營養師。"
+      }
+    ],
+    "related_tools": [
+      "bmr-calculator",
+      "tdee-calculator",
+      "bmi-calculator"
+    ],
+    "seo_keywords_zh": [
+      "卡路里計算器",
+      "每日熱量需求",
+      "TDEE計算"
+    ],
+    "seo_keywords_en": [
+      "calorie calculator",
+      "daily calorie needs"
+    ],
+    "source": "https://pubmed.ncbi.nlm.nih.gov/2305711/"
+  },
+  {
+    "tool_id": "water-intake-calculator",
+    "title_zh": "每日飲水量計算器",
+    "title_en": "Daily Water Intake Calculator",
+    "definition_zh": "每日飲水量計算器用於估算個人每天應攝取的最佳水分量，以維持身體正常運作。通常以體重為基礎，建議每公斤體重攝取約30至40毫升的水分。適當的水分補充對於調節體溫、潤滑關節、促進新陳代謝及維持器官功能至關重要。",
+    "definition_en": "A Daily Water Intake Calculator estimates the optimal amount of water an individual should consume daily to maintain proper hydration. It typically uses body weight as the primary variable, often recommending half an ounce to one ounce of water per pound of body weight. The calculation may also factor in activity level, climate, and specific health conditions. Proper hydration is essential for regulating body temperature, keeping joints lubricated, preventing infections, delivering nutrients to cells, and keeping organs functioning properly. Being well-hydrated also improves sleep quality, cognition, and mood.",
+    "formula": "Water Intake (ml) = Weight (kg) × 35",
+    "formula_explained": "公式中的 Weight (kg) 代表個人的體重（以公斤為單位）。將體重乘以 35，即可得出每日建議的基本飲水量（以毫升為單位）。這是一個通用的估算值，實際需求可能因活動量、氣候等因素而有所增減。",
+    "variables": [
+      {
+        "symbol": "Weight",
+        "name_zh": "體重",
+        "description": "個人的體重，通常以公斤(kg)為單位，是計算基礎飲水量的主要依據。"
+      },
+      {
+        "symbol": "Water Intake",
+        "name_zh": "飲水量",
+        "description": "計算出的每日建議水分攝取量，通常以毫升(ml)為單位。"
+      }
+    ],
+    "real_world_example": "以一位體重 60 公斤的成年女性為例，根據公式計算：60 公斤 × 35 毫升/公斤 = 2100 毫升。這表示她每天大約需要攝取 2100 毫升（2.1 公升）的水分，以維持身體的基本代謝和健康。如果她當天有運動流汗，則需要額外補充水分。",
+    "use_cases": [
+      "健康管理：幫助一般大眾了解並追蹤自己每天是否攝取足夠的水分，建立良好的飲水習慣。",
+      "運動健身：運動員或健身愛好者可根據體重和活動量，計算出更精確的水分需求，以維持最佳體能狀態。",
+      "體重控制：在減重過程中，確保充足的水分攝取有助於促進新陳代謝和增加飽足感，計算器可提供具體的飲水目標。"
+    ],
+    "common_mistakes": [
+      "只在口渴時才喝水，忽略了身體可能已經處於輕度脫水狀態。",
+      "將含糖飲料或咖啡因飲料完全等同於清水計算，可能導致攝取過多熱量或利尿效應。"
+    ],
+    "faq": [
+      {
+        "q": "我每天到底需要喝多少水？",
+        "a": "一般建議是每公斤體重喝30-40毫升的水。例如60公斤的成人，每天大約需要1800-2400毫升的水。但實際需求會因活動量、氣候和健康狀況而異。"
+      },
+      {
+        "q": "喝茶或咖啡算在每日飲水量內嗎？",
+        "a": "算。雖然咖啡因有利尿作用，但適量飲用茶和咖啡仍能為身體提供水分。不過，白開水仍是最佳的水分來源。"
+      },
+      {
+        "q": "運動時需要多喝水嗎？",
+        "a": "是的。運動會流汗導致水分流失，建議運動前、中、後都要適時補充水分，若進行高強度或長時間運動，可考慮補充電解質飲料。"
+      },
+      {
+        "q": "喝太多水會怎樣？",
+        "a": "短時間內大量飲水可能導致水中毒（低血鈉症），這是一種罕見但危險的情況。建議平均分配一天的飲水量，不要一次猛灌。"
+      },
+      {
+        "q": "如何判斷自己水分攝取是否足夠？",
+        "a": "最簡單的方法是觀察尿液顏色。淡黃色表示水分充足；深黃色或琥珀色則表示可能需要多喝水。此外，不常感到口渴也是水分充足的指標之一。"
+      }
+    ],
+    "related_tools": [
+      "bmi-calculator",
+      "bmr-calculator",
+      "tdee-calculator"
+    ],
+    "seo_keywords_zh": [
+      "每日飲水量計算器",
+      "喝水量計算",
+      "水分攝取建議"
+    ],
+    "seo_keywords_en": [
+      "daily water intake calculator",
+      "hydration calculator"
+    ],
+    "source": "https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/water/art-20044256"
+  },
+  {
+    "tool_id": "sleep-calculator",
+    "title_zh": "睡眠計算器",
+    "title_en": "Sleep Calculator",
+    "definition_zh": "睡眠計算器是一種根據人體自然90分鐘睡眠週期，幫助計算最佳就寢或起床時間的工具。透過以90分鐘為單位的推算，確保在睡眠週期結束時醒來，避免在深層睡眠中被喚醒，從而減少昏沉感並提升精神。",
+    "definition_en": "A sleep calculator is a tool that helps determine the optimal time to go to bed or wake up based on the human body's natural 90-minute sleep cycles. By calculating backward or forward in 90-minute increments, it aims to ensure individuals wake up at the end of a sleep cycle rather than in the middle of deep sleep, thereby reducing grogginess and promoting a feeling of being refreshed and well-rested.",
+    "formula": "Bedtime = WakeTime - (N × 90 minutes) - 15 minutes",
+    "formula_explained": "Bedtime（就寢時間）是建議上床睡覺的時間；WakeTime（起床時間）是預計醒來的時間；N 代表睡眠週期的數量（通常建議成年人為 5 或 6 個週期）；90 minutes 是一個完整睡眠週期的平均長度；15 minutes 是平均入睡所需的緩衝時間。公式透過從起床時間往回推算 N 個週期，再扣除入睡時間，得出最佳就寢時間。",
+    "variables": [
+      {
+        "symbol": "WakeTime",
+        "name_zh": "起床時間",
+        "description": "使用者預計或必須醒來的目標時間"
+      },
+      {
+        "symbol": "N",
+        "name_zh": "週期數量",
+        "description": "預計完成的90分鐘睡眠週期數，成人建議為5或6"
+      },
+      {
+        "symbol": "15 minutes",
+        "name_zh": "入睡時間",
+        "description": "躺上床到實際睡著所需的平均緩衝時間"
+      }
+    ],
+    "real_world_example": "假設小明必須在早上 7:00 起床上班。他希望獲得 5 個完整的睡眠週期（共 450 分鐘，即 7.5 小時）。從 7:00 往回推算 7.5 小時是前一晚的 23:30。考慮到他平均需要 15 分鐘才能入睡，他應該在 23:15 上床睡覺，這樣就能在早上 7:00 剛好完成第 5 個週期並清醒。",
+    "use_cases": [
+      "輪班工作者需要調整作息時間，計算最佳的補眠時段",
+      "學生或上班族為了應付早起，反推前一晚最晚的就寢時間",
+      "有睡眠困擾者希望透過符合生理週期的作息來改善起床時的疲憊感"
+    ],
+    "common_mistakes": [
+      "忽略入睡所需時間（通常需額外加上15-20分鐘）",
+      "認為睡眠時間越長越好，而忽略了在睡眠週期中途醒來會導致昏沉感"
+    ],
+    "faq": [
+      {
+        "q": "什麼是睡眠週期？",
+        "a": "睡眠週期是睡眠時大腦活動的循環，包含淺眠、深眠和快速動眼期(REM)，每個週期平均約90分鐘。"
+      },
+      {
+        "q": "為什麼在週期中途醒來會覺得累？",
+        "a": "如果在深層睡眠階段被喚醒，大腦尚未準備好清醒，會產生「睡眠慣性」，導致嚴重的昏沉和疲憊感。"
+      },
+      {
+        "q": "我需要幾個睡眠週期才夠？",
+        "a": "大多數成年人每晚需要5到6個完整的睡眠週期，相當於7.5到9小時的睡眠時間。"
+      },
+      {
+        "q": "入睡時間需要計算進去嗎？",
+        "a": "是的，一般人平均需要15到20分鐘才能入睡，計算就寢時間時應將這段時間考慮進去。"
+      },
+      {
+        "q": "如果我半夜醒來怎麼辦？",
+        "a": "短暫醒來是正常的，只要能再次入睡，通常不會嚴重影響整體的睡眠週期計算。如果經常失眠，建議諮詢醫師。"
+      }
+    ],
+    "related_tools": [
+      "bmi-calculator",
+      "bmr-calculator",
+      "tdee-calculator"
+    ],
+    "seo_keywords_zh": [
+      "睡眠計算器",
+      "睡眠週期計算",
+      "最佳就寢時間"
+    ],
+    "seo_keywords_en": [
+      "sleep cycle calculator",
+      "best time to sleep"
+    ],
+    "source": "https://www.healthline.com/health/sleep/sleep-calculator"
+  },
+  {
+    "tool_id": "pregnancy-calculator",
+    "title_zh": "預產期計算器",
+    "title_en": "Pregnancy Due Date Calculator",
+    "definition_zh": "預產期計算器是一種根據最後一次月經的第一天（LMP）或超音波測量結果，來估算孕婦預計分娩日期的工具，有助於追蹤胎兒發育並為生產做準備。",
+    "definition_en": "A pregnancy due date calculator estimates the expected date of delivery (EDD) based on the first day of a woman's last menstrual period (LMP) or ultrasound measurements. It helps expectant mothers and healthcare providers track fetal development and plan for childbirth.",
+    "formula": "EDD = LMP + 7 days - 3 months + 1 year",
+    "formula_explained": "EDD 代表預計分娩日期（預產期）。LMP 代表最後一次月經的第一天。公式的計算方式是將最後一次月經的第一天加上7天，然後減去3個月，最後加上1年（如果跨年的話）。這假設月經週期為標準的28天。",
+    "variables": [
+      {
+        "symbol": "EDD",
+        "name_zh": "預產期",
+        "description": "預計分娩的日期 (Estimated Due Date)"
+      },
+      {
+        "symbol": "LMP",
+        "name_zh": "最後一次月經",
+        "description": "最後一次月經的第一天 (Last Menstrual Period)"
+      }
+    ],
+    "real_world_example": "假設一位孕婦的最後一次月經（LMP）第一天是2023年8月10日。根據內格萊氏法則（Naegele's rule），我們將日期加上7天得到8月17日，然後減去3個月得到5月17日，最後加上1年。因此，她的預產期（EDD）將是2024年5月17日。",
+    "use_cases": [
+      "孕婦在確認懷孕後，想初步了解寶寶預計出生的時間。",
+      "婦產科醫生在產檢時，用來安排各項超音波檢查與唐氏症篩檢的時程。",
+      "準父母用來規劃產假、準備嬰兒用品及安排陪產計畫。"
+    ],
+    "common_mistakes": [
+      "誤將最後一次月經結束的日期當作LMP，正確應該是月經開始的第一天。",
+      "忽略了自身月經週期長度，如果週期不是標準的28天，直接使用公式計算可能會有較大誤差。"
+    ],
+    "faq": [
+      {
+        "q": "預產期計算器準確嗎？",
+        "a": "預產期只是一個估算值，實際上只有約5%的嬰兒會在預產期當天出生。大多數嬰兒會在預產期前後兩週內出生。"
+      },
+      {
+        "q": "如果我的月經週期不規律怎麼辦？",
+        "a": "如果月經週期不規律，使用最後一次月經計算預產期可能不準確。在這種情況下，醫生通常會建議透過早期超音波檢查來確定更準確的預產期。"
+      },
+      {
+        "q": "什麼是內格萊氏法則（Naegele's rule）？",
+        "a": "這是一種標準的預產期計算方法，即從最後一次月經的第一天算起，加上7天，減去3個月，再加上1年。"
+      },
+      {
+        "q": "試管嬰兒（IVF）的預產期如何計算？",
+        "a": "試管嬰兒的預產期通常根據胚胎植入的日期和胚胎的發育天數（如第3天或第5天胚胎）來精確計算，而不是使用最後一次月經。"
+      },
+      {
+        "q": "超音波預產期和計算器算出來的不一樣，該聽哪個？",
+        "a": "通常在懷孕早期的超音波檢查（約在8到12週）所估算的預產期最為準確。如果兩者差異較大，醫生會以超音波的結果為準。"
+      }
+    ],
+    "related_tools": [
+      "bmi-calculator",
+      "calorie-calculator"
+    ],
+    "seo_keywords_zh": [
+      "預產期計算",
+      "懷孕週數",
+      "預產期怎麼算"
+    ],
+    "seo_keywords_en": [
+      "pregnancy due date calculator",
+      "EDD calculator"
+    ],
+    "source": "https://pubmed.ncbi.nlm.nih.gov/33079400/"
+  }
+]
