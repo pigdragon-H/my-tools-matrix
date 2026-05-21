@@ -5,7 +5,7 @@
 
 import { useState, useCallback } from "react";
 import { Link } from "wouter";
-import { Menu, X, Sun, Moon, ChevronDown, Layers, BookOpen, LogIn, LogOut, Search } from "lucide-react";
+import { Menu, X, Sun, Moon, ChevronDown, Layers, BookOpen, LogIn, LogOut, Search, Info } from "lucide-react";
 import { SearchDialog } from "./SearchDialog";
 import { Button } from "@/components/ui/button";
 import {
@@ -131,6 +131,20 @@ export function Navbar() {
             >
               <BookOpen className="h-3.5 w-3.5" />
               知識庫
+            </Button>
+          </Link>
+
+          <Link href="/about">
+            <Button
+              variant="ghost"
+              size="sm"
+              className={cn(
+                "gap-1.5 text-sm font-medium",
+                location === "/about" && "bg-accent text-accent-foreground"
+              )}
+            >
+              <Info className="h-3.5 w-3.5" />
+              關於我們
             </Button>
           </Link>
         </nav>
@@ -268,6 +282,12 @@ export function Navbar() {
                 <div className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-accent cursor-pointer">
                   <BookOpen className="h-4 w-4" />
                   <span className="text-sm">知識庫</span>
+                </div>
+              </Link>
+              <Link href="/about" onClick={() => setMobileOpen(false)}>
+                <div className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-accent cursor-pointer">
+                  <Info className="h-4 w-4" />
+                  <span className="text-sm">關於我們</span>
                 </div>
               </Link>
               {!isAuthenticated && (

@@ -8,8 +8,9 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getCategoryByKey } from "@shared/categoriesConfig";
 import { getToolByPath } from "@shared/toolsConfig";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { setSeoMeta } from "@/lib/seo";
 
 // 工具組件映射（懶加載）
 const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.ReactElement>> = {
@@ -43,16 +44,16 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/insurance-calculator": lazy(() => import("@/tools/finance/InsuranceCalculator")),
   "finance/utility-cost-calculator": lazy(() => import("@/tools/finance/UtilityCostCalculator")),
   "finance/asset-depreciation": lazy(() => import("@/tools/finance/AssetDepreciation")),
-  "finance/currency-converter": lazy(() => import("@/tools/finance/CurrencyConverter")),
+  "travel/currency-converter": lazy(() => import("@/tools/finance/CurrencyConverter")),
   // 職場效率（Phase 12）
   "productivity/url-shortener": lazy(() => import("@/tools/productivity/UrlShortener")),
-  "productivity/markdown-to-html": lazy(() => import("@/tools/productivity/MarkdownToHtml")),
+  "design/markdown-to-html": lazy(() => import("@/tools/productivity/MarkdownToHtml")),
   // 職場效率（productivity）
   "productivity/social-media-checker": lazy(() => import("@/tools/productivity/SocialMediaChecker")),
   "productivity/roas-cpc-calculator": lazy(() => import("@/tools/productivity/RoasCpcCalculator")),
   "productivity/freelancer-rate-calculator": lazy(() => import("@/tools/productivity/FreelancerRateCalculator")),
   "productivity/invoice-generator": lazy(() => import("@/tools/productivity/InvoiceGenerator")),
-  "productivity/utm-builder": lazy(() => import("@/tools/productivity/UtmBuilder")),
+  "ecommerce/utm-builder": lazy(() => import("@/tools/productivity/UtmBuilder")),
   // 開發工具（dev）
   "dev/cron-generator": lazy(() => import("@/tools/dev/CronGenerator")),
   "dev/base64-json-formatter": lazy(() => import("@/tools/dev/Base64JsonFormatter")),
@@ -91,6 +92,15 @@ export default function ToolPage() {
   const catInfo = getCategoryByKey(category ?? "");
   const toolConfig = getToolByPath(toolPath);
   const ToolComponent = toolComponentMap[toolKey];
+
+  useEffect(() => {
+    if (!toolConfig) return;
+
+    setSeoMeta({
+      title: `${toolConfig.name}｜工具矩陣`,
+      description: toolConfig.description,
+    });
+  }, [toolConfig]);
 
   if (!ToolComponent || !toolConfig) {
     return (

@@ -3,6 +3,7 @@
 // 顯示 12 個分類卡片（非工具列表）
 // ============================================================
 
+import { useEffect } from "react";
 import { Link } from "wouter";
 import { ArrowRight, Zap, Shield, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,8 +11,13 @@ import { Badge } from "@/components/ui/badge";
 import { categories } from "@shared/categoriesConfig";
 import { getToolsByCategory } from "@shared/toolsConfig";
 import { CategoryIcon } from "@/components/CategoryIcon";
+import { defaultSeo, setSeoMeta } from "@/lib/seo";
 
 export default function Home() {
+  useEffect(() => {
+    setSeoMeta(defaultSeo);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* ── Hero Section ────────────────────────────────────── */}
@@ -152,6 +158,9 @@ export default function Home() {
             <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
               <Link href="/blog" className="hover:text-foreground transition-colors">
                 部落格
+              </Link>
+              <Link href="/about" className="hover:text-foreground transition-colors">
+                關於我們
               </Link>
               <Link href="/tools/finance" className="hover:text-foreground transition-colors">
                 財經工具

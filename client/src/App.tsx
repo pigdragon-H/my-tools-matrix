@@ -11,6 +11,7 @@ import ToolPage from "./pages/ToolPage";
 import BlogList from "./pages/BlogList";
 import BlogCategoryPage from "./pages/BlogCategoryPage";
 import BlogArticle from "./pages/BlogArticle";
+import About from "./pages/About";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import AdminDashboard from "./pages/AdminDashboard";
