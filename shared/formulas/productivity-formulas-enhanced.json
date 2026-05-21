@@ -1,0 +1,552 @@
+[
+  {
+    "tool_id": "pomodoro-timer",
+    "title_zh": "番茄工作法計時器",
+    "title_en": "Pomodoro Timer",
+    "definition_zh": "番茄工作法是由弗朗切斯科·西里洛在1980年代末開發的一種時間管理方法。它使用計時器將工作分解為多個區間，傳統上每個區間長度為25分鐘，並以短暫的休息時間分隔。",
+    "definition_en": "The Pomodoro Technique is a time management method developed by Francesco Cirillo in the late 1980s. It uses a timer to break work into intervals, traditionally 25 minutes in length, separated by short breaks. Each interval is known as a pomodoro.",
+    "formula": "T = P \\times W + (P - 1 - \\lfloor \\frac{P-1}{4} \\rfloor) \\times S + \\lfloor \\frac{P-1}{4} \\rfloor \\times L",
+    "formula_explained": "T代表完成任務的總耗時，P為執行的番茄鐘總數，W是每個番茄鐘的專注工作時間（通常為25分鐘），S是短暫休息的時間（通常為5分鐘），L是完成四個番茄鐘後的長休息時間（通常為15到30分鐘）。",
+    "variables": [
+      {
+        "symbol": "T",
+        "name_zh": "總耗時",
+        "description": "完成任務所需的總時間"
+      },
+      {
+        "symbol": "P",
+        "name_zh": "番茄鐘數量",
+        "description": "完成任務所需的番茄鐘總數"
+      },
+      {
+        "symbol": "W",
+        "name_zh": "工作時長",
+        "description": "每個番茄鐘的專注時間，預設為25分鐘"
+      },
+      {
+        "symbol": "S",
+        "name_zh": "短休息時長",
+        "description": "每個番茄鐘後的短暫休息時間，預設為5分鐘"
+      },
+      {
+        "symbol": "L",
+        "name_zh": "長休息時長",
+        "description": "每四個番茄鐘後的長休息時間，預設為15-30分鐘"
+      }
+    ],
+    "real_world_example": "小明需要完成一份報告，預估需要5個番茄鐘。他設定計時器，專注工作25分鐘後休息5分鐘。第4個番茄鐘結束時，他進行了20分鐘的長休息，然後完成第5個番茄鐘。總耗時為：5×25 + 3×5 + 1×20 = 160分鐘（2小時40分鐘）。",
+    "use_cases": [
+      "撰寫長篇報告或程式碼等需要高度專注的深度工作",
+      "準備考試或閱讀專業書籍時的學習時間管理",
+      "處理大量瑣碎郵件或行政事務時的批次處理"
+    ],
+    "common_mistakes": [
+      "在番茄鐘進行期間回覆訊息或接聽電話，中斷了專注狀態",
+      "休息時間仍坐在電腦前思考工作，沒有讓大腦真正放鬆"
+    ],
+    "faq": [
+      {
+        "q": "一個番茄鐘一定要是25分鐘嗎？",
+        "a": "不一定。25分鐘是預設值，您可以根據任務性質和個人專注力極限，調整為45分鐘或50分鐘。"
+      },
+      {
+        "q": "如果在番茄鐘進行到一半時被打斷怎麼辦？",
+        "a": "如果中斷無法避免，該番茄鐘作廢，處理完突發事件後重新開始一個新的番茄鐘。"
+      },
+      {
+        "q": "休息時間可以做什麼？",
+        "a": "建議離開座位、喝水、伸展身體或閉目養神，避免滑手機或繼續看螢幕。"
+      },
+      {
+        "q": "一天應該做幾個番茄鐘？",
+        "a": "因人而異，一般建議初學者一天目標設定為8到10個番茄鐘，重在質量而非數量。"
+      },
+      {
+        "q": "番茄工作法適合所有類型的工作嗎？",
+        "a": "最適合需要獨立思考和專注的任務，對於需要頻繁溝通或協作的工作（如客服、會議）較不適用。"
+      }
+    ],
+    "related_tools": [
+      "pomodoro-timer",
+      "productivity-score"
+    ],
+    "seo_keywords_zh": [
+      "番茄工作法",
+      "時間管理工具",
+      "專注力訓練"
+    ],
+    "seo_keywords_en": [
+      "Pomodoro Technique",
+      "Time Management Timer"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Pomodoro_Technique"
+  },
+  {
+    "tool_id": "time-zone-converter",
+    "title_zh": "時區轉換器",
+    "title_en": "Time Zone Converter",
+    "definition_zh": "時區轉換器是一種工具，用於根據不同地理區域的時區和協調世界時（UTC）偏移量，計算並顯示相應的當地時間。它幫助使用者在不同全球地點之間協調日程、安排會議和管理通訊，並考慮時差和夏令時變化。",
+    "definition_en": "A time zone converter is a tool or application that calculates and displays the corresponding local time in different geographical regions based on their respective time zones and Coordinated Universal Time (UTC) offsets. It helps users coordinate schedules, plan meetings, and manage communications across various global locations by accounting for time differences and daylight saving time changes.",
+    "formula": "T_{target} = T_{source} - UTC_{source} + UTC_{target}",
+    "formula_explained": "目標時間等於來源時間減去來源地的 UTC 偏移量，再加上目標地的 UTC 偏移量。這將來源時間先轉換為 UTC 時間，然後再轉換為目標時區的時間。",
+    "variables": [
+      {
+        "symbol": "T_{target}",
+        "name_zh": "目標時間",
+        "description": "轉換後在目標時區的當地時間。"
+      },
+      {
+        "symbol": "T_{source}",
+        "name_zh": "來源時間",
+        "description": "需要轉換的原始當地時間。"
+      },
+      {
+        "symbol": "UTC_{source}",
+        "name_zh": "來源地 UTC 偏移量",
+        "description": "來源時區相對於協調世界時的小時差。"
+      },
+      {
+        "symbol": "UTC_{target}",
+        "name_zh": "目標地 UTC 偏移量",
+        "description": "目標時區相對於協調世界時的小時差。"
+      }
+    ],
+    "real_world_example": "假設您在台北（UTC+8），想安排與紐約（UTC-5，非夏令時）的同事開會。如果台北時間是下午 9:00（21:00），則紐約時間為 21:00 - 8 + (-5) = 8:00，即紐約當天早上 8:00。",
+    "use_cases": [
+      "安排跨國遠程會議，確保所有參與者在合適的時間出席。",
+      "規劃國際旅行行程，計算航班起降的當地時間。",
+      "管理全球分佈的遠程團隊，協調工作交接和截止日期。"
+    ],
+    "common_mistakes": [
+      "忽略夏令時（DST）的變化，導致計算出現一小時的誤差。",
+      "混淆了 AM/PM 格式與 24 小時制，特別是在跨越午夜時。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是 UTC？",
+        "a": "UTC 代表協調世界時，是全球用來調節時鐘和時間的主要時間標準。"
+      },
+      {
+        "q": "時區轉換器會自動處理夏令時嗎？",
+        "a": "大多數現代時區轉換器會根據日期自動調整夏令時（DST）的變化。"
+      },
+      {
+        "q": "為什麼有些時區的偏移量是半小時或45分鐘？",
+        "a": "某些國家或地區（如印度、尼泊爾）選擇了非整數小時的 UTC 偏移量，以更好地匹配其地理位置的太陽時。"
+      },
+      {
+        "q": "如何知道一個地區是否實行夏令時？",
+        "a": "時區轉換器通常會顯示該地區當前是否處於夏令時，或者您可以查詢該地區的具體時間規則。"
+      },
+      {
+        "q": "時區轉換器可以用於歷史時間的轉換嗎？",
+        "a": "許多高級時區轉換器支持歷史日期，並會考慮當時的時區規則和夏令時政策。"
+      }
+    ],
+    "related_tools": [
+      "time-zone-converter",
+      "meeting-cost-calculator"
+    ],
+    "seo_keywords_zh": [
+      "時區轉換器",
+      "時差計算",
+      "跨國會議時間"
+    ],
+    "seo_keywords_en": [
+      "time zone converter",
+      "UTC time converter"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Time_zone"
+  },
+  {
+    "tool_id": "meeting-cost-calculator",
+    "title_zh": "會議成本計算器",
+    "title_en": "Meeting Cost Calculator",
+    "definition_zh": "會議成本計算器是一種估算會議財務支出的工具，透過將會議時長乘上所有與會者的總時薪來計算。它幫助企業將會議的隱藏成本具象化，進而促進更高效的時間管理、減少不必要的會議並提升整體生產力。",
+    "definition_en": "A meeting cost calculator is a tool that estimates the financial expense of a meeting by multiplying the duration of the meeting by the combined hourly rates of all attendees. It helps organizations visualize the hidden costs of meetings, encouraging more efficient time management, fewer unnecessary gatherings, and better overall productivity.",
+    "formula": "Total Meeting Cost = (Sum of Attendees' Hourly Rates) × (Meeting Duration in Minutes / 60)",
+    "formula_explained": "總會議成本等於所有與會者的時薪總和，乘上以小時為單位的會議時長。首先將每位參與者的年薪換算成時薪（通常除以2080小時），將所有人的時薪相加後，再乘上會議進行的時間（分鐘數除以60轉換為小時）。為了更精確，時薪有時會乘上1.2至1.4的倍數以包含福利與經常性開銷。",
+    "variables": [
+      {
+        "symbol": "Total Meeting Cost",
+        "name_zh": "總會議成本",
+        "description": "該場會議所耗費的總金錢價值。"
+      },
+      {
+        "symbol": "Sum of Attendees' Hourly Rates",
+        "name_zh": "與會者總時薪",
+        "description": "所有參加會議人員的每小時薪資總和（可包含福利等隱藏成本）。"
+      },
+      {
+        "symbol": "Meeting Duration",
+        "name_zh": "會議時長",
+        "description": "會議進行的總時間，通常以分鐘為單位，計算時需除以60轉換為小時。"
+      }
+    ],
+    "real_world_example": "假設一場為期1小時的跨部門會議有8人參加，每人的平均年薪為104,000美元（換算時薪約50美元）。這場單次會議的成本為400美元（8人 × 50美元 × 1小時）。如果這個會議每週舉行一次，一年下來將耗費公司20,800美元的成本。",
+    "use_cases": [
+      "專案經理在安排定期會議前，評估會議的必要性與邀請名單，以控制專案預算。",
+      "企業高層用來審視全公司的會議文化，推動「無會議日」或縮短標準會議時間的政策。",
+      "人力資源部門在進行效率培訓時，作為具象化時間成本的教學工具，提升員工的時間管理意識。"
+    ],
+    "common_mistakes": [
+      "忽略了員工的隱藏成本（如福利、稅金、辦公室開銷），僅計算基本時薪，導致低估真實成本。",
+      "未將會議前後的準備與後續處理時間計入，只計算會議本身的時長，無法反映完整的時間消耗。"
+    ],
+    "faq": [
+      {
+        "q": "會議成本計算器有什麼作用？",
+        "a": "它能將會議的時間消耗轉化為具體的金錢成本，讓團隊意識到「時間就是金錢」，進而減少不必要的會議，提升工作效率。"
+      },
+      {
+        "q": "計算會議成本時，應該只算基本薪資嗎？",
+        "a": "為了更準確，建議在基本時薪上增加20%到40%的附加費用，以涵蓋員工福利、稅金及公司營運的經常性開銷。"
+      },
+      {
+        "q": "如何計算員工的平均時薪？",
+        "a": "通常可以將員工的年薪除以每年的工作時數（約2,080小時）來估算其基本時薪。"
+      },
+      {
+        "q": "會議成本計算器能改變企業文化嗎？",
+        "a": "單靠工具可能不夠，還需要搭配企業內部的培訓與管理政策（例如設立無會議日、優化會議流程），才能有效改變開會文化。"
+      },
+      {
+        "q": "除了參與者的薪資，還有其他成本嗎？",
+        "a": "是的，還包括會議室租借、設備使用、茶水點心，以及員工因為開會而中斷原本工作所產生的機會成本。"
+      }
+    ],
+    "related_tools": [
+      "salary-calculator",
+      "project-roi-calculator",
+      "productivity-score"
+    ],
+    "seo_keywords_zh": [
+      "會議成本計算器",
+      "開會成本計算",
+      "會議效率工具"
+    ],
+    "seo_keywords_en": [
+      "meeting cost calculator",
+      "meeting ROI"
+    ],
+    "source": "https://meetingcostcal.com/"
+  },
+  {
+    "tool_id": "salary-calculator",
+    "title_zh": "薪資計算器",
+    "title_en": "Salary Calculator",
+    "definition_zh": "薪資計算器是一種財務工具，協助個人與雇主在時薪、日薪、月薪與年薪等不同支付頻率間進行轉換。它還能考量稅金、扣除額與加班費，幫助估算實際到手的淨收入，讓使用者清楚掌握薪資結構。",
+    "definition_en": "A salary calculator is a financial tool that helps individuals and employers convert compensation amounts between different payment frequencies, such as hourly, daily, weekly, monthly, and annual rates. It also assists in estimating net take-home pay by factoring in taxes, deductions, and overtime, providing a clear understanding of earnings.",
+    "formula": "Annual Salary = Hourly Rate × Hours per Week × Weeks per Year; Monthly Salary = Annual Salary / 12; Net Pay = Gross Pay - (Taxes + Deductions)",
+    "formula_explained": "Annual Salary（年薪）：一年內的總收入。Hourly Rate（時薪）：每小時的工資率。Hours per Week（每週工時）：每週實際工作的小時數。Weeks per Year（每年週數）：一年中的工作週數，通常為52週。Monthly Salary（月薪）：每個月的平均收入。Net Pay（淨薪資）：扣除稅金與其他費用後實際到手的金額。Gross Pay（總薪資）：扣稅前的原始薪資總額。Taxes（稅金）：應繳納的所得稅等法定稅賦。Deductions（扣除額）：保險費、退休金等其他扣款。",
+    "variables": [
+      {
+        "symbol": "A",
+        "name_zh": "年薪",
+        "description": "一年內的總收入（Annual Salary）"
+      },
+      {
+        "symbol": "H",
+        "name_zh": "時薪",
+        "description": "每小時的工資率（Hourly Rate）"
+      },
+      {
+        "symbol": "W",
+        "name_zh": "每週工時",
+        "description": "每週實際工作的小時數（Hours per Week）"
+      },
+      {
+        "symbol": "Y",
+        "name_zh": "每年週數",
+        "description": "一年中的工作週數，通常為52週（Weeks per Year）"
+      },
+      {
+        "symbol": "M",
+        "name_zh": "月薪",
+        "description": "每個月的平均收入（Monthly Salary）"
+      },
+      {
+        "symbol": "N",
+        "name_zh": "淨薪資",
+        "description": "扣除稅金與其他費用後實際到手的金額（Net Pay）"
+      },
+      {
+        "symbol": "G",
+        "name_zh": "總薪資",
+        "description": "扣稅前的原始薪資總額（Gross Pay）"
+      },
+      {
+        "symbol": "T",
+        "name_zh": "稅金",
+        "description": "應繳納的所得稅等法定稅賦（Taxes）"
+      },
+      {
+        "symbol": "D",
+        "name_zh": "扣除額",
+        "description": "保險費、退休金等其他扣款（Deductions）"
+      }
+    ],
+    "real_world_example": "假設小明的時薪為250元，每週工作40小時，一年工作52週。他的年薪計算為：250 × 40 × 52 = 520,000元。換算成月薪為：520,000 / 12 = 43,333元。若每月需扣除勞健保與稅金共3,333元，則他的每月淨薪資為40,000元。",
+    "use_cases": [
+      "求職者在面試或談判薪資時，快速換算不同公司提供的時薪、月薪或年薪條件以進行比較。",
+      "人資或雇主在制定薪酬結構時，將年薪預算轉換為月薪或時薪，並計算加班費基準。",
+      "自由工作者或兼職人員預估專案收入，並計算扣除稅金後的實際可支配所得。"
+    ],
+    "common_mistakes": [
+      "忽略了稅金與各項法定扣除額（如勞健保），誤將稅前總薪資當作實際可支配的淨收入。",
+      "在計算年薪時，未考慮無薪假、國定假日或獎金，直接以「時薪 × 40小時 × 52週」計算導致高估。"
+    ],
+    "faq": [
+      {
+        "q": "薪資計算器可以計算稅後淨收入嗎？",
+        "a": "可以，進階的薪資計算器允許輸入稅率及各項扣除額，幫助您從稅前總薪資精確計算出稅後實際到手的淨收入。"
+      },
+      {
+        "q": "如何將時薪換算成年薪？",
+        "a": "一般標準算法是將時薪乘以每週工作時數，再乘以一年52週。例如時薪200元，每週40小時，年薪為200 × 40 × 52 = 416,000元。"
+      },
+      {
+        "q": "月薪換算時薪的標準公式是什麼？",
+        "a": "通常是將月薪乘以12個月得到年薪，再除以一年的總工作時數（如52週 × 40小時 = 2080小時）。"
+      },
+      {
+        "q": "計算器有包含加班費的計算嗎？",
+        "a": "許多薪資計算器提供加班費選項，您可以輸入加班時數及倍率（如1.33倍或1.66倍）來估算包含加班費的總收入。"
+      },
+      {
+        "q": "為什麼計算出來的結果跟實際領到的薪水有落差？",
+        "a": "這通常是因為實際薪水還會受到請假扣薪、績效獎金、浮動稅率或公司特定福利扣款的影響，計算器提供的是理論估算值。"
+      }
+    ],
+    "related_tools": [
+      "overtime-calculator",
+      "meeting-cost-calculator"
+    ],
+    "seo_keywords_zh": [
+      "薪資計算器",
+      "時薪換算月薪",
+      "稅後薪水計算"
+    ],
+    "seo_keywords_en": [
+      "salary calculator",
+      "hourly to salary conversion"
+    ],
+    "source": "https://www.calculator.net/salary-calculator.html"
+  },
+  {
+    "tool_id": "overtime-calculator",
+    "title_zh": "加班費計算器",
+    "title_en": "Overtime Calculator",
+    "definition_zh": "加班費計算器是一種用於計算員工在標準工時（通常為每週40小時）之外工作所獲得的額外報酬的工具。它根據常規時薪、加班時數和加班倍率（通常為1.5倍）來計算加班費。此工具能幫助企業人資和員工確保薪資計算的準確性，並符合相關勞動法規。",
+    "definition_en": "An overtime calculator is a financial tool used to determine the additional compensation an employee earns for working beyond their standard work hours, typically exceeding 40 hours in a workweek. It computes the overtime pay based on the employee's regular hourly rate, the number of overtime hours worked, and the applicable overtime multiplier (often 1.5 times the regular rate, known as 'time and a half'). This tool is essential for human resources professionals, payroll administrators, and employees to ensure accurate wage calculations and compliance with labor laws, such as the Fair Labor Standards Act (FLSA) in the United States.",
+    "formula": "Overtime Pay = Overtime Hours × (Regular Hourly Rate × Overtime Multiplier)",
+    "formula_explained": "加班費（Overtime Pay）的計算方式是將「加班時數」乘以「加班時薪」。其中，加班時薪是由「常規時薪」乘以法定的「加班倍率」得出。將這兩者相乘即可得到員工應得的額外加班報酬。",
+    "variables": [
+      {
+        "symbol": "OH",
+        "name_zh": "加班時數",
+        "description": "超過標準工時的額外工作小時數"
+      },
+      {
+        "symbol": "RHR",
+        "name_zh": "常規時薪",
+        "description": "員工正常工作時間的每小時工資"
+      },
+      {
+        "symbol": "OM",
+        "name_zh": "加班倍率",
+        "description": "加班時薪相對於常規時薪的倍數，通常為1.5倍"
+      }
+    ],
+    "real_world_example": "假設員工小明的常規時薪為200元，本週工作了45小時（標準工時為40小時）。他的加班時數為5小時，適用的加班倍率為1.5。加班費 = 5 × (200 × 1.5) = 1,500元。因此，小明本週的總薪資為常規薪資 (40 × 200) 加上加班費 1,500元，共計 9,500元。",
+    "use_cases": [
+      "人力資源部門計算員工每月的薪資與加班費",
+      "員工核對自己的薪資單以確保加班費計算無誤",
+      "企業在編列專案預算時預估潛在的加班成本"
+    ],
+    "common_mistakes": [
+      "忽略了不同地區或國家對加班倍率的不同法律規定",
+      "錯誤地將獎金或津貼排除在常規時薪的計算基礎之外"
+    ],
+    "faq": [
+      {
+        "q": "什麼是標準工時？",
+        "a": "標準工時通常指每週40小時，超過此時數的工作時間即視為加班。"
+      },
+      {
+        "q": "加班倍率通常是多少？",
+        "a": "在許多國家和地區，標準的加班倍率為常規時薪的1.5倍，有時在假日或休息日會更高。"
+      },
+      {
+        "q": "所有員工都適用加班費嗎？",
+        "a": "不一定。某些管理職或專業人員可能屬於豁免員工（Exempt employees），不適用加班費規定。"
+      },
+      {
+        "q": "如何計算常規時薪？",
+        "a": "如果是月薪制員工，通常將月薪除以每月的平均工作時數來得出常規時薪。"
+      },
+      {
+        "q": "加班費需要扣稅嗎？",
+        "a": "是的，加班費通常被視為應稅收入，需要依法繳納所得稅。"
+      }
+    ],
+    "related_tools": [
+      "salary-calculator",
+      "meeting-cost-calculator"
+    ],
+    "seo_keywords_zh": [
+      "加班費計算",
+      "勞基法加班費",
+      "時薪計算器"
+    ],
+    "seo_keywords_en": [
+      "overtime pay calculator",
+      "FLSA overtime rules"
+    ],
+    "source": "https://www.dol.gov/agencies/whd/fact-sheets/23-flsa-overtime-pay"
+  },
+  {
+    "tool_id": "project-roi-calculator",
+    "title_zh": "專案投資報酬率計算器",
+    "title_en": "Project ROI Calculator",
+    "definition_zh": "專案投資報酬率計算器是一種財務評估工具，用於衡量特定專案的盈利能力與效率。它透過比較專案產生的淨收益與總成本，計算出投資報酬比例，協助專案經理與利益相關者評估專案可行性、排定優先順序，並為資源分配提供數據支持。",
+    "definition_en": "A Project ROI Calculator is a financial tool used to measure the profitability and efficiency of a specific project. It evaluates the return on investment by comparing the net financial benefits or gains generated by the project against its total costs. This helps project managers and stakeholders assess whether a project is worth pursuing, prioritize different initiatives, and justify resource allocation.",
+    "formula": "ROI = [(Financial Value - Project Cost) / Project Cost] × 100%",
+    "formula_explained": "公式中，『Financial Value（專案財務價值）』代表專案帶來的總收益或節省的成本；『Project Cost（專案總成本）』包含所有投入的資源、人力、時間與資金成本。將財務價值減去總成本得到淨收益，再除以總成本後乘以100%，即可得出專案的投資報酬率百分比。",
+    "variables": [
+      {
+        "symbol": "ROI",
+        "name_zh": "投資報酬率",
+        "description": "專案的投資回報百分比，數值越高代表效益越好。"
+      },
+      {
+        "symbol": "Financial Value",
+        "name_zh": "專案財務價值",
+        "description": "專案帶來的總財務價值（或總收益），包含增加的收入或節省的成本。"
+      },
+      {
+        "symbol": "Project Cost",
+        "name_zh": "專案總成本",
+        "description": "執行專案所需的所有直接與間接成本，包含人力、軟硬體、行銷等費用。"
+      }
+    ],
+    "real_world_example": "某公司投入 500,000 元開發一套內部自動化系統（專案總成本）。系統上線後，第一年為公司節省了 800,000 元的營運開銷（財務價值）。淨收益為 800,000 - 500,000 = 300,000 元。代入公式：(300,000 / 500,000) × 100% = 60%。這表示該專案的投資報酬率為 60%，是一項高回報的投資。",
+    "use_cases": [
+      "在專案啟動前評估可行性，決定是否值得投入資金與人力資源。",
+      "在多個候選專案中進行比較，優先選擇預期投資報酬率最高的專案。",
+      "專案結案後進行績效覆盤，檢視實際收益是否達到預期的財務目標。"
+    ],
+    "common_mistakes": [
+      "低估專案總成本，忽略了隱性成本（如員工培訓時間、維護費用或機會成本），導致高估 ROI。",
+      "過度樂觀預估專案帶來的財務價值，或將無法量化的無形效益直接轉換為不合理的金錢數字。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是好的專案 ROI？",
+        "a": "一般來說，ROI 大於 0 表示專案有盈利。但「好」的標準取決於產業基準、公司資金成本及風險承受度，通常企業會設定一個最低門檻（如 15% 或 20%）。"
+      },
+      {
+        "q": "ROI 可以是負數嗎？",
+        "a": "可以。當專案的總成本大於其帶來的財務價值時，淨收益為負，計算出的 ROI 即為負數，代表該專案虧損。"
+      },
+      {
+        "q": "如何量化無形的專案效益？",
+        "a": "無形效益（如品牌知名度提升、員工滿意度增加）較難量化。可嘗試透過替代指標轉換，例如員工滿意度提升降低的離職率，進而換算成節省的招募與培訓成本。"
+      },
+      {
+        "q": "ROI 和回收期（Payback Period）有何不同？",
+        "a": "ROI 衡量的是整體投資的回報比例，而回收期是指收回初始投資成本所需的時間。兩者常搭配使用以全面評估專案。"
+      },
+      {
+        "q": "計算專案 ROI 時需要考慮時間價值嗎？",
+        "a": "基本的 ROI 公式不考慮貨幣的時間價值。若專案期程較長，建議使用淨現值（NPV）或內部報酬率（IRR）等進階指標來進行更精確的評估。"
+      }
+    ],
+    "related_tools": [
+      "meeting-cost-calculator",
+      "productivity-score"
+    ],
+    "seo_keywords_zh": [
+      "專案投資報酬率",
+      "ROI計算公式",
+      "專案效益評估"
+    ],
+    "seo_keywords_en": [
+      "Project ROI Calculator",
+      "Return on Investment formula"
+    ],
+    "source": "https://www.investopedia.com/articles/basics/10/guide-to-calculating-roi.asp"
+  },
+  {
+    "tool_id": "productivity-score",
+    "title_zh": "生產力評分器",
+    "title_en": "Productivity Score Calculator",
+    "definition_zh": "生產力評分是一個量化指標，用於評估個人、團隊或組織的效率與效能。通常透過比較產出（如完成任務數）與投入資源（如工時），並結合品質分數來計算。",
+    "definition_en": "A productivity score is a quantifiable metric used to evaluate the efficiency and effectiveness of an individual, team, or organization. It is typically calculated by comparing the output produced (such as tasks completed or revenue generated) against the input resources (such as time or labor hours), often adjusted for quality.",
+    "formula": "Productivity Score = (Total Output / Total Input) * Quality Factor",
+    "formula_explained": "Total Output（總產出）：在特定時間內完成的工作量或創造的價值；Total Input（總投入）：用於產生產出的資源，通常是工作時數；Quality Factor（品質係數）：衡量工作品質的百分比或權重，確保產出不僅多且符合標準。",
+    "variables": [
+      {
+        "symbol": "O",
+        "name_zh": "總產出",
+        "description": "完成的任務數量、專案進度或創造的營收。"
+      },
+      {
+        "symbol": "I",
+        "name_zh": "總投入",
+        "description": "花費的總時間或投入的資源成本。"
+      },
+      {
+        "symbol": "Q",
+        "name_zh": "品質係數",
+        "description": "工作品質的評分，通常介於0到1之間。"
+      }
+    ],
+    "real_world_example": "某客服人員一天工作8小時（投入），解決了40個客戶問題（產出），且客戶滿意度為90%（品質係數）。其生產力評分為 (40 / 8) * 0.9 = 4.5。這表示每小時能產生4.5個高品質的解決方案。",
+    "use_cases": [
+      "評估遠距工作團隊的每日工作效率與產出品質。",
+      "客服中心衡量員工處理工單的速度與客戶滿意度。",
+      "軟體開發團隊追蹤程式碼產出量與錯誤率的平衡。"
+    ],
+    "common_mistakes": [
+      "只看產出數量而忽略工作品質，導致重工率增加。",
+      "將不同職務的生產力評分直接比較，忽略了工作性質的差異。"
+    ],
+    "faq": [
+      {
+        "q": "生產力評分越高越好嗎？",
+        "a": "通常是，但過高的評分可能意味著員工過度勞累或犧牲了長期品質，應結合其他指標綜合評估。"
+      },
+      {
+        "q": "如何決定品質係數？",
+        "a": "可透過客戶滿意度調查、錯誤率統計或主管評分來量化品質係數。"
+      },
+      {
+        "q": "知識型工作者適合用生產力評分嗎？",
+        "a": "可以，但產出應定義為專案里程碑或價值創造，而非單純的任務數量。"
+      },
+      {
+        "q": "生產力評分多久計算一次？",
+        "a": "視行業而定，客服或生產線可每日計算，專案型工作則適合每週或每月計算。"
+      },
+      {
+        "q": "如果投入時間減少但產出不變，評分會如何變化？",
+        "a": "評分會提高，這代表工作效率提升，用更少的資源完成了相同的工作。"
+      }
+    ],
+    "related_tools": [
+      "pomodoro-timer",
+      "project-roi-calculator"
+    ],
+    "seo_keywords_zh": [
+      "生產力評分計算",
+      "工作效率評估",
+      "員工績效指標"
+    ],
+    "seo_keywords_en": [
+      "Productivity Score Calculator",
+      "Employee Efficiency Metric"
+    ],
+    "source": "https://monday.com/blog/productivity/productivity-definition/"
+  }
+]
