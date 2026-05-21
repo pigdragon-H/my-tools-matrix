@@ -1,0 +1,586 @@
+[
+  {
+    "tool_id": "vat-calculator",
+    "title_zh": "增值稅計算器",
+    "title_en": "VAT Calculator",
+    "definition_zh": "增值稅計算器是一種財務工具，用於根據適用的稅率，快速計算商品或服務的增值稅額、含稅總價（毛價）或未稅價格（淨價），協助企業與消費者進行準確的定價與稅務申報。",
+    "definition_en": "A Value-Added Tax (VAT) calculator is a financial tool used to determine the amount of value-added tax to be added to a net price or extracted from a gross price. It helps businesses and consumers easily calculate the tax amount, the VAT-exclusive price, and the VAT-inclusive price based on the applicable tax rate.",
+    "formula": "V = P \\times R",
+    "formula_explained": "V 代表增值稅額（VAT Amount），即需要繳納的稅金；P 代表未稅價格（Net Price），即商品或服務在加稅前的原始價格；R 代表增值稅率（VAT Rate），通常以百分比表示（如 5% 或 0.05）。若要計算含稅總價，公式為 P × (1 + R)；若已知含稅總價求未稅價，則為 總價 ÷ (1 + R)。",
+    "variables": [
+      {
+        "description": "需要繳納的增值稅金額",
+        "name_zh": "增值稅額",
+        "symbol": "V"
+      },
+      {
+        "description": "商品或服務在加稅前的原始價格",
+        "name_zh": "未稅價格",
+        "symbol": "P"
+      },
+      {
+        "description": "政府規定的增值稅百分比",
+        "name_zh": "增值稅率",
+        "symbol": "R"
+      }
+    ],
+    "real_world_example": "假設你在台灣購買一台筆記型電腦，未稅價格為 30,000 元，台灣的營業稅（增值稅）率為 5%。增值稅額 = 30,000 × 5% = 1,500 元。因此，你需要支付的含稅總價為 30,000 + 1,500 = 31,500 元。若已知含稅價為 31,500 元，未稅價則為 31,500 ÷ 1.05 = 30,000 元。",
+    "use_cases": [
+      "企業在開立發票時，計算商品或服務的應收增值稅額及含稅總價。",
+      "消費者在跨國購物或退稅時，估算商品價格中包含的增值稅金額。",
+      "財務人員在進行帳務處理與稅務申報時，從總收入中反推未稅營業額與應納稅額。"
+    ],
+    "common_mistakes": [
+      "混淆含稅價與未稅價的計算方式，例如直接將含稅價乘以稅率來計算稅額。",
+      "忽略不同商品或服務可能適用不同的增值稅率（如標準稅率、減免稅率或零稅率）。"
+    ],
+    "faq": [
+      {
+        "q": "如何從含稅價反推未稅價？",
+        "a": "將含稅價除以（1 + 增值稅率）即可得出未稅價。例如稅率為5%，則將含稅價除以1.05。"
+      },
+      {
+        "q": "增值稅和營業稅有什麼不同？",
+        "a": "增值稅是在產品生產和流轉的每個環節對增值部分徵收的稅，而營業稅通常是對營業額全額徵收。許多國家已用增值稅取代營業稅。"
+      },
+      {
+        "q": "計算增值稅時應該四捨五入嗎？",
+        "a": "通常在計算最終發票總額時，會將稅額四捨五入到最接近的最小貨幣單位（如小數點後兩位）。"
+      },
+      {
+        "q": "如果商品免稅，還需要計算增值稅嗎？",
+        "a": "免稅商品的增值稅率為0%，因此不需要計算增值稅，含稅價等於未稅價。"
+      },
+      {
+        "q": "為什麼要區分含稅價和未稅價？",
+        "a": "企業在進行成本核算和稅務申報時需要使用未稅價和稅額，而面對一般消費者時通常需要標示含稅價。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "增值稅計算器",
+      "營業稅計算",
+      "含稅未稅換算"
+    ],
+    "seo_keywords_en": [
+      "VAT calculator",
+      "calculate value added tax"
+    ],
+    "source": "https://www.investopedia.com/terms/v/valueaddedtax.asp"
+  },
+  {
+    "tool_id": "capital-gains-tax-calculator",
+    "title_zh": "資本利得稅計算器",
+    "title_en": "Capital Gains Tax Calculator",
+    "definition_zh": "資本利得稅是對出售非存貨資產（如股票、債券或房地產）所獲利潤徵收的稅。它基於資產的售價與其原始購買價格（成本基礎）之間的差額計算。",
+    "definition_en": "A capital gains tax is a tax applied to the profit made from the sale of a non-inventory asset, such as stocks, bonds, or real estate. It is calculated on the difference between the asset's sale price and its original purchase price (cost basis).",
+    "formula": "Capital Gains Tax = (Sale Price - Cost Basis) \\times Tax Rate",
+    "formula_explained": "Sale Price（售價）是出售資產所獲得的總金額；Cost Basis（成本基礎）是購買資產的原始成本加上相關費用（如佣金）；Tax Rate（稅率）是根據持有時間（短期或長期）和個人所得稅級距決定的適用稅率。",
+    "variables": [
+      {
+        "symbol": "Sale Price",
+        "name_zh": "售價",
+        "description": "出售資產時獲得的總金額。"
+      },
+      {
+        "symbol": "Cost Basis",
+        "name_zh": "成本基礎",
+        "description": "購買資產的原始成本，加上任何相關的購買費用或佣金。"
+      },
+      {
+        "symbol": "Tax Rate",
+        "name_zh": "稅率",
+        "description": "根據資產持有時間（短期或長期）及納稅人收入水平決定的適用稅率。"
+      }
+    ],
+    "real_world_example": "假設您以10,000美元購買股票（成本基礎），持有兩年後以15,000美元售出（售價）。您的資本利得為5,000美元。若您的長期資本利得稅率為15%，則需繳納的資本利得稅為5,000美元 × 15% = 750美元。",
+    "use_cases": [
+      "投資者在出售股票或共同基金前，預估可能產生的稅負。",
+      "房地產所有者在出售投資性房產時，計算應繳納的資本利得稅。",
+      "財務規劃師協助客戶制定稅務優化策略，決定何時出售資產最有利。"
+    ],
+    "common_mistakes": [
+      "混淆短期與長期資本利得稅率，導致低估稅負。",
+      "未將購買資產時的相關費用（如手續費、佣金）計入成本基礎，從而多繳稅。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是資本利得稅？",
+        "a": "資本利得稅是對出售資產（如股票、房地產）所獲利潤徵收的稅。"
+      },
+      {
+        "q": "短期和長期資本利得有何不同？",
+        "a": "持有資產一年或以內出售為短期，按一般所得稅率徵稅；持有超過一年為長期，通常享有較低的優惠稅率（0%、15%或20%）。"
+      },
+      {
+        "q": "如果我賣出資產虧損了怎麼辦？",
+        "a": "資本虧損可以用來抵銷資本利得，從而降低您的整體稅負。如果虧損超過利得，每年最多可抵扣3,000美元的一般收入。"
+      },
+      {
+        "q": "我需要為未出售的資產增值繳稅嗎？",
+        "a": "不需要。資本利得稅僅在您實際出售資產並實現利潤（即已實現利得）時才需要繳納。"
+      },
+      {
+        "q": "出售主要住宅需要繳納資本利得稅嗎？",
+        "a": "根據美國稅法，如果您在過去五年內在該房屋居住滿兩年，單身申報者可免稅高達25萬美元的利得，已婚聯合申報者可免稅高達50萬美元。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "資本利得稅計算器",
+      "長期資本利得稅率",
+      "股票賣出繳稅"
+    ],
+    "seo_keywords_en": [
+      "capital gains tax calculator",
+      "long term capital gains rate"
+    ],
+    "source": "https://www.investopedia.com/terms/c/capital_gains_tax.asp"
+  },
+  {
+    "tool_id": "withholding-tax-calculator",
+    "title_zh": "預扣稅計算器",
+    "title_en": "Withholding Tax Calculator",
+    "definition_zh": "預扣稅是雇主從員工薪資中扣除並直接代繳給政府的所得稅，作為員工年度所得稅的預繳款項。",
+    "definition_en": "Withholding tax is the amount of income tax that an employer deducts from an employee's paycheck and pays directly to the government on their behalf. It serves as an advance payment of the employee's annual income tax liability.",
+    "formula": "W = (S - (D / N)) * R",
+    "formula_explained": "W代表每期預扣稅額；S代表每期薪資；D代表年度標準扣除額；N代表每年發薪期數；R代表適用的預扣稅率。",
+    "variables": [
+      {
+        "symbol": "W",
+        "name_zh": "每期預扣稅額",
+        "description": "每個發薪週期應扣除的稅款金額"
+      },
+      {
+        "symbol": "S",
+        "name_zh": "每期薪資",
+        "description": "員工在該發薪週期的總薪資"
+      },
+      {
+        "symbol": "D",
+        "name_zh": "年度標準扣除額",
+        "description": "根據申報狀態適用的年度免稅額度"
+      },
+      {
+        "symbol": "N",
+        "name_zh": "每年發薪期數",
+        "description": "一年中的總發薪次數（如12代表月薪）"
+      },
+      {
+        "symbol": "R",
+        "name_zh": "預扣稅率",
+        "description": "適用的法定預扣稅百分比"
+      }
+    ],
+    "real_world_example": "假設約翰為單身，年薪為$60,000，每月發薪一次（N=12），月薪為$5,000。若標準扣除額為$12,500，適用稅率為3.09%。則每月預扣稅額 W = ($5,000 - ($12,500 / 12)) * 3.09% = ($5,000 - $1,041.67) * 0.0309 = $122.31。",
+    "use_cases": [
+      "員工估算每月實領薪資",
+      "雇主計算應代扣代繳的稅額",
+      "個人進行年度稅務規劃與調整"
+    ],
+    "common_mistakes": [
+      "未及時更新W-4表單導致預扣額不準確",
+      "忽略了獎金或兼職收入的額外預扣稅需求"
+    ],
+    "faq": [
+      {
+        "q": "什麼是預扣稅？",
+        "a": "預扣稅是雇主從員工薪資中預先扣除並代繳給政府的稅款。"
+      },
+      {
+        "q": "如何計算預扣稅？",
+        "a": "預扣稅通常根據員工的薪資、申報狀態及免稅額，乘以適用的稅率來計算。"
+      },
+      {
+        "q": "預扣稅扣太多怎麼辦？",
+        "a": "如果預扣稅超過實際應繳稅額，您可以在年度報稅時申請退稅。"
+      },
+      {
+        "q": "預扣稅扣太少會有什麼後果？",
+        "a": "如果預扣稅不足，您在報稅時需要補繳稅款，甚至可能面臨罰款。"
+      },
+      {
+        "q": "何時需要更新預扣稅表單？",
+        "a": "當您的婚姻狀況、受撫養人數或收入發生重大變化時，應及時更新預扣稅表單（如美國的W-4表）。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "預扣稅計算器",
+      "薪資稅試算",
+      "所得稅預扣"
+    ],
+    "seo_keywords_en": [
+      "withholding tax calculator",
+      "payroll tax estimator"
+    ],
+    "source": "https://www.investopedia.com/terms/w/withholdingtax.asp"
+  },
+  {
+    "tool_id": "corporate-tax-calculator",
+    "title_zh": "營利事業所得稅計算器",
+    "title_en": "Corporate Tax Calculator",
+    "definition_zh": "營利事業所得稅計算器是一款專為企業設計的財務工具，用於估算公司在特定會計期間內應繳納的營利事業所得稅。它透過扣除合法費用與折舊，計算出應稅所得，再乘上適用稅率，幫助企業進行稅務規劃與財務預測。",
+    "definition_en": "A Corporate Tax Calculator is a financial tool designed to help businesses estimate their corporate income tax liability for a specific accounting period. By deducting allowable expenses and depreciation from gross revenue to determine taxable income, and applying the applicable corporate tax rate, it assists companies in tax planning and financial forecasting.",
+    "formula": "Corporate Tax = (Gross Revenue - Deductible Expenses) \\times Corporate Tax Rate",
+    "formula_explained": "營利事業所得稅等於總收入減去可扣除費用後的應稅所得，再乘上適用的營利事業所得稅率。",
+    "variables": [
+      {
+        "symbol": "Gross Revenue",
+        "name_zh": "總收入",
+        "description": "企業在特定期間內的所有營業收入總額。"
+      },
+      {
+        "symbol": "Deductible Expenses",
+        "name_zh": "可扣除費用",
+        "description": "稅法允許從總收入中扣除的各項營業成本與費用。"
+      },
+      {
+        "symbol": "Corporate Tax Rate",
+        "name_zh": "營利事業所得稅率",
+        "description": "政府規定的企業所得稅徵收比例。"
+      }
+    ],
+    "real_world_example": "假設某科技公司年度總收入為1,000萬元，各項可扣除的營業成本與費用總計為600萬元。其應稅所得為400萬元（1,000萬 - 600萬）。若該國的營利事業所得稅率為20%，則該公司應繳納的營利事業所得稅為80萬元（400萬 × 20%）。",
+    "use_cases": [
+      "企業年度財務預算與稅務規劃",
+      "評估新投資項目對公司整體稅負的影響",
+      "協助會計人員在報稅季前進行稅額估算與準備"
+    ],
+    "common_mistakes": [
+      "未正確區分可扣除與不可扣除的費用，導致應稅所得計算錯誤",
+      "忽略了適用的稅收優惠或減免政策，從而高估了應繳稅額"
+    ],
+    "faq": [
+      {
+        "q": "什麼是營利事業所得稅？",
+        "a": "營利事業所得稅是政府對企業或公司的淨利潤（應稅所得）所徵收的稅款。"
+      },
+      {
+        "q": "所有費用都可以扣除嗎？",
+        "a": "並非所有費用都能扣除，只有符合稅法規定的營業相關成本與費用才能作為可扣除費用。"
+      },
+      {
+        "q": "稅率是固定的嗎？",
+        "a": "稅率因國家或地區而異，且可能根據企業規模或利潤級距實行累進稅率或單一稅率。"
+      },
+      {
+        "q": "如果公司虧損還需要繳稅嗎？",
+        "a": "通常情況下，如果公司當年虧損（應稅所得為負），則無需繳納營利事業所得稅，且虧損可能可以結轉至未來年度抵減利潤。"
+      },
+      {
+        "q": "如何合法降低營利事業所得稅？",
+        "a": "企業可透過善用稅收抵免、加速折舊、增加研發支出等合法途徑來降低應稅所得，進而減少稅負。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "營利事業所得稅計算",
+      "企業所得稅試算",
+      "公司稅務規劃工具"
+    ],
+    "seo_keywords_en": [
+      "Corporate Tax Calculator",
+      "Business Income Tax Estimator"
+    ],
+    "source": "https://www.investopedia.com/terms/c/corporatetax.asp"
+  },
+  {
+    "tool_id": "gift-tax-calculator",
+    "title_zh": "贈與稅計算器",
+    "title_en": "Gift Tax Calculator",
+    "definition_zh": "贈與稅是對無償給予他人財產（如現金、不動產等）的行為所課徵的稅。其設立目的是為了防止人們在生前透過贈與方式轉移財產以規避遺產稅。通常由贈與人負責繳納。",
+    "definition_en": "The gift tax is a federal tax on the transfer of money, property, or other assets to another person while receiving nothing or less than full value in return. It is designed to prevent individuals from avoiding estate taxes by giving away their wealth before death. The tax is generally paid by the giver, not the recipient. Certain gifts, such as those for medical or educational expenses paid directly to the institution, are exempt. In the US, there is an annual exclusion amount per recipient and a lifetime exemption limit before any tax is actually owed.",
+    "formula": "Taxable\\ Gift = Total\\ Gift\\ Amount - Annual\\ Exclusion - Deductions",
+    "formula_explained": "Taxable Gift（應稅贈與額）：需要計算贈與稅的金額。Total Gift Amount（贈與總額）：給予他人的財產總價值。Annual Exclusion（年度免稅額）：每年可以免稅贈與給每個人的最高金額。Deductions（扣除額）：法律允許扣除的項目，如慈善捐贈或配偶贈與。",
+    "variables": [
+      {
+        "symbol": "Taxable Gift",
+        "name_zh": "應稅贈與額",
+        "description": "扣除免稅額和扣除額後，實際需要計算稅金的贈與金額。"
+      },
+      {
+        "symbol": "Total Gift Amount",
+        "name_zh": "贈與總額",
+        "description": "在特定年度內，無償轉移給他人的所有財產的總價值。"
+      },
+      {
+        "symbol": "Annual Exclusion",
+        "name_zh": "年度免稅額",
+        "description": "稅法規定的每年可免稅贈與給單一受贈人的最高金額。"
+      },
+      {
+        "symbol": "Deductions",
+        "name_zh": "扣除額",
+        "description": "符合特定條件可從贈與總額中扣除的金額，例如慈善捐款。"
+      }
+    ],
+    "real_world_example": "假設2025年美國的年度免稅額為19,000美元。父親給兒子30,000美元作為買房頭期款。這筆贈與超過了免稅額，因此應稅贈與額為11,000美元（30,000 - 19,000）。父親需要申報這11,000美元，這筆金額會從他的終身免稅額中扣除，但除非他一生的贈與總額超過終身免稅額（如1399萬美元），否則他不需要實際繳納贈與稅。",
+    "use_cases": [
+      "父母資助子女購房或創業時，計算是否超過年度免稅額。",
+      "高資產人士進行財產規劃，利用年度免稅額逐步轉移資產以節省未來的遺產稅。",
+      "祖父母為孫子女設立教育基金或信託時，評估潛在的贈與稅影響。"
+    ],
+    "common_mistakes": [
+      "誤以為受贈人需要繳納贈與稅，實際上通常由贈與人負責繳納。",
+      "忽略了年度免稅額的限制，未申報超過免稅額的贈與，導致面臨罰款。"
+    ],
+    "faq": [
+      {
+        "q": "受贈人需要繳納贈與稅嗎？",
+        "a": "不需要，贈與稅通常由贈與人（給予財產的人）負責申報和繳納。"
+      },
+      {
+        "q": "什麼情況下不需要繳納贈與稅？",
+        "a": "如果贈與金額在年度免稅額內，或者直接支付給醫療或教育機構的費用，通常不需要繳納贈與稅。"
+      },
+      {
+        "q": "夫妻之間的贈與需要繳稅嗎？",
+        "a": "通常不需要，只要配偶是本國公民，夫妻之間的財產贈與一般是免稅的。"
+      },
+      {
+        "q": "超過年度免稅額就一定要繳稅嗎？",
+        "a": "不一定，超過年度免稅額的部分會計入終身免稅額，只有當累積贈與超過終身免稅額時才需要實際繳納贈與稅。"
+      },
+      {
+        "q": "贈與稅的稅率是多少？",
+        "a": "在美國，聯邦贈與稅的稅率通常在18%到40%之間，具體取決於應稅贈與的金額。在台灣，稅率則依據贈與淨額分為10%、15%及20%三個級距。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "贈與稅計算",
+      "贈與稅免稅額",
+      "贈與稅申報"
+    ],
+    "seo_keywords_en": [
+      "gift tax calculator",
+      "annual gift tax exclusion"
+    ],
+    "source": "https://smartasset.com/financial-advisor/calculate-gift-tax"
+  },
+  {
+    "tool_id": "estate-tax-calculator",
+    "title_zh": "遺產稅計算器",
+    "title_en": "Estate Tax Calculator",
+    "definition_zh": "遺產稅計算器是一種財務工具，用於估算個人身故後其遺產需繳納的稅額。它透過計算總遺產價值，扣除各項免稅額與扣除額，再將剩餘的課稅遺產淨額乘上適用稅率，幫助使用者進行遺產規劃與稅務試算。",
+    "definition_en": "An estate tax calculator is a financial tool used to estimate the amount of federal and state estate taxes owed on a deceased person's estate. It calculates the tax liability by determining the gross estate value, subtracting allowable deductions and the applicable exemption amount, and applying the progressive tax rate to the remaining taxable estate.",
+    "formula": "Taxable Estate = Gross Estate - Deductions - Exemption Amount; Estate Tax = Taxable Estate × Tax Rate",
+    "formula_explained": "Gross Estate（遺產總額）代表死者所有資產的總價值；Deductions（扣除額）包括債務、喪葬費用和慈善捐贈等可扣除項目；Exemption Amount（免稅額）是法律規定免徵遺產稅的額度；Taxable Estate（課稅遺產淨額）是計算出需繳稅的基礎金額；Tax Rate（稅率）是適用的遺產稅率，最終相乘得出應繳的 Estate Tax（遺產稅）。",
+    "variables": [
+      {
+        "symbol": "GE",
+        "name_zh": "遺產總額",
+        "description": "死者過世時所有資產的公平市場價值總和。"
+      },
+      {
+        "symbol": "D",
+        "name_zh": "扣除額",
+        "description": "可從遺產總額中扣除的項目，如債務、喪葬費用、配偶扣除額等。"
+      },
+      {
+        "symbol": "E",
+        "name_zh": "免稅額",
+        "description": "法律規定無需繳納遺產稅的資產額度（如聯邦免稅額）。"
+      },
+      {
+        "symbol": "TE",
+        "name_zh": "課稅遺產淨額",
+        "description": "遺產總額減去扣除額和免稅額後，實際需要計算稅金的金額。"
+      },
+      {
+        "symbol": "TR",
+        "name_zh": "稅率",
+        "description": "根據課稅遺產淨額適用的累進稅率或單一稅率。"
+      }
+    ],
+    "real_world_example": "假設約翰過世時留下總價值2,000萬美元的遺產。扣除200萬美元的債務和喪葬費用後，剩餘1,800萬美元。若當年的聯邦免稅額為1,361萬美元，則課稅遺產淨額為439萬美元（1,800萬 - 1,361萬）。以40%的最高聯邦稅率計算，約翰的遺產需繳納約175.6萬美元的遺產稅。",
+    "use_cases": [
+      "高資產人士進行生前財富傳承與遺產規劃，評估潛在稅負。",
+      "財務顧問協助客戶制定避稅策略（如設立信託或生前贈與）。",
+      "遺產執行人（Executor）在處理死者遺產時，初步估算需預留的稅款金額。"
+    ],
+    "common_mistakes": [
+      "未考慮免稅額（Exemption）的年度變化，導致高估或低估應繳稅額。",
+      "忽略州級遺產稅（State Estate Tax），僅計算聯邦遺產稅，導致總稅負計算錯誤。"
+    ],
+    "faq": [
+      {
+        "q": "誰需要繳納遺產稅？",
+        "a": "遺產稅通常由死者的遺產（Estate）本身支付，而不是由繼承人直接支付。只有當遺產總值超過法定的免稅額時，才需要繳納。"
+      },
+      {
+        "q": "聯邦遺產稅的免稅額是多少？",
+        "a": "聯邦遺產稅的免稅額每年會根據通貨膨脹進行調整。例如，2024年的聯邦免稅額為1,361萬美元，2025年可能會有所不同。"
+      },
+      {
+        "q": "州遺產稅和聯邦遺產稅有什麼不同？",
+        "a": "聯邦遺產稅適用於全美，而州遺產稅僅在部分州徵收。州遺產稅的免稅額通常遠低於聯邦免稅額，因此即使不需要繳納聯邦遺產稅，也可能需要繳納州遺產稅。"
+      },
+      {
+        "q": "人壽保險理賠金會計入遺產總額嗎？",
+        "a": "是的，如果死者對人壽保險單擁有所有權（例如有權更改受益人），則該保險的理賠金將計入其總遺產中，可能需要繳納遺產稅。"
+      },
+      {
+        "q": "如何合法減少遺產稅？",
+        "a": "常見的避稅策略包括利用年度贈與免稅額將財產提前轉移給繼承人、設立不可撤銷信託（Irrevocable Trust）將資產移出遺產，以及進行慈善捐贈等。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "遺產稅計算器",
+      "遺產稅試算",
+      "遺產稅免稅額"
+    ],
+    "seo_keywords_en": [
+      "estate tax calculator",
+      "federal estate tax estimator"
+    ],
+    "source": "https://www.investopedia.com/terms/e/estatetax.asp"
+  },
+  {
+    "tool_id": "tax-refund-calculator",
+    "title_zh": "退稅計算器",
+    "title_en": "Tax Refund Calculator",
+    "definition_zh": "退稅計算器是一種財務工具，用於估算納稅人在報稅季可從政府獲得的退稅金額。它透過比較已繳納的預扣稅、可退還的稅收抵免與實際應納稅額，幫助個人或企業提前規劃財務，避免因補稅造成資金壓力。",
+    "definition_en": "A tax refund calculator is a financial tool designed to estimate the amount of money a taxpayer will receive back from the government after filing their annual income tax return. It calculates the difference between the total tax withheld throughout the year, any eligible refundable tax credits, and the actual tax liability.",
+    "formula": "R = W + C - L",
+    "formula_explained": "公式中，R 代表最終的退稅金額（若為正數則為退稅，負數則為需補繳稅額）。W 代表年度內已預扣的總稅額，通常來自薪資單。C 代表納稅人有資格獲得的可退還稅收抵免。L 代表根據納稅人總收入和適用稅率計算出的總應納稅額。",
+    "variables": [
+      {
+        "symbol": "R",
+        "name_zh": "退稅金額",
+        "description": "納稅人可獲得的退稅總額（若為負數則為應補繳稅額）"
+      },
+      {
+        "symbol": "W",
+        "name_zh": "總預扣稅額",
+        "description": "年度內雇主已從薪資中代扣代繳的稅款總和"
+      },
+      {
+        "symbol": "C",
+        "name_zh": "可退還稅收抵免",
+        "description": "符合條件的稅收抵免，即使超過應納稅額也能退還給納稅人"
+      },
+      {
+        "symbol": "L",
+        "name_zh": "總應納稅額",
+        "description": "根據全年應稅收入和適用稅率計算出的實際應繳稅款"
+      }
+    ],
+    "real_world_example": "假設小明2025年的總應納稅額（L）為$5,000。他全年的薪資總預扣稅額（W）為$6,000，並且符合$1,000的可退還稅收抵免（C）。根據公式計算：R = $6,000 + $1,000 - $5,000 = $2,000。因此，小明在報稅後可以獲得$2,000的退稅。",
+    "use_cases": [
+      "個人納稅人在報稅季前估算退稅金額，以便進行年度財務規劃與預算安排。",
+      "自由工作者或多重收入者評估預估稅是否繳納充足，避免年底面臨巨額補稅與罰款。",
+      "家庭在經歷結婚、生子或買房等重大生活變化後，重新計算稅務狀況以調整薪資預扣額。"
+    ],
+    "common_mistakes": [
+      "混淆了不可退還稅收抵免與可退還稅收抵免，導致高估最終的退稅金額。",
+      "忘記計入兼職收入或投資收益，導致計算出的總應納稅額偏低，最終從退稅變成補稅。"
+    ],
+    "faq": [
+      {
+        "q": "為什麼我的退稅金額比去年少？",
+        "a": "退稅金額減少可能是因為您的收入增加導致適用更高稅率、預扣稅額減少，或是某些稅收抵免政策發生了變化。"
+      },
+      {
+        "q": "如果計算結果為負數代表什麼？",
+        "a": "如果計算結果為負數，代表您年度內預繳的稅款不足以支付總應納稅額，您需要在報稅截止日前補繳差額。"
+      },
+      {
+        "q": "我應該把退稅當作額外的獎金嗎？",
+        "a": "不建議。退稅本質上是您多繳給政府的無息貸款。如果退稅金額過高，建議調整W-4表單以增加每月的實發薪資。"
+      },
+      {
+        "q": "可退還稅收抵免和一般抵免有何不同？",
+        "a": "一般抵免只能將您的應納稅額降至零，而可退還稅收抵免在將應納稅額降至零後，剩餘的部分會以退稅形式發放給您。"
+      },
+      {
+        "q": "退稅計算器能完全替代專業會計師嗎？",
+        "a": "不能。計算器僅提供估算，對於擁有複雜投資、跨國收入或自雇企業的納稅人，仍建議諮詢專業稅務顧問以確保合規並最大化節稅。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "退稅計算器",
+      "所得稅試算",
+      "報稅退稅估算"
+    ],
+    "seo_keywords_en": [
+      "tax refund calculator",
+      "income tax estimator"
+    ],
+    "source": "https://www.investopedia.com/terms/t/tax-refund.asp"
+  },
+  {
+    "tool_id": "salary-after-tax-calculator",
+    "title_zh": "稅後薪資計算器",
+    "title_en": "Salary After Tax Calculator",
+    "definition_zh": "稅後薪資計算器用於計算扣除所得稅、社會保險（如健保、勞保）及其他法定扣款後，員工實際領到的淨薪資（Net Pay）。",
+    "definition_en": "A salary after tax calculator determines an employee's net pay by subtracting income taxes, social security contributions, and other mandatory deductions from their gross salary.",
+    "formula": "Net Pay = Gross Salary - Income Tax - Social Security Contributions - Other Deductions",
+    "formula_explained": "Net Pay 代表實際領到的稅後薪資；Gross Salary 代表稅前總薪資；Income Tax 代表應繳納的個人所得稅；Social Security Contributions 代表社會保險費（如勞保、健保）；Other Deductions 代表其他法定或約定的扣款。",
+    "variables": [
+      {
+        "symbol": "Net Pay",
+        "name_zh": "稅後薪資",
+        "description": "扣除所有稅費和扣款後實際領到的薪資"
+      },
+      {
+        "symbol": "Gross Salary",
+        "name_zh": "稅前薪資",
+        "description": "未扣除任何稅費和扣款前的總薪資"
+      },
+      {
+        "symbol": "Income Tax",
+        "name_zh": "所得稅",
+        "description": "根據稅法規定應繳納的個人所得稅"
+      },
+      {
+        "symbol": "Social Security Contributions",
+        "name_zh": "社會保險費",
+        "description": "依法繳納的勞保、健保等社會保險費用"
+      },
+      {
+        "symbol": "Other Deductions",
+        "name_zh": "其他扣款",
+        "description": "如退休金自提、工會費等其他扣款"
+      }
+    ],
+    "real_world_example": "假設小明的月薪（稅前薪資）為 50,000 元。根據當地稅率和保費標準，他每月需繳納所得稅 1,500 元，勞保費 1,100 元，健保費 770 元。則他的稅後薪資為：50,000 - 1,500 - 1,100 - 770 = 46,630 元。",
+    "use_cases": [
+      "求職者在收到錄取通知時，評估實際可支配收入",
+      "企業人資部門向新進員工說明薪資結構與實領金額",
+      "個人進行年度財務規劃與預算編列時，估算每月的現金流"
+    ],
+    "common_mistakes": [
+      "忽略了累進稅率的計算方式，誤用單一稅率計算全部薪資的所得稅",
+      "忘記扣除勞保、健保等社會保險費用，導致高估了實際可領到的薪資"
+    ],
+    "faq": [
+      {
+        "q": "稅前薪資和稅後薪資有什麼不同？",
+        "a": "稅前薪資是未扣除任何稅費的總收入，而稅後薪資是扣除所得稅及各項社會保險費後，實際匯入帳戶的金額。"
+      },
+      {
+        "q": "為什麼每個月扣除的所得稅金額可能會變動？",
+        "a": "如果您的薪資包含變動獎金或加班費，總收入的變化可能會影響適用的扣繳稅率或金額。"
+      },
+      {
+        "q": "勞保和健保費是如何計算的？",
+        "a": "通常是根據您的投保薪資級距，乘以法定的保險費率，並由雇主和員工按比例分擔。"
+      },
+      {
+        "q": "年終獎金也需要扣稅嗎？",
+        "a": "是的，年終獎金通常會視為薪資所得的一部分，若超過一定金額，需按規定預先扣繳所得稅。"
+      },
+      {
+        "q": "我可以如何合法減少應繳稅額？",
+        "a": "您可以透過增加免稅額、列舉扣除額（如保費、醫療費用）或參與自願性退休金提撥來降低應稅所得。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "稅後薪資計算",
+      "實領薪資試算",
+      "薪水扣稅計算器"
+    ],
+    "seo_keywords_en": [
+      "net pay calculator",
+      "salary after tax"
+    ],
+    "source": "https://www.investopedia.com/terms/n/net-pay.asp"
+  }
+]
