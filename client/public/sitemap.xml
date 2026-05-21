@@ -402,4 +402,37 @@
     <priority>0.7</priority>
   </url>
 
+
+  <!-- ==================== Finance SEO Guide Articles ==================== -->
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance/compound-interest-guide</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance/mortgage-calculator-guide</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance/investment-roi-guide</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance/retirement-calculator-guide</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance/loan-calculator-guide</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>
