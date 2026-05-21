@@ -435,4 +435,34 @@
     <priority>0.7</priority>
   </url>
 
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/blog/health/bmi-calculator-guide</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/blog/health/bmr-calculator-guide</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/blog/health/tdee-calculator-guide</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/blog/health/body-fat-calculator-guide</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/blog/health/ideal-weight-calculator-guide</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
