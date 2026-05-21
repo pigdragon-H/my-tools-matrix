@@ -1,0 +1,596 @@
+[
+  {
+    "tool_id": "flight-time-calculator",
+    "title_zh": "飛行時間計算器",
+    "title_en": "Flight Time Calculator",
+    "definition_zh": "飛行時間計算器是一款用於估算兩地之間飛行所需時間的工具，通常基於飛行距離和飛機的平均地速進行計算，並考慮起降和航線偏差等因素。",
+    "definition_en": "A flight time calculator is a tool used to estimate the duration of a flight between two locations. It calculates the time based on the distance between the departure and destination points and the average ground speed of the aircraft, often factoring in additional time for takeoff, landing, and non-direct routing.",
+    "formula": "T = (D / S) + C",
+    "formula_explained": "T 代表總飛行時間（小時）；D 代表兩地之間的實際飛行距離（通常以海里或公里為單位）；S 代表飛機的平均地速（Knots或公里/小時）；C 代表附加時間常數（如起降、滑行及航線非直線的緩衝時間，通常約為0.5至1小時）。",
+    "variables": [
+      {
+        "symbol": "T",
+        "name_zh": "總飛行時間",
+        "description": "從起飛到降落的預估總時間"
+      },
+      {
+        "symbol": "D",
+        "name_zh": "飛行距離",
+        "description": "出發地與目的地之間的航線距離"
+      },
+      {
+        "symbol": "S",
+        "name_zh": "平均地速",
+        "description": "飛機相對於地面的實際飛行速度"
+      },
+      {
+        "symbol": "C",
+        "name_zh": "附加時間",
+        "description": "起降、滑行及航線偏差等額外時間"
+      }
+    ],
+    "real_world_example": "假設從台北飛往東京，直線距離約為2100公里。若商用客機的平均地速為800公里/小時，附加時間設為0.5小時。則飛行時間 T = (2100 / 800) + 0.5 = 2.625 + 0.5 = 3.125 小時，即約3小時7分鐘。",
+    "use_cases": [
+      "旅客規劃跨國旅行行程與轉機時間",
+      "航空公司進行航班排班與機組人員調度",
+      "私人飛機駕駛員進行航前飛行計畫與油耗估算"
+    ],
+    "common_mistakes": [
+      "忽略了起飛、降落及滑行所需的額外時間",
+      "混淆了空速（Airspeed）與地速（Ground Speed），未考慮風向風速的影響"
+    ],
+    "faq": [
+      {
+        "q": "飛行時間計算器準確嗎？",
+        "a": "計算器提供的是估算值，實際飛行時間會受天氣、風向、空中交通管制等因素影響。"
+      },
+      {
+        "q": "為什麼實際飛行時間通常比計算的長？",
+        "a": "因為實際航線通常不是直線，且需要包含起降、滑行及可能的空中盤旋時間。"
+      },
+      {
+        "q": "順風和逆風會影響飛行時間嗎？",
+        "a": "會的，順風會增加地速從而縮短飛行時間，逆風則會減慢地速並延長飛行時間。"
+      },
+      {
+        "q": "計算時應該使用哪種速度？",
+        "a": "應該使用地速（Ground Speed），即飛機相對於地面的實際移動速度。"
+      },
+      {
+        "q": "不同機型的飛行時間一樣嗎？",
+        "a": "不一樣，不同機型的巡航速度不同，因此相同距離的飛行時間也會有所差異。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "飛行時間計算",
+      "航班時間預估",
+      "航程計算器"
+    ],
+    "seo_keywords_en": [
+      "flight time calculator",
+      "flight duration estimator"
+    ],
+    "source": "https://flyusa.com/how-to-calculate-flight-time-manually/"
+  },
+  {
+    "tool_id": "travel-budget-calculator",
+    "title_zh": "旅遊預算計算器",
+    "title_en": "Travel Budget Calculator",
+    "definition_zh": "旅遊預算計算器是一款幫助旅客估算整趟旅程總花費的工具，涵蓋機票、住宿、餐飲、交通及娛樂等各項支出，協助做好財務規劃。",
+    "definition_en": "A travel budget calculator is a tool designed to help travelers estimate the total cost of their trip by aggregating expenses such as flights, accommodation, meals, transportation, and activities, ensuring better financial planning.",
+    "formula": "Total Budget = Transportation + Accommodation + Meals + Activities + Miscellaneous",
+    "formula_explained": "總預算(Total Budget)為各項支出的總和。交通(Transportation)包含機票與當地交通；住宿(Accommodation)為飯店或民宿費用；餐飲(Meals)為每日三餐花費；活動(Activities)包含門票與行程費用；雜支(Miscellaneous)為購物與緊急備用金。",
+    "variables": [
+      {
+        "symbol": "T",
+        "name_zh": "交通費用",
+        "description": "包含來回機票、火車票及當地租車或大眾運輸費用"
+      },
+      {
+        "symbol": "A",
+        "name_zh": "住宿費用",
+        "description": "飯店、青年旅館或民宿的總花費"
+      },
+      {
+        "symbol": "M",
+        "name_zh": "餐飲費用",
+        "description": "旅途中的三餐、點心及飲料支出"
+      },
+      {
+        "symbol": "E",
+        "name_zh": "活動費用",
+        "description": "景點門票、導覽行程及娛樂活動花費"
+      },
+      {
+        "symbol": "O",
+        "name_zh": "其他雜支",
+        "description": "購物、紀念品、簽證費、保險及緊急備用金"
+      }
+    ],
+    "real_world_example": "小明計畫去日本東京5天4夜。機票(T)花費15,000元，住宿(A)花費8,000元，餐飲(M)預估每天1,500元共7,500元，迪士尼門票等活動(E)花費4,000元，購物及雜支(O)準備5,000元。總預算 = 15000 + 8000 + 7500 + 4000 + 5000 = 39,500元。",
+    "use_cases": [
+      "規劃家庭年度出國旅遊的整體花費",
+      "背包客計算長途旅行的每日預算上限",
+      "企業估算員工出差的差旅費用"
+    ],
+    "common_mistakes": [
+      "忽略了隱藏費用，如機場稅、行李超重費或飯店設施費",
+      "未將匯率波動及海外刷卡手續費計算在內"
+    ],
+    "faq": [
+      {
+        "q": "旅遊預算應該抓多少備用金？",
+        "a": "建議將總預算的10%至15%作為緊急備用金，以應對突發狀況。"
+      },
+      {
+        "q": "如何節省旅遊預算？",
+        "a": "可以選擇淡季出遊、提早預訂機票與住宿，或善用大眾運輸工具。"
+      },
+      {
+        "q": "餐飲預算該如何估算？",
+        "a": "可參考當地物價水準，並依據個人飲食習慣（如吃路邊攤或高級餐廳）來設定每日餐費。"
+      },
+      {
+        "q": "保險費用需要算在預算內嗎？",
+        "a": "是的，旅遊平安險及不便險是保障旅途安全的重要支出，應列入預算。"
+      },
+      {
+        "q": "如果預算超支怎麼辦？",
+        "a": "可以重新檢視行程，減少不必要的購物或選擇較平價的餐飲與住宿來平衡。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "旅遊預算計算器",
+      "出國花費估算",
+      "旅行費用規劃"
+    ],
+    "seo_keywords_en": [
+      "travel budget calculator",
+      "trip cost estimator"
+    ],
+    "source": "https://www.moneyfit.org/vacation-budget-calculator/"
+  },
+  {
+    "tool_id": "hotel-cost-calculator",
+    "title_zh": "住宿費用計算器",
+    "title_en": "Hotel Cost Calculator",
+    "definition_zh": "住宿費用計算器是一款用於估算旅行期間飯店或住宿總花費的工具，考量每晚房價、住宿天數、稅費及其他附加服務費，幫助旅客準確規劃預算。",
+    "definition_en": "A Hotel Cost Calculator is a tool designed to estimate the total expenses for accommodation during a trip. It factors in the nightly room rate, number of nights, taxes, and additional service fees to help travelers accurately plan their budget.",
+    "formula": "TC = (R × N) + T + F",
+    "formula_explained": "TC 代表總住宿費用；R 代表每晚房價；N 代表住宿總天數；T 代表相關稅費（如城市稅、增值稅）；F 代表其他附加費用（如清潔費、服務費、停車費等）。",
+    "variables": [
+      {
+        "symbol": "TC",
+        "name_zh": "總住宿費用",
+        "description": "最終需要支付的總金額"
+      },
+      {
+        "symbol": "R",
+        "name_zh": "每晚房價",
+        "description": "飯店每晚的基礎價格"
+      },
+      {
+        "symbol": "N",
+        "name_zh": "住宿天數",
+        "description": "預計入住的總晚數"
+      },
+      {
+        "symbol": "T",
+        "name_zh": "稅費",
+        "description": "政府或當地收取的稅金，可能是固定金額或百分比"
+      },
+      {
+        "symbol": "F",
+        "name_zh": "附加費用",
+        "description": "如服務費、清潔費、度假村費等額外支出"
+      }
+    ],
+    "real_world_example": "假設您預訂了一家飯店，每晚房價為 3,000 元，預計入住 4 晚。當地需收取 10% 的稅費，且飯店會收取 500 元的單次清潔費。總費用 = (3,000 × 4) + (12,000 × 10%) + 500 = 12,000 + 1,200 + 500 = 13,700 元。",
+    "use_cases": [
+      "家庭旅遊預算規劃，計算多晚住宿的總開銷",
+      "商務出差費用估算，以便向公司申請預支或報帳",
+      "比較不同訂房平台的最終總價，避免隱藏費用"
+    ],
+    "common_mistakes": [
+      "忽略了當地城市稅或度假村費等隱藏費用",
+      "將每晚房價誤認為已含稅價格，導致預算超支"
+    ],
+    "faq": [
+      {
+        "q": "住宿費用計算器包含哪些費用？",
+        "a": "通常包含基礎房價、稅費（如增值稅、城市稅）以及附加費用（如清潔費、服務費）。"
+      },
+      {
+        "q": "為什麼訂房平台的顯示價格和最終價格不同？",
+        "a": "因為初始顯示價格通常不包含稅費和服務費，需到結帳頁面才會顯示總價。"
+      },
+      {
+        "q": "什麼是度假村費（Resort Fee）？",
+        "a": "部分飯店會額外收取度假村費，用於涵蓋Wi-Fi、健身房或泳池等設施的使用。"
+      },
+      {
+        "q": "稅費是按固定金額還是百分比計算？",
+        "a": "取決於當地法規，有些是按房價百分比計算，有些則是按每人每晚固定金額收取。"
+      },
+      {
+        "q": "如果提早退房，費用會如何計算？",
+        "a": "這取決於飯店的取消政策，有些可能不退還剩餘天數的費用，或需支付違約金。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "住宿費用計算器",
+      "飯店預算估算",
+      "訂房總價計算"
+    ],
+    "seo_keywords_en": [
+      "Hotel Cost Calculator",
+      "Accommodation Budget Estimator"
+    ],
+    "source": "https://www.calculator.net/travel-cost-calculator.html"
+  },
+  {
+    "tool_id": "distance-calculator",
+    "title_zh": "距離計算器",
+    "title_en": "Distance Calculator",
+    "definition_zh": "距離計算器（基於半正矢公式）是一種用於計算球體表面兩點之間最短距離的工具。透過輸入兩地的經緯度，它能精確計算出地球上兩點間的大圓距離，廣泛應用於導航、航空與地理資訊系統中。",
+    "definition_en": "A distance calculator based on the Haversine formula is a tool used to determine the great-circle distance between two points on a sphere. By inputting the latitude and longitude of two locations, it accurately calculates the shortest distance over the Earth's surface, making it essential for navigation, aviation, and geographic information systems.",
+    "formula": "d = 2r × arcsin(√[sin²((φ₂ - φ₁)/2) + cos(φ₁)cos(φ₂)sin²((λ₂ - λ₁)/2)])",
+    "formula_explained": "公式中，d 代表兩點間的距離，r 為地球半徑（約 6,371 公里）。φ₁ 和 φ₂ 分別代表兩點的緯度（以弧度表示），λ₁ 和 λ₂ 則是兩點的經度（以弧度表示）。透過計算緯度差與經度差的半正矢值，再結合地球半徑，即可求得兩點間的大圓距離。",
+    "variables": [
+      {
+        "symbol": "d",
+        "name_zh": "距離",
+        "description": "兩點之間的大圓距離（通常以公里或英里為單位）。"
+      },
+      {
+        "symbol": "r",
+        "name_zh": "地球半徑",
+        "description": "地球的平均半徑，通常取 6,371 公里。"
+      },
+      {
+        "symbol": "φ₁, φ₂",
+        "name_zh": "緯度",
+        "description": "第一點與第二點的緯度，計算時需轉換為弧度。"
+      },
+      {
+        "symbol": "λ₁, λ₂",
+        "name_zh": "經度",
+        "description": "第一點與第二點的經度，計算時需轉換為弧度。"
+      }
+    ],
+    "real_world_example": "假設要計算台北101（緯度 25.0339° N，經度 121.5644° E）到東京鐵塔（緯度 35.6585° N，經度 139.7454° E）的距離。將兩地經緯度轉換為弧度後代入半正矢公式，並使用地球半徑 6,371 公里計算，可得出兩地直線距離約為 2,103 公里。這對於航班航線規劃非常重要。",
+    "use_cases": [
+      "航空與航海導航：計算飛機或船隻在地球表面兩點之間的最短航線距離。",
+      "物流與外送服務：評估配送中心到客戶地址的直線距離，以估算運費與時間。",
+      "地理資訊系統（GIS）：在地圖應用程式中測量兩地距離，提供用戶精確的位置資訊。"
+    ],
+    "common_mistakes": [
+      "未將經緯度從度數轉換為弧度，導致三角函數計算結果完全錯誤。",
+      "忽略地球並非完美球體（而是橢球體），在極長距離計算時產生微小誤差。"
+    ],
+    "faq": [
+      {
+        "q": "半正矢公式（Haversine formula）是什麼？",
+        "a": "它是一種用於計算球體表面兩點之間大圓距離的數學公式，常被用來計算地球上兩地的直線距離。"
+      },
+      {
+        "q": "為什麼計算距離時需要將經緯度轉換為弧度？",
+        "a": "因為大多數程式語言和數學公式中的三角函數（如 sin、cos）都是以弧度為單位進行計算，而非度數。"
+      },
+      {
+        "q": "半正矢公式計算出的距離絕對準確嗎？",
+        "a": "不完全準確。因為地球是一個扁球體而非完美球體，使用此公式會有約 0.3% 到 0.5% 的誤差。若需極高精度，應使用 Vincenty 公式。"
+      },
+      {
+        "q": "地球半徑應該取多少？",
+        "a": "一般計算中，地球的平均半徑通常取 6,371 公里（或 3,959 英里）。"
+      },
+      {
+        "q": "這個公式適用於短距離計算嗎？",
+        "a": "適用。半正矢公式在短距離和長距離計算中都能保持良好的數值穩定性，不會像餘弦定理在短距離時產生嚴重的捨入誤差。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "距離計算器",
+      "半正矢公式",
+      "經緯度距離計算"
+    ],
+    "seo_keywords_en": [
+      "Distance Calculator",
+      "Haversine formula"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Haversine_formula"
+  },
+  {
+    "tool_id": "fuel-cost-calculator",
+    "title_zh": "油費計算器",
+    "title_en": "Fuel Cost Calculator",
+    "definition_zh": "油費計算器是一款實用工具，用於估算駕駛特定距離所需的燃油總成本。使用者只需輸入行駛距離、車輛的燃油效率及當前油價，即可快速獲得預估的交通花費，有助於旅行預算規劃。",
+    "definition_en": "A fuel cost calculator is a practical tool designed to estimate the total expense of fuel required for driving a specific distance. By inputting the travel distance, the vehicle's fuel efficiency, and the current fuel price, users can quickly determine their expected transportation costs, making it highly useful for trip budgeting and route planning.",
+    "formula": "Total Fuel Cost = (Distance / Fuel Efficiency) × Fuel Price",
+    "formula_explained": "總油費等於行駛距離除以燃油效率（例如每公升行駛公里數），再乘以每單位的燃油價格。若燃油效率單位為每百公里耗油量（L/100km），則公式為：總油費 = (行駛距離 × 每百公里耗油量 / 100) × 燃油價格。",
+    "variables": [
+      {
+        "symbol": "C",
+        "name_zh": "總油費",
+        "description": "完成整趟旅程所需的預估燃油總花費。"
+      },
+      {
+        "symbol": "D",
+        "name_zh": "行駛距離",
+        "description": "計畫行駛的總里程數，通常以公里（km）或英里（miles）為單位。"
+      },
+      {
+        "symbol": "E",
+        "name_zh": "燃油效率",
+        "description": "車輛的耗油表現，常見單位為公里/公升（km/L）或英里/加侖（MPG）。"
+      },
+      {
+        "symbol": "P",
+        "name_zh": "燃油價格",
+        "description": "每單位燃油的單價，例如每公升或每加侖的價格。"
+      }
+    ],
+    "real_world_example": "假設你要從台北開車到高雄，總距離約為 350 公里。你的汽車燃油效率為 14 km/L，而目前的汽油價格為每公升 30 元。根據公式計算，所需燃油為 350 / 14 = 25 公升。總油費則為 25 × 30 = 750 元。這表示這趟單程旅途的油費預估為 750 元。",
+    "use_cases": [
+      "家庭或朋友公路旅行前的交通預算規劃與費用分攤計算。",
+      "日常通勤者評估開車與搭乘大眾運輸工具的成本差異。",
+      "物流或運輸業者估算特定送貨路線的燃油成本以制定報價。"
+    ],
+    "common_mistakes": [
+      "混淆燃油效率的單位（例如將 km/L 與 L/100km 搞混），導致計算結果偏差極大。",
+      "忽略了實際路況（如塞車、山路或開冷氣）對燃油效率的負面影響，使得預估油費低於實際花費。"
+    ],
+    "faq": [
+      {
+        "q": "如何知道我的車輛的燃油效率？",
+        "a": "您可以查閱車輛的車主手冊、原廠規格表，或透過儀表板上的平均油耗顯示來得知。最準確的方式是實際記錄加滿油後的行駛里程來換算。"
+      },
+      {
+        "q": "市區和高速公路的油耗一樣嗎？",
+        "a": "不一樣。通常車輛在高速公路上定速行駛時的燃油效率較佳，而在市區因頻繁起步和煞車，油耗會顯著增加。"
+      },
+      {
+        "q": "這個計算器能用於電動車嗎？",
+        "a": "基本邏輯相似，但電動車需將變數替換為「電池效能（km/kWh）」與「電價（元/kWh）」來計算充電成本。"
+      },
+      {
+        "q": "為什麼實際油費總是比計算出來的高？",
+        "a": "因為計算通常基於理想油耗，而實際駕駛中會受到載重、胎壓、冷氣使用及交通壅塞等因素影響，導致耗油量增加。"
+      },
+      {
+        "q": "我應該用哪種油價來計算？",
+        "a": "建議使用您預計加油地區的當前平均油價。如果是長途旅行，油價可能會有波動，建議取較高的估值以保留預算彈性。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "油費計算器",
+      "汽車油耗計算",
+      "旅行交通預算"
+    ],
+    "seo_keywords_en": [
+      "fuel cost calculator",
+      "gas mileage calculator"
+    ],
+    "source": "https://www.calculator.net/fuel-cost-calculator.html"
+  },
+  {
+    "tool_id": "co2-emission-calculator",
+    "title_zh": "碳排放計算器",
+    "title_en": "CO2 Emission Calculator",
+    "definition_zh": "碳排放計算器是一種用於估算個人或企業在交通出行（如飛行、開車、鐵路等）過程中所產生的二氧化碳當量（CO2e）排放量的工具，有助於評估環境影響並促進減碳行動。",
+    "definition_en": "A CO2 emission calculator is a tool designed to estimate the amount of carbon dioxide equivalent (CO2e) emissions generated by personal or corporate travel, including flights, driving, and public transit. It helps users assess their environmental impact and make informed decisions to reduce their carbon footprint.",
+    "formula": "E = D \\times EF",
+    "formula_explained": "E 代表總碳排放量（通常以公斤或噸 CO2e 為單位）；D 代表旅行距離（公里或英里）；EF 代表排放因子（每單位距離的碳排放量，取決於交通工具類型、燃油效率及載客量等）。",
+    "variables": [
+      {
+        "symbol": "E",
+        "name_zh": "總碳排放量",
+        "description": "交通出行產生的二氧化碳當量總和"
+      },
+      {
+        "symbol": "D",
+        "name_zh": "旅行距離",
+        "description": "起點到終點的實際行駛距離"
+      },
+      {
+        "symbol": "EF",
+        "name_zh": "排放因子",
+        "description": "特定交通工具每單位距離的平均碳排放量"
+      }
+    ],
+    "real_world_example": "假設某人駕駛一輛燃油效率為每公里排放 0.192 公斤 CO2 的汽車，從台北開車到高雄，距離約為 350 公里。根據公式，總碳排放量為 350 × 0.192 = 67.2 公斤 CO2e。若改搭高鐵（排放因子約 0.034 公斤/公里），則排放量降至 11.9 公斤 CO2e。",
+    "use_cases": [
+      "企業計算員工差旅的碳足跡以符合ESG報告要求",
+      "個人旅客評估不同交通方式的環境影響以選擇綠色出行",
+      "物流公司估算貨物運輸過程中的碳排放以優化供應鏈"
+    ],
+    "common_mistakes": [
+      "忽略了不同交通工具（如飛機的短程與長程、汽車的燃油類型）排放因子的巨大差異",
+      "未將飛機的高空輻射效應（Radiative Forcing）納入計算，導致低估實際氣候影響"
+    ],
+    "faq": [
+      {
+        "q": "碳排放計算器中的 CO2e 是什麼意思？",
+        "a": "CO2e 代表二氧化碳當量，它將其他溫室氣體（如甲烷、一氧化二氮）的暖化效應換算成等量的二氧化碳，以提供單一的氣候影響指標。"
+      },
+      {
+        "q": "飛機和汽車哪種交通方式的碳排放較高？",
+        "a": "通常單人駕駛傳統燃油車的每公里人均排放量可能高於滿載的長途客機，但短途飛行由於起降耗油大，其人均排放量通常高於汽車或火車。"
+      },
+      {
+        "q": "排放因子（Emission Factor）是如何決定的？",
+        "a": "排放因子由環保機構（如 EPA 或 IPCC）根據交通工具的平均燃油消耗、燃料類型及生命週期排放等數據綜合計算得出。"
+      },
+      {
+        "q": "計算結果是否包含製造交通工具的碳排放？",
+        "a": "大多數標準的碳排放計算器僅計算「營運」或「尾氣」排放，不包含車輛或飛機製造過程的碳排放。"
+      },
+      {
+        "q": "如何減少我的旅行碳足跡？",
+        "a": "可以選擇搭乘大眾運輸（如火車、高鐵）、共乘、駕駛電動車，或透過購買碳抵換（Carbon Offset）來補償無法避免的排放。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "碳排放計算器",
+      "交通碳足跡",
+      "旅行碳排放"
+    ],
+    "seo_keywords_en": [
+      "CO2 emission calculator",
+      "travel carbon footprint"
+    ],
+    "source": "https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator"
+  },
+  {
+    "tool_id": "packing-list-generator",
+    "title_zh": "行李清單產生器",
+    "title_en": "Packing List Generator",
+    "definition_zh": "行李清單產生器是一種根據旅行目的地、天數、天氣及活動類型，自動生成所需物品清單的工具，幫助旅客避免遺漏重要物品。",
+    "definition_en": "A packing list generator is a tool that automatically creates a customized list of items needed for a trip based on the destination, duration, weather, and planned activities, helping travelers avoid forgetting essential items.",
+    "formula": "Items = Base_Items ∪ (Clothing_per_day × Days) ∪ Weather_Specific_Items ∪ Activity_Specific_Items",
+    "formula_explained": "Items：最終生成的行李清單。Base_Items：基本必備物品（如護照、手機、充電器）。Clothing_per_day：每天所需的衣物數量。Days：旅行天數。Weather_Specific_Items：根據當地天氣添加的特定物品（如雨傘、防曬霜）。Activity_Specific_Items：根據特定活動添加的物品（如泳衣、登山鞋）。",
+    "variables": [
+      {
+        "symbol": "Base_Items",
+        "name_zh": "基本必備物品",
+        "description": "所有旅行都必須攜帶的基礎物品，如證件、錢包、電子產品等。"
+      },
+      {
+        "symbol": "Clothing_per_day",
+        "name_zh": "每日衣物",
+        "description": "每天需要更換的衣物數量，如內衣褲、襪子等。"
+      },
+      {
+        "symbol": "Days",
+        "name_zh": "旅行天數",
+        "description": "預計旅行的總天數，用於計算消耗品和衣物數量。"
+      },
+      {
+        "symbol": "Weather_Specific_Items",
+        "name_zh": "天氣特定物品",
+        "description": "根據目的地天氣預報決定的物品，如禦寒衣物或防曬用品。"
+      },
+      {
+        "symbol": "Activity_Specific_Items",
+        "name_zh": "活動特定物品",
+        "description": "根據行程安排的特殊活動所需的裝備，如浮潛用具或滑雪裝備。"
+      }
+    ],
+    "real_world_example": "假設你要去日本東京旅行5天，天氣預報為雨天，並計畫去迪士尼樂園。產生器會計算：基本物品（護照、日幣）+ 5天份衣物（5套內衣褲、襪子）+ 天氣物品（雨傘、防水鞋）+ 活動物品（行動電源、舒適的休閒鞋），最終生成一份約40項物品的完整清單。",
+    "use_cases": [
+      "準備出國長途旅行，擔心遺漏重要證件或轉接頭。",
+      "週末國內短途旅行，需要快速整理輕便行李。",
+      "前往氣候差異大的國家，不知道該如何準備合適的衣物。"
+    ],
+    "common_mistakes": [
+      "未考慮目的地的實際天氣變化，導致帶錯衣物類型。",
+      "過度打包，帶了太多「以防萬一」的物品，導致行李超重。"
+    ],
+    "faq": [
+      {
+        "q": "行李清單產生器會考慮航空公司的行李限制嗎？",
+        "a": "部分進階的產生器會提供重量估算或提醒，但主要還是以物品清單為主，建議自行確認航空公司規定。"
+      },
+      {
+        "q": "我可以自訂清單內容嗎？",
+        "a": "可以，大多數產生器生成的清單都可以手動新增、刪除或修改物品。"
+      },
+      {
+        "q": "產生器會建議帶多少現金嗎？",
+        "a": "通常不會給出具體金額，但會提醒攜帶當地貨幣、信用卡及備用現金。"
+      },
+      {
+        "q": "如果行程包含多個不同氣候的國家怎麼辦？",
+        "a": "建議以最極端的天氣為主來準備，並採用洋蔥式穿搭法，產生器通常會涵蓋各氣候的必備品。"
+      },
+      {
+        "q": "清單可以匯出或列印嗎？",
+        "a": "大多數工具支援將清單匯出為 PDF、發送至電子郵件或直接列印，方便打包時勾選。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "行李清單產生器",
+      "出國行李準備",
+      "旅行打包清單"
+    ],
+    "seo_keywords_en": [
+      "packing list generator",
+      "travel packing checklist"
+    ],
+    "source": "https://packpnt.com/"
+  },
+  {
+    "tool_id": "visa-fee-calculator",
+    "title_zh": "簽證費用計算器",
+    "title_en": "Visa Fee Calculator",
+    "definition_zh": "簽證費用計算器是一款用於估算各國簽證申請所需總費用的工具，涵蓋基本簽證費、服務費、加急費及其他附加費用，幫助旅客提前規劃旅行預算。",
+    "definition_en": "A Visa Fee Calculator is a tool designed to estimate the total cost of applying for a visa to various countries. It accounts for the basic visa fee, service charges, expedited processing fees, and other supplementary costs, helping travelers plan their budgets effectively.",
+    "formula": "Total Visa Fee = B + S + E + A",
+    "formula_explained": "Total Visa Fee：總簽證費用；B：基本簽證費 (Basic Visa Fee)；S：服務費 (Service Fee)；E：加急費 (Expedited Fee)；A：附加費用 (Additional Fees)。",
+    "variables": [
+      {
+        "symbol": "B",
+        "name_zh": "基本簽證費",
+        "description": "領事館或大使館收取的官方簽證費用"
+      },
+      {
+        "symbol": "S",
+        "name_zh": "服務費",
+        "description": "簽證申請中心或代辦機構收取的服務手續費"
+      },
+      {
+        "symbol": "E",
+        "name_zh": "加急費",
+        "description": "選擇加急或特急處理時需支付的額外費用"
+      },
+      {
+        "symbol": "A",
+        "name_zh": "附加費用",
+        "description": "如郵寄費、相片列印、文件翻譯等其他雜費"
+      }
+    ],
+    "real_world_example": "假設小明申請美國B1/B2簽證，基本簽證費為185美元。他選擇透過代辦機構辦理，服務費為30美元，並選擇快遞寄回護照，附加費用為15美元。不需加急。總簽證費用 = 185 + 30 + 0 + 15 = 230美元。",
+    "use_cases": [
+      "出國旅遊前估算各國簽證辦理的總預算",
+      "比較不同簽證代辦機構的服務費用總和",
+      "企業為員工安排跨國出差時計算簽證報銷費用"
+    ],
+    "common_mistakes": [
+      "忽略了簽證中心收取的服務費，僅計算了領事館的基本簽證費",
+      "未考慮匯率波動，導致以外幣計價的簽證費用估算不準確"
+    ],
+    "faq": [
+      {
+        "q": "簽證費用計算器包含所有國家的簽證費嗎？",
+        "a": "通常包含熱門旅遊及商務目的國家的簽證費用，但具體取決於計算器的資料庫更新情況。"
+      },
+      {
+        "q": "如果簽證被拒，簽證費會退還嗎？",
+        "a": "絕大多數情況下，無論簽證是否獲批，基本簽證費和服務費都是不予退還的。"
+      },
+      {
+        "q": "加急費用是必須支付的嗎？",
+        "a": "不是，加急費用僅在您需要縮短簽證審批時間時才需要支付。"
+      },
+      {
+        "q": "計算出來的費用是最終費用嗎？",
+        "a": "計算結果為估算值，實際費用可能因匯率變動或各國政策調整而有所不同。"
+      },
+      {
+        "q": "兒童的簽證費用和成人一樣嗎？",
+        "a": "不同國家的規定不同，有些國家對兒童免收或減收簽證費，計算器通常會根據年齡提供相應選項。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "簽證費用計算器",
+      "出國簽證費用估算",
+      "各國簽證代辦費用"
+    ],
+    "seo_keywords_en": [
+      "Visa Fee Calculator",
+      "Visa cost estimator"
+    ],
+    "source": "https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/fees/fees-visa-services.html"
+  }
+]

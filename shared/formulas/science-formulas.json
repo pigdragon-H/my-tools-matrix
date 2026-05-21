@@ -1,272 +1,556 @@
 [
   {
-    "tool_id": "speed-distance-time",
-    "title_zh": "速度距離時間計算器",
-    "title_en": "Speed Distance Time Calculator",
-    "definition_zh": "速度、距離與時間計算器是一個用於計算物體運動基本物理量的工具。根據古典力學的運動學原理，當已知速度、距離或時間中的任意兩個變數時，即可透過公式求出第三個未知數。這在物理學、交通運輸及日常生活中都有廣泛應用。",
+    "tool_id": "unit-converter",
+    "title_zh": "單位轉換器",
+    "title_en": "Unit Converter",
+    "definition_zh": "單位轉換器是一種實用工具，用於將某個物理量從一種測量單位轉換為另一種測量單位，涵蓋長度、重量、面積、體積、溫度等多種常見物理量，確保數據在不同系統間的準確互通。",
+    "definition_en": "A unit converter is a practical tool used to convert a physical quantity from one unit of measurement to another. It covers various common physical quantities such as length, weight, area, volume, and temperature, ensuring accurate data interchange between different measurement systems.",
+    "formula": "y = x × C",
+    "formula_explained": "y 代表轉換後的目標單位數值；x 代表轉換前的原始單位數值；C 代表兩種單位之間的轉換係數（例如從英吋轉換為公分，C = 2.54）。對於溫度等非線性轉換，公式可能包含加減運算。",
+    "variables": [
+      {
+        "symbol": "y",
+        "name_zh": "目標數值",
+        "description": "轉換後得到的數值"
+      },
+      {
+        "symbol": "x",
+        "name_zh": "原始數值",
+        "description": "需要被轉換的初始數值"
+      },
+      {
+        "symbol": "C",
+        "name_zh": "轉換係數",
+        "description": "兩個單位之間的固定比例常數"
+      }
+    ],
+    "real_world_example": "假設你在美國網站上看到一件家具的長度標示為 50 英吋，但你需要知道它在公制系統中的長度。使用單位轉換器，輸入原始數值 50，選擇從「英吋」轉換為「公分」，系統會應用轉換係數 2.54，計算出 50 × 2.54 = 127 公分，讓你準確了解家具的實際大小。",
+    "use_cases": [
+      "在科學實驗中將不同測量系統的數據統一標準",
+      "出國旅遊時轉換當地的氣溫、距離或重量單位",
+      "工程設計時將英制單位的圖紙轉換為公制單位"
+    ],
+    "common_mistakes": [
+      "混淆了英制和美制單位（例如英制加侖和美制加侖的容量不同）",
+      "在進行多步轉換時過早四捨五入，導致最終結果產生累積誤差"
+    ],
+    "faq": [
+      {
+        "q": "單位轉換器支援哪些類型的物理量？",
+        "a": "通常支援長度、重量、面積、體積、溫度、速度、時間、壓力等常見物理量。"
+      },
+      {
+        "q": "如何轉換溫度單位？",
+        "a": "溫度轉換不僅是乘法，還涉及加減。例如攝氏轉華氏的公式是 °C × 9/5 + 32。"
+      },
+      {
+        "q": "轉換係數是絕對準確的嗎？",
+        "a": "大多數標準單位的轉換係數是精確的（如 1英吋 = 2.54公分），但某些歷史或非標準單位可能是近似值。"
+      },
+      {
+        "q": "可以同時轉換多個單位嗎？",
+        "a": "許多進階的單位轉換器允許你輸入一個數值，然後同時顯示多種目標單位的轉換結果。"
+      },
+      {
+        "q": "為什麼體積單位的轉換容易出錯？",
+        "a": "因為體積單位如「加侖」或「盎司」在英國和美國有不同的定義，使用時需特別注意選擇正確的系統。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "單位轉換器",
+      "長度換算",
+      "重量轉換"
+    ],
+    "seo_keywords_en": [
+      "unit converter",
+      "measurement conversion"
+    ],
+    "source": "https://www.calculator.net/unit-converter.html"
+  },
+  {
+    "tool_id": "temperature-converter",
+    "title_zh": "溫度轉換器",
+    "title_en": "Temperature Converter",
+    "definition_zh": "溫度轉換器是一種用於在不同溫度單位（如攝氏、華氏和開爾文）之間進行數值換算的工具，幫助使用者在科學研究、氣象預報或日常生活中快速獲得準確的溫度數據。",
+    "definition_en": "A temperature converter is a tool used to translate temperature values between different scales, such as Celsius, Fahrenheit, and Kelvin. It helps users quickly obtain accurate temperature readings for scientific research, weather forecasting, or daily life applications.",
+    "formula": "°F = °C × 9/5 + 32; K = °C + 273.15",
+    "formula_explained": "°C 代表攝氏溫度（Celsius），°F 代表華氏溫度（Fahrenheit），K 代表開爾文溫度（Kelvin）。透過這些公式，可以將攝氏溫度轉換為華氏或開爾文溫度，反之亦然。",
+    "variables": [
+      {
+        "symbol": "°C",
+        "name_zh": "攝氏度",
+        "description": "以冰點為0度、沸點為100度的溫度單位。"
+      },
+      {
+        "symbol": "°F",
+        "name_zh": "華氏度",
+        "description": "以冰點為32度、沸點為212度的溫度單位。"
+      },
+      {
+        "symbol": "K",
+        "name_zh": "開爾文",
+        "description": "熱力學溫標，絕對零度為0K。"
+      }
+    ],
+    "real_world_example": "假設你正在閱讀一份美國的食譜，要求烤箱溫度設定為 350°F。使用溫度轉換器，你可以計算出攝氏溫度：(350 - 32) × 5/9 ≈ 176.7°C。因此，你可以將家裡的烤箱設定為約 175°C 或 180°C 來烘焙。",
+    "use_cases": [
+      "出國旅遊時，將當地的華氏氣溫預報轉換為熟悉的攝氏溫度以準備衣物。",
+      "在科學實驗中，將攝氏溫度轉換為開爾文以進行熱力學計算。",
+      "參考國外食譜烘焙時，將烤箱的華氏溫度要求轉換為攝氏溫度。"
+    ],
+    "common_mistakes": [
+      "在攝氏與華氏轉換時，忘記先加減32再進行乘除運算，導致結果偏差。",
+      "誤以為開爾文（K）帶有度數符號（°K），實際上開爾文不使用度數符號。"
+    ],
+    "faq": [
+      {
+        "q": "攝氏和華氏在哪個溫度會相等？",
+        "a": "攝氏和華氏在 -40 度時會相等，即 -40°C = -40°F。"
+      },
+      {
+        "q": "什麼是絕對零度？",
+        "a": "絕對零度是熱力學溫標的最低極限，等於 0 K，換算為攝氏是 -273.15°C。"
+      },
+      {
+        "q": "為什麼科學界常用開爾文？",
+        "a": "因為開爾文是絕對溫標，沒有負數，適合用於氣體定律和熱力學等科學計算。"
+      },
+      {
+        "q": "如何快速心算攝氏轉華氏？",
+        "a": "可以將攝氏溫度乘以 2，再加上 30，這是一個粗略但快速的估算方法。"
+      },
+      {
+        "q": "體溫 37°C 換算成華氏是多少？",
+        "a": "正常人體溫 37°C 換算成華氏大約是 98.6°F。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "溫度轉換器",
+      "攝氏轉華氏",
+      "溫度換算公式"
+    ],
+    "seo_keywords_en": [
+      "temperature converter",
+      "celsius to fahrenheit"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Conversion_of_scales_of_temperature"
+  },
+  {
+    "tool_id": "speed-calculator",
+    "title_zh": "速度計算器",
+    "title_en": "Speed Calculator",
+    "definition_zh": "速度計算器用於計算物體在特定時間內移動的距離，或已知距離和時間時計算其平均速度，是物理學和日常生活中常用的基本工具。",
+    "definition_en": "A speed calculator is a tool used to determine the average speed of an object by dividing the total distance traveled by the time taken to cover that distance. It can also be used to find distance or time if the other two variables are known.",
     "formula": "v = d / t",
+    "formula_explained": "v 代表速度 (Velocity/Speed)，即物體運動的快慢；d 代表距離 (Distance)，即物體移動的總長度；t 代表時間 (Time)，即物體移動所花費的總時間。",
     "variables": [
       {
         "symbol": "v",
         "name_zh": "速度",
-        "description": "物體在單位時間內移動的距離。"
+        "description": "物體移動的速率，通常以公里/小時 (km/h) 或公尺/秒 (m/s) 表示。"
       },
       {
         "symbol": "d",
         "name_zh": "距離",
-        "description": "物體移動的總路徑長度。"
+        "description": "物體移動的總長度，通常以公里 (km) 或公尺 (m) 表示。"
       },
       {
         "symbol": "t",
         "name_zh": "時間",
-        "description": "物體移動所花費的時間。"
+        "description": "物體移動所花費的時間，通常以小時 (h) 或秒 (s) 表示。"
       }
     ],
+    "real_world_example": "假設你開車從台北到台中，總距離為 160 公里，花費了 2 小時。根據公式 v = d / t，你的平均速度為 160 / 2 = 80 公里/小時。這表示你平均每小時移動 80 公里。",
     "use_cases": [
-      "計算車輛行駛特定距離所需的時間，以規劃旅行行程。",
-      "根據跑步者的完賽時間與距離，計算其平均配速或速度。",
-      "在物理學實驗中，測量物體運動的速度以驗證運動學定律。"
+      "計算開車或騎車到達目的地所需的預估時間。",
+      "運動員在訓練時計算跑步或游泳的平均配速。",
+      "物理學實驗中測量物體運動的速度與加速度基礎數據。"
+    ],
+    "common_mistakes": [
+      "單位不統一，例如距離用公里，時間用分鐘，卻未換算直接相除。",
+      "混淆了平均速度與瞬時速度，公式計算出的是整段路程的平均速度。"
     ],
     "faq": [
       {
-        "q": "如何計算速度？",
-        "a": "將移動的總距離除以所花費的總時間即可得到平均速度，公式為 v = d / t。"
+        "q": "速度和速率有什麼不同？",
+        "a": "速率是純量，只包含大小；速度是向量，包含大小和方向。但在一般計算中常交替使用。"
       },
       {
-        "q": "如果已知速度和時間，如何求距離？",
-        "a": "將速度乘以時間即可得到距離，公式為 d = v × t。"
+        "q": "如何將公里/小時換算為公尺/秒？",
+        "a": "將公里/小時的數值除以 3.6 即可得到公尺/秒。"
       },
       {
-        "q": "速度的常用單位有哪些？",
-        "a": "常用的速度單位包括公里每小時 (km/h)、公尺每秒 (m/s) 以及英里每小時 (mph)。"
+        "q": "如果已知速度和時間，如何計算距離？",
+        "a": "可以將公式變形為 d = v × t，將速度乘上時間即可得到距離。"
       },
       {
         "q": "這個公式適用於變速運動嗎？",
-        "a": "這個公式計算出的是平均速度。如果物體做等速運動，則任何時刻的速度都等於平均速度；若是變速運動，則僅代表該段時間內的平均值。"
+        "a": "這個公式計算出的是「平均速度」，無法反映物體在運動過程中的速度變化。"
       },
       {
-        "q": "如何將公里每小時轉換為公尺每秒？",
-        "a": "將公里每小時的數值除以 3.6 即可轉換為公尺每秒 (m/s)。"
+        "q": "時間單位可以使用分鐘嗎？",
+        "a": "可以，但建議先換算為小時或秒，以符合常見的速度單位（如 km/h 或 m/s），避免混淆。"
       }
     ],
     "seo_keywords_zh": [
       "速度計算器",
-      "距離時間公式",
-      "平均速度計算"
-    ]
+      "平均速度公式",
+      "距離時間計算"
+    ],
+    "seo_keywords_en": [
+      "speed calculator",
+      "velocity formula"
+    ],
+    "source": "https://www.calculator.net/speed-calculator.html"
   },
   {
-    "tool_id": "ohms-law",
+    "tool_id": "force-calculator",
+    "title_zh": "力計算器",
+    "title_en": "Force Calculator",
+    "definition_zh": "力計算器是一個基於牛頓第二運動定律的工具，用於計算作用在物體上的力。它透過將物體的質量乘以其加速度來求得力，也能在已知其中兩個變數時，快速計算出未知的第三個變數（力、質量或加速度）。",
+    "definition_en": "A force calculator is a tool designed to compute the force acting on an object using Newton's second law of motion. It calculates the force by multiplying the mass of the object by its acceleration. This fundamental physics principle states that the force applied to an object is directly proportional to its mass and the acceleration it experiences. The calculator allows users to easily find the missing variable—force, mass, or acceleration—when the other two are known, making it essential for physics problems and engineering applications.",
+    "formula": "F = m * a",
+    "formula_explained": "F 代表力（Force），單位通常為牛頓（N）；m 代表質量（Mass），單位通常為公斤（kg）；a 代表加速度（Acceleration），單位通常為公尺每平方秒（m/s²）。公式表示力等於質量乘以加速度。",
+    "variables": [
+      {
+        "symbol": "F",
+        "name_zh": "力",
+        "description": "作用在物體上的淨力，國際標準單位為牛頓（N）。"
+      },
+      {
+        "symbol": "m",
+        "name_zh": "質量",
+        "description": "物體所含物質的量，國際標準單位為公斤（kg）。"
+      },
+      {
+        "symbol": "a",
+        "name_zh": "加速度",
+        "description": "物體速度改變的速率，國際標準單位為公尺每平方秒（m/s²）。"
+      }
+    ],
+    "real_world_example": "假設一輛質量為 1200 公斤的汽車，正在以 3 m/s² 的加速度直線加速。根據牛頓第二定律 F=ma，引擎需要提供的淨力為 F = 1200 kg × 3 m/s² = 3600 牛頓（N）。這表示引擎必須產生 3600 牛頓的力才能讓汽車達到該加速度。",
+    "use_cases": [
+      "物理學教學與學習：學生在學習牛頓運動定律時，用來驗證課本上的計算題或實驗數據。",
+      "工程設計與測試：工程師在設計機械或車輛時，計算需要多少推力或拉力才能達到預期的加速度。",
+      "運動科學分析：分析運動員在起跑或投擲時所產生的力量，以優化訓練計畫和提升運動表現。"
+    ],
+    "common_mistakes": [
+      "混淆質量與重量：質量是物體所含物質的量（公斤），而重量是重力作用在物體上的力（牛頓），兩者不可混用。",
+      "單位不一致：在計算時未將質量轉換為公斤（kg）或加速度轉換為公尺每平方秒（m/s²），導致計算出的力不是標準的牛頓（N）。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是牛頓第二運動定律？",
+        "a": "牛頓第二運動定律指出，作用在物體上的淨力等於物體的質量乘以其加速度（F=ma）。這意味著力與質量和加速度成正比。"
+      },
+      {
+        "q": "力的標準單位是什麼？",
+        "a": "力的國際標準單位（SI）是牛頓（N）。1牛頓等於1公斤·公尺每平方秒（1 N = 1 kg·m/s²）。"
+      },
+      {
+        "q": "如果加速度為零，力是多少？",
+        "a": "如果物體的加速度為零，根據公式F=ma，作用在物體上的淨力也為零。這表示物體處於靜止狀態或等速直線運動。"
+      },
+      {
+        "q": "質量和重量有什麼不同？",
+        "a": "質量是物體所含物質的量，單位是公斤（kg），不會隨地點改變。重量是重力對物體的作用力，單位是牛頓（N），會隨重力加速度改變。"
+      },
+      {
+        "q": "如何使用這個計算器求質量？",
+        "a": "只要在計算器中輸入已知的力（F）和加速度（a），計算器就會利用公式 m = F/a 自動計算出物體的質量（m）。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "力計算器",
+      "F=ma計算",
+      "牛頓第二定律計算器"
+    ],
+    "seo_keywords_en": [
+      "force calculator",
+      "newton second law calculator"
+    ],
+    "source": "https://www.omnicalculator.com/physics/force"
+  },
+  {
+    "tool_id": "ohms-law-calculator",
     "title_zh": "歐姆定律計算器",
     "title_en": "Ohm's Law Calculator",
-    "definition_zh": "歐姆定律指出，在同一電路中，通過某段導體的電流與這段導體兩端的電壓成正比，與這段導體的電阻成反比。它是電路分析中最基礎的定律。",
-    "formula": "V = I * R",
+    "definition_zh": "歐姆定律計算器用於計算電路中的電壓、電流、電阻和功率。根據歐姆定律，電壓等於電流乘以電阻（V=IR），此工具能幫助使用者在已知任意兩個變數的情況下，快速求出其他未知數值。",
+    "definition_en": "An Ohm's Law Calculator is a tool used to calculate voltage, current, resistance, and power in an electrical circuit. Based on Ohm's Law (V=IR), it allows users to quickly find unknown values when any two variables are known.",
+    "formula": "V = I × R",
+    "formula_explained": "V 代表電壓（Voltage），單位為伏特（V）；I 代表電流（Current），單位為安培（A）；R 代表電阻（Resistance），單位為歐姆（Ω）。",
     "variables": [
       {
         "symbol": "V",
         "name_zh": "電壓",
-        "description": "導體兩端的電位差，單位為伏特 (V)"
+        "description": "電路兩端的電位差，單位為伏特（V）"
       },
       {
         "symbol": "I",
         "name_zh": "電流",
-        "description": "通過導體的電荷流動率，單位為安培 (A)"
+        "description": "電荷流動的速率，單位為安培（A）"
       },
       {
         "symbol": "R",
         "name_zh": "電阻",
-        "description": "導體對電流的阻礙作用，單位為歐姆 (Ω)"
+        "description": "阻礙電流流動的程度，單位為歐姆（Ω）"
       }
     ],
+    "real_world_example": "假設一個手電筒的燈泡電阻為 10 歐姆（Ω），使用的電池提供 3 伏特（V）的電壓。根據歐姆定律 I = V / R，流過燈泡的電流為 3 / 10 = 0.3 安培（A）。",
     "use_cases": [
       "電子電路設計與分析",
-      "電器設備故障排查與維修",
-      "物理學與工程學教育實驗"
+      "電器維修與故障排除",
+      "物理與電子學課程學習"
+    ],
+    "common_mistakes": [
+      "單位換算錯誤，例如未將毫安培（mA）轉換為安培（A）再進行計算",
+      "在非線性元件（如二極體）上錯誤地直接應用歐姆定律"
     ],
     "faq": [
       {
         "q": "什麼是歐姆定律？",
-        "a": "歐姆定律描述了電壓、電流和電阻之間的關係，即電壓等於電流乘以電阻。"
+        "a": "歐姆定律指出，在恆定溫度下，通過導體的電流與其兩端的電壓成正比，與其電阻成反比。"
       },
       {
-        "q": "歐姆定律適用於所有材料嗎？",
-        "a": "不適用。它主要適用於歐姆導體（如大多數金屬），對於非線性元件（如二極體）則不適用。"
+        "q": "歐姆定律適用於所有電路嗎？",
+        "a": "不適用。歐姆定律主要適用於線性電阻器，對於非線性元件（如二極體、電晶體）或溫度變化較大的情況不適用。"
       },
       {
-        "q": "如何計算電阻？",
-        "a": "根據歐姆定律，電阻等於電壓除以電流（R = V / I）。"
+        "q": "如何計算電壓？",
+        "a": "根據歐姆定律，電壓可以通過公式 V = I × R 計算，即電流乘以電阻。"
       },
       {
-        "q": "電壓和電流的單位是什麼？",
-        "a": "電壓的單位是伏特（V），電流的單位是安培（A）。"
+        "q": "如果已知電壓和電阻，如何求電流？",
+        "a": "可以將歐姆定律公式變形為 I = V / R 來計算電流。"
       },
       {
-        "q": "如果電壓增加，電流會怎樣變化？",
-        "a": "在電阻不變的情況下，電壓增加會導致電流成正比例增加。"
+        "q": "電阻的單位是什麼？",
+        "a": "電阻的單位是歐姆（Ohm），符號為 Ω。"
       }
     ],
     "seo_keywords_zh": [
-      "歐姆定律計算",
-      "電壓電流電阻公式",
-      "電路計算器"
-    ]
+      "歐姆定律計算器",
+      "電壓電流電阻計算",
+      "V=IR公式"
+    ],
+    "seo_keywords_en": [
+      "Ohm's Law Calculator",
+      "voltage current resistance calculator"
+    ],
+    "source": "https://www.calculator.net/ohms-law-calculator.html"
+  },
+  {
+    "tool_id": "molecular-weight-calculator",
+    "title_zh": "分子量計算器",
+    "title_en": "Molecular Weight Calculator",
+    "definition_zh": "分子量計算器用於計算化學式中所有原子的原子量總和，幫助確定給定分子的摩爾質量，是化學研究與實驗的基礎工具。",
+    "definition_en": "A molecular weight calculator computes the total mass of a molecule by summing the atomic weights of all its constituent atoms, providing the molar mass of the compound.",
+    "formula": "MW = \\sum (N_i \\times AW_i)",
+    "formula_explained": "MW 代表分子量（Molecular Weight），N_i 代表分子中第 i 種元素的原子數量，AW_i 代表第 i 種元素的標準原子量（Atomic Weight）。",
+    "variables": [
+      {
+        "symbol": "MW",
+        "name_zh": "分子量",
+        "description": "化合物的總分子量，單位通常為 g/mol"
+      },
+      {
+        "symbol": "N_i",
+        "name_zh": "原子數量",
+        "description": "化學式中特定元素的原子個數"
+      },
+      {
+        "symbol": "AW_i",
+        "name_zh": "原子量",
+        "description": "特定元素的標準原子量"
+      }
+    ],
+    "real_world_example": "以水（H₂O）為例，氫（H）的原子量約為 1.008 g/mol，氧（O）的原子量約為 15.999 g/mol。水的分子量 = (2 × 1.008) + (1 × 15.999) = 2.016 + 15.999 = 18.015 g/mol。",
+    "use_cases": [
+      "化學實驗中計算試劑的摩爾數與質量關係",
+      "藥物合成中確定化合物的精確分子量",
+      "化學教育中幫助學生驗證化學式的摩爾質量"
+    ],
+    "common_mistakes": [
+      "忽略化學式中的括號，導致原子數量計算錯誤（例如將 Ca(OH)2 算成只有一個 O 和一個 H）",
+      "使用錯誤的同位素質量而非標準平均原子量進行計算"
+    ],
+    "faq": [
+      {
+        "q": "分子量和摩爾質量有什麼區別？",
+        "a": "分子量是無量綱的相對質量，而摩爾質量是每摩爾物質的質量（g/mol）。在數值上兩者通常是相等的。"
+      },
+      {
+        "q": "如何計算帶有結晶水的化合物分子量？",
+        "a": "需要將結晶水（如 ·5H2O）的質量也加到總分子量中，即加上5個水分子的質量。"
+      },
+      {
+        "q": "計算器支持同位素嗎？",
+        "a": "大多數標準分子量計算器使用元素的平均原子量。如果需要特定同位素的精確質量，需使用專門的同位素質量計算器。"
+      },
+      {
+        "q": "為什麼不同計算器得出的結果有微小差異？",
+        "a": "這通常是因為使用的原子量數據表版本不同，或者保留的小數位數不同所致。"
+      },
+      {
+        "q": "可以計算混合物的分子量嗎？",
+        "a": "分子量計算器通常只計算單一純淨化合物的分子量。混合物需要根據各組分的摩爾分數計算平均分子量。"
+      }
+    ],
+    "seo_keywords_zh": [
+      "分子量計算器",
+      "摩爾質量計算",
+      "化學式質量"
+    ],
+    "seo_keywords_en": [
+      "molecular weight calculator",
+      "molar mass calculator"
+    ],
+    "source": "https://www.calculator.net/molar-mass-calculator.html"
   },
   {
     "tool_id": "ph-calculator",
     "title_zh": "pH值計算器",
     "title_en": "pH Calculator",
-    "definition_zh": "pH值計算器用於計算溶液的酸鹼度。pH值是衡量溶液中氫離子濃度的指標，數值範圍通常在0到14之間，7為中性，小於7為酸性，大於7為鹼性。",
-    "formula": "pH = -log₁₀([H⁺])",
+    "definition_zh": "pH值（氫離子濃度指數）是衡量水溶液酸鹼程度的指標。它定義為氫離子活度的負對數，數值通常在0到14之間，7為中性，小於7為酸性，大於7為鹼性。",
+    "definition_en": "pH is a quantitative measure of the acidity or basicity of aqueous or other liquid solutions. It is defined as the negative base-10 logarithm of the hydrogen ion activity in a solution.",
+    "formula": "pH = -log₁₀[H⁺]",
+    "formula_explained": "pH代表氫離子濃度指數；[H⁺]代表溶液中的氫離子濃度，單位為摩爾每升（mol/L）；log₁₀為以10為底的對數。",
     "variables": [
+      {
+        "symbol": "pH",
+        "name_zh": "酸鹼值",
+        "description": "溶液的酸鹼程度指標"
+      },
       {
         "symbol": "[H⁺]",
         "name_zh": "氫離子濃度",
-        "description": "溶液中的氫離子濃度，單位通常為摩爾每升 (mol/L)。"
+        "description": "溶液中氫離子的濃度，單位為 mol/L"
       }
     ],
+    "real_world_example": "假設我們有一杯純水，在25°C時其氫離子濃度 [H⁺] 為 1.0 × 10⁻⁷ mol/L。代入公式計算：pH = -log₁₀(1.0 × 10⁻⁷) = 7。這表示純水在室溫下是中性的，pH值為7。",
     "use_cases": [
-      "化學實驗室中配製特定酸鹼度的緩衝溶液。",
-      "農業中檢測土壤酸鹼度以選擇合適的農作物。",
-      "水處理和水族箱管理中監測水質的酸鹼平衡。"
+      "化學實驗室中測量溶液的酸鹼度",
+      "農業中檢測土壤pH值以選擇合適的農作物",
+      "水處理和環境監測中評估水質"
+    ],
+    "common_mistakes": [
+      "誤以為pH值只能在0到14之間，實際上強酸或強鹼的pH值可能小於0或大於14",
+      "忽略了溫度對pH值的影響，pH值會隨溫度變化而改變"
     ],
     "faq": [
       {
         "q": "什麼是pH值？",
-        "a": "pH值是衡量溶液酸鹼度的指標，表示溶液中氫離子的濃度。"
+        "a": "pH值是衡量溶液酸鹼性的指標，數值越小越酸，越大越鹼，7為中性。"
       },
       {
-        "q": "pH值的範圍是多少？",
-        "a": "一般情況下，pH值的範圍是0到14。7表示中性，小於7表示酸性，大於7表示鹼性。"
+        "q": "如何計算pH值？",
+        "a": "通過公式 pH = -log₁₀[H⁺] 計算，其中[H⁺]是氫離子濃度。"
       },
       {
-        "q": "如何從pH值計算氫離子濃度？",
-        "a": "可以使用公式 [H⁺] = 10^(-pH) 來反向計算氫離子濃度。"
+        "q": "pH值可以為負數嗎？",
+        "a": "可以，極高濃度的強酸溶液其pH值會是負數。"
       },
       {
         "q": "溫度會影響pH值嗎？",
-        "a": "會的，溫度變化會影響水的解離常數，從而輕微改變溶液的pH值。"
+        "a": "會的，水的離子積常數隨溫度變化，因此中性點的pH值在不同溫度下會有所不同。"
       },
       {
-        "q": "什麼是pOH？",
-        "a": "pOH是衡量溶液中氫氧根離子(OH⁻)濃度的指標。在25°C時，pH + pOH = 14。"
+        "q": "為什麼pH值很重要？",
+        "a": "pH值影響化學反應速率、生物體內酶的活性以及環境生態系統的平衡。"
       }
     ],
     "seo_keywords_zh": [
       "pH值計算器",
       "酸鹼度計算",
-      "氫離子濃度公式"
-    ]
+      "氫離子濃度"
+    ],
+    "seo_keywords_en": [
+      "pH calculator",
+      "acidity calculator"
+    ],
+    "source": "https://en.wikipedia.org/wiki/PH"
   },
   {
-    "tool_id": "energy-converter",
-    "title_zh": "能量轉換器",
-    "title_en": "Energy Unit Converter",
-    "definition_zh": "能量轉換器是一種用於在不同能量單位之間進行換算的工具，常見的單位包括焦耳（J）、卡路里（cal）、千瓦時（kWh）和電子伏特（eV）等。它能幫助科學家、工程師及學生在熱力學、電磁學等領域中快速且準確地進行能量計算與數據轉換。",
-    "formula": "E_target = E_source * C",
+    "tool_id": "percentage-calculator",
+    "title_zh": "百分比計算器",
+    "title_en": "Percentage Calculator",
+    "definition_zh": "百分比計算器是一種用於快速計算百分比、增減率及比例的數學工具，幫助使用者輕鬆解決與百分比相關的各種數學問題。",
+    "definition_en": "A percentage calculator is a mathematical tool designed to quickly compute percentages, percentage changes (increase or decrease), and proportions, helping users easily solve various percentage-related mathematical problems.",
+    "formula": "P = (V1 / V2) * 100% or ΔP = ((V_final - V_initial) / |V_initial|) * 100%",
+    "formula_explained": "P 代表百分比，V1 代表部分值，V2 代表總值；在增減率公式中，ΔP 代表百分比變化，V_final 代表最終值，V_initial 代表初始值。",
     "variables": [
       {
-        "symbol": "E_source",
-        "name_zh": "原始能量值",
-        "description": "需要轉換的初始能量數值。"
+        "symbol": "P",
+        "name_zh": "百分比",
+        "description": "計算出的百分比結果"
       },
       {
-        "symbol": "E_target",
-        "name_zh": "目標能量值",
-        "description": "轉換後得到的目標單位能量數值。"
+        "symbol": "V1",
+        "name_zh": "部分值",
+        "description": "要計算百分比的數值"
       },
       {
-        "symbol": "C",
-        "name_zh": "轉換係數",
-        "description": "從原始單位轉換至目標單位的固定比例常數。"
+        "symbol": "V2",
+        "name_zh": "總值",
+        "description": "作為基準的總數值"
+      },
+      {
+        "symbol": "ΔP",
+        "name_zh": "百分比變化",
+        "description": "數值增加或減少的百分比"
+      },
+      {
+        "symbol": "V_initial",
+        "name_zh": "初始值",
+        "description": "變化前的原始數值"
+      },
+      {
+        "symbol": "V_final",
+        "name_zh": "最終值",
+        "description": "變化後的數值"
       }
     ],
+    "real_world_example": "假設一件原價為 2000 元的外套現在打 8 折（即減少 20%）。使用百分比計算器，可以算出折扣金額為 2000 × 20% = 400 元，因此最終售價為 2000 - 400 = 1600 元。",
     "use_cases": [
-      "物理與化學實驗中，將熱量單位卡路里轉換為標準國際單位焦耳。",
-      "電力工程中，將發電量或耗電量從焦耳轉換為千瓦時以便於計費與統計。",
-      "營養學中，將食物的熱量從千焦耳（kJ）轉換為大卡（kcal）以評估飲食攝取。"
+      "計算購物折扣與最終售價",
+      "分析公司營收的年度增長率或衰退率",
+      "計算考試成績的正確率或得分百分比"
+    ],
+    "common_mistakes": [
+      "計算增減率時，分母錯誤地使用了最終值而非初始值",
+      "混淆了『增加到』與『增加了』的百分比概念"
     ],
     "faq": [
       {
-        "q": "1卡路里等於多少焦耳？",
-        "a": "根據熱功當量，1卡路里（cal）約等於4.184焦耳（J）。"
+        "q": "如何計算一個數的百分之幾？",
+        "a": "將該數乘以百分比數值，再除以100即可。例如計算50的20%，即為 50 × 20 / 100 = 10。"
       },
       {
-        "q": "千瓦時（kWh）和焦耳（J）如何換算？",
-        "a": "1千瓦時等於3,600,000焦耳（3.6×10^6 J），因為1千瓦等於1000瓦，1小時等於3600秒。"
+        "q": "百分比增加率怎麼算？",
+        "a": "將新值減去舊值，再除以舊值的絕對值，最後乘以100%。"
       },
       {
-        "q": "大卡（kcal）和小卡（cal）有什麼區別？",
-        "a": "大卡通常用於表示食物熱量，1大卡（kcal）等於1000小卡（cal）。"
+        "q": "百分比和千分比有什麼不同？",
+        "a": "百分比是以100為基數的比例（符號為%），而千分比是以1000為基數的比例（符號為‰）。"
       },
       {
-        "q": "電子伏特（eV）是什麼單位？",
-        "a": "電子伏特是微觀物理學中常用的能量單位，1 eV 約等於 1.602×10^-19 焦耳。"
+        "q": "如果初始值為0，可以計算百分比變化嗎？",
+        "a": "不行，因為數學上不能除以0，所以當初始值為0時，無法計算百分比變化。"
       },
       {
-        "q": "能量轉換器支援哪些常見單位？",
-        "a": "通常支援焦耳、千焦耳、卡路里、千卡（大卡）、千瓦時、電子伏特、英熱單位（BTU）等。"
+        "q": "如何將分數轉換為百分比？",
+        "a": "將分子除以分母得到小數後，再乘以100並加上百分號即可。"
       }
     ],
     "seo_keywords_zh": [
-      "能量單位換算",
-      "焦耳卡路里轉換",
-      "千瓦時計算器"
-    ]
-  },
-  {
-    "tool_id": "wavelength-frequency",
-    "title_zh": "波長頻率計算器",
-    "title_en": "Wavelength Frequency Calculator",
-    "definition_zh": "波長頻率計算器用於計算電磁波或聲波的波長、頻率與波速之間的關係。根據波動基本方程式，波速等於波長乘以頻率，此工具可幫助使用者在已知其中兩個變數時，快速求出第三個未知數，廣泛應用於物理學、無線電通訊及聲學領域。",
-    "formula": "c = λ × f",
-    "variables": [
-      {
-        "symbol": "c",
-        "name_zh": "波速",
-        "description": "波傳播的速度，電磁波在真空中為光速（約 3×10^8 m/s）"
-      },
-      {
-        "symbol": "λ",
-        "name_zh": "波長",
-        "description": "波的空間週期，即相鄰兩個波峰或波谷之間的距離"
-      },
-      {
-        "symbol": "f",
-        "name_zh": "頻率",
-        "description": "單位時間內完成振動的次數，單位為赫茲（Hz）"
-      }
+      "百分比計算器",
+      "增減率計算",
+      "百分比換算"
     ],
-    "use_cases": [
-      "無線電通訊工程師計算特定頻段天線的最佳長度。",
-      "物理系學生在光學實驗中驗證不同顏色光波的波長與頻率關係。",
-      "聲學專家分析聲波在不同介質中的傳播特性與頻率響應。"
+    "seo_keywords_en": [
+      "percentage calculator",
+      "percent change calculator"
     ],
-    "faq": [
-      {
-        "q": "什麼是波長和頻率的關係？",
-        "a": "在波速固定的情況下，波長與頻率成反比。頻率越高，波長越短；頻率越低，波長越長。"
-      },
-      {
-        "q": "光速在所有介質中都一樣嗎？",
-        "a": "不一樣。光在真空中的速度最快（約 3×10^8 m/s），在水或玻璃等其他介質中傳播時速度會變慢。"
-      },
-      {
-        "q": "波長的常用單位有哪些？",
-        "a": "波長的國際標準單位是公尺（m），但在不同領域常使用奈米（nm，用於光波）、公分（cm，用於微波）等單位。"
-      },
-      {
-        "q": "如何計算無線電波的波長？",
-        "a": "將光速（約 300,000 km/s）除以無線電波的頻率即可得到波長。例如 300 MHz 的無線電波，其波長約為 1 公尺。"
-      },
-      {
-        "q": "聲波也可以用這個公式計算嗎？",
-        "a": "可以。聲波同樣適用 v = λ × f 的公式，只是波速 v 要代入聲速（在空氣中約為 343 m/s），而非光速。"
-      }
-    ],
-    "seo_keywords_zh": [
-      "波長頻率計算",
-      "光速波長公式",
-      "波長換算工具"
-    ]
+    "source": "https://www.calculator.net/percent-calculator.html"
   }
 ]
