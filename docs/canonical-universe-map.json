@@ -1,0 +1,479 @@
+{
+  "$schema": "Formula Universe — Canonical Universe Map v1.0",
+  "version": "1.0.0",
+  "created": "2026-05-22",
+  "author": "GPT (Architecture Brain)",
+  "validated_by": "Claude (Universe Auditor)",
+  "total_universes": 50,
+  "description": "50個主宇宙的標準 Key，一旦定義永不更改。所有 AI 必須使用此 MAP 中的 Key，禁止自行創建。",
+
+  "note": "website_key 是現有網站使用的 category key（短期），universe_key 是未來 Canonical ID 使用的標準（長期）。",
+
+  "universes": [
+    {
+      "universe_key": "FIN",
+      "website_key": "finance",
+      "name_en": "Finance",
+      "name_zh": "財經理財",
+      "description": "個人財務、理財規劃、預算管理",
+      "status": "active",
+      "priority": "P0"
+    },
+    {
+      "universe_key": "INV",
+      "website_key": "finance",
+      "name_en": "Investment",
+      "name_zh": "投資交易",
+      "description": "股票、基金、ETF、投資組合",
+      "status": "active",
+      "priority": "P0"
+    },
+    {
+      "universe_key": "ACC",
+      "website_key": "finance",
+      "name_en": "Accounting",
+      "name_zh": "會計財報",
+      "description": "會計原則、財務報表、成本分析",
+      "status": "planned",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "BUS",
+      "website_key": "finance",
+      "name_en": "Business",
+      "name_zh": "商業企管",
+      "description": "商業計算、企業管理、KPI",
+      "status": "planned",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "ECO",
+      "website_key": "finance",
+      "name_en": "Economics",
+      "name_zh": "經濟學",
+      "description": "總體經濟、微觀經濟、市場分析",
+      "status": "planned",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "TAX",
+      "website_key": "finance",
+      "name_en": "Tax",
+      "name_zh": "稅務",
+      "description": "所得稅、營業稅、稅務規劃",
+      "status": "planned",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "LAW",
+      "website_key": "legal",
+      "name_en": "Legal",
+      "name_zh": "法律",
+      "description": "法律計算、合約、罰款",
+      "status": "active",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "INS",
+      "website_key": "finance",
+      "name_en": "Insurance",
+      "name_zh": "保險",
+      "description": "人壽保險、車險、保費計算",
+      "status": "planned",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "BNK",
+      "website_key": "finance",
+      "name_en": "Banking",
+      "name_zh": "銀行金融",
+      "description": "存款、貸款、利率計算",
+      "status": "planned",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "HLT",
+      "website_key": "health",
+      "name_en": "Health",
+      "name_zh": "健康養生",
+      "description": "BMI、BMR、健康指標",
+      "status": "active",
+      "priority": "P0"
+    },
+    {
+      "universe_key": "MED",
+      "website_key": "health",
+      "name_en": "Medical",
+      "name_zh": "醫學",
+      "description": "醫療計算、藥物劑量、臨床指標",
+      "status": "planned",
+      "priority": "P2"
+    },
+    {
+      "universe_key": "FIT",
+      "website_key": "health",
+      "name_en": "Fitness",
+      "name_zh": "健身運動",
+      "description": "訓練計畫、卡路里消耗、體能測試",
+      "status": "active",
+      "priority": "P0"
+    },
+    {
+      "universe_key": "NUT",
+      "website_key": "health",
+      "name_en": "Nutrition",
+      "name_zh": "營養學",
+      "description": "營養素計算、飲食規劃、熱量",
+      "status": "active",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "PSY",
+      "website_key": "health",
+      "name_en": "Psychology",
+      "name_zh": "心理學",
+      "description": "心理測驗、壓力評估、認知計算",
+      "status": "planned",
+      "priority": "P2"
+    },
+    {
+      "universe_key": "EDU",
+      "website_key": "education",
+      "name_en": "Education",
+      "name_zh": "教育學習",
+      "description": "學習工具、教育計算、考試準備",
+      "status": "active",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "LNG",
+      "website_key": "language",
+      "name_en": "Language",
+      "name_zh": "語言文字",
+      "description": "翻譯、文字處理、語言學習",
+      "status": "active",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "SCI",
+      "website_key": "science",
+      "name_en": "Science",
+      "name_zh": "綜合科學",
+      "description": "科學計算、實驗工具",
+      "status": "active",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "PHY",
+      "website_key": "science",
+      "name_en": "Physics",
+      "name_zh": "物理",
+      "description": "力學、光學、電磁學計算",
+      "status": "planned",
+      "priority": "P2"
+    },
+    {
+      "universe_key": "CHM",
+      "website_key": "science",
+      "name_en": "Chemistry",
+      "name_zh": "化學",
+      "description": "化學方程式、莫耳計算、濃度",
+      "status": "planned",
+      "priority": "P2"
+    },
+    {
+      "universe_key": "BIO",
+      "website_key": "science",
+      "name_en": "Biology",
+      "name_zh": "生物",
+      "description": "生物計算、遺傳學、生態學",
+      "status": "planned",
+      "priority": "P2"
+    },
+    {
+      "universe_key": "MAT",
+      "website_key": "science",
+      "name_en": "Mathematics",
+      "name_zh": "數學",
+      "description": "代數、幾何、微積分計算",
+      "status": "planned",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "STA",
+      "website_key": "science",
+      "name_en": "Statistics",
+      "name_zh": "統計學",
+      "description": "統計分析、機率、資料科學",
+      "status": "planned",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "ENG",
+      "website_key": "science",
+      "name_en": "Engineering",
+      "name_zh": "工程",
+      "description": "機械、電機、土木工程計算",
+      "status": "planned",
+      "priority": "P2"
+    },
+    {
+      "universe_key": "ARC",
+      "website_key": "design",
+      "name_en": "Architecture",
+      "name_zh": "建築",
+      "description": "建築設計、結構計算、面積",
+      "status": "planned",
+      "priority": "P2"
+    },
+    {
+      "universe_key": "DSG",
+      "website_key": "design",
+      "name_en": "Design",
+      "name_zh": "設計",
+      "description": "UI/UX、色彩、版面設計工具",
+      "status": "active",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "PRD",
+      "website_key": "productivity",
+      "name_en": "Productivity",
+      "name_zh": "生產力",
+      "description": "時間管理、工作效率、任務規劃",
+      "status": "active",
+      "priority": "P0"
+    },
+    {
+      "universe_key": "TIM",
+      "website_key": "productivity",
+      "name_en": "Time",
+      "name_zh": "時間管理",
+      "description": "時間計算、排程、倒數計時",
+      "status": "active",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "LIF",
+      "website_key": "health",
+      "name_en": "Lifestyle",
+      "name_zh": "生活",
+      "description": "日常生活計算、家庭、個人",
+      "status": "planned",
+      "priority": "P2"
+    },
+    {
+      "universe_key": "TRV",
+      "website_key": "travel",
+      "name_en": "Travel",
+      "name_zh": "旅行",
+      "description": "旅行規劃、匯率、距離計算",
+      "status": "active",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "GEO",
+      "website_key": "travel",
+      "name_en": "Geography",
+      "name_zh": "地理",
+      "description": "地理計算、座標、地圖工具",
+      "status": "planned",
+      "priority": "P2"
+    },
+    {
+      "universe_key": "WTH",
+      "website_key": "travel",
+      "name_en": "Weather",
+      "name_zh": "天氣",
+      "description": "天氣計算、氣候分析、溫度轉換",
+      "status": "planned",
+      "priority": "P2"
+    },
+    {
+      "universe_key": "FOD",
+      "website_key": "health",
+      "name_en": "Food",
+      "name_zh": "食品料理",
+      "description": "食譜計算、份量換算、熱量",
+      "status": "planned",
+      "priority": "P2"
+    },
+    {
+      "universe_key": "ECM",
+      "website_key": "ecommerce",
+      "name_en": "Ecommerce",
+      "name_zh": "電商",
+      "description": "電商計算、ROAS、轉換率",
+      "status": "active",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "MKT",
+      "website_key": "ecommerce",
+      "name_en": "Marketing",
+      "name_zh": "行銷",
+      "description": "行銷計算、廣告效益、品牌",
+      "status": "planned",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "SEO",
+      "website_key": "ecommerce",
+      "name_en": "SEO",
+      "name_zh": "SEO",
+      "description": "SEO 工具、關鍵字分析、排名",
+      "status": "planned",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "SOC",
+      "website_key": "ecommerce",
+      "name_en": "Social Media",
+      "name_zh": "社群媒體",
+      "description": "社群分析、互動率、成長計算",
+      "status": "planned",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "AIX",
+      "website_key": "ai",
+      "name_en": "AI Tools",
+      "name_zh": "AI 工具",
+      "description": "Prompt 工具、AI 計算、模型比較",
+      "status": "active",
+      "priority": "P0"
+    },
+    {
+      "universe_key": "DEV",
+      "website_key": "dev",
+      "name_en": "Developer",
+      "name_zh": "開發工具",
+      "description": "程式開發、API、編碼工具",
+      "status": "active",
+      "priority": "P0"
+    },
+    {
+      "universe_key": "DAT",
+      "website_key": "dev",
+      "name_en": "Data",
+      "name_zh": "資料分析",
+      "description": "資料處理、視覺化、分析工具",
+      "status": "planned",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "SEC",
+      "website_key": "dev",
+      "name_en": "Security",
+      "name_zh": "資安",
+      "description": "密碼學、資安工具、加密計算",
+      "status": "planned",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "BLK",
+      "website_key": "finance",
+      "name_en": "Blockchain",
+      "name_zh": "區塊鏈",
+      "description": "加密貨幣、DeFi、NFT 計算",
+      "status": "planned",
+      "priority": "P2"
+    },
+    {
+      "universe_key": "GAM",
+      "website_key": "education",
+      "name_en": "Gaming",
+      "name_zh": "遊戲",
+      "description": "遊戲計算、機率、統計",
+      "status": "planned",
+      "priority": "P2"
+    },
+    {
+      "universe_key": "SPT",
+      "website_key": "health",
+      "name_en": "Sports",
+      "name_zh": "運動",
+      "description": "運動統計、競技計算、訓練",
+      "status": "planned",
+      "priority": "P2"
+    },
+    {
+      "universe_key": "AUT",
+      "website_key": "finance",
+      "name_en": "Automotive",
+      "name_zh": "汽車",
+      "description": "汽車費用、折舊、油耗計算",
+      "status": "active",
+      "priority": "P1"
+    },
+    {
+      "universe_key": "REA",
+      "website_key": "finance",
+      "name_en": "Real Estate",
+      "name_zh": "房地產",
+      "description": "房貸、租金、投資回報計算",
+      "status": "active",
+      "priority": "P0"
+    },
+    {
+      "universe_key": "ENR",
+      "website_key": "science",
+      "name_en": "Energy",
+      "name_zh": "能源",
+      "description": "電力、碳排、再生能源計算",
+      "status": "planned",
+      "priority": "P2"
+    },
+    {
+      "universe_key": "AGR",
+      "website_key": "science",
+      "name_en": "Agriculture",
+      "name_zh": "農業",
+      "description": "農業計算、作物、土壤分析",
+      "status": "planned",
+      "priority": "P3"
+    },
+    {
+      "universe_key": "MFG",
+      "website_key": "science",
+      "name_en": "Manufacturing",
+      "name_zh": "製造",
+      "description": "生產效率、品質控制、成本",
+      "status": "planned",
+      "priority": "P3"
+    },
+    {
+      "universe_key": "AST",
+      "website_key": "science",
+      "name_en": "Astronomy",
+      "name_zh": "天文",
+      "description": "天文計算、星座、宇宙距離",
+      "status": "planned",
+      "priority": "P3"
+    },
+    {
+      "universe_key": "SPR",
+      "website_key": "education",
+      "name_en": "Spirituality",
+      "name_zh": "靈性哲學",
+      "description": "占星、命理、哲學計算",
+      "status": "planned",
+      "priority": "P3"
+    }
+  ],
+
+  "website_key_to_universe": {
+    "finance": ["FIN", "INV", "ACC", "BUS", "ECO", "TAX", "INS", "BNK", "BLK", "AUT", "REA"],
+    "health": ["HLT", "MED", "FIT", "NUT", "PSY", "LIF", "FOD", "SPT"],
+    "productivity": ["PRD", "TIM"],
+    "dev": ["DEV", "DAT", "SEC"],
+    "education": ["EDU", "GAM", "SPR"],
+    "legal": ["LAW"],
+    "design": ["DSG", "ARC"],
+    "science": ["SCI", "PHY", "CHM", "BIO", "MAT", "STA", "ENG", "ENR", "AGR", "MFG", "AST"],
+    "language": ["LNG"],
+    "ecommerce": ["ECM", "MKT", "SEO", "SOC"],
+    "travel": ["TRV", "GEO", "WTH"],
+    "ai": ["AIX"]
+  }
+}
