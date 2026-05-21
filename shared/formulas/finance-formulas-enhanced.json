@@ -1,0 +1,1302 @@
+[
+  {
+    "tool_id": "compound-interest",
+    "title_zh": "複利計算器",
+    "title_en": "Compound Interest Calculator",
+    "definition_zh": "複利計算器用來估算本金在固定報酬率與時間累積下，利息再投入後形成的最終資產價值。",
+    "definition_en": "Compound interest is the interest calculated on both the initial principal and the accumulated interest from previous periods. It is often described as \"interest on interest,\" allowing investments or loans to grow at an exponential rate over time. Unlike simple interest, which is calculated only on the principal amount, compound interest accelerates growth because each subsequent interest calculation is based on a larger base amount. The frequency of compounding—such as daily, monthly, or annually—significantly impacts the total amount accumulated.",
+    "formula": "FV = P × (1 + r/n)^(nt)",
+    "formula_explained": "FV = 未來價值 (Future Value)，即本金加上所有累積利息後的總金額。\nP = 本金 (Principal)，即最初投資或借貸的金額。\nr = 年利率 (Annual Interest Rate)，以小數表示（例如 5% 為 0.05）。\nn = 每年複利次數 (Number of compounding periods per year)，例如每月複利為 12，每年為 1。\nt = 投資或借貸的年數 (Time in years)。",
+    "variables": [
+      {
+        "symbol": "FV",
+        "name_zh": "未來價值",
+        "description": "本金加上所有累積利息後的總金額"
+      },
+      {
+        "symbol": "P",
+        "name_zh": "本金",
+        "description": "最初投資或借貸的金額"
+      },
+      {
+        "symbol": "r",
+        "name_zh": "年利率",
+        "description": "年度名目利率，以小數表示"
+      },
+      {
+        "symbol": "n",
+        "name_zh": "每年複利次數",
+        "description": "一年內計算利息的次數"
+      },
+      {
+        "symbol": "t",
+        "name_zh": "年數",
+        "description": "資金投資或借貸的總年數"
+      }
+    ],
+    "real_world_example": "假設您投資了 10,000 元（本金），年利率為 5%，並且每年複利一次。第一年結束時，您將獲得 500 元的利息，總額變為 10,500 元。第二年，利息將基於 10,500 元計算，因此您將獲得 525 元的利息，總額變為 11,025 元。經過 10 年，您的投資將增長至約 16,289 元。",
+    "use_cases": [
+      "評估長期投資（如股票、共同基金或退休帳戶）的潛在增長",
+      "計算信用卡債務或貸款在未按時還款時的利息累積情況",
+      "比較不同銀行儲蓄帳戶或定存產品的實際收益率"
+    ],
+    "common_mistakes": [
+      "忽略複利頻率的影響，誤以為年利率相同則收益或成本就一樣",
+      "將複利與單利混淆，低估了長期投資的增長潛力或長期債務的成本"
+    ],
+    "faq": [
+      {
+        "q": "複利和單利有什麼區別？",
+        "a": "單利僅基於初始本金計算利息，而複利則是基於本金加上之前累積的所有利息來計算，因此複利增長更快。"
+      },
+      {
+        "q": "複利頻率如何影響最終金額？",
+        "a": "複利頻率越高（如每日複利相較於每年複利），利息計算的次數越多，最終累積的總金額或債務也會越大。"
+      },
+      {
+        "q": "什麼是 72 法則？",
+        "a": "72 法則是一個快速估算投資翻倍所需時間的公式，只需將 72 除以年利率即可得出大約的年數。"
+      },
+      {
+        "q": "複利對債務有什麼影響？",
+        "a": "對於信用卡等債務，複利會導致欠款迅速增加，因為未支付的利息會產生新的利息，增加還款負擔。"
+      },
+      {
+        "q": "如何最大化複利的投資效益？",
+        "a": "儘早開始投資、保持資金持續投入，並選擇較高回報率及較頻繁複利的投資工具，可以最大化複利效應。"
+      }
+    ],
+    "related_tools": [
+      "investment-roi",
+      "retirement-calculator",
+      "savings-goal"
+    ],
+    "seo_keywords_zh": [
+      "複利計算機",
+      "複利公式",
+      "投資報酬率"
+    ],
+    "seo_keywords_en": [
+      "compound interest calculator",
+      "compound interest formula"
+    ],
+    "source": "https://www.investopedia.com/terms/c/compoundinterest.asp"
+  },
+  {
+    "tool_id": "mortgage-calculator",
+    "title_zh": "房貸計算器",
+    "title_en": "Mortgage Calculator",
+    "definition_zh": "房貸計算器用來估算購屋貸款在不同本金、利率與年限下的每月還款、總利息與總支付金額。",
+    "definition_en": "A mortgage calculator is an automated financial tool that helps prospective homebuyers estimate their monthly mortgage payments. It calculates the financial implications of changes in variables such as loan principal, interest rate, and loan term. By inputting these details, users can determine how much they can afford to borrow and understand the breakdown of their payments, including principal and interest. More advanced calculators may also factor in property taxes, home insurance, and private mortgage insurance (PMI) to provide a comprehensive view of the total monthly housing cost.",
+    "formula": "M = P × [ r(1 + r)^n / ((1 + r)^n - 1) ]",
+    "formula_explained": "M 代表每月的總還款額。P 代表貸款的本金總額，即您借入的金額。r 代表每月的利率，這是將年利率除以12得出的。n 代表貸款期間的總還款次數，即貸款年數乘以12。這個公式用於計算在固定利率下，為了在貸款期限結束時完全還清貸款，每個月需要支付的等額本息。",
+    "variables": [
+      {
+        "symbol": "M",
+        "name_zh": "每月還款額",
+        "description": "借款人每個月需要支付的固定金額，包含本金和利息。"
+      },
+      {
+        "symbol": "P",
+        "name_zh": "貸款本金",
+        "description": "最初借入的貸款總額，即房屋購買價格減去頭期款。"
+      },
+      {
+        "symbol": "r",
+        "name_zh": "月利率",
+        "description": "貸款的年利率除以12個月。例如，年利率6%的月利率為0.005。"
+      },
+      {
+        "symbol": "n",
+        "name_zh": "總還款期數",
+        "description": "貸款期限內的總月份數。例如，30年期貸款的總期數為360期。"
+      }
+    ],
+    "real_world_example": "假設您購買了一棟房子，貸款本金(P)為$300,000，年利率為6%，貸款期限為30年。月利率(r)為6% / 12 = 0.005，總還款次數(n)為30 × 12 = 360。代入公式計算，每月的本息還款額(M)約為$1,798.65。這不包括稅金和保險。",
+    "use_cases": [
+      "購屋前評估：潛在買家在看房前，使用計算器估算不同房價和利率下的每月還款額，以確定自己能負擔的房屋價格範圍。",
+      "比較貸款方案：借款人可以輸入不同的貸款期限（如15年與30年）或不同的利率，比較總利息支出和每月還款壓力，選擇最適合的方案。",
+      "再融資決策：現有房主可以計算如果以當前較低的利率進行房屋貸款再融資，每月可以節省多少錢，並評估是否值得支付再融資的相關手續費。"
+    ],
+    "common_mistakes": [
+      "忽略了房屋稅和保險費等額外成本，導致低估了實際每月的還款壓力。",
+      "只關注每月還款額而忽略了貸款期限，選擇過長的貸款期限會導致總利息支出大幅增加。"
+    ],
+    "faq": [
+      {
+        "q": "房貸計算器計算的每月還款額準確嗎？",
+        "a": "房貸計算器可以提供非常準確的本金和利息估算，但實際的每月還款額可能還包括房屋稅、保險費和可能的私人抵押貸款保險(PMI)，這些費用可能會隨時間變動。"
+      },
+      {
+        "q": "什麼是本金和利息？",
+        "a": "本金是您借入的原始貸款金額，而利息是貸款機構為借出這筆錢而向您收取的費用。每月的還款額通常包含這兩部分。"
+      },
+      {
+        "q": "貸款期限如何影響我的還款？",
+        "a": "較短的貸款期限（如15年）意味著每月還款額較高，但總利息支出較少。較長的貸款期限（如30年）則每月還款額較低，但總利息支出較多。"
+      },
+      {
+        "q": "我應該支付多少頭期款？",
+        "a": "通常建議支付房屋購買價格的20%作為頭期款，以避免支付私人抵押貸款保險(PMI)。但許多貸款方案允許較低的頭期款比例。"
+      },
+      {
+        "q": "利率變動會如何影響我的房貸？",
+        "a": "如果您選擇固定利率房貸，利率在整個貸款期間保持不變。如果您選擇浮動利率房貸(ARM)，利率會隨市場變動，這可能會導致您的每月還款額增加或減少。"
+      }
+    ],
+    "related_tools": [
+      "loan-calculator",
+      "debt-payoff",
+      "budget-planner"
+    ],
+    "seo_keywords_zh": [
+      "房貸計算器",
+      "房貸試算",
+      "每月還款額"
+    ],
+    "seo_keywords_en": [
+      "mortgage calculator",
+      "monthly mortgage payment"
+    ],
+    "source": "https://www.bankrate.com/mortgages/mortgage-calculator/"
+  },
+  {
+    "tool_id": "investment-roi",
+    "title_zh": "投資報酬率計算器",
+    "title_en": "Investment ROI Calculator",
+    "definition_zh": "投資報酬率計算器用來衡量投入成本與最終收益之間的比例，協助比較不同投資方案效率。",
+    "definition_en": "Return on Investment (ROI) is a financial metric used to evaluate the profitability or efficiency of an investment. It measures the return generated on an investment relative to its cost. ROI is calculated by dividing the net profit (or loss) by the initial cost of the investment, usually expressed as a percentage. It is widely used to compare the relative attractiveness of different investment opportunities.",
+    "formula": "ROI = (Net Profit / Cost of Investment) × 100%",
+    "formula_explained": "ROI（投資報酬率）：衡量投資獲利能力的百分比指標。Net Profit（淨利潤）：投資的最終價值減去初始投資成本，即實際賺取的金額。Cost of Investment（投資成本）：最初投入的資金總額，包含購買價格及相關手續費。",
+    "variables": [
+      {
+        "symbol": "ROI",
+        "name_zh": "投資報酬率",
+        "description": "投資獲利相對於成本的百分比"
+      },
+      {
+        "symbol": "Net Profit",
+        "name_zh": "淨利潤",
+        "description": "投資最終價值減去初始成本（包含所有相關費用）"
+      },
+      {
+        "symbol": "Cost of Investment",
+        "name_zh": "投資成本",
+        "description": "最初投入的總資金"
+      }
+    ],
+    "real_world_example": "假設你以 $500,000 買入一棟房產，兩年後以 $1,000,000 賣出。淨利潤為 $1,000,000 - $500,000 = $500,000。ROI = ($500,000 / $500,000) × 100% = 100%。這表示你的投資獲得了100%的報酬。",
+    "use_cases": [
+      "評估股票或共同基金的歷史績效，以決定是否繼續持有或賣出。",
+      "比較不同房地產投資物件的潛在獲利能力，選擇最佳投資標的。",
+      "企業評估新專案或行銷活動的預期效益，作為資源分配的依據。"
+    ],
+    "common_mistakes": [
+      "忽略時間因素：只看總報酬率而未年化，導致無法正確比較不同持有期間的投資。",
+      "未計入所有成本：計算時遺漏了交易手續費、稅金、維護費用等隱性成本，導致高估實際報酬。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是好的投資報酬率（ROI）？",
+        "a": "好的ROI取決於投資者的目標、風險承受能力和投資類型。一般而言，高於通貨膨脹率且能補償所承擔風險的報酬率即可視為良好。股票市場的長期平均年化ROI約為7%至10%。"
+      },
+      {
+        "q": "ROI和年化報酬率有何不同？",
+        "a": "基本ROI只計算總報酬，不考慮投資持有的時間長短。年化報酬率則將總報酬平均分攤到每一年，讓不同期限的投資能夠進行公平比較。"
+      },
+      {
+        "q": "計算ROI時應該包含哪些成本？",
+        "a": "應包含所有與投資直接相關的成本，例如購買價格、交易手續費、稅金、維護費用等。忽略這些成本會導致ROI被高估。"
+      },
+      {
+        "q": "ROI可以是負數嗎？",
+        "a": "可以。當投資的最終價值低於初始成本，即發生虧損時，淨利潤為負，計算出的ROI就會是負數。"
+      },
+      {
+        "q": "為什麼ROI有時會產生誤導？",
+        "a": "因為基本的ROI公式沒有考慮時間價值（Time Value of Money）。一筆10年獲得50%報酬的投資，和一筆1年獲得50%報酬的投資，基本ROI相同，但實際效益差異巨大。"
+      }
+    ],
+    "related_tools": [
+      "compound-interest",
+      "stock-profit-loss",
+      "net-worth-tracker"
+    ],
+    "seo_keywords_zh": [
+      "投資報酬率計算機",
+      "ROI怎麼算",
+      "投資回報率公式"
+    ],
+    "seo_keywords_en": [
+      "Return on Investment calculator",
+      "ROI formula"
+    ],
+    "source": "https://corporatefinanceinstitute.com/resources/accounting/return-on-investment-roi-formula/"
+  },
+  {
+    "tool_id": "retirement-calculator",
+    "title_zh": "退休計算器",
+    "title_en": "Retirement Calculator",
+    "definition_zh": "退休計算器用來估算退休所需資產、每月投入金額與資產可支撐年限，協助建立長期財務計畫。",
+    "definition_en": "A retirement calculator is a financial tool that helps individuals estimate how much money they need to save to maintain their desired lifestyle in retirement. It projects the future value of current savings and ongoing contributions by factoring in expected rates of return, inflation, and the time horizon until retirement. By analyzing these variables, the calculator provides a target savings goal and helps users determine if their current savings strategy is on track or requires adjustments.",
+    "formula": "FV = PV × (1 + r)^n + PMT × [((1 + r)^n - 1) / r]",
+    "formula_explained": "退休計算器的核心公式結合了複利終值與年金終值公式。FV 代表退休時的總儲蓄金額（終值）；PV 代表目前的退休儲蓄本金（現值）；PMT 代表每期（如每月或每年）的定期投資金額；r 代表每期的預期投資報酬率；n 代表距離退休的總期數（如總月數或總年數）。公式的前半部計算現有儲蓄的未來價值，後半部計算未來持續投入資金的累積價值，兩者相加即為退休時的總資產。",
+    "variables": [
+      {
+        "symbol": "FV",
+        "name_zh": "未來價值 (Future Value)",
+        "description": "退休時預期累積的總資產金額。"
+      },
+      {
+        "symbol": "PV",
+        "name_zh": "現值 (Present Value)",
+        "description": "目前已有的退休儲蓄或投資本金。"
+      },
+      {
+        "symbol": "PMT",
+        "name_zh": "每期投入金額 (Periodic Payment)",
+        "description": "每期（如每月或每年）計畫新增的退休儲蓄金額。"
+      },
+      {
+        "symbol": "r",
+        "name_zh": "每期報酬率 (Interest Rate)",
+        "description": "預期的每期投資報酬率（年報酬率除以每年的期數）。"
+      },
+      {
+        "symbol": "n",
+        "name_zh": "總期數 (Number of Periods)",
+        "description": "距離退休的總投資期數（年數乘以每年的期數）。"
+      }
+    ],
+    "real_world_example": "假設小明目前30歲，現有儲蓄10萬元(PV)，預計65歲退休(投資35年，n=35)。他計畫每年投入12萬元(PMT)，預期年報酬率為6%(r=0.06)。根據公式，現有儲蓄的終值為10萬×(1+0.06)^35 ≈ 76.8萬元；每年投入的年金終值為12萬×[(1+0.06)^35-1]/0.06 ≈ 1,337萬元。兩者相加，小明65歲退休時的總資產約為1,413.8萬元。",
+    "use_cases": [
+      "評估目前的儲蓄進度是否能達成理想的退休生活目標。",
+      "計算若要提早退休（如FIRE運動），每月需要增加多少投資金額。",
+      "模擬不同投資報酬率或通貨膨脹率對長期退休金累積的影響。"
+    ],
+    "common_mistakes": [
+      "忽略通貨膨脹的影響，導致高估了未來退休金的實際購買力。",
+      "對投資報酬率過度樂觀，設定了不切實際的高預期報酬率（如超過10%）。"
+    ],
+    "faq": [
+      {
+        "q": "退休計算器算出的金額準確嗎？",
+        "a": "計算結果是基於您輸入的假設條件（如報酬率、通膨率）所做出的估算。由於未來市場狀況無法預測，建議將其視為參考指標，並定期檢視與調整。"
+      },
+      {
+        "q": "我應該設定多少的預期投資報酬率？",
+        "a": "一般建議設定較為保守的報酬率，例如扣除通膨後的實質報酬率設定在 4% 到 6% 之間，以避免高估未來的資產增長。"
+      },
+      {
+        "q": "通貨膨脹對退休金有什麼影響？",
+        "a": "通貨膨脹會降低貨幣的購買力。例如，現在的 100 萬元在 30 年後能買到的東西會變少，因此計算退休金時必須將通膨因素納入考量。"
+      },
+      {
+        "q": "如果計算結果顯示我的退休金不夠怎麼辦？",
+        "a": "您可以考慮延後退休年齡、增加每月的儲蓄金額、降低退休後的生活開銷預期，或是尋求更穩健且報酬較佳的投資組合。"
+      },
+      {
+        "q": "多久需要重新計算一次退休金？",
+        "a": "建議至少每年重新計算一次，或者在人生發生重大變化（如加薪、換工作、結婚生子或市場大幅波動）時進行調整，以確保計畫在正軌上。"
+      }
+    ],
+    "related_tools": [
+      "compound-interest",
+      "investment-roi",
+      "inflation-calculator"
+    ],
+    "seo_keywords_zh": [
+      "退休金計算機",
+      "退休規劃",
+      "FIRE提早退休"
+    ],
+    "seo_keywords_en": [
+      "retirement calculator",
+      "retirement savings planner"
+    ],
+    "source": "https://www.investopedia.com/terms/r/retirement-planning.asp"
+  },
+  {
+    "tool_id": "emergency-fund",
+    "title_zh": "緊急預備金計算器",
+    "title_en": "Emergency Fund Calculator",
+    "definition_zh": "緊急預備金計算器用來估算家庭或個人在失業、醫療或突發支出時應準備的安全現金水位。",
+    "definition_en": "An emergency fund is a cash reserve specifically set aside to cover unplanned expenses or financial emergencies. It acts as a financial safety net, providing liquidity during unexpected events such as job loss, medical emergencies, or major home repairs. Financial experts typically recommend saving enough to cover three to six months of essential living expenses. By maintaining an emergency fund, individuals can avoid relying on high-interest debt, such as credit cards or personal loans, and protect their long-term investments and retirement savings from being depleted prematurely.",
+    "formula": "EF = E \\times M",
+    "formula_explained": "EF (Emergency Fund) 代表目標緊急預備金總額；E (Monthly Essential Expenses) 代表每個月的必要生活開銷，包括房租/房貸、水電瓦斯、基本伙食、保險費及交通費等；M (Number of Months) 代表預計涵蓋的月數，通常建議為3到6個月。",
+    "variables": [
+      {
+        "symbol": "EF",
+        "name_zh": "緊急預備金總額",
+        "description": "為應對突發狀況所需準備的總資金目標。"
+      },
+      {
+        "symbol": "E",
+        "name_zh": "每月必要開銷",
+        "description": "維持基本生活所需的每月最低支出，不包含娛樂等非必要花費。"
+      },
+      {
+        "symbol": "M",
+        "name_zh": "涵蓋月數",
+        "description": "預期緊急預備金需要支撐的月數，通常為3至6個月。"
+      }
+    ],
+    "real_world_example": "小明每個月的必要開銷為：房租15,000元、伙食費9,000元、交通費2,000元、水電及電信費2,000元、保險費2,000元，總計每月必要開銷為30,000元。他希望準備6個月的緊急預備金，因此目標金額為：30,000元 × 6個月 = 180,000元。",
+    "use_cases": [
+      "突然被公司裁員或非自願離職，在找到下一份工作前的生活費過渡期。",
+      "發生車禍或突發疾病，需要支付健保未給付的醫療費用或自費項目。",
+      "家中重要設備（如冰箱、冷氣、熱水器）突然損壞，需要緊急維修或更換。"
+    ],
+    "common_mistakes": [
+      "將緊急預備金投資於高風險或流動性差的資產（如股票、房地產），導致急需用錢時無法變現或虧損。",
+      "只存了1-2個月的開銷，未考慮到長期失業或重大疾病等需要更長時間恢復的突發狀況。"
+    ],
+    "faq": [
+      {
+        "q": "緊急預備金應該存多少？",
+        "a": "一般建議存3到6個月的基本生活開銷。如果工作不穩定或有受扶養親屬，建議存到6個月甚至1年。"
+      },
+      {
+        "q": "緊急預備金應該放在哪裡？",
+        "a": "應該放在高流動性且低風險的地方，例如高利活存帳戶（High-yield savings account）或貨幣市場基金，確保隨時可以提領且不會虧損本金。"
+      },
+      {
+        "q": "可以用信用卡代替緊急預備金嗎？",
+        "a": "不建議。信用卡雖然能解決短期資金需求，但如果無法在當期全額繳清，將產生高額循環利息，反而加重財務負擔。"
+      },
+      {
+        "q": "什麼情況下可以使用緊急預備金？",
+        "a": "僅限於真正的突發緊急情況，如突然失業、重大醫療支出、汽車或房屋的必要緊急維修。不應用於旅遊、購物等非必要支出。"
+      },
+      {
+        "q": "如果動用了緊急預備金該怎麼辦？",
+        "a": "一旦動用，應在財務狀況穩定後，盡快將每個月的結餘重新投入緊急預備金帳戶，直到恢復原本設定的目標金額。"
+      }
+    ],
+    "related_tools": [
+      "budget-planner",
+      "savings-goal",
+      "debt-payoff"
+    ],
+    "seo_keywords_zh": [
+      "緊急預備金計算機",
+      "緊急預備金要存多少",
+      "緊急預備金存放"
+    ],
+    "seo_keywords_en": [
+      "emergency fund calculator",
+      "how much emergency fund"
+    ],
+    "source": "https://corporatefinanceinstitute.com/resources/wealth-management/emergency-fund/"
+  },
+  {
+    "tool_id": "tax-bracket",
+    "title_zh": "所得稅級距計算器",
+    "title_en": "Tax Bracket Calculator",
+    "definition_zh": "所得稅級距計算器用來估算所得落在哪些稅率區間，並計算邊際稅率與有效稅率。",
+    "definition_en": "A tax bracket is a range of income amounts that are taxed at a specific rate in a progressive tax system. As an individual's taxable income increases, the income that falls into higher brackets is taxed at progressively higher rates, rather than the entire income being taxed at the highest rate.",
+    "formula": "Total Tax = B + (I - L) × R",
+    "formula_explained": "Total Tax 代表總應繳稅額。B 代表該級距的基礎稅額（即前幾個級距累積的應繳稅額）。I 代表總應稅所得（扣除免稅額與扣除額後的淨所得）。L 代表當前適用最高稅率級距的下限金額。R 代表該級距的邊際稅率（Marginal Tax Rate）。公式的意義是將超過該級距下限的所得部分乘上對應的邊際稅率，再加上之前所有較低級距累積的基礎稅額，即可得出總應繳稅額。",
+    "variables": [
+      {
+        "symbol": "B",
+        "name_zh": "基礎稅額",
+        "description": "在達到當前級距之前，所有較低稅率級距累積的應繳稅額總和。"
+      },
+      {
+        "symbol": "I",
+        "name_zh": "總應稅所得",
+        "description": "納稅人的總收入扣除各項免稅額與標準/列舉扣除額後的淨應稅金額。"
+      },
+      {
+        "symbol": "L",
+        "name_zh": "級距下限",
+        "description": "納稅人所適用的最高邊際稅率級距的起始金額。"
+      },
+      {
+        "symbol": "R",
+        "name_zh": "邊際稅率",
+        "description": "適用於超過級距下限那部分所得的稅率百分比。"
+      }
+    ],
+    "real_world_example": "假設單身納稅人應稅所得為$50,000。稅率規定：$0-$11,000為10%，$11,001-$44,725為12%，$44,726以上為22%。計算：第一級距稅額$1,100，第二級距($44,725-$11,000)×12%=$4,047。基礎稅額B=$5,147。超過部分($50,000-$44,725)×22%=$1,160.5。總稅額=$5,147+$1,160.5=$6,307.5。",
+    "use_cases": [
+      "預估年度個人所得稅應繳金額，以便提前進行稅務規劃與資金準備。",
+      "評估加薪、年終獎金或兼職收入是否會將部分所得推入更高的稅率級距。",
+      "計算不同報稅身分（如單身、夫妻合併申報）下的稅負差異，選擇最有利的申報方式。"
+    ],
+    "common_mistakes": [
+      "誤以為進入更高的稅率級距後，『所有』收入都會按照該較高稅率課稅（實際上只有超過該級距的部分適用高稅率）。",
+      "混淆了『邊際稅率』（最高級距稅率）與『有效稅率』（總稅額除以總所得的平均稅率），導致高估實際稅負。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是稅率級距（Tax Bracket）？",
+        "a": "稅率級距是累進稅制中劃分所得範圍的區間，每個區間對應一個特定的稅率。收入越高，落入較高級距的部分適用的稅率就越高。"
+      },
+      {
+        "q": "如果我加薪進入下一個稅率級距，我會拿得更少嗎？",
+        "a": "不會。因為只有超過新級距門檻的那部分收入才會被課徵較高的稅率，您原本的收入依然適用較低的稅率，因此總稅後收入還是會增加。"
+      },
+      {
+        "q": "邊際稅率和有效稅率有什麼不同？",
+        "a": "邊際稅率是您最後一塊錢收入所適用的最高稅率；有效稅率則是您實際繳納的總稅額佔總應稅所得的百分比，通常低於邊際稅率。"
+      },
+      {
+        "q": "通貨膨脹會影響稅率級距嗎？",
+        "a": "會的。許多國家的稅務機關（如美國IRS）每年會根據通貨膨脹率調整稅率級距的上下限，以避免納稅人因通膨導致實質購買力未增卻被迫繳納更高稅率（即『稅距攀升』）。"
+      },
+      {
+        "q": "如何降低我適用的稅率級距？",
+        "a": "您可以透過增加免稅額或扣除額來降低應稅所得，例如提撥資金至退休帳戶（如401(k)或IRA）、捐贈慈善機構，或利用其他合法的稅務抵減項目。"
+      }
+    ],
+    "related_tools": [
+      "budget-planner",
+      "retirement-calculator",
+      "net-worth-tracker"
+    ],
+    "seo_keywords_zh": [
+      "所得稅級距計算",
+      "邊際稅率",
+      "累進稅率"
+    ],
+    "seo_keywords_en": [
+      "tax bracket calculator",
+      "marginal tax rate"
+    ],
+    "source": "https://www.investopedia.com/terms/t/taxbracket.asp"
+  },
+  {
+    "tool_id": "net-worth-tracker",
+    "title_zh": "淨資產追蹤器",
+    "title_en": "Net Worth Tracker",
+    "definition_zh": "淨資產追蹤器用來彙整資產與負債，計算個人或家庭的財務淨值與長期變化。",
+    "definition_en": "Net worth is the value of all the non-financial and financial assets owned by an individual or institution minus the value of all its outstanding liabilities. It is a key measure of financial health, providing a snapshot of what is owned versus what is owed.",
+    "formula": "NW = A - L",
+    "formula_explained": "NW (Net Worth) 代表淨資產，即最終的財務價值；A (Assets) 代表總資產，包括現金、投資、房地產及其他有價值的物品；L (Liabilities) 代表總負債，包括房貸、車貸、信用卡債務及其他貸款。",
+    "variables": [
+      {
+        "symbol": "NW",
+        "name_zh": "淨資產",
+        "description": "資產減去負債後的剩餘價值"
+      },
+      {
+        "symbol": "A",
+        "name_zh": "總資產",
+        "description": "個人或實體擁有的所有具經濟價值的項目總和"
+      },
+      {
+        "symbol": "L",
+        "name_zh": "總負債",
+        "description": "個人或實體欠他人的所有債務和財務義務總和"
+      }
+    ],
+    "real_world_example": "小明擁有價值 1,000 萬的房子、200 萬的股票投資和 50 萬的銀行存款（總資產 1,250 萬）。同時，他還有 600 萬的房貸和 10 萬的信用卡債務（總負債 610 萬）。小明的淨資產為 1,250 萬 - 610 萬 = 640 萬。",
+    "use_cases": [
+      "評估個人或家庭的整體財務健康狀況",
+      "制定退休計畫並追蹤財富累積進度",
+      "申請貸款時提供給銀行作為還款能力的證明"
+    ],
+    "common_mistakes": [
+      "忘記包含流動性差的資產（如汽車、珠寶）或隱藏債務（如未繳稅款）",
+      "將收入與淨資產混淆，高收入不代表高淨資產"
+    ],
+    "faq": [
+      {
+        "q": "什麼是淨資產？",
+        "a": "淨資產是您擁有的所有資產總值減去您欠下的所有債務總額。"
+      },
+      {
+        "q": "淨資產可以是負數嗎？",
+        "a": "可以，當您的總債務（如學貸、房貸、信用卡債）超過您的總資產時，淨資產就會是負數。"
+      },
+      {
+        "q": "我應該多久計算一次淨資產？",
+        "a": "建議每季或每年計算一次，以追蹤您的財務進度並做出必要的調整。"
+      },
+      {
+        "q": "汽車應該算作資產嗎？",
+        "a": "是的，汽車是資產，但應以其目前的市場折舊價值計算，而不是您購買時的價格。"
+      },
+      {
+        "q": "高收入是否意味著高淨資產？",
+        "a": "不一定。如果您的高收入伴隨著高消費和高負債，您的淨資產可能仍然很低。"
+      }
+    ],
+    "related_tools": [
+      "budget-planner",
+      "debt-payoff",
+      "retirement-calculator"
+    ],
+    "seo_keywords_zh": [
+      "淨資產計算機",
+      "個人財務健康",
+      "資產負債表"
+    ],
+    "seo_keywords_en": [
+      "net worth calculator",
+      "track net worth"
+    ],
+    "source": "https://www.investopedia.com/terms/n/networth.asp"
+  },
+  {
+    "tool_id": "debt-payoff",
+    "title_zh": "債務還款計算器",
+    "title_en": "Debt Payoff Calculator",
+    "definition_zh": "債務還款計算器用來估算不同還款策略下的清償時間、利息成本與每月付款壓力。",
+    "definition_en": "A debt payoff calculator is a financial tool designed to help individuals determine the time and money required to eliminate their debt. By inputting the total debt balance, interest rate, and monthly payment amount, users can calculate the exact number of months needed to become debt-free. It also helps users compare different repayment strategies, such as the debt avalanche (paying off high-interest debt first) or the debt snowball (paying off small balances first), to minimize total interest paid and optimize their financial planning.",
+    "formula": "n = -log(1 - (r × B) / P) / log(1 + r)",
+    "formula_explained": "這個公式用於計算還清債務所需的總月數（n）。其中，B 代表目前的債務總餘額（本金）；r 代表月利率，是將年利率（APR）除以12得到的；P 代表每個月固定支付的還款金額。公式透過對數（log）計算，反映了在複利影響下，每月還款中本金與利息比例的動態變化。當每月還款額 P 小於或等於每月產生的利息（r × B）時，公式無效，因為債務將永遠無法還清。",
+    "variables": [
+      {
+        "symbol": "n",
+        "name_zh": "還款期數",
+        "description": "還清債務所需的總月數。"
+      },
+      {
+        "symbol": "B",
+        "name_zh": "債務餘額",
+        "description": "目前尚未償還的債務總本金（Balance）。"
+      },
+      {
+        "symbol": "r",
+        "name_zh": "月利率",
+        "description": "年利率（APR）除以12（例如年利率18%，則 r = 0.015）。"
+      },
+      {
+        "symbol": "P",
+        "name_zh": "每月還款額",
+        "description": "每個月固定支付的金額（Payment）。"
+      }
+    ],
+    "real_world_example": "假設你有一張信用卡，欠款餘額為 $5,000，年利率（APR）為 18%（月利率為 1.5%）。如果你每個月固定還款 $200，代入公式計算：n = -log(1 - (0.015 × 5000) / 200) / log(1 + 0.015) ≈ 31.5。這意味著你需要大約 32 個月才能完全還清這筆債務，期間你將支付約 $1,315 的利息。",
+    "use_cases": [
+      "評估信用卡債務：計算在不同每月還款額下，還清信用卡欠款所需的時間和總利息。",
+      "比較還款策略：模擬雪球法（先還小額）與雪崩法（先還高息）的差異，選擇最適合的還債計畫。",
+      "制定財務預算：在規劃年度預算時，確定每月需要分配多少資金用於還債，以達成在特定時間內無債一身輕的目標。"
+    ],
+    "common_mistakes": [
+      "只支付最低還款額，導致利息隨時間呈指數增長，延長還款期。",
+      "忽略債務的利率差異，沒有優先償還高利率債務（如信用卡），導致總利息支出過高。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是雪球還款法（Debt Snowball）？",
+        "a": "雪球還款法是指優先償還餘額最小的債務，獲得心理成就感後，再將資金投入下一個較小的債務，適合需要動力的人。"
+      },
+      {
+        "q": "什麼是雪崩還款法（Debt Avalanche）？",
+        "a": "雪崩還款法是指優先償還利率最高的債務，這樣可以最大程度地減少總利息支出，是數學上最划算的策略。"
+      },
+      {
+        "q": "如果我只付最低還款額會怎樣？",
+        "a": "只付最低還款額會導致大部分資金用於支付利息，本金減少緩慢，最終可能需要數年甚至數十年才能還清，且總利息驚人。"
+      },
+      {
+        "q": "我應該先存錢還是先還債？",
+        "a": "通常建議先建立一筆小額緊急預備金（如1000美元），然後集中火力償還高利率債務（如信用卡），之後再進行大額儲蓄或投資。"
+      },
+      {
+        "q": "增加每月還款額有什麼好處？",
+        "a": "即使每月只多還一點錢，也能顯著縮短還款期並大幅減少支付給銀行的總利息。"
+      }
+    ],
+    "related_tools": [
+      "mortgage-calculator",
+      "compound-interest",
+      "budget-planner"
+    ],
+    "seo_keywords_zh": [
+      "債務還款計算器",
+      "信用卡還款計算",
+      "雪球還款法"
+    ],
+    "seo_keywords_en": [
+      "debt payoff calculator",
+      "debt avalanche method"
+    ],
+    "source": "https://www.investopedia.com/best-debt-payoff-planners-11762916"
+  },
+  {
+    "tool_id": "budget-planner",
+    "title_zh": "預算規劃器",
+    "title_en": "Budget Planner",
+    "definition_zh": "預算規劃器用來分配收入到必要支出、儲蓄、投資與彈性消費，協助建立可執行的現金流計畫。",
+    "definition_en": "A budget planner is a financial tool or software designed to help individuals and businesses track their income, expenses, and savings over a specific period. It enables users to allocate funds to various categories, monitor spending habits, and set financial goals. By providing a clear overview of cash flow, a budget planner assists in identifying areas where expenses can be reduced and savings can be increased. Popular budgeting methods integrated into these planners include the 50/30/20 rule and zero-based budgeting, which promote disciplined financial management and help prevent debt accumulation.",
+    "formula": "Net Cash Flow = Total Income - Total Expenses",
+    "formula_explained": "Net Cash Flow（淨現金流）：指在特定期間內，總收入減去總支出後的剩餘金額。正值表示有結餘，負值表示超支。\\nTotal Income（總收入）：包括薪資、投資回報、副業收入等所有資金流入。\\nTotal Expenses（總支出）：包括固定支出（如房租、貸款）和變動支出（如餐飲、娛樂）等所有資金流出。",
+    "variables": [
+      {
+        "symbol": "Net Cash Flow",
+        "name_zh": "淨現金流",
+        "description": "總收入減去總支出後的剩餘金額"
+      },
+      {
+        "symbol": "Total Income",
+        "name_zh": "總收入",
+        "description": "特定期間內的所有資金流入總和"
+      },
+      {
+        "symbol": "Total Expenses",
+        "name_zh": "總支出",
+        "description": "特定期間內的所有資金流出總和"
+      }
+    ],
+    "real_world_example": "小明每月的稅後收入為 50,000 元。他使用 50/30/20 法則進行預算規劃：將 25,000 元（50%）用於房租和水電等必需品，15,000 元（30%）用於聚餐和購物等非必需品，剩下的 10,000 元（20%）存入高利活存帳戶作為緊急預備金。",
+    "use_cases": [
+      "個人或家庭的每月收支管理",
+      "為特定目標（如買房、旅遊）制定儲蓄計畫",
+      "企業或專案的資金分配與成本控制"
+    ],
+    "common_mistakes": [
+      "未記錄所有零碎支出，導致預算超支",
+      "設定不切實際的儲蓄目標，難以長期堅持"
+    ],
+    "faq": [
+      {
+        "q": "什麼是50/30/20預算法則？",
+        "a": "這是一種常見的預算分配方法，建議將稅後收入的50%用於必需品，30%用於想要的事物，20%用於儲蓄和還債。"
+      },
+      {
+        "q": "我應該多久更新一次預算？",
+        "a": "建議每月更新一次預算，並每週檢查支出情況，以確保不超出預算。"
+      },
+      {
+        "q": "什麼是零基預算（Zero-Based Budgeting）？",
+        "a": "零基預算是一種方法，要求每個月的收入減去支出和儲蓄後必須等於零，確保每一塊錢都有明確的用途。"
+      },
+      {
+        "q": "預算規劃器能幫我還清債務嗎？",
+        "a": "可以。透過清楚列出所有支出，您可以找出可以削減的開銷，並將多餘的資金用於加速還款。"
+      },
+      {
+        "q": "如果我這個月超支了怎麼辦？",
+        "a": "不要氣餒。分析超支的原因，調整下個月的預算分配，並考慮從其他非必要類別中削減支出來彌補。"
+      }
+    ],
+    "related_tools": [
+      "expense-tracker",
+      "savings-goal",
+      "debt-payoff"
+    ],
+    "seo_keywords_zh": [
+      "預算規劃",
+      "個人理財",
+      "50/30/20法則"
+    ],
+    "seo_keywords_en": [
+      "budget planner",
+      "personal finance budgeting"
+    ],
+    "source": "https://www.investopedia.com/terms/b/budget.asp"
+  },
+  {
+    "tool_id": "stock-profit-loss",
+    "title_zh": "股票損益計算器",
+    "title_en": "Stock Profit Loss Calculator",
+    "definition_zh": "股票損益計算器用來估算股票買賣價差、交易成本與最終獲利或虧損。",
+    "definition_en": "A stock profit loss calculator is a financial tool used by investors to determine the financial gain or loss from a stock trade. It calculates the difference between the total selling price and the total purchase price of shares, while also factoring in transaction costs such as broker commissions and fees. By providing both the absolute dollar amount and the percentage return on investment (ROI), this tool helps traders evaluate the performance of their investments, manage portfolio risk, and make informed decisions about buying, holding, or selling assets in the stock market.",
+    "formula": "Net Profit = (Selling Price × Shares) - (Purchase Price × Shares) - Buy Commissions - Sell Commissions",
+    "formula_explained": "Net Profit（淨利潤）代表最終的實際獲利或虧損金額。Selling Price（賣出價格）是每股賣出的單價。Shares（股數）是交易的股票數量。Purchase Price（買進價格）是每股買進的單價。Buy Commissions（買進手續費）和 Sell Commissions（賣出手續費）則是券商在交易過程中收取的費用。將賣出總額減去買進總額，再扣除所有手續費，即可得出淨利潤。",
+    "variables": [
+      {
+        "symbol": "SP",
+        "name_zh": "賣出價格",
+        "description": "每股股票賣出時的價格"
+      },
+      {
+        "symbol": "PP",
+        "name_zh": "買進價格",
+        "description": "每股股票買進時的價格"
+      },
+      {
+        "symbol": "S",
+        "name_zh": "股數",
+        "description": "買進或賣出的股票總數量"
+      },
+      {
+        "symbol": "BC",
+        "name_zh": "買進手續費",
+        "description": "買進股票時支付給券商的佣金或手續費"
+      },
+      {
+        "symbol": "SC",
+        "name_zh": "賣出手續費",
+        "description": "賣出股票時支付給券商的佣金或手續費"
+      }
+    ],
+    "real_world_example": "假設您以每股$50買進100股蘋果股票，買進手續費$10。後來以每股$60賣出全部股票，賣出手續費$10。總買進成本為$5,010，總賣出收入為$5,990。淨利潤 = $5,990 - $5,010 = $980。投資報酬率約為19.56%。",
+    "use_cases": [
+      "投資人評估單筆股票交易的實際淨利潤與投資報酬率。",
+      "交易者在賣出股票前，預估不同目標價位下的潛在獲利或虧損。",
+      "報稅季時，計算年度已實現的資本利得或損失以進行稅務申報。"
+    ],
+    "common_mistakes": [
+      "忘記將交易手續費和稅金納入計算，導致高估實際獲利。",
+      "混淆已實現損益與未實現損益，在未賣出股票前就將帳面獲利視為實際收入。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是已實現損益和未實現損益？",
+        "a": "已實現損益是指您實際賣出股票後所產生的獲利或虧損；未實現損益（帳面損益）則是指您目前持有股票的市值與買進成本之間的差額，尚未實際獲利了結或認賠殺出。"
+      },
+      {
+        "q": "計算股票損益時需要考慮手續費嗎？",
+        "a": "是的，準確的損益計算必須扣除買進和賣出時產生的所有交易手續費、佣金及相關稅金，這樣才能得出真正的淨利潤。"
+      },
+      {
+        "q": "如何計算股票的投資報酬率（ROI）？",
+        "a": "投資報酬率的計算方式是將淨利潤（賣出總額減去買進總額及費用）除以總投資成本，再乘以100以百分比表示。"
+      },
+      {
+        "q": "現金股利會影響股票損益嗎？",
+        "a": "會的。如果您在持有期間收到現金股利，這些股利應計入您的總收益中，這被稱為總報酬率（Total Return），能更全面地反映投資表現。"
+      },
+      {
+        "q": "什麼是平均成本法？",
+        "a": "當您分批買進同一檔股票時，平均成本法是將所有買進的總金額除以總股數，得出每股的平均成本，這有助於在賣出時更準確地計算整體損益。"
+      }
+    ],
+    "related_tools": [
+      "investment-roi",
+      "dividend-yield",
+      "dollar-cost-averaging"
+    ],
+    "seo_keywords_zh": [
+      "股票損益計算機",
+      "股票獲利計算",
+      "股票投資報酬率"
+    ],
+    "seo_keywords_en": [
+      "stock profit calculator",
+      "stock ROI calculator"
+    ],
+    "source": "https://www.sofi.com/learn/content/how-to-calculate-stock-profit/"
+  },
+  {
+    "tool_id": "dividend-yield",
+    "title_zh": "殖利率計算器",
+    "title_en": "Dividend Yield Calculator",
+    "definition_zh": "殖利率計算器用來衡量每股股利相對於股價的比例，協助評估股息收益水準。",
+    "definition_en": "Dividend yield is a financial ratio that measures the annual value of dividends received relative to the market value per share of a security. It shows how much a company pays out in dividends each year relative to its stock price, expressed as a percentage.",
+    "formula": "Dividend Yield = (Annual Dividends per Share / Price per Share) × 100%",
+    "formula_explained": "Annual Dividends per Share（每股年度股利）：公司在一年內發放給每股股東的現金股利總額。Price per Share（每股價格）：股票在市場上的當前交易價格。將兩者相除後乘以100%，即可得出殖利率百分比。",
+    "variables": [
+      {
+        "symbol": "Annual Dividends per Share",
+        "name_zh": "每股年度股利",
+        "description": "公司在一年內發放給每股股東的現金股利總額。"
+      },
+      {
+        "symbol": "Price per Share",
+        "name_zh": "每股價格",
+        "description": "股票在市場上的當前交易價格。"
+      }
+    ],
+    "real_world_example": "假設A公司目前的股價為$50，過去一年每季發放$0.5的股利。年度總股利為$0.5 × 4 = $2。A公司的殖利率為 ($2 / $50) × 100% = 4%。這表示投資人每投資$100，預期可獲得$4的股利收入。",
+    "use_cases": [
+      "評估股票的現金收益能力，篩選適合存股的高股息標的。",
+      "比較不同公司的股利政策，選擇符合自身投資策略的股票。",
+      "判斷市場整體估值水準，當大盤殖利率過低時可能暗示股市過熱。"
+    ],
+    "common_mistakes": [
+      "只看高殖利率而忽略公司基本面，可能陷入『殖利率陷阱』（股價大跌導致殖利率飆高）。",
+      "將殖利率與總報酬率混淆，忽略了股價本身的資本利得或虧損。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是殖利率？",
+        "a": "殖利率是衡量投資人從股票中獲得的年度現金股利相對於股票當前價格的百分比。"
+      },
+      {
+        "q": "殖利率越高越好嗎？",
+        "a": "不一定。過高的殖利率可能是因為股價大幅下跌所致，這可能暗示公司基本面出現問題，被稱為『殖利率陷阱』。"
+      },
+      {
+        "q": "如何計算殖利率？",
+        "a": "將每股年度股利除以每股市場價格，再乘以100%即可得出。"
+      },
+      {
+        "q": "殖利率和總報酬率有何不同？",
+        "a": "殖利率僅考慮股利收入，而總報酬率則包含股利收入與股價變動（資本利得或虧損）。"
+      },
+      {
+        "q": "成長型公司通常會發放高股利嗎？",
+        "a": "通常不會。成長型公司傾向將盈餘再投資於公司業務以促進成長，因此股利發放較少，殖利率較低。成熟型公司則較常發放穩定股利。"
+      }
+    ],
+    "related_tools": [
+      "stock-profit-loss",
+      "compound-interest",
+      "pe-ratio"
+    ],
+    "seo_keywords_zh": [
+      "殖利率計算",
+      "高股息股票",
+      "股利發放"
+    ],
+    "seo_keywords_en": [
+      "dividend yield formula",
+      "high dividend stocks"
+    ],
+    "source": "https://corporatefinanceinstitute.com/resources/accounting/dividend-yield-formula/"
+  },
+  {
+    "tool_id": "pe-ratio",
+    "title_zh": "本益比計算器",
+    "title_en": "P/E Ratio Calculator",
+    "definition_zh": "本益比計算器用來衡量股價相對於每股盈餘的倍數，是股票估值常用指標之一。",
+    "definition_en": "The Price-to-Earnings (P/E) ratio is a financial metric that measures a company's current share price relative to its per-share earnings. It is widely used by investors to determine the relative value of a company's shares in an apples-to-apples comparison. A high P/E ratio could mean that a company's stock is overvalued, or else that investors are expecting high growth rates in the future. Conversely, a low P/E might indicate that the current stock price is low relative to earnings, possibly making it undervalued.",
+    "formula": "P/E = P / EPS",
+    "formula_explained": "P (Price) 代表每股股價，即目前市場上買賣一股該公司股票的價格；EPS (Earnings Per Share) 代表每股盈餘，即公司在特定期間（通常為過去12個月）內，每一股所能分配到的稅後淨利。",
+    "variables": [
+      {
+        "symbol": "P",
+        "name_zh": "每股股價",
+        "description": "公司股票在市場上的最新交易價格。"
+      },
+      {
+        "symbol": "EPS",
+        "name_zh": "每股盈餘",
+        "description": "公司稅後淨利除以發行在外股數，代表每一股賺取的利潤。"
+      }
+    ],
+    "real_world_example": "假設A公司目前股價為100元，過去一年的每股盈餘（EPS）為5元，則其本益比為 100 / 5 = 20倍。這意味著投資人願意花20元的價格來買A公司1元的獲利，或者說，如果A公司獲利保持不變，投資人需要20年才能回本。",
+    "use_cases": [
+      "評估單一股票的估值：判斷目前股價相對於其獲利能力是否合理（高估或低估）。",
+      "同業比較：比較同一產業內不同公司的本益比，找出相對便宜的投資標的。",
+      "大盤趨勢分析：觀察整體市場（如S&P 500）的平均本益比，判斷目前股市整體處於高點還是低點。"
+    ],
+    "common_mistakes": [
+      "僅看絕對數值而忽略同業比較，不同產業的合理本益比差異很大。",
+      "忽略公司未來的成長性，低本益比可能是因為市場預期未來獲利衰退（價值陷阱）。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是本益比（P/E Ratio）？",
+        "a": "本益比是衡量公司股票價格相對於其每股盈餘（EPS）的財務指標，用來評估股票是高估還是低估。"
+      },
+      {
+        "q": "本益比多少算合理？",
+        "a": "合理的本益比因產業而異。一般來說，10到20倍被認為是合理的，但高成長產業（如科技股）通常會有較高的本益比。"
+      },
+      {
+        "q": "高本益比代表什麼？",
+        "a": "高本益比通常代表市場對該公司未來的獲利成長有較高的期望，但也可能意味著股票目前被高估。"
+      },
+      {
+        "q": "低本益比代表什麼？",
+        "a": "低本益比可能代表股票被低估，是一個潛在的投資機會；但也可能是市場對該公司未來前景不看好（價值陷阱）。"
+      },
+      {
+        "q": "本益比可以是負數嗎？",
+        "a": "當公司虧損（每股盈餘為負）時，本益比在數學上是負數，但實務上通常會顯示為「N/A」（不適用），因為負的本益比沒有實質的分析意義。"
+      }
+    ],
+    "related_tools": [
+      "stock-profit-loss",
+      "dividend-yield",
+      "investment-roi"
+    ],
+    "seo_keywords_zh": [
+      "本益比計算機",
+      "PE Ratio公式",
+      "股票估值教學"
+    ],
+    "seo_keywords_en": [
+      "P/E Ratio Calculator",
+      "Price to Earnings Ratio"
+    ],
+    "source": "https://corporatefinanceinstitute.com/resources/valuation/price-earnings-ratio/"
+  },
+  {
+    "tool_id": "dollar-cost-averaging",
+    "title_zh": "定期定額計算器",
+    "title_en": "Dollar Cost Averaging Calculator",
+    "definition_zh": "定期定額計算器用來估算固定週期投入資金，在不同報酬率與投資期間下的累積成果。",
+    "definition_en": "Dollar-cost averaging (DCA) is an investment strategy in which an investor divides up the total amount to be invested across periodic purchases of a target asset in an effort to reduce the impact of volatility on the overall purchase. The purchases occur regardless of the asset's price and at regular intervals.",
+    "formula": "Average Cost = \\frac{\\sum_{i=1}^{n} I_i}{\\sum_{i=1}^{n} (I_i / P_i)}",
+    "formula_explained": "Average Cost 代表平均持有成本；I_i 代表第 i 期的固定投資金額；P_i 代表第 i 期購買時的資產單位價格；n 代表總共投資的期數。分母部分 (I_i / P_i) 計算出每期實際買入的股數或單位數。",
+    "variables": [
+      {
+        "symbol": "I_i",
+        "name_zh": "每期投資金額",
+        "description": "在每個固定週期（如每月）所投入的固定資金金額。"
+      },
+      {
+        "symbol": "P_i",
+        "name_zh": "每期資產價格",
+        "description": "在第 i 期扣款時，該投資標的的單位市場價格。"
+      },
+      {
+        "symbol": "n",
+        "name_zh": "投資期數",
+        "description": "總共進行定期定額扣款的次數。"
+      }
+    ],
+    "real_world_example": "假設每月投資1萬元買股票。第一個月股價100元，買入100股；第二個月股價50元，買入200股；第三個月股價200元，買入50股。總投資3萬元，共買入350股。平均成本為 30,000 / 350 = 85.71元，低於三個月的平均股價116.67元，有效攤平了成本。",
+    "use_cases": [
+      "退休金規劃：每月從薪水中固定扣款投資指數型基金，長期累積退休資產。",
+      "降低擇時風險：面對波動較大的加密貨幣或股票市場，避免一次性將資金買在歷史高點。",
+      "建立投資紀律：幫助新手投資者克服市場恐慌或貪婪情緒，養成規律儲蓄與投資的習慣。"
+    ],
+    "common_mistakes": [
+      "在市場大跌時因為恐慌而停止扣款，錯失了在低價累積大量單位數的最佳時機。",
+      "選擇長期基本面衰退的標的進行定期定額，導致不斷攤平虧損，最終無法回本。"
+    ],
+    "faq": [
+      {
+        "q": "定期定額保證能賺錢嗎？",
+        "a": "不能。定期定額只能降低買在高點的風險並平攤成本，如果投資標的長期趨勢向下，最終仍會虧損。"
+      },
+      {
+        "q": "什麼時候適合開始定期定額？",
+        "a": "隨時都可以。因為定期定額的核心理念就是不預測市場時機，越早開始越能享受長期複利效果。"
+      },
+      {
+        "q": "定期定額和單筆投資哪個好？",
+        "a": "在長期上漲的市場中，單筆投資通常報酬較高；但在波動大或無法預測的市場中，定期定額能有效降低風險和心理壓力。"
+      },
+      {
+        "q": "應該選擇什麼標的進行定期定額？",
+        "a": "建議選擇長期趨勢向上且具備分散風險特性的標的，如大盤指數型基金（ETF）或績優藍籌股。"
+      },
+      {
+        "q": "扣款頻率（每月或每週）有影響嗎？",
+        "a": "統計顯示，長期來看每週或每月扣款的最終報酬差異不大，建議配合自己的薪資發放頻率（如每月一次）即可。"
+      }
+    ],
+    "related_tools": [
+      "compound-interest",
+      "retirement-calculator",
+      "stock-profit-loss"
+    ],
+    "seo_keywords_zh": [
+      "定期定額計算",
+      "DCA投資策略",
+      "平均成本法"
+    ],
+    "seo_keywords_en": [
+      "Dollar Cost Averaging",
+      "DCA calculator"
+    ],
+    "source": "https://www.investopedia.com/terms/d/dollarcostaveraging.asp"
+  },
+  {
+    "tool_id": "inflation-calculator",
+    "title_zh": "通膨計算器",
+    "title_en": "Inflation Calculator",
+    "definition_zh": "通膨計算器用來估算物價上漲對未來購買力的影響，協助理解名目金額與實質價值差異。",
+    "definition_en": "An inflation calculator is a financial tool that measures how the purchasing power of money changes over time due to inflation. It calculates the equivalent value of a specific amount of money in a different year by adjusting for historical or projected inflation rates, typically using the Consumer Price Index (CPI).",
+    "formula": "FV = PV × (1 + r)^n",
+    "formula_explained": "FV (Future Value) 代表未來價值，即經過通膨調整後的金額；PV (Present Value) 代表現在價值或初始金額；r (Inflation Rate) 代表預估或實際的年通膨率；n (Number of Periods) 代表經過的年數。這個公式計算了在特定通膨率下，現在的金額在未來相當於多少錢。",
+    "variables": [
+      {
+        "symbol": "FV",
+        "name_zh": "未來價值",
+        "description": "經過通膨調整後的等值金額"
+      },
+      {
+        "symbol": "PV",
+        "name_zh": "現在價值",
+        "description": "初始的金額或本金"
+      },
+      {
+        "symbol": "r",
+        "name_zh": "通膨率",
+        "description": "預估或實際的年通貨膨脹率"
+      },
+      {
+        "symbol": "n",
+        "name_zh": "期數",
+        "description": "經過的年數或時間段"
+      }
+    ],
+    "real_world_example": "假設你現在有 10,000 元，預估未來的年通膨率為 3%。經過 10 年後，這筆錢的未來等值金額為 10,000 × (1 + 0.03)^10 ≈ 13,439 元。這意味著 10 年後的 13,439 元，其購買力才相當於現在的 10,000 元。",
+    "use_cases": [
+      "評估退休金的實際購買力",
+      "比較不同年份的薪資水準",
+      "計算長期投資的實質報酬率"
+    ],
+    "common_mistakes": [
+      "忽略通膨對購買力的長期侵蝕，只看名目價值",
+      "使用錯誤的通膨率（如將月通膨率當作年通膨率）"
+    ],
+    "faq": [
+      {
+        "q": "什麼是通膨計算器？",
+        "a": "通膨計算器是一種工具，用於計算特定金額在不同年份的等值購買力，幫助了解通膨對金錢價值的影響。"
+      },
+      {
+        "q": "通膨計算器通常使用什麼數據？",
+        "a": "大多數通膨計算器使用消費者物價指數（CPI）來衡量不同時期的物價變化。"
+      },
+      {
+        "q": "為什麼需要計算通膨？",
+        "a": "因為通膨會降低金錢的購買力，計算通膨能幫助我們更準確地進行長期財務規劃和投資評估。"
+      },
+      {
+        "q": "如何計算未來的通膨影響？",
+        "a": "可以使用預估的平均年通膨率，透過複利公式計算未來特定年份的等值金額。"
+      },
+      {
+        "q": "通膨率是固定的嗎？",
+        "a": "不是，通膨率會隨經濟狀況波動，歷史通膨計算器使用的是實際發生的通膨率，而未來預測則使用假設的平均率。"
+      }
+    ],
+    "related_tools": [
+      "compound-interest",
+      "retirement-calculator",
+      "investment-roi"
+    ],
+    "seo_keywords_zh": [
+      "通膨計算器",
+      "購買力計算",
+      "通貨膨脹影響"
+    ],
+    "seo_keywords_en": [
+      "inflation calculator",
+      "purchasing power calculator"
+    ],
+    "source": "https://corporatefinanceinstitute.com/resources/financial-modeling/inflation-calculator/"
+  },
+  {
+    "tool_id": "currency-converter",
+    "title_zh": "貨幣匯率轉換器",
+    "title_en": "Currency Converter",
+    "definition_zh": "貨幣匯率轉換器用來依匯率換算不同貨幣金額，協助旅遊、跨境購物與國際付款估算成本。",
+    "definition_en": "A currency converter is a software application or online tool that calculates the equivalent value of one currency in another based on current exchange rates. It helps individuals and businesses determine the cost of foreign transactions, travel expenses, or international investments by applying real-time or historical exchange rates.",
+    "formula": "Target Currency = Base Currency × Exchange Rate",
+    "formula_explained": "Target Currency（目標貨幣）：轉換後獲得的貨幣金額。Base Currency（基準貨幣）：準備轉換的原始貨幣金額。Exchange Rate（匯率）：一單位基準貨幣可兌換的目標貨幣數量。",
+    "variables": [
+      {
+        "symbol": "Target Currency",
+        "name_zh": "目標貨幣",
+        "description": "轉換後獲得的貨幣金額"
+      },
+      {
+        "symbol": "Base Currency",
+        "name_zh": "基準貨幣",
+        "description": "準備轉換的原始貨幣金額"
+      },
+      {
+        "symbol": "Exchange Rate",
+        "name_zh": "匯率",
+        "description": "一單位基準貨幣可兌換的目標貨幣數量"
+      }
+    ],
+    "real_world_example": "假設你要去日本旅遊，想將 1,000 美元（USD）換成日圓（JPY）。如果目前的匯率是 1 USD = 150 JPY，那麼你可以換得的日圓金額為：1,000 × 150 = 150,000 JPY。這表示 1,000 美元等值於 150,000 日圓。",
+    "use_cases": [
+      "出國旅遊前計算外幣預算及實際花費。",
+      "跨國網購時，將外幣商品價格換算為本國貨幣以評估成本。",
+      "企業進行國際貿易時，計算進出口成本及利潤。"
+    ],
+    "common_mistakes": [
+      "忽略買賣價差（Bid-Ask Spread），導致實際換匯金額低於預期。",
+      "未考慮隱藏的手續費或銀行轉換費用，僅使用中間市場匯率進行計算。"
+    ],
+    "faq": [
+      {
+        "q": "什麼是中間市場匯率（Mid-Market Rate）？",
+        "a": "中間市場匯率是買入價和賣出價的平均值，通常是銀行間交易的匯率，也是多數匯率換算器顯示的基準匯率。"
+      },
+      {
+        "q": "為什麼我在銀行換匯的匯率和換算器上的不同？",
+        "a": "銀行和換匯機構通常會在中間市場匯率上加上利潤（買賣價差）和手續費，因此實際換匯的匯率會比換算器顯示的差。"
+      },
+      {
+        "q": "匯率換算器的數據多久更新一次？",
+        "a": "多數線上匯率換算器會即時或每隔幾分鐘更新一次，以反映外匯市場的最新波動。"
+      },
+      {
+        "q": "如何計算交叉匯率（Cross Rate）？",
+        "a": "交叉匯率是透過兩種貨幣對第三種貨幣（通常是美元）的匯率計算得出。例如，計算歐元對日圓的匯率，可將歐元對美元的匯率除以日圓對美元的匯率。"
+      },
+      {
+        "q": "匯率波動會受到哪些因素影響？",
+        "a": "匯率受多種因素影響，包括通貨膨脹率、利率、國家經濟表現、政治穩定性及市場投機行為等。"
+      }
+    ],
+    "related_tools": [
+      "budget-planner",
+      "stock-profit-loss"
+    ],
+    "seo_keywords_zh": [
+      "匯率換算",
+      "外幣兌換計算",
+      "即時匯率查詢"
+    ],
+    "seo_keywords_en": [
+      "currency converter",
+      "exchange rate calculator"
+    ],
+    "source": "https://www.investopedia.com/terms/forex/g/global-universal-currency-converter.asp"
+  },
+  {
+    "tool_id": "savings-goal",
+    "title_zh": "儲蓄目標計算器",
+    "title_en": "Savings Goal Calculator",
+    "definition_zh": "儲蓄目標計算器用來估算達成特定金額所需的每月存款、期間或預期報酬率。",
+    "definition_en": "A savings goal calculator is a financial tool that helps individuals determine the periodic contribution required to reach a specific target amount within a set timeframe. It factors in the initial balance, the desired future value, the time horizon, and the expected rate of return (interest rate). By using the sinking fund formula, it calculates the exact monthly or annual savings needed, allowing users to create actionable plans for objectives like a down payment, emergency fund, or vacation.",
+    "formula": "PMT = (FV - PV × (1 + r/n)^(nt)) × (r/n) / ((1 + r/n)^(nt) - 1)",
+    "formula_explained": "PMT 代表每期需要存入的金額；FV 是未來的儲蓄目標總額；PV 是目前的初始存款（若無則為0）；r 是年利率（以小數表示）；n 是每年的複利次數（例如每月存入並計息則為12）；t 是達成目標所需的年數。這個公式計算在考慮現有資金和複利的情況下，為了達到目標金額，每期必須投入的等額資金。",
+    "variables": [
+      {
+        "symbol": "PMT",
+        "name_zh": "每期存款金額",
+        "description": "為了達到目標，每個週期（如每月）需要存入的固定金額"
+      },
+      {
+        "symbol": "FV",
+        "name_zh": "未來價值（目標金額）",
+        "description": "您希望在計畫結束時達到的總儲蓄目標金額"
+      },
+      {
+        "symbol": "PV",
+        "name_zh": "現值（初始存款）",
+        "description": "您目前已經準備好並投入該儲蓄計畫的初始資金"
+      },
+      {
+        "symbol": "r",
+        "name_zh": "年利率",
+        "description": "預期的年度投資回報率或存款利率（以小數表示，如 5% 為 0.05）"
+      },
+      {
+        "symbol": "n",
+        "name_zh": "每年複利次數",
+        "description": "一年中計算利息的次數（如每月計息為 12）"
+      },
+      {
+        "symbol": "t",
+        "name_zh": "年數",
+        "description": "距離達成儲蓄目標所需要的總年數"
+      }
+    ],
+    "real_world_example": "小明想在3年後存到 $600,000 作為買房頭期款。他目前有 $100,000 的初始存款，並將資金放在年利率 2%、每月計息的帳戶中。透過儲蓄目標計算器，代入 FV=600000, PV=100000, r=0.02, n=12, t=3，計算得出他每個月還需要存入約 $13,245 才能達成目標。",
+    "use_cases": [
+      "規劃購屋頭期款或買車基金的每月儲蓄計畫",
+      "準備出國旅遊或結婚等特定短期大額支出的資金",
+      "建立緊急預備金，計算需要幾個月才能存滿目標金額"
+    ],
+    "common_mistakes": [
+      "忽略通貨膨脹對長期儲蓄目標購買力的影響",
+      "未將投資回報率（利息）的稅負成本計算在內"
+    ],
+    "faq": [
+      {
+        "q": "如果我的投資回報率改變了怎麼辦？",
+        "a": "如果回報率改變，您需要重新計算。較低的回報率意味著您需要增加每期的儲蓄金額才能達到相同的目標。"
+      },
+      {
+        "q": "我應該多久檢視一次我的儲蓄目標？",
+        "a": "建議至少每季或每半年檢視一次，以確保您的儲蓄進度符合預期，並根據收入或支出的變化進行調整。"
+      },
+      {
+        "q": "儲蓄目標計算器有考慮通貨膨脹嗎？",
+        "a": "基本的計算器通常不包含通膨。如果是長期目標，建議將目標金額上調，或使用扣除預期通膨率後的實質回報率來計算。"
+      },
+      {
+        "q": "我應該先還債還是先存錢？",
+        "a": "通常建議先建立小額緊急預備金，然後優先償還高利率債務（如信用卡），之後再專注於其他儲蓄目標。"
+      },
+      {
+        "q": "如果我無法達到計算出的每月儲蓄額怎麼辦？",
+        "a": "您可以考慮延長達成目標的時間（增加期數），或者尋找提高投資回報率的方法，亦或是降低最終的目標金額。"
+      }
+    ],
+    "related_tools": [
+      "compound-interest",
+      "emergency-fund",
+      "budget-planner"
+    ],
+    "seo_keywords_zh": [
+      "儲蓄目標計算器",
+      "每月存錢計算",
+      "財務目標規劃"
+    ],
+    "seo_keywords_en": [
+      "savings goal calculator",
+      "sinking fund formula"
+    ],
+    "source": "https://www.investor.gov/financial-tools-calculators/calculators/savings-goal-calculator"
+  },
+  {
+    "tool_id": "loan-calculator",
+    "title_zh": "貸款計算器",
+    "title_en": "Loan Calculator",
+    "definition_zh": "貸款計算器用來估算個人貸款、車貸或其他分期貸款的每期付款、總利息與總還款金額。",
+    "definition_en": "A loan calculator is a financial tool used to estimate the monthly payments, total interest, and overall cost of a loan over its term. It helps borrowers understand the financial commitment required for mortgages, auto loans, personal loans, or student loans by factoring in the principal amount, interest rate, and loan duration.",
+    "formula": "PMT = P × (r(1 + r)^n) / ((1 + r)^n - 1)",
+    "formula_explained": "PMT 代表每期還款額（通常為每月）；P 代表貸款本金（Loan Principal），即借款的總金額；r 代表每期利率（Periodic Interest Rate），通常是年利率除以每年的還款次數（如12個月）；n 代表總還款期數（Total Number of Payments），即貸款年限乘以每年的還款次數。",
+    "variables": [
+      {
+        "symbol": "PMT",
+        "name_zh": "每期還款額",
+        "description": "借款人每期（通常為每月）需要償還的固定金額，包含本金與利息。"
+      },
+      {
+        "symbol": "P",
+        "name_zh": "貸款本金",
+        "description": "最初借入的總金額。"
+      },
+      {
+        "symbol": "r",
+        "name_zh": "每期利率",
+        "description": "每期的貸款利率，通常為年利率除以12。"
+      },
+      {
+        "symbol": "n",
+        "name_zh": "總還款期數",
+        "description": "貸款期間內的總還款次數，例如5年期月繳貸款為60期。"
+      }
+    ],
+    "real_world_example": "假設你申請了一筆500,000元的個人貸款，年利率為6%，貸款期限為5年（60個月）。每期利率為0.5%（6%/12）。代入公式計算，每月需還款約9,666元。5年下來，總還款額約為579,984元，其中包含79,984元的利息支出。",
+    "use_cases": [
+      "購車前評估不同貸款期限與利率對每月車貸負擔的影響。",
+      "申請個人信貸時，計算每月需繳納的本息金額以確認是否符合自身還款能力。",
+      "比較不同銀行的貸款方案，找出總利息支出最低的選擇。"
+    ],
+    "common_mistakes": [
+      "忽略了貸款可能附帶的手續費、開辦費等隱藏成本，導致實際負擔高於計算結果。",
+      "在計算時誤將年利率直接代入公式，而未將其轉換為與還款頻率相符的每期利率（如月利率）。"
+    ],
+    "faq": [
+      {
+        "q": "貸款計算器算出的金額是最終我要繳的錢嗎？",
+        "a": "不一定。計算器通常只計算本金與利息，實際還款可能還包含手續費、保險費或延遲繳款的違約金。"
+      },
+      {
+        "q": "什麼是本息平均攤還？",
+        "a": "這是一種常見的還款方式，在貸款期間內，每個月償還的總金額（本金加利息）固定不變，方便借款人規劃財務。"
+      },
+      {
+        "q": "如果我提前還款，貸款計算器的結果還準確嗎？",
+        "a": "提前還款會減少剩餘本金，進而降低未來的利息支出。若有提前還款計畫，需使用支援提前還款試算的進階計算器。"
+      },
+      {
+        "q": "為什麼貸款期限越長，每月還款額越低，但總利息卻越高？",
+        "a": "因為貸款期限拉長，本金攤還的速度變慢，導致未償還本金產生利息的時間變長，因此總利息支出會增加。"
+      },
+      {
+        "q": "固定利率和機動利率對計算結果有何影響？",
+        "a": "固定利率在貸款期間內不變，計算結果準確；機動利率會隨市場波動，若未來利率上升，實際每月還款額將高於最初的計算結果。"
+      }
+    ],
+    "related_tools": [
+      "mortgage-calculator",
+      "debt-payoff",
+      "budget-planner"
+    ],
+    "seo_keywords_zh": [
+      "貸款計算機",
+      "每月還款試算",
+      "本息攤還公式"
+    ],
+    "seo_keywords_en": [
+      "loan calculator",
+      "amortization schedule"
+    ],
+    "source": "https://www.investopedia.com/loan-calculator-5104934"
+  }
+]
