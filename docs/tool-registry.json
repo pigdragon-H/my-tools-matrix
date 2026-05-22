@@ -23,7 +23,8 @@
                       "reviewed_by":  "Claude",
                       "execution_by":  "Sninja",
                       "created_at":  "2026-05-18",
-                      "updated_at":  "2026-05-22"
+                      "updated_at":  "2026-05-22",
+                      "galaxy":  "INV"
                   },
                   {
                       "serial":  "00002",
@@ -77,7 +78,8 @@
                       "reviewed_by":  "Claude",
                       "execution_by":  "Sninja",
                       "created_at":  "2026-05-18",
-                      "updated_at":  "2026-05-22"
+                      "updated_at":  "2026-05-22",
+                      "galaxy":  "RET"
                   },
                   {
                       "serial":  "00005",
@@ -311,7 +313,8 @@
                       "reviewed_by":  "Claude",
                       "execution_by":  "Sninja",
                       "created_at":  "2026-05-22",
-                      "updated_at":  "2026-05-22"
+                      "updated_at":  "2026-05-22",
+                      "galaxy":  "INV"
                   },
                   {
                       "serial":  "00018",
@@ -329,7 +332,8 @@
                       "reviewed_by":  "Claude",
                       "execution_by":  "Sninja",
                       "created_at":  "2026-05-18",
-                      "updated_at":  "2026-05-22"
+                      "updated_at":  "2026-05-22",
+                      "galaxy":  "BIO"
                   },
                   {
                       "serial":  "00019",
@@ -347,7 +351,8 @@
                       "reviewed_by":  "Claude",
                       "execution_by":  "Sninja",
                       "created_at":  "2026-05-18",
-                      "updated_at":  "2026-05-22"
+                      "updated_at":  "2026-05-22",
+                      "galaxy":  "SLP"
                   },
                   {
                       "serial":  "00020",
@@ -455,7 +460,8 @@
                       "reviewed_by":  "Claude",
                       "execution_by":  "Sninja",
                       "created_at":  "2026-05-22",
-                      "updated_at":  "2026-05-22"
+                      "updated_at":  "2026-05-22",
+                      "galaxy":  "NTR"
                   },
                   {
                       "serial":  "00026",
@@ -970,13 +976,13 @@
                   },
                   {
                       "serial":  "00054",
-                      "canonical_id":  "TRV-000054",
+                      "canonical_id":  "FIN-000054",
                       "slug":  "currency-converter",
                       "name_zh":  "匯率換算器",
                       "name_en":  "Currency Converter",
                       "universe":  "FIN",
-                      "website_key":  "travel",
-                      "website_path":  "/tools/travel/currency-converter",
+                      "website_key":  "fin",
+                      "website_path":  "/tools/fin/currency-converter",
                       "status":  "active",
                       "version":  "1.0.0",
                       "is_premium":  false,
@@ -984,7 +990,8 @@
                       "reviewed_by":  "Claude",
                       "execution_by":  "Sninja",
                       "created_at":  "2026-05-18",
-                      "updated_at":  "2026-05-22"
+                      "updated_at":  "2026-05-22",
+                      "galaxy":  "FXR"
                   },
                   {
                       "serial":  "00055",
@@ -1020,7 +1027,8 @@
                       "reviewed_by":  "Claude",
                       "execution_by":  "Sninja",
                       "created_at":  "2026-05-22",
-                      "updated_at":  "2026-05-22"
+                      "updated_at":  "2026-05-22",
+                      "galaxy":  "SAV"
                   },
                   {
                       "serial":  "00057",
@@ -1038,7 +1046,8 @@
                       "reviewed_by":  "Claude",
                       "execution_by":  "Sninja",
                       "created_at":  "2026-05-22",
-                      "updated_at":  "2026-05-22"
+                      "updated_at":  "2026-05-22",
+                      "galaxy":  "NWT"
                   },
                   {
                       "serial":  "00058",
@@ -1056,7 +1065,8 @@
                       "reviewed_by":  "Claude",
                       "execution_by":  "Sninja",
                       "created_at":  "2026-05-22",
-                      "updated_at":  "2026-05-22"
+                      "updated_at":  "2026-05-22",
+                      "galaxy":  "BUD"
                   },
                   {
                       "serial":  "00059",
@@ -1164,7 +1174,8 @@
                       "reviewed_by":  "Claude",
                       "execution_by":  "Sninja",
                       "created_at":  "2026-05-22",
-                      "updated_at":  "2026-05-22"
+                      "updated_at":  "2026-05-22",
+                      "galaxy":  "INV"
                   },
                   {
                       "serial":  "00065",
@@ -1254,7 +1265,8 @@
                       "reviewed_by":  "Claude",
                       "execution_by":  "Sninja",
                       "created_at":  "2026-05-22",
-                      "updated_at":  "2026-05-22"
+                      "updated_at":  "2026-05-22",
+                      "galaxy":  "FXR"
                   },
                   {
                       "serial":  "00070",
@@ -1290,7 +1302,8 @@
                       "reviewed_by":  "Claude",
                       "execution_by":  "Sninja",
                       "created_at":  "2026-05-22",
-                      "updated_at":  "2026-05-22"
+                      "updated_at":  "2026-05-22",
+                      "galaxy":  "BIO"
                   },
                   {
                       "serial":  "00072",
@@ -1308,7 +1321,8 @@
                       "reviewed_by":  "Claude",
                       "execution_by":  "Sninja",
                       "created_at":  "2026-05-22",
-                      "updated_at":  "2026-05-22"
+                      "updated_at":  "2026-05-22",
+                      "galaxy":  "BIO"
                   },
                   {
                       "serial":  "00073",
@@ -1380,7 +1394,8 @@
                       "reviewed_by":  "Claude",
                       "execution_by":  "Sninja",
                       "created_at":  "2026-05-22",
-                      "updated_at":  "2026-05-22"
+                      "updated_at":  "2026-05-22",
+                      "galaxy":  "CRD"
                   },
                   {
                       "serial":  "00077",
@@ -1434,7 +1449,8 @@
                       "reviewed_by":  "Claude",
                       "execution_by":  "Sninja",
                       "created_at":  "2026-05-22",
-                      "updated_at":  "2026-05-22"
+                      "updated_at":  "2026-05-22",
+                      "galaxy":  "RSK"
                   },
                   {
                       "serial":  "00080",
