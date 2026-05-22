@@ -2,21 +2,19 @@ import { useMemo, useState } from "react";
 
 type Output = { value: string; error: string };
 
-export default function JwtDecoder() {
-  const [input, setInput] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMiLCJuYW1lIjoiVmljdG9yIiwiaWF0IjoxNzE2MzAwMDAwfQ.signature');
+export default function XmlFormatter() {
+  const [input, setInput] = useState('<root><user><name>Victor</name></user></root>');
   const [copied, setCopied] = useState(false);
-
+  const [indent, setIndent] = useState<2 | 4>(2);
 
   const result = useMemo<Output>(() => {
     try {
-      const parts = input.trim().split(".");
-      if (parts.length !== 3) throw new Error("JWT 必須包含 header.payload.signature 三段。");
-      const decode = (part: string) => JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(part.replace(/-/g, "+").replace(/_/g, "/").padEnd(Math.ceil(part.length / 4) * 4, "=")), (c) => c.charCodeAt(0))));
-      return { value: JSON.stringify({ header: decode(parts[0]), payload: decode(parts[1]), signaturePresent: parts[2].length > 0, signatureNote: "前端工具僅解碼並檢查簽名段是否存在，不持有密鑰因此不驗證真實簽章。" }, null, 2), error: "" };
+      const pretty = input.replace(/>\s*</g, ">\n<").replace(/([{};])/g, "$1\n").replace(/\b(from|where|order by|group by|select|insert|update|delete|values|set)\b/gi, "\n$1").split(/\n+/).map((line) => line.trim()).filter(Boolean).map((line, i) => " ".repeat(indent).repeat(Math.max(0, line.startsWith("</") ? 0 : Math.min(i, 3))) + line).join("\n");
+      return { value: pretty, error: "" };
     } catch (error) {
       return { value: "", error: error instanceof Error ? error.message : "處理失敗，請檢查輸入內容。" };
     }
-  }, [input]);
+  }, [input, indent]);
 
   const copyResult = async () => {
     if (!result.value) return;
@@ -33,12 +31,13 @@ export default function JwtDecoder() {
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-4 py-8">
       <section className="rounded-2xl border bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
-        <h1 className="text-3xl font-bold text-slate-950 dark:text-white">JWT Decoder</h1>
-        <p className="mt-2 text-slate-600 dark:text-slate-300">JWT解碼器：輸入 JWT token 後解碼 header/payload，並顯示簽名段狀態。</p>
+        <h1 className="text-3xl font-bold text-slate-950 dark:text-white">XML Formatter</h1>
+        <p className="mt-2 text-slate-600 dark:text-slate-300">XML格式化工具：輸入原始內容後輸出縮排美化版本，支援一鍵複製。</p>
       </section>
 
       <section className="flex flex-wrap items-center gap-3 rounded-2xl border bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-950">
-
+        <label className="text-sm font-semibold text-slate-700 dark:text-slate-200">縮排</label>
+        <select value={indent} onChange={(e) => setIndent(Number(e.target.value) as 2 | 4)} className="rounded-lg border px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900"><option value={2}>2 格</option><option value={4}>4 格</option></select>
         <button type="button" onClick={copyResult} disabled={!result.value} className="ml-auto rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900">{copied ? "已複製" : "複製結果"}</button>
         <button type="button" onClick={clearAll} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700 hover:bg-red-50 dark:border-red-900 dark:text-red-200 dark:hover:bg-red-950/40">清除</button>
       </section>

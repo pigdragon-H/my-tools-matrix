@@ -2,21 +2,20 @@ import { useMemo, useState } from "react";
 
 type Output = { value: string; error: string };
 
-export default function JwtDecoder() {
-  const [input, setInput] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMiLCJuYW1lIjoiVmljdG9yIiwiaWF0IjoxNzE2MzAwMDAwfQ.signature');
+export default function UnicodeConverter() {
+  const [input, setInput] = useState('工具矩陣');
   const [copied, setCopied] = useState(false);
-
+  const [mode, setMode] = useState<"encode" | "decode">("encode");
 
   const result = useMemo<Output>(() => {
     try {
-      const parts = input.trim().split(".");
-      if (parts.length !== 3) throw new Error("JWT 必須包含 header.payload.signature 三段。");
-      const decode = (part: string) => JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(part.replace(/-/g, "+").replace(/_/g, "/").padEnd(Math.ceil(part.length / 4) * 4, "=")), (c) => c.charCodeAt(0))));
-      return { value: JSON.stringify({ header: decode(parts[0]), payload: decode(parts[1]), signaturePresent: parts[2].length > 0, signatureNote: "前端工具僅解碼並檢查簽名段是否存在，不持有密鑰因此不驗證真實簽章。" }, null, 2), error: "" };
+      if (mode === "encode") return { value: Array.from(input).map((ch) => `U+${ch.codePointAt(0)!.toString(16).toUpperCase().padStart(4, "0")}`).join(" "), error: "" };
+      const chars = input.trim().split(/\s+/).map((p) => String.fromCodePoint(parseInt(p.replace(/^U\+/i, ""), 16)));
+      return { value: chars.join(""), error: "" };
     } catch (error) {
       return { value: "", error: error instanceof Error ? error.message : "處理失敗，請檢查輸入內容。" };
     }
-  }, [input]);
+  }, [input, mode]);
 
   const copyResult = async () => {
     if (!result.value) return;
@@ -33,12 +32,12 @@ export default function JwtDecoder() {
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-4 py-8">
       <section className="rounded-2xl border bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
-        <h1 className="text-3xl font-bold text-slate-950 dark:text-white">JWT Decoder</h1>
-        <p className="mt-2 text-slate-600 dark:text-slate-300">JWT解碼器：輸入 JWT token 後解碼 header/payload，並顯示簽名段狀態。</p>
+        <h1 className="text-3xl font-bold text-slate-950 dark:text-white">Unicode Converter</h1>
+        <p className="mt-2 text-slate-600 dark:text-slate-300">Unicode轉換器：文字與 Unicode code points 雙向轉換。</p>
       </section>
 
       <section className="flex flex-wrap items-center gap-3 rounded-2xl border bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-950">
-
+        <button type="button" onClick={() => setMode((m) => m === "encode" ? "decode" : "encode")} className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white">模式：{mode === "encode" ? "編碼" : "解碼"}</button>
         <button type="button" onClick={copyResult} disabled={!result.value} className="ml-auto rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900">{copied ? "已複製" : "複製結果"}</button>
         <button type="button" onClick={clearAll} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700 hover:bg-red-50 dark:border-red-900 dark:text-red-200 dark:hover:bg-red-950/40">清除</button>
       </section>

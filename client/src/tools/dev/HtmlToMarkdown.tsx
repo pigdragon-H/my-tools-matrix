@@ -2,17 +2,20 @@ import { useMemo, useState } from "react";
 
 type Output = { value: string; error: string };
 
-export default function JwtDecoder() {
-  const [input, setInput] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMiLCJuYW1lIjoiVmljdG9yIiwiaWF0IjoxNzE2MzAwMDAwfQ.signature');
+export default function HtmlToMarkdown() {
+  const [input, setInput] = useState('<h1>Hello</h1><p>This is <strong>bold</strong> and <a href="https://example.com">link</a>.</p>');
   const [copied, setCopied] = useState(false);
 
 
   const result = useMemo<Output>(() => {
     try {
-      const parts = input.trim().split(".");
-      if (parts.length !== 3) throw new Error("JWT 必須包含 header.payload.signature 三段。");
-      const decode = (part: string) => JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(part.replace(/-/g, "+").replace(/_/g, "/").padEnd(Math.ceil(part.length / 4) * 4, "=")), (c) => c.charCodeAt(0))));
-      return { value: JSON.stringify({ header: decode(parts[0]), payload: decode(parts[1]), signaturePresent: parts[2].length > 0, signatureNote: "前端工具僅解碼並檢查簽名段是否存在，不持有密鑰因此不驗證真實簽章。" }, null, 2), error: "" };
+      let md = input;
+      md = md.replace(/<h1[^>]*>([\s\S]*?)<\/h1>/gi, "# $1\n\n").replace(/<h2[^>]*>([\s\S]*?)<\/h2>/gi, "## $1\n\n");
+      md = md.replace(/<strong[^>]*>([\s\S]*?)<\/strong>/gi, "**$1**").replace(/<b[^>]*>([\s\S]*?)<\/b>/gi, "**$1**");
+      md = md.replace(/<em[^>]*>([\s\S]*?)<\/em>/gi, "*$1*").replace(/<i[^>]*>([\s\S]*?)<\/i>/gi, "*$1*");
+      md = md.replace(/<a[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi, "[$2]($1)");
+      md = md.replace(/<p[^>]*>([\s\S]*?)<\/p>/gi, "$1\n\n").replace(/<br\s*\/?>(?![^<]*>)/gi, "\n").replace(/<[^>]+>/g, "");
+      return { value: md.trim(), error: "" };
     } catch (error) {
       return { value: "", error: error instanceof Error ? error.message : "處理失敗，請檢查輸入內容。" };
     }
@@ -33,8 +36,8 @@ export default function JwtDecoder() {
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-4 py-8">
       <section className="rounded-2xl border bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
-        <h1 className="text-3xl font-bold text-slate-950 dark:text-white">JWT Decoder</h1>
-        <p className="mt-2 text-slate-600 dark:text-slate-300">JWT解碼器：輸入 JWT token 後解碼 header/payload，並顯示簽名段狀態。</p>
+        <h1 className="text-3xl font-bold text-slate-950 dark:text-white">HTML to Markdown Converter</h1>
+        <p className="mt-2 text-slate-600 dark:text-slate-300">HTML轉Markdown轉換器：輸入 HTML 後輸出 Markdown。</p>
       </section>
 
       <section className="flex flex-wrap items-center gap-3 rounded-2xl border bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-950">

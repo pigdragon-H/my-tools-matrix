@@ -2,17 +2,17 @@ import { useMemo, useState } from "react";
 
 type Output = { value: string; error: string };
 
-export default function JwtDecoder() {
-  const [input, setInput] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMiLCJuYW1lIjoiVmljdG9yIiwiaWF0IjoxNzE2MzAwMDAwfQ.signature');
+export default function IpAddressValidator() {
+  const [input, setInput] = useState('192.168.1.1\n2001:db8::1');
   const [copied, setCopied] = useState(false);
 
 
   const result = useMemo<Output>(() => {
     try {
-      const parts = input.trim().split(".");
-      if (parts.length !== 3) throw new Error("JWT 必須包含 header.payload.signature 三段。");
-      const decode = (part: string) => JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(part.replace(/-/g, "+").replace(/_/g, "/").padEnd(Math.ceil(part.length / 4) * 4, "=")), (c) => c.charCodeAt(0))));
-      return { value: JSON.stringify({ header: decode(parts[0]), payload: decode(parts[1]), signaturePresent: parts[2].length > 0, signatureNote: "前端工具僅解碼並檢查簽名段是否存在，不持有密鑰因此不驗證真實簽章。" }, null, 2), error: "" };
+      const ipv4 = /^(25[0-5]|2[0-4]\d|1?\d?\d)(\.(25[0-5]|2[0-4]\d|1?\d?\d)){3}$/;
+      const ipv6 = /^([0-9a-f]{0,4}:){2,7}[0-9a-f]{0,4}$/i;
+      const rows = input.split(/\r?\n/).filter(Boolean).map((ip) => `${ip}: ${ipv4.test(ip.trim()) ? "IPv4" : ipv6.test(ip.trim()) ? "IPv6" : "無效"}`);
+      return { value: rows.join("\n"), error: "" };
     } catch (error) {
       return { value: "", error: error instanceof Error ? error.message : "處理失敗，請檢查輸入內容。" };
     }
@@ -33,8 +33,8 @@ export default function JwtDecoder() {
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-4 py-8">
       <section className="rounded-2xl border bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
-        <h1 className="text-3xl font-bold text-slate-950 dark:text-white">JWT Decoder</h1>
-        <p className="mt-2 text-slate-600 dark:text-slate-300">JWT解碼器：輸入 JWT token 後解碼 header/payload，並顯示簽名段狀態。</p>
+        <h1 className="text-3xl font-bold text-slate-950 dark:text-white">IP Address Validator</h1>
+        <p className="mt-2 text-slate-600 dark:text-slate-300">IP地址驗證器：驗證 IPv4/IPv6 格式，顯示地址類型。</p>
       </section>
 
       <section className="flex flex-wrap items-center gap-3 rounded-2xl border bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-950">
