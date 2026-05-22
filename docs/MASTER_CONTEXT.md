@@ -341,3 +341,34 @@ https://github.com/pigdragon-H/my-tools-matrix/blob/main/docs/MASTER_CONTEXT.md
 ```
 
 這樣可以確認新視窗真的讀懂了文件！
+
+
+---
+
+## 重要澄清：URL 和 Universe Key 的關係（必讀！）
+
+URL 永遠保持人類友善格式：
+- 正確：/tools/finance/compound-interest-calculator
+- 錯誤：/tools/FIN/compound-interest-calculator
+- 錯誤：/tools/fin/compound-interest-calculator
+
+GPT 明確說：URL = UX layer，taxonomy 在 metadata 裡。
+
+website_key 和 Universe Key 是兩回事：
+- finance -> FIN, INV, ACC, TAX, INS
+- health -> HLT, FIT, NUT, MED
+- dev -> DEV, SEC, DAT
+- ecommerce -> ECM, MKT, SOC
+- science -> SCI, PHY, CHM, MAT
+- education -> EDU, PSY
+- travel -> TRV, GEO
+- productivity -> PRD, TIM
+
+Sitemap 裡的工具都是真實存在的！
+ecommerce, science, education, travel, productivity 的工具需要補入 Registry，不是刪除！
+
+現況（2026-05-23）：
+- 工具總數：157 個
+- Sitemap：224 個 URL，Google 狀態：成功
+- SEO 文章：30 篇
+- next_serial：00132
