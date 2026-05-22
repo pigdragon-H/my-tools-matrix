@@ -1,0 +1,1177 @@
+{
+  "$schema": "FIN-P1 SEO Meta & Formula Database v1.0",
+  "version": "1.0.0",
+  "created": "2026-05-23",
+  "created_by": "Manus (Discovery Agent)",
+  "requested_by": "Claude (Universe Auditor)",
+  "total_tools": 25,
+  "galaxies": [
+    "INV",
+    "RET",
+    "LOA",
+    "MTG",
+    "FXR"
+  ],
+  "semantic_clusters": {
+    "INV": {
+      "name": "Investment Galaxy",
+      "description": "Investment return and growth calculators",
+      "tools": [
+        "cagr-calculator",
+        "compound-interest-calculator",
+        "dividend-yield-calculator",
+        "stock-return-calculator",
+        "dollar-cost-averaging-calculator"
+      ],
+      "relationships": "CAGR ↔ Compound Interest ↔ Stock Return ↔ Dividend Yield ↔ DCA"
+    },
+    "RET": {
+      "name": "Retirement Galaxy",
+      "description": "Retirement planning and financial independence calculators",
+      "tools": [
+        "fire-calculator",
+        "retirement-savings-calculator",
+        "withdrawal-rate-calculator",
+        "coast-fire-calculator",
+        "pension-calculator"
+      ],
+      "relationships": "FIRE ↔ Coast FIRE ↔ Withdrawal Rate ↔ Retirement Savings ↔ Pension"
+    },
+    "LOA": {
+      "name": "Loan Galaxy",
+      "description": "Loan payment and debt management calculators",
+      "tools": [
+        "loan-calculator",
+        "personal-loan-calculator",
+        "emi-calculator",
+        "debt-payoff-calculator",
+        "interest-rate-calculator"
+      ],
+      "relationships": "Loan ↔ EMI ↔ Personal Loan ↔ Interest Rate ↔ Debt Payoff"
+    },
+    "MTG": {
+      "name": "Mortgage Galaxy",
+      "description": "Home buying and mortgage calculators",
+      "tools": [
+        "mortgage-calculator",
+        "mortgage-amortization-calculator",
+        "refinance-calculator",
+        "down-payment-calculator",
+        "affordability-calculator"
+      ],
+      "relationships": "Mortgage ↔ Amortization ↔ Refinance ↔ Down Payment ↔ Affordability"
+    },
+    "FXR": {
+      "name": "Forex Galaxy",
+      "description": "Foreign exchange and currency calculators",
+      "tools": [
+        "pip-value-calculator",
+        "forex-profit-calculator",
+        "currency-converter-pro",
+        "exchange-rate-calculator",
+        "cross-rate-calculator"
+      ],
+      "relationships": "Currency Converter ↔ Exchange Rate ↔ Forex Profit ↔ Pip Value ↔ Cross Rate"
+    }
+  },
+  "tools": [
+    {
+      "slug": "cagr-calculator",
+      "galaxy": "INV",
+      "seo_title": "CAGR Calculator - Compound Annual Growth Rate | Free Tool",
+      "seo_description": "Calculate Compound Annual Growth Rate (CAGR) easily with our free tool. Measure your investment returns accurately over time. Try free now!",
+      "primary_keyword": "CAGR calculator",
+      "secondary_keywords": [
+        "compound annual growth rate calculator",
+        "investment growth calculator",
+        "annualized return calculator",
+        "CAGR formula"
+      ],
+      "formula_latex": "\\text{CAGR} = \\left( \\frac{\\text{EV}}{\\text{BV}} \\right)^{\\frac{1}{n}} - 1",
+      "formula_description_en": "CAGR measures the mean annual growth rate of an investment over a specified time period.",
+      "formula_description_zh": "CAGR 衡量一項投資在特定時期內的平均年增長率，假設投資回報被重新投資。",
+      "example_input": {
+        "beginning_value": 10000,
+        "ending_value": 15000,
+        "years": 5
+      },
+      "example_output": {
+        "cagr": "8.45%"
+      },
+      "faq": [
+        {
+          "q": "What is a good CAGR?",
+          "a": "A good CAGR depends on the industry and market conditions, but generally, a CAGR of 8% to 12% is considered strong for stock market investments."
+        },
+        {
+          "q": "How is CAGR different from average annual return?",
+          "a": "CAGR accounts for compounding by assuming reinvestment of returns, whereas average annual return simply divides the total return by the number of years, ignoring compounding effects."
+        },
+        {
+          "q": "Can CAGR be negative?",
+          "a": "Yes, if the ending value of your investment is lower than the beginning value, the CAGR will be negative, indicating a loss over the period."
+        }
+      ],
+      "related_tools": [
+        "compound-interest-calculator",
+        "stock-return-calculator",
+        "dividend-yield-calculator",
+        "dollar-cost-averaging-calculator"
+      ]
+    },
+    {
+      "slug": "compound-interest-calculator",
+      "galaxy": "INV",
+      "seo_title": "Compound Interest Calculator - Calculate Returns | Free Tool",
+      "seo_description": "Calculate your investment growth with our free compound interest calculator. See how your money grows over time. Try free now!",
+      "primary_keyword": "compound interest calculator",
+      "secondary_keywords": [
+        "investment growth calculator",
+        "daily compound interest",
+        "monthly compound interest",
+        "APY calculator"
+      ],
+      "formula_latex": "A = P \\left(1 + \\frac{r}{n}\\right)^{nt}",
+      "formula_description_en": "Calculates future value based on principal, interest rate, and compounding frequency.",
+      "formula_description_zh": "根據本金、利率和複利頻率計算投資的未來價值。",
+      "example_input": {
+        "principal": 10000,
+        "rate": 0.05,
+        "years": 10,
+        "compounding_frequency": 12
+      },
+      "example_output": {
+        "future_value": "16470.09",
+        "total_interest": "6470.09"
+      },
+      "faq": [
+        {
+          "q": "What is compound interest?",
+          "a": "Compound interest is the interest you earn on both your original money and on the interest you keep accumulating."
+        },
+        {
+          "q": "How does compounding frequency affect my returns?",
+          "a": "More frequent compounding, such as daily or monthly instead of annually, results in higher overall returns because interest is added to your balance more often."
+        },
+        {
+          "q": "What is the difference between simple and compound interest?",
+          "a": "Simple interest is calculated only on the principal amount, while compound interest is calculated on the principal amount and the accumulated interest of previous periods."
+        }
+      ],
+      "related_tools": [
+        "cagr-calculator",
+        "stock-return-calculator",
+        "dividend-yield-calculator",
+        "dollar-cost-averaging-calculator"
+      ]
+    },
+    {
+      "slug": "dividend-yield-calculator",
+      "galaxy": "INV",
+      "seo_title": "Dividend Yield Calculator - Stock Yield | Free Tool",
+      "seo_description": "Calculate your stock's dividend yield instantly with our free Dividend Yield Calculator. Maximize your investment returns. Calculate now!",
+      "primary_keyword": "dividend yield calculator",
+      "secondary_keywords": [
+        "stock yield calculator",
+        "annual dividend yield",
+        "dividend return calculator"
+      ],
+      "formula_latex": "\\text{Dividend Yield} = \\left( \\frac{\\text{Annual Dividends}}{\\text{Stock Price}} \\right) \\times 100\\%",
+      "formula_description_en": "Dividend yield is the ratio of a company's annual dividend compared to its share price.",
+      "formula_description_zh": "股息殖利率是公司年度發放的股息與其股票價格的比例，用於衡量投資回報。",
+      "example_input": {
+        "annual_dividends": 5.0,
+        "stock_price": 100.0
+      },
+      "example_output": {
+        "dividend_yield": "5.00%"
+      },
+      "faq": [
+        {
+          "q": "What is a good dividend yield?",
+          "a": "A good dividend yield typically ranges from 2% to 6%. However, extremely high yields might indicate a risky investment or a falling stock price."
+        },
+        {
+          "q": "How often do companies pay dividends?",
+          "a": "Most companies pay dividends quarterly, but some may pay them monthly, semi-annually, or annually depending on their dividend policy."
+        },
+        {
+          "q": "Does dividend yield change when stock price changes?",
+          "a": "Yes, dividend yield moves inversely to the stock price. If the stock price drops and the dividend remains the same, the yield increases."
+        }
+      ],
+      "related_tools": [
+        "stock-return-calculator",
+        "cagr-calculator",
+        "compound-interest-calculator",
+        "dollar-cost-averaging-calculator"
+      ]
+    },
+    {
+      "slug": "stock-return-calculator",
+      "galaxy": "INV",
+      "seo_title": "Stock Return Calculator - Calculate Total ROI | Free Tool",
+      "seo_description": "Calculate your total stock return including dividends and price appreciation. Use our free stock return calculator to analyze your investments. Try free!",
+      "primary_keyword": "stock return calculator",
+      "secondary_keywords": [
+        "total return calculator",
+        "stock ROI calculator",
+        "dividend return calculator"
+      ],
+      "formula_latex": "Total\\ Return = \\frac{Ending\\ Price - Beginning\\ Price + Dividends}{Beginning\\ Price} \\times 100\\%",
+      "formula_description_en": "Calculates the total percentage return on a stock, including both capital gains and dividends.",
+      "formula_description_zh": "計算股票投資的總報酬率，包含資本利得與股息收入。",
+      "example_input": {
+        "beginning_price": 100,
+        "ending_price": 120,
+        "dividends": 5
+      },
+      "example_output": {
+        "total_return": "25.00%"
+      },
+      "faq": [
+        {
+          "q": "How do you calculate total stock return?",
+          "a": "Total stock return is calculated by adding the change in stock price to any dividends received, then dividing by the initial purchase price."
+        },
+        {
+          "q": "Why should I include dividends in my return calculation?",
+          "a": "Dividends represent a significant portion of historical stock market returns. Ignoring them will understate your actual investment performance."
+        },
+        {
+          "q": "What is the difference between stock return and annualized return?",
+          "a": "Stock return shows the total percentage gained or lost over the entire holding period, while annualized return expresses this gain as a yearly rate."
+        }
+      ],
+      "related_tools": [
+        "cagr-calculator",
+        "dividend-yield-calculator",
+        "compound-interest-calculator",
+        "dollar-cost-averaging-calculator"
+      ]
+    },
+    {
+      "slug": "dollar-cost-averaging-calculator",
+      "galaxy": "INV",
+      "seo_title": "Dollar Cost Averaging Calculator - DCA Strategy | Free Tool",
+      "seo_description": "Calculate your average cost per share with our free Dollar Cost Averaging (DCA) Calculator. Optimize your investment strategy and calculate now!",
+      "primary_keyword": "dollar cost averaging calculator",
+      "secondary_keywords": [
+        "dca calculator",
+        "average cost calculator",
+        "investment strategy calculator"
+      ],
+      "formula_latex": "\\text{Average Cost} = \\frac{\\text{Total Invested}}{\\text{Total Shares Purchased}}",
+      "formula_description_en": "The average cost is calculated by dividing the total amount invested by the total shares purchased.",
+      "formula_description_zh": "平均成本是將總投資金額除以購買的總股數計算得出。",
+      "example_input": {
+        "total_invested": 5000,
+        "total_shares_purchased": 125
+      },
+      "example_output": {
+        "average_cost": "40.00"
+      },
+      "faq": [
+        {
+          "q": "What is Dollar Cost Averaging (DCA)?",
+          "a": "Dollar Cost Averaging is an investment strategy where you invest a fixed amount of money at regular intervals, regardless of the asset's price."
+        },
+        {
+          "q": "How does the DCA calculator work?",
+          "a": "The calculator determines your average cost per share by dividing your total invested amount by the total number of shares you have purchased over time."
+        },
+        {
+          "q": "Why is DCA a good strategy?",
+          "a": "DCA helps reduce the impact of market volatility by spreading out your purchases, potentially lowering your average cost per share over the long term."
+        }
+      ],
+      "related_tools": [
+        "compound-interest-calculator",
+        "cagr-calculator",
+        "stock-return-calculator",
+        "dividend-yield-calculator"
+      ]
+    },
+    {
+      "slug": "fire-calculator",
+      "galaxy": "RET",
+      "seo_title": "FIRE Calculator - Financial Independence Retire Early Tool",
+      "seo_description": "Calculate your FIRE number and discover when you can achieve financial independence and retire early. Try our free FIRE calculator now!",
+      "primary_keyword": "FIRE calculator",
+      "secondary_keywords": [
+        "financial independence retire early",
+        "FIRE number calculator",
+        "early retirement calculator",
+        "safe withdrawal rate"
+      ],
+      "formula_latex": "\\text{FIRE Number} = \\frac{\\text{Annual Expenses}}{\\text{Withdrawal Rate}}",
+      "formula_description_en": "Your FIRE number is calculated by dividing annual expenses by your chosen safe withdrawal rate.",
+      "formula_description_zh": "FIRE 數字是透過將您預估的年度支出除以安全提款率來計算得出。",
+      "example_input": {
+        "annual_expenses": 40000,
+        "withdrawal_rate": 0.04
+      },
+      "example_output": {
+        "fire_number": "1000000"
+      },
+      "faq": [
+        {
+          "q": "What is a good FIRE number?",
+          "a": "A common rule of thumb is 25 times your annual expenses, which assumes a 4% safe withdrawal rate. However, your ideal FIRE number depends on your lifestyle, expected expenses, and risk tolerance."
+        },
+        {
+          "q": "What is the 4% rule in FIRE?",
+          "a": "The 4% rule suggests you can safely withdraw 4% of your retirement portfolio in the first year, adjusting for inflation annually, without running out of money over a 30-year retirement period."
+        },
+        {
+          "q": "How can I reach my FIRE number faster?",
+          "a": "To reach your FIRE number faster, you can increase your savings rate by reducing expenses, increasing your income, and investing your savings in diversified, growth-oriented assets."
+        }
+      ],
+      "related_tools": [
+        "coast-fire-calculator",
+        "withdrawal-rate-calculator",
+        "retirement-savings-calculator",
+        "pension-calculator"
+      ]
+    },
+    {
+      "slug": "retirement-savings-calculator",
+      "galaxy": "RET",
+      "seo_title": "Retirement Savings Calculator - Plan Your Future | Free Tool",
+      "seo_description": "Plan your financial future with our free Retirement Savings Calculator. Estimate your nest egg and see if you're on track. Calculate now!",
+      "primary_keyword": "retirement savings calculator",
+      "secondary_keywords": [
+        "retirement planning calculator",
+        "401k savings calculator",
+        "retirement nest egg calculator"
+      ],
+      "formula_latex": "FV = PMT \\times \\left[ \\frac{(1+r)^n - 1}{r} \\right]",
+      "formula_description_en": "Calculates the future value of a series of regular contributions at a constant interest rate.",
+      "formula_description_zh": "計算在固定利率下，定期定額供款的未來總價值。",
+      "example_input": {
+        "monthly_contribution": 500,
+        "annual_rate": 0.07,
+        "years": 30
+      },
+      "example_output": {
+        "future_value": "609985.45",
+        "total_contributions": "180000.00"
+      },
+      "faq": [
+        {
+          "q": "How much should I save for retirement?",
+          "a": "A common rule of thumb is to save 15% of your pre-tax income for retirement, but this varies based on your age, goals, and current savings."
+        },
+        {
+          "q": "What is a good rate of return for retirement savings?",
+          "a": "Historically, a diversified portfolio of stocks and bonds has returned an average of 6% to 8% annually after inflation."
+        },
+        {
+          "q": "Does this calculator account for inflation?",
+          "a": "This basic calculator uses a nominal rate of return. To account for inflation, you can use an inflation-adjusted (real) rate of return."
+        }
+      ],
+      "related_tools": [
+        "fire-calculator",
+        "withdrawal-rate-calculator",
+        "pension-calculator",
+        "coast-fire-calculator"
+      ]
+    },
+    {
+      "slug": "withdrawal-rate-calculator",
+      "galaxy": "RET",
+      "seo_title": "Withdrawal Rate Calculator - Safe Retirement | Free Tool",
+      "seo_description": "Calculate your safe withdrawal rate for retirement. Plan your financial independence with our free withdrawal rate calculator. Try free now!",
+      "primary_keyword": "withdrawal rate calculator",
+      "secondary_keywords": [
+        "safe withdrawal rate",
+        "retirement withdrawal calculator",
+        "4% rule calculator",
+        "fire withdrawal rate"
+      ],
+      "formula_latex": "\\text{SWR} = \\left( \\frac{\\text{Annual Withdrawal}}{\\text{Portfolio Value}} \\right) \\times 100\\%",
+      "formula_description_en": "Calculates the percentage of your portfolio withdrawn annually to sustain your retirement.",
+      "formula_description_zh": "計算每年從投資組合中提取的資金百分比，以維持退休生活。",
+      "example_input": {
+        "annual_withdrawal": 40000,
+        "portfolio_value": 1000000
+      },
+      "example_output": {
+        "safe_withdrawal_rate": "4.00%"
+      },
+      "faq": [
+        {
+          "q": "What is a safe withdrawal rate?",
+          "a": "A safe withdrawal rate is the percentage of your savings you can withdraw annually without running out of money during retirement, often cited as the 4% rule."
+        },
+        {
+          "q": "How do I calculate my withdrawal rate?",
+          "a": "Divide your desired annual withdrawal amount by your total portfolio value, then multiply by 100 to get the percentage."
+        },
+        {
+          "q": "Does the 4% rule still work?",
+          "a": "The 4% rule is a good starting point, but your ideal rate depends on your age, market conditions, and retirement goals."
+        }
+      ],
+      "related_tools": [
+        "fire-calculator",
+        "retirement-savings-calculator",
+        "coast-fire-calculator",
+        "pension-calculator"
+      ]
+    },
+    {
+      "slug": "coast-fire-calculator",
+      "galaxy": "RET",
+      "seo_title": "Coast FIRE Calculator - Calculate Your Coast Number | Free",
+      "seo_description": "Calculate your Coast FIRE number to see how much you need to save today to retire comfortably tomorrow. Plan your financial independence. Calculate now!",
+      "primary_keyword": "Coast FIRE calculator",
+      "secondary_keywords": [
+        "coast fire number",
+        "coasting to retirement",
+        "financial independence calculator",
+        "coast fire age"
+      ],
+      "formula_latex": "Coast\\ FIRE = \\frac{Target\\ Amount}{(1 + r)^{years}}",
+      "formula_description_en": "Calculates the initial amount needed to reach a retirement goal without further contributions.",
+      "formula_description_zh": "計算在不再投入資金的情況下，依靠複利增長達到退休目標金額所需的初始本金。",
+      "example_input": {
+        "target_amount": 1000000,
+        "rate": 0.07,
+        "years": 20
+      },
+      "example_output": {
+        "coast_fire_number": "258419.00"
+      },
+      "faq": [
+        {
+          "q": "What is Coast FIRE?",
+          "a": "Coast FIRE is when you have saved enough money that, with compound interest, it will grow to your retirement goal without any additional contributions."
+        },
+        {
+          "q": "How is the Coast FIRE number calculated?",
+          "a": "It is calculated by discounting your target retirement amount by your expected annual return rate over the number of years until you retire."
+        },
+        {
+          "q": "Does inflation affect my Coast FIRE number?",
+          "a": "Yes, you should use an inflation-adjusted (real) return rate to ensure your target amount maintains its purchasing power in the future."
+        }
+      ],
+      "related_tools": [
+        "fire-calculator",
+        "retirement-savings-calculator",
+        "withdrawal-rate-calculator",
+        "compound-interest-calculator"
+      ]
+    },
+    {
+      "slug": "pension-calculator",
+      "galaxy": "RET",
+      "seo_title": "Pension Calculator - Estimate Retirement Income | Free Tool",
+      "seo_description": "Estimate your monthly pension based on years of service, accrual rate, and final salary. Plan your retirement income easily. Calculate now!",
+      "primary_keyword": "pension calculator",
+      "secondary_keywords": [
+        "retirement income calculator",
+        "monthly pension estimator",
+        "defined benefit calculator"
+      ],
+      "formula_latex": "Monthly\\ Pension = \\frac{Years\\ of\\ Service \\times Accrual\\ Rate \\times Final\\ Salary}{12}",
+      "formula_description_en": "Calculates the estimated monthly pension based on service years, accrual rate, and final salary.",
+      "formula_description_zh": "根據服務年資、應計比率與最終薪資，計算預估的每月退休金。",
+      "example_input": {
+        "years_of_service": 30,
+        "accrual_rate": 0.02,
+        "final_salary": 80000
+      },
+      "example_output": {
+        "monthly_pension": "4000.00",
+        "annual_pension": "48000.00"
+      },
+      "faq": [
+        {
+          "q": "What is an accrual rate in a pension?",
+          "a": "The accrual rate is the percentage of your final salary you earn as pension for each year of service."
+        },
+        {
+          "q": "How is my final salary determined?",
+          "a": "It usually refers to your average salary over the last few years of employment, depending on your plan rules."
+        },
+        {
+          "q": "Can I increase my monthly pension?",
+          "a": "Working more years or achieving a higher final salary will generally increase your monthly pension payout."
+        }
+      ],
+      "related_tools": [
+        "retirement-savings-calculator",
+        "fire-calculator",
+        "withdrawal-rate-calculator",
+        "coast-fire-calculator"
+      ]
+    },
+    {
+      "slug": "loan-calculator",
+      "galaxy": "LOA",
+      "seo_title": "Loan Calculator - Estimate Monthly Payments | Free Tool",
+      "seo_description": "Calculate your monthly loan payments easily with our free loan calculator. Estimate interest and payoff time. Try free now!",
+      "primary_keyword": "loan calculator",
+      "secondary_keywords": [
+        "monthly payment calculator",
+        "loan interest calculator",
+        "amortization calculator"
+      ],
+      "formula_latex": "M = P \\frac{r(1+r)^n}{(1+r)^n - 1}",
+      "formula_description_en": "Calculates monthly payment (M) using principal (P), interest rate (r), and number of periods (n).",
+      "formula_description_zh": "根據本金(P)、利率(r)和期數(n)計算每月還款額(M)。",
+      "example_input": {
+        "principal": 10000,
+        "annual_rate": 0.05,
+        "years": 5
+      },
+      "example_output": {
+        "monthly_payment": "188.71",
+        "total_interest": "1322.60"
+      },
+      "faq": [
+        {
+          "q": "How do I calculate my monthly loan payment?",
+          "a": "You can use our loan calculator by entering your loan amount, interest rate, and loan term to get your monthly payment instantly."
+        },
+        {
+          "q": "Does this calculator include taxes and insurance?",
+          "a": "No, this basic loan calculator only estimates principal and interest. Taxes and insurance are not included."
+        },
+        {
+          "q": "How does the interest rate affect my loan?",
+          "a": "A higher interest rate increases your monthly payment and the total amount of interest you will pay over the life of the loan."
+        }
+      ],
+      "related_tools": [
+        "personal-loan-calculator",
+        "emi-calculator",
+        "interest-rate-calculator",
+        "debt-payoff-calculator"
+      ]
+    },
+    {
+      "slug": "personal-loan-calculator",
+      "galaxy": "LOA",
+      "seo_title": "Personal Loan Calculator - Estimate Monthly Payments | Free",
+      "seo_description": "Calculate your monthly personal loan payments, total interest, and payoff schedule. Plan your finances easily. Try our free calculator now!",
+      "primary_keyword": "personal loan calculator",
+      "secondary_keywords": [
+        "unsecured loan calculator",
+        "personal loan interest calculator",
+        "monthly payment calculator",
+        "loan payoff calculator"
+      ],
+      "formula_latex": "M = P \\frac{r(1+r)^n}{(1+r)^n - 1}",
+      "formula_description_en": "Calculates monthly payment from principal, monthly interest rate, and total number of months.",
+      "formula_description_zh": "根據本金、月利率和總期數計算每月固定還款額。",
+      "example_input": {
+        "principal": 10000,
+        "annual_rate": 0.06,
+        "years": 3
+      },
+      "example_output": {
+        "monthly_payment": "304.22",
+        "total_interest": "951.90",
+        "total_payment": "10951.90"
+      },
+      "faq": [
+        {
+          "q": "How is a personal loan different from other loans?",
+          "a": "Personal loans are typically unsecured, meaning they don't require collateral like a house or car, and can be used for almost any purpose."
+        },
+        {
+          "q": "Does my credit score affect my personal loan rate?",
+          "a": "Yes, a higher credit score generally qualifies you for lower interest rates, reducing your monthly payments and total interest paid."
+        },
+        {
+          "q": "Can I pay off my personal loan early?",
+          "a": "Most personal loans allow early payoff, but some lenders may charge a prepayment penalty. Always check your loan terms before making extra payments."
+        }
+      ],
+      "related_tools": [
+        "loan-calculator",
+        "emi-calculator",
+        "interest-rate-calculator",
+        "debt-payoff-calculator"
+      ]
+    },
+    {
+      "slug": "emi-calculator",
+      "galaxy": "LOA",
+      "seo_title": "EMI Calculator - Equated Monthly Installment | Free Tool",
+      "seo_description": "Calculate your Equated Monthly Installment (EMI) easily. Plan your loan repayment schedule with our free EMI calculator. Calculate now!",
+      "primary_keyword": "EMI calculator",
+      "secondary_keywords": [
+        "equated monthly installment calculator",
+        "loan emi calculator",
+        "monthly loan payment calculator"
+      ],
+      "formula_latex": "EMI = P \\times r \\times \\frac{(1+r)^n}{(1+r)^n - 1}",
+      "formula_description_en": "Calculates the fixed payment amount made by a borrower to a lender at a specified date each month.",
+      "formula_description_zh": "計算借款人每月需向貸款人支付的固定還款金額，包含本金與利息。",
+      "example_input": {
+        "principal": 100000,
+        "annual_rate": 0.12,
+        "months": 60
+      },
+      "example_output": {
+        "emi": "2224.44",
+        "total_interest": "33466.40",
+        "total_payment": "133466.40"
+      },
+      "faq": [
+        {
+          "q": "What is an EMI?",
+          "a": "EMI stands for Equated Monthly Installment. It is a fixed payment amount made by a borrower to a lender at a specified date each calendar month."
+        },
+        {
+          "q": "How is EMI calculated?",
+          "a": "EMI is calculated using the formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is the principal loan amount, r is the monthly interest rate, and n is the number of monthly installments."
+        },
+        {
+          "q": "Does EMI change during the loan tenure?",
+          "a": "For fixed-rate loans, the EMI remains constant throughout the tenure. However, for floating-rate loans, the EMI may change if the interest rate changes."
+        }
+      ],
+      "related_tools": [
+        "loan-calculator",
+        "personal-loan-calculator",
+        "interest-rate-calculator",
+        "debt-payoff-calculator"
+      ]
+    },
+    {
+      "slug": "debt-payoff-calculator",
+      "galaxy": "LOA",
+      "seo_title": "Debt Payoff Calculator - Plan Your Repayment | Free Tool",
+      "seo_description": "Use our free Debt Payoff Calculator to see how long it takes to become debt-free. Plan your payments and save on interest. Calculate now!",
+      "primary_keyword": "debt payoff calculator",
+      "secondary_keywords": [
+        "debt repayment calculator",
+        "credit card payoff calculator",
+        "debt free calculator"
+      ],
+      "formula_latex": "n = \\frac{-\\log(1 - \\frac{B \\times r}{P})}{\\log(1 + r)}",
+      "formula_description_en": "Calculates the time required to pay off a debt based on the balance, interest rate, and payment.",
+      "formula_description_zh": "根據貸款餘額、利率和每期還款額，計算還清債務所需的時間。",
+      "example_input": {
+        "balance": 10000,
+        "rate": 0.015,
+        "payment": 300
+      },
+      "example_output": {
+        "payoff_time_months": "47",
+        "total_interest": "3965.00"
+      },
+      "faq": [
+        {
+          "q": "How can I pay off my debt faster?",
+          "a": "You can pay off your debt faster by increasing your monthly payment, making extra payments, or lowering your interest rate through refinancing."
+        },
+        {
+          "q": "Does this calculator work for credit cards?",
+          "a": "Yes, this calculator works perfectly for credit cards, personal loans, and any other type of fixed-payment debt."
+        },
+        {
+          "q": "What happens if my payment is less than the interest?",
+          "a": "If your monthly payment is less than the interest charged, your balance will grow over time, and you will never pay off the debt."
+        }
+      ],
+      "related_tools": [
+        "loan-calculator",
+        "emi-calculator",
+        "personal-loan-calculator",
+        "interest-rate-calculator"
+      ]
+    },
+    {
+      "slug": "interest-rate-calculator",
+      "galaxy": "LOA",
+      "seo_title": "Interest Rate Calculator - Find Effective Rates | Free Tool",
+      "seo_description": "Calculate effective interest rates easily with our free Interest Rate Calculator. Compare nominal and effective rates instantly. Calculate now!",
+      "primary_keyword": "interest rate calculator",
+      "secondary_keywords": [
+        "effective interest rate calculator",
+        "nominal vs effective rate",
+        "annual percentage yield calculator"
+      ],
+      "formula_latex": "r_{eff} = \\left(1 + \\frac{r_{nom}}{n}\\right)^n - 1",
+      "formula_description_en": "Calculates the effective annual interest rate based on the nominal rate and compounding frequency.",
+      "formula_description_zh": "根據名目利率和複利頻率計算有效年利率。",
+      "example_input": {
+        "nominal_rate": 0.05,
+        "compounding_frequency": 12
+      },
+      "example_output": {
+        "effective_rate": "5.12%"
+      },
+      "faq": [
+        {
+          "q": "What is the difference between nominal and effective interest rates?",
+          "a": "The nominal rate is the stated interest rate, while the effective rate accounts for compounding over the year, giving a more accurate picture of the true cost or yield."
+        },
+        {
+          "q": "How does compounding frequency affect the effective rate?",
+          "a": "More frequent compounding (e.g., monthly vs. annually) results in a higher effective interest rate because interest is calculated on previously accumulated interest more often."
+        },
+        {
+          "q": "Can I use this calculator for both loans and investments?",
+          "a": "Yes, the effective interest rate formula applies to both loans (true cost of borrowing) and investments (true yield or APY)."
+        }
+      ],
+      "related_tools": [
+        "loan-calculator",
+        "emi-calculator",
+        "personal-loan-calculator",
+        "debt-payoff-calculator"
+      ]
+    },
+    {
+      "slug": "mortgage-calculator",
+      "galaxy": "MTG",
+      "seo_title": "Mortgage Calculator - Estimate Monthly Payments | Free Tool",
+      "seo_description": "Calculate your monthly mortgage payments easily. Estimate principal, interest, and find the best rates for your home loan. Try our free calculator now!",
+      "primary_keyword": "mortgage calculator",
+      "secondary_keywords": [
+        "home loan calculator",
+        "monthly mortgage payment",
+        "mortgage interest calculator",
+        "house payment calculator"
+      ],
+      "formula_latex": "M = P \\frac{r(1+r)^n}{(1+r)^n - 1}",
+      "formula_description_en": "Calculates monthly payment (M) based on principal (P), monthly interest rate (r), and months (n).",
+      "formula_description_zh": "根據本金(P)、月利率(r)和總期數(n)計算每月應繳房貸金額(M)。",
+      "example_input": {
+        "principal": 300000,
+        "annual_rate": 0.05,
+        "years": 30
+      },
+      "example_output": {
+        "monthly_payment": "1610.46",
+        "total_interest": "279765.60",
+        "total_payment": "579765.60"
+      },
+      "faq": [
+        {
+          "q": "How is the monthly mortgage payment calculated?",
+          "a": "It is calculated using the principal amount, the annual interest rate divided by 12, and the total number of monthly payments over the loan term."
+        },
+        {
+          "q": "Does this calculator include taxes and insurance?",
+          "a": "This basic calculator estimates principal and interest only. Property taxes, home insurance, and HOA fees are typically added to your total monthly payment."
+        },
+        {
+          "q": "How can I lower my monthly mortgage payment?",
+          "a": "You can lower your payment by making a larger down payment, securing a lower interest rate, or choosing a longer loan term, such as 30 years instead of 15."
+        }
+      ],
+      "related_tools": [
+        "mortgage-amortization-calculator",
+        "refinance-calculator",
+        "down-payment-calculator",
+        "affordability-calculator"
+      ]
+    },
+    {
+      "slug": "mortgage-amortization-calculator",
+      "galaxy": "MTG",
+      "seo_title": "Mortgage Amortization Calculator | Free Schedule Tool",
+      "seo_description": "Calculate your mortgage amortization schedule easily. See how much goes to principal vs interest. Try our free calculator now!",
+      "primary_keyword": "mortgage amortization calculator",
+      "secondary_keywords": [
+        "amortization schedule calculator",
+        "mortgage payoff calculator",
+        "loan amortization schedule"
+      ],
+      "formula_latex": "\\text{Interest} = \\text{Balance} \\times \\text{Rate}_{\\text{monthly}}, \\quad \\text{Principal} = \\text{Payment} - \\text{Interest}",
+      "formula_description_en": "Calculates the interest and principal portions of each monthly mortgage payment.",
+      "formula_description_zh": "計算每月房貸還款中利息與本金的分配比例。",
+      "example_input": {
+        "loan_amount": 300000,
+        "interest_rate": 0.05,
+        "loan_term_years": 30
+      },
+      "example_output": {
+        "monthly_payment": "1610.46",
+        "total_interest": "279767.35"
+      },
+      "faq": [
+        {
+          "q": "What is an amortization schedule?",
+          "a": "It is a complete table of periodic loan payments, showing the principal and interest amounts for each payment until the loan is paid off."
+        },
+        {
+          "q": "How is the interest portion calculated each month?",
+          "a": "The interest portion is calculated by multiplying your remaining loan balance by your monthly interest rate."
+        },
+        {
+          "q": "Why do I pay more interest at the beginning?",
+          "a": "Because your loan balance is highest at the beginning, the interest calculated on that balance is also highest."
+        }
+      ],
+      "related_tools": [
+        "mortgage-calculator",
+        "refinance-calculator",
+        "down-payment-calculator",
+        "affordability-calculator"
+      ]
+    },
+    {
+      "slug": "refinance-calculator",
+      "galaxy": "MTG",
+      "seo_title": "Refinance Calculator - Calculate Mortgage Savings | Free Tool",
+      "seo_description": "Calculate your potential savings and break-even point with our free mortgage refinance calculator. Compare rates and lower your monthly payments. Try free!",
+      "primary_keyword": "refinance calculator",
+      "secondary_keywords": [
+        "mortgage refinance calculator",
+        "refinance break even calculator",
+        "home loan refinance calculator",
+        "refinance savings calculator"
+      ],
+      "formula_latex": "S = P_{old} - P_{new} \\quad ; \\quad B = \\frac{C}{S}",
+      "formula_description_en": "Savings is old minus new payment. Break-even point equals closing costs divided by monthly savings.",
+      "formula_description_zh": "節省金額等於原月付減去新月付。損益兩平點為結算費用除以每月節省金額。",
+      "example_input": {
+        "old_payment": 2000,
+        "new_payment": 1700,
+        "closing_costs": 4500
+      },
+      "example_output": {
+        "monthly_savings": 300,
+        "break_even_months": 15
+      },
+      "faq": [
+        {
+          "q": "When is the right time to refinance my mortgage?",
+          "a": "The best time to refinance is typically when interest rates drop significantly below your current rate, or when your credit score improves enough to qualify for better terms."
+        },
+        {
+          "q": "What is a break-even point in refinancing?",
+          "a": "The break-even point is the number of months it takes for your monthly savings to equal the closing costs of the new loan. After this point, you start saving money."
+        },
+        {
+          "q": "Does refinancing hurt my credit score?",
+          "a": "Refinancing may cause a temporary, minor dip in your credit score due to the hard inquiry, but making consistent payments on your new loan will help it recover quickly."
+        }
+      ],
+      "related_tools": [
+        "mortgage-calculator",
+        "mortgage-amortization-calculator",
+        "interest-rate-calculator",
+        "affordability-calculator"
+      ]
+    },
+    {
+      "slug": "down-payment-calculator",
+      "galaxy": "MTG",
+      "seo_title": "Down Payment Calculator - Estimate Your Home Down Payment",
+      "seo_description": "Calculate your home down payment and loan amount easily. Estimate your upfront costs and plan your mortgage today. Try our free calculator now!",
+      "primary_keyword": "down payment calculator",
+      "secondary_keywords": [
+        "home down payment calculator",
+        "mortgage down payment",
+        "house down payment calculator",
+        "down payment percentage"
+      ],
+      "formula_latex": "\\text{Down Payment} = \\text{Home Price} \\times \\text{Down Payment Percentage}",
+      "formula_description_en": "Calculates the down payment amount by multiplying the home price by the down payment percentage.",
+      "formula_description_zh": "透過將房屋總價乘以頭期款比例來計算頭期款金額。",
+      "example_input": {
+        "home_price": 300000,
+        "down_payment_percentage": 0.2
+      },
+      "example_output": {
+        "down_payment": 60000,
+        "loan_amount": 240000
+      },
+      "faq": [
+        {
+          "q": "How much down payment do I need for a house?",
+          "a": "The required down payment depends on your loan type. Conventional loans often require 3% to 20%, while FHA loans require 3.5%, and VA loans may require 0%."
+        },
+        {
+          "q": "What is a 20% down payment on a $300,000 house?",
+          "a": "A 20% down payment on a $300,000 house is $60,000. This leaves a loan amount of $240,000."
+        },
+        {
+          "q": "Does a larger down payment lower my monthly payments?",
+          "a": "Yes, a larger down payment reduces your total loan amount, which lowers your monthly mortgage payments and may help you avoid private mortgage insurance (PMI)."
+        }
+      ],
+      "related_tools": [
+        "mortgage-calculator",
+        "affordability-calculator",
+        "mortgage-amortization-calculator",
+        "refinance-calculator"
+      ]
+    },
+    {
+      "slug": "affordability-calculator",
+      "galaxy": "MTG",
+      "seo_title": "Home Affordability Calculator - How Much House Can I Afford",
+      "seo_description": "Calculate how much house you can afford based on your income, debts, and down payment. Use our free home affordability calculator today. Try free!",
+      "primary_keyword": "home affordability calculator",
+      "secondary_keywords": [
+        "house affordability calculator",
+        "how much house can I afford",
+        "maximum mortgage calculator"
+      ],
+      "formula_latex": "\\text{Max Home Price} = (\\text{Monthly Income} \\times \\text{DTI Ratio} - \\text{Other Debts}) \\times \\text{Loan Factor} + \\text{Down Payment}",
+      "formula_description_en": "Calculates the maximum home price you can afford based on income, debts, and down payment.",
+      "formula_description_zh": "根據您的收入、債務和頭期款，計算您能負擔的最高房屋價格。",
+      "example_input": {
+        "monthly_income": 8000,
+        "dti_ratio": 0.36,
+        "other_debts": 500,
+        "loan_factor": 150,
+        "down_payment": 50000
+      },
+      "example_output": {
+        "max_home_price": "407000",
+        "max_monthly_payment": "2380"
+      },
+      "faq": [
+        {
+          "q": "How much house can I afford?",
+          "a": "Your home affordability depends on your monthly income, debt-to-income (DTI) ratio, down payment, and current interest rates. A common rule is that your total monthly debt payments should not exceed 36% of your gross income."
+        },
+        {
+          "q": "What is a good DTI ratio for buying a house?",
+          "a": "Most lenders prefer a debt-to-income (DTI) ratio of 36% or lower, though some may accept up to 43% or even 50% depending on your credit score and loan type."
+        },
+        {
+          "q": "Does my down payment affect my affordability?",
+          "a": "Yes, a larger down payment increases the maximum home price you can afford and can help you secure a better interest rate while avoiding private mortgage insurance (PMI)."
+        }
+      ],
+      "related_tools": [
+        "mortgage-calculator",
+        "down-payment-calculator",
+        "mortgage-amortization-calculator",
+        "refinance-calculator"
+      ]
+    },
+    {
+      "slug": "pip-value-calculator",
+      "galaxy": "FXR",
+      "seo_title": "Pip Value Calculator - Forex Pip Value | Free Tool",
+      "seo_description": "Calculate forex pip values instantly with our free Pip Value Calculator. Optimize your trading strategy and manage risk. Calculate now!",
+      "primary_keyword": "pip value calculator",
+      "secondary_keywords": [
+        "forex pip calculator",
+        "calculate pip value",
+        "pip value formula"
+      ],
+      "formula_latex": "\\text{Pip Value} = \\left( \\frac{\\text{One Pip}}{\\text{Exchange Rate}} \\right) \\times \\text{Lot Size}",
+      "formula_description_en": "Calculates the value of a single pip for a given forex pair based on lot size and exchange rate.",
+      "formula_description_zh": "根據手數和匯率計算特定外匯貨幣對的單個點值。",
+      "example_input": {
+        "one_pip": 0.0001,
+        "exchange_rate": 1.105,
+        "lot_size": 100000
+      },
+      "example_output": {
+        "pip_value": "9.05"
+      },
+      "faq": [
+        {
+          "q": "What is a pip in forex trading?",
+          "a": "A pip is the smallest price move that a given exchange rate makes based on market convention, typically the fourth decimal place."
+        },
+        {
+          "q": "How do I calculate pip value?",
+          "a": "You can calculate it by dividing one pip by the exchange rate, then multiplying by your trade's lot size."
+        },
+        {
+          "q": "Why is knowing the pip value important?",
+          "a": "Knowing the pip value helps you determine the potential profit or loss of a trade, which is crucial for effective risk management."
+        }
+      ],
+      "related_tools": [
+        "forex-profit-calculator",
+        "currency-converter-pro",
+        "exchange-rate-calculator",
+        "cross-rate-calculator"
+      ]
+    },
+    {
+      "slug": "forex-profit-calculator",
+      "galaxy": "FXR",
+      "seo_title": "Forex Profit Calculator - Calculate FX PnL | Free Tool",
+      "seo_description": "Easily calculate your forex trading profit or loss with our free Forex Profit Calculator. Enter trade details to estimate your PnL. Calculate now!",
+      "primary_keyword": "forex profit calculator",
+      "secondary_keywords": [
+        "fx profit calculator",
+        "forex pnl calculator",
+        "calculate forex profit",
+        "forex trading calculator"
+      ],
+      "formula_latex": "\\text{Profit} = (\\text{Close Price} - \\text{Open Price}) \\times \\text{Lot Size} \\times \\text{Pip Value}",
+      "formula_description_en": "Calculate forex profit by multiplying the price difference by lot size and pip value.",
+      "formula_description_zh": "透過將平倉與開倉的價差乘以手數及點值，快速計算外匯交易的利潤或虧損。",
+      "example_input": {
+        "open_price": 1.105,
+        "close_price": 1.11,
+        "lot_size": 100000,
+        "pip_value": 1
+      },
+      "example_output": {
+        "profit": "500.00",
+        "currency": "USD"
+      },
+      "faq": [
+        {
+          "q": "How do I calculate forex profit?",
+          "a": "You can calculate forex profit by subtracting the open price from the close price, then multiplying the result by your lot size and the pip value."
+        },
+        {
+          "q": "What is a lot size in forex?",
+          "a": "A lot size represents the number of currency units you trade. A standard lot is 100,000 units, a mini lot is 10,000 units, and a micro lot is 1,000 units."
+        },
+        {
+          "q": "Does this calculator account for spread and commissions?",
+          "a": "This basic calculator computes gross profit. To find your net profit, you should manually deduct any spreads, commissions, or swap fees charged by your broker."
+        }
+      ],
+      "related_tools": [
+        "pip-value-calculator",
+        "currency-converter-pro",
+        "exchange-rate-calculator",
+        "cross-rate-calculator"
+      ]
+    },
+    {
+      "slug": "currency-converter-pro",
+      "galaxy": "FXR",
+      "seo_title": "Currency Converter Pro - Live Exchange Rates | Free Tool",
+      "seo_description": "Convert currencies instantly with our Currency Converter Pro. Get live exchange rates for global currencies. Calculate now for free!",
+      "primary_keyword": "currency converter pro",
+      "secondary_keywords": [
+        "live exchange rate calculator",
+        "foreign exchange converter",
+        "currency conversion tool",
+        "fx rate calculator"
+      ],
+      "formula_latex": "\\text{Converted Amount} = \\text{Amount} \\times \\text{Exchange Rate}",
+      "formula_description_en": "The converted amount is calculated by multiplying the original amount by the current exchange rate.",
+      "formula_description_zh": "轉換後的金額是透過將原始金額乘以當前匯率來計算的。",
+      "example_input": {
+        "amount": 1000,
+        "exchange_rate": 1.08
+      },
+      "example_output": {
+        "converted_amount": "1080.00"
+      },
+      "faq": [
+        {
+          "q": "How often are the exchange rates updated?",
+          "a": "Our exchange rates are updated in real-time to provide you with the most accurate currency conversion possible."
+        },
+        {
+          "q": "Are there any hidden fees in the conversion?",
+          "a": "No, our currency converter provides the mid-market exchange rate without any hidden fees or markups."
+        },
+        {
+          "q": "Can I convert multiple currencies at once?",
+          "a": "Currently, the tool supports converting one currency pair at a time for maximum precision and clarity."
+        }
+      ],
+      "related_tools": [
+        "exchange-rate-calculator",
+        "pip-value-calculator",
+        "forex-profit-calculator",
+        "cross-rate-calculator"
+      ]
+    },
+    {
+      "slug": "exchange-rate-calculator",
+      "galaxy": "FXR",
+      "seo_title": "Exchange Rate Calculator - Live Currency Converter | Free",
+      "seo_description": "Calculate live exchange rates instantly with our free Exchange Rate Calculator. Convert currencies accurately for travel or trading. Calculate now!",
+      "primary_keyword": "exchange rate calculator",
+      "secondary_keywords": [
+        "currency converter",
+        "live exchange rates",
+        "forex calculator",
+        "foreign exchange calculator"
+      ],
+      "formula_latex": "Exchange\\ Rate = \\frac{Quote\\ Currency}{Base\\ Currency}",
+      "formula_description_en": "The exchange rate is calculated by dividing the quote currency value by the base currency value.",
+      "formula_description_zh": "匯率的計算方式是將報價貨幣的價值除以基礎貨幣的價值。",
+      "example_input": {
+        "amount": 1000,
+        "exchange_rate": 0.92
+      },
+      "example_output": {
+        "converted_amount": "920.00"
+      },
+      "faq": [
+        {
+          "q": "How often are the exchange rates updated?",
+          "a": "Our exchange rates are updated in real-time to provide you with the most accurate currency conversion for your trading or travel needs."
+        },
+        {
+          "q": "Can I calculate historical exchange rates?",
+          "a": "This calculator provides current live rates. For historical data, please check our specialized historical currency tools."
+        },
+        {
+          "q": "Is there a fee for using this exchange rate calculator?",
+          "a": "No, our exchange rate calculator is completely free to use with no hidden fees or registration required."
+        }
+      ],
+      "related_tools": [
+        "currency-converter-pro",
+        "pip-value-calculator",
+        "forex-profit-calculator",
+        "cross-rate-calculator"
+      ]
+    },
+    {
+      "slug": "cross-rate-calculator",
+      "galaxy": "FXR",
+      "seo_title": "Cross Rate Calculator - Calculate Forex Cross Rates",
+      "seo_description": "Calculate forex cross rates easily using a third currency. Get accurate exchange rates instantly for your trades. Try our free calculator now!",
+      "primary_keyword": "cross rate calculator",
+      "secondary_keywords": [
+        "forex cross rate calculator",
+        "currency cross rate formula",
+        "calculate cross exchange rate"
+      ],
+      "formula_latex": "\\text{Cross Rate (A/C)} = \\left(\\frac{\\text{A}}{\\text{B}}\\right) \\times \\left(\\frac{\\text{B}}{\\text{C}}\\right)",
+      "formula_description_en": "Calculates the exchange rate between two currencies using their rates against a third currency.",
+      "formula_description_zh": "透過兩種貨幣對第三種共同貨幣的匯率，計算出這兩種貨幣之間的交叉匯率。",
+      "example_input": {
+        "rate_A_to_B": 1.1,
+        "rate_B_to_C": 1.2
+      },
+      "example_output": {
+        "cross_rate_A_to_C": "1.32"
+      },
+      "faq": [
+        {
+          "q": "What is a cross rate in forex?",
+          "a": "A cross rate is an exchange rate between two currencies that does not involve the US Dollar, calculated using their respective exchange rates against a third currency."
+        },
+        {
+          "q": "How do I calculate a cross rate?",
+          "a": "To calculate a cross rate between currency A and C, multiply the exchange rate of A to B by the exchange rate of B to C."
+        },
+        {
+          "q": "Why is the cross rate calculator useful?",
+          "a": "It helps traders and travelers quickly determine the exchange rate between two currencies when a direct quote is not readily available."
+        }
+      ],
+      "related_tools": [
+        "exchange-rate-calculator",
+        "currency-converter-pro",
+        "pip-value-calculator",
+        "forex-profit-calculator"
+      ]
+    }
+  ]
+}
