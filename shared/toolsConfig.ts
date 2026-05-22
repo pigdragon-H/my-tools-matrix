@@ -13,6 +13,7 @@ export interface SeoArticle {
 export interface Tool {
   id: string;
   name: string;
+  nameZh?: string;
   category: string; // 對應 categoriesConfig 的 key
   path: string; // 三層路徑：/tools/[category]/[tool-name]
   description: string;
@@ -24,6 +25,7 @@ export interface Tool {
   tags?: string[];
   isNew?: boolean;
   isFeatured?: boolean;
+  canonicalId?: string;
 }
 
 // ============================================================
@@ -589,16 +591,36 @@ export const tools: Tool[] = [
   },
   // ── Sninja 修正：已存在 TSX 元件之工具登記（Developer / Health）──
   {
-    id: "base64-json-formatter",
-    name: "Base64/JSON格式化工具",
+    id: "base64-encoder-decoder",
+    name: "Base64 Encoder/Decoder",
+    nameZh: "Base64編碼解碼器",
     category: "dev",
-    path: "/tools/dev/base64-json-formatter",
-    icon: "FileCode",
-    description: "Base64編碼解碼與JSON格式化，開發必備工具",
+    path: "/tools/dev/base64-encoder-decoder",
+    icon: "Binary",
+    description: "Encode and decode Base64 strings instantly",
     isPremium: false,
     showAds: true,
     rateLimit: 30,
     seoArticles: [],
+    tags: ["Base64", "Encoder", "Decoder", "DEV"],
+    isNew: true,
+    canonicalId: "DEV-000035",
+  },
+  {
+    id: "json-formatter",
+    name: "JSON Formatter",
+    nameZh: "JSON格式化工具",
+    category: "dev",
+    path: "/tools/dev/json-formatter",
+    icon: "Braces",
+    description: "Format and validate JSON with syntax highlighting",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    seoArticles: [],
+    tags: ["JSON", "Formatter", "Validator", "DEV"],
+    isNew: true,
+    canonicalId: "DEV-000132",
   },
   {
     id: "cron-generator",

@@ -35,6 +35,12 @@ async function startServer() {
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   registerStorageProxy(app);
+
+  // 301 redirect deprecated DEV split URL to the canonical Base64 tool page.
+  app.get("/tools/dev/base64-json-formatter", (_req, res) => {
+    res.redirect(301, "/tools/dev/base64-encoder-decoder");
+  });
+
   // Apply rate limiting to tool API routes
   app.use("/api/trpc/tools", toolRateLimiter);
 

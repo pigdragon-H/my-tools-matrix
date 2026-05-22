@@ -56,7 +56,8 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "ecommerce/utm-builder": lazy(() => import("@/tools/productivity/UtmBuilder")),
   // 開發工具（dev）
   "dev/cron-generator": lazy(() => import("@/tools/dev/CronGenerator")),
-  "dev/base64-json-formatter": lazy(() => import("@/tools/dev/Base64JsonFormatter")),
+  "dev/base64-encoder-decoder": lazy(() => import("@/tools/dev/Base64EncoderDecoder")),
+  "dev/json-formatter": lazy(() => import("@/tools/dev/JsonFormatter")),
   "dev/jwt-decoder": lazy(() => import("@/tools/dev/JwtDecoder")),
   "dev/regex-tester": lazy(() => import("@/tools/dev/RegexTester")),
   "dev/uuid-password-generator": lazy(() => import("@/tools/dev/UuidPasswordGenerator")),
