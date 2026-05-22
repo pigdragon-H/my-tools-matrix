@@ -1,5 +1,7 @@
 ﻿// ============================================================
-// ToolPage - /tools/:category/:toolName 撌亙摰孵??// ?寞?頝舐???皜脫?撠???蝞極?瑞?隞?// ============================================================
+// ToolPage - /tools/:category/:toolName 工具容器頁
+// 根據路由參數動態渲染對應的計算工具組件
+// ============================================================
 
 import { useParams, Link } from "wouter";
 import { ArrowLeft } from "lucide-react";
@@ -10,8 +12,8 @@ import { lazy, Suspense, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { setSeoMeta } from "@/lib/seo";
 
-// 撌亙蝯辣??嚗??嚗?const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.ReactElement>> = {
-  // 鞎∠???
+// 工具組件映射（懶加載）
+const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.ReactElement>> = {
   // FIN Priority 1 Expansion INV/RET/LOA/MTG/FXR
   "finance/cagr-calculator": lazy(() => import("@/tools/fin/CagrCalculator")),
   "finance/compound-interest-calculator": lazy(() => import("@/tools/fin/CompoundInterestCalculator")),
@@ -38,41 +40,47 @@ import { setSeoMeta } from "@/lib/seo";
   "finance/currency-converter-pro": lazy(() => import("@/tools/fin/CurrencyConverterPro")),
   "finance/exchange-rate-calculator": lazy(() => import("@/tools/fin/ExchangeRateCalculator")),
   "finance/cross-rate-calculator": lazy(() => import("@/tools/fin/CrossRateCalculator")),
+  // 財經投資（原有）
   "finance/roi-calculator": lazy(() => import("@/tools/finance/RoiCalculator")),
   "finance/car-depreciation": lazy(() => import("@/tools/finance/CarDepreciation")),
-  "finance/mortgage-calculator": lazy(() => import("@/tools/finance/MortgageCalculator")),
   "finance/retirement-calculator": lazy(() => import("@/tools/finance/RetirementCalculator")),
   "finance/dca-calculator": lazy(() => import("@/tools/finance/DCACalculator")),
   "finance/income-tax-calculator": lazy(() => import("@/tools/finance/IncomeTaxCalculator")),
-  // 鞎∠???嚗hase 11嚗?  "finance/rent-vs-buy": lazy(() => import("@/tools/finance/RentVsBuy")),
+  // 財經投資（Phase 11）
+  "finance/rent-vs-buy": lazy(() => import("@/tools/finance/RentVsBuy")),
   "finance/inflation-calculator": lazy(() => import("@/tools/finance/InflationCalculator")),
   "finance/credit-card-payoff": lazy(() => import("@/tools/finance/CreditCardPayoff")),
   "finance/irr-npv-calculator": lazy(() => import("@/tools/finance/IrrNpvCalculator")),
   "finance/education-fund": lazy(() => import("@/tools/finance/EducationFund")),
   "finance/dividend-reinvestment": lazy(() => import("@/tools/finance/DividendReinvestment")),
   "finance/crypto-dca-backtest": lazy(() => import("@/tools/finance/CryptoDcaBacktest")),
-  // ?亙熒?暑
-  "health/tdee-calculator": lazy(() => import("@/tools/health/TdeeCalculator")),
+  // 健康工具（原有）
+  "health/tdee-calculator": lazy(() => import("@/tools/hlt/TdeeCalculator")),
   "health/bmi-calculator": lazy(() => import("@/tools/health/BmiCalculator")),
   "health/sleep-cycle-calculator": lazy(() => import("@/tools/health/SleepCycleCalculator")),
-  "health/calorie-deficit-calculator": lazy(() => import("@/tools/health/CalorieDeficitCalculator")),
+  "health/calorie-deficit-calculator": lazy(() => import("@/tools/hlt/CalorieDeficitCalculator")),
   "health/water-intake-calculator": lazy(() => import("@/tools/health/WaterIntakeCalculator")),
-  // ?亙熒?暑嚗hase 11嚗?  "health/macros-calculator": lazy(() => import("@/tools/health/MacrosCalculator")),
+  // 健康工具（Phase 11）
+  "health/macros-calculator": lazy(() => import("@/tools/health/MacrosCalculator")),
   "health/ovulation-tracker": lazy(() => import("@/tools/health/OvulationTracker")),
   "health/astrology-calculator": lazy(() => import("@/tools/health/AstrologyCalculator")),
   "health/pomodoro-tracker": lazy(() => import("@/tools/health/PomodoroTracker")),
-  // 鞎∠???嚗hase 12嚗?  "finance/insurance-calculator": lazy(() => import("@/tools/finance/InsuranceCalculator")),
+  // 財經投資（Phase 12）
+  "finance/insurance-calculator": lazy(() => import("@/tools/finance/InsuranceCalculator")),
   "finance/utility-cost-calculator": lazy(() => import("@/tools/finance/UtilityCostCalculator")),
   "finance/asset-depreciation": lazy(() => import("@/tools/finance/AssetDepreciation")),
   "travel/currency-converter": lazy(() => import("@/tools/finance/CurrencyConverter")),
-  // ?瑕??嚗hase 12嚗?  "productivity/url-shortener": lazy(() => import("@/tools/productivity/UrlShortener")),
+  // 生產力（Phase 12）
+  "productivity/url-shortener": lazy(() => import("@/tools/productivity/UrlShortener")),
   "design/markdown-to-html": lazy(() => import("@/tools/productivity/MarkdownToHtml")),
-  // ?瑕??嚗roductivity嚗?  "productivity/social-media-checker": lazy(() => import("@/tools/productivity/SocialMediaChecker")),
+  // 生產力（Productivity）
+  "productivity/social-media-checker": lazy(() => import("@/tools/productivity/SocialMediaChecker")),
   "productivity/roas-cpc-calculator": lazy(() => import("@/tools/productivity/RoasCpcCalculator")),
   "productivity/freelancer-rate-calculator": lazy(() => import("@/tools/productivity/FreelancerRateCalculator")),
   "productivity/invoice-generator": lazy(() => import("@/tools/productivity/InvoiceGenerator")),
   "ecommerce/utm-builder": lazy(() => import("@/tools/productivity/UtmBuilder")),
-  // ?撌亙嚗ev嚗?  // DEV Priority 1 Expansion CNV/FMT/ENC/VAL/GEN
+  // 開發工具（Dev）
+  // DEV Priority 1 Expansion CNV/FMT/ENC/VAL/GEN
   "dev/json-to-xml": lazy(() => import("@/tools/dev/JsonToXml")),
   "dev/json-to-yaml": lazy(() => import("@/tools/dev/JsonToYaml")),
   "dev/csv-to-json": lazy(() => import("@/tools/dev/CsvToJson")),
@@ -107,13 +115,12 @@ import { setSeoMeta } from "@/lib/seo";
   "dev/css-grid-flexbox-generator": lazy(() => import("@/tools/dev/CssGridFlexboxGenerator")),
   "dev/image-converter": lazy(() => import("@/tools/dev/ImageConverter")),
   "dev/timezone-converter": lazy(() => import("@/tools/dev/TimezoneConverter")),
+  // HLT Priority 1 Expansion BIO/CAL/FIT/WLS/NTR
   "health/bmr-calculator": lazy(() => import("@/tools/hlt/BmrCalculator")),
   "health/lean-body-mass-calculator": lazy(() => import("@/tools/hlt/LeanBodyMassCalculator")),
   "health/waist-to-hip-ratio-calculator": lazy(() => import("@/tools/hlt/WaistToHipRatioCalculator")),
   "health/body-surface-area-calculator": lazy(() => import("@/tools/hlt/BodySurfaceAreaCalculator")),
   "health/maximum-heart-rate-calculator": lazy(() => import("@/tools/hlt/MaximumHeartRateCalculator")),
-  "health/tdee-calculator": lazy(() => import("@/tools/hlt/TdeeCalculator")),
-  "health/calorie-deficit-calculator": lazy(() => import("@/tools/hlt/CalorieDeficitCalculator")),
   "health/calorie-calculator": lazy(() => import("@/tools/hlt/CalorieCalculator")),
   "health/meal-calorie-calculator": lazy(() => import("@/tools/hlt/MealCalorieCalculator")),
   "health/calories-burned-calculator": lazy(() => import("@/tools/hlt/CaloriesBurnedCalculator")),
@@ -165,7 +172,7 @@ export default function ToolPage() {
     if (!toolConfig) return;
 
     setSeoMeta({
-      title: `${toolConfig.name}嚚極?瑞?ε,
+      title: `${toolConfig.name}｜工具矩陣`,
       description: toolConfig.description,
     });
   }, [toolConfig]);
@@ -173,16 +180,16 @@ export default function ToolPage() {
   if (!ToolComponent || !toolConfig) {
     return (
       <div className="container py-20 text-center">
-        <p className="text-lg font-medium">?曆??唳迨撌亙</p>
+        <p className="text-lg font-medium">找不到此工具</p>
         <p className="text-muted-foreground mt-2 text-sm">
-          撌亙頝臬?嚗toolPath}
+          工具路徑：{toolPath}
         </p>
         <div className="flex justify-center gap-3 mt-6">
           <Button asChild variant="outline">
-            <Link href={`/tools/${category}`}>餈???</Link>
+            <Link href={`/tools/${category}`}>返回分類</Link>
           </Button>
           <Button asChild variant="ghost">
-            <Link href="/">餈?擐?</Link>
+            <Link href="/">返回首頁</Link>
           </Button>
         </div>
       </div>
@@ -196,7 +203,7 @@ export default function ToolPage() {
         <div className="container py-3">
           <nav className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <Link href="/" className="hover:text-foreground transition-colors">
-              擐?
+              首頁
             </Link>
             <span>/</span>
             <Link href={`/tools/${category}`} className="hover:text-foreground transition-colors">
@@ -215,4 +222,3 @@ export default function ToolPage() {
     </div>
   );
 }
-
