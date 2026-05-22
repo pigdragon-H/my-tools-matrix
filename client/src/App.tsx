@@ -42,6 +42,9 @@ function Router() {
           {/* 層三：文章頁面 /blog/:category/:articleId */}
           <Route path="/blog/:category/:articleId" component={BlogArticle} />
 
+          {/* 關於我們 */}
+          <Route path="/about" component={About} />
+
           {/* 法律頁面 */}
           <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route path="/terms-of-service" component={TermsOfService} />
