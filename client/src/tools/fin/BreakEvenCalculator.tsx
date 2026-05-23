@@ -215,7 +215,7 @@ export default function BreakEvenCalculator() {
             </div>
             <div className="grid grid-cols-2 gap-3">
               {[
-                { label: t.bepUnits, value: `${fmt(result.bepUnits)} 杯` },
+                { label: t.bepUnits, value: `${fmt(result.bepUnits)} ${lang === "zh" ? "杯" : "cups"}` },
                 { label: t.bepRevenue, value: `${currency} ${fmt(result.bepRevenue)}` },
                 { label: t.contributionMargin, value: `${currency} ${fmt(result.cm)}` },
                 { label: t.contributionRatio, value: `${result.cmRatio.toFixed(1)}%` },
@@ -231,7 +231,7 @@ export default function BreakEvenCalculator() {
                 <div className="bg-green-50 rounded-lg p-3">
                   <p className="text-xs text-gray-500">{t.safetyMargin}</p>
                   <p className="text-xl font-bold text-green-700">
-                    {fmt(result.safetyMargin)} 杯 ({result.safetyRatio.toFixed(1)}%)
+                    {fmt(result.safetyMargin)} {lang === "zh" ? "杯" : "cups"} ({result.safetyRatio.toFixed(1)}%)
                   </p>
                 </div>
                 <div className="bg-green-50 rounded-lg p-3">
@@ -268,8 +268,8 @@ export default function BreakEvenCalculator() {
           <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
             <h3 className="font-semibold text-yellow-800">{t.scenario}</h3>
             <p className="text-yellow-700 mt-1">
-              {t.newBep}：<strong>{fmt(result.newBep)}</strong> {lang === "zh" ? "杯" : "units"}
-              （{lang === "zh" ? "較原本少" : "reduced by"} {fmt(result.bepUnits - result.newBep)} {lang === "zh" ? "杯" : "units"}）
+              {t.newBep}：<strong>{fmt(result.newBep)}</strong> {lang === "zh" ? "杯" : "cups"}
+              （{lang === "zh" ? "較原本少" : "reduced by"} {fmt(result.bepUnits - result.newBep)} {lang === "zh" ? "杯" : "cups"}）
             </p>
           </div>
         </div>
