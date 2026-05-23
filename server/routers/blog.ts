@@ -11,7 +11,16 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const ARTICLES_DIR = join(__dirname, "../../shared/articles");
+function resolveArticlesDir(): string {
+  const candidates = [
+    join(process.cwd(), "shared/articles"),
+    join(__dirname, "../../shared/articles"),
+    join(__dirname, "../shared/articles"),
+    join(__dirname, "shared/articles"),
+  ];
+  return candidates.find((candidate) => existsSync(candidate)) ?? candidates[0];
+}
+const ARTICLES_DIR = resolveArticlesDir();
 
 export interface ArticleMeta {
   id: string;
