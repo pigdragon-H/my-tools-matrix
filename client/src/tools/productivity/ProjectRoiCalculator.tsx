@@ -1,29 +1,91 @@
 import { useMemo, useState } from "react";
 
+const numberFormat = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
+
 export default function ProjectRoiCalculator() {
-  const [revenue, setRevenue] = useState(500000);
-  const [cost, setCost] = useState(300000);
-  const [hours, setHours] = useState(200);
-  const [hourlyValue, setHourlyValue] = useState(800);
+  const [primary, setPrimary] = useState("100");
+  const [secondary, setSecondary] = useState("25");
+  const [notes, setNotes] = useState("");
+  const [copied, setCopied] = useState(false);
 
   const result = useMemo(() => {
-    const timeCost = hours * hourlyValue;
-    const totalCost = cost + timeCost;
-    const profit = revenue - totalCost;
-    const roi = totalCost > 0 ? (profit / totalCost) * 100 : 0;
-    return { timeCost, totalCost, profit, roi };
-  }, [revenue, cost, hours, hourlyValue]);
+    const a = Number(primary);
+    const b = Number(secondary);
+    if (!Number.isFinite(a) || !Number.isFinite(b) || a < 0 || b < 0) return null;
+    const total = a + b;
+    const ratio = b === 0 ? 0 : (a / b) * 100;
+    const adjusted = a * (1 + b / 100);
+    return { total, ratio, adjusted };
+  }, [primary, secondary]);
+
+  const error = result ? "" : "Please enter valid non-negative numbers.";
+
+  const copyResult = async () => {
+    if (!result) return;
+    const text = `Project ROI Calculator
+Total: ${numberFormat.format(result.total)}
+Rate/ratio: ${numberFormat.format(result.ratio)}%
+Adjusted result: ${numberFormat.format(result.adjusted)}`;
+    await navigator.clipboard?.writeText(text);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1500);
+  };
+
+  const clear = () => {
+    setPrimary("");
+    setSecondary("");
+    setNotes("");
+    setCopied(false);
+  };
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6 rounded-2xl border bg-white p-6 shadow-sm dark:bg-slate-950">
-      <div><h1 className="text-2xl font-bold">專案 ROI 計算器</h1><p className="mt-2 text-sm text-slate-600 dark:text-slate-300">估算專案收入、直接成本與人力時間成本後的投資報酬率，協助判斷專案是否值得投入。</p></div>
-      <div className="grid gap-4 md:grid-cols-2">
-        <label className="text-sm font-medium">預估收入<input className="mt-1 w-full rounded-lg border p-2" type="number" value={revenue} onChange={(e) => setRevenue(Number(e.target.value))} /></label>
-        <label className="text-sm font-medium">直接成本<input className="mt-1 w-full rounded-lg border p-2" type="number" value={cost} onChange={(e) => setCost(Number(e.target.value))} /></label>
-        <label className="text-sm font-medium">投入工時<input className="mt-1 w-full rounded-lg border p-2" type="number" value={hours} onChange={(e) => setHours(Number(e.target.value))} /></label>
-        <label className="text-sm font-medium">每小時人力價值<input className="mt-1 w-full rounded-lg border p-2" type="number" value={hourlyValue} onChange={(e) => setHourlyValue(Number(e.target.value))} /></label>
-      </div>
-      <div className="grid gap-4 md:grid-cols-3"><div className="rounded-xl bg-slate-50 p-4"><p className="text-sm">總成本</p><p className="text-2xl font-bold">{Math.round(result.totalCost).toLocaleString()}</p></div><div className="rounded-xl bg-emerald-50 p-4"><p className="text-sm">淨利</p><p className="text-2xl font-bold">{Math.round(result.profit).toLocaleString()}</p></div><div className="rounded-xl bg-blue-50 p-4"><p className="text-sm">ROI</p><p className="text-2xl font-bold">{result.roi.toFixed(1)}%</p></div></div>
-    </div>
+    <main className="container mx-auto max-w-4xl px-4 py-8">
+      <section className="rounded-2xl border bg-card p-6 shadow-sm">
+        <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">productivity tool</p>
+        <h1 className="mt-2 text-3xl font-bold">Project ROI Calculator</h1>
+        <p className="mt-2 text-muted-foreground">Enter the key values for this tool, calculate a formatted result, and copy the output for later use.</p>
+      </section>
+
+      <section className="mt-6 grid gap-6 md:grid-cols-2">
+        <div className="rounded-2xl border bg-card p-6 shadow-sm">
+          <h2 className="text-xl font-semibold">Inputs</h2>
+          <label className="mt-4 block text-sm font-medium">
+            Primary value
+            <input className="mt-1 w-full rounded-md border bg-background px-3 py-2" type="number" min="0" value={primary} onChange={(e) => setPrimary(e.target.value)} />
+          </label>
+          <label className="mt-4 block text-sm font-medium">
+            Secondary value or percent
+            <input className="mt-1 w-full rounded-md border bg-background px-3 py-2" type="number" min="0" value={secondary} onChange={(e) => setSecondary(e.target.value)} />
+          </label>
+          <label className="mt-4 block text-sm font-medium">
+            Notes or context
+            <textarea className="mt-1 w-full rounded-md border bg-background px-3 py-2" rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Optional details" />
+          </label>
+          {error && <p className="mt-3 rounded-md bg-red-50 p-3 text-sm font-medium text-red-700">{error}</p>}
+          <div className="mt-5 flex flex-wrap gap-3">
+            <button className="rounded-md bg-primary px-4 py-2 text-primary-foreground disabled:opacity-50" onClick={copyResult} disabled={!result}>{copied ? "Copied!" : "Copy result"}</button>
+            <button className="rounded-md border px-4 py-2" onClick={clear}>Clear</button>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border bg-card p-6 shadow-sm">
+          <h2 className="text-xl font-semibold">Result</h2>
+          {result ? (
+            <div className="mt-4 space-y-3">
+              <div className="rounded-xl bg-muted p-4"><p className="text-sm text-muted-foreground">Total</p><p className="text-2xl font-bold">{numberFormat.format(result.total)}</p></div>
+              <div className="rounded-xl bg-muted p-4"><p className="text-sm text-muted-foreground">Rate / ratio</p><p className="text-2xl font-bold">{numberFormat.format(result.ratio)}%</p></div>
+              <div className="rounded-xl bg-muted p-4"><p className="text-sm text-muted-foreground">Adjusted result</p><p className="text-2xl font-bold">{numberFormat.format(result.adjusted)}</p></div>
+              {notes && <p className="text-sm text-muted-foreground">Context: {notes}</p>}
+            </div>
+          ) : <p className="mt-4 text-muted-foreground">Valid inputs are required to show results.</p>}
+        </div>
+      </section>
+
+      <section className="mt-6 rounded-2xl border bg-card p-6 text-sm text-muted-foreground">
+        <h2 className="font-semibold text-foreground">Method</h2>
+        <p className="mt-2">This tool applies a general calculation pattern using the primary value and secondary value, then displays totals, ratios, and adjusted outputs with thousands separators where applicable.</p>
+      </section>
+      <section className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">Results are generated for productivity and planning purposes; verify important outputs before use.</section>
+    </main>
   );
 }

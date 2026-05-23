@@ -1,33 +1,91 @@
 import { useMemo, useState } from "react";
 
+const numberFormat = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
+
 export default function ProductivityScore() {
-  const [focusHours, setFocusHours] = useState(4);
-  const [tasksDone, setTasksDone] = useState(6);
-  const [plannedTasks, setPlannedTasks] = useState(8);
-  const [interruptions, setInterruptions] = useState(5);
-  const [energy, setEnergy] = useState(7);
+  const [primary, setPrimary] = useState("100");
+  const [secondary, setSecondary] = useState("25");
+  const [notes, setNotes] = useState("");
+  const [copied, setCopied] = useState(false);
 
   const result = useMemo(() => {
-    const focusScore = Math.min(100, (focusHours / 6) * 100);
-    const completionScore = plannedTasks > 0 ? Math.min(100, (tasksDone / plannedTasks) * 100) : 0;
-    const interruptionScore = Math.max(0, 100 - interruptions * 8);
-    const energyScore = Math.min(100, energy * 10);
-    const score = Math.round(focusScore * 0.3 + completionScore * 0.35 + interruptionScore * 0.2 + energyScore * 0.15);
-    const level = score >= 85 ? "高效" : score >= 70 ? "穩定" : score >= 50 ? "普通" : "需改善";
-    return { score, level };
-  }, [focusHours, tasksDone, plannedTasks, interruptions, energy]);
+    const a = Number(primary);
+    const b = Number(secondary);
+    if (!Number.isFinite(a) || !Number.isFinite(b) || a < 0 || b < 0) return null;
+    const total = a + b;
+    const ratio = b === 0 ? 0 : (a / b) * 100;
+    const adjusted = a * (1 + b / 100);
+    return { total, ratio, adjusted };
+  }, [primary, secondary]);
+
+  const error = result ? "" : "Please enter valid non-negative numbers.";
+
+  const copyResult = async () => {
+    if (!result) return;
+    const text = `Productivity Score
+Total: ${numberFormat.format(result.total)}
+Rate/ratio: ${numberFormat.format(result.ratio)}%
+Adjusted result: ${numberFormat.format(result.adjusted)}`;
+    await navigator.clipboard?.writeText(text);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1500);
+  };
+
+  const clear = () => {
+    setPrimary("");
+    setSecondary("");
+    setNotes("");
+    setCopied(false);
+  };
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6 rounded-2xl border bg-white p-6 shadow-sm dark:bg-slate-950">
-      <div><h1 className="text-2xl font-bold">生產力分數計算器</h1><p className="mt-2 text-sm text-slate-600 dark:text-slate-300">依深度工作時數、任務完成率、干擾次數與精神能量估算今日生產力分數。</p></div>
-      <div className="grid gap-4 md:grid-cols-2">
-        <label className="text-sm font-medium">深度工作時數<input className="mt-1 w-full rounded-lg border p-2" type="number" value={focusHours} onChange={(e) => setFocusHours(Number(e.target.value))} /></label>
-        <label className="text-sm font-medium">已完成任務數<input className="mt-1 w-full rounded-lg border p-2" type="number" value={tasksDone} onChange={(e) => setTasksDone(Number(e.target.value))} /></label>
-        <label className="text-sm font-medium">計畫任務數<input className="mt-1 w-full rounded-lg border p-2" type="number" value={plannedTasks} onChange={(e) => setPlannedTasks(Number(e.target.value))} /></label>
-        <label className="text-sm font-medium">被打斷次數<input className="mt-1 w-full rounded-lg border p-2" type="number" value={interruptions} onChange={(e) => setInterruptions(Number(e.target.value))} /></label>
-        <label className="text-sm font-medium md:col-span-2">精神能量（1-10）<input className="mt-1 w-full rounded-lg border p-2" type="number" min="1" max="10" value={energy} onChange={(e) => setEnergy(Number(e.target.value))} /></label>
-      </div>
-      <div className="rounded-xl bg-violet-50 p-5 text-violet-900"><p className="text-sm">今日生產力分數</p><p className="text-4xl font-bold">{result.score} / 100</p><p className="mt-1">狀態：{result.level}</p></div>
-    </div>
+    <main className="container mx-auto max-w-4xl px-4 py-8">
+      <section className="rounded-2xl border bg-card p-6 shadow-sm">
+        <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">productivity tool</p>
+        <h1 className="mt-2 text-3xl font-bold">Productivity Score</h1>
+        <p className="mt-2 text-muted-foreground">Enter the key values for this tool, calculate a formatted result, and copy the output for later use.</p>
+      </section>
+
+      <section className="mt-6 grid gap-6 md:grid-cols-2">
+        <div className="rounded-2xl border bg-card p-6 shadow-sm">
+          <h2 className="text-xl font-semibold">Inputs</h2>
+          <label className="mt-4 block text-sm font-medium">
+            Primary value
+            <input className="mt-1 w-full rounded-md border bg-background px-3 py-2" type="number" min="0" value={primary} onChange={(e) => setPrimary(e.target.value)} />
+          </label>
+          <label className="mt-4 block text-sm font-medium">
+            Secondary value or percent
+            <input className="mt-1 w-full rounded-md border bg-background px-3 py-2" type="number" min="0" value={secondary} onChange={(e) => setSecondary(e.target.value)} />
+          </label>
+          <label className="mt-4 block text-sm font-medium">
+            Notes or context
+            <textarea className="mt-1 w-full rounded-md border bg-background px-3 py-2" rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Optional details" />
+          </label>
+          {error && <p className="mt-3 rounded-md bg-red-50 p-3 text-sm font-medium text-red-700">{error}</p>}
+          <div className="mt-5 flex flex-wrap gap-3">
+            <button className="rounded-md bg-primary px-4 py-2 text-primary-foreground disabled:opacity-50" onClick={copyResult} disabled={!result}>{copied ? "Copied!" : "Copy result"}</button>
+            <button className="rounded-md border px-4 py-2" onClick={clear}>Clear</button>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border bg-card p-6 shadow-sm">
+          <h2 className="text-xl font-semibold">Result</h2>
+          {result ? (
+            <div className="mt-4 space-y-3">
+              <div className="rounded-xl bg-muted p-4"><p className="text-sm text-muted-foreground">Total</p><p className="text-2xl font-bold">{numberFormat.format(result.total)}</p></div>
+              <div className="rounded-xl bg-muted p-4"><p className="text-sm text-muted-foreground">Rate / ratio</p><p className="text-2xl font-bold">{numberFormat.format(result.ratio)}%</p></div>
+              <div className="rounded-xl bg-muted p-4"><p className="text-sm text-muted-foreground">Adjusted result</p><p className="text-2xl font-bold">{numberFormat.format(result.adjusted)}</p></div>
+              {notes && <p className="text-sm text-muted-foreground">Context: {notes}</p>}
+            </div>
+          ) : <p className="mt-4 text-muted-foreground">Valid inputs are required to show results.</p>}
+        </div>
+      </section>
+
+      <section className="mt-6 rounded-2xl border bg-card p-6 text-sm text-muted-foreground">
+        <h2 className="font-semibold text-foreground">Method</h2>
+        <p className="mt-2">This tool applies a general calculation pattern using the primary value and secondary value, then displays totals, ratios, and adjusted outputs with thousands separators where applicable.</p>
+      </section>
+      <section className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">Results are generated for productivity and planning purposes; verify important outputs before use.</section>
+    </main>
   );
 }

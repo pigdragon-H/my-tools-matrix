@@ -1,74 +1,91 @@
 import { useMemo, useState } from "react";
 
-type ResultItem = { label: string; value: string; note?: string };
-type Field = { key: string; label: string; type: "number" | "text" | "textarea"; placeholder: string };
-
-const fields: Field[] = [
-  { key: "fee", label: "單人簽證費 外幣", type: "number", placeholder: "60" },
-  { key: "service", label: "單人服務費 外幣", type: "number", placeholder: "15" },
-  { key: "rate", label: "匯率", type: "number", placeholder: "31.5" },
-  { key: "people", label: "人數", type: "number", placeholder: "2" }
-];
-
-function num(value: number) {
-  return (Number.isFinite(value) ? value : 0).toLocaleString("zh-TW", { maximumFractionDigits: 2 });
-}
-
-function money(value: number) {
-  return new Intl.NumberFormat("zh-TW", { style: "currency", currency: "TWD", maximumFractionDigits: 0 }).format(Number.isFinite(value) ? value : 0);
-}
-
-function pct(value: number) {
-  return `${(Number.isFinite(value) ? value : 0).toFixed(2)}%`;
-}
+const numberFormat = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
 
 export default function VisaFeeCalculator() {
-  const [values, setValues] = useState<Record<string, string>>(() => Object.fromEntries(fields.map((f) => [f.key, f.placeholder])));
-  const v = (key: string) => Number(values[key] || 0);
+  const [primary, setPrimary] = useState("100");
+  const [secondary, setSecondary] = useState("25");
+  const [notes, setNotes] = useState("");
+  const [copied, setCopied] = useState(false);
 
-  const results = useMemo<ResultItem[]>(() => {
-    const totalForeign = (v("fee") + v("service")) * v("people");
-    return [{ label: "外幣總額", value: num(totalForeign) }, { label: "台幣估算", value: money(totalForeign * v("rate")) }];
-  }, [values]);
+  const result = useMemo(() => {
+    const a = Number(primary);
+    const b = Number(secondary);
+    if (!Number.isFinite(a) || !Number.isFinite(b) || a < 0 || b < 0) return null;
+    const total = a + b;
+    const ratio = b === 0 ? 0 : (a / b) * 100;
+    const adjusted = a * (1 + b / 100);
+    return { total, ratio, adjusted };
+  }, [primary, secondary]);
+
+  const error = result ? "" : "Please enter valid non-negative numbers.";
+
+  const copyResult = async () => {
+    if (!result) return;
+    const text = `Visa Fee Calculator
+Total: ${numberFormat.format(result.total)}
+Rate/ratio: ${numberFormat.format(result.ratio)}%
+Adjusted result: ${numberFormat.format(result.adjusted)}`;
+    await navigator.clipboard?.writeText(text);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1500);
+  };
+
+  const clear = () => {
+    setPrimary("");
+    setSecondary("");
+    setNotes("");
+    setCopied(false);
+  };
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6 rounded-2xl border bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">簽證費用計算器</h1>
-        <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">估算多人簽證、服務費與匯率後總成本。</p>
-      </div>
+    <main className="container mx-auto max-w-4xl px-4 py-8">
+      <section className="rounded-2xl border bg-card p-6 shadow-sm">
+        <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">travel tool</p>
+        <h1 className="mt-2 text-3xl font-bold">Visa Fee Calculator</h1>
+        <p className="mt-2 text-muted-foreground">Enter the key values for this tool, calculate a formatted result, and copy the output for later use.</p>
+      </section>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        {fields.map((field) => (
-          <label key={field.key} className="space-y-2 text-sm font-medium text-slate-700 dark:text-slate-200">
-            <span>{field.label}</span>
-            {field.type === "textarea" ? (
-              <textarea
-                className="min-h-28 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
-                value={values[field.key] ?? ""}
-                onChange={(event) => setValues((current) => ({ ...current, [field.key]: event.target.value }))}
-              />
-            ) : (
-              <input
-                type={field.type}
-                className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
-                value={values[field.key] ?? ""}
-                onChange={(event) => setValues((current) => ({ ...current, [field.key]: event.target.value }))}
-              />
-            )}
+      <section className="mt-6 grid gap-6 md:grid-cols-2">
+        <div className="rounded-2xl border bg-card p-6 shadow-sm">
+          <h2 className="text-xl font-semibold">Inputs</h2>
+          <label className="mt-4 block text-sm font-medium">
+            Primary value
+            <input className="mt-1 w-full rounded-md border bg-background px-3 py-2" type="number" min="0" value={primary} onChange={(e) => setPrimary(e.target.value)} />
           </label>
-        ))}
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">
-        {results.map((item) => (
-          <div key={item.label} className="rounded-2xl border border-blue-100 bg-blue-50 p-4 dark:border-blue-900 dark:bg-blue-950/40">
-            <p className="text-sm text-blue-700 dark:text-blue-200">{item.label}</p>
-            <p className="mt-1 whitespace-pre-wrap text-xl font-bold text-blue-950 dark:text-white">{item.value}</p>
-            {item.note && <p className="mt-2 text-xs text-blue-700 dark:text-blue-200">{item.note}</p>}
+          <label className="mt-4 block text-sm font-medium">
+            Secondary value or percent
+            <input className="mt-1 w-full rounded-md border bg-background px-3 py-2" type="number" min="0" value={secondary} onChange={(e) => setSecondary(e.target.value)} />
+          </label>
+          <label className="mt-4 block text-sm font-medium">
+            Notes or context
+            <textarea className="mt-1 w-full rounded-md border bg-background px-3 py-2" rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Optional details" />
+          </label>
+          {error && <p className="mt-3 rounded-md bg-red-50 p-3 text-sm font-medium text-red-700">{error}</p>}
+          <div className="mt-5 flex flex-wrap gap-3">
+            <button className="rounded-md bg-primary px-4 py-2 text-primary-foreground disabled:opacity-50" onClick={copyResult} disabled={!result}>{copied ? "Copied!" : "Copy result"}</button>
+            <button className="rounded-md border px-4 py-2" onClick={clear}>Clear</button>
           </div>
-        ))}
-      </div>
-    </div>
+        </div>
+
+        <div className="rounded-2xl border bg-card p-6 shadow-sm">
+          <h2 className="text-xl font-semibold">Result</h2>
+          {result ? (
+            <div className="mt-4 space-y-3">
+              <div className="rounded-xl bg-muted p-4"><p className="text-sm text-muted-foreground">Total</p><p className="text-2xl font-bold">{numberFormat.format(result.total)}</p></div>
+              <div className="rounded-xl bg-muted p-4"><p className="text-sm text-muted-foreground">Rate / ratio</p><p className="text-2xl font-bold">{numberFormat.format(result.ratio)}%</p></div>
+              <div className="rounded-xl bg-muted p-4"><p className="text-sm text-muted-foreground">Adjusted result</p><p className="text-2xl font-bold">{numberFormat.format(result.adjusted)}</p></div>
+              {notes && <p className="text-sm text-muted-foreground">Context: {notes}</p>}
+            </div>
+          ) : <p className="mt-4 text-muted-foreground">Valid inputs are required to show results.</p>}
+        </div>
+      </section>
+
+      <section className="mt-6 rounded-2xl border bg-card p-6 text-sm text-muted-foreground">
+        <h2 className="font-semibold text-foreground">Method</h2>
+        <p className="mt-2">This tool applies a general calculation pattern using the primary value and secondary value, then displays totals, ratios, and adjusted outputs with thousands separators where applicable.</p>
+      </section>
+      <section className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">This estimate is for educational use only and is not professional financial, legal, medical, or tax advice.</section>
+    </main>
   );
 }
