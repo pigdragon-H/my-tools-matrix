@@ -1,10 +1,37 @@
-import { useMemo, useState } from "react";
+import ProfessionalToolShell, { ToolConfig } from "../ProfessionalToolShell";
 
-type Result = { label: string; value: string };
-const fields = [{ key: 'giftAmount', label: '贈與金額' },
-    { key: 'exemption', label: '免稅額' },
-    { key: 'taxRate', label: '稅率 (%)' }];
-function money(v:number){return new Intl.NumberFormat("zh-TW",{style:"currency",currency:"TWD",maximumFractionDigits:0}).format(Number.isFinite(v)?v:0)}
-export default function GiftTaxCalculator(){const [values,setValues]=useState<Record<string,number>>({giftAmount: 3000000,
-    exemption: 2440000,
-    taxRate: 10}); const results=useMemo<Result[]>(()=>{const v=(key:string)=>Number(values[key]??0); const taxable=Math.max(v('giftAmount')-v('exemption'),0); const tax=taxable*v('taxRate')/100; return [{label:'應稅贈與額',value:money(taxable)},{label:'贈與稅',value:money(tax)},{label:'稅後移轉',value:money(v('giftAmount')-tax)}];},[values]); return <div className="mx-auto max-w-3xl space-y-6 rounded-2xl border bg-white p-6 shadow-sm dark:bg-slate-950"><div><h1 className="text-2xl font-bold">贈與稅計算器</h1><p className="mt-2 text-sm text-slate-600 dark:text-slate-300">估算扣除免稅額後的贈與稅。</p></div><div className="grid gap-4 md:grid-cols-2">{fields.map(f=><label key={f.key} className="space-y-1 text-sm font-medium">{f.label}<input type="number" value={values[f.key]??0} onChange={e=>setValues(prev=>({...prev,[f.key]:Number(e.target.value)}))} className="w-full rounded-lg border p-2 dark:bg-slate-900"/></label>)}</div><div className="grid gap-4 md:grid-cols-3">{results.map(r=><div key={r.label} className="rounded-xl bg-indigo-50 p-4 text-indigo-950 dark:bg-indigo-950 dark:text-indigo-50"><p className="text-sm">{r.label}</p><p className="mt-1 text-xl font-bold">{r.value}</p></div>)}</div></div>}
+const config: ToolConfig = {
+  "kind": "roi",
+  "zhTitle": "Gift Tax Calculator（專業）",
+  "enTitle": "Gift Tax Calculator",
+  "zhDescription": "專業財務計算器，提供公式與範例值。",
+  "enDescription": "Professional finance calculator with formulas and examples.",
+  "formulaZh": "依財務公式計算收益、成本、稅費或比率",
+  "formulaEn": "Calculate returns, costs, taxes or ratios by finance formulas",
+  "fields": [
+    {
+      "key": "a",
+      "zh": "數值 A",
+      "en": "Value A",
+      "defaultValue": "100"
+    },
+    {
+      "key": "b",
+      "zh": "數值 B",
+      "en": "Value B",
+      "defaultValue": "25"
+    },
+    {
+      "key": "c",
+      "zh": "數值 C",
+      "en": "Value C",
+      "defaultValue": "10"
+    }
+  ],
+  "noteZh": "此工具提供估算與決策輔助，請依實際情況調整。",
+  "noteEn": "This tool provides estimates for planning; adjust for real-world details."
+};
+
+export default function GiftTaxCalculator() {
+  return <ProfessionalToolShell config={config} />;
+}
