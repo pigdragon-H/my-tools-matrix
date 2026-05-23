@@ -1,31 +1,13 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/</loc>
     <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/about</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev</loc>
     <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -38,6 +20,12 @@
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/health</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev</loc>
     <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -79,1540 +67,1107 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/dev/base-converter-guide</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/cagr-calculator</loc>
     <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/dev/color-converter-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/dev/hash-generator-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/dev/json-formatter-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/dev/password-generator-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance/car-depreciation-5-tips</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance/compound-interest-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance/investment-roi-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance/japan-vs-german-car-depreciation</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance/loan-calculator-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance/mortgage-calculator-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance/retirement-calculator-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance/roi-best-buy-point</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance/roi-calculator-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance/roi-vs-lump-sum</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/finance/used-car-sell-best-time</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/health</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/health/bmi-calculator-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/health/bmr-calculator-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/health/body-fat-calculator-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/health/ideal-weight-calculator-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/health/tdee-calculator-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/health/tdee-eating-out-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/health/tdee-fat-loss-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/health/tdee-muscle-gain-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/productivity/meeting-cost-calculator-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/productivity/overtime-calculator-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/productivity/pomodoro-timer-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/productivity/salary-calculator-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/blog/productivity/time-zone-converter-guide</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/design/css-grid-flexbox-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/design/image-converter</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/design/responsive-breakpoint-tester</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/api-response-formatter</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/barcode-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/base64-encoder-decoder</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/binary-converter</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/border-radius-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/box-shadow-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/character-counter</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/color-picker</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/cron-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/css-beautifier</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/css-grid-flexbox-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/css-unit-converter</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/csv-to-json</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/diff-checker</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/dns-lookup</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/email-validator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/gradient-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/hash-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/hex-encoder-decoder</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/hex-to-rgb</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/html-entity-encoder</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/html-formatter</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/html-to-markdown</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/image-converter</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/ip-address-lookup</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/ip-address-validator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/javascript-formatter</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/json-formatter</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/json-to-xml</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/json-to-yaml</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/json-validator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/jwt-decoder</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/lorem-ipsum-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/markdown-editor</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/markdown-to-html</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/mock-data-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/password-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/qr-code-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/regex-tester</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/responsive-breakpoint-tester</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/slug-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/sql-formatter</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/ssl-checker</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/timestamp-converter</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/timezone-converter</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/unicode-converter</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/url-encoder</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/uuid-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/uuid-password-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/word-counter</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/xml-formatter</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/xml-validator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/yaml-validator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/ecommerce/roas-cpc-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/ecommerce/utm-builder</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/astrology-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/citation-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/education-fund</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/essay-word-count</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/flashcard-generator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/gpa-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/grade-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/iq-test-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/learning-style-quiz</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/study-time-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/affordability-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/cagr-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/coast-fire-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/compound-interest-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/cross-rate-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/currency-converter</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/currency-converter-pro</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/debt-payoff-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/dividend-yield-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/dollar-cost-averaging-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/down-payment-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/emi-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/exchange-rate-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/fire-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/forex-profit-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/interest-rate-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/loan-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/mortgage-amortization-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/mortgage-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/pension-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/personal-loan-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/pip-value-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/refinance-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/retirement-savings-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/stock-return-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/fin/withdrawal-rate-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/asset-depreciation</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/break-even-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/budget-planner</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/car-depreciation</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/compound-interest-advanced</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/compound-interest-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/credit-card-payoff</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/credit-score-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/crypto-dca-backtest</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/dca-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/debt-payoff-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/dividend-reinvestment</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/dividend-yield-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/emergency-fund-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/exchange-rate-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/gold-price-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/income-tax-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/inflation-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/insurance-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/irr-npv-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/loan-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/mortgage-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/net-worth-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/pe-ratio-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/profit-margin-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/rent-vs-buy</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/retirement-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/roi-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/break-even-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/budget-planner</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/capital-gains-tax-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/compound-interest-advanced</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/compound-interest-pro-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/corporate-tax-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/credit-score-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/debt-payoff-pro-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/dividend-yield-pro-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/emergency-fund-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/estate-tax-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/gift-tax-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/gold-price-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/home-affordability-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/home-equity-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/land-value-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/loan-pro-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/moving-cost-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/net-worth-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/pe-ratio-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/profit-margin-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/property-roi-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/property-tax-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/rental-yield-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/salary-after-tax-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/savings-goal-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/stamp-duty-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/stock-profit-loss-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/tax-refund-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/tip-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/utility-cost-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/vat-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/age-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/withholding-tax-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/alcohol-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/affordability-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/blood-pressure-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/coast-fire-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/cross-rate-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/currency-converter-pro</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/debt-payoff-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/dividend-yield-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/dollar-cost-averaging-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/down-payment-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/emi-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/exchange-rate-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/fire-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/forex-profit-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/interest-rate-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/loan-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/mortgage-amortization-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/mortgage-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/pension-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/personal-loan-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/pip-value-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/refinance-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/retirement-savings-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/stock-return-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/withdrawal-rate-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/ctr-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/profit-margin-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/roas-cpc-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/social-media-roi-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/churn-rate-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/conversion-rate-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/cpc-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/cpm-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/customer-acquisition-cost</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/customer-lifetime-value</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/email-open-rate-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/finance/net-promoter-score</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/health/bmi-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/health/bmr-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/body-fat-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/body-surface-area-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/body-weight-planner</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/calorie-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/calorie-deficit-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/calories-burned-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/carb-intake-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/due-date-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/fat-loss-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/fiber-intake-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/heart-rate-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/ideal-weight-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/intermittent-fasting-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/lean-body-mass-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/macro-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/macro-ratio-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/macros-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/maximum-heart-rate-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/meal-calorie-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/one-rep-max-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/ovulation-tracker</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/pregnancy-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/protein-intake-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/running-pace-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/sleep-cycle-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/target-heart-rate-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/health/tdee-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/vitamin-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/calorie-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/vitamin-d-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/macro-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/vo2-max-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/waist-to-hip-ratio-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/health/water-intake-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/weight-loss-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/body-fat-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/ideal-weight-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/lean-body-mass-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/waist-to-hip-ratio-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/body-surface-area-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/maximum-heart-rate-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/calorie-deficit-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/meal-calorie-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/calories-burned-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/one-rep-max-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/running-pace-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/vo2-max-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/health/workout-volume-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/marketing/churn-rate-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/target-heart-rate-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/marketing/conversion-rate-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/weight-loss-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/marketing/cpc-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/intermittent-fasting-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/marketing/cpm-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/body-weight-planner</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/marketing/ctr-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/fat-loss-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/marketing/customer-acquisition-cost</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/protein-intake-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/marketing/customer-lifetime-value</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/carb-intake-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/marketing/email-open-rate-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/macro-ratio-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/marketing/net-promoter-score</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/vitamin-d-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/marketing/social-media-roi-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/fiber-intake-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/age-at-date-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/age-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/deadline-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/alcohol-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/email-subject-generator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/blood-pressure-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/freelancer-rate-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/due-date-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/invoice-generator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/heart-rate-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/meeting-agenda-generator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/pregnancy-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/okr-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/vitamin-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/pomodoro-tracker</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/json-formatter</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/productivity-score</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/base64-encoder</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/project-roi-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/hash-generator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/reading-time-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/password-generator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/social-media-checker</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/regex-tester</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/typing-speed-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/color-converter</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/url-shortener</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/timestamp-converter</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/work-hours-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/url-encoder</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/realestate/down-payment-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/markdown-editor</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/realestate/home-affordability-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/diff-checker</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/realestate/home-equity-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/lorem-ipsum-generator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/realestate/land-value-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/qr-code-generator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/realestate/moving-cost-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/barcode-generator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/realestate/property-roi-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/color-picker</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/realestate/property-tax-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/gradient-generator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/realestate/refinance-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/border-radius-generator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/realestate/rental-yield-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/box-shadow-generator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/realestate/stamp-duty-calculator</loc>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/css-unit-converter</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/character-counter</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/word-counter</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/api-response-formatter</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/dns-lookup</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/ip-address-lookup</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/ssl-checker</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/hash-pro-generator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/dev/password-pro-generator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/science/force-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/science/molecular-weight-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/science/ohms-law-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/science/percentage-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/science/ph-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/science/speed-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/science/temperature-converter</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/science/unit-converter</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/tax/capital-gains-tax-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/tax/corporate-tax-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/tax/estate-tax-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/tax/gift-tax-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/tax/salary-after-tax-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/tax/tax-refund-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/tax/vat-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://my-tools-matrix-production.up.railway.app/tools/tax/withholding-tax-calculator</loc>
-    <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/travel/co2-emission-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/travel/distance-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/travel/flight-time-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/travel/fuel-cost-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/travel/hotel-cost-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/travel/packing-list-generator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/travel/timezone-converter</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/travel/travel-budget-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/travel/visa-fee-calculator</loc>
     <lastmod>2026-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/astrology-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/citation-generator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/education-fund</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/essay-word-count</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/flashcard-generator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/gpa-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/grade-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/iq-test-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/learning-style-quiz</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/education/study-time-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/ecommerce/churn-rate-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/ecommerce/conversion-rate-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/ecommerce/cpc-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/ecommerce/cpm-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/ecommerce/ctr-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/ecommerce/customer-acquisition-cost</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/ecommerce/customer-lifetime-value</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/ecommerce/email-open-rate-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/ecommerce/net-promoter-score</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/ecommerce/roas-cpc-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/ecommerce/social-media-roi-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/age-at-date-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/deadline-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/email-subject-generator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/meeting-agenda-generator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/okr-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/pomodoro-tracker</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/productivity-score</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/project-roi-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/reading-time-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/typing-speed-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/productivity/work-hours-calculator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/design/css-grid-flexbox-generator</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/design/image-converter</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/design/responsive-breakpoint-tester</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
-
