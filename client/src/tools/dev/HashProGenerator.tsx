@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 
 const algorithms = ["MD5", "SHA1", "SHA256", "SHA512", "SHA3-256"] as const;
 type Algorithm = (typeof algorithms)[number];
