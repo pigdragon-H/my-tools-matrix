@@ -1,3 +1,12 @@
+---
+title: "用 TDEE 制定減脂計畫：科學計算熱量赤字"
+description: "用 TDEE 計算器設定合理的熱量赤字，讓減脂更有效率、更持久。"
+category: health
+toolId: tdee-calculator
+toolPath: /tools/health/tdee-calculator
+publishedAt: 2026-05-16
+readingTime: 9
+---
 # 減脂期間怎麼吃？TDEE 熱量缺口完整攻略
 
 **長尾關鍵字：** TDEE 減脂、熱量缺口計算、減脂飲食計畫、如何計算減脂熱量、台灣減脂飲食指南

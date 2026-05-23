@@ -1,3 +1,12 @@
+---
+title: "投資報酬率完整指南：如何計算與提升你的 ROI"
+description: "學習正確計算投資報酬率，了解各類投資工具的 ROI 差異，做出更好的投資決策。"
+category: finance
+toolId: roi-calculator
+toolPath: /tools/finance/roi-calculator
+publishedAt: 2026-05-12
+readingTime: 9
+---
 # 投資報酬率 ROI 指南：如何判斷一筆投資是否值得
 
 投資報酬率，英文為 Return on Investment，簡稱 ROI，是衡量投資效率最直覺的指標之一。無論是股票、ETF、房地產、創業專案、廣告投放，甚至購買設備或進修課程，只要涉及投入成本與最終收益，都可以用 ROI 進行初步評估。透過投資報酬率計算器，你可以快速比較不同方案，避免只看金額大小而忽略投入成本。

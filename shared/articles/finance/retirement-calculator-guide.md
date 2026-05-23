@@ -1,3 +1,12 @@
+---
+title: "退休計算器完整指南：現在開始存才不會太晚"
+description: "用退休計算器計算你需要多少退休金，制定實際可行的退休儲蓄計畫。"
+category: finance
+toolId: retirement-calculator
+toolPath: /tools/finance/retirement-calculator
+publishedAt: 2026-05-17
+readingTime: 8
+---
 # 退休計算器完整指南：估算你需要多少退休金
 
 退休計算器是長期財務規劃的核心工具。許多人談退休時只問「要存多少錢」，但真正的答案取決於退休年齡、預期壽命、每年生活費、通膨、投資報酬率與退休後支出型態。透過退休計算器，你可以把模糊的未來轉成可調整的數字模型，提早看見退休金缺口。

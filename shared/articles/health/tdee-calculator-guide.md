@@ -1,3 +1,12 @@
+---
+title: "TDEE 計算器完整指南：精準掌握每日熱量需求"
+description: "計算你的每日總熱量消耗，根據活動量制定精準的飲食計畫，達成減重或增肌目標。"
+category: health
+toolId: tdee-calculator
+toolPath: /tools/health/tdee-calculator
+publishedAt: 2026-05-14
+readingTime: 9
+---
 # TDEE 計算器完整指南：減脂、增肌與維持體重的熱量核心
 
 TDEE（Total Daily Energy Expenditure，每日總熱量消耗）是體重管理最重要的數字之一。它代表你一天包含基礎代謝、走路、工作、運動、消化食物與所有日常活動後，總共消耗多少熱量。如果你每天攝取熱量接近 TDEE，體重通常會維持；如果長期低於 TDEE，體重多半下降；如果長期高於 TDEE，體重則可能上升。因此，TDEE 是減脂、增肌與維持體重的共同基準。

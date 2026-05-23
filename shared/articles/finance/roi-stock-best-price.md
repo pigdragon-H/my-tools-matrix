@@ -1,3 +1,12 @@
+---
+title: "用 ROI 計算機找到股票最佳買入價格"
+description: "學習如何用投資報酬率計算器反推理想買入價，讓每筆股票投資都有清楚的目標。"
+category: finance
+toolId: roi-calculator
+toolPath: /tools/finance/roi-calculator
+publishedAt: 2026-05-19
+readingTime: 8
+---
 # 存股族必看：用 ROI 計算機找出最佳買點，讓複利為你工作
 
 存股，是許多台灣投資人實現財務自由的主要路徑。但「存股」不是「隨便買、長期放」，而是在對的價格買進對的股票，讓複利的力量隨時間發酵。本文教你如何善用 ROI 計算機，找出屬於自己的最佳買點邏輯。

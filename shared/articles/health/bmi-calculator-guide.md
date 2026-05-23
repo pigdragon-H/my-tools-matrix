@@ -1,3 +1,12 @@
+---
+title: "BMI 計算器完整指南：如何用身體質量指數快速判斷體重狀態"
+description: "BMI 是最常見的健康評估指標，本指南教你正確使用 BMI 計算器並理解結果的意義。"
+category: health
+toolId: bmi-calculator
+toolPath: /tools/health/bmi-calculator
+publishedAt: 2026-05-10
+readingTime: 8
+---
 # BMI 計算器完整指南：如何用身體質量指數快速判斷體重狀態
 
 BMI（Body Mass Index，身體質量指數）是最常見的健康評估指標之一，透過身高與體重的比例，快速判斷一個人的體重是否落在過輕、正常、過重或肥胖的區間。它的優點是計算簡單、容易理解，也適合用於健康檢查、減重前評估與日常體重追蹤。不過 BMI 並不是完整的身體組成分析，它無法區分肌肉與脂肪，因此在使用時應把它當作初步篩檢工具，而不是唯一健康結論。

@@ -1,3 +1,12 @@
+---
+title: "日系 vs 德系中古車折舊率大比較：買哪個更划算？"
+description: "詳細比較豐田、本田與寶馬、賓士的折舊率，幫你做出最聰明的購車決定。"
+category: finance
+toolId: car-depreciation
+toolPath: /tools/finance/car-depreciation
+publishedAt: 2026-05-15
+readingTime: 9
+---
 # 日系 vs 德系中古車折舊率大比較：買哪個更划算？
 
 「買日本車還是德國車？」這是每個準車主都會糾結的問題。新車時代兩者各有擁護者，但到了中古車市場，折舊率的差異就清晰得多了。本文用真實數據帶你比較，幫你做出最精明的選擇。

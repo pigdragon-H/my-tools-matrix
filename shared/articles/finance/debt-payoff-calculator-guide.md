@@ -1,3 +1,12 @@
+---
+title: "債務清償計算器完整指南：最快還清債務的策略"
+description: "使用債務清償計算器規劃還款順序，用最短時間、最少利息還清所有債務。"
+category: finance
+toolId: debt-payoff-calculator
+toolPath: /tools/finance/debt-payoff-calculator
+publishedAt: 2026-05-14
+readingTime: 8
+---
 # 債務規劃與雪球還債法：還債計劃計算器使用指南與理財策略
 
 ## 一、前言與定義

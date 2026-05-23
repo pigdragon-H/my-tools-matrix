@@ -1,3 +1,12 @@
+---
+title: "進位制轉換器完整指南：二進位、十進位與十六進位快速換算"
+description: "學習使用進位制轉換器在二進位、八進位、十進位和十六進位之間快速換算。"
+category: dev
+toolId: base64-encoder
+toolPath: /tools/dev/base64-encoder
+publishedAt: 2026-05-20
+readingTime: 6
+---
 # 進位制轉換器完整指南：二進位、十進位與十六進位快速換算
 
 ## 定義

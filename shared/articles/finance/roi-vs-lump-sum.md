@@ -1,3 +1,12 @@
+---
+title: "定期定額 vs 單筆投資：哪個 ROI 更高？"
+description: "比較定期定額與單筆投資的投資報酬率差異，幫你找到最適合的投資策略。"
+category: finance
+toolId: roi-calculator
+toolPath: /tools/finance/roi-calculator
+publishedAt: 2026-05-12
+readingTime: 7
+---
 # 定期定額 vs 單筆投資：哪種方式報酬率更高？用數據告訴你答案
 
 **長尾關鍵字：** 定期定額報酬率比較、單筆投資風險、定期定額優缺點、投資策略選擇、台灣股市投資方式

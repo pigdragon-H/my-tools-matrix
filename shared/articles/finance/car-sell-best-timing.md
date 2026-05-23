@@ -1,3 +1,12 @@
+---
+title: "中古車怎麼賣最划算？掌握殘值最高點讓你少虧 10 萬"
+description: "了解中古車殘值曲線，找到最佳賣車時機，讓你的愛車賣到最好的價格。"
+category: finance
+toolId: car-depreciation
+toolPath: /tools/finance/car-depreciation
+publishedAt: 2026-05-17
+readingTime: 8
+---
 # 中古車怎麼賣最划算？掌握殘值最高點，讓你少虧 10 萬
 
 很多人買車的時候精打細算，賣車的時候卻隨便，結果少賺了好幾萬。事實上，「什麼時候賣」和「賣給誰」，對你最終拿到的金額影響巨大。本文教你掌握殘值最高點，用最聰明的方式把舊車賣出最好的價錢。

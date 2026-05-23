@@ -1,3 +1,12 @@
+---
+title: "房貸計算器完整指南：買房前必做的月付試算"
+description: "用房貸計算器試算每月房貸金額，了解利率變動對還款的影響，做好購房財務規劃。"
+category: finance
+toolId: mortgage-calculator
+toolPath: /tools/finance/mortgage-calculator
+publishedAt: 2026-05-14
+readingTime: 8
+---
 # 房貸計算器完整指南：買房前一定要懂的月付金與總利息
 
 房貸計算器是購屋前不可或缺的財務工具。買房不是只看總價與頭期款，更重要的是未來二十年、三十年的月付金是否能穩定負擔。透過房貸計算器，你可以在貸款本金、利率與年限不同的情境下，估算每月還款、總利息與總支付金額，避免因低估現金流壓力而影響生活品質。

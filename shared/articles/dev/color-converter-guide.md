@@ -1,3 +1,12 @@
+---
+title: "色彩轉換器完整指南：HEX、RGB、HSL 如何互相轉換"
+description: "掌握 HEX、RGB、RGBA、HSL 等色彩格式的轉換方法，讓前端開發與設計工作更順暢。"
+category: dev
+toolId: color-picker
+toolPath: /tools/dev/color-picker
+publishedAt: 2026-05-20
+readingTime: 6
+---
 # 色碼轉換器完整指南：HEX、RGB、HSL 如何互相轉換
 
 ## 定義

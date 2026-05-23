@@ -1,3 +1,12 @@
+---
+title: "外食族如何用 TDEE 控制熱量：實用技巧大全"
+description: "外食族必看！學習在外食環境中掌握 TDEE，不放棄美食也能控制體重。"
+category: health
+toolId: tdee-calculator
+toolPath: /tools/health/tdee-calculator
+publishedAt: 2026-05-15
+readingTime: 8
+---
 # 外食族如何控制熱量？TDEE 實戰應用指南
 
 **長尾關鍵字：** 外食族減脂、外食熱量控制、台灣外食健康飲食、便當熱量計算、外食 TDEE 應用

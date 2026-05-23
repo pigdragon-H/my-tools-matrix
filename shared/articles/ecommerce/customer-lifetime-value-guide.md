@@ -1,3 +1,12 @@
+---
+title: "客戶終身價值完整指南：如何計算與提升 CLV"
+description: "了解客戶終身價值的計算方法，用 CLV 指標優化行銷策略，提升長期獲利能力。"
+category: ecommerce
+toolId: customer-lifetime-value
+toolPath: /tools/ecommerce/customer-lifetime-value
+publishedAt: 2026-05-18
+readingTime: 9
+---
 # 客戶終身價值計算器使用指南：精準掌握 CLV，優化行銷策略與客戶留存
 
 ## 一、前言與定義

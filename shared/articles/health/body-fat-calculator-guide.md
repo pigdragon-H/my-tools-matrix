@@ -1,3 +1,12 @@
+---
+title: "體脂肪計算器使用指南：精準掌握體脂率，邁向科學減重"
+description: "用體脂肪計算器了解你的體脂率是否健康，制定科學的減脂或增肌計畫。"
+category: health
+toolId: body-fat-calculator
+toolPath: /tools/health/body-fat-calculator
+publishedAt: 2026-05-12
+readingTime: 8
+---
 # 體脂率計算器使用指南：精準掌握體脂肪計算，邁向科學減重與健康管理
 
 ## 一、前言與定義

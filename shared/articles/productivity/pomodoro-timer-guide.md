@@ -1,3 +1,12 @@
+---
+title: "番茄工作法計時器完整指南：用 25 分鐘提升專注與效率"
+description: "學習番茄工作法的核心原理，用番茄計時器建立深度專注的工作習慣。"
+category: productivity
+toolId: pomodoro-tracker
+toolPath: /tools/productivity/pomodoro-tracker
+publishedAt: 2026-05-19
+readingTime: 7
+---
 # 番茄工作法計時器完整指南：用 25 分鐘提升專注與效率
 
 ## 定義

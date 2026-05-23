@@ -1,3 +1,12 @@
+---
+title: "房屋負擔能力計算器：買房前必算的 3 個數字"
+description: "用房屋負擔能力計算器評估你真正能負擔的房價，避免買房後財務壓力過大。"
+category: finance
+toolId: home-affordability-calculator
+toolPath: /tools/finance/home-affordability-calculator
+publishedAt: 2026-05-16
+readingTime: 8
+---
 # 購屋負擔能力計算器使用指南：精準掌握買房預算與房貸負擔
 
 ## 一、前言與定義

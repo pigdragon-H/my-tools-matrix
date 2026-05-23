@@ -1,3 +1,12 @@
+---
+title: "中古車折舊率 5 大技巧：買對車省下 10 萬"
+description: "掌握中古車折舊計算的 5 個關鍵技巧，避免買錯車損失大筆金錢。"
+category: finance
+toolId: car-depreciation
+toolPath: /tools/finance/car-depreciation
+publishedAt: 2026-05-13
+readingTime: 8
+---
 # 買中古車前必做的 5 個殘值評估，避免買到「越開越虧」的車
 
 **長尾關鍵字：** 中古車殘值評估、買中古車注意事項、中古車折舊計算、台灣中古車保值、中古車購買指南

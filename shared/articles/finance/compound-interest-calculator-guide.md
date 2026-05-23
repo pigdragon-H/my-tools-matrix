@@ -1,3 +1,12 @@
+---
+title: "複利計算器完整指南：讓錢為你工作的秘密"
+description: "深入了解複利計算器的使用方法，掌握讓資產持續增長的複利原理。"
+category: finance
+toolId: compound-interest-calculator
+toolPath: /tools/finance/compound-interest-calculator
+publishedAt: 2026-05-11
+readingTime: 8
+---
 # 掌握複利效應：複利計算器使用指南與資產增值策略
 
 ## 一、前言與定義

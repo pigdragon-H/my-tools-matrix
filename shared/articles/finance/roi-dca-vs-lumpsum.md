@@ -1,3 +1,12 @@
+---
+title: "定期定額 vs 單筆投入：哪個策略在長期更勝一籌？"
+description: "用數據分析定期定額與單筆投資的長期報酬差異，找出最適合你的投資方式。"
+category: finance
+toolId: roi-calculator
+toolPath: /tools/finance/roi-calculator
+publishedAt: 2026-05-18
+readingTime: 9
+---
 # 定期定額 vs 單筆投資：哪種方式報酬率更高？用數據說話
 
 每當股市大漲，身邊總有人說「早知道當初全押就好了」；每當股市大跌，又有人慶幸「還好我是定期定額，沒有一次全砸進去」。定期定額（DCA）與單筆投資（Lump Sum），到底哪一種策略更適合你？本文用真實數據與計算邏輯，帶你徹底搞懂這兩種投資方式的差異。

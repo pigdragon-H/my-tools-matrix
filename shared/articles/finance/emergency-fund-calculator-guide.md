@@ -1,3 +1,12 @@
+---
+title: "緊急備用金計算器：你需要存多少才夠安全？"
+description: "計算你的理想緊急備用金金額，建立財務安全網應對人生意外。"
+category: finance
+toolId: emergency-fund-calculator
+toolPath: /tools/finance/emergency-fund-calculator
+publishedAt: 2026-05-15
+readingTime: 7
+---
 # 緊急備用金計算器使用指南：打造您的理財安全網
 
 ## 一、前言與定義

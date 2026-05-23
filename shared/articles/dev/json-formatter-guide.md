@@ -1,3 +1,12 @@
+---
+title: "JSON 格式化工具完整指南：讓資料更易讀、易檢查與易除錯"
+description: "JSON 格式化工具幫你整理、縮排、驗證 JSON 資料，提升開發效率與除錯速度。"
+category: dev
+toolId: json-formatter
+toolPath: /tools/dev/json-formatter
+publishedAt: 2026-05-20
+readingTime: 6
+---
 # JSON 格式化工具完整指南：讓資料更易讀、易檢查與易除錯
 
 ## 定義

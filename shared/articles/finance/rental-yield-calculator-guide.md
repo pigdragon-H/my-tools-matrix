@@ -1,3 +1,12 @@
+---
+title: "租金報酬率計算器：投資房產前必算的關鍵指標"
+description: "計算租金投資報酬率，評估房產投資是否值得，找到最佳房產投資標的。"
+category: finance
+toolId: rental-yield-calculator
+toolPath: /tools/finance/rental-yield-calculator
+publishedAt: 2026-05-16
+readingTime: 8
+---
 # 租金殖利率計算器使用指南：掌握房地產投資的被動收入關鍵
 
 ## 一、前言與定義

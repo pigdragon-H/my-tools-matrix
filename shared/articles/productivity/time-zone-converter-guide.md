@@ -1,3 +1,12 @@
+---
+title: "時區轉換器完整指南：跨國會議時間一鍵對齊"
+description: "用時區轉換器快速換算全球各時區時間，解決跨國遠端工作的時間協調問題。"
+category: productivity
+toolId: timezone-converter
+toolPath: /tools/travel/timezone-converter
+publishedAt: 2026-05-19
+readingTime: 6
+---
 # 時區轉換器完整指南：跨國會議與遠端工作的時間管理工具
 
 ## 定義

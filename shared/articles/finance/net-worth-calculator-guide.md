@@ -1,3 +1,12 @@
+---
+title: "淨資產計算器：真正了解你現在的財務狀況"
+description: "用淨資產計算器計算你的資產負債，掌握真實的財務健康狀況並制定改善計畫。"
+category: finance
+toolId: net-worth-calculator
+toolPath: /tools/finance/net-worth-calculator
+publishedAt: 2026-05-15
+readingTime: 7
+---
 # 淨資產計算器使用指南：掌握資產負債，邁向財務自由的關鍵第一步
 
 ## 一、前言與定義

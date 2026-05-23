@@ -1,3 +1,12 @@
+---
+title: "複利效應完整指南：為什麼愛因斯坦稱它為第八大奇蹟"
+description: "理解複利的核心原理與實際應用，開始讓你的資產以指數方式增長。"
+category: finance
+toolId: compound-interest-calculator
+toolPath: /tools/finance/compound-interest-calculator
+publishedAt: 2026-05-13
+readingTime: 7
+---
 # 複利計算器完整指南：用時間放大資產成長的力量
 
 複利計算器是理財規劃中最重要的工具之一。所謂複利，是指本金產生利息後，利息再被投入下一期繼續產生利息，因此資產不是單純直線增加，而是隨著時間逐步加速成長。對長期投資、定期定額、退休準備與教育基金規劃來說，理解複利公式能幫助你看清「時間」與「報酬率」的真正影響。

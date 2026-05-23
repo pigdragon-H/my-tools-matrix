@@ -1,3 +1,12 @@
+---
+title: "日系 vs 德系車折舊完整分析：5 年後誰更保值？"
+description: "從數據角度分析日系與德系車的折舊差異，做出更有依據的購車選擇。"
+category: finance
+toolId: car-depreciation
+toolPath: /tools/finance/car-depreciation
+publishedAt: 2026-05-15
+readingTime: 9
+---
 # 日系 vs 德系中古車折舊率大比較：買哪個品牌最保值？
 
 **長尾關鍵字：** 日系德系中古車比較、Toyota 保值率、BMW 折舊、中古車品牌選擇、台灣最保值汽車

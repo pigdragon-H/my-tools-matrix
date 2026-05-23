@@ -1,3 +1,12 @@
+---
+title: "雜湊產生器完整指南：MD5、SHA-1、SHA-256 的用途與差異"
+description: "了解 MD5、SHA-1、SHA-256 等雜湊演算法的差異與使用場景，保護你的資料安全。"
+category: dev
+toolId: hash-generator
+toolPath: /tools/dev/hash-generator
+publishedAt: 2026-05-20
+readingTime: 7
+---
 # 雜湊產生器完整指南：MD5、SHA-1、SHA-256 的用途與差異
 
 ## 定義

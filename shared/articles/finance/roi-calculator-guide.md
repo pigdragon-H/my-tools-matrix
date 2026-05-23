@@ -1,13 +1,12 @@
 ---
-id: roi-calculator-guide
-title: 定期定額 ROI 計算機｜免費試算你的投資報酬率
-description: 深入解析定期定額投資策略，教你用 ROI 計算機精準預測投資成果，從零開始建立穩健的被動收入來源。
-keywords: 定期定額, ROI計算機, 投資報酬率計算, 複利投資, 財富自由, 定期定額試算, 投資計算機, 定期定額試算表, 每月投資多少
-publishedAt: 2026-05-17
+title: "定期定額 ROI 計算機｜免費試算你的投資報酬率"
+description: "深入解析定期定額投資策略，教你用 ROI 計算機精準預測投資成果，從零開始建立穩健的被動收入來源。"
+category: finance
 toolId: roi-calculator
 toolPath: /tools/finance/roi-calculator
+publishedAt: 2026-05-10
+readingTime: 8
 ---
-
 # 定期定額 ROI 計算機｜免費試算你的投資報酬率
 
 在台灣，越來越多人開始意識到「靠薪水存錢」已不足以應對通膨壓力。**定期定額投資**（Dollar-Cost Averaging，DCA）因其門檻低、操作簡單的特性，成為許多上班族踏入投資市場的第一步。本文將深入解析定期定額的核心原理，並教你如何善用我們的**免費 ROI 計算機**，精準預測你的財富成長軌跡，讓投資不再是一件模糊的事。

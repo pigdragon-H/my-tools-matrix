@@ -1,3 +1,12 @@
+---
+title: "BMR 基礎代謝率計算器完整指南：了解你每天最低熱量需求"
+description: "計算你的基礎代謝率，了解身體維持基本功能所需的最低熱量，科學規劃飲食計畫。"
+category: health
+toolId: bmr-calculator
+toolPath: /tools/health/bmr-calculator
+publishedAt: 2026-05-11
+readingTime: 7
+---
 # BMR 基礎代謝率計算器完整指南：了解你每天最低熱量需求
 
 BMR（Basal Metabolic Rate，基礎代謝率）是身體在完全休息狀態下，為了維持呼吸、心跳、體溫、腦部活動與器官運作所需消耗的最低熱量。許多人在減重時只關心吃多少，卻忽略身體本身每天就需要一定能量。如果長期吃得過低，不但容易疲倦與飢餓，也可能降低訓練品質與飲食持續性。因此，BMR 是建立減脂、維持體重或增肌飲食計畫前非常重要的基礎數字。

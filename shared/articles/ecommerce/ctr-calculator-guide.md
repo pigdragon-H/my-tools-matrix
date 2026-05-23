@@ -1,3 +1,12 @@
+---
+title: "點擊率計算器完整指南：如何提升廣告 CTR 讓流量翻倍"
+description: "了解點擊率的計算方式與優化策略，用 CTR 計算器追蹤廣告效果並提升轉換率。"
+category: ecommerce
+toolId: ctr-calculator
+toolPath: /tools/ecommerce/ctr-calculator
+publishedAt: 2026-05-18
+readingTime: 8
+---
 # 點擊率計算器使用指南：掌握 CTR 計算，全面提升數位行銷與廣告優化成效
 
 ## 一、前言與定義

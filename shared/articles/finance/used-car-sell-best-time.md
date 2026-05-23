@@ -1,3 +1,12 @@
+---
+title: "中古車最佳賣車時機完整指南"
+description: "掌握中古車殘值高峰期，選對時機賣車讓你多拿回數萬元。"
+category: finance
+toolId: car-depreciation
+toolPath: /tools/finance/car-depreciation
+publishedAt: 2026-05-17
+readingTime: 8
+---
 # 中古車怎麼賣最划算？掌握殘值最高點的完整攻略
 
 **長尾關鍵字：** 中古車賣車時機、二手車殘值最高點、中古車出售攻略、台灣賣車最佳時機、中古車換車策略

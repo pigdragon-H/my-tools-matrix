@@ -1,3 +1,12 @@
+---
+title: "密碼產生器完整指南：如何產生真正安全的強密碼"
+description: "學習使用密碼產生器建立高強度隨機密碼，保護你的帳號安全不被駭客入侵。"
+category: dev
+toolId: password-generator
+toolPath: /tools/dev/password-generator
+publishedAt: 2026-05-20
+readingTime: 6
+---
 # 密碼產生器完整指南：建立更安全、難猜又可管理的密碼
 
 ## 定義

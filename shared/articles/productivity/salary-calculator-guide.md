@@ -1,3 +1,10 @@
+---
+title: "薪資計算器完整指南：月薪、時薪、年薪快速換算"
+description: "用薪資計算器快速換算月薪、時薪與年薪，了解你的實際時間價值。"
+category: productivity
+publishedAt: 2026-05-19
+readingTime: 6
+---
 # 薪資計算器完整指南：月薪、年薪、時薪如何換算
 
 ## 定義

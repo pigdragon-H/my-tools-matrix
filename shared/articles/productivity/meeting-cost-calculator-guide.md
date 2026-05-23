@@ -1,3 +1,10 @@
+---
+title: "會議成本計算器：看見每場會議真正花了多少錢"
+description: "用會議成本計算器量化每場會議的實際費用，幫助團隊提升會議效率減少時間浪費。"
+category: productivity
+publishedAt: 2026-05-19
+readingTime: 6
+---
 # 會議成本計算器完整指南：看見每場會議真正花掉多少錢
 
 ## 定義

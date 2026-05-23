@@ -1,3 +1,12 @@
+---
+title: "如何用 ROI 計算機找到最佳買入時機"
+description: "學習用投資報酬率計算器精準判斷買入時機，讓每一筆投資都更有把握。"
+category: finance
+toolId: roi-calculator
+toolPath: /tools/finance/roi-calculator
+publishedAt: 2026-05-14
+readingTime: 9
+---
 # 存股族必看：用 ROI 計算機找出最佳買點，讓報酬率翻倍
 
 **長尾關鍵字：** 存股最佳買點、高股息 ETF 買點、存股 ROI 計算、0056 買點分析、台股存股策略
