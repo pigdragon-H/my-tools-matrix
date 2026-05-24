@@ -341,3 +341,102 @@ https://github.com/pigdragon-H/my-tools-matrix/blob/main/docs/MASTER_CONTEXT.md
 ```
 
 這樣可以確認新視窗真的讀懂了文件！
+
+---
+
+## 15. AI Native Knowledge Infrastructure 宣言（2026-05-24）
+
+### 重大轉變
+
+Formula Universe 正式從「工具列表網站」進化為：
+
+**AI Native Knowledge Infrastructure**
+
+首頁不是 Landing Page，首頁是系統網關。
+工具不是孤立元件，工具是知識圖譜的節點。
+
+### 知識系統層次
+
+```
+User Intent
+→ Discovery
+→ Tool
+→ Formula
+→ Explanation
+→ Example
+→ Limitation
+→ Related Knowledge
+→ Journey
+→ Next Action
+```
+
+### 首頁 H12 渲染順序（已確定，不可隨意更改）
+
+| 順序 | Section | 說明 |
+|------|---------|------|
+| 1 | Hero | 系統入口宣言 |
+| 2 | Discovery | 搜尋與探索 |
+| 3 | Journey | 決策路徑 |
+| 4 | Knowledge | 知識節點 |
+| 5 | Clusters | 工具叢集 |
+| 6 | Guides | 深度指南 |
+| 7 | Trust | 信任建立 |
+| 8 | About | 系統說明 |
+| 9 | CTA | 行動呼籲 |
+| 10 | Footer | 頁腳 |
+
+這個順序是知識系統的入口邏輯，不是 UI 偏好。
+
+### 四層實施路徑
+
+```
+第一層（Blueprint）→ 第二層（靜態實現）→ 第三層（資料合約）→ 第四層（AI Native）
+```
+
+**現在處於第一層。**
+
+| 層次 | 內容 | 狀態 |
+|------|------|------|
+| 第一層 藍圖層 | HOMEPAGE_BLUEPRINT_PACKAGE 五份文件 | 🔄 進行中 |
+| 第二層 靜態層 | Hero + Journey + Clusters 靜態實現 | ⏳ 待執行 |
+| 第三層 資料合約層 | journeys.ts, clusters.ts, knowledgeNodes.ts | ⏳ 待執行 |
+| 第四層 AI Native | 語意搜尋、旅程推薦、知識圖譜 | 🔮 未來 |
+
+### 旅程系統（Journey System）
+
+旅程是 Formula Universe 與一般工具站最大的差異：
+
+```
+Retirement:   FIRE → CAGR → Retirement → Withdrawal
+Weight Loss:  BMI → BMR → Calories → Progress
+Developer:    JSON → API → Regex → Deploy
+AI:           Prompt → Token → Cost → Evaluation
+Travel:       Budget → Currency → Timezone → Itinerary
+```
+
+### 新增守則
+
+```
+No homepage change without Blueprint approval.
+No route or registry change unless explicitly authorized.
+No AI feature before knowledge structure exists.
+No commit/deploy unless Victor explicitly says so.
+```
+
+### 30 天現實目標（2026-05-24 起）
+
+1. ✅ HOMEPAGE_BLUEPRINT_PACKAGE 五份文件（SuperNinja 建立，Claude 審查）
+2. ⏳ 首頁靜態實現（Hero + Journey + Clusters）
+3. ⏳ 截圖驗收確認
+
+### HOMEPAGE_BLUEPRINT_PACKAGE 文件位置
+
+```
+docs/reviews/HOMEPAGE_BLUEPRINT_PACKAGE/
+  HOMEPAGE_VISUAL_BLUEPRINT.md
+  HOMEPAGE_COPY_SYSTEM.md
+  HOMEPAGE_COMPONENT_CONTRACT.md
+  HOMEPAGE_RENDER_ORDER.md
+  HOMEPAGE_ACCEPTANCE_CHECKLIST.md
+```
+
