@@ -1,4 +1,4 @@
-# HOMEPAGE_VISUAL_BLUEPRINT.md
+﻿# HOMEPAGE_VISUAL_BLUEPRINT.md
 
 ## Purpose
 
@@ -171,14 +171,14 @@ Clusters organize the universe by canonical taxonomy. This layer must respect th
 
 ### Required Tool Clusters
 
-- FIN — finance
-- HLT — health
-- DEV — dev
-- EDU — education
-- SCI — science
-- TRV — travel
-- PRD — productivity
-- AI — ai
+- finance
+- health
+- dev
+- education
+- science
+- travel
+- productivity
+- ai
 
 ### Card Count
 
