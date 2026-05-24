@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // ToolPage - /tools/:category/:toolName 工具容器頁
 // 根據路由參數動態渲染對應的計算工具組件
 // ============================================================
@@ -108,6 +108,11 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "dev/cron-generator": lazy(() => import("@/tools/dev/CronGenerator")),
   "dev/base64-encoder-decoder": lazy(() => import("@/tools/dev/Base64EncoderDecoder")),
   "dev/json-formatter": lazy(() => import("@/tools/dev/JsonFormatter")),
+  "dev/json-diff-checker": lazy(() => import("@/tools/dev/JsonDiffChecker")),
+  "dev/text-case-converter": lazy(() => import("@/tools/dev/TextCaseConverter")),
+  "dev/line-counter": lazy(() => import("@/tools/dev/LineCounter")),
+  "dev/css-variables-extractor": lazy(() => import("@/tools/dev/CssVariablesExtractor")),
+  "dev/number-base-converter": lazy(() => import("@/tools/dev/NumberBaseConverter")),
   "dev/json-minifier": lazy(() => import("@/tools/dev/JsonMinifier")),
   "dev/jwt-generator": lazy(() => import("@/tools/dev/JwtGenerator")),
   "dev/regex-generator": lazy(() => import("@/tools/dev/RegexGenerator")),
