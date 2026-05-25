@@ -1,5 +1,5 @@
 // ============================================================
-// Navbar - 全局導覽列（三層架構版本）
+// Navbar - 全局導航列（三層架構版本）
 // 導覽列絕對不平鋪工具名稱，採用「分類下拉選單」設計
 // ============================================================
 
@@ -44,18 +44,16 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
       <div className="container flex h-14 items-center justify-between">
         {/* ── Logo ──────────────────────────────────────────── */}
-        <Link href="/">
-          <div className="flex items-center gap-2 cursor-pointer select-none">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary">
-              <Layers className="h-4 w-4 text-primary-foreground" />
-            </div>
-            <span className="font-bold text-base tracking-tight">工具矩陣</span>
+        <Link href="/" aria-label="回到首頁" className="flex items-center gap-2 cursor-pointer select-none">
+          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary">
+            <Layers className="h-4 w-4 text-primary-foreground" />
           </div>
+          <span className="font-bold text-base tracking-tight">工具矩陣</span>
         </Link>
 
         {/* ── Desktop Nav ───────────────────────────────────── */}
         <nav className="hidden md:flex items-center gap-1">
-          {/* 工具分類下拉選單 - 核心導覽 */}
+          {/* 工具分類下拉選單 - 核心導航 */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -233,7 +231,7 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* ── Mobile Menu ───────────────────────────────────────── */}
+      {/* ── Mobile Menu ─────────────────────────────────────── */}
       {mobileOpen && (
         <div className="md:hidden border-t border-border bg-background">
           <div className="container py-4 space-y-1">

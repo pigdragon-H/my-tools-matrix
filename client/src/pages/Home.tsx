@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // Home - Formula Universe Homepage Activated
 // Static hardcoded homepage sections only.
 // No registry reads. No route changes. No deploy. No commit.
@@ -190,7 +190,7 @@ export default function Home() {
             <div className="max-w-3xl">
               <Badge variant="outline" className="mb-3">Journey</Badge>
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "你的決策路徑" : "Your decision paths"}</h2>
-              <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "每條路徑串連相關工具與公式，讓你從模糊問題走到清晰決策。" : "Each card is a static hardcoded knowledge path that establishes homepage semantics before future data wiring."}</p>
+              <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "每條路徑串連相關工具與公式，讓你從模糊問題走到清晰決策。" : "Each path connects tools and formulas to guide you from a vague question to a clear decision."}</p>
             </div>
             <LanguageToggle lang={lang} setLang={setLang} />
           </div>
@@ -274,3 +274,4 @@ export default function Home() {
     </div>
   );
 }
+
