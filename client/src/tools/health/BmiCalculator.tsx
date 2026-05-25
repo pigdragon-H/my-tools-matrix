@@ -1,305 +1,418 @@
-// ============================================================
-// BmiCalculator - /tools/health/bmi-calculator
-// BMI 計算機：含 WHO 標準分類與健康建議
-// ============================================================
+import { useMemo, useState } from "react";
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Scale, Calculator, BookOpen, ArrowRight, Loader2 } from "lucide-react";
-import { Link } from "wouter";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { trpc } from "@/lib/trpc";
+type UnitSystem = "metric" | "imperial";
+type BmiCategory = "underweight" | "normal" | "overweight" | "obesity1" | "obesity2" | "obesity3";
 
-const formSchema = z.object({
-  height: z
-    .string()
-    .min(1, "請輸入身高")
-    .refine((v) => !isNaN(Number(v)) && Number(v) >= 50 && Number(v) <= 250, "身高請輸入 50～250 cm"),
-  weight: z
-    .string()
-    .min(1, "請輸入體重")
-    .refine((v) => !isNaN(Number(v)) && Number(v) >= 10 && Number(v) <= 300, "體重請輸入 10～300 kg"),
-  gender: z.enum(["male", "female"]),
-  age: z
-    .string()
-    .min(1, "請輸入年齡")
-    .refine((v) => !isNaN(Number(v)) && Number(v) >= 2 && Number(v) <= 120, "年齡請輸入 2～120 歲"),
-});
-
-type FormValues = z.infer<typeof formSchema>;
-
-interface BmiCategory {
+type CategoryInfo = {
+  key: BmiCategory;
   label: string;
-  color: string;
-  bgColor: string;
-  advice: string;
-  min: number;
-  max: number;
-}
+  range: string;
+  band: string;
+  tone: string;
+  meaning: string;
+  risks: string;
+  actions: string;
+  nextTool: string;
+  tools: string[];
+};
 
-const BMI_CATEGORIES: BmiCategory[] = [
-  { label: "體重過輕", color: "text-blue-500", bgColor: "bg-blue-500", advice: "建議增加熱量攝取與重量訓練，並諮詢營養師", min: 0, max: 18.5 },
-  { label: "正常體重", color: "text-emerald-500", bgColor: "bg-emerald-500", advice: "維持現有飲食與運動習慣，定期健康檢查", min: 18.5, max: 24 },
-  { label: "過重", color: "text-yellow-500", bgColor: "bg-yellow-500", advice: "建議控制飲食熱量，增加有氧運動頻率", min: 24, max: 27 },
-  { label: "輕度肥胖", color: "text-orange-500", bgColor: "bg-orange-500", advice: "建議就醫評估，制定減重計畫，避免慢性病風險", min: 27, max: 30 },
-  { label: "中度肥胖", color: "text-red-500", bgColor: "bg-red-500", advice: "強烈建議就醫，可能需要醫療介入協助減重", min: 30, max: 35 },
-  { label: "重度肥胖", color: "text-red-700", bgColor: "bg-red-700", advice: "請立即就醫，評估手術或藥物治療方案", min: 35, max: Infinity },
+const categoryInfo: CategoryInfo[] = [
+  {
+    key: "underweight",
+    label: "Underweight",
+    range: "Below 18.5",
+    band: "Low BMI band",
+    tone: "from-sky-400 via-sky-300 to-slate-200",
+    meaning: "Weight may be low relative to height for standard adult BMI categories.",
+    risks: "Possible undernutrition, fatigue, reduced resilience, or unintended weight loss context. BMI does not diagnose these conditions.",
+    actions: "Review nutrition, recent weight change, appetite, activity, and symptoms. Seek professional guidance if low BMI is unexplained or persistent.",
+    nextTool: "BMR Calculator",
+    tools: ["BMR Calculator", "Calories Calculator", "Ideal Weight Guide"],
+  },
+  {
+    key: "normal",
+    label: "Normal",
+    range: "18.5–24.9",
+    band: "Healthy screening band",
+    tone: "from-emerald-500 via-lime-300 to-yellow-200",
+    meaning: "BMI is within the standard adult healthy weight screening range.",
+    risks: "Population-level risk is generally lower, but BMI does not guarantee metabolic health or ideal body composition.",
+    actions: "Maintain balanced nutrition, movement, sleep, hydration, and preventive care. Use body composition tools for deeper context.",
+    nextTool: "TDEE Calculator",
+    tools: ["TDEE Calculator", "Body Fat Calculator", "Water Intake Calculator"],
+  },
+  {
+    key: "overweight",
+    label: "Overweight",
+    range: "25.0–29.9",
+    band: "Elevated BMI band",
+    tone: "from-yellow-300 via-orange-300 to-orange-500",
+    meaning: "Weight may be above the standard healthy range for height.",
+    risks: "May be associated with higher cardiometabolic risk, depending on body composition and fat distribution.",
+    actions: "Check BMR, TDEE, calorie planning, waist ratio, and body fat context before making weight-management decisions.",
+    nextTool: "BMR Calculator",
+    tools: ["BMR Calculator", "TDEE Calculator", "Calories Calculator", "Body Fat Calculator"],
+  },
+  {
+    key: "obesity1",
+    label: "Obesity I",
+    range: "30.0–34.9",
+    band: "High BMI band",
+    tone: "from-orange-400 via-red-400 to-red-600",
+    meaning: "BMI falls into Obesity Class I for adults.",
+    risks: "Associated at population level with increased likelihood of hypertension, insulin resistance, sleep apnea, and joint stress.",
+    actions: "Consider professional guidance and use BMR, TDEE, and body composition tools for context.",
+    nextTool: "BMR Calculator",
+    tools: ["TDEE Calculator", "Calories Calculator", "Body Fat Calculator"],
+  },
+  {
+    key: "obesity2",
+    label: "Obesity II",
+    range: "35.0–39.9",
+    band: "Very high BMI band",
+    tone: "from-red-500 via-rose-600 to-purple-700",
+    meaning: "BMI falls into Obesity Class II for adults.",
+    risks: "Associated with higher population-level weight-related health risks.",
+    actions: "Professional assessment is recommended before major lifestyle or weight-management changes.",
+    nextTool: "TDEE Calculator",
+    tools: ["BMR Calculator", "TDEE Calculator", "Calories Calculator", "Body Fat Calculator"],
+  },
+  {
+    key: "obesity3",
+    label: "Obesity III",
+    range: "40.0 and above",
+    band: "Highest BMI band",
+    tone: "from-red-700 via-purple-800 to-slate-950",
+    meaning: "BMI falls into Obesity Class III for adults.",
+    risks: "Associated with very high population-level weight-related health risk.",
+    actions: "Seek qualified medical guidance. Calculators can provide context but should not replace professional care.",
+    nextTool: "Clinical guidance + BMR Calculator",
+    tools: ["BMR Calculator", "TDEE Calculator", "Body Fat Calculator"],
+  },
 ];
 
-function getBmiCategory(bmi: number): BmiCategory {
-  return BMI_CATEGORIES.find((c) => bmi >= c.min && bmi < c.max) ?? BMI_CATEGORIES[BMI_CATEGORIES.length - 1];
+const faqItems = [
+  ["Is BMI a diagnosis?", "No. BMI is a screening tool and does not diagnose health status, disease, or body fat percentage."],
+  ["What is a healthy BMI?", "For most adults, 18.5–24.9 is commonly categorized as the healthy BMI range."],
+  ["Can athletes have misleading BMI?", "Yes. High muscle mass can raise BMI even when body fat is not elevated."],
+  ["Is BMI valid for children?", "Children and teens need age- and sex-specific percentile interpretation, not adult categories."],
+  ["Can BMI be used during pregnancy?", "Pregnancy requires clinical context. Standard adult BMI interpretation is not enough."],
+  ["What should I check after BMI?", "BMR, TDEE, Calories, Body Fat, and waist-based metrics can provide more context."],
+];
+
+const adultMaleExampleBmi = 70 / (1.75 * 1.75);
+
+function getCategory(bmi: number): CategoryInfo {
+  if (bmi < 18.5) return categoryInfo[0];
+  if (bmi < 25) return categoryInfo[1];
+  if (bmi < 30) return categoryInfo[2];
+  if (bmi < 35) return categoryInfo[3];
+  if (bmi < 40) return categoryInfo[4];
+  return categoryInfo[5];
 }
 
-// 理想體重範圍（BMI 18.5～24）
-function getIdealWeightRange(heightCm: number): { min: number; max: number } {
-  const h = heightCm / 100;
-  return { min: Math.round(18.5 * h * h * 10) / 10, max: Math.round(24 * h * h * 10) / 10 };
-}
-
-// BMI 進度條位置（0～40+ 映射到 0～100）
-function bmiToProgress(bmi: number): number {
-  return Math.min(100, Math.max(0, (bmi / 40) * 100));
+function formatBmi(value: number): string {
+  return Number.isFinite(value) ? value.toFixed(1) : "—";
 }
 
 export default function BmiCalculator() {
-  const [result, setResult] = useState<{
-    bmi: number;
-    category: BmiCategory;
-    idealRange: { min: number; max: number };
-    weightToIdeal: number;
-  } | null>(null);
-  const [isCalculating, setIsCalculating] = useState(false);
-  const saveResult = trpc.tools.saveResult.useMutation();
-  const { data: relatedArticles } = trpc.blog.listByCategory.useQuery({ category: "health" });
+  const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric");
+  const [heightCm, setHeightCm] = useState("175");
+  const [weightKg, setWeightKg] = useState("70");
+  const [feet, setFeet] = useState("5");
+  const [inches, setInches] = useState("9");
+  const [pounds, setPounds] = useState("154");
 
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: { height: "170", weight: "65", gender: "male", age: "30" },
-  });
+  const calculation = useMemo(() => {
+    if (unitSystem === "metric") {
+      const heightM = Number(heightCm) / 100;
+      const weight = Number(weightKg);
+      if (!heightM || !weight || heightM <= 0 || weight <= 0) return null;
+      const bmi = weight / (heightM * heightM);
+      return { bmi, category: getCategory(bmi) };
+    }
 
-  function onSubmit(values: FormValues) {
-    setIsCalculating(true);
-    setTimeout(() => {
-      const h = Number(values.height) / 100;
-      const w = Number(values.weight);
-      const bmi = w / (h * h);
-      const bmiRounded = Math.round(bmi * 10) / 10;
-      const category = getBmiCategory(bmiRounded);
-      const idealRange = getIdealWeightRange(Number(values.height));
-      const weightToIdeal = w < idealRange.min ? idealRange.min - w : w > idealRange.max ? w - idealRange.max : 0;
+    const totalInches = Number(feet) * 12 + Number(inches);
+    const weight = Number(pounds);
+    if (!totalInches || !weight || totalInches <= 0 || weight <= 0) return null;
+    const bmi = (703 * weight) / (totalInches * totalInches);
+    return { bmi, category: getCategory(bmi) };
+  }, [feet, heightCm, inches, pounds, unitSystem, weightKg]);
 
-      setResult({ bmi: bmiRounded, category, idealRange, weightToIdeal });
-      setIsCalculating(false);
-      saveResult.mutate({
-        toolId: "bmi-calculator",
-        category: "health",
-        inputParams: { height: Number(values.height), weight: w, gender: values.gender, age: Number(values.age) },
-        result: { bmi: bmiRounded, category: category.label },
-      });
-    }, 200);
+  const activeCategory = calculation?.category ?? categoryInfo[1];
+  const activeBmi = calculation?.bmi;
+  const goalBmi = 23;
+  const currentMetricHeightM = Number(heightCm) / 100;
+  const goalWeightKg = currentMetricHeightM > 0 ? goalBmi * currentMetricHeightM * currentMetricHeightM : null;
+  const currentWeightKg = unitSystem === "metric" ? Number(weightKg) : Number(pounds) * 0.45359237;
+  const neededWeightChangeKg = goalWeightKg && currentWeightKg > 0 ? goalWeightKg - currentWeightKg : null;
+  const neededWeightDisplay = neededWeightChangeKg ? `${neededWeightChangeKg > 0 ? "+" : ""}${Math.round(neededWeightChangeKg)}kg` : "—";
+
+  function fillAdultMaleExample() {
+    setUnitSystem("metric");
+    setHeightCm("175");
+    setWeightKg("70");
+  }
+
+  function fillHighBmiExample() {
+    setUnitSystem("metric");
+    setHeightCm("170");
+    setWeightKg("88");
   }
 
   return (
-    <div className="container py-8 max-w-4xl">
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="rounded-lg bg-teal-100 dark:bg-teal-900/30 p-2">
-            <Scale className="h-6 w-6 text-teal-600 dark:text-teal-400" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold md:text-3xl">BMI 計算機</h1>
-            <p className="text-muted-foreground text-sm mt-0.5">
-              依台灣衛福部標準分類，提供個人化健康建議
-            </p>
+    <main className="min-h-screen bg-slate-950 text-slate-950">
+      <section className="bg-[radial-gradient(circle_at_top_left,_#dbeafe,_#f8fafc_45%,_#eef2ff)]">
+        <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+            <section className="space-y-6">
+              <p className="text-sm font-black uppercase tracking-[0.24em] text-blue-700">Health · Biometrics · Gold Tool</p>
+              <h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">BMI 計算機・完整健康評估</h1>
+              <p className="text-xl font-black text-blue-700">BMI Calculator guided experience</p>
+              <p className="max-w-2xl text-lg leading-8 text-slate-700">
+                透過 BMI 作為健康篩檢起點，快速計算身體質量指數、理解風險訊號，並延伸到 BMR、TDEE、熱量與體脂等下一步工具。Move through BMI as a guided health screening flow: start with a quick example, calculate your score, understand the risk signal, and continue to the most useful next tool.
+              </p>
+              <div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950">
+                <strong>Trust note:</strong> BMI is a screening tool, not a diagnosis. It does not directly measure body fat, athletic body composition, pregnancy context, or child percentile status.
+              </div>
+            </section>
+
+            <aside className="rounded-[2rem] border border-blue-100 bg-white/90 p-6 shadow-2xl shadow-blue-950/10 backdrop-blur">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-700">Quick Action Card</p>
+                  <h2 className="mt-2 text-2xl font-black">Try a common adult example</h2>
+                </div>
+                <div className="rounded-2xl bg-blue-600 px-4 py-3 text-center text-white">
+                  <div className="text-xs font-bold uppercase text-blue-100">BMI preview</div>
+                  <div className="text-3xl font-black">{formatBmi(adultMaleExampleBmi)}</div>
+                </div>
+              </div>
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">Example</div><div className="mt-1 text-lg font-black">Adult male</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">Weight</div><div className="mt-1 text-lg font-black">70kg</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">Height</div><div className="mt-1 text-lg font-black">175cm</div></div>
+              </div>
+              <button onClick={fillAdultMaleExample} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white transition hover:bg-blue-700">
+                One-click fill adult male example
+              </button>
+              <button onClick={fillHighBmiExample} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900 transition hover:bg-orange-100">
+                Preview high BMI decision path
+              </button>
+            </aside>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <Card>
-          <CardHeader className="pb-4">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Calculator className="h-4 w-4" />
-              輸入身體數據
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="height"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>身高（cm）</FormLabel>
-                        <FormControl><Input placeholder="例：170" {...field} inputMode="decimal" /></FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="weight"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>體重（kg）</FormLabel>
-                        <FormControl><Input placeholder="例：65" {...field} inputMode="decimal" /></FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+      <div className="bg-slate-50">
+        <div className="mx-auto max-w-7xl space-y-7 px-4 py-8 md:px-8">
+          <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+            <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">Examples → Calculator</p>
+                <h2 className="mt-2 text-3xl font-black">Enter or fill values</h2>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">The prototype keeps examples close to the calculator so users can start fast, then edit inputs without losing context.</p>
+              </div>
+              <div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-2">
+                <button className={`rounded-xl px-4 py-3 text-sm font-black ${unitSystem === "metric" ? "bg-blue-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnitSystem("metric")}>Metric</button>
+                <button className={`rounded-xl px-4 py-3 text-sm font-black ${unitSystem === "imperial" ? "bg-blue-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnitSystem("imperial")}>Imperial</button>
+              </div>
+            </div>
+
+            <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                <h3 className="text-lg font-black">Example cards</h3>
+                <div className="mt-4 space-y-3">
+                  <button onClick={fillAdultMaleExample} className="w-full rounded-2xl border border-blue-200 bg-white p-4 text-left transition hover:border-blue-500">
+                    <div className="flex items-center justify-between gap-3"><span className="font-black">Adult male</span><span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">BMI {formatBmi(adultMaleExampleBmi)}</span></div>
+                    <p className="mt-2 text-sm text-slate-600">70kg · 175cm · one-click fill allowed</p>
+                  </button>
+                  <button onClick={fillHighBmiExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500">
+                    <div className="flex items-center justify-between gap-3"><span className="font-black">High BMI path demo</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">Flow demo</span></div>
+                    <p className="mt-2 text-sm text-slate-600">88kg · 170cm · shows BMR → TDEE → Calories path.</p>
+                  </button>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="gender"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>性別</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl><SelectTrigger><SelectValue /></SelectTrigger></FormControl>
-                          <SelectContent>
-                            <SelectItem value="male">男性</SelectItem>
-                            <SelectItem value="female">女性</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="age"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>年齡（歲）</FormLabel>
-                        <FormControl><Input placeholder="例：30" {...field} inputMode="numeric" /></FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <Button type="submit" className="w-full gap-2" disabled={isCalculating}>
-                  {isCalculating ? (
-                    <><Loader2 className="h-4 w-4 animate-spin" />計算中...</>
+              </div>
+
+              <div className="rounded-3xl border border-slate-200 bg-white p-5">
+                <h3 className="text-lg font-black">Calculator</h3>
+                <div className="mt-4 grid gap-4 md:grid-cols-2">
+                  {unitSystem === "metric" ? (
+                    <>
+                      <label className="block text-sm font-black text-slate-700">Height (cm)<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={heightCm} onChange={(e) => setHeightCm(e.target.value)} /></label>
+                      <label className="block text-sm font-black text-slate-700">Weight (kg)<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={weightKg} onChange={(e) => setWeightKg(e.target.value)} /></label>
+                    </>
                   ) : (
-                    <><Calculator className="h-4 w-4" />計算 BMI</>
+                    <>
+                      <label className="block text-sm font-black text-slate-700">Feet<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={feet} onChange={(e) => setFeet(e.target.value)} /></label>
+                      <label className="block text-sm font-black text-slate-700">Inches<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={inches} onChange={(e) => setInches(e.target.value)} /></label>
+                      <label className="block text-sm font-black text-slate-700 md:col-span-2">Weight (lb)<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={pounds} onChange={(e) => setPounds(e.target.value)} /></label>
+                    </>
                   )}
-                </Button>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-4">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Scale className="h-4 w-4" />
-              BMI 結果
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {!result ? (
-              <div className="flex h-48 items-center justify-center rounded-lg border border-dashed border-border">
-                <div className="text-center">
-                  <Scale className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
-                  <p className="text-sm text-muted-foreground">輸入身體數據後點擊「計算 BMI」</p>
                 </div>
               </div>
-            ) : (
-              <div className="space-y-5">
-                {/* BMI 數值 */}
-                <div className="text-center py-4">
-                  <div className={`text-5xl font-black ${result.category.color}`}>{result.bmi}</div>
-                  <Badge className={`mt-2 ${result.category.bgColor} text-white border-0`}>{result.category.label}</Badge>
-                </div>
+            </div>
+          </section>
 
-                {/* 進度條 */}
-                <div className="space-y-2">
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>過輕 &lt;18.5</span>
-                    <span>正常 18.5-24</span>
-                    <span>肥胖 &gt;27</span>
+          <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">
+            <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
+              <div className={`h-5 bg-gradient-to-r ${activeCategory.tone}`} aria-label="Color band placeholder" />
+              <div className="p-6 md:p-7">
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">Result Card</p>
+                <div className="mt-4 flex items-start justify-between gap-5">
+                  <div>
+                    <div className="text-7xl font-black tracking-tight text-slate-950">{activeBmi ? formatBmi(activeBmi) : "—"}</div>
+                    <div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{activeBmi ? activeCategory.label : "Enter valid values"}</div>
                   </div>
-                  <Progress value={bmiToProgress(result.bmi)} className="h-3" />
+                  <div className="rounded-3xl bg-slate-950 p-4 text-right text-white">
+                    <div className="text-xs font-bold uppercase text-slate-300">Status</div>
+                    <div className="mt-1 text-xl font-black">{activeCategory.range}</div>
+                    <div className="mt-1 text-xs text-slate-300">{activeCategory.band}</div>
+                  </div>
                 </div>
-
-                <Separator />
-
-                {/* 詳細資訊 */}
-                <div className="space-y-3">
-                  {[
-                    { label: "您的 BMI 值", value: result.bmi.toString(), color: result.category.color },
-                    { label: "理想體重範圍", value: `${result.idealRange.min} ～ ${result.idealRange.max} kg`, color: "text-emerald-500" },
-                    {
-                      label: result.weightToIdeal > 0 ? (result.bmi < 18.5 ? "需增重" : "需減重") : "體重狀態",
-                      value: result.weightToIdeal > 0 ? `約 ${result.weightToIdeal.toFixed(1)} kg` : "在理想範圍內",
-                      color: result.weightToIdeal > 0 ? "text-amber-500" : "text-emerald-500",
-                    },
-                  ].map(({ label, value, color }) => (
-                    <div key={label} className="flex justify-between items-center">
-                      <span className="text-xs text-muted-foreground">{label}</span>
-                      <span className={`text-sm font-bold ${color}`}>{value}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <Separator />
-
-                {/* 健康建議 */}
-                <div className="rounded-lg bg-muted/50 p-3">
-                  <p className="text-xs font-medium text-muted-foreground mb-1">健康建議</p>
-                  <p className="text-sm">{result.category.advice}</p>
-                </div>
-
-                {/* BMI 分類表 */}
-                <div className="space-y-1.5">
-                  <p className="text-xs font-medium text-muted-foreground">台灣衛福部 BMI 分類標準</p>
-                  {BMI_CATEGORIES.map((c) => (
-                    <div key={c.label} className={`flex justify-between items-center text-xs px-2 py-1 rounded ${result.category.label === c.label ? "bg-muted font-semibold" : ""}`}>
-                      <span className={c.color}>{c.label}</span>
-                      <span className="text-muted-foreground">
-                        {c.max === Infinity ? `≥ ${c.min}` : `${c.min} ～ ${c.max}`}
-                      </span>
-                    </div>
-                  ))}
+                <div className="mt-6 grid gap-4 md:grid-cols-3">
+                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">Risk summary</div><p className="mt-2 text-sm leading-6 text-slate-700">{activeCategory.risks}</p></div>
+                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">Recommended action</div><p className="mt-2 text-sm leading-6 text-slate-700">{activeCategory.actions}</p></div>
+                  <div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">Related next tool</div><p className="mt-2 text-base font-black text-blue-950">{activeCategory.nextTool}</p></div>
                 </div>
               </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+            </article>
 
-      {relatedArticles && relatedArticles.length > 0 && (
-        <div className="mt-10">
-          <Separator className="mb-6" />
-          <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <BookOpen className="h-5 w-5 text-primary" />
-            相關知識文章
-          </h2>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {relatedArticles.slice(0, 3).map((article) => (
-              <Link key={article.id} href={`/blog/${article.category}/${article.id}`}>
-                <div className="group rounded-lg border border-border p-4 hover:border-primary/50 hover:shadow-sm transition-all cursor-pointer">
-                  <Badge variant="secondary" className="text-xs mb-2">健康</Badge>
-                  <p className="text-sm font-medium leading-snug group-hover:text-primary transition-colors line-clamp-2">{article.title}</p>
-                  <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">閱讀文章 <ArrowRight className="h-3 w-3" /></p>
+            <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">Result Intelligence</p>
+              <h2 className="mt-2 text-3xl font-black">Interpret the category before acting</h2>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {categoryInfo.map((item) => (
+                  <div key={item.key} className={`rounded-2xl border p-4 ${item.key === activeCategory.key ? "border-blue-500 bg-blue-50 shadow-sm" : "border-slate-200 bg-slate-50"}`}>
+                    <div className="flex items-center justify-between gap-3"><h3 className="font-black">{item.label}</h3><span className="text-xs font-black text-slate-500">{item.range}</span></div>
+                    <p className="mt-2 text-sm leading-6 text-slate-700">{item.meaning}</p>
+                  </div>
+                ))}
+              </div>
+            </article>
+          </section>
+
+          <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-blue-50 p-6 shadow-sm md:p-7">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">Emotion + Conversion Layer</p>
+            <h2 className="mt-2 text-3xl font-black">Turn the BMI result into a health journey</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">This prototype layer adds retention and conversion prompts after the result without implementing save, share, account, or navigation behavior.</p>
+
+            <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">
+              <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">Progress Insight Card</p>
+                    <h3 className="mt-2 text-2xl font-black">Your possible progress target</h3>
+                  </div>
+                  <div className="rounded-2xl bg-slate-950 px-4 py-3 text-right text-white">
+                    <div className="text-xs font-bold uppercase text-slate-300">Timeline</div>
+                    <div className="text-sm font-black">Estimated timeline placeholder</div>
+                  </div>
                 </div>
-              </Link>
-            ))}
-          </div>
+                <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">Current BMI</div><div className="mt-1 text-3xl font-black">{activeBmi ? formatBmi(activeBmi) : "—"}</div></div>
+                  <div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">Goal</div><div className="mt-1 text-3xl font-black text-blue-950">23</div></div>
+                  <div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">Needed</div><div className="mt-1 text-3xl font-black text-emerald-950">{neededWeightDisplay}</div></div>
+                </div>
+                <p className="mt-4 text-sm leading-6 text-slate-600">Needed weight is a prototype estimate based on the current height and a goal BMI of 23. It is not a medical recommendation.</p>
+              </article>
+
+              <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">Motivation Card</p>
+                <h3 className="mt-2 text-2xl font-black">Keep momentum after the score</h3>
+                <div className="mt-5 rounded-2xl bg-pink-50 p-4">
+                  <div className="text-xs font-black uppercase text-pink-700">Target BMI range</div>
+                  <div className="mt-1 text-3xl font-black text-pink-950">18.5–24.9</div>
+                </div>
+                <div className="mt-4 grid grid-cols-2 gap-3">
+                  {["BMR", "TDEE", "Calories", "Weight Loss"].map((tool) => (
+                    <div key={tool} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{tool}</div>
+                  ))}
+                </div>
+              </article>
+            </div>
+
+            <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.55fr]">
+              <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">Health Journey</p>
+                <div className="mt-4 grid gap-3 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">
+                  {["Current", "BMI", "BMR", "Calories", "Progress"].map((node, index) => (
+                    <div key={node} className="contents">
+                      <div className={`rounded-2xl border p-4 text-center ${index === 4 ? "border-emerald-300 bg-emerald-50" : "border-blue-200 bg-blue-50"}`}>
+                        <div className="text-xs font-black uppercase text-slate-500">{index === 0 ? "Start" : `Step ${index}`}</div>
+                        <div className="mt-1 text-lg font-black">{node}</div>
+                      </div>
+                      {index < 4 && <div className="hidden text-2xl font-black text-slate-300 md:block">→</div>}
+                    </div>
+                  ))}
+                </div>
+              </article>
+
+              <article className="rounded-3xl border border-dashed border-slate-300 bg-white/80 p-5 shadow-sm">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-500">Save / Share placeholder</p>
+                <h3 className="mt-2 text-xl font-black">Save this result or share the journey</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">UI placeholder only. No account, storage, sharing, or export implementation is included in this prototype.</p>
+                <div className="mt-4 grid grid-cols-2 gap-3">
+                  <button type="button" className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">Save UI</button>
+                  <button type="button" className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-black text-slate-700">Share UI</button>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">Decision Path</p>
+            <h2 className="mt-2 text-3xl font-black">If BMI is high, continue through the energy path</h2>
+            <div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">
+              {["BMI high", "BMR", "TDEE", "Calories"].map((node, index) => (
+                <div key={node} className="contents">
+                  <div className={`rounded-3xl border p-5 text-center ${index === 0 ? "border-orange-300 bg-orange-50" : "border-blue-200 bg-blue-50"}`}>
+                    <div className="text-xs font-black uppercase text-slate-500">Step {index + 1}</div>
+                    <div className="mt-1 text-xl font-black">{node}</div>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">{index === 0 ? "Screening signal" : index === 1 ? "Resting energy" : index === 2 ? "Daily needs" : "Plan intake"}</p>
+                  </div>
+                  {index < 3 && <div className="hidden text-3xl font-black text-slate-300 md:block">→</div>}
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="grid gap-7 lg:grid-cols-[1fr_0.9fr]">
+            <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">Knowledge</p>
+              <h2 className="mt-2 text-3xl font-black">What BMI means in the Health universe</h2>
+              <div className="mt-5 grid gap-4 md:grid-cols-3">
+                <div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">Definition</h3><p className="mt-2 text-sm leading-6 text-slate-700">BMI compares adult weight with height using weight divided by squared height.</p></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">Limitations</h3><p className="mt-2 text-sm leading-6 text-slate-700">BMI does not measure body fat, muscle mass, fat distribution, pregnancy status, or child percentile status.</p></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">Semantic neighbors</h3><p className="mt-2 text-sm leading-6 text-slate-700">BMR, TDEE, Calories, Body Fat, Water Intake, and Waist Ratio expand the result context.</p></div>
+              </div>
+              <pre className="mt-5 rounded-3xl bg-slate-950 p-5 text-sm leading-7 text-slate-100">Metric: BMI = weight(kg) / height(m)²{"\n"}Imperial: BMI = 703 × weight(lb) / height(in)²</pre>
+            </article>
+
+            <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">FAQ</p>
+              <h2 className="mt-2 text-3xl font-black">Common questions</h2>
+              <div className="mt-5 space-y-3">
+                {faqItems.slice(0, 5).map(([q, a]) => (
+                  <details key={q} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <summary className="cursor-pointer font-black">{q}</summary>
+                    <p className="mt-2 text-sm leading-6 text-slate-700">{a}</p>
+                  </details>
+                ))}
+              </div>
+            </article>
+          </section>
+
+          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">Trust · Related Tools · References</p>
+            <div className="mt-4 grid gap-5 md:grid-cols-3">
+              <div><h2 className="text-xl font-black">Trust</h2><p className="mt-2 text-sm leading-6 text-slate-700">References should include WHO, CDC, and NIH. BMI is a screening metric, not a diagnosis or medical treatment recommendation.</p></div>
+              <div><h2 className="text-xl font-black">Related Tools</h2><p className="mt-2 text-sm leading-6 text-slate-700">BMR · TDEE · Calories · Body Fat · Water Intake · Waist Ratio</p></div>
+              <div><h2 className="text-xl font-black">References</h2><p className="mt-2 text-sm leading-6 text-slate-700">WHO classification context, CDC BMI screening guidance, and NIH health risk context.</p></div>
+            </div>
+          </section>
         </div>
-      )}
-    </div>
+      </div>
+    </main>
   );
 }
