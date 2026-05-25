@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 // Home - Formula Universe Homepage Activated
 // Static hardcoded homepage sections only.
 // No registry reads. No route changes. No deploy. No commit.
@@ -9,6 +9,7 @@ import { Link } from "wouter";
 import { animate, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
+  ArrowUp,
   BarChart3,
   Binary,
   Brain,
@@ -148,10 +149,22 @@ function CountUpStat({ stat }: { stat: StatItem }) {
 
 export default function Home() {
   const [lang, setLang] = useState<Lang>("zh");
+  const [showBackToTop, setShowBackToTop] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     setSeoMeta(defaultSeo);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const sectionMotion = prefersReducedMotion ? {} : { initial: { opacity: 0, y: 18 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, amount: 0.2 }, transition: { duration: 0.45 } };
@@ -190,7 +203,7 @@ export default function Home() {
             <div className="max-w-3xl">
               <Badge variant="outline" className="mb-3">Journey</Badge>
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "你的決策路徑" : "Your decision paths"}</h2>
-              <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "每條路徑串連相關工具與公式，讓你從模糊問題走到清晰決策。" : "Each path connects tools and formulas to guide you from a vague question to a clear decision."}</p>
+              <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "每張卡片都是靜態 hardcode 的知識路徑，先建立首頁語義與視覺，再等待未來資料層接入。" : "Each card is a static hardcoded knowledge path that establishes homepage semantics before future data wiring."}</p>
             </div>
             <LanguageToggle lang={lang} setLang={setLang} />
           </div>
@@ -245,7 +258,8 @@ export default function Home() {
           </div>
         </div>
       </motion.section>
-{showBackToTop && (
+
+      {showBackToTop && (
         <button
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
@@ -284,4 +298,3 @@ export default function Home() {
     </div>
   );
 }
-
