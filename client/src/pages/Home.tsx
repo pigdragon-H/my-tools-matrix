@@ -245,6 +245,16 @@ export default function Home() {
           </div>
         </div>
       </motion.section>
+{showBackToTop && (
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-opacity hover:opacity-90"
+          aria-label="回到頂部"
+        >
+          <ArrowUp className="h-5 w-5" />
+        </button>
+      )}
 
       <footer className="border-t border-border bg-slate-950 text-slate-100">
         <div className="container py-12 md:py-16">
