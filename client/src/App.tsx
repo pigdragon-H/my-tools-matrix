@@ -5,7 +5,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { Navbar } from "./components/Navbar";
-import Home from "./pages/Home";
+import Home from "./pages/Home/index";
 import CategoryPage from "./pages/CategoryPage";
 import ToolPage from "./pages/ToolPage";
 import BlogList from "./pages/BlogList";
