@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { defaultSeo, setSeoMeta } from "@/lib/seo";
 import zh from "./locales/zh";
 import en from "./locales/en";
@@ -103,16 +104,17 @@ const clusterCards: ClusterCard[] = [
   { websiteKey: "ai", title: { zh: "ai｜AI 工具", en: "ai | AI Tools" }, description: { zh: "提示詞、Token、成本、評估與 AI 工作流。", en: "Prompts, tokens, cost, evaluation, and AI workflows." }, href: "/tools/ai" },
 ];
 
-const footerCategories = [
-  { label: "財經投資", href: "/tools/finance" },
-  { label: "健康生活", href: "/tools/health" },
-  { label: "開發工具", href: "/tools/dev" },
-  { label: "職場效率", href: "/tools/productivity" },
-  { label: "教育學習", href: "/tools/education" },
-  { label: "科學工程", href: "/tools/science" },
-  { label: "電商零售", href: "/tools/ecommerce" },
-  { label: "旅遊地理", href: "/tools/travel" },
-];
+// Footer categories - will use t object for i18n in component
+const footerCategoryLinks = [
+  { key: "footerFinance" as const, href: "/tools/finance" },
+  { key: "footerHealth" as const, href: "/tools/health" },
+  { key: "footerDev" as const, href: "/tools/dev" },
+  { key: "footerProductivity" as const, href: "/tools/productivity" },
+  { key: "footerEducation" as const, href: "/tools/education" },
+  { key: "footerScience" as const, href: "/tools/science" },
+  { key: "footerEcommerce" as const, href: "/tools/ecommerce" },
+  { key: "footerTravel" as const, href: "/tools/travel" },
+]
 
 function LanguageToggle({ lang, setLang }: { lang: Lang; setLang: (lang: Lang) => void }) {
   return (
@@ -257,6 +259,13 @@ export default function Home() {
         </div>
       </motion.section>
 
+      {/* AdSense Ads */}
+      <div className="border-b border-border bg-background py-6">
+        <div className="container">
+          <AdSenseWrapper showAds={true} adFormat="horizontal" />
+        </div>
+      </div>
+
       <motion.section className="border-b border-border bg-muted/20" {...sectionMotion}>
         <div className="container py-16 md:py-20">
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -271,6 +280,20 @@ export default function Home() {
           </div>
         </div>
       </motion.section>
+
+      {/* Affiliate Marketing Section */}
+      <div className="border-b border-border bg-amber-50 dark:bg-amber-950/20 py-8 md:py-10">
+        <div className="container">
+          <div className="rounded-2xl border border-amber-200 bg-white dark:bg-slate-900 p-6 md:p-8">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 dark:text-amber-400">{lang === "zh" ? "推薦商品" : "Recommended"}</p>
+            <h3 className="mt-2 text-2xl font-black">{lang === "zh" ? "配合工具使用的健康相關商品" : "Health products to complement your tools"}</h3>
+            <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+              {[{zh: "智能體重計", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-tracker"}, {zh: "營養補充品", en: "Supplements", href: "#affiliate-supplements"}, {zh: "健康書籍", en: "Health Books", href: "#affiliate-books"}].map((item) => (<a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100 dark:bg-amber-900/30 dark:text-amber-100 dark:hover:bg-amber-900/50">{lang === "zh" ? item.zh : item.en}</a>))}
+            </div>
+            <p className="mt-4 text-xs text-amber-700 dark:text-amber-400">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission."}</p>
+          </div>
+        </div>
+      </div>
 
       <motion.section className="border-b border-border bg-gradient-to-br from-sky-50 via-blue-50 to-background dark:from-sky-950/30 dark:via-blue-950/20 dark:to-background" {...sectionMotion}>
         <div className="container py-16 md:py-20">
@@ -309,7 +332,7 @@ export default function Home() {
             <div>
               <h3 className="text-sm font-semibold text-white">{t.footerCategories}</h3>
               <div className="mt-5 grid grid-cols-2 gap-3 text-sm text-slate-300">
-                {footerCategories.map((item) => <Link key={item.href} href={item.href} className="transition-colors hover:text-white">{item.label}</Link>)}
+                {footerCategoryLinks.map((item) => <Link key={item.href} href={item.href} className="transition-colors hover:text-white">{t[item.key]}</Link>)}
               </div>
             </div>
             <div>

@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import { AdSenseWrapper } from "@/components/AdSenseWrapper";
+import { PaywallGuard } from "@/components/PaywallGuard";
 
 type UnitSystem = "metric" | "imperial";
 type Lang = "zh" | "en";
@@ -359,7 +361,8 @@ export default function BmiCalculator() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-950">
+    <PaywallGuard isPremium={false}>
+      <main className="min-h-screen bg-slate-950 text-slate-950">
       <section className="bg-[radial-gradient(circle_at_top_left,_#dbeafe,_#f8fafc_45%,_#eef2ff)]">
         <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
           <div className="mb-6 flex justify-end">
@@ -499,6 +502,12 @@ export default function BmiCalculator() {
             </article>
           </section>
 
+          {/* ────── AdSense 廣告區塊 ────── */}
+          <AdSenseWrapper
+            showAds={true}
+            adFormat="horizontal"
+          />
+
           <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-blue-50 p-6 shadow-sm md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p>
             <h2 className="mt-2 text-3xl font-black">{t.turnBmiIntoJourney}</h2>
@@ -610,16 +619,36 @@ export default function BmiCalculator() {
             </article>
           </section>
 
+          {/* ────── Premium Upgrade Block ────── */}
+          <div className="rounded-[2rem] border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-7">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{lang === "zh" ? "進阶功能" : "Premium"}</p>
+            <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "解鎖完整健康追蹤" : "Unlock complete health tracking"}</h2>
+            <div className="mt-4 grid gap-3 md:grid-cols-3">
+              {[{zh: "📊 歷史記錄追蹤", en: "📊 History tracking"}, {zh: "📄 PDF 報告匯出", en: "📄 PDF export"}, {zh: "🤖 AI 個人化建議", en: "🤖 AI recommendations"}].map((feature) => (<div key={feature.zh} className="rounded-2xl bg-white p-4 text-sm font-black text-slate-800 shadow-sm">{lang === "zh" ? feature.zh : feature.en}</div>))}
+            </div>
+            <button className="mt-5 w-full rounded-2xl bg-blue-600 px-5 py-4 text-sm font-black text-white transition hover:bg-blue-700">{lang === "zh" ? "升級 Premium — 每月 NT$99" : "Upgrade Premium — $3.99/mo"}</button>
+          </div>
+
           <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.trustRelatedReferences}</p>
             <div className="mt-4 grid gap-5 md:grid-cols-3">
               <div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div>
-              <div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">BMR · TDEE · {t.calories} · {lang === "zh" ? "體脂" : "Body Fat"} · {lang === "zh" ? "飲水量" : "Water Intake"} · {lang === "zh" ? "腰圍比例" : "Waist Ratio"}</p></div>
+              <div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">BMR · TDEE · {t.calories} · {lang === "zh" ? "體脂" : "Body Fat"} · {lang === "zh" ? "飲水量" : "Water Intake"} · {lang === "zh" ? "腰圍比例" : "Waist Ratio"}</p>
+                <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5">
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{lang === "zh" ? "推薦商品" : "Recommended"}</p>
+                  <h3 className="mt-2 text-lg font-black">{lang === "zh" ? "配合 BMI 使用的健康工具" : "Health tools to use with BMI"}</h3>
+                  <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
+                    {[{zh: "智能體重計", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-tracker"}, {zh: "營養補充品", en: "Supplements", href: "#affiliate-supplements"}, {zh: "健康書籍", en: "Health Books", href: "#affiliate-books"}].map((item) => (<a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
+                  </div>
+                  <p className="mt-3 text-xs text-amber-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission."}</p>
+                </div>
+              </div>
               <div><h2 className="text-xl font-black">{t.references}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.referencesText}</p></div>
             </div>
           </section>
         </div>
       </div>
-    </main>
+      </main>
+    </PaywallGuard>
   );
 }
