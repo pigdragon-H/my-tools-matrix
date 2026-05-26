@@ -3,12 +3,12 @@ import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 
 type Lang = "zh" | "en";
 
-type TdeeCategory = "sedentary" | "light" | "moderate" | "active" | "veryactive";
+type BmrCategory = "low" | "normal" | "high";
 
 type LocalText = { zh: string; en: string };
 
 type CategoryInfo = {
-  key: TdeeCategory;
+  key: BmrCategory;
   label: LocalText;
   tone: string;
 };
@@ -16,43 +16,41 @@ type CategoryInfo = {
 const l = (value: LocalText, lang: Lang) => value[lang];
 
 const categoryInfo: CategoryInfo[] = [
-  { key: "sedentary", label: { zh: "久坐", en: "Sedentary" }, tone: "from-slate-300 via-slate-200 to-slate-100" },
-  { key: "light", label: { zh: "輕度活動", en: "Light Activity" }, tone: "from-sky-400 via-sky-300 to-slate-200" },
-  { key: "moderate", label: { zh: "中度活動", en: "Moderate Activity" }, tone: "from-emerald-500 via-lime-300 to-yellow-200" },
-  { key: "active", label: { zh: "高度活動", en: "Active" }, tone: "from-yellow-300 via-orange-300 to-orange-500" },
-  { key: "veryactive", label: { zh: "非常高度", en: "Very Active" }, tone: "from-orange-400 via-red-400 to-red-600" },
+  { key: "low", label: { zh: "偏低", en: "Low" }, tone: "from-sky-400 via-sky-300 to-slate-200" },
+  { key: "normal", label: { zh: "正常", en: "Normal" }, tone: "from-emerald-500 via-lime-300 to-yellow-200" },
+  { key: "high", label: { zh: "偏高", en: "High" }, tone: "from-orange-400 via-red-400 to-red-600" },
 ];
 
 type FaqItem = { question: { zh: string; en: string }; answer: { zh: string; en: string } };
 
 const faqItems: FaqItem[] = [
   {
-    question: { zh: "TDEE 和 BMR 哪個更重要？", en: "Which is more important, TDEE or BMR?" },
-    answer: { zh: "兩者都重要。BMR 是基礎，TDEE 才是你實際需要的熱量。飲食計畫應以 TDEE 為基準，而非 BMR。", en: "Both matter. BMR is the foundation, but TDEE is what you actually need. Base your diet plan on TDEE, not BMR." },
+    question: { zh: "BMR 和 TDEE 有什麼差異？", en: "What is the difference between BMR and TDEE?" },
+    answer: { zh: "BMR 是靜止狀態的基礎消耗，TDEE 是加入日常活動後的總消耗。TDEE = BMR × 活動係數。", en: "BMR is your baseline calorie burn at rest. TDEE includes daily activity. TDEE = BMR × activity factor." },
   },
   {
-    question: { zh: "為什麼計算 TDEE 後還是瘦不下來？", en: "Why am I not losing weight despite calculating TDEE?" },
-    answer: { zh: "常見原因：高估活動量、低估飲食熱量、代謝適應。建議從 TDEE - 300 kcal 開始，每兩週檢視體重變化。", en: "Common reasons: overestimating activity, underestimating food intake, metabolic adaptation. Start with TDEE - 300 kcal and review every 2 weeks." },
+    question: { zh: "BMR 會隨年齡下降嗎？", en: "Does BMR decrease with age?" },
+    answer: { zh: "是的，每10年約下降1-2%。主要原因是肌肉量減少，阻力訓練可以減緩下降速度。", en: "Yes, BMR decreases about 1-2% per decade, mainly due to muscle loss. Resistance training can slow this decline." },
   },
   {
-    question: { zh: "運動後 TDEE 會立刻改變嗎？", en: "Does TDEE change immediately after exercise?" },
-    answer: { zh: "單次運動會增加當天消耗，但 TDEE 計算的是長期平均活動水平。建議每月重新評估活動係數。", en: "Single workouts increase daily burn, but TDEE reflects long-term average activity. Reassess your activity factor monthly." },
+    question: { zh: "節食會降低 BMR 嗎？", en: "Does dieting lower BMR?" },
+    answer: { zh: "長期嚴格節食確實會降低 BMR，稱為「代謝適應」。建議赤字不超過 500 kcal/天。", en: "Prolonged severe dieting can lower BMR through metabolic adaptation. Keep deficit under 500 kcal/day." },
   },
   {
-    question: { zh: "如何選擇正確的活動係數？", en: "How do I choose the right activity factor?" },
-    answer: { zh: "建議低估而非高估。若不確定，選擇比實際感覺低一個等級的係數，避免高估消耗而攝取過多。", en: "When unsure, choose one level lower than you think. This prevents overestimating expenditure and eating too much." },
+    question: { zh: "肌肉訓練能提升 BMR 嗎？", en: "Can muscle training increase BMR?" },
+    answer: { zh: "是的。每增加 1kg 肌肉，BMR 約提升 13 kcal/天。這是長期提高代謝最有效的方法。", en: "Yes. Each 1kg of muscle adds approximately 13 kcal/day to BMR. This is the most effective long-term metabolism booster." },
   },
   {
-    question: { zh: "TDEE 需要多久重新計算一次？", en: "How often should I recalculate TDEE?" },
-    answer: { zh: "建議每3個月，或體重變化超過5kg、運動習慣大幅改變時重新計算。", en: "Recalculate every 3 months, or when weight changes by 5kg or exercise habits change significantly." },
+    question: { zh: "BMR 計算需要多久更新一次？", en: "How often should I recalculate BMR?" },
+    answer: { zh: "建議每3個月或體重變化超過5kg時重新計算，確保熱量規劃的準確性。", en: "Recalculate every 3 months or when weight changes by more than 5kg to keep your calorie planning accurate." },
   },
 ];
 
 const affiliateItems = [
-  { zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-1" },
-  { zh: "智能體重秤", en: "Smart Scale", href: "#affiliate-2" },
-  { zh: "運動手環", en: "Sports Band", href: "#affiliate-3" },
-  { zh: "營養計畫書", en: "Nutrition Plan", href: "#affiliate-4" },
+  { zh: "智能體重秤", en: "Smart Scale", href: "#affiliate-1" },
+  { zh: "體脂計", en: "Body Fat Monitor", href: "#affiliate-2" },
+  { zh: "蛋白質補充品", en: "Protein Supplement", href: "#affiliate-3" },
+  { zh: "健身計畫書", en: "Fitness Plan", href: "#affiliate-4" },
 ];
 
 const getBrowserLang = (): Lang => {
@@ -63,64 +61,63 @@ const getBrowserLang = (): Lang => {
 export default function TdeeCalculator() {
   const [lang, setLang] = useState<Lang>(getBrowserLang);
 
-  const [input1, setInput1] = useState("1600");
-  const [input2, setInput2] = useState("1.55");
+  const [input1, setInput1] = useState("70");
+  const [input2, setInput2] = useState("175");
 
   const result = useMemo(() => {
-    const bmr = Number(input1);
-    const factor = Number(input2);
-    if (!bmr || !factor || bmr <= 0 || factor <= 0) return null;
+    const weight = Number(input1);
+    const height = Number(input2);
+    const age = 35;
+    if (!weight || !height) return null;
 
-    const tdee = bmr * factor;
-    const category = factor <= 1.2 ? categoryInfo[0] :
-      factor <= 1.375 ? categoryInfo[1] :
-      factor <= 1.55 ? categoryInfo[2] :
-      factor <= 1.725 ? categoryInfo[3] : categoryInfo[4];
+    const bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+    const category = bmr < 1400 ? categoryInfo[0] :
+      bmr < 1800 ? categoryInfo[1] : categoryInfo[2];
 
-    return { value: tdee, category };
+    return { value: bmr, category };
   }, [input1, input2]);
 
   const t = {
     badge: lang === "zh" ? "健康 · 生物指標 · GOLD TOOL" : "Health · Biometrics · Gold Tool",
-    title: lang === "zh" ? "TDEE 每日總消耗計算機" : "TDEE Total Daily Energy Expenditure Calculator",
-    subtitle: lang === "zh" ? "TDEE 計算引導體驗" : "TDEE Calculator guided experience",
-    intro: lang === "zh" ? "透過 TDEE 了解你每天真正消耗的熱量，設定正確的飲食目標，延伸到熱量赤字、增肌計畫等下一步工具。" : "Calculate your total daily energy expenditure to set accurate nutrition goals and continue to calorie deficit or muscle gain planning.",
-    trustNote: lang === "zh" ? "TDEE 是估算工具，活動係數因個人差異而異。建議每3個月重新計算一次。" : "TDEE is an estimation tool. Activity factors vary by individual. Recalculate every 3 months.",
+    title: lang === "zh" ? "BMR 基礎代謝率計算機" : "BMR Basal Metabolic Rate Calculator",
+    subtitle: lang === "zh" ? "BMR 計算引導體驗" : "BMR Calculator guided experience",
+    intro: lang === "zh" ? "透過 Mifflin-St Jeor 公式精確計算靜止代謝率，理解你的身體基礎熱量需求，並延伸到 TDEE、熱量赤字等下一步工具。" : "Calculate your resting metabolic rate using the Mifflin-St Jeor formula, understand your body's baseline caloric needs, and continue to TDEE and calorie planning tools.",
+    trustNote: lang === "zh" ? "BMR 是估算工具，個人實際代謝因體組成、健康狀況而異。孕婦及特殊疾病患者請諮詢醫師。" : "BMR is an estimation tool. Actual metabolism varies by body composition and health status. Consult a doctor if pregnant or have medical conditions.",
 
-    input1Label: lang === "zh" ? "BMR（大卡）" : "BMR (kcal)",
-    input2Label: lang === "zh" ? "活動係數" : "Activity Factor",
+    input1Label: lang === "zh" ? "體重（kg）" : "Weight (kg)",
+    input2Label: lang === "zh" ? "身高（cm）" : "Height (cm)",
     calculate: lang === "zh" ? "計算" : "Calculate",
 
-    resultLabel: lang === "zh" ? "TDEE 結果" : "TDEE Result",
-    categoryLabel: lang === "zh" ? "活動等級" : "Activity Level",
+    resultLabel: lang === "zh" ? "BMR 結果" : "BMR Result",
+    categoryLabel: lang === "zh" ? "代謝等級" : "Metabolic Level",
 
     resultIntelligence: lang === "zh" ? "結果解讀" : "Result Intelligence",
-    interpretTitle: lang === "zh" ? "了解你的每日能量消耗" : "Understand your daily energy expenditure",
+    interpretTitle: lang === "zh" ? "行動前先理解你的代謝等級" : "Understand your metabolic level before acting",
 
-    decisionTitle: lang === "zh" ? "知道 TDEE 後，制定你的飲食計畫" : "After TDEE, plan your nutrition strategy",
-    step1: lang === "zh" ? "TDEE" : "TDEE",
-    step2: lang === "zh" ? "設定目標" : "Set Goal",
-    step3: lang === "zh" ? "熱量赤字/盈餘" : "Calorie Deficit/Surplus",
-    step4: lang === "zh" ? "追蹤進度" : "Track Progress",
+    decisionTitle: lang === "zh" ? "知道 BMR 後，繼續能量規劃路徑" : "After BMR, continue your energy planning path",
+    step1: lang === "zh" ? "BMR" : "BMR",
+    step2: lang === "zh" ? "TDEE" : "TDEE",
+    step3: lang === "zh" ? "熱量赤字" : "Calorie Deficit",
+    step4: lang === "zh" ? "進度追蹤" : "Progress",
 
-    knowledgeTitle: lang === "zh" ? "TDEE 在健康宇宙中的意義" : "What TDEE means in the Health universe",
+    knowledgeTitle: lang === "zh" ? "BMR 在健康宇宙中的意義" : "What BMR means in the Health universe",
     definition: lang === "zh" ? "定義" : "Definition",
-    definitionText: lang === "zh" ? "TDEE（每日總消耗）是你在日常活動下一天實際消耗的總熱量，等於 BMR 乘以活動係數。" : "TDEE (Total Daily Energy Expenditure) is the total calories you burn in a day including all activities. TDEE = BMR × Activity Factor.",
+    definitionText: lang === "zh" ? "BMR（基礎代謝率）是你的身體在完全靜止狀態下維持生命功能所需的最低熱量。" : "BMR is the minimum calories your body needs to maintain vital functions at complete rest.",
     limitations: lang === "zh" ? "限制" : "Limitations",
-    limitationsText: lang === "zh" ? "活動係數為估算值，個人差異可達 ±200 kcal。壓力、睡眠品質也會影響實際消耗。" : "Activity factors are estimates with ±200 kcal individual variation. Stress and sleep quality also affect actual expenditure.",
+    limitationsText: lang === "zh" ? "BMR 不考慮日常活動、運動、壓力或荷爾蒙變化。肌肉量高者 BMR 會偏高。" : "BMR does not account for daily activity, exercise, stress, or hormonal changes. Higher muscle mass increases BMR.",
     relatedTools: lang === "zh" ? "相關工具" : "Related Tools",
-    relatedToolsText: lang === "zh" ? "BMR、熱量赤字、BMI、蛋白質需求計算機" : "BMR, Calorie Deficit, BMI, Protein Calculator",
-    formula: lang === "zh" ? "TDEE = BMR × 活動係數\n久坐（幾乎不運動）：× 1.2\n輕度（每週1-3天）：× 1.375\n中度（每週3-5天）：× 1.55\n高度（每週6-7天）：× 1.725\n非常高度（體力勞動）：× 1.9" : "TDEE = BMR × Activity Factor\nSedentary: × 1.2\nLight (1-3 days/week): × 1.375\nModerate (3-5 days/week): × 1.55\nActive (6-7 days/week): × 1.725\nVery Active (hard labor): × 1.9",
+    relatedToolsText: lang === "zh" ? "TDEE、熱量赤字、BMI、蛋白質需求計算機" : "TDEE, Calorie Deficit, BMI, Protein Calculator",
+    formula: lang === "zh" ? "男性：BMR = 10×體重(kg) + 6.25×身高(cm) - 5×年齡 + 5\n女性：BMR = 10×體重(kg) + 6.25×身高(cm) - 5×年齡 - 161" : "Male: BMR = 10×weight(kg) + 6.25×height(cm) - 5×age + 5\nFemale: BMR = 10×weight(kg) + 6.25×height(cm) - 5×age - 161",
 
     faqTitle: lang === "zh" ? "常見問題" : "FAQ",
 
     trustTitle: lang === "zh" ? "信任聲明" : "Trust",
-    trustText: lang === "zh" ? "本工具基於 Harris-Benedict 與 Mifflin-St Jeor 的活動係數標準，為運動科學界廣泛採用。" : "This tool uses activity factors based on Harris-Benedict and Mifflin-St Jeor standards, widely adopted in exercise science.",
+    trustText: lang === "zh" ? "本工具基於 Mifflin-St Jeor 公式，為目前學術界最廣泛採用的 BMR 計算標準。" : "This tool uses the Mifflin-St Jeor equation, the most widely validated BMR formula in current research.",
     references: lang === "zh" ? "參考資料" : "References",
-    referencesText: lang === "zh" ? "Mifflin MD et al. (1990)、Harris & Benedict (1919)、NIH 熱量需求指引" : "Mifflin MD et al. (1990), Harris & Benedict (1919), NIH caloric needs guidelines",
+    referencesText: lang === "zh" ? "Mifflin MD et al. (1990)、WHO 代謝標準、NIH 熱量需求指引" : "Mifflin MD et al. (1990), WHO metabolic standards, NIH caloric needs guidelines",
 
     recommendTitle: lang === "zh" ? "推薦商品" : "Recommended",
-    recommendSubtitle: lang === "zh" ? "配合 TDEE 使用的健身工具" : "Fitness tools to use with TDEE",
+    recommendSubtitle: lang === "zh" ? "配合 BMR 使用的健康工具" : "Health tools to use with BMR",
     affiliateDisclaimer: lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission.",
   };
 
@@ -156,7 +153,7 @@ export default function TdeeCalculator() {
           {/* ── Calculator ── */}
           <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-green-700">{lang === "zh" ? "計算機" : "Calculator"}</p>
-            <h2 className="mt-2 text-3xl font-black">{lang === "zh" ? "計算你的 TDEE" : "Calculate Your TDEE"}</h2>
+            <h2 className="mt-2 text-3xl font-black">{lang === "zh" ? "計算你的 BMR" : "Calculate Your BMR"}</h2>
             <div className="mt-5 space-y-4">
               <div>
                 <label className="block text-sm font-black text-slate-700">{t.input1Label}</label>
@@ -209,8 +206,8 @@ export default function TdeeCalculator() {
                 <h2 className="mt-2 text-2xl font-black">{t.interpretTitle}</h2>
                 <p className="mt-4 text-sm leading-6 text-slate-700">
                   {lang === "zh"
-                    ? `你的 TDEE 是 ${result.value.toFixed(0)} kcal/天。這是你在日常活動下一天實際消耗的總熱量。`
-                    : `Your TDEE is ${result.value.toFixed(0)} kcal/day. This is the total calories you burn in a day including all activities.`
+                    ? `你的 BMR 是 ${result.value.toFixed(0)} kcal/天。這是你的身體在完全靜止狀態下維持生命功能所需的最低熱量。`
+                    : `Your BMR is ${result.value.toFixed(0)} kcal/day. This is the minimum calories your body needs to maintain vital functions at rest.`
                   }
                 </p>
               </div>
