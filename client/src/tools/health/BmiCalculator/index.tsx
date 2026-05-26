@@ -307,8 +307,15 @@ function formatBmi(value: number): string {
   return Number.isFinite(value) ? value.toFixed(1) : "—";
 }
 
+const getBrowserLang = (): "zh" | "en" => {
+  const locale =
+    (typeof navigator !== "undefined"
+    && navigator.language) || "zh"
+  return locale.startsWith("zh") ? "zh" : "en"
+}
+
 export default function BmiCalculator() {
-  const [lang, setLang] = useState<"zh" | "en">("zh");
+  const [lang, setLang] = useState<"zh" | "en">(getBrowserLang());
   const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric");
   const [heightCm, setHeightCm] = useState("175");
   const [weightKg, setWeightKg] = useState("70");
