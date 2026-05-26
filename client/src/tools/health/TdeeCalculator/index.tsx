@@ -3,7 +3,7 @@ import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 
 type Lang = "zh" | "en";
 
-type TdeeCategory = "low" | "normal" | "high";
+type TdeeCategory = "sedentary" | "light" | "moderate" | "active" | "veryactive";
 
 type LocalText = { zh: string; en: string };
 
@@ -16,41 +16,43 @@ type CategoryInfo = {
 const l = (value: LocalText, lang: Lang) => value[lang];
 
 const categoryInfo: CategoryInfo[] = [
-  { key: "low", label: { zh: "低能量", en: "Low Energy" }, tone: "from-sky-400 via-sky-300 to-slate-200" },
-  { key: "normal", label: { zh: "正常能量", en: "Normal Energy" }, tone: "from-emerald-500 via-lime-300 to-yellow-200" },
-  { key: "high", label: { zh: "高能量", en: "High Energy" }, tone: "from-orange-400 via-red-400 to-red-600" },
+  { key: "sedentary", label: { zh: "久坐", en: "Sedentary" }, tone: "from-slate-300 via-slate-200 to-slate-100" },
+  { key: "light", label: { zh: "輕度活動", en: "Light Activity" }, tone: "from-sky-400 via-sky-300 to-slate-200" },
+  { key: "moderate", label: { zh: "中度活動", en: "Moderate Activity" }, tone: "from-emerald-500 via-lime-300 to-yellow-200" },
+  { key: "active", label: { zh: "高度活動", en: "Active" }, tone: "from-yellow-300 via-orange-300 to-orange-500" },
+  { key: "veryactive", label: { zh: "非常高度", en: "Very Active" }, tone: "from-orange-400 via-red-400 to-red-600" },
 ];
 
 type FaqItem = { question: { zh: string; en: string }; answer: { zh: string; en: string } };
 
 const faqItems: FaqItem[] = [
   {
-    question: { zh: "TDEE 和 BMR 有什麼差異？", en: "What is the difference between TDEE and BMR?" },
-    answer: { zh: "BMR 是靜止狀態的基礎消耗，TDEE 是加入日常活動後的總消耗。TDEE = BMR × 活動係數。", en: "BMR is baseline calorie burn at rest. TDEE includes all daily activity. TDEE = BMR × activity factor." },
+    question: { zh: "TDEE 和 BMR 哪個更重要？", en: "Which is more important, TDEE or BMR?" },
+    answer: { zh: "兩者都重要。BMR 是基礎，TDEE 才是你實際需要的熱量。飲食計畫應以 TDEE 為基準，而非 BMR。", en: "Both matter. BMR is the foundation, but TDEE is what you actually need. Base your diet plan on TDEE, not BMR." },
   },
   {
-    question: { zh: "活動係數如何選擇？", en: "How do I choose the activity factor?" },
-    answer: { zh: "根據你的日常活動量選擇：久坐 1.2、輕度 1.375、中度 1.55、非常活躍 1.725、極度活躍 1.9。", en: "Choose based on daily activity: sedentary 1.2, lightly active 1.375, moderate 1.55, very active 1.725, extremely active 1.9." },
+    question: { zh: "為什麼計算 TDEE 後還是瘦不下來？", en: "Why am I not losing weight despite calculating TDEE?" },
+    answer: { zh: "常見原因：高估活動量、低估飲食熱量、代謝適應。建議從 TDEE - 300 kcal 開始，每兩週檢視體重變化。", en: "Common reasons: overestimating activity, underestimating food intake, metabolic adaptation. Start with TDEE - 300 kcal and review every 2 weeks." },
   },
   {
-    question: { zh: "TDEE 計算多久更新一次？", en: "How often should I recalculate TDEE?" },
-    answer: { zh: "建議每 2-4 週根據實際體重變化重新計算，確保熱量規劃的準確性。", en: "Recalculate every 2-4 weeks based on actual weight changes to keep calorie planning accurate." },
+    question: { zh: "運動後 TDEE 會立刻改變嗎？", en: "Does TDEE change immediately after exercise?" },
+    answer: { zh: "單次運動會增加當天消耗，但 TDEE 計算的是長期平均活動水平。建議每月重新評估活動係數。", en: "Single workouts increase daily burn, but TDEE reflects long-term average activity. Reassess your activity factor monthly." },
   },
   {
-    question: { zh: "TDEE 計算結果偏低怎麼辦？", en: "What if my TDEE calculation seems too low?" },
-    answer: { zh: "可能是活動係數選擇過低。建議根據實際體重變化調整，或搭配活動追蹤器驗證。", en: "You may have selected too low an activity factor. Adjust based on weight changes or verify with an activity tracker." },
+    question: { zh: "如何選擇正確的活動係數？", en: "How do I choose the right activity factor?" },
+    answer: { zh: "建議低估而非高估。若不確定，選擇比實際感覺低一個等級的係數，避免高估消耗而攝取過多。", en: "When unsure, choose one level lower than you think. This prevents overestimating expenditure and eating too much." },
   },
   {
-    question: { zh: "運動日和休息日的 TDEE 一樣嗎？", en: "Is TDEE the same on workout days and rest days?" },
-    answer: { zh: "理論上不同，但 TDEE 是平均值。建議用平均活動係數計算，或分別計算兩種情況取平均。", en: "Technically different, but TDEE is an average. Use an average activity factor or calculate both scenarios separately." },
+    question: { zh: "TDEE 需要多久重新計算一次？", en: "How often should I recalculate TDEE?" },
+    answer: { zh: "建議每3個月，或體重變化超過5kg、運動習慣大幅改變時重新計算。", en: "Recalculate every 3 months, or when weight changes by 5kg or exercise habits change significantly." },
   },
 ];
 
 const affiliateItems = [
-  { zh: "活動追蹤器", en: "Activity Tracker", href: "#affiliate-1" },
-  { zh: "營養追蹤 App", en: "Nutrition Tracker App", href: "#affiliate-2" },
-  { zh: "健身計畫", en: "Fitness Plan", href: "#affiliate-3" },
-  { zh: "體重計", en: "Scale", href: "#affiliate-4" },
+  { zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-1" },
+  { zh: "智能體重秤", en: "Smart Scale", href: "#affiliate-2" },
+  { zh: "運動手環", en: "Sports Band", href: "#affiliate-3" },
+  { zh: "營養計畫書", en: "Nutrition Plan", href: "#affiliate-4" },
 ];
 
 const getBrowserLang = (): Lang => {
@@ -62,61 +64,63 @@ export default function TdeeCalculator() {
   const [lang, setLang] = useState<Lang>(getBrowserLang);
 
   const [input1, setInput1] = useState("1600");
-  const [input2, setInput2] = useState("1.5");
+  const [input2, setInput2] = useState("1.55");
 
   const result = useMemo(() => {
     const bmr = Number(input1);
-    const activityFactor = Number(input2);
-    if (!bmr || !activityFactor) return null;
+    const factor = Number(input2);
+    if (!bmr || !factor || bmr <= 0 || factor <= 0) return null;
 
-    const tdee = bmr * activityFactor;
-    const category = tdee < 2200 ? categoryInfo[0] :
-      tdee < 3000 ? categoryInfo[1] : categoryInfo[2];
+    const tdee = bmr * factor;
+    const category = factor <= 1.2 ? categoryInfo[0] :
+      factor <= 1.375 ? categoryInfo[1] :
+      factor <= 1.55 ? categoryInfo[2] :
+      factor <= 1.725 ? categoryInfo[3] : categoryInfo[4];
 
     return { value: tdee, category };
   }, [input1, input2]);
 
   const t = {
-    badge: lang === "zh" ? "健康 · 能量規劃 · GOLD TOOL" : "Health · Energy Planning · Gold Tool",
-    title: lang === "zh" ? "TDEE 每日總消耗熱量計算機" : "TDEE Total Daily Energy Expenditure Calculator",
+    badge: lang === "zh" ? "健康 · 生物指標 · GOLD TOOL" : "Health · Biometrics · Gold Tool",
+    title: lang === "zh" ? "TDEE 每日總消耗計算機" : "TDEE Total Daily Energy Expenditure Calculator",
     subtitle: lang === "zh" ? "TDEE 計算引導體驗" : "TDEE Calculator guided experience",
-    intro: lang === "zh" ? "透過 BMR 和活動係數精確計算每日總消耗熱量，理解你的能量需求，並延伸到熱量赤字、體重管理等下一步工具。" : "Calculate your total daily energy expenditure using BMR and activity factors, understand your energy needs, and continue to calorie planning and weight management tools.",
-    trustNote: lang === "zh" ? "TDEE 是估算工具，個人實際消耗因新陳代謝、運動強度、飲食等因素而異。建議搭配實際體重變化調整。" : "TDEE is an estimation tool. Actual energy expenditure varies by metabolism, exercise intensity, and diet. Adjust based on actual weight changes.",
+    intro: lang === "zh" ? "透過 TDEE 了解你每天真正消耗的熱量，設定正確的飲食目標，延伸到熱量赤字、增肌計畫等下一步工具。" : "Calculate your total daily energy expenditure to set accurate nutrition goals and continue to calorie deficit or muscle gain planning.",
+    trustNote: lang === "zh" ? "TDEE 是估算工具，活動係數因個人差異而異。建議每3個月重新計算一次。" : "TDEE is an estimation tool. Activity factors vary by individual. Recalculate every 3 months.",
 
-    input1Label: lang === "zh" ? "BMR（kcal/天）" : "BMR (kcal/day)",
+    input1Label: lang === "zh" ? "BMR（大卡）" : "BMR (kcal)",
     input2Label: lang === "zh" ? "活動係數" : "Activity Factor",
     calculate: lang === "zh" ? "計算" : "Calculate",
 
     resultLabel: lang === "zh" ? "TDEE 結果" : "TDEE Result",
-    categoryLabel: lang === "zh" ? "能量等級" : "Energy Level",
+    categoryLabel: lang === "zh" ? "活動等級" : "Activity Level",
 
     resultIntelligence: lang === "zh" ? "結果解讀" : "Result Intelligence",
-    interpretTitle: lang === "zh" ? "行動前先理解你的能量需求" : "Understand your energy needs before acting",
+    interpretTitle: lang === "zh" ? "了解你的每日能量消耗" : "Understand your daily energy expenditure",
 
-    decisionTitle: lang === "zh" ? "知道 TDEE 後，繼續熱量規劃路徑" : "After TDEE, continue your calorie planning path",
+    decisionTitle: lang === "zh" ? "知道 TDEE 後，制定你的飲食計畫" : "After TDEE, plan your nutrition strategy",
     step1: lang === "zh" ? "TDEE" : "TDEE",
-    step2: lang === "zh" ? "熱量赤字" : "Calorie Deficit",
-    step3: lang === "zh" ? "營養分配" : "Macros",
-    step4: lang === "zh" ? "進度追蹤" : "Progress",
+    step2: lang === "zh" ? "設定目標" : "Set Goal",
+    step3: lang === "zh" ? "熱量赤字/盈餘" : "Calorie Deficit/Surplus",
+    step4: lang === "zh" ? "追蹤進度" : "Track Progress",
 
     knowledgeTitle: lang === "zh" ? "TDEE 在健康宇宙中的意義" : "What TDEE means in the Health universe",
     definition: lang === "zh" ? "定義" : "Definition",
-    definitionText: lang === "zh" ? "TDEE（每日總消耗熱量）是你的身體在一整天內（包括日常活動、運動等）所消耗的總熱量。" : "TDEE is the total calories your body burns in a day, including basal metabolism, daily activity, and exercise.",
+    definitionText: lang === "zh" ? "TDEE（每日總消耗）是你在日常活動下一天實際消耗的總熱量，等於 BMR 乘以活動係數。" : "TDEE (Total Daily Energy Expenditure) is the total calories you burn in a day including all activities. TDEE = BMR × Activity Factor.",
     limitations: lang === "zh" ? "限制" : "Limitations",
-    limitationsText: lang === "zh" ? "TDEE 是基於平均活動係數的估算，實際消耗因個人體質、運動類型、飲食等因素而異。建議每 2-4 週根據體重變化調整。" : "TDEE is an estimate based on average activity factors. Actual expenditure varies by metabolism, exercise type, and diet. Adjust every 2-4 weeks based on weight changes.",
+    limitationsText: lang === "zh" ? "活動係數為估算值，個人差異可達 ±200 kcal。壓力、睡眠品質也會影響實際消耗。" : "Activity factors are estimates with ±200 kcal individual variation. Stress and sleep quality also affect actual expenditure.",
     relatedTools: lang === "zh" ? "相關工具" : "Related Tools",
     relatedToolsText: lang === "zh" ? "BMR、熱量赤字、BMI、蛋白質需求計算機" : "BMR, Calorie Deficit, BMI, Protein Calculator",
-    formula: lang === "zh" ? "TDEE = BMR × 活動係數\n\n活動係數參考：\n- 久坐不動 (Sedentary): 1.2\n- 輕度活動 (Lightly active): 1.375\n- 中度活動 (Moderately active): 1.55\n- 非常活躍 (Very active): 1.725\n- 極度活躍 (Extremely active): 1.9" : "TDEE = BMR × Activity Factor\n\nActivity Factor Reference:\n- Sedentary: 1.2\n- Lightly active: 1.375\n- Moderately active: 1.55\n- Very active: 1.725\n- Extremely active: 1.9",
+    formula: lang === "zh" ? "TDEE = BMR × 活動係數\n久坐（幾乎不運動）：× 1.2\n輕度（每週1-3天）：× 1.375\n中度（每週3-5天）：× 1.55\n高度（每週6-7天）：× 1.725\n非常高度（體力勞動）：× 1.9" : "TDEE = BMR × Activity Factor\nSedentary: × 1.2\nLight (1-3 days/week): × 1.375\nModerate (3-5 days/week): × 1.55\nActive (6-7 days/week): × 1.725\nVery Active (hard labor): × 1.9",
 
     faqTitle: lang === "zh" ? "常見問題" : "FAQ",
 
     trustTitle: lang === "zh" ? "信任聲明" : "Trust",
-    trustText: lang === "zh" ? "本工具基於 Mifflin-St Jeor 公式計算 BMR，再乘以活動係數得出 TDEE。活動係數參考 American Council on Exercise (ACE) 標準。" : "This tool uses the Mifflin-St Jeor equation for BMR, then multiplies by activity factor per American Council on Exercise (ACE) standards.",
+    trustText: lang === "zh" ? "本工具基於 Harris-Benedict 與 Mifflin-St Jeor 的活動係數標準，為運動科學界廣泛採用。" : "This tool uses activity factors based on Harris-Benedict and Mifflin-St Jeor standards, widely adopted in exercise science.",
     references: lang === "zh" ? "參考資料" : "References",
-    referencesText: lang === "zh" ? "Mifflin MD et al. (1990)、ACE 活動係數標準、NIH 能量需求指引" : "Mifflin MD et al. (1990), ACE activity factor standards, NIH energy expenditure guidelines",
+    referencesText: lang === "zh" ? "Mifflin MD et al. (1990)、Harris & Benedict (1919)、NIH 熱量需求指引" : "Mifflin MD et al. (1990), Harris & Benedict (1919), NIH caloric needs guidelines",
 
     recommendTitle: lang === "zh" ? "推薦商品" : "Recommended",
-    recommendSubtitle: lang === "zh" ? "配合 TDEE 使用的健康工具" : "Health tools to use with TDEE",
+    recommendSubtitle: lang === "zh" ? "配合 TDEE 使用的健身工具" : "Fitness tools to use with TDEE",
     affiliateDisclaimer: lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission.",
   };
 
@@ -206,8 +210,8 @@ export default function TdeeCalculator() {
                 <h2 className="mt-2 text-2xl font-black">{t.interpretTitle}</h2>
                 <p className="mt-4 text-sm leading-6 text-slate-700">
                   {lang === "zh"
-                    ? `你的 TDEE 是 ${result.value.toFixed(0)} kcal/天。這是你的身體在一整天內（包括日常活動、運動等）所消耗的總熱量。`
-                    : `Your TDEE is ${result.value.toFixed(0)} kcal/day. This is the total calories your body burns in a day, including all activities.`
+                    ? `你的 TDEE 是 ${result.value.toFixed(0)} kcal/天。這是你在日常活動下一天實際消耗的總熱量。`
+                    : `Your TDEE is ${result.value.toFixed(0)} kcal/day. This is the total calories you burn in a day including all activities.`
                   }
                 </p>
               </div>
