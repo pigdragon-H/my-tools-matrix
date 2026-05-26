@@ -92,6 +92,16 @@ const zh = {
   footerKnowledge: "知識庫",
   footerAbout: "關於我們",
 
+  // Footer category links
+  footerFinance: "財經投資",
+  footerHealth: "健康生活",
+  footerDev: "開發工具",
+  footerProductivity: "職場效率",
+  footerEducation: "教育學習",
+  footerScience: "科學工程",
+  footerEcommerce: "電商零售",
+  footerTravel: "旅遊地理",
+
   // Back to top
   backToTop: "回到頂部",
 } as const

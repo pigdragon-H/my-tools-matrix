@@ -94,6 +94,16 @@ const en: Translations = {
   footerKnowledge: "Knowledge",
   footerAbout: "About",
 
+  // Footer category links
+  footerFinance: "Finance",
+  footerHealth: "Health",
+  footerDev: "Developer Tools",
+  footerProductivity: "Productivity",
+  footerEducation: "Education",
+  footerScience: "Science",
+  footerEcommerce: "E-Commerce",
+  footerTravel: "Travel",
+
   // Back to top
   backToTop: "Back to top",
 }
