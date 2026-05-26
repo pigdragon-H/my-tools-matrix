@@ -15,6 +15,9 @@ import { setSeoMeta } from "@/lib/seo";
 // 工具組件映射（懶加載）
 const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.ReactElement>> = {
   // FIN Priority 1 Expansion INV/RET/LOA/MTG/FXR
+  "health/bmr-calculator": lazy(() => import("@/tools/health/BmrCalculator")),
+  "health/tdee-calculator": lazy(() => import("@/tools/health/TdeeCalculator")),
+  "health/calorie-deficit-calculator": lazy(() => import("@/tools/health/CalorieDeficitCalculator")),
   "finance/cagr-calculator": lazy(() => import("@/tools/finance/CagrCalculator")),
   "finance/compound-interest-calculator": lazy(() => import("@/tools/finance/CompoundInterestCalculator")),
   "finance/dividend-yield-calculator": lazy(() => import("@/tools/finance/DividendYieldCalculator")),
