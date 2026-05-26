@@ -165,8 +165,8 @@ export default function TdeeCalculator() {
                   value={input1}
                   onChange={(e) => setInput1(e.target.value)}
                   className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-2 text-slate-900"
-                  min="800"
-                  max="10000"
+                  min="20"
+                  max="300"
                 />
               </div>
               <div>
@@ -176,9 +176,8 @@ export default function TdeeCalculator() {
                   value={input2}
                   onChange={(e) => setInput2(e.target.value)}
                   className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-2 text-slate-900"
-                  min="1.2"
-                  max="1.9"
-                  step="0.05"
+                  min="100"
+                  max="250"
                 />
               </div>
               <button
