@@ -1,11 +1,6 @@
 ﻿// ============================================================
 // ToolPage - /tools/:category/:toolName 工具容器頁
 // 根據路由參數動態渲染對應的計算工具組件
-// 
-// 憲法 V3 遵循：
-// - 只保留已完成重造的工具（BMI、BMR）
-// - 為新工具預留空位
-// - 避免舊檔案衝突
 // ============================================================
 
 import { useParams, Link } from "wouter";
@@ -19,32 +14,9 @@ import { setSeoMeta } from "@/lib/seo";
 
 // ============================================================
 // 工具組件映射（懶加載）
-// 只包含已完成重造的工具
 // ============================================================
 const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.ReactElement>> = {
-  // ── 健康工具（已完成重造）
-  "health/bmi-calculator": lazy(() => import("@/tools/health/BmiCalculator")),
-  "health/bmr-calculator": lazy(() => import("@/tools/health/BmrCalculator")),
-  "health/ideal-weight-calculator": lazy(() => import("@/tools/health/IdealWeightCalculator")),
-  "health/tdee-calculator": lazy(() => import("@/tools/health/TdeeCalculator")),
-  "health/calorie-deficit-calculator": lazy(() => import("@/tools/health/CalorieDeficitCalculator")),
-  
-  // ── 財經工具（已完成重造）
-  "finance/roi-calculator": lazy(() => import("@/tools/finance/RoiCalculator")),
-  "finance/compound-interest-calculator": lazy(() => import("@/tools/finance/CompoundInterestCalculator")),
-  "finance/loan-calculator": lazy(() => import("@/tools/finance/LoanCalculator")),
-  "finance/mortgage-calculator": lazy(() => import("@/tools/finance/MortgageCalculator")),
-  "finance/salary-after-tax-calculator": lazy(() => import("@/tools/finance/SalaryAfterTaxCalculator")),
-  "finance/retirement-calculator": lazy(() => import("@/tools/finance/RetirementCalculator")),
-  "finance/emergency-fund-calculator": lazy(() => import("@/tools/finance/EmergencyFundCalculator")),
-  "finance/debt-payoff-calculator": lazy(() => import("@/tools/finance/DebtPayoffCalculator")),
-  "finance/cagr-calculator": lazy(() => import("@/tools/finance/CagrCalculator")),
-  "finance/net-worth-calculator": lazy(() => import("@/tools/finance/NetWorthCalculator")),
-  "finance/inflation-calculator": lazy(() => import("@/tools/finance/InflationCalculator")),
-  "finance/credit-card-payoff": lazy(() => import("@/tools/finance/CreditCardPayoff")),
-  "finance/tip-calculator": lazy(() => import("@/tools/finance/TipCalculator")),
-  
-  // ── 健康工具（已完成重造）
+  // ── 健康工具（Phase 1 + Phase 2）
   "health/bmi-calculator": lazy(() => import("@/tools/health/BmiCalculator")),
   "health/bmr-calculator": lazy(() => import("@/tools/health/BmrCalculator")),
   "health/ideal-weight-calculator": lazy(() => import("@/tools/health/IdealWeightCalculator")),
@@ -61,7 +33,22 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "health/age-calculator": lazy(() => import("@/tools/health/AgeCalculator")),
   "health/calorie-calculator": lazy(() => import("@/tools/health/CalorieCalculator")),
   
-  // ── 開發工具（已完成重造）
+  // ── 財經工具（Phase 1 + Phase 2）
+  "finance/roi-calculator": lazy(() => import("@/tools/finance/RoiCalculator")),
+  "finance/compound-interest-calculator": lazy(() => import("@/tools/finance/CompoundInterestCalculator")),
+  "finance/loan-calculator": lazy(() => import("@/tools/finance/LoanCalculator")),
+  "finance/mortgage-calculator": lazy(() => import("@/tools/finance/MortgageCalculator")),
+  "finance/salary-after-tax-calculator": lazy(() => import("@/tools/finance/SalaryAfterTaxCalculator")),
+  "finance/retirement-calculator": lazy(() => import("@/tools/finance/RetirementCalculator")),
+  "finance/emergency-fund-calculator": lazy(() => import("@/tools/finance/EmergencyFundCalculator")),
+  "finance/debt-payoff-calculator": lazy(() => import("@/tools/finance/DebtPayoffCalculator")),
+  "finance/cagr-calculator": lazy(() => import("@/tools/finance/CagrCalculator")),
+  "finance/net-worth-calculator": lazy(() => import("@/tools/finance/NetWorthCalculator")),
+  "finance/inflation-calculator": lazy(() => import("@/tools/finance/InflationCalculator")),
+  "finance/credit-card-payoff": lazy(() => import("@/tools/finance/CreditCardPayoff")),
+  "finance/tip-calculator": lazy(() => import("@/tools/finance/TipCalculator")),
+  
+  // ── 開發工具（Phase 1 + Phase 2）
   "developer/api-response-formatter": lazy(() => import("@/tools/developer/ApiResponseFormatter")),
   "developer/json-validator": lazy(() => import("@/tools/developer/JsonValidator")),
   "developer/regex-tester": lazy(() => import("@/tools/developer/RegexTester")),
@@ -76,9 +63,6 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "developer/diff-checker": lazy(() => import("@/tools/developer/DiffChecker")),
   "developer/jwt-decoder": lazy(() => import("@/tools/developer/JwtDecoder")),
   "developer/lorem-ipsum-generator": lazy(() => import("@/tools/developer/LoremIpsumGenerator")),
-  
-  // ── 其他類別（待重造）
-  // 預留空位：其他類別工具將在後續階段重造
 };
 
 // ============================================================
