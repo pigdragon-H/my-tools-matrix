@@ -82,7 +82,7 @@ const ui = {
     trustNote: "BMR 是估算工具，個人實際代謝因體組成、健康狀況而異。孕婦及特殊疾病患者請諮詢醫師。",
     quickActionCard: "快速範例卡",
     tryCommonAdultExample: "試用常見成人範例",
-    bmiPreview: "BMI 預覽",
+    bmiPreview: "BMR 預覽",
     example: "範例",
     adultMale: "成年男性",
     weight: "體重",
@@ -120,13 +120,13 @@ const ui = {
     possibleProgressTarget: "你的可能進度目標",
     timeline: "時間軸",
     estimatedTimelinePlaceholder: "預估時程（參考）",
-    currentBmi: "目前 BMI",
-    goal: "目標",
-    needed: "需調整",
-    neededWeightNote: "需調整體重是依目前身高與目標 BMI 23 推估的原型數值，並非醫療建議。",
+    currentBmi: "目前 BMR",
+    goal: "TDEE 估計",
+    needed: "每日需求",
+    neededWeightNote: "TDEE 估計是基於 BMR × 1.5 的活動係數計算，用於評估每日熱量需求。",
     motivationCard: "動力卡",
     keepMomentum: "拿到分數後保持動力",
-    targetBmiRange: "目標 BMI 範圍",
+    targetBmiRange: "BMR 分類",
     weightLoss: "減重",
     healthJourney: "健康旅程",
     current: "目前",
@@ -140,8 +140,8 @@ const ui = {
     saveUi: "儲存（示意）",
     shareUi: "分享（示意）",
     decisionPath: "決策路徑",
-    highBmiEnergyPath: "若 BMI 偏高，繼續能量路徑",
-    bmiHigh: "BMI 偏高",
+    highBmiEnergyPath: "若 BMR 偏高，繼續能量路徑",
+    bmiHigh: "BMR 偏高",
     screeningSignal: "篩查訊號",
     restingEnergy: "靜止能量",
     dailyNeeds: "每日需求",
@@ -174,7 +174,7 @@ const ui = {
     trustNote: "BMR is an estimation tool. Individual actual metabolism varies by body composition and health status. Pregnant women and patients with special conditions should consult a physician.",
     quickActionCard: "Quick Action Card",
     tryCommonAdultExample: "Try a common adult example",
-    bmiPreview: "BMI preview",
+    bmiPreview: "BMR preview",
     example: "Example",
     adultMale: "Adult male",
     weight: "Weight",
@@ -212,13 +212,13 @@ const ui = {
     possibleProgressTarget: "Your possible progress target",
     timeline: "Timeline",
     estimatedTimelinePlaceholder: "Estimated timeline placeholder",
-    currentBmi: "Current BMI",
-    goal: "Goal",
-    needed: "Needed",
-    neededWeightNote: "Needed weight is a prototype estimate based on the current height and a goal BMI of 23. It is not a medical recommendation.",
+    currentBmi: "Current BMR",
+    goal: "TDEE Estimate",
+    needed: "Daily needs",
+    neededWeightNote: "TDEE estimate is calculated based on BMR × 1.5 activity coefficient to assess daily calorie requirements.",
     motivationCard: "Motivation Card",
     keepMomentum: "Keep momentum after the score",
-    targetBmiRange: "Target BMI range",
+    targetBmiRange: "BMR Classification",
     weightLoss: "Weight Loss",
     healthJourney: "Health Journey",
     current: "Current",
@@ -232,8 +232,8 @@ const ui = {
     saveUi: "Save UI",
     shareUi: "Share UI",
     decisionPath: "Decision Path",
-    highBmiEnergyPath: "If BMI is high, continue through the energy path",
-    bmiHigh: "BMI high",
+    highBmiEnergyPath: "If BMR is high, continue through the energy path",
+    bmiHigh: "BMR high",
     screeningSignal: "Screening signal",
     restingEnergy: "Resting energy",
     dailyNeeds: "Daily needs",
@@ -614,9 +614,9 @@ export default function BmrCalculator() {
           {/* ────── Affiliate Layer (L14) - 獨立顯示，不在任何 flag 內 ────── */}
           <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{lang === "zh" ? "推薦商品" : "Recommended"}</p>
-            <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "配合 BMI 使用的健康工具" : "Health tools to use with BMI"}</h2>
+            <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "配合 BMR 使用的健康工具" : "Health tools to use with BMR"}</h2>
             <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
-              {[{zh: "智能體重計", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-tracker"}, {zh: "營養補充品", en: "Supplements", href: "#affiliate-supplements"}, {zh: "健康書籍", en: "Health Books", href: "#affiliate-books"}].map((item) => (<a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
+              {[{zh: "智能體重秤", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "體脂計", en: "Body Fat Monitor", href: "#affiliate-bodyfat"}, {zh: "蛋白質補充品", en: "Protein Supplements", href: "#affiliate-protein"}, {zh: "健身計畫書", en: "Fitness Plans", href: "#affiliate-plans"}].map((item) => (<a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
             </div>
             <p className="mt-3 text-xs text-amber-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission."}</p>
           </section>
