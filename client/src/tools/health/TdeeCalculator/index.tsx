@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { AdSlot } from "@/components/business/AdSlot";
 import { PremiumGate } from "@/components/business/PremiumGate";
 
@@ -139,6 +140,7 @@ const ui = {
     relatedTools: "相關工具",
     references: "參考資料",
     referencesText: "美國運動醫學會（ACSM）、國際運動營養學會（ISSN）、NIH 熱量指引。",
+    recommendedProducts: "配合 TDEE 使用的健康工具",
   },
   en: {
     badge: "Health · Energy Metabolism · Gold Tool",
@@ -204,6 +206,7 @@ const ui = {
     relatedTools: "Related Tools",
     references: "References",
     referencesText: "American College of Sports Medicine (ACSM), International Society of Sports Nutrition (ISSN), NIH Calorie Guidelines.",
+    recommendedProducts: "Health tools to use with TDEE",
   },
 } as const;
 
@@ -285,16 +288,10 @@ export default function TdeeCalculator() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-950">
-      {/* Hero Section */}
       <section className="bg-[radial-gradient(circle_at_top_left,_#dbeafe,_#f8fafc_45%,_#eef2ff)]">
         <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
           <div className="mb-6 flex justify-end">
-            <button
-              type="button"
-              onClick={() => setLang(lang === "zh" ? "en" : "zh")}
-              className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm transition hover:border-blue-500 hover:bg-blue-50"
-              aria-label={lang === "zh" ? "Switch to English" : "切換到中文"}
-            >
+            <button type="button" onClick={() => setLang(lang === "zh" ? "en" : "zh")} className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm transition hover:border-blue-500 hover:bg-blue-50">
               <span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}`}>🌐 中</span>
               <span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}`}>🌐 EN</span>
             </button>
@@ -309,7 +306,6 @@ export default function TdeeCalculator() {
                 <strong>{t.trustNoteLabel}</strong> {t.trustNote}
               </div>
             </section>
-
             <aside className="rounded-[2rem] border border-blue-100 bg-white/90 p-6 shadow-2xl shadow-blue-950/10 backdrop-blur">
               <div className="flex items-center justify-between gap-4">
                 <div>
@@ -326,12 +322,8 @@ export default function TdeeCalculator() {
                 <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.age}</div><div className="mt-1 text-lg font-black">30</div></div>
                 <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.weight}</div><div className="mt-1 text-lg font-black">60kg</div></div>
               </div>
-              <button onClick={fillSedentaryExample} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white transition hover:bg-blue-700">
-                {t.oneClickFillSedentaryExample}
-              </button>
-              <button onClick={fillActiveExample} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900 transition hover:bg-orange-100">
-                {t.previewActiveActivityPath}
-              </button>
+              <button onClick={fillSedentaryExample} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white transition hover:bg-blue-700">{t.oneClickFillSedentaryExample}</button>
+              <button onClick={fillActiveExample} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900 transition hover:bg-orange-100">{t.previewActiveActivityPath}</button>
             </aside>
           </div>
         </div>
@@ -339,7 +331,6 @@ export default function TdeeCalculator() {
 
       <div className="bg-slate-50">
         <div className="mx-auto max-w-7xl space-y-7 px-4 py-8 md:px-8">
-          {/* Calculator Section */}
           <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
             <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
               <div>
@@ -352,7 +343,6 @@ export default function TdeeCalculator() {
                 <button className={`rounded-xl px-4 py-3 text-sm font-black ${unitSystem === "imperial" ? "bg-blue-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnitSystem("imperial")}>{t.imperial}</button>
               </div>
             </div>
-
             <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
               <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
                 <h3 className="text-lg font-black">{t.exampleCards}</h3>
@@ -367,7 +357,6 @@ export default function TdeeCalculator() {
                   </button>
                 </div>
               </div>
-
               <div className="rounded-3xl border border-slate-200 bg-white p-5">
                 <h3 className="text-lg font-black">{t.calculator}</h3>
                 <div className="mt-4 grid gap-4 md:grid-cols-2">
@@ -393,10 +382,9 @@ export default function TdeeCalculator() {
             </div>
           </section>
 
-          {/* Result Section */}
           <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">
             <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
-              <div className={`h-5 bg-gradient-to-r ${activeActivityInfo.tone}`} aria-label="Color band placeholder" />
+              <div className={`h-5 bg-gradient-to-r ${activeActivityInfo.tone}`} />
               <div className="p-6 md:p-7">
                 <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.resultCard}</p>
                 <div className="mt-4 flex items-start justify-between gap-5">
@@ -417,7 +405,6 @@ export default function TdeeCalculator() {
                 </div>
               </div>
             </article>
-
             <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
               <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.resultIntelligence}</p>
               <h2 className="mt-2 text-3xl font-black">{t.interpretActivityBeforeActing}</h2>
@@ -432,7 +419,8 @@ export default function TdeeCalculator() {
             </article>
           </section>
 
-          {/* Knowledge Section */}
+          <AdSenseWrapper showAds={true} adFormat="horizontal" />
+
           <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.knowledge}</p>
             <h2 className="mt-2 text-3xl font-black">{t.tdeeMeaning}</h2>
@@ -454,9 +442,11 @@ export default function TdeeCalculator() {
                 <p className="mt-2 leading-6 text-slate-700">{t.semanticNeighborsText}</p>
               </div>
             </div>
+            <div className="mt-6">
+              <AdSlot slot="tdee-knowledge" position="middle" />
+            </div>
           </section>
 
-          {/* FAQ Section */}
           <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.faq}</p>
             <h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2>
@@ -480,59 +470,42 @@ export default function TdeeCalculator() {
             </div>
           </section>
 
-          {/* Related Tools Section */}
-          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.relatedTools}</p>
-            <h2 className="mt-2 text-3xl font-black">{t.semanticNeighbors}</h2>
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              <a href="/tools/health/bmr-calculator" className="rounded-2xl border border-blue-200 bg-blue-50 p-4 transition hover:border-blue-500">
-                <h3 className="font-black text-blue-900">BMR {lang === "zh" ? "計算機" : "Calculator"}</h3>
-                <p className="mt-2 text-sm text-blue-800">{lang === "zh" ? "計算基礎代謝率" : "Calculate basal metabolic rate"}</p>
-              </a>
-              <a href="/tools/health/calorie-deficit-calculator" className="rounded-2xl border border-slate-200 bg-slate-50 p-4 transition hover:border-slate-400">
-                <h3 className="font-black">{lang === "zh" ? "熱量赤字計算機" : "Calorie Deficit Calculator"}</h3>
-                <p className="mt-2 text-sm text-slate-700">{lang === "zh" ? "規劃熱量赤字" : "Plan calorie deficit"}</p>
-              </a>
-              <a href="/tools/health/bmi-calculator" className="rounded-2xl border border-slate-200 bg-slate-50 p-4 transition hover:border-slate-400">
-                <h3 className="font-black">BMI {lang === "zh" ? "計算機" : "Calculator"}</h3>
-                <p className="mt-2 text-sm text-slate-700">{lang === "zh" ? "評估體重狀況" : "Assess weight status"}</p>
-              </a>
+          <AdSlot slot="tdee-faq" position="inline" />
+
+          <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 md:p-7">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{lang === "zh" ? "推薦商品" : "Recommended"}</p>
+            <h2 className="mt-2 text-2xl font-black">{t.recommendedProducts}</h2>
+            <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
+              {[{zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-tracker"}, {zh: "智能體重秤", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "運動手環", en: "Sports Band", href: "#affiliate-band"}, {zh: "營養計畫書", en: "Nutrition Plans", href: "#affiliate-nutrition"}].map((item) => (<a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
             </div>
+            <p className="mt-3 text-xs text-amber-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission."}</p>
           </section>
 
-          {/* References Section */}
+          <PremiumGate plan="PRO">
+            <div className="rounded-[2rem] border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{lang === "zh" ? "進階功能" : "Premium Features"}</p>
+              <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "解鎖完整健康追蹤" : "Unlock Complete Health Tracking"}</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{lang === "zh" ? "Premium 功能即將推出" : "Premium features coming soon"}</p>
+            </div>
+          </PremiumGate>
+
           <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.references}</p>
-            <h2 className="mt-2 text-3xl font-black">{t.trustRelatedReferences}</h2>
-            <div className="mt-6 grid gap-4 md:grid-cols-2">
-              <div>
-                <h3 className="font-black mb-3">{t.trust}</h3>
-                <p className="text-sm leading-6 text-slate-700">{t.trustText}</p>
-              </div>
-              <div>
-                <h3 className="font-black mb-3">{t.references}</h3>
-                <ul className="space-y-2 text-sm">
-                  <li><a href="https://www.acsm.org/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">ACSM - American College of Sports Medicine</a></li>
-                  <li><a href="https://www.issn.org/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">ISSN - International Society of Sports Nutrition</a></li>
-                  <li><a href="https://www.nih.gov/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">NIH - National Institutes of Health</a></li>
-                </ul>
-              </div>
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.trustRelatedReferences}</p>
+            <div className="mt-4 grid gap-5 md:grid-cols-3">
+              <div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div>
+              <div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">BMR · {lang === "zh" ? "熱量赤字" : "Calorie Deficit"} · BMI · {lang === "zh" ? "理想體重" : "Ideal Weight"}</p></div>
+              <div><h2 className="text-xl font-black">{t.references}</h2><ul className="mt-2 space-y-1 text-sm text-slate-700"><li><a href="https://www.acsm.org/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">ACSM</a></li><li><a href="https://www.issn.org/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">ISSN</a></li><li><a href="https://www.nih.gov/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">NIH</a></li></ul></div>
             </div>
           </section>
-
-          {/* Ad Slots */}
-          <AdSlot slot="tdee-knowledge" position="bottom" />
         </div>
       </div>
 
-      {/* Sidebar with Premium Gate */}
       <div className="fixed right-4 top-32 hidden w-80 space-y-4 lg:block">
         <AdSlot slot="tdee-sidebar" position="top" />
-        <PremiumGate />
+        <PremiumGate plan="PRO" />
         <AdSlot slot="tdee-sidebar" position="bottom" />
       </div>
 
-      {/* Footer Ad */}
       <AdSlot slot="tdee-footer" position="footer" />
     </main>
   );

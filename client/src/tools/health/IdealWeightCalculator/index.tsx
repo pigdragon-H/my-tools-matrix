@@ -1,196 +1,177 @@
 import { useMemo, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { AdSlot } from "@/components/business/AdSlot";
 import { PremiumGate } from "@/components/business/PremiumGate";
 
-type UnitSystem = "metric" | "imperial";
 type Lang = "zh" | "en";
-type IdealWeightCategory = "underweight" | "normal" | "overweight";
+type WeightCategory = "low" | "ideal" | "high";
 type LocalText = { zh: string; en: string };
 
 type CategoryInfo = {
-  key: IdealWeightCategory;
+  key: WeightCategory;
   label: LocalText;
   tone: string;
   meaning: LocalText;
   risks: LocalText;
   actions: LocalText;
   nextTool: LocalText;
-  tools: LocalText[];
 };
 
 const l = (value: LocalText, lang: Lang) => value[lang];
 
 const categoryInfo: CategoryInfo[] = [
   {
-    key: "underweight",
-    label: { zh: "低於理想體重", en: "Below Ideal Weight" },
+    key: "low",
+    label: { zh: "低於理想", en: "Below Ideal" },
     tone: "from-sky-400 via-sky-300 to-slate-200",
-    meaning: { zh: "當前體重低於計算的理想體重範圍。", en: "Current weight is below the calculated ideal weight range." },
-    risks: { zh: "可能與營養不足、代謝問題或健康狀況有關。建議檢視飲食與整體健康狀況。", en: "May be associated with undernutrition, metabolic issues, or health conditions. Review nutrition and overall health." },
-    actions: { zh: "檢視飲食營養、能量攝入和整體健康狀況。若持續偏低，請尋求專業指導。", en: "Review nutrition, energy intake, and overall health. Seek professional guidance if persistent." },
+    meaning: { zh: "當前體重低於理想體重範圍，可能需要增重或增肌。", en: "Current weight is below ideal range, may need to gain weight or muscle." },
+    risks: { zh: "過低的體重可能與營養不足、肌肉量不足或代謝問題有關。", en: "Low weight may be related to insufficient nutrition, low muscle mass, or metabolic issues." },
+    actions: { zh: "建議增加蛋白質攝入、進行阻力訓練、評估整體營養狀況。", en: "Increase protein intake, perform resistance training, assess overall nutrition." },
     nextTool: { zh: "BMR 計算機", en: "BMR Calculator" },
-    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "BMI 計算機", en: "BMI Calculator" }],
   },
   {
-    key: "normal",
-    label: { zh: "理想體重範圍", en: "Ideal Weight Range" },
+    key: "ideal",
+    label: { zh: "理想範圍", en: "Ideal Range" },
     tone: "from-emerald-500 via-lime-300 to-yellow-200",
-    meaning: { zh: "當前體重在計算的理想體重範圍內。", en: "Current weight is within the calculated ideal weight range." },
-    risks: { zh: "通常表示體重與身高的比例較為健康。但應結合 BMI、體脂率等指標進行全面評估。", en: "Generally indicates a healthy weight-to-height ratio. Combine with BMI and body composition metrics for comprehensive assessment." },
-    actions: { zh: "維持均衡營養、規律運動、充足睡眠。定期評估健康指標。", en: "Maintain balanced nutrition, regular exercise, adequate sleep. Regularly assess health metrics." },
-    nextTool: { zh: "BMI 計算機", en: "BMI Calculator" },
-    tools: [{ zh: "BMI 計算機", en: "BMI Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "BMR 計算機", en: "BMR Calculator" }],
+    meaning: { zh: "當前體重在理想範圍內，反映健康的體重狀態。", en: "Current weight is within ideal range, reflecting a healthy weight status." },
+    risks: { zh: "理想體重提供良好的健康基礎。維持規律運動和均衡飲食有助於長期健康。", en: "Ideal weight provides a good health foundation. Regular exercise and balanced diet support long-term health." },
+    actions: { zh: "維持現有生活方式、規律運動、均衡營養、定期檢查。", en: "Maintain current lifestyle, regular exercise, balanced nutrition, periodic check-ups." },
+    nextTool: { zh: "TDEE 計算機", en: "TDEE Calculator" },
   },
   {
-    key: "overweight",
-    label: { zh: "高於理想體重", en: "Above Ideal Weight" },
+    key: "high",
+    label: { zh: "高於理想", en: "Above Ideal" },
     tone: "from-yellow-300 via-orange-300 to-orange-500",
-    meaning: { zh: "當前體重高於計算的理想體重範圍。", en: "Current weight is above the calculated ideal weight range." },
-    risks: { zh: "可能與較高的代謝風險相關。但需結合 BMI、體脂率等指標進行全面評估。", en: "May be associated with higher metabolic risk. Assess with BMI and body composition metrics." },
-    actions: { zh: "建議先計算 BMI、TDEE、體脂率，了解完整健康狀況後再制定體重管理計劃。", en: "Calculate BMI, TDEE, and body fat percentage to understand your complete health profile before planning weight management." },
-    nextTool: { zh: "BMI 計算機", en: "BMI Calculator" },
-    tools: [{ zh: "BMI 計算機", en: "BMI Calculator" }, { zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }],
+    meaning: { zh: "當前體重高於理想體重範圍，可能需要減重。", en: "Current weight is above ideal range, may need to lose weight." },
+    risks: { zh: "過高的體重可能增加代謝疾病、心血管疾病的風險。建議評估整體健康狀況。", en: "High weight may increase risk of metabolic and cardiovascular diseases. Assess overall health." },
+    actions: { zh: "建議制定減重計畫、增加運動量、優化飲食、計算熱量赤字。", en: "Create a weight loss plan, increase exercise, optimize diet, calculate calorie deficit." },
+    nextTool: { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" },
   },
 ];
 
 const ui = {
   zh: {
-    badge: "健康 · 生物指標 · Gold Tool",
+    badge: "健康 · 體重管理 · Gold Tool",
     title: "理想體重計算機・健康體重指南",
     subtitle: "理想體重計算機引導體驗",
-    intro: "根據身高計算理想體重範圍，快速了解您的健康體重目標，並延伸到 BMI、BMR、TDEE 等下一步工具。",
+    intro: "根據身高計算理想體重範圍，快速了解您的健康體重目標，並延伸到 BMI、TDEE、熱量赤字等下一步工具。",
     trustNoteLabel: "信任提醒：",
-    trustNote: "理想體重是參考指標，不是診斷。它無法區分肌肉和脂肪、考慮運動員體組成、懷孕情境或兒童百分位狀態。",
+    trustNote: "理想體重是基於 BMI 反推的估算值，不是絕對標準。實際健康體重因個人肌肉量、骨密度、年齡等因素而異。",
     quickActionCard: "快速範例卡",
     tryCommonHeightExample: "試用常見身高範例",
-    idealWeightPreview: "理想體重預覽",
+    weightPreview: "體重預覽",
     example: "範例",
-    femaleHeight: "女性身高",
-    maleHeight: "男性身高",
-    weight: "體重",
+    femaleExample: "女性",
+    maleExample: "男性",
     height: "身高",
+    weight: "體重",
     oneClickFillFemaleExample: "一鍵填入女性範例",
-    previewHighWeightPath: "預覽高體重決策路徑",
+    previewMaleExample: "預覽男性決策路徑",
     examplesCalculator: "範例 → 計算機",
     enterOrFillValues: "輸入或填入數值",
-    examplesHelper: "範例緊貼計算機，讓使用者能快速開始，再依自己的數值調整輸入而不失去脈絡。",
-    metric: "公制",
-    imperial: "英制",
+    examplesHelper: "範例緊貼計算機，讓使用者能快速開始，再依自己的身高調整輸入而不失去脈絡。",
     exampleCards: "範例卡",
-    highWeightPathDemo: "高體重路徑示範",
-    oneClickFillAllowed: "160cm · 可一鍵填入",
-    highWeightPathDescription: "180cm · 展示 BMI → BMR → TDEE 路徑",
+    malePathDemo: "男性路徑示範",
+    oneClickFillAllowed: "160 cm · 可一鍵填入",
+    malePathDescription: "180 cm · 展示理想體重 → BMI → TDEE 路徑",
     flowDemo: "流程示範",
     calculator: "計算機",
     heightCm: "身高（cm）",
-    currentWeightKg: "當前體重（kg）",
     feet: "英尺",
     inches: "英寸",
-    currentWeightLb: "當前體重（lb）",
     resultCard: "結果卡",
     enterValidValues: "請輸入有效數值",
     status: "狀態",
-    weightRange: "體重範圍",
+    idealWeightRange: "理想體重範圍",
     recommendedAction: "建議行動",
     relatedNextTool: "下一步工具",
     resultIntelligence: "結果解讀",
-    interpretCategoryBeforeActing: "行動前先理解分類",
+    interpretWeightBeforeActing: "行動前先理解體重狀態",
     knowledge: "知識",
     idealWeightMeaning: "理想體重在健康宇宙中的意義",
     definition: "定義",
-    definitionText: "理想體重是根據身高計算出的健康體重範圍。本計算器採用 BMI 反推法，以 BMI 22 為中心值。",
+    definitionText: "理想體重是基於身高和 BMI 計算的健康體重範圍。理想體重 = 身高(m)² × 22，±10% 為安全範圍。",
     limitations: "限制",
-    limitationsText: "理想體重無法區分肌肉和脂肪、考慮體脂分佈、懷孕狀態或兒童百分位狀態。",
+    limitationsText: "理想體重無法考慮肌肉量、骨密度、年齡、性別等個人因素。實際健康體重因人而異。",
     semanticNeighbors: "相關工具",
-    semanticNeighborsText: "BMI、BMR、TDEE、體脂率、腰圍比例等工具可擴展結果情境。",
+    semanticNeighborsText: "BMI、BMR、TDEE、熱量赤字、體脂率等工具可擴展結果情境。",
     formula: "計算公式",
-    formulaText: "理想體重 = 身高(m) × 身高(m) × 22，理想體重範圍 = 中位數 ± 10%",
+    formulaText: "理想體重 = 身高(m)² × 22；安全範圍 = 理想體重 ± 10%",
     faq: "常見問題",
     commonQuestions: "常見問題",
     trustRelatedReferences: "信任 · 相關工具 · 參考資料",
     trust: "信任聲明",
-    trustText: "參考資料應包含 WHO、CDC 與 NIH。理想體重是參考指標，不是診斷或醫療治療建議。",
+    trustText: "理想體重是健康體重管理的參考標準，但不是唯一指標。建議結合 BMI、體脂率、肌肉量等多方面評估。",
     relatedTools: "相關工具",
     references: "參考資料",
-    referencesText: "WHO 分類脈絡、CDC BMI 篩查指引，以及 NIH 健康風險脈絡。",
+    referencesText: "WHO、CDC、MDCalc、NIH 體重管理指引。",
+    recommendedProducts: "配合理想體重使用的健康工具",
   },
   en: {
-    badge: "Health · Biometrics · Gold Tool",
+    badge: "Health · Weight Management · Gold Tool",
     title: "Ideal Weight Calculator · Healthy Weight Guide",
     subtitle: "Ideal Weight Calculator guided experience",
-    intro: "Calculate your ideal weight range based on height, quickly understand your healthy weight goals, and continue to BMI, BMR, TDEE, and other next tools.",
+    intro: "Calculate your ideal weight range based on height, quickly understand your healthy weight goals, and continue to BMI, TDEE, calorie deficit, and other next tools.",
     trustNoteLabel: "Trust note:",
-    trustNote: "Ideal weight is a reference metric, not a diagnosis. It cannot distinguish muscle from fat, consider athletic body composition, pregnancy context, or child percentile status.",
+    trustNote: "Ideal weight is an estimate based on BMI, not an absolute standard. Actual healthy weight varies by individual muscle mass, bone density, age, and other factors.",
     quickActionCard: "Quick Action Card",
     tryCommonHeightExample: "Try a common height example",
-    idealWeightPreview: "Ideal weight preview",
+    weightPreview: "Weight preview",
     example: "Example",
-    femaleHeight: "Female height",
-    maleHeight: "Male height",
-    weight: "Weight",
+    femaleExample: "Female",
+    maleExample: "Male",
     height: "Height",
+    weight: "Weight",
     oneClickFillFemaleExample: "One-click fill female example",
-    previewHighWeightPath: "Preview high weight decision path",
+    previewMaleExample: "Preview male decision path",
     examplesCalculator: "Examples → Calculator",
     enterOrFillValues: "Enter or fill values",
     examplesHelper: "The prototype keeps examples close to the calculator so users can start fast, then edit inputs without losing context.",
-    metric: "Metric",
-    imperial: "Imperial",
     exampleCards: "Example cards",
-    highWeightPathDemo: "High weight path demo",
-    oneClickFillAllowed: "160cm · one-click fill allowed",
-    highWeightPathDescription: "180cm · shows BMI → BMR → TDEE path",
+    malePathDemo: "Male path demo",
+    oneClickFillAllowed: "160 cm · one-click fill allowed",
+    malePathDescription: "180 cm · shows Ideal Weight → BMI → TDEE path",
     flowDemo: "Flow demo",
     calculator: "Calculator",
     heightCm: "Height (cm)",
-    currentWeightKg: "Current Weight (kg)",
     feet: "Feet",
     inches: "Inches",
-    currentWeightLb: "Current Weight (lb)",
     resultCard: "Result Card",
     enterValidValues: "Enter valid values",
     status: "Status",
-    weightRange: "Weight Range",
+    idealWeightRange: "Ideal Weight Range",
     recommendedAction: "Recommended action",
     relatedNextTool: "Related next tool",
     resultIntelligence: "Result Intelligence",
-    interpretCategoryBeforeActing: "Interpret the category before acting",
+    interpretWeightBeforeActing: "Interpret weight status before acting",
     knowledge: "Knowledge",
     idealWeightMeaning: "What Ideal Weight means in the Health universe",
     definition: "Definition",
-    definitionText: "Ideal weight is the healthy weight range calculated based on height. This calculator uses the BMI reverse calculation method with BMI 22 as the center value.",
+    definitionText: "Ideal weight is a healthy weight range calculated based on height and BMI. Ideal Weight = Height(m)² × 22, ±10% is the safe range.",
     limitations: "Limitations",
-    limitationsText: "Ideal weight cannot distinguish muscle from fat, consider fat distribution, pregnancy status, or child percentile status.",
+    limitationsText: "Ideal weight cannot account for muscle mass, bone density, age, sex, and other individual factors. Actual healthy weight varies by person.",
     semanticNeighbors: "Semantic neighbors",
-    semanticNeighborsText: "BMI, BMR, TDEE, Body Fat, and Waist Ratio tools expand the result context.",
+    semanticNeighborsText: "BMI, BMR, TDEE, Calorie Deficit, Body Fat Rate, and other tools expand the result context.",
     formula: "Calculation Formula",
-    formulaText: "Ideal Weight = Height(m) × Height(m) × 22, Ideal Weight Range = Center ± 10%",
+    formulaText: "Ideal Weight = Height(m)² × 22; Safe Range = Ideal Weight ± 10%",
     faq: "FAQ",
     commonQuestions: "Common questions",
     trustRelatedReferences: "Trust · Related Tools · References",
     trust: "Trust",
-    trustText: "References should include WHO, CDC, and NIH. Ideal weight is a reference metric, not a diagnosis or medical treatment recommendation.",
+    trustText: "Ideal weight is a reference standard for healthy weight management, but not the only indicator. Consider combining BMI, body fat rate, muscle mass, and other factors for assessment.",
     relatedTools: "Related Tools",
     references: "References",
-    referencesText: "WHO classification context, CDC BMI screening guidance, and NIH health risk context.",
+    referencesText: "WHO, CDC, MDCalc, NIH Weight Management Guidelines.",
+    recommendedProducts: "Health tools to use with ideal weight",
   },
 } as const;
 
-const femaleHeightExampleCm = 160;
-const maleHeightExampleCm = 180;
-
-function getIdealWeight(heightCm: number): number {
-  const heightM = heightCm / 100;
-  return heightM * heightM * 22;
-}
-
-function getCategory(currentWeight: number, idealWeight: number): CategoryInfo {
-  const min = idealWeight * 0.9;
-  const max = idealWeight * 1.1;
-  if (currentWeight < min) return categoryInfo[0];
-  if (currentWeight <= max) return categoryInfo[1];
-  return categoryInfo[2];
+function getWeightCategory(current: number, ideal: number): WeightCategory {
+  const ratio = current / ideal;
+  if (ratio < 0.9) return "low";
+  if (ratio > 1.1) return "high";
+  return "ideal";
 }
 
 function formatWeight(value: number): string {
@@ -199,53 +180,55 @@ function formatWeight(value: number): string {
 
 export default function IdealWeightCalculator() {
   const { lang, setLang } = useLanguage();
-  const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric");
   const [heightCm, setHeightCm] = useState("170");
-  const [currentWeightKg, setCurrentWeightKg] = useState("70");
+  const [currentWeight, setCurrentWeight] = useState("70");
   const [feet, setFeet] = useState("5");
   const [inches, setInches] = useState("7");
   const [currentWeightLb, setCurrentWeightLb] = useState("154");
+  const [useMetric, setUseMetric] = useState(true);
 
   const t = ui[lang];
 
   const calculation = useMemo(() => {
-    if (unitSystem === "metric") {
+    if (useMetric) {
       const hCm = Number(heightCm);
-      const weight = Number(currentWeightKg);
-      if (!hCm || !weight || hCm <= 0 || weight <= 0) return null;
-      const idealWeight = getIdealWeight(hCm);
-      return { heightCm: hCm, currentWeight: weight, idealWeight, category: getCategory(weight, idealWeight) };
+      const cw = Number(currentWeight);
+      if (!hCm || !cw || hCm <= 0 || cw <= 0) return null;
+      const hM = hCm / 100;
+      const ideal = hM * hM * 22;
+      const min = ideal * 0.9;
+      const max = ideal * 1.1;
+      const category = getWeightCategory(cw, ideal);
+      return { ideal, min, max, current: cw, category };
     }
 
     const totalInches = Number(feet) * 12 + Number(inches);
-    const weightLb = Number(currentWeightLb);
-    if (!totalInches || !weightLb || totalInches <= 0 || weightLb <= 0) return null;
-    const hCm = totalInches * 2.54;
-    const weightKg = weightLb * 0.45359237;
-    const idealWeight = getIdealWeight(hCm);
-    return { heightCm: hCm, currentWeight: weightKg, idealWeight, category: getCategory(weightKg, idealWeight) };
-  }, [feet, heightCm, inches, currentWeightKg, currentWeightLb, unitSystem]);
+    const cw = Number(currentWeightLb);
+    if (!totalInches || !cw || totalInches <= 0 || cw <= 0) return null;
+    const hM = totalInches * 0.0254;
+    const ideal = hM * hM * 22;
+    const min = ideal * 0.9;
+    const max = ideal * 1.1;
+    const category = getWeightCategory(cw, ideal);
+    return { ideal, min, max, current: cw, category };
+  }, [heightCm, currentWeight, feet, inches, currentWeightLb, useMetric]);
 
-  const activeCategory = calculation?.category ?? categoryInfo[1];
-  const femaleIdealWeight = getIdealWeight(femaleHeightExampleCm);
-  const maleIdealWeight = getIdealWeight(maleHeightExampleCm);
+  const activeCategory = calculation?.category ? categoryInfo.find((c) => c.key === calculation.category) : categoryInfo[1];
+  const displayIdeal = calculation?.ideal ? formatWeight(calculation.ideal) : "—";
+  const displayMin = calculation?.min ? formatWeight(calculation.min) : "—";
+  const displayMax = calculation?.max ? formatWeight(calculation.max) : "—";
 
   function fillFemaleExample() {
-    setUnitSystem("metric");
+    setUseMetric(true);
     setHeightCm("160");
-    setCurrentWeightKg("56");
+    setCurrentWeight("60");
   }
 
   function fillMaleExample() {
-    setUnitSystem("metric");
+    setUseMetric(true);
     setHeightCm("180");
-    setCurrentWeightKg("71");
+    setCurrentWeight("80");
   }
-
-  const displayIdealWeight = calculation?.idealWeight ? formatWeight(calculation.idealWeight) : "—";
-  const displayIdealMin = calculation?.idealWeight ? formatWeight(calculation.idealWeight * 0.9) : "—";
-  const displayIdealMax = calculation?.idealWeight ? formatWeight(calculation.idealWeight * 1.1) : "—";
-  const displayWeightDiff = calculation ? formatWeight(calculation.currentWeight - calculation.idealWeight) : "—";
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-950">
@@ -281,20 +264,20 @@ export default function IdealWeightCalculator() {
                   <h2 className="mt-2 text-2xl font-black">{t.tryCommonHeightExample}</h2>
                 </div>
                 <div className="rounded-2xl bg-blue-600 px-4 py-3 text-center text-white">
-                  <div className="text-xs font-bold uppercase text-blue-100">{t.idealWeightPreview}</div>
-                  <div className="text-3xl font-black">{formatWeight(femaleIdealWeight)}</div>
+                  <div className="text-xs font-bold uppercase text-blue-100">{t.weightPreview}</div>
+                  <div className="text-3xl font-black">63 kg</div>
                 </div>
               </div>
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.example}</div><div className="mt-1 text-lg font-black">{t.femaleHeight}</div></div>
-                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.height}</div><div className="mt-1 text-lg font-black">160cm</div></div>
-                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.weight}</div><div className="mt-1 text-lg font-black">{formatWeight(femaleIdealWeight)}kg</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.example}</div><div className="mt-1 text-lg font-black">{t.femaleExample}</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.height}</div><div className="mt-1 text-lg font-black">160 cm</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.weight}</div><div className="mt-1 text-lg font-black">60 kg</div></div>
               </div>
               <button onClick={fillFemaleExample} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white transition hover:bg-blue-700">
                 {t.oneClickFillFemaleExample}
               </button>
               <button onClick={fillMaleExample} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900 transition hover:bg-orange-100">
-                {t.previewHighWeightPath}
+                {t.previewMaleExample}
               </button>
             </aside>
           </div>
@@ -312,8 +295,8 @@ export default function IdealWeightCalculator() {
                 <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{t.examplesHelper}</p>
               </div>
               <div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-2">
-                <button className={`rounded-xl px-4 py-3 text-sm font-black ${unitSystem === "metric" ? "bg-blue-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnitSystem("metric")}>{t.metric}</button>
-                <button className={`rounded-xl px-4 py-3 text-sm font-black ${unitSystem === "imperial" ? "bg-blue-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnitSystem("imperial")}>{t.imperial}</button>
+                <button className={`rounded-xl px-4 py-3 text-sm font-black ${useMetric ? "bg-blue-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUseMetric(true)}>Metric</button>
+                <button className={`rounded-xl px-4 py-3 text-sm font-black ${!useMetric ? "bg-blue-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUseMetric(false)}>Imperial</button>
               </div>
             </div>
 
@@ -322,29 +305,29 @@ export default function IdealWeightCalculator() {
                 <h3 className="text-lg font-black">{t.exampleCards}</h3>
                 <div className="mt-4 space-y-3">
                   <button onClick={fillFemaleExample} className="w-full rounded-2xl border border-blue-200 bg-white p-4 text-left transition hover:border-blue-500">
-                    <div className="flex items-center justify-between gap-3"><span className="font-black">{t.femaleHeight}</span><span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">{formatWeight(femaleIdealWeight)}kg</span></div>
+                    <div className="flex items-center justify-between gap-3"><span className="font-black">{t.femaleExample}</span><span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">160cm</span></div>
                     <p className="mt-2 text-sm text-slate-600">{t.oneClickFillAllowed}</p>
                   </button>
                   <button onClick={fillMaleExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500">
-                    <div className="flex items-center justify-between gap-3"><span className="font-black">{t.maleHeight}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div>
-                    <p className="mt-2 text-sm text-slate-600">{t.highWeightPathDescription}</p>
+                    <div className="flex items-center justify-between gap-3"><span className="font-black">{t.maleExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div>
+                    <p className="mt-2 text-sm text-slate-600">{t.malePathDescription}</p>
                   </button>
                 </div>
               </div>
 
               <div className="rounded-3xl border border-slate-200 bg-white p-5">
                 <h3 className="text-lg font-black">{t.calculator}</h3>
-                <div className="mt-4 grid gap-4 md:grid-cols-2">
-                  {unitSystem === "metric" ? (
+                <div className="mt-4 grid gap-4">
+                  {useMetric ? (
                     <>
                       <label className="block text-sm font-black text-slate-700">{t.heightCm}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={heightCm} onChange={(e) => setHeightCm(e.target.value)} /></label>
-                      <label className="block text-sm font-black text-slate-700">{t.currentWeightKg}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={currentWeightKg} onChange={(e) => setCurrentWeightKg(e.target.value)} /></label>
+                      <label className="block text-sm font-black text-slate-700">{t.weight}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={currentWeight} onChange={(e) => setCurrentWeight(e.target.value)} /></label>
                     </>
                   ) : (
                     <>
                       <label className="block text-sm font-black text-slate-700">{t.feet}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={feet} onChange={(e) => setFeet(e.target.value)} /></label>
                       <label className="block text-sm font-black text-slate-700">{t.inches}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={inches} onChange={(e) => setInches(e.target.value)} /></label>
-                      <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.currentWeightLb}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={currentWeightLb} onChange={(e) => setCurrentWeightLb(e.target.value)} /></label>
+                      <label className="block text-sm font-black text-slate-700">{t.weight}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={currentWeightLb} onChange={(e) => setCurrentWeightLb(e.target.value)} /></label>
                     </>
                   )}
                 </div>
@@ -355,34 +338,33 @@ export default function IdealWeightCalculator() {
           {/* Result Section */}
           <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">
             <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
-              <div className={`h-5 bg-gradient-to-r ${activeCategory.tone}`} aria-label="Color band placeholder" />
+              <div className={`h-5 bg-gradient-to-r ${activeCategory?.tone}`} />
               <div className="p-6 md:p-7">
                 <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.resultCard}</p>
                 <div className="mt-4 flex items-start justify-between gap-5">
                   <div>
-                    <div className="text-7xl font-black tracking-tight text-slate-950">{displayIdealWeight}</div>
-                    <div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{calculation ? l(activeCategory.label, lang) : t.enterValidValues}</div>
+                    <div className="text-7xl font-black tracking-tight text-slate-950">{displayIdeal}</div>
+                    <div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{calculation ? l(activeCategory?.label || categoryInfo[1].label, lang) : t.enterValidValues}</div>
                   </div>
                   <div className="rounded-3xl bg-slate-950 p-4 text-right text-white">
-                    <div className="text-xs font-bold uppercase text-slate-300">{t.status}</div>
-                    <div className="mt-1 text-xl font-black">{displayIdealMin} - {displayIdealMax}</div>
-                    <div className="mt-1 text-xs text-slate-300">{t.weightRange}</div>
+                    <div className="text-xs font-bold uppercase text-slate-300">{t.idealWeightRange}</div>
+                    <div className="mt-1 text-xl font-black">{displayMin} - {displayMax}</div>
                   </div>
                 </div>
                 <div className="mt-6 grid gap-4 md:grid-cols-3">
-                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.weightRange}</div><p className="mt-2 text-sm leading-6 text-slate-700">{l(activeCategory.meaning, lang)}</p></div>
-                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.recommendedAction}</div><p className="mt-2 text-sm leading-6 text-slate-700">{l(activeCategory.actions, lang)}</p></div>
-                  <div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.relatedNextTool}</div><p className="mt-2 text-base font-black text-blue-950">{l(activeCategory.nextTool, lang)}</p></div>
+                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.idealWeightRange}</div><p className="mt-2 text-sm leading-6 text-slate-700">{l(activeCategory?.meaning || categoryInfo[1].meaning, lang)}</p></div>
+                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.recommendedAction}</div><p className="mt-2 text-sm leading-6 text-slate-700">{l(activeCategory?.actions || categoryInfo[1].actions, lang)}</p></div>
+                  <div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.relatedNextTool}</div><p className="mt-2 text-base font-black text-blue-950">{l(activeCategory?.nextTool || categoryInfo[1].nextTool, lang)}</p></div>
                 </div>
               </div>
             </article>
 
             <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
               <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.resultIntelligence}</p>
-              <h2 className="mt-2 text-3xl font-black">{t.interpretCategoryBeforeActing}</h2>
+              <h2 className="mt-2 text-3xl font-black">{t.interpretWeightBeforeActing}</h2>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 {categoryInfo.map((item) => (
-                  <div key={item.key} className={`rounded-2xl border p-4 ${item.key === activeCategory.key ? "border-blue-500 bg-blue-50 shadow-sm" : "border-slate-200 bg-slate-50"}`}>
+                  <div key={item.key} className={`rounded-2xl border p-4 ${item.key === activeCategory?.key ? "border-blue-500 bg-blue-50 shadow-sm" : "border-slate-200 bg-slate-50"}`}>
                     <h3 className="font-black">{l(item.label, lang)}</h3>
                     <p className="mt-2 text-sm leading-6 text-slate-700">{l(item.meaning, lang)}</p>
                   </div>
@@ -391,104 +373,123 @@ export default function IdealWeightCalculator() {
             </article>
           </section>
 
+          {/* AdSenseWrapper */}
+          <AdSenseWrapper showAds={true} adFormat="horizontal" />
+
           {/* Knowledge Section */}
-          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.knowledge}</p>
-            <h2 className="mt-2 text-3xl font-black">{t.idealWeightMeaning}</h2>
-            <div className="mt-6 grid gap-6 md:grid-cols-2">
-              <div>
-                <h3 className="text-lg font-black">{t.definition}</h3>
-                <p className="mt-2 leading-6 text-slate-700">{t.definitionText}</p>
+          <section className="grid gap-7 lg:grid-cols-[1fr_0.9fr]">
+            <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.knowledge}</p>
+              <h2 className="mt-2 text-3xl font-black">{t.idealWeightMeaning}</h2>
+              <div className="mt-6 grid gap-6 md:grid-cols-2">
+                <div>
+                  <h3 className="text-lg font-black">{t.definition}</h3>
+                  <p className="mt-2 leading-6 text-slate-700">{t.definitionText}</p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-black">{t.formula}</h3>
+                  <p className="mt-2 rounded-2xl bg-slate-50 p-4 font-mono text-sm leading-6 text-slate-700">{t.formulaText}</p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-black">{t.limitations}</h3>
+                  <p className="mt-2 leading-6 text-slate-700">{t.limitationsText}</p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-black">{t.semanticNeighbors}</h3>
+                  <p className="mt-2 leading-6 text-slate-700">{t.semanticNeighborsText}</p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-lg font-black">{t.formula}</h3>
-                <p className="mt-2 rounded-2xl bg-slate-50 p-4 font-mono text-sm leading-6 text-slate-700">{t.formulaText}</p>
+
+              {/* AdSlot: Knowledge 中間 */}
+              <div className="mt-6">
+                <AdSlot slot="ideal-weight-knowledge" position="middle" />
               </div>
-              <div>
-                <h3 className="text-lg font-black">{t.limitations}</h3>
-                <p className="mt-2 leading-6 text-slate-700">{t.limitationsText}</p>
+            </article>
+
+            <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.faq}</p>
+              <h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2>
+              <div className="mt-5 space-y-3">
+                <details className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <summary className="cursor-pointer font-black">Q1: {lang === "zh" ? "理想體重和 BMI 有什麼區別？" : "What is the difference between ideal weight and BMI?"}</summary>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">{lang === "zh" ? "理想體重是基於身高計算的具體重量範圍，BMI 是體重與身高的比例指數。理想體重更具體，BMI 更通用。" : "Ideal weight is a specific weight range calculated from height, BMI is a ratio index. Ideal weight is more specific, BMI is more universal."}</p>
+                </details>
+                <details className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <summary className="cursor-pointer font-black">Q2: {lang === "zh" ? "理想體重範圍為什麼是 ±10%？" : "Why is the ideal weight range ±10%?"}</summary>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">{lang === "zh" ? "±10% 的範圍考慮了個人肌肉量、骨密度、體型等差異，提供更現實的健康體重目標。" : "The ±10% range accounts for differences in muscle mass, bone density, body type, etc., providing more realistic healthy weight targets."}</p>
+                </details>
+                <details className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <summary className="cursor-pointer font-black">Q3: {lang === "zh" ? "我應該達到理想體重嗎？" : "Should I aim for ideal weight?"}</summary>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">{lang === "zh" ? "理想體重是參考標準，但不是絕對目標。建議結合 BMI、體脂率、肌肉量、整體健康狀況進行評估。" : "Ideal weight is a reference standard, not an absolute goal. Consider BMI, body fat rate, muscle mass, and overall health status."}</p>
+                </details>
+                <details className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <summary className="cursor-pointer font-black">Q4: {lang === "zh" ? "如何達到理想體重？" : "How to achieve ideal weight?"}</summary>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">{lang === "zh" ? "結合規律運動、均衡飲食、充足睡眠。根據需要計算 TDEE 和熱量赤字，制定科學的減重或增重計畫。" : "Combine regular exercise, balanced diet, adequate sleep. Calculate TDEE and calorie deficit as needed, create a scientific weight loss or gain plan."}</p>
+                </details>
               </div>
-              <div>
-                <h3 className="text-lg font-black">{t.semanticNeighbors}</h3>
-                <p className="mt-2 leading-6 text-slate-700">{t.semanticNeighborsText}</p>
-              </div>
-            </div>
+            </article>
           </section>
 
-          {/* FAQ Section */}
-          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.faq}</p>
-            <h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2>
-            <div className="mt-6 grid gap-4 md:grid-cols-2">
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <h3 className="font-black">Q1: {lang === "zh" ? "理想體重與 BMI 有什麼區別？" : "What is the difference between ideal weight and BMI?"}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-700">{lang === "zh" ? "BMI 根據當前體重計算分類，理想體重根據身高計算目標範圍。兩者互補。" : "BMI calculates classification based on current weight, ideal weight calculates target range based on height. They complement each other."}</p>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <h3 className="font-black">Q2: {lang === "zh" ? "為什麼用 BMI 22？" : "Why use BMI 22?"}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-700">{lang === "zh" ? "BMI 22 是健康 BMI 範圍（18.5-24.9）的中心，被多個衛生機構認可。" : "BMI 22 is the center of the healthy BMI range (18.5-24.9), recognized by multiple health organizations."}</p>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <h3 className="font-black">Q3: {lang === "zh" ? "體重超出範圍怎麼辦？" : "What if my weight is outside the range?"}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-700">{lang === "zh" ? "計算 BMI、BMR、TDEE，制定體重管理計劃。如差異大，尋求專業指導。" : "Calculate BMI, BMR, TDEE to plan weight management. Seek professional guidance if difference is significant."}</p>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <h3 className="font-black">Q4: {lang === "zh" ? "適用於所有人嗎？" : "Is it applicable to everyone?"}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-700">{lang === "zh" ? "適用於成年人。兒童、運動員、孕婦需諮詢專業人員。" : "Suitable for adults. Children, athletes, and pregnant women should consult professionals."}</p>
-              </div>
+          {/* AdSlot: FAQ 下方 */}
+          <AdSlot slot="ideal-weight-faq" position="inline" />
+
+          {/* Affiliate Layer */}
+          <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 md:p-7">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{lang === "zh" ? "推薦商品" : "Recommended"}</p>
+            <h2 className="mt-2 text-2xl font-black">{t.recommendedProducts}</h2>
+            <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
+              {[
+                { zh: "體重秤", en: "Scale", href: "#affiliate-scale" },
+                { zh: "體脂計", en: "Body Fat Monitor", href: "#affiliate-bodyfat" },
+                { zh: "測量尺", en: "Measuring Tape", href: "#affiliate-tape" },
+                { zh: "健身計畫書", en: "Fitness Plans", href: "#affiliate-plans" },
+              ].map((item) => (
+                <a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100">
+                  {lang === "zh" ? item.zh : item.en}
+                </a>
+              ))}
             </div>
+            <p className="mt-3 text-xs text-amber-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission."}</p>
           </section>
 
-          {/* Related Tools Section */}
-          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.relatedTools}</p>
-            <h2 className="mt-2 text-3xl font-black">{t.semanticNeighbors}</h2>
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              <a href="/tools/health/bmi-calculator" className="rounded-2xl border border-blue-200 bg-blue-50 p-4 transition hover:border-blue-500">
-                <h3 className="font-black text-blue-900">BMI {lang === "zh" ? "計算機" : "Calculator"}</h3>
-                <p className="mt-2 text-sm text-blue-800">{lang === "zh" ? "評估當前體重狀況" : "Assess current weight status"}</p>
-              </a>
-              <a href="/tools/health/bmr-calculator" className="rounded-2xl border border-slate-200 bg-slate-50 p-4 transition hover:border-slate-400">
-                <h3 className="font-black">BMR {lang === "zh" ? "計算機" : "Calculator"}</h3>
-                <p className="mt-2 text-sm text-slate-700">{lang === "zh" ? "計算基礎代謝率" : "Calculate basal metabolic rate"}</p>
-              </a>
-              <a href="/tools/health/tdee-calculator" className="rounded-2xl border border-slate-200 bg-slate-50 p-4 transition hover:border-slate-400">
-                <h3 className="font-black">TDEE {lang === "zh" ? "計算機" : "Calculator"}</h3>
-                <p className="mt-2 text-sm text-slate-700">{lang === "zh" ? "規劃每日熱量需求" : "Plan daily calorie needs"}</p>
-              </a>
+          {/* Premium Layer */}
+          <PremiumGate plan="PRO">
+            <div className="rounded-[2rem] border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{lang === "zh" ? "進階功能" : "Premium Features"}</p>
+              <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "解鎖完整健康追蹤" : "Unlock Complete Health Tracking"}</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{lang === "zh" ? "Premium 功能即將推出" : "Premium features coming soon"}</p>
             </div>
-          </section>
+          </PremiumGate>
 
           {/* References Section */}
           <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.references}</p>
-            <h2 className="mt-2 text-3xl font-black">{t.trustRelatedReferences}</h2>
-            <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.trustRelatedReferences}</p>
+            <div className="mt-4 grid gap-5 md:grid-cols-3">
               <div>
-                <h3 className="font-black mb-3">{t.trust}</h3>
-                <p className="text-sm leading-6 text-slate-700">{t.trustText}</p>
+                <h2 className="text-xl font-black">{t.trust}</h2>
+                <p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p>
               </div>
               <div>
-                <h3 className="font-black mb-3">{t.references}</h3>
-                <ul className="space-y-2 text-sm">
-                  <li><a href="https://www.who.int/tools/bmi" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">WHO - Body Mass Index</a></li>
-                  <li><a href="https://www.cdc.gov/bmi/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">CDC - About Adult BMI</a></li>
-                  <li><a href="https://www.mdcalc.com/calc/68/ideal-body-weight-adjusted-body-weight" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">MDCalc - Ideal Body Weight</a></li>
-                  <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10621523/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">NIH - Ideal Body Weight Formulae</a></li>
+                <h2 className="text-xl font-black">{t.relatedTools}</h2>
+                <p className="mt-2 text-sm leading-6 text-slate-700">BMI · BMR · TDEE · {lang === "zh" ? "熱量赤字" : "Calorie Deficit"} · {lang === "zh" ? "體脂率" : "Body Fat Rate"}</p>
+              </div>
+              <div>
+                <h2 className="text-xl font-black">{t.references}</h2>
+                <ul className="mt-2 space-y-1 text-sm text-slate-700">
+                  <li><a href="https://www.who.int/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">WHO</a></li>
+                  <li><a href="https://www.cdc.gov/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">CDC</a></li>
+                  <li><a href="https://www.nih.gov/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">NIH</a></li>
                 </ul>
               </div>
             </div>
           </section>
-
-          {/* Ad Slots */}
-          <AdSlot slot="ideal-weight-knowledge" position="bottom" />
         </div>
       </div>
 
       {/* Sidebar with Premium Gate */}
       <div className="fixed right-4 top-32 hidden w-80 space-y-4 lg:block">
         <AdSlot slot="ideal-weight-sidebar" position="top" />
-        <PremiumGate />
+        <PremiumGate plan="PRO" />
         <AdSlot slot="ideal-weight-sidebar" position="bottom" />
       </div>
 
