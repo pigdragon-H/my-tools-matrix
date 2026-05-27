@@ -88,14 +88,14 @@ const ui = {
     weight: "體重",
     height: "身高",
     oneClickFillAdultMaleExample: "一鍵填入成年男性範例",
-    previewHighBmiDecisionPath: "預覽高 BMI 決策路徑",
+    previewHighBmiDecisionPath: "預覽高 BMR 決策路徑",
     examplesCalculator: "範例 → 計算機",
     enterOrFillValues: "輸入或填入數值",
     examplesHelper: "範例緊貼計算機，讓使用者能快速開始，再依自己的數值調整輸入而不失去脈絡。",
     metric: "公制",
     imperial: "英制",
     exampleCards: "範例卡",
-    highBmiPathDemo: "高 BMI 路徑示範",
+    highBmiPathDemo: "高 BMR 路徑示範",
     oneClickFillAllowed: "70kg · 175cm · 可一鍵填入",
     highBmiPathDescription: "88kg · 170cm · 展示 BMR → TDEE → 熱量路徑",
     flowDemo: "流程示範",
@@ -114,7 +114,7 @@ const ui = {
     resultIntelligence: "結果解讀",
     interpretCategoryBeforeActing: "行動前先理解分類",
     emotionConversionLayer: "情緒與轉換層",
-    turnBmiIntoJourney: "將 BMI 結果轉化為健康旅程",
+    turnBmiIntoJourney: "將 BMR 結果轉化為健康旅程",
     prototypeLayerNote: "此原型層在結果後加入留存與轉換提示，但不實作儲存、分享、帳號或導航功能。",
     progressInsightCard: "進度洞察卡",
     possibleProgressTarget: "你的可能進度目標",
@@ -141,7 +141,7 @@ const ui = {
     shareUi: "分享（示意）",
     decisionPath: "決策路徑",
     highBmiEnergyPath: "若 BMR 偏高，繼續能量路徑",
-    bmiHigh: "BMR 偏高",
+    bmrHigh: "BMR 偏高",
     screeningSignal: "篩查訊號",
     restingEnergy: "靜止能量",
     dailyNeeds: "每日需求",
@@ -180,14 +180,14 @@ const ui = {
     weight: "Weight",
     height: "Height",
     oneClickFillAdultMaleExample: "One-click fill adult male example",
-    previewHighBmiDecisionPath: "Preview high BMI decision path",
+    previewHighBmiDecisionPath: "Preview high BMR decision path",
     examplesCalculator: "Examples → Calculator",
     enterOrFillValues: "Enter or fill values",
     examplesHelper: "The prototype keeps examples close to the calculator so users can start fast, then edit inputs without losing context.",
     metric: "Metric",
     imperial: "Imperial",
     exampleCards: "Example cards",
-    highBmiPathDemo: "High BMI path demo",
+    highBmiPathDemo: "High BMR path demo",
     oneClickFillAllowed: "70kg · 175cm · one-click fill allowed",
     highBmiPathDescription: "88kg · 170cm · shows BMR → TDEE → Calories path.",
     flowDemo: "Flow demo",
@@ -206,7 +206,7 @@ const ui = {
     resultIntelligence: "Result Intelligence",
     interpretCategoryBeforeActing: "Interpret the category before acting",
     emotionConversionLayer: "Emotion + Conversion Layer",
-    turnBmiIntoJourney: "Turn the BMI result into a health journey",
+    turnBmiIntoJourney: "Turn the BMR result into a health journey",
     prototypeLayerNote: "This prototype layer adds retention and conversion prompts after the result without implementing save, share, account, or navigation behavior.",
     progressInsightCard: "Progress Insight Card",
     possibleProgressTarget: "Your possible progress target",
@@ -233,7 +233,7 @@ const ui = {
     shareUi: "Share UI",
     decisionPath: "Decision Path",
     highBmiEnergyPath: "If BMR is high, continue through the energy path",
-    bmiHigh: "BMR high",
+    bmrHigh: "BMR high",
     screeningSignal: "Screening signal",
     restingEnergy: "Resting energy",
     dailyNeeds: "Daily needs",
@@ -326,8 +326,8 @@ export default function BmrCalculator() {
   const activeCategory = calculation?.category ?? categoryInfo[1];
   const activeBmr = calculation?.bmr;
   const tdeeEstimate = activeBmr ? Math.round(activeBmr * 1.5) : null;
-  const journeyNodes = [t.current, "BMI", "BMR", t.calories, t.progress];
-  const decisionNodes = [t.bmiHigh, "BMR", "TDEE", t.calories];
+  const journeyNodes = [t.current, "BMR", "TDEE", t.calories, t.progress];
+  const decisionNodes = [t.bmrHigh, "BMR", "TDEE", t.calories];
   const decisionDescriptions = [t.screeningSignal, t.restingEnergy, t.dailyNeeds, t.planIntake];
   const motivationTools = ["BMR", "TDEE", t.calories, t.weightLoss];
 
@@ -416,7 +416,7 @@ export default function BmrCalculator() {
                 <h3 className="text-lg font-black">{t.exampleCards}</h3>
                 <div className="mt-4 space-y-3">
                   <button onClick={fillAdultMaleExample} className="w-full rounded-2xl border border-blue-200 bg-white p-4 text-left transition hover:border-blue-500">
-                    <div className="flex items-center justify-between gap-3"><span className="font-black">{t.adultMale}</span><span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">BMI {formatBmr(adultMaleExampleBmi)}</span></div>
+                    <div className="flex items-center justify-between gap-3"><span className="font-black">{t.adultMale}</span><span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">BMR {formatBmr(adultMaleExampleBmi)}</span></div>
                     <p className="mt-2 text-sm text-slate-600">{t.oneClickFillAllowed}</p>
                   </button>
                   <button onClick={fillHighBmiExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500">
