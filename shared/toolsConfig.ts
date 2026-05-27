@@ -147,3 +147,14 @@ export function getFeaturedTools(): Tool[] {
 export function getNewTools(): Tool[] {
   return tools.filter((tool) => tool.isNew);
 }
+
+// Finance Tools
+export const roiCalculator = { id: "roi-calculator", category: "finance", name: "ROI Calculator", path: "/tools/finance/roi-calculator" };
+export const compoundInterestCalculator = { id: "compound-interest-calculator", category: "finance", name: "Compound Interest Calculator", path: "/tools/finance/compound-interest-calculator" };
+export const loanCalculator = { id: "loan-calculator", category: "finance", name: "Loan Calculator", path: "/tools/finance/loan-calculator" };
+
+// Developer Tools
+export const apiResponseFormatter = { id: "api-response-formatter", category: "developer", name: "API Response Formatter", path: "/tools/developer/api-response-formatter" };
+export const jsonValidator = { id: "json-validator", category: "developer", name: "JSON Validator", path: "/tools/developer/json-validator" };
+export const regexTester = { id: "regex-tester", category: "developer", name: "Regex Tester", path: "/tools/developer/regex-tester" };
+export const cronExpressionBuilder = { id: "cron-expression-builder", category: "developer", name: "Cron Expression Builder", path: "/tools/developer/cron-expression-builder" };
