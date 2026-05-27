@@ -25,6 +25,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   // ── 健康工具（已完成重造）
   "health/bmi-calculator": lazy(() => import("@/tools/health/BmiCalculator")),
   "health/bmr-calculator": lazy(() => import("@/tools/health/BmrCalculator")),
+  "health/ideal-weight-calculator": lazy(() => import("@/tools/health/IdealWeightCalculator")),
   "health/tdee-calculator": lazy(() => import("@/tools/health/TdeeCalculator")),
   "health/calorie-deficit-calculator": lazy(() => import("@/tools/health/CalorieDeficitCalculator")),
   
