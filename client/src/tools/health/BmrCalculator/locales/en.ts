@@ -2,96 +2,129 @@ import type { Translations } from "./zh"
 
 const en: Translations = {
   // Hero
-  badge: "Health · Biometrics · Gold Tool",
-  title: "BMI Calculator · Complete Health Assessment",
-  subtitle: "BMI Calculator guided experience",
-  intro: "Move through BMI as a guided health screening flow: start with a quick example, calculate your score, understand the risk signal, and continue to the most useful next tool.",
+  badge: "Health · Biometrics · GOLD TOOL",
+  title: "BMR Basal Metabolic Rate Calculator",
+  subtitle: "BMR Calculator guided experience",
+  intro: "Calculate your basal metabolic rate using the Mifflin-St Jeor formula to understand your body's baseline calorie needs, then extend to TDEE, calorie deficit, and other next-step tools.",
   trustNoteLabel: "Trust note:",
-  trustNote: "BMI is a screening tool, not a diagnosis. It does not directly measure body fat, athletic body composition, pregnancy context, or child percentile status.",
+  trustNote: "BMR is an estimation tool. Individual actual metabolism varies by body composition and health status. Pregnant women and patients with special conditions should consult a physician.",
+
+  // Quick Action Card
   quickActionCard: "Quick Action Card",
   tryCommonAdultExample: "Try a common adult example",
-  bmiPreview: "BMI preview",
+  bmiPreview: "BMR preview",
+
+  // Examples
   example: "Example",
-  adultMale: "Adult male",
+  adultMale: "Adult male (age 30)",
   weight: "Weight",
   height: "Height",
   oneClickFillAdultMaleExample: "One-click fill adult male example",
-  previewHighBmiDecisionPath: "Preview high BMI decision path",
+  previewHighBmiDecisionPath: "Preview high BMR decision path",
+
+  // Examples Calculator
   examplesCalculator: "Examples → Calculator",
   enterOrFillValues: "Enter or fill values",
   examplesHelper: "The prototype keeps examples close to the calculator so users can start fast, then edit inputs without losing context.",
   metric: "Metric",
   imperial: "Imperial",
   exampleCards: "Example cards",
-  highBmiPathDemo: "High BMI path demo",
+  highBmiPathDemo: "High BMR path demo",
   oneClickFillAllowed: "70kg · 175cm · one-click fill allowed",
-  highBmiPathDescription: "88kg · 170cm · shows BMR → TDEE → Calories path.",
+  highBmiPathDescription: "88kg · 170cm · shows BMR → TDEE → Calorie Deficit path.",
   flowDemo: "Flow demo",
+
+  // Calculator
   calculator: "Calculator",
   heightCm: "Height (cm)",
   weightKg: "Weight (kg)",
   feet: "Feet",
   inches: "Inches",
   weightLb: "Weight (lb)",
-  resultCard: "Result Card",
   enterValidValues: "Enter valid values",
-  status: "Status",
-  riskSummary: "Risk summary",
+
+  // Result Card
+  resultCard: "Result Card",
+  current: "Current",
+  currentBmi: "Current BMR",
+  status: "BMR Category",
+  riskSummary: "Metabolism Assessment",
+
+  // Result Intelligence
+  resultIntelligence: "Result Intelligence",
+  emotionConversionLayer: "Emotion + Conversion Layer",
+  screeningSignal: "Screening signal",
+  interpretCategoryBeforeActing: "Interpret the category before acting",
   recommendedAction: "Recommended action",
   relatedNextTool: "Related next tool",
-  resultIntelligence: "Result Intelligence",
-  interpretCategoryBeforeActing: "Interpret the category before acting",
-  emotionConversionLayer: "Emotion + Conversion Layer",
-  turnBmiIntoJourney: "Turn the BMI result into a health journey",
-  prototypeLayerNote: "This prototype layer adds retention and conversion prompts after the result without implementing save, share, account, or navigation behavior.",
+
+  // Progress Insight
   progressInsightCard: "Progress Insight Card",
-  possibleProgressTarget: "Your possible progress target",
   timeline: "Timeline",
-  estimatedTimelinePlaceholder: "Estimated timeline placeholder",
-  currentBmi: "Current BMI",
-  goal: "Goal",
-  needed: "Needed",
-  neededWeightNote: "Needed weight is a prototype estimate based on the current height and a goal BMI of 23. It is not a medical recommendation.",
-  motivationCard: "Motivation Card",
-  keepMomentum: "Keep momentum after the score",
-  targetBmiRange: "Target BMI range",
-  weightLoss: "Weight Loss",
-  healthJourney: "Health Journey",
-  current: "Current",
-  calories: "Calories",
-  progress: "Progress",
-  start: "Start",
   step: "Step",
-  saveSharePlaceholder: "Save / Share placeholder",
-  saveShareJourney: "Save this result or share the journey",
-  saveShareNote: "UI placeholder only. No account, storage, sharing, or export implementation is included in this prototype.",
-  saveUi: "Save UI",
-  shareUi: "Share UI",
-  decisionPath: "Decision Path",
-  highBmiEnergyPath: "If BMI is high, continue through the energy path",
-  bmiHigh: "BMI high",
-  screeningSignal: "Screening signal",
-  restingEnergy: "Resting energy",
-  dailyNeeds: "Daily needs",
-  planIntake: "Plan intake",
+  goal: "Goal",
+  progress: "Progress",
+  keepMomentum: "Keep momentum",
+  possibleProgressTarget: "Your possible progress target",
+  estimatedTimelinePlaceholder: "Estimated timeline placeholder",
+
+  // Knowledge
   knowledge: "Knowledge",
-  bmiMeaning: "What BMI means in the Health universe",
+  bmiMeaning: "What BMR means in the Health universe",
   definition: "Definition",
-  definitionText: "BMI compares adult weight with height using weight divided by squared height.",
+  definitionText: "BMR (Basal Metabolic Rate) is the minimum calories your body needs to maintain life functions at complete rest.",
   limitations: "Limitations",
-  limitationsText: "BMI does not measure body fat, muscle mass, fat distribution, pregnancy status, or child percentile status.",
-  semanticNeighbors: "Semantic neighbors",
-  semanticNeighborsText: "BMR, TDEE, Calories, Body Fat, Water Intake, and Waist Ratio expand the result context.",
-  metricFormula: "Metric: BMI = weight(kg) / height(m)²",
-  imperialFormula: "Imperial: BMI = 703 × weight(lb) / height(in)²",
-  faq: "FAQ",
+  limitationsText: "BMR does not account for daily activities, exercise, stress, or hormonal changes. Higher muscle mass results in higher BMR.",
+  semanticNeighbors: "Related Tools",
+  semanticNeighborsText: "TDEE, Calorie Deficit, BMI, and Protein Calculator extend the result context.",
+  metricFormula: "Male: BMR = 10×weight(kg) + 6.25×height(cm) - 5×age + 5",
+  imperialFormula: "Female: BMR = 10×weight(kg) + 6.25×height(cm) - 5×age - 161",
+
+  // FAQ
   commonQuestions: "Common questions",
-  trustRelatedReferences: "Trust · Related Tools · References",
-  trust: "Trust",
-  trustText: "References should include WHO, CDC, and NIH. BMI is a screening metric, not a diagnosis or medical treatment recommendation.",
-  relatedTools: "Related Tools",
+  faq: "FAQ",
+
+  // Trust
+  trust: "Trust Statement",
+  trustText: "This tool is based on the Mifflin-St Jeor formula, the most widely adopted BMR calculation standard in academia.",
+
+  // References
   references: "References",
-  referencesText: "WHO classification context, CDC BMI screening guidance, and NIH health risk context.",
+  referencesText: "Mifflin MD et al. (1990), WHO metabolic standards, NIH calorie requirement guidelines",
+
+  // Related Tools
+  relatedTools: "Related Tools",
+
+  // Journey
+  healthJourney: "Health Journey",
+  turnBmiIntoJourney: "Turn BMR into a health journey",
+  startJourney: "Start journey",
+
+  // Save/Share
+  saveUi: "Save",
+  saveShareJourney: "Save / Share journey",
+  saveShareNote: "Save your calculation results and decision path",
+  saveSharePlaceholder: "Enter journey name",
+  shareUi: "Share",
+
+  // Prototype Note
+  prototypeLayerNote: "Prototype layer note",
+
+  // Others
+  start: "Start",
+  needed: "Needed",
+  neededWeightNote: "Needed weight",
+  planIntake: "Plan intake",
+  calories: "Calories",
+  dailyNeeds: "Daily needs",
+  restingEnergy: "Resting energy",
+  weightLoss: "Weight loss",
+  targetBmiRange: "Target BMR range",
+  bmiHigh: "BMR high",
+  motivationCard: "Motivation Card",
+  decisionPath: "Decision Path",
+  highBmiEnergyPath: "If BMR is high, continue through the energy path",
+  trustRelatedReferences: "Trust · Related Tools · References",
 } as const
 
 export default en
