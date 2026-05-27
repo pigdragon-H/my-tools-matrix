@@ -5,6 +5,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { animate, motion, useReducedMotion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   ArrowRight,
   ArrowUp,
@@ -60,11 +61,7 @@ type StatItem = {
   isText?: boolean;
 };
 
-const getBrowserLang = (): Lang => {
-  const locale =
-    (typeof navigator !== "undefined" && navigator.language) || "zh"
-  return locale.startsWith("zh") ? "zh" : "en"
-}
+
 
 const journeyCards: JourneyCard[] = [
   { title: { zh: "退休規劃", en: "Retirement planning" }, description: { zh: "從財務自由假設出發，連接成長率、退休資金與提領策略。", en: "Connect financial freedom assumptions, growth rate, retirement capital, and withdrawal strategy." }, steps: { zh: ["FIRE", "CAGR", "退休計算", "提領策略"], en: ["FIRE", "CAGR", "Retirement", "Withdrawal"] } },
@@ -128,7 +125,7 @@ function LanguageToggle({ lang, setLang }: { lang: Lang; setLang: (lang: Lang) =
             : "text-slate-500 hover:text-slate-800"
         }`}
       >
-        繁中
+        🌐 繁中
       </button>
       <button
         type="button"
@@ -139,7 +136,7 @@ function LanguageToggle({ lang, setLang }: { lang: Lang; setLang: (lang: Lang) =
             : "text-slate-500 hover:text-slate-800"
         }`}
       >
-        EN
+        🌐 EN
       </button>
     </div>
   );
@@ -176,7 +173,7 @@ function CountUpStat({ stat }: { stat: StatItem }) {
 }
 
 export default function Home() {
-  const [lang, setLang] = useState<Lang>(getBrowserLang());
+  const { lang, setLang } = useLanguage();
   const [showBackToTop, setShowBackToTop] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 

@@ -4,7 +4,7 @@
 
 import { useState, useCallback } from "react";
 import { Link } from "wouter";
-import { Menu, X, Sun, Moon, ChevronDown, Layers, BookOpen, LogIn, LogOut, Search, Info } from "lucide-react";
+import { Menu, X, Sun, Moon, ChevronDown, Layers, BookOpen, LogIn, LogOut, Search, Info, Globe } from "lucide-react";
 import { SearchDialog } from "./SearchDialog";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useLocation } from "wouter";
 import { categories } from "@shared/categoriesConfig";
@@ -24,12 +25,6 @@ import { CategoryIcon } from "./CategoryIcon";
 import { cn } from "@/lib/utils";
 
 type Lang = "zh" | "en";
-
-const getBrowserLang = (): Lang => {
-  const locale =
-    (typeof navigator !== "undefined" && navigator.language) || "zh"
-  return locale.startsWith("zh") ? "zh" : "en"
-}
 
 const navbarI18n = {
   zh: {
@@ -71,7 +66,7 @@ for (const tool of tools) {
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [lang] = useState<Lang>(getBrowserLang());
+  const { lang, setLang } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const { user, isAuthenticated, logout } = useAuth();
   const [location, setLocation] = useLocation();
@@ -211,6 +206,28 @@ export function Navbar() {
           >
             <Search className="h-4 w-4" />
           </Button>
+          {/* Language toggle */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
+                aria-label="Select language"
+              >
+                <Globe className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setLang("zh")} className={lang === "zh" ? "bg-accent" : ""}>
+                <span>繁中 (Traditional Chinese)</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLang("en")} className={lang === "en" ? "bg-accent" : ""}>
+                <span>EN (English)</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           {/* Theme toggle */}
           <Button
             variant="ghost"

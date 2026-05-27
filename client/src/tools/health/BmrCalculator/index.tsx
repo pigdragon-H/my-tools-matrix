@@ -1,5 +1,6 @@
 
 import { useMemo, useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { AdSlot } from "@/components/business/AdSlot";
 import { PremiumGate } from "@/components/business/PremiumGate";
@@ -271,15 +272,8 @@ function formatBmr(value: number): string {
   return Number.isFinite(value) ? value.toFixed(0) : "—";
 }
 
-const getBrowserLang = (): "zh" | "en" => {
-  const locale =
-    (typeof navigator !== "undefined"
-    && navigator.language) || "zh"
-  return locale.startsWith("zh") ? "zh" : "en"
-}
-
 export default function BmrCalculator() {
-  const [lang, setLang] = useState<"zh" | "en">(getBrowserLang());
+  const { lang, setLang } = useLanguage();
   const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric");
   const [heightCm, setHeightCm] = useState("175");
   const [weightKg, setWeightKg] = useState("70");
@@ -354,8 +348,8 @@ export default function BmrCalculator() {
               className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm transition hover:border-blue-500 hover:bg-blue-50"
               aria-label={lang === "zh" ? "Switch to English" : "切換到中文"}
             >
-              <span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}`}>中</span>
-              <span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}`}>EN</span>
+              <span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}`}>🌐 中</span>
+              <span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}`}>🌐 EN</span>
             </button>
           </div>
           <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
