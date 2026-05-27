@@ -1,143 +1,100 @@
 const zh = {
-  // Badge & Title
-  badge: "健康 · 營養計劃 · Gold Tool",
-  title: "熱量赤字計算機・精準減脂增肌",
-  subtitle: "熱量赤字計算機引導體驗",
-  intro: "透過 TDEE 設定減脂或增肌目標，自動計算每日熱量與三大營養素分配，並延伸到 BMR、TDEE、體脂等下一步工具。",
-  trustNoteLabel: "信任提醒：",
-  trustNote: "熱量赤字計算是參考工具，不是醫療診斷。實際體重變化受多因素影響，包括代謝、激素、運動強度等。建議搭配專業指導。",
+  // Hero
+  badge: "Formula Universe · AI Native Knowledge Operating System",
+  titleLine1: "工具矩陣",
+  titleLine2: "讓每個決策都有數據支撐",
+  intro: "Formula Universe 不是單純的工具列表，而是把工具、公式、解釋、範例、限制與下一步行動串起來的 AI Native Knowledge Infrastructure。",
+  exploreTools: "探索工具",
+  startJourney: "開始旅程",
 
-  // Quick Action
-  quickActionCard: "快速範例卡",
-  tryCommonExample: "試用常見範例",
-  calorieDeficitPreview: "熱量赤字預覽",
-  example: "範例",
-  commonAdult: "常見成人",
-  tdee: "每日總消耗熱量",
-  goal: "目標",
-  oneClickFillExample: "一鍵填入範例",
-  previewDeficitPath: "預覽減脂決策路徑",
-  examplesCalculator: "範例 → 計算機",
-  enterOrFillValues: "輸入或填入數值",
-  examplesHelper: "範例緊貼計算機，讓使用者能快速開始，再依自己的數值調整輸入而不失去脈絡。",
+  // Stats
+  statTools: "個工具",
+  statDomains: "大知識領域",
+  statFormulas: "公式指標（目標）",
+  statAI: "AI Native 架構",
 
-  // Unit System
-  metric: "公制",
-  imperial: "英制",
+  // Journey
+  journeyBadge: "Journey",
+  journeyTitle: "你的決策路徑",
+  journeySubtitle: "每條路徑串連相關工具與公式，讓你從模糊問題走到清晰決策。",
 
-  // Calculator
-  calculator: "計算機",
-  tdeeValue: "每日總消耗熱量（大卡）",
-  currentWeight: "目前體重（kg）",
-  goal: "目標設定",
-  calculateButton: "計算熱量目標",
-  calculating: "計算中...",
-  enterValidValues: "請輸入有效數值",
+  // Journey Cards
+  j1Title: "退休規劃",
+  j1Desc: "從財務自由假設出發，連接成長率、退休資金與提領策略。",
+  j1Steps: ["FIRE", "CAGR", "退休計算", "提領策略"],
 
-  // Goals
-  fatLossSlow: "緩慢減脂（-10%，保肌效果佳）",
-  fatLossMedium: "標準減脂（-20%，推薦）",
-  fatLossFast: "積極減脂（-25%，需監控）",
-  maintain: "維持體重（0%）",
-  muscleGainSlow: "精實增肌（+10%，少脂肪）",
-  muscleGainMedium: "積極增肌（+15%，增肌快）",
+  j2Title: "減重計畫",
+  j2Desc: "以身體指標、基礎代謝、熱量赤字與進度追蹤建立健康決策節奏。",
+  j2Steps: ["BMI", "BMR", "熱量赤字", "進度追蹤"],
 
-  // Result Card
-  resultCard: "結果卡",
-  yourTdee: "您的 TDEE",
-  dailyTargetCalories: "每日目標熱量",
-  calorieDeficit: "熱量缺口",
-  caloriesSurplus: "熱量盈餘",
-  caloriesDifference: "熱量差",
-  perDay: "/天",
-  estimatedWeeklyChange: "預估每週體重變化",
-  estimatedMonthlyChange: "預估每月體重變化",
-  kg: "kg",
+  j3Title: "開發工具",
+  j3Desc: "把資料整理、API 檢查、Regex 規則與部署前驗證串成工作流。",
+  j3Steps: ["JSON", "API", "Regex", "部署"],
 
-  // Macro Distribution
-  macroDistribution: "每日營養素分配",
-  protein: "蛋白質",
-  carbs: "碳水化合物",
-  fat: "脂肪",
-  grams: "g",
-  calories: "大卡",
-  macroPercentage: "佔比",
+  j4Title: "AI 成本",
+  j4Desc: "從 Prompt 到 Token、成本估算與結果評估，讓 AI 工作流可控。",
+  j4Steps: ["Prompt", "Token", "成本估算", "評估"],
 
-  // Meal Distribution
-  mealDistribution: "每餐分配",
-  breakfast: "早餐",
-  lunch: "午餐",
-  dinner: "晚餐",
-  snacks: "點心",
-  perMeal: "/餐",
+  j5Title: "SEO 優化",
+  j5Desc: "把關鍵字、SERP、內容結構與 Schema 串成可執行的搜尋策略。",
+  j5Steps: ["關鍵字", "SERP", "內容", "Schema"],
 
-  // Knowledge Section
-  knowledge: "知識",
-  calorieDeficitMeaning: "熱量赤字的意義",
-  definition: "定義",
-  definitionText: "熱量赤字是指攝取熱量少於消耗熱量的狀態，是減脂的必要條件。",
-  limitations: "限制",
-  limitationsText: "熱量赤字不能保證全是脂肪減少，肌肉流失、激素與睡眠等因素也會影響。",
-  semanticNeighbors: "相關指標",
-  semanticNeighborsText: "TDEE、BMR、代謝率、運動強度、飲食質量與恢復都會影響最終結果。",
-  metricFormula: "目標熱量 = TDEE × (1 + 赤字百分比)",
-  imperialFormula: "週體重變化 ≈ (赤字 ÷ 7700 大卡/kg) × 7 天",
+  j6Title: "旅遊規劃",
+  j6Desc: "用預算、匯率、時區與行程安排降低旅行決策成本。",
+  j6Steps: ["預算", "匯率", "時區", "行程"],
 
-  // FAQ
-  faq: "常見問題",
-  commonQuestions: "常見問題",
+  // Featured Tools
+  featuredBadge: "Featured Tools",
+  featuredTitle: "最常用的工具",
+  featuredSubtitle: "從高頻決策場景進入 Formula Universe，直接前往已規劃的工具頁。",
+  goToTool: "前往工具",
 
-  // FAQ Items
-  q1: "熱量赤字是減脂的唯一方式嗎？",
-  a1: "是的。無論飲食類型如何，減脂的基礎是熱量赤字。不過飲食質量、蛋白質攝取與運動會影響減脂過程中的肌肉保留。",
+  // Clusters
+  clustersBadge: "Clusters",
+  clustersTitle: "探索知識領域",
+  clustersSubtitle: "12 大領域的精準工具與知識，從財經到 AI，每個領域都是一個可深入的知識宇宙。",
+  goToDomain: "前往領域",
 
-  q2: "赤字越大越好嗎？",
-  a2: "不是。過大的赤字（>30%）容易導致肌肉流失、代謝適應與飢餓感。通常 -10% 到 -20% 是較平衡的選擇。",
+  // Cluster names
+  financeTitle: "finance｜財經投資",
+  financeDesc: "投資、複利、退休、風險與現金流決策。",
+  healthTitle: "health｜健康生活",
+  healthDesc: "身體指標、代謝、熱量與生活追蹤。",
+  devTitle: "dev｜開發工具",
+  devDesc: "JSON、API、Regex、格式化與部署前檢查。",
+  educationTitle: "education｜教育學習",
+  educationDesc: "學習、測驗、分數與知識整理。",
+  scienceTitle: "science｜科學工程",
+  scienceDesc: "單位、公式、模型、換算與工程計算。",
+  travelTitle: "travel｜旅遊地理",
+  travelDesc: "預算、匯率、時區、距離與行程規劃。",
+  productivityTitle: "productivity｜職場效率",
+  productivityDesc: "時間、任務、文件、決策與工作流程效率。",
+  aiTitle: "ai｜AI 工具",
+  aiDesc: "提示詞、Token、成本、評估與 AI 工作流。",
 
-  q3: "為什麼我的體重沒有按預估變化？",
-  a3: "體重受多因素影響：水分滯留、激素週期、消化道內容物、肌肉增長、睡眠與壓力。建議用 4 週平均體重而非單日數據。",
+  // AI Native
+  aiNativeBadge: "AI Native",
+  aiNativeTitle: "不只是計算機",
+  aiNativeSubtitle: "Formula Universe 的首頁是知識作業系統入口，而不是單純的工具清單。",
+  knowledgeGraph: "🧠 知識圖譜",
+  knowledgeGraphDesc: "工具、公式、解釋串連成知識網絡，讓每個計算結果都有上下文。",
+  decisionPath: "🔗 決策路徑",
+  decisionPathDesc: "從問題到答案的完整引導流程，協助使用者知道下一步該做什麼。",
+  aiNativeFeature: "📊 AI Native",
+  aiNativeFeatureDesc: "每個工具都預留連接 AI 分析與建議的語義位置，支援未來智慧探索。",
 
-  q4: "增肌時需要熱量盈餘嗎？",
-  a4: "通常是的。小幅盈餘（+10% 到 +15%）配合阻力訓練能促進肌肉合成，但過大盈餘會增加脂肪增長。",
+  // Footer
+  footerTagline: "AI Native Knowledge Infrastructure 的首頁入口。",
+  footerCopyright: "© 2026 PiGragon-H. All rights reserved.",
+  footerCategories: "分類連結",
+  footerMore: "更多",
+  footerKnowledge: "知識庫",
+  footerAbout: "關於我們",
 
-  q5: "我應該多久檢查一次進度？",
-  a5: "建議每週量體重 3-5 次，然後計算週平均。每 4 週評估一次進度，根據結果調整熱量目標。",
+  // Back to top
+  backToTop: "回到頂部",
+} as const
 
-  q6: "計算完後我該做什麼？",
-  a6: "先確認 BMR 與 TDEE 的準確性，然後根據目標調整飲食。建議搭配體脂率、腰圍等指標進行更完整評估。",
-
-  // Decision Path
-  decisionPath: "決策路徑",
-  highDeficitEnergyPath: "減脂決策路徑",
-  step: "步驟",
-  decisionNode1: "計算 TDEE",
-  decisionNode2: "設定赤字",
-  decisionNode3: "分配營養",
-  decisionNode4: "追蹤進度",
-  decisionDesc1: "先了解您的每日總消耗熱量",
-  decisionDesc2: "根據目標設定合適的熱量赤字",
-  decisionDesc3: "按目標分配蛋白質、碳水與脂肪",
-  decisionDesc4: "定期檢查體重與進度，調整策略",
-
-  // Trust & References
-  trustRelatedReferences: "信任 · 相關工具 · 參考資源",
-  trust: "信任",
-  trustText: "本計算機基於營養學與運動科學的通用原理。個人結果因體質、代謝、訓練與飲食質量而異。",
-  relatedTools: "相關工具",
-  references: "參考資源",
-  referencesText: "計算基於美國國家衛生研究院、國際運動營養學會與營養學期刊的研究。",
-
-  // Premium
-  premiumTitle: "解鎖完整營養追蹤",
-  premiumFeature1: "📊 進度追蹤",
-  premiumFeature2: "📄 營養報告匯出",
-  premiumFeature3: "🤖 AI 個人化建議",
-  upgradePremium: "升級 Premium — 每月 NT$99",
-
-  // Next Tool Recommendations
-  nextTool: "BMR 計算機",
-  recommendedTools: "BMR 計算機 · TDEE 計算機 · 體脂率計算機 · 飲水量計算機",
-} as const;
-
-export default zh;
-export type Translations = typeof zh;
+export default zh
+export type Translations = typeof zh
