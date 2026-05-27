@@ -6,11 +6,11 @@ import { PremiumGate } from "@/components/business/PremiumGate";
 
 type UnitSystem = "metric" | "imperial";
 type Lang = "zh" | "en";
-type BmiCategory = "underweight" | "normal" | "overweight" | "obesity1" | "obesity2" | "obesity3";
+type BmrCategory = "low" | "normal" | "high";
 type LocalText = { zh: string; en: string };
 
 type CategoryInfo = {
-  key: BmiCategory;
+  key: BmrCategory;
   label: LocalText;
   range: LocalText;
   band: LocalText;
@@ -26,86 +26,50 @@ const l = (value: LocalText, lang: Lang) => value[lang];
 
 const categoryInfo: CategoryInfo[] = [
   {
-    key: "underweight",
-    label: { zh: "偏輕", en: "Underweight" },
-    range: { zh: "低於 18.5", en: "Below 18.5" },
-    band: { zh: "低 BMI 區間", en: "Low BMI band" },
+    key: "low",
+    label: { zh: "偏低", en: "Low" },
+    range: { zh: "< 1400 kcal/day", en: "< 1400 kcal/day" },
+    band: { zh: "低代謝區間", en: "Low metabolism band" },
     tone: "from-sky-400 via-sky-300 to-slate-200",
-    meaning: { zh: "依據成人標準 BMI 分類，體重相對身高可能偏低。", en: "Weight may be low relative to height for standard adult BMI categories." },
-    risks: { zh: "可能原因：營養不足、疲勞、抵抗力下降或非預期體重減輕。BMI 無法診斷這些狀況。", en: "Possible undernutrition, fatigue, reduced resilience, or unintended weight loss context. BMI does not diagnose these conditions." },
-    actions: { zh: "建議檢視飲食營養、近期體重變化、食慾、活動量與症狀。若體重持續偏低且原因不明，請尋求專業協助。", en: "Review nutrition, recent weight change, appetite, activity, and symptoms. Seek professional guidance if low BMI is unexplained or persistent." },
-    nextTool: { zh: "BMR 計算機", en: "BMR Calculator" },
-    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "熱量計算機", en: "Calories Calculator" }, { zh: "理想體重指南", en: "Ideal Weight Guide" }],
+    meaning: { zh: "基礎代謝率偏低，可能與年齡、性別、肌肉量或代謝狀況有關。", en: "Lower basal metabolic rate may be related to age, sex, muscle mass, or metabolic condition." },
+    risks: { zh: "代謝偏低可能導致體重管理困難。建議評估整體健康狀況、飲食與運動習慣。", en: "Lower metabolism may make weight management more challenging. Consider evaluating overall health, diet, and exercise habits." },
+    actions: { zh: "建議增加肌肉量訓練、優化飲食營養、檢查甲狀腺功能。可搭配 TDEE 與熱量計算進行深入評估。", en: "Consider resistance training to build muscle, optimize nutrition, and check thyroid function. Use TDEE and calorie planning for deeper context." },
+    nextTool: { zh: "TDEE 計算機", en: "TDEE Calculator" },
+    tools: [{ zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "蛋白質計算機", en: "Protein Calculator" }, { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" }],
   },
   {
     key: "normal",
     label: { zh: "正常", en: "Normal" },
-    range: { zh: "18.5–24.9", en: "18.5–24.9" },
-    band: { zh: "健康篩查區間", en: "Healthy screening band" },
+    range: { zh: "1400-2000 kcal/day", en: "1400-2000 kcal/day" },
+    band: { zh: "正常代謝區間", en: "Normal metabolism band" },
     tone: "from-emerald-500 via-lime-300 to-yellow-200",
-    meaning: { zh: "BMI 在成人標準健康體重篩查範圍內。", en: "BMI is within the standard adult healthy weight screening range." },
-    risks: { zh: "族群層面風險通常較低，但 BMI 無法保證代謝健康或理想體組成。", en: "Population-level risk is generally lower, but BMI does not guarantee metabolic health or ideal body composition." },
-    actions: { zh: "維持均衡營養、規律運動、充足睡眠與定期健康檢查。可搭配體組成工具進行更深入評估。", en: "Maintain balanced nutrition, movement, sleep, hydration, and preventive care. Use body composition tools for deeper context." },
+    meaning: { zh: "基礎代謝率在正常範圍內，反映健康的靜止代謝水平。", en: "Basal metabolic rate is within normal range, reflecting a healthy resting metabolism level." },
+    risks: { zh: "正常代謝提供良好的代謝基礎。維持健康的生活方式有助於長期健康管理。", en: "Normal metabolism provides a good metabolic foundation. Maintaining healthy lifestyle habits supports long-term health management." },
+    actions: { zh: "維持均衡營養、規律運動、充足睡眠。可計算 TDEE 進行更精準的熱量管理與體重目標設定。", en: "Maintain balanced nutrition, regular exercise, and adequate sleep. Calculate TDEE for precise calorie management and weight goals." },
     nextTool: { zh: "TDEE 計算機", en: "TDEE Calculator" },
-    tools: [{ zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }, { zh: "飲水量計算機", en: "Water Intake Calculator" }],
+    tools: [{ zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" }, { zh: "進度追蹤", en: "Progress Tracking" }],
   },
   {
-    key: "overweight",
-    label: { zh: "過重", en: "Overweight" },
-    range: { zh: "25.0–29.9", en: "25.0–29.9" },
-    band: { zh: "偏高 BMI 區間", en: "Elevated BMI band" },
-    tone: "from-yellow-300 via-orange-300 to-orange-500",
-    meaning: { zh: "體重可能超過標準身高對應的健康範圍。", en: "Weight may be above the standard healthy range for height." },
-    risks: { zh: "可能與較高的心血管代謝風險相關，具體取決於體組成與脂肪分佈。", en: "May be associated with higher cardiometabolic risk, depending on body composition and fat distribution." },
-    actions: { zh: "建議先計算 BMR、TDEE、熱量規劃、腰臀比與體脂，再做體重管理決策。", en: "Check BMR, TDEE, calorie planning, waist ratio, and body fat context before making weight-management decisions." },
-    nextTool: { zh: "BMR 計算機", en: "BMR Calculator" },
-    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量計算機", en: "Calories Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
-  },
-  {
-    key: "obesity1",
-    label: { zh: "肥胖 I 級", en: "Obesity I" },
-    range: { zh: "30.0–34.9", en: "30.0–34.9" },
-    band: { zh: "高 BMI 區間", en: "High BMI band" },
+    key: "high",
+    label: { zh: "偏高", en: "High" },
+    range: { zh: "> 2000 kcal/day", en: "> 2000 kcal/day" },
+    band: { zh: "高代謝區間", en: "High metabolism band" },
     tone: "from-orange-400 via-red-400 to-red-600",
-    meaning: { zh: "BMI 落於成人肥胖第一級。", en: "BMI falls into Obesity Class I for adults." },
-    risks: { zh: "族群層面與高血壓、胰島素阻抗、睡眠呼吸中止及關節壓力的發生機率上升相關。", en: "Associated at population level with increased likelihood of hypertension, insulin resistance, sleep apnea, and joint stress." },
-    actions: { zh: "建議尋求專業指導，並搭配 BMR、TDEE 與體組成工具進行評估。", en: "Consider professional guidance and use BMR, TDEE, and body composition tools for context." },
-    nextTool: { zh: "BMR 計算機", en: "BMR Calculator" },
-    tools: [{ zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量計算機", en: "Calories Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
-  },
-  {
-    key: "obesity2",
-    label: { zh: "肥胖 II 級", en: "Obesity II" },
-    range: { zh: "35.0–39.9", en: "35.0–39.9" },
-    band: { zh: "極高 BMI 區間", en: "Very high BMI band" },
-    tone: "from-red-500 via-rose-600 to-purple-700",
-    meaning: { zh: "BMI 落於成人肥胖第二級。", en: "BMI falls into Obesity Class II for adults." },
-    risks: { zh: "與族群層面體重相關健康風險升高有關。", en: "Associated with higher population-level weight-related health risks." },
-    actions: { zh: "在進行重大生活方式或體重管理改變前，建議先接受專業評估。", en: "Professional assessment is recommended before major lifestyle or weight-management changes." },
+    meaning: { zh: "基礎代謝率較高，通常與較高的肌肉量、年輕年齡或代謝效率有關。", en: "Higher basal metabolic rate is often associated with higher muscle mass, younger age, or efficient metabolism." },
+    risks: { zh: "代謝較高本身不是風險，但需要相應的熱量攝取以維持能量平衡。", en: "Higher metabolism itself is not a risk, but requires appropriate calorie intake to maintain energy balance." },
+    actions: { zh: "確保充足的營養攝取以支持代謝需求。計算 TDEE 與熱量赤字以達成體重或體組成目標。", en: "Ensure adequate nutrition to support metabolic needs. Calculate TDEE and calorie deficit to achieve weight or body composition goals." },
     nextTool: { zh: "TDEE 計算機", en: "TDEE Calculator" },
-    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量計算機", en: "Calories Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
-  },
-  {
-    key: "obesity3",
-    label: { zh: "肥胖 III 級", en: "Obesity III" },
-    range: { zh: "40.0 及以上", en: "40.0 and above" },
-    band: { zh: "最高 BMI 區間", en: "Highest BMI band" },
-    tone: "from-red-700 via-purple-800 to-slate-950",
-    meaning: { zh: "BMI 落於成人肥胖第三級。", en: "BMI falls into Obesity Class III for adults." },
-    risks: { zh: "與族群層面極高的體重相關健康風險有關。", en: "Associated with very high population-level weight-related health risk." },
-    actions: { zh: "請尋求合格醫療專業人員的指導。計算工具可提供參考，但無法取代專業醫療照護。", en: "Seek qualified medical guidance. Calculators can provide context but should not replace professional care." },
-    nextTool: { zh: "臨床指導 + BMR 計算機", en: "Clinical guidance + BMR Calculator" },
-    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
+    tools: [{ zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" }, { zh: "蛋白質計算機", en: "Protein Calculator" }],
   },
 ];
 
 const faqItems: { question: LocalText; answer: LocalText }[] = [
-  { question: { zh: "BMI 是診斷工具嗎？", en: "Is BMI a diagnosis?" }, answer: { zh: "不是。BMI 是篩查工具，無法診斷健康狀況、疾病或體脂率。", en: "No. BMI is a screening tool and does not diagnose health status, disease, or body fat percentage." } },
-  { question: { zh: "健康的 BMI 是多少？", en: "What is a healthy BMI?" }, answer: { zh: "對大多數成人來說，18.5–24.9 通常被歸類為健康 BMI 範圍。", en: "For most adults, 18.5–24.9 is commonly categorized as the healthy BMI range." } },
-  { question: { zh: "運動員的 BMI 會失真嗎？", en: "Can athletes have misleading BMI?" }, answer: { zh: "會。高肌肉量可能使 BMI 偏高，即使體脂並未升高。", en: "Yes. High muscle mass can raise BMI even when body fat is not elevated." } },
-  { question: { zh: "BMI 適用於兒童嗎？", en: "Is BMI valid for children?" }, answer: { zh: "兒童和青少年需要依年齡與性別的百分位解讀，不適用成人分類標準。", en: "Children and teens need age- and sex-specific percentile interpretation, not adult categories." } },
-  { question: { zh: "懷孕期間可以用 BMI 嗎？", en: "Can BMI be used during pregnancy?" }, answer: { zh: "懷孕需要臨床情境評估，標準成人 BMI 解讀並不足夠。", en: "Pregnancy requires clinical context. Standard adult BMI interpretation is not enough." } },
-  { question: { zh: "看完 BMI 後我該做什麼？", en: "What should I check after BMI?" }, answer: { zh: "BMR、TDEE、熱量計算、體脂率與腰圍等指標可提供更多情境參考。", en: "BMR, TDEE, Calories, Body Fat, and waist-based metrics can provide more context." } },
+  { question: { zh: "BMR 是什麼？", en: "What is BMR?" }, answer: { zh: "BMR（基礎代謝率）是你的身體在完全靜止狀態下維持生命功能所需的最低熱量。", en: "BMR (Basal Metabolic Rate) is the minimum calories your body needs to maintain life functions at complete rest." } },
+  { question: { zh: "BMR 和 TDEE 有什麼區別？", en: "What is the difference between BMR and TDEE?" }, answer: { zh: "BMR 是靜止時的代謝，TDEE 是加上日常活動和運動的總代謝。TDEE 通常比 BMR 高 20-50%。", en: "BMR is resting metabolism, TDEE includes daily activities and exercise. TDEE is typically 20-50% higher than BMR." } },
+  { question: { zh: "哪些因素會影響 BMR？", en: "What factors affect BMR?" }, answer: { zh: "年齡、性別、肌肉量、體重、荷爾蒙、遲早代謝疾病和運動習慣都會影響 BMR。", en: "Age, sex, muscle mass, weight, hormones, metabolic disorders, and exercise habits all affect BMR." } },
+  { question: { zh: "BMR 計算的準確性如何？", en: "How accurate is the BMR calculation?" }, answer: { zh: "Mifflin-St Jeor 公式是目前最精準的 BMR 估算方法，但個體差異仍然存在。建議結合實際體重變化來調整。", en: "Mifflin-St Jeor is the most accurate BMR estimation method, but individual variation still exists. Adjust based on actual weight changes." } },
+  { question: { zh: "BMR 偏低或偏高是什麼意思？", en: "What does low or high BMR mean?" }, answer: { zh: "BMR 偏低可能使體重管理更困難，偏高可能需要更多熱量來維持能量平衡。不是好或壞，只是不同。", en: "Low BMR may make weight management harder, high BMR may require more calories for energy balance. Neither is good or bad, just different." } },
+  { question: { zh: "應該如何使用 BMR 來管理體重？", en: "How should I use BMR for weight management?" }, answer: { zh: "計算 TDEE 並設定適當的熱量赤字或盈餘。建議每週減少 0.5-1 kg。不要低於 BMR 太多。", en: "Calculate TDEE and set appropriate calorie deficit or surplus. Aim for 0.5-1 kg change per week. Don't go too far below BMR." } },
 ];
 
 const ui = {
@@ -297,17 +261,14 @@ const ui = {
 
 const adultMaleExampleBmi = 70 / (1.75 * 1.75);
 
-function getCategory(bmi: number): CategoryInfo {
-  if (bmi < 18.5) return categoryInfo[0];
-  if (bmi < 25) return categoryInfo[1];
-  if (bmi < 30) return categoryInfo[2];
-  if (bmi < 35) return categoryInfo[3];
-  if (bmi < 40) return categoryInfo[4];
-  return categoryInfo[5];
+function getCategory(bmr: number): CategoryInfo {
+  if (bmr < 1400) return categoryInfo[0];
+  if (bmr <= 2000) return categoryInfo[1];
+  return categoryInfo[2];
 }
 
-function formatBmi(value: number): string {
-  return Number.isFinite(value) ? value.toFixed(1) : "—";
+function formatBmr(value: number): string {
+  return Number.isFinite(value) ? value.toFixed(0) : "—";
 }
 
 const getBrowserLang = (): "zh" | "en" => {
@@ -325,33 +286,46 @@ export default function BmrCalculator() {
   const [feet, setFeet] = useState("5");
   const [inches, setInches] = useState("9");
   const [pounds, setPounds] = useState("154");
+  const [age, setAge] = useState("30");
+  const [gender, setGender] = useState<"male" | "female">("male");
 
   const t = ui[lang];
 
   const calculation = useMemo(() => {
     if (unitSystem === "metric") {
-      const heightM = Number(heightCm) / 100;
+      const height = Number(heightCm);
       const weight = Number(weightKg);
-      if (!heightM || !weight || heightM <= 0 || weight <= 0) return null;
-      const bmi = weight / (heightM * heightM);
-      return { bmi, category: getCategory(bmi) };
+      const ageNum = Number(age);
+      if (!height || !weight || !ageNum || height <= 0 || weight <= 0 || ageNum <= 0) return null;
+      // Mifflin-St Jeor formula
+      let bmr = 10 * weight + 6.25 * height - 5 * ageNum;
+      if (gender === "male") {
+        bmr += 5;
+      } else {
+        bmr -= 161;
+      }
+      return { bmr, category: getCategory(bmr) };
     }
 
     const totalInches = Number(feet) * 12 + Number(inches);
     const weight = Number(pounds);
-    if (!totalInches || !weight || totalInches <= 0 || weight <= 0) return null;
-    const bmi = (703 * weight) / (totalInches * totalInches);
-    return { bmi, category: getCategory(bmi) };
-  }, [feet, heightCm, inches, pounds, unitSystem, weightKg]);
+    const ageNum = Number(age);
+    if (!totalInches || !weight || !ageNum || totalInches <= 0 || weight <= 0 || ageNum <= 0) return null;
+    // Convert to metric for Mifflin-St Jeor
+    const heightCm_conv = totalInches * 2.54;
+    const weightKg_conv = weight * 0.45359237;
+    let bmr = 10 * weightKg_conv + 6.25 * heightCm_conv - 5 * ageNum;
+    if (gender === "male") {
+      bmr += 5;
+    } else {
+      bmr -= 161;
+    }
+    return { bmr, category: getCategory(bmr) };
+  }, [feet, heightCm, inches, pounds, unitSystem, weightKg, age, gender]);
 
   const activeCategory = calculation?.category ?? categoryInfo[1];
-  const activeBmi = calculation?.bmi;
-  const goalBmi = 23;
-  const currentMetricHeightM = Number(heightCm) / 100;
-  const goalWeightKg = currentMetricHeightM > 0 ? goalBmi * currentMetricHeightM * currentMetricHeightM : null;
-  const currentWeightKg = unitSystem === "metric" ? Number(weightKg) : Number(pounds) * 0.45359237;
-  const neededWeightChangeKg = goalWeightKg && currentWeightKg > 0 ? goalWeightKg - currentWeightKg : null;
-  const neededWeightDisplay = neededWeightChangeKg ? `${neededWeightChangeKg > 0 ? "+" : ""}${Math.round(neededWeightChangeKg)}kg` : "—";
+  const activeBmr = calculation?.bmi;
+  const tdeeEstimate = activeBmr ? Math.round(activeBmr * 1.5) : null;
   const journeyNodes = [t.current, "BMI", "BMR", t.calories, t.progress];
   const decisionNodes = [t.bmiHigh, "BMR", "TDEE", t.calories];
   const decisionDescriptions = [t.screeningSignal, t.restingEnergy, t.dailyNeeds, t.planIntake];
@@ -403,7 +377,7 @@ export default function BmrCalculator() {
                 </div>
                 <div className="rounded-2xl bg-blue-600 px-4 py-3 text-center text-white">
                   <div className="text-xs font-bold uppercase text-blue-100">{t.bmiPreview}</div>
-                  <div className="text-3xl font-black">{formatBmi(adultMaleExampleBmi)}</div>
+                  <div className="text-3xl font-black">{formatBmr(adultMaleExampleBmi)}</div>
                 </div>
               </div>
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
@@ -442,7 +416,7 @@ export default function BmrCalculator() {
                 <h3 className="text-lg font-black">{t.exampleCards}</h3>
                 <div className="mt-4 space-y-3">
                   <button onClick={fillAdultMaleExample} className="w-full rounded-2xl border border-blue-200 bg-white p-4 text-left transition hover:border-blue-500">
-                    <div className="flex items-center justify-between gap-3"><span className="font-black">{t.adultMale}</span><span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">BMI {formatBmi(adultMaleExampleBmi)}</span></div>
+                    <div className="flex items-center justify-between gap-3"><span className="font-black">{t.adultMale}</span><span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">BMI {formatBmr(adultMaleExampleBmi)}</span></div>
                     <p className="mt-2 text-sm text-slate-600">{t.oneClickFillAllowed}</p>
                   </button>
                   <button onClick={fillHighBmiExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500">
@@ -479,8 +453,8 @@ export default function BmrCalculator() {
                 <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.resultCard}</p>
                 <div className="mt-4 flex items-start justify-between gap-5">
                   <div>
-                    <div className="text-7xl font-black tracking-tight text-slate-950">{activeBmi ? formatBmi(activeBmi) : "—"}</div>
-                    <div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{activeBmi ? l(activeCategory.label, lang) : t.enterValidValues}</div>
+                    <div className="text-7xl font-black tracking-tight text-slate-950">{activeBmr ? formatBmr(activeBmr) : "—"}</div>
+                    <div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{activeBmr ? l(activeCategory.label, lang) : t.enterValidValues}</div>
                   </div>
                   <div className="rounded-3xl bg-slate-950 p-4 text-right text-white">
                     <div className="text-xs font-bold uppercase text-slate-300">{t.status}</div>
@@ -534,7 +508,7 @@ export default function BmrCalculator() {
                   </div>
                 </div>
                 <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.currentBmi}</div><div className="mt-1 text-3xl font-black">{activeBmi ? formatBmi(activeBmi) : "—"}</div></div>
+                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.currentBmi}</div><div className="mt-1 text-3xl font-black">{activeBmr ? formatBmr(activeBmr) : "—"}</div></div>
                   <div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.goal}</div><div className="mt-1 text-3xl font-black text-blue-950">23</div></div>
                   <div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.needed}</div><div className="mt-1 text-3xl font-black text-emerald-950">{neededWeightDisplay}</div></div>
                 </div>
