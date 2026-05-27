@@ -30,6 +30,7 @@ import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { defaultSeo, setSeoMeta } from "@/lib/seo";
 import zh from "./locales/zh";
 import en from "./locales/en";
+import { HeroBanner } from "@/components/HeroBanner";
 
 type Lang = "zh" | "en";
 
@@ -198,6 +199,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      {/* ── Flash Banner ── */}
+      <HeroBanner />
+
       <section className="relative border-b border-border bg-gradient-to-br from-background via-background to-primary/5">
         <div className="container py-20 md:py-28">
           <div className="mb-8 flex justify-end"><LanguageToggle lang={lang} setLang={setLang} /></div>
