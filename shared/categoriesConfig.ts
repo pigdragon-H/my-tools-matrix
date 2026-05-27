@@ -42,7 +42,7 @@ export const categories: Category[] = [
     bgColor: "bg-blue-50 dark:bg-blue-950/30",
   },
   {
-    key: "dev",
+    key: "developer",
     name: "開發工具",
     nameEn: "Developer",
     description: "編碼轉換、正則測試、API 工具",
