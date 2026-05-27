@@ -7,7 +7,7 @@ interface AdSlotProps {
   variant?: "horizontal" | "square" | "responsive"
 }
 
-const ENABLE_ADS = false  // Feature flag
+const ENABLE_ADS = true  // Feature flag - enabled for ad slot display
 
 export function AdSlot({ slot, position, variant = "horizontal" }: AdSlotProps) {
   if (!ENABLE_ADS) return null
