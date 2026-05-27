@@ -29,11 +29,16 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "health/tdee-calculator": lazy(() => import("@/tools/health/TdeeCalculator")),
   "health/calorie-deficit-calculator": lazy(() => import("@/tools/health/CalorieDeficitCalculator")),
   
-  // ── 財經工具（待重造）
-  // 預留空位：Finance 工具將在第 1 階段重造
+  // ── 財經工具（已完成重造）
+  "finance/roi-calculator": lazy(() => import("@/tools/finance/RoiCalculator")),
+  "finance/compound-interest-calculator": lazy(() => import("@/tools/finance/CompoundInterestCalculator")),
+  "finance/loan-calculator": lazy(() => import("@/tools/finance/LoanCalculator")),
   
-  // ── 開發工具（待重造）
-  // 預留空位：Developer 工具將在第 1 階段重造
+  // ── 開發工具（已完成重造）
+  "developer/api-response-formatter": lazy(() => import("@/tools/developer/ApiResponseFormatter")),
+  "developer/json-validator": lazy(() => import("@/tools/developer/JsonValidator")),
+  "developer/regex-tester": lazy(() => import("@/tools/developer/RegexTester")),
+  "developer/cron-expression-builder": lazy(() => import("@/tools/developer/CronExpressionBuilder"))
   
   // ── 其他類別（待重造）
   // 預留空位：其他類別工具將在後續階段重造
