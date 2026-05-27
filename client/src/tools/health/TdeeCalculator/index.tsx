@@ -1,376 +1,291 @@
-
 import { useMemo, useState } from "react";
-import { AdSenseWrapper } from "@/components/AdSenseWrapper";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { AdSlot } from "@/components/business/AdSlot";
 import { PremiumGate } from "@/components/business/PremiumGate";
 
 type UnitSystem = "metric" | "imperial";
 type Lang = "zh" | "en";
-type BmiCategory = "underweight" | "normal" | "overweight" | "obesity1" | "obesity2" | "obesity3";
+type ActivityLevel = "sedentary" | "light" | "moderate" | "active" | "veryActive";
 type LocalText = { zh: string; en: string };
 
 type CategoryInfo = {
-  key: BmiCategory;
+  key: ActivityLevel;
   label: LocalText;
-  range: LocalText;
-  band: LocalText;
+  coefficient: number;
   tone: string;
   meaning: LocalText;
   risks: LocalText;
   actions: LocalText;
   nextTool: LocalText;
-  tools: LocalText[];
 };
 
 const l = (value: LocalText, lang: Lang) => value[lang];
 
-const categoryInfo: CategoryInfo[] = [
+const activityInfo: CategoryInfo[] = [
   {
-    key: "underweight",
-    label: { zh: "偏輕", en: "Underweight" },
-    range: { zh: "低於 18.5", en: "Below 18.5" },
-    band: { zh: "低 BMI 區間", en: "Low BMI band" },
+    key: "sedentary",
+    label: { zh: "久坐不動", en: "Sedentary" },
+    coefficient: 1.2,
+    tone: "from-blue-400 via-blue-300 to-slate-200",
+    meaning: { zh: "幾乎沒有運動，主要是辦公室工作或日常活動。", en: "Little or no exercise, mainly office work or daily activities." },
+    risks: { zh: "久坐可能與代謝風險升高、肌肉流失有關。", en: "Sedentary lifestyle may be associated with higher metabolic risk and muscle loss." },
+    actions: { zh: "建議增加日常活動量，如散步、站立工作、輕度運動。", en: "Increase daily activity, such as walking, standing work, light exercise." },
+    nextTool: { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" },
+  },
+  {
+    key: "light",
+    label: { zh: "輕度活動", en: "Light Activity" },
+    coefficient: 1.375,
     tone: "from-sky-400 via-sky-300 to-slate-200",
-    meaning: { zh: "依據成人標準 BMI 分類，體重相對身高可能偏低。", en: "Weight may be low relative to height for standard adult BMI categories." },
-    risks: { zh: "可能原因：營養不足、疲勞、抵抗力下降或非預期體重減輕。BMI 無法診斷這些狀況。", en: "Possible undernutrition, fatigue, reduced resilience, or unintended weight loss context. BMI does not diagnose these conditions." },
-    actions: { zh: "建議檢視飲食營養、近期體重變化、食慾、活動量與症狀。若體重持續偏低且原因不明，請尋求專業協助。", en: "Review nutrition, recent weight change, appetite, activity, and symptoms. Seek professional guidance if low BMI is unexplained or persistent." },
-    nextTool: { zh: "BMR 計算機", en: "BMR Calculator" },
-    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "熱量計算機", en: "Calories Calculator" }, { zh: "理想體重指南", en: "Ideal Weight Guide" }],
+    meaning: { zh: "每週運動 1-3 天，或工作涉及適度身體活動。", en: "Exercise 1-3 days per week, or work involves moderate physical activity." },
+    risks: { zh: "適度的活動水平通常與較低的代謝風險相關。", en: "Moderate activity level is usually associated with lower metabolic risk." },
+    actions: { zh: "維持現有活動水平，逐步增加運動強度或頻率。", en: "Maintain current activity level, gradually increase exercise intensity or frequency." },
+    nextTool: { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" },
   },
   {
-    key: "normal",
-    label: { zh: "正常", en: "Normal" },
-    range: { zh: "18.5–24.9", en: "18.5–24.9" },
-    band: { zh: "健康篩查區間", en: "Healthy screening band" },
+    key: "moderate",
+    label: { zh: "中度活動", en: "Moderate Activity" },
+    coefficient: 1.55,
     tone: "from-emerald-500 via-lime-300 to-yellow-200",
-    meaning: { zh: "BMI 在成人標準健康體重篩查範圍內。", en: "BMI is within the standard adult healthy weight screening range." },
-    risks: { zh: "族群層面風險通常較低，但 BMI 無法保證代謝健康或理想體組成。", en: "Population-level risk is generally lower, but BMI does not guarantee metabolic health or ideal body composition." },
-    actions: { zh: "維持均衡營養、規律運動、充足睡眠與定期健康檢查。可搭配體組成工具進行更深入評估。", en: "Maintain balanced nutrition, movement, sleep, hydration, and preventive care. Use body composition tools for deeper context." },
-    nextTool: { zh: "TDEE 計算機", en: "TDEE Calculator" },
-    tools: [{ zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }, { zh: "飲水量計算機", en: "Water Intake Calculator" }],
+    meaning: { zh: "每週運動 3-5 天，或工作涉及大量身體活動。", en: "Exercise 3-5 days per week, or work involves significant physical activity." },
+    risks: { zh: "中度活動水平與良好的代謝健康相關。", en: "Moderate activity level is associated with good metabolic health." },
+    actions: { zh: "維持規律運動習慣，注意營養均衡和充足睡眠。", en: "Maintain regular exercise habits, ensure balanced nutrition and adequate sleep." },
+    nextTool: { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" },
   },
   {
-    key: "overweight",
-    label: { zh: "過重", en: "Overweight" },
-    range: { zh: "25.0–29.9", en: "25.0–29.9" },
-    band: { zh: "偏高 BMI 區間", en: "Elevated BMI band" },
+    key: "active",
+    label: { zh: "活躍", en: "Active" },
+    coefficient: 1.725,
     tone: "from-yellow-300 via-orange-300 to-orange-500",
-    meaning: { zh: "體重可能超過標準身高對應的健康範圍。", en: "Weight may be above the standard healthy range for height." },
-    risks: { zh: "可能與較高的心血管代謝風險相關，具體取決於體組成與脂肪分佈。", en: "May be associated with higher cardiometabolic risk, depending on body composition and fat distribution." },
-    actions: { zh: "建議先計算 BMR、TDEE、熱量規劃、腰臀比與體脂，再做體重管理決策。", en: "Check BMR, TDEE, calorie planning, waist ratio, and body fat context before making weight-management decisions." },
-    nextTool: { zh: "BMR 計算機", en: "BMR Calculator" },
-    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量計算機", en: "Calories Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
+    meaning: { zh: "每週運動 5-6 天，或工作涉及高強度身體活動。", en: "Exercise 5-6 days per week, or work involves high-intensity physical activity." },
+    risks: { zh: "高活動水平通常與良好的代謝健康相關，但需注意恢復和營養。", en: "High activity level usually associated with good metabolic health, but recovery and nutrition are important." },
+    actions: { zh: "確保充足的蛋白質攝入、充足睡眠和適當的恢復時間。", en: "Ensure adequate protein intake, sufficient sleep, and appropriate recovery time." },
+    nextTool: { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" },
   },
   {
-    key: "obesity1",
-    label: { zh: "肥胖 I 級", en: "Obesity I" },
-    range: { zh: "30.0–34.9", en: "30.0–34.9" },
-    band: { zh: "高 BMI 區間", en: "High BMI band" },
+    key: "veryActive",
+    label: { zh: "非常活躍", en: "Very Active" },
+    coefficient: 1.9,
     tone: "from-orange-400 via-red-400 to-red-600",
-    meaning: { zh: "BMI 落於成人肥胖第一級。", en: "BMI falls into Obesity Class I for adults." },
-    risks: { zh: "族群層面與高血壓、胰島素阻抗、睡眠呼吸中止及關節壓力的發生機率上升相關。", en: "Associated at population level with increased likelihood of hypertension, insulin resistance, sleep apnea, and joint stress." },
-    actions: { zh: "建議尋求專業指導，並搭配 BMR、TDEE 與體組成工具進行評估。", en: "Consider professional guidance and use BMR, TDEE, and body composition tools for context." },
-    nextTool: { zh: "BMR 計算機", en: "BMR Calculator" },
-    tools: [{ zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量計算機", en: "Calories Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
+    meaning: { zh: "每週運動 6-7 天，或從事高強度運動或體力勞動工作。", en: "Exercise 6-7 days per week, or engage in high-intensity sports or physical labor." },
+    risks: { zh: "非常高的活動水平需要特別注意營養、恢復和防止過度訓練。", en: "Very high activity level requires special attention to nutrition, recovery, and preventing overtraining." },
+    actions: { zh: "確保充足的熱量攝入、蛋白質、微量營養素和充足睡眠。", en: "Ensure adequate calorie intake, protein, micronutrients, and sufficient sleep." },
+    nextTool: { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" },
   },
-  {
-    key: "obesity2",
-    label: { zh: "肥胖 II 級", en: "Obesity II" },
-    range: { zh: "35.0–39.9", en: "35.0–39.9" },
-    band: { zh: "極高 BMI 區間", en: "Very high BMI band" },
-    tone: "from-red-500 via-rose-600 to-purple-700",
-    meaning: { zh: "BMI 落於成人肥胖第二級。", en: "BMI falls into Obesity Class II for adults." },
-    risks: { zh: "與族群層面體重相關健康風險升高有關。", en: "Associated with higher population-level weight-related health risks." },
-    actions: { zh: "在進行重大生活方式或體重管理改變前，建議先接受專業評估。", en: "Professional assessment is recommended before major lifestyle or weight-management changes." },
-    nextTool: { zh: "TDEE 計算機", en: "TDEE Calculator" },
-    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量計算機", en: "Calories Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
-  },
-  {
-    key: "obesity3",
-    label: { zh: "肥胖 III 級", en: "Obesity III" },
-    range: { zh: "40.0 及以上", en: "40.0 and above" },
-    band: { zh: "最高 BMI 區間", en: "Highest BMI band" },
-    tone: "from-red-700 via-purple-800 to-slate-950",
-    meaning: { zh: "BMI 落於成人肥胖第三級。", en: "BMI falls into Obesity Class III for adults." },
-    risks: { zh: "與族群層面極高的體重相關健康風險有關。", en: "Associated with very high population-level weight-related health risk." },
-    actions: { zh: "請尋求合格醫療專業人員的指導。計算工具可提供參考，但無法取代專業醫療照護。", en: "Seek qualified medical guidance. Calculators can provide context but should not replace professional care." },
-    nextTool: { zh: "臨床指導 + BMR 計算機", en: "Clinical guidance + BMR Calculator" },
-    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
-  },
-];
-
-const faqItems: { question: LocalText; answer: LocalText }[] = [
-  { question: { zh: "BMI 是診斷工具嗎？", en: "Is BMI a diagnosis?" }, answer: { zh: "不是。BMI 是篩查工具，無法診斷健康狀況、疾病或體脂率。", en: "No. BMI is a screening tool and does not diagnose health status, disease, or body fat percentage." } },
-  { question: { zh: "健康的 BMI 是多少？", en: "What is a healthy BMI?" }, answer: { zh: "對大多數成人來說，18.5–24.9 通常被歸類為健康 BMI 範圍。", en: "For most adults, 18.5–24.9 is commonly categorized as the healthy BMI range." } },
-  { question: { zh: "運動員的 BMI 會失真嗎？", en: "Can athletes have misleading BMI?" }, answer: { zh: "會。高肌肉量可能使 BMI 偏高，即使體脂並未升高。", en: "Yes. High muscle mass can raise BMI even when body fat is not elevated." } },
-  { question: { zh: "BMI 適用於兒童嗎？", en: "Is BMI valid for children?" }, answer: { zh: "兒童和青少年需要依年齡與性別的百分位解讀，不適用成人分類標準。", en: "Children and teens need age- and sex-specific percentile interpretation, not adult categories." } },
-  { question: { zh: "懷孕期間可以用 BMI 嗎？", en: "Can BMI be used during pregnancy?" }, answer: { zh: "懷孕需要臨床情境評估，標準成人 BMI 解讀並不足夠。", en: "Pregnancy requires clinical context. Standard adult BMI interpretation is not enough." } },
-  { question: { zh: "看完 BMI 後我該做什麼？", en: "What should I check after BMI?" }, answer: { zh: "BMR、TDEE、熱量計算、體脂率與腰圍等指標可提供更多情境參考。", en: "BMR, TDEE, Calories, Body Fat, and waist-based metrics can provide more context." } },
 ];
 
 const ui = {
   zh: {
-    badge: "健康 · 生物指標 · Gold Tool",
-    title: "BMI 計算機・完整健康評估",
-    subtitle: "BMI 計算機引導體驗",
-    intro: "透過 BMI 作為健康篩檢起點，快速計算身體質量指數、理解風險訊號，並延伸到 BMR、TDEE、熱量與體脂等下一步工具。",
+    badge: "健康 · 能量代謝 · Gold Tool",
+    title: "TDEE 計算機・每日熱量需求指南",
+    subtitle: "TDEE 計算機引導體驗",
+    intro: "根據基礎代謝率和活動等級計算每日總熱量消耗，快速了解您的能量需求，並延伸到熱量赤字、體重管理等下一步工具。",
     trustNoteLabel: "信任提醒：",
-    trustNote: "BMI 是篩查工具，不是診斷。它不能直接測量體脂、運動員體組成、懷孕情境或兒童百分位狀態。",
+    trustNote: "TDEE 是估算值，不是精確測量。實際熱量消耗因個人代謝、運動強度、飲食等多因素影響。",
     quickActionCard: "快速範例卡",
-    tryCommonAdultExample: "試用常見成人範例",
-    bmiPreview: "BMI 預覽",
+    tryCommonActivityExample: "試用常見活動等級範例",
+    tdeePreview: "TDEE 預覽",
     example: "範例",
-    adultMale: "成年男性",
+    sedentaryExample: "久坐工作者",
+    activeExample: "活躍運動者",
     weight: "體重",
     height: "身高",
-    oneClickFillAdultMaleExample: "一鍵填入成年男性範例",
-    previewHighBmiDecisionPath: "預覽高 BMI 決策路徑",
+    oneClickFillSedentaryExample: "一鍵填入久坐工作者範例",
+    previewActiveActivityPath: "預覽活躍運動者決策路徑",
     examplesCalculator: "範例 → 計算機",
     enterOrFillValues: "輸入或填入數值",
     examplesHelper: "範例緊貼計算機，讓使用者能快速開始，再依自己的數值調整輸入而不失去脈絡。",
     metric: "公制",
     imperial: "英制",
     exampleCards: "範例卡",
-    highBmiPathDemo: "高 BMI 路徑示範",
-    oneClickFillAllowed: "70kg · 175cm · 可一鍵填入",
-    highBmiPathDescription: "88kg · 170cm · 展示 BMR → TDEE → 熱量路徑",
+    activeActivityPathDemo: "活躍活動路徑示範",
+    oneClickFillAllowed: "30 歲女性 · 可一鍵填入",
+    highActivityPathDescription: "35 歲男性 · 展示 TDEE → 熱量赤字 → 體重管理路徑",
     flowDemo: "流程示範",
     calculator: "計算機",
     heightCm: "身高（cm）",
     weightKg: "體重（kg）",
+    age: "年齡",
+    gender: "性別",
+    male: "男性",
+    female: "女性",
     feet: "英尺",
     inches: "英寸",
     weightLb: "體重（lb）",
+    activityLevel: "活動等級",
     resultCard: "結果卡",
     enterValidValues: "請輸入有效數值",
     status: "狀態",
-    riskSummary: "風險摘要",
+    dailyCalories: "每日熱量",
     recommendedAction: "建議行動",
     relatedNextTool: "下一步工具",
     resultIntelligence: "結果解讀",
-    interpretCategoryBeforeActing: "行動前先理解分類",
-    emotionConversionLayer: "情緒與轉換層",
-    turnBmiIntoJourney: "將 BMI 結果轉化為健康旅程",
-    prototypeLayerNote: "此原型層在結果後加入留存與轉換提示，但不實作儲存、分享、帳號或導航功能。",
-    progressInsightCard: "進度洞察卡",
-    possibleProgressTarget: "你的可能進度目標",
-    timeline: "時間軸",
-    estimatedTimelinePlaceholder: "預估時程（參考）",
-    currentBmi: "目前 BMI",
-    goal: "目標",
-    needed: "需調整",
-    neededWeightNote: "需調整體重是依目前身高與目標 BMI 23 推估的原型數值，並非醫療建議。",
-    motivationCard: "動力卡",
-    keepMomentum: "拿到分數後保持動力",
-    targetBmiRange: "目標 BMI 範圍",
-    weightLoss: "減重",
-    healthJourney: "健康旅程",
-    current: "目前",
-    calories: "熱量",
-    progress: "進度",
-    start: "起點",
-    step: "步驟",
-    saveSharePlaceholder: "儲存 / 分享佔位",
-    saveShareJourney: "儲存結果或分享旅程",
-    saveShareNote: "僅為 UI 佔位。不包含帳號、儲存、分享或匯出實作。",
-    saveUi: "儲存（示意）",
-    shareUi: "分享（示意）",
-    decisionPath: "決策路徑",
-    highBmiEnergyPath: "若 BMI 偏高，繼續能量路徑",
-    bmiHigh: "BMI 偏高",
-    screeningSignal: "篩查訊號",
-    restingEnergy: "靜止能量",
-    dailyNeeds: "每日需求",
-    planIntake: "規劃攝取",
+    interpretActivityBeforeActing: "行動前先理解活動等級",
     knowledge: "知識",
-    bmiMeaning: "BMI 在健康宇宙中的意義",
+    tdeeMeaning: "TDEE 在健康宇宙中的意義",
     definition: "定義",
-    definitionText: "BMI 使用體重除以身高平方，將成人體重與身高進行比較。",
+    definitionText: "TDEE（Total Daily Energy Expenditure）是指一個人在一天內消耗的總熱量，包括基礎代謝率（BMR）和活動消耗。",
     limitations: "限制",
-    limitationsText: "BMI 不測量體脂、肌肉量、脂肪分佈、懷孕狀態或兒童百分位狀態。",
+    limitationsText: "TDEE 是估算值，不考慮個人代謝差異、激素變化、消化效應等因素。實際消耗可能有 ±20% 的差異。",
     semanticNeighbors: "相關工具",
-    semanticNeighborsText: "BMR、TDEE、熱量、體脂、飲水量與腰圍比例能擴展結果情境。",
-    metricFormula: "公制：BMI = 體重(kg) / 身高(m)²",
-    imperialFormula: "英制：BMI = 703 × 體重(lb) / 身高(in)²",
-    faq: "FAQ",
+    semanticNeighborsText: "BMR、熱量赤字、體重管理、BMI、理想體重等工具可擴展結果情境。",
+    formula: "計算公式",
+    formulaText: "TDEE = BMR × 活動係數（1.2/1.375/1.55/1.725/1.9）",
+    faq: "常見問題",
     commonQuestions: "常見問題",
-    trustRelatedReferences: "信任聲明 · 相關工具 · 參考資料",
+    trustRelatedReferences: "信任 · 相關工具 · 參考資料",
     trust: "信任聲明",
-    trustText: "參考資料應包含 WHO、CDC 與 NIH。BMI 是篩查指標，不是診斷或醫療治療建議。",
+    trustText: "TDEE 是基於科學公式的估算值，用於規劃熱量攝入。實際需求因人而異，建議結合個人反饋進行調整。",
     relatedTools: "相關工具",
     references: "參考資料",
-    referencesText: "WHO 分類脈絡、CDC BMI 篩查指引，以及 NIH 健康風險脈絡。",
+    referencesText: "美國運動醫學會（ACSM）、國際運動營養學會（ISSN）、NIH 熱量指引。",
   },
   en: {
-    badge: "Health · Biometrics · Gold Tool",
-    title: "BMI Calculator · Complete Health Assessment",
-    subtitle: "BMI Calculator guided experience",
-    intro: "Move through BMI as a guided health screening flow: start with a quick example, calculate your score, understand the risk signal, and continue to the most useful next tool.",
+    badge: "Health · Energy Metabolism · Gold Tool",
+    title: "TDEE Calculator · Daily Calorie Needs Guide",
+    subtitle: "TDEE Calculator guided experience",
+    intro: "Calculate your Total Daily Energy Expenditure based on basal metabolic rate and activity level, quickly understand your energy needs, and continue to calorie deficit, weight management, and other next tools.",
     trustNoteLabel: "Trust note:",
-    trustNote: "BMI is a screening tool, not a diagnosis. It does not directly measure body fat, athletic body composition, pregnancy context, or child percentile status.",
+    trustNote: "TDEE is an estimate, not a precise measurement. Actual calorie expenditure is influenced by individual metabolism, exercise intensity, diet, and other factors.",
     quickActionCard: "Quick Action Card",
-    tryCommonAdultExample: "Try a common adult example",
-    bmiPreview: "BMI preview",
+    tryCommonActivityExample: "Try a common activity level example",
+    tdeePreview: "TDEE preview",
     example: "Example",
-    adultMale: "Adult male",
+    sedentaryExample: "Sedentary office worker",
+    activeExample: "Active exerciser",
     weight: "Weight",
     height: "Height",
-    oneClickFillAdultMaleExample: "One-click fill adult male example",
-    previewHighBmiDecisionPath: "Preview high BMI decision path",
+    oneClickFillSedentaryExample: "One-click fill sedentary worker example",
+    previewActiveActivityPath: "Preview active exerciser decision path",
     examplesCalculator: "Examples → Calculator",
     enterOrFillValues: "Enter or fill values",
     examplesHelper: "The prototype keeps examples close to the calculator so users can start fast, then edit inputs without losing context.",
     metric: "Metric",
     imperial: "Imperial",
     exampleCards: "Example cards",
-    highBmiPathDemo: "High BMI path demo",
-    oneClickFillAllowed: "70kg · 175cm · one-click fill allowed",
-    highBmiPathDescription: "88kg · 170cm · shows BMR → TDEE → Calories path.",
+    activeActivityPathDemo: "Active activity path demo",
+    oneClickFillAllowed: "30-year-old female · one-click fill allowed",
+    highActivityPathDescription: "35-year-old male · shows TDEE → Calorie Deficit → Weight Management path",
     flowDemo: "Flow demo",
     calculator: "Calculator",
     heightCm: "Height (cm)",
     weightKg: "Weight (kg)",
+    age: "Age",
+    gender: "Gender",
+    male: "Male",
+    female: "Female",
     feet: "Feet",
     inches: "Inches",
     weightLb: "Weight (lb)",
+    activityLevel: "Activity Level",
     resultCard: "Result Card",
     enterValidValues: "Enter valid values",
     status: "Status",
-    riskSummary: "Risk summary",
+    dailyCalories: "Daily Calories",
     recommendedAction: "Recommended action",
     relatedNextTool: "Related next tool",
     resultIntelligence: "Result Intelligence",
-    interpretCategoryBeforeActing: "Interpret the category before acting",
-    emotionConversionLayer: "Emotion + Conversion Layer",
-    turnBmiIntoJourney: "Turn the BMI result into a health journey",
-    prototypeLayerNote: "This prototype layer adds retention and conversion prompts after the result without implementing save, share, account, or navigation behavior.",
-    progressInsightCard: "Progress Insight Card",
-    possibleProgressTarget: "Your possible progress target",
-    timeline: "Timeline",
-    estimatedTimelinePlaceholder: "Estimated timeline placeholder",
-    currentBmi: "Current BMI",
-    goal: "Goal",
-    needed: "Needed",
-    neededWeightNote: "Needed weight is a prototype estimate based on the current height and a goal BMI of 23. It is not a medical recommendation.",
-    motivationCard: "Motivation Card",
-    keepMomentum: "Keep momentum after the score",
-    targetBmiRange: "Target BMI range",
-    weightLoss: "Weight Loss",
-    healthJourney: "Health Journey",
-    current: "Current",
-    calories: "Calories",
-    progress: "Progress",
-    start: "Start",
-    step: "Step",
-    saveSharePlaceholder: "Save / Share placeholder",
-    saveShareJourney: "Save this result or share the journey",
-    saveShareNote: "UI placeholder only. No account, storage, sharing, or export implementation is included in this prototype.",
-    saveUi: "Save UI",
-    shareUi: "Share UI",
-    decisionPath: "Decision Path",
-    highBmiEnergyPath: "If BMI is high, continue through the energy path",
-    bmiHigh: "BMI high",
-    screeningSignal: "Screening signal",
-    restingEnergy: "Resting energy",
-    dailyNeeds: "Daily needs",
-    planIntake: "Plan intake",
+    interpretActivityBeforeActing: "Interpret the activity level before acting",
     knowledge: "Knowledge",
-    bmiMeaning: "What BMI means in the Health universe",
+    tdeeMeaning: "What TDEE means in the Health universe",
     definition: "Definition",
-    definitionText: "BMI compares adult weight with height using weight divided by squared height.",
+    definitionText: "TDEE (Total Daily Energy Expenditure) is the total calories a person burns in a day, including basal metabolic rate (BMR) and activity expenditure.",
     limitations: "Limitations",
-    limitationsText: "BMI does not measure body fat, muscle mass, fat distribution, pregnancy status, or child percentile status.",
+    limitationsText: "TDEE is an estimate that does not account for individual metabolic differences, hormonal changes, thermic effect of food, and other factors. Actual expenditure may vary by ±20%.",
     semanticNeighbors: "Semantic neighbors",
-    semanticNeighborsText: "BMR, TDEE, Calories, Body Fat, Water Intake, and Waist Ratio expand the result context.",
-    metricFormula: "Metric: BMI = weight(kg) / height(m)²",
-    imperialFormula: "Imperial: BMI = 703 × weight(lb) / height(in)²",
+    semanticNeighborsText: "BMR, Calorie Deficit, Weight Management, BMI, Ideal Weight, and other tools expand the result context.",
+    formula: "Calculation Formula",
+    formulaText: "TDEE = BMR × Activity Coefficient (1.2/1.375/1.55/1.725/1.9)",
     faq: "FAQ",
     commonQuestions: "Common questions",
     trustRelatedReferences: "Trust · Related Tools · References",
     trust: "Trust",
-    trustText: "References should include WHO, CDC, and NIH. BMI is a screening metric, not a diagnosis or medical treatment recommendation.",
+    trustText: "TDEE is an estimate based on scientific formulas for planning calorie intake. Actual needs vary by individual, and adjustment based on personal feedback is recommended.",
     relatedTools: "Related Tools",
     references: "References",
-    referencesText: "WHO classification context, CDC BMI screening guidance, and NIH health risk context.",
+    referencesText: "American College of Sports Medicine (ACSM), International Society of Sports Nutrition (ISSN), NIH Calorie Guidelines.",
   },
 } as const;
 
-const adultMaleExampleBmi = 70 / (1.75 * 1.75);
-
-function getCategory(bmi: number): CategoryInfo {
-  if (bmi < 18.5) return categoryInfo[0];
-  if (bmi < 25) return categoryInfo[1];
-  if (bmi < 30) return categoryInfo[2];
-  if (bmi < 35) return categoryInfo[3];
-  if (bmi < 40) return categoryInfo[4];
-  return categoryInfo[5];
+function calculateBmr(weightKg: number, heightCm: number, age: number, gender: "male" | "female"): number {
+  if (gender === "male") {
+    return 10 * weightKg + 6.25 * heightCm - 5 * age + 5;
+  } else {
+    return 10 * weightKg + 6.25 * heightCm - 5 * age - 161;
+  }
 }
 
-function formatBmi(value: number): string {
-  return Number.isFinite(value) ? value.toFixed(1) : "—";
+function getActivityInfo(activity: ActivityLevel): CategoryInfo {
+  return activityInfo.find((a) => a.key === activity) || activityInfo[2];
 }
 
-const getBrowserLang = (): "zh" | "en" => {
-  const locale =
-    (typeof navigator !== "undefined"
-    && navigator.language) || "zh"
-  return locale.startsWith("zh") ? "zh" : "en"
+function formatCalories(value: number): string {
+  return Number.isFinite(value) ? Math.round(value).toString() : "—";
 }
 
 export default function TdeeCalculator() {
-  const [lang, setLang] = useState<"zh" | "en">(getBrowserLang());
+  const { lang, setLang } = useLanguage();
   const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric");
-  const [heightCm, setHeightCm] = useState("175");
+  const [heightCm, setHeightCm] = useState("170");
   const [weightKg, setWeightKg] = useState("70");
+  const [age, setAge] = useState("30");
+  const [gender, setGender] = useState<"male" | "female">("male");
+  const [activityLevel, setActivityLevel] = useState<ActivityLevel>("moderate");
   const [feet, setFeet] = useState("5");
-  const [inches, setInches] = useState("9");
-  const [pounds, setPounds] = useState("154");
+  const [inches, setInches] = useState("7");
+  const [weightLb, setWeightLb] = useState("154");
 
   const t = ui[lang];
 
   const calculation = useMemo(() => {
     if (unitSystem === "metric") {
-      const heightM = Number(heightCm) / 100;
-      const weight = Number(weightKg);
-      if (!heightM || !weight || heightM <= 0 || weight <= 0) return null;
-      const bmi = weight / (heightM * heightM);
-      return { bmi, category: getCategory(bmi) };
+      const hCm = Number(heightCm);
+      const wKg = Number(weightKg);
+      const a = Number(age);
+      if (!hCm || !wKg || !a || hCm <= 0 || wKg <= 0 || a <= 0) return null;
+      const bmr = calculateBmr(wKg, hCm, a, gender);
+      const actInfo = getActivityInfo(activityLevel);
+      const tdee = bmr * actInfo.coefficient;
+      return { bmr, tdee, activityInfo: actInfo };
     }
 
     const totalInches = Number(feet) * 12 + Number(inches);
-    const weight = Number(pounds);
-    if (!totalInches || !weight || totalInches <= 0 || weight <= 0) return null;
-    const bmi = (703 * weight) / (totalInches * totalInches);
-    return { bmi, category: getCategory(bmi) };
-  }, [feet, heightCm, inches, pounds, unitSystem, weightKg]);
+    const wLb = Number(weightLb);
+    const a = Number(age);
+    if (!totalInches || !wLb || !a || totalInches <= 0 || wLb <= 0 || a <= 0) return null;
+    const hCm = totalInches * 2.54;
+    const wKg = wLb * 0.45359237;
+    const bmr = calculateBmr(wKg, hCm, a, gender);
+    const actInfo = getActivityInfo(activityLevel);
+    const tdee = bmr * actInfo.coefficient;
+    return { bmr, tdee, activityInfo: actInfo };
+  }, [feet, heightCm, inches, weightKg, age, gender, activityLevel, unitSystem]);
 
-  const activeCategory = calculation?.category ?? categoryInfo[1];
-  const activeBmi = calculation?.bmi;
-  const goalBmi = 23;
-  const currentMetricHeightM = Number(heightCm) / 100;
-  const goalWeightKg = currentMetricHeightM > 0 ? goalBmi * currentMetricHeightM * currentMetricHeightM : null;
-  const currentWeightKg = unitSystem === "metric" ? Number(weightKg) : Number(pounds) * 0.45359237;
-  const neededWeightChangeKg = goalWeightKg && currentWeightKg > 0 ? goalWeightKg - currentWeightKg : null;
-  const neededWeightDisplay = neededWeightChangeKg ? `${neededWeightChangeKg > 0 ? "+" : ""}${Math.round(neededWeightChangeKg)}kg` : "—";
-  const journeyNodes = [t.current, "BMI", "BMR", t.calories, t.progress];
-  const decisionNodes = [t.bmiHigh, "BMR", "TDEE", t.calories];
-  const decisionDescriptions = [t.screeningSignal, t.restingEnergy, t.dailyNeeds, t.planIntake];
-  const motivationTools = ["BMR", "TDEE", t.calories, t.weightLoss];
+  const activeActivityInfo = calculation?.activityInfo ?? activityInfo[2];
+  const displayTdee = calculation?.tdee ? formatCalories(calculation.tdee) : "—";
+  const displayBmr = calculation?.bmr ? formatCalories(calculation.bmr) : "—";
 
-  function fillAdultMaleExample() {
+  function fillSedentaryExample() {
     setUnitSystem("metric");
-    setHeightCm("175");
-    setWeightKg("70");
+    setHeightCm("165");
+    setWeightKg("60");
+    setAge("30");
+    setGender("female");
+    setActivityLevel("sedentary");
   }
 
-  function fillHighBmiExample() {
+  function fillActiveExample() {
     setUnitSystem("metric");
-    setHeightCm("170");
-    setWeightKg("88");
+    setHeightCm("180");
+    setWeightKg("80");
+    setAge("35");
+    setGender("male");
+    setActivityLevel("active");
   }
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-950">
+      {/* Hero Section */}
       <section className="bg-[radial-gradient(circle_at_top_left,_#dbeafe,_#f8fafc_45%,_#eef2ff)]">
         <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
           <div className="mb-6 flex justify-end">
@@ -380,8 +295,8 @@ export default function TdeeCalculator() {
               className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm transition hover:border-blue-500 hover:bg-blue-50"
               aria-label={lang === "zh" ? "Switch to English" : "切換到中文"}
             >
-              <span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}`}>中</span>
-              <span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}`}>EN</span>
+              <span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}`}>🌐 中</span>
+              <span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}`}>🌐 EN</span>
             </button>
           </div>
           <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
@@ -399,23 +314,23 @@ export default function TdeeCalculator() {
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-700">{t.quickActionCard}</p>
-                  <h2 className="mt-2 text-2xl font-black">{t.tryCommonAdultExample}</h2>
+                  <h2 className="mt-2 text-2xl font-black">{t.tryCommonActivityExample}</h2>
                 </div>
                 <div className="rounded-2xl bg-blue-600 px-4 py-3 text-center text-white">
-                  <div className="text-xs font-bold uppercase text-blue-100">{t.bmiPreview}</div>
-                  <div className="text-3xl font-black">{formatBmi(adultMaleExampleBmi)}</div>
+                  <div className="text-xs font-bold uppercase text-blue-100">{t.tdeePreview}</div>
+                  <div className="text-3xl font-black">2200</div>
                 </div>
               </div>
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.example}</div><div className="mt-1 text-lg font-black">{t.adultMale}</div></div>
-                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.weight}</div><div className="mt-1 text-lg font-black">70kg</div></div>
-                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.height}</div><div className="mt-1 text-lg font-black">175cm</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.example}</div><div className="mt-1 text-lg font-black">{t.sedentaryExample}</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.age}</div><div className="mt-1 text-lg font-black">30</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.weight}</div><div className="mt-1 text-lg font-black">60kg</div></div>
               </div>
-              <button onClick={fillAdultMaleExample} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white transition hover:bg-blue-700">
-                {t.oneClickFillAdultMaleExample}
+              <button onClick={fillSedentaryExample} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white transition hover:bg-blue-700">
+                {t.oneClickFillSedentaryExample}
               </button>
-              <button onClick={fillHighBmiExample} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900 transition hover:bg-orange-100">
-                {t.previewHighBmiDecisionPath}
+              <button onClick={fillActiveExample} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900 transition hover:bg-orange-100">
+                {t.previewActiveActivityPath}
               </button>
             </aside>
           </div>
@@ -424,6 +339,7 @@ export default function TdeeCalculator() {
 
       <div className="bg-slate-50">
         <div className="mx-auto max-w-7xl space-y-7 px-4 py-8 md:px-8">
+          {/* Calculator Section */}
           <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
             <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
               <div>
@@ -441,13 +357,13 @@ export default function TdeeCalculator() {
               <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
                 <h3 className="text-lg font-black">{t.exampleCards}</h3>
                 <div className="mt-4 space-y-3">
-                  <button onClick={fillAdultMaleExample} className="w-full rounded-2xl border border-blue-200 bg-white p-4 text-left transition hover:border-blue-500">
-                    <div className="flex items-center justify-between gap-3"><span className="font-black">{t.adultMale}</span><span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">BMI {formatBmi(adultMaleExampleBmi)}</span></div>
-                    <p className="mt-2 text-sm text-slate-600">{t.oneClickFillAllowed}</p>
+                  <button onClick={fillSedentaryExample} className="w-full rounded-2xl border border-blue-200 bg-white p-4 text-left transition hover:border-blue-500">
+                    <div className="flex items-center justify-between gap-3"><span className="font-black">{t.sedentaryExample}</span><span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">1.2x</span></div>
+                    <p className="mt-2 text-sm text-slate-600">30 {lang === "zh" ? "歲女性" : "year old female"}</p>
                   </button>
-                  <button onClick={fillHighBmiExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500">
-                    <div className="flex items-center justify-between gap-3"><span className="font-black">{t.highBmiPathDemo}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div>
-                    <p className="mt-2 text-sm text-slate-600">{t.highBmiPathDescription}</p>
+                  <button onClick={fillActiveExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500">
+                    <div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div>
+                    <p className="mt-2 text-sm text-slate-600">{t.highActivityPathDescription}</p>
                   </button>
                 </div>
               </div>
@@ -459,50 +375,56 @@ export default function TdeeCalculator() {
                     <>
                       <label className="block text-sm font-black text-slate-700">{t.heightCm}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={heightCm} onChange={(e) => setHeightCm(e.target.value)} /></label>
                       <label className="block text-sm font-black text-slate-700">{t.weightKg}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={weightKg} onChange={(e) => setWeightKg(e.target.value)} /></label>
+                      <label className="block text-sm font-black text-slate-700">{t.age}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={age} onChange={(e) => setAge(e.target.value)} /></label>
+                      <label className="block text-sm font-black text-slate-700">{t.gender}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={gender} onChange={(e) => setGender(e.target.value as "male" | "female")}><option value="male">{t.male}</option><option value="female">{t.female}</option></select></label>
                     </>
                   ) : (
                     <>
                       <label className="block text-sm font-black text-slate-700">{t.feet}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={feet} onChange={(e) => setFeet(e.target.value)} /></label>
                       <label className="block text-sm font-black text-slate-700">{t.inches}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={inches} onChange={(e) => setInches(e.target.value)} /></label>
-                      <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.weightLb}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={pounds} onChange={(e) => setPounds(e.target.value)} /></label>
+                      <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.weightLb}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={weightLb} onChange={(e) => setWeightLb(e.target.value)} /></label>
+                      <label className="block text-sm font-black text-slate-700">{t.age}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={age} onChange={(e) => setAge(e.target.value)} /></label>
+                      <label className="block text-sm font-black text-slate-700">{t.gender}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={gender} onChange={(e) => setGender(e.target.value as "male" | "female")}><option value="male">{t.male}</option><option value="female">{t.female}</option></select></label>
                     </>
                   )}
+                  <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.activityLevel}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={activityLevel} onChange={(e) => setActivityLevel(e.target.value as ActivityLevel)}>{activityInfo.map((a) => (<option key={a.key} value={a.key}>{l(a.label, lang)} ({a.coefficient}x)</option>))}</select></label>
                 </div>
               </div>
             </div>
           </section>
 
+          {/* Result Section */}
           <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">
             <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
-              <div className={`h-5 bg-gradient-to-r ${activeCategory.tone}`} aria-label="Color band placeholder" />
+              <div className={`h-5 bg-gradient-to-r ${activeActivityInfo.tone}`} aria-label="Color band placeholder" />
               <div className="p-6 md:p-7">
                 <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.resultCard}</p>
                 <div className="mt-4 flex items-start justify-between gap-5">
                   <div>
-                    <div className="text-7xl font-black tracking-tight text-slate-950">{activeBmi ? formatBmi(activeBmi) : "—"}</div>
-                    <div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{activeBmi ? l(activeCategory.label, lang) : t.enterValidValues}</div>
+                    <div className="text-7xl font-black tracking-tight text-slate-950">{displayTdee}</div>
+                    <div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{calculation ? l(activeActivityInfo.label, lang) : t.enterValidValues}</div>
                   </div>
                   <div className="rounded-3xl bg-slate-950 p-4 text-right text-white">
                     <div className="text-xs font-bold uppercase text-slate-300">{t.status}</div>
-                    <div className="mt-1 text-xl font-black">{l(activeCategory.range, lang)}</div>
-                    <div className="mt-1 text-xs text-slate-300">{l(activeCategory.band, lang)}</div>
+                    <div className="mt-1 text-xl font-black">{displayBmr}</div>
+                    <div className="mt-1 text-xs text-slate-300">BMR</div>
                   </div>
                 </div>
                 <div className="mt-6 grid gap-4 md:grid-cols-3">
-                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.riskSummary}</div><p className="mt-2 text-sm leading-6 text-slate-700">{l(activeCategory.risks, lang)}</p></div>
-                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.recommendedAction}</div><p className="mt-2 text-sm leading-6 text-slate-700">{l(activeCategory.actions, lang)}</p></div>
-                  <div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.relatedNextTool}</div><p className="mt-2 text-base font-black text-blue-950">{l(activeCategory.nextTool, lang)}</p></div>
+                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.dailyCalories}</div><p className="mt-2 text-sm leading-6 text-slate-700">{l(activeActivityInfo.meaning, lang)}</p></div>
+                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.recommendedAction}</div><p className="mt-2 text-sm leading-6 text-slate-700">{l(activeActivityInfo.actions, lang)}</p></div>
+                  <div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.relatedNextTool}</div><p className="mt-2 text-base font-black text-blue-950">{l(activeActivityInfo.nextTool, lang)}</p></div>
                 </div>
               </div>
             </article>
 
             <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
               <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.resultIntelligence}</p>
-              <h2 className="mt-2 text-3xl font-black">{t.interpretCategoryBeforeActing}</h2>
+              <h2 className="mt-2 text-3xl font-black">{t.interpretActivityBeforeActing}</h2>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                {categoryInfo.map((item) => (
-                  <div key={item.key} className={`rounded-2xl border p-4 ${item.key === activeCategory.key ? "border-blue-500 bg-blue-50 shadow-sm" : "border-slate-200 bg-slate-50"}`}>
-                    <div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{l(item.range, lang)}</span></div>
+                {activityInfo.map((item) => (
+                  <div key={item.key} className={`rounded-2xl border p-4 ${item.key === activeActivityInfo.key ? "border-blue-500 bg-blue-50 shadow-sm" : "border-slate-200 bg-slate-50"}`}>
+                    <div className="flex items-center justify-between gap-2"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{item.coefficient}x</span></div>
                     <p className="mt-2 text-sm leading-6 text-slate-700">{l(item.meaning, lang)}</p>
                   </div>
                 ))}
@@ -510,160 +432,108 @@ export default function TdeeCalculator() {
             </article>
           </section>
 
-          {/* ────── AdSense 廣告區塊 ────── */}
-          <AdSenseWrapper
-            showAds={true}
-            adFormat="horizontal"
-          />
-
-          <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-blue-50 p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p>
-            <h2 className="mt-2 text-3xl font-black">{t.turnBmiIntoJourney}</h2>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.prototypeLayerNote}</p>
-
-            <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">
-              <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-                <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
-                  <div>
-                    <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsightCard}</p>
-                    <h3 className="mt-2 text-2xl font-black">{t.possibleProgressTarget}</h3>
-                  </div>
-                  <div className="rounded-2xl bg-slate-950 px-4 py-3 text-right text-white">
-                    <div className="text-xs font-bold uppercase text-slate-300">{t.timeline}</div>
-                    <div className="text-sm font-black">{t.estimatedTimelinePlaceholder}</div>
-                  </div>
-                </div>
-                <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.currentBmi}</div><div className="mt-1 text-3xl font-black">{activeBmi ? formatBmi(activeBmi) : "—"}</div></div>
-                  <div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.goal}</div><div className="mt-1 text-3xl font-black text-blue-950">23</div></div>
-                  <div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.needed}</div><div className="mt-1 text-3xl font-black text-emerald-950">{neededWeightDisplay}</div></div>
-                </div>
-                <p className="mt-4 text-sm leading-6 text-slate-600">{t.neededWeightNote}</p>
-              </article>
-
-              <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-                <p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivationCard}</p>
-                <h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3>
-                <div className="mt-5 rounded-2xl bg-pink-50 p-4">
-                  <div className="text-xs font-black uppercase text-pink-700">{t.targetBmiRange}</div>
-                  <div className="mt-1 text-3xl font-black text-pink-950">18.5–24.9</div>
-                </div>
-                <div className="mt-4 grid grid-cols-2 gap-3">
-                  {motivationTools.map((tool) => (
-                    <div key={tool} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{tool}</div>
-                  ))}
-                </div>
-              </article>
-            </div>
-
-            <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.55fr]">
-              <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-                <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.healthJourney}</p>
-                <div className="mt-4 grid gap-3 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">
-                  {journeyNodes.map((node, index) => (
-                    <div key={`${node}-${index}`} className="contents">
-                      <div className={`rounded-2xl border p-4 text-center ${index === 4 ? "border-emerald-300 bg-emerald-50" : "border-blue-200 bg-blue-50"}`}>
-                        <div className="text-xs font-black uppercase text-slate-500">{index === 0 ? t.start : `${t.step} ${index}`}</div>
-                        <div className="mt-1 text-lg font-black">{node}</div>
-                      </div>
-                      {index < 4 && <div className="hidden text-2xl font-black text-slate-300 md:block">→</div>}
-                    </div>
-                  ))}
-                </div>
-              </article>
-
-              <article className="rounded-3xl border border-dashed border-slate-300 bg-white/80 p-5 shadow-sm">
-                <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-500">{t.saveSharePlaceholder}</p>
-                <h3 className="mt-2 text-xl font-black">{t.saveShareJourney}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{t.saveShareNote}</p>
-                <div className="mt-4 grid grid-cols-2 gap-3">
-                  <button type="button" className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">{t.saveUi}</button>
-                  <button type="button" className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-black text-slate-700">{t.shareUi}</button>
-                </div>
-              </article>
-            </div>
-          </section>
-
+          {/* Knowledge Section */}
           <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.decisionPath}</p>
-            <h2 className="mt-2 text-3xl font-black">{t.highBmiEnergyPath}</h2>
-            <div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">
-              {decisionNodes.map((node, index) => (
-                <div key={`${node}-${index}`} className="contents">
-                  <div className={`rounded-3xl border p-5 text-center ${index === 0 ? "border-orange-300 bg-orange-50" : "border-blue-200 bg-blue-50"}`}>
-                    <div className="text-xs font-black uppercase text-slate-500">{t.step} {index + 1}</div>
-                    <div className="mt-1 text-xl font-black">{node}</div>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">{decisionDescriptions[index]}</p>
-                  </div>
-                  {index < 3 && <div className="hidden text-3xl font-black text-slate-300 md:block">→</div>}
-                </div>
-              ))}
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.knowledge}</p>
+            <h2 className="mt-2 text-3xl font-black">{t.tdeeMeaning}</h2>
+            <div className="mt-6 grid gap-6 md:grid-cols-2">
+              <div>
+                <h3 className="text-lg font-black">{t.definition}</h3>
+                <p className="mt-2 leading-6 text-slate-700">{t.definitionText}</p>
+              </div>
+              <div>
+                <h3 className="text-lg font-black">{t.formula}</h3>
+                <p className="mt-2 rounded-2xl bg-slate-50 p-4 font-mono text-sm leading-6 text-slate-700">{t.formulaText}</p>
+              </div>
+              <div>
+                <h3 className="text-lg font-black">{t.limitations}</h3>
+                <p className="mt-2 leading-6 text-slate-700">{t.limitationsText}</p>
+              </div>
+              <div>
+                <h3 className="text-lg font-black">{t.semanticNeighbors}</h3>
+                <p className="mt-2 leading-6 text-slate-700">{t.semanticNeighborsText}</p>
+              </div>
             </div>
           </section>
 
-          <section className="grid gap-7 lg:grid-cols-[1fr_0.9fr]">
-            <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.knowledge}</p>
-              <h2 className="mt-2 text-3xl font-black">{t.bmiMeaning}</h2>
-              <div className="mt-5 grid gap-4 md:grid-cols-3">
-                <div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div>
-                <div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div>
-                <div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.semanticNeighbors}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.semanticNeighborsText}</p></div>
-              </div>
-              <pre className="mt-5 rounded-3xl bg-slate-950 p-5 text-sm leading-7 text-slate-100">{t.metricFormula}{"\n"}{t.imperialFormula}</pre>
-              
-              {/* ────── AdSlot: Knowledge 中間 ────── */}
-              <div className="mt-6">
-                <AdSlot slot="bmi-knowledge" position="middle" />
-              </div>
-            </article>
-
-            <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.faq}</p>
-              <h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2>
-              <div className="mt-5 space-y-3">
-                {faqItems.map((item) => (
-                  <details key={l(item.question, lang)} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                    <summary className="cursor-pointer font-black">{l(item.question, lang)}</summary>
-                    <p className="mt-2 text-sm leading-6 text-slate-700">{l(item.answer, lang)}</p>
-                  </details>
-                ))}
-              </div>
-            </article>
-          </section>
-
-          {/* ────── AdSlot: FAQ 下方 ────── */}
-          <AdSlot slot="bmi-faq" position="inline" />
-
-          {/* ────── Affiliate Layer (L14) - 獨立顯示，不在任何 flag 內 ────── */}
-          <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{lang === "zh" ? "推薦商品" : "Recommended"}</p>
-            <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "配合 BMI 使用的健康工具" : "Health tools to use with BMI"}</h2>
-            <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
-              {[{zh: "智能體重計", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-tracker"}, {zh: "營養補充品", en: "Supplements", href: "#affiliate-supplements"}, {zh: "健康書籍", en: "Health Books", href: "#affiliate-books"}].map((item) => (<a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
-            </div>
-            <p className="mt-3 text-xs text-amber-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission."}</p>
-          </section>
-
-          {/* ────── Premium Layer (L15) ────── */}
-          <PremiumGate plan="PRO">
-            <div className="rounded-[2rem] border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-7">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{lang === "zh" ? "進階功能" : "Premium Features"}</p>
-              <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "解鎖完整健康追蹤" : "Unlock Complete Health Tracking"}</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-600">{lang === "zh" ? "Premium 功能即將推出" : "Premium features coming soon"}</p>
-            </div>
-          </PremiumGate>
-
+          {/* FAQ Section */}
           <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.trustRelatedReferences}</p>
-            <div className="mt-4 grid gap-5 md:grid-cols-3">
-              <div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div>
-              <div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">BMR · TDEE · {t.calories} · {lang === "zh" ? "體脂" : "Body Fat"} · {lang === "zh" ? "飲水量" : "Water Intake"} · {lang === "zh" ? "腰圍比例" : "Waist Ratio"}</p></div>
-              <div><h2 className="text-xl font-black">{t.references}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.referencesText}</p></div>
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.faq}</p>
+            <h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <h3 className="font-black">Q1: {lang === "zh" ? "TDEE 和 BMR 有什麼區別？" : "What is the difference between TDEE and BMR?"}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">{lang === "zh" ? "BMR 是靜息時的熱量消耗，TDEE 是加上活動後的總消耗。TDEE = BMR × 活動係數。" : "BMR is calories burned at rest, TDEE is total calories burned including activity. TDEE = BMR × Activity Coefficient."}</p>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <h3 className="font-black">Q2: {lang === "zh" ? "活動係數如何選擇？" : "How to choose the activity coefficient?"}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">{lang === "zh" ? "根據每週運動天數和強度：久坐 1.2、輕度 1.375、中度 1.55、活躍 1.725、非常活躍 1.9。" : "Based on weekly exercise days and intensity: Sedentary 1.2, Light 1.375, Moderate 1.55, Active 1.725, Very Active 1.9."}</p>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <h3 className="font-black">Q3: {lang === "zh" ? "TDEE 用來做什麼？" : "What is TDEE used for?"}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">{lang === "zh" ? "TDEE 是規劃熱量攝入的基礎。減重時攝入 < TDEE，增肌時攝入 > TDEE。" : "TDEE is the basis for planning calorie intake. For weight loss, eat less than TDEE; for muscle gain, eat more than TDEE."}</p>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <h3 className="font-black">Q4: {lang === "zh" ? "TDEE 估算有多準確？" : "How accurate is TDEE estimation?"}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">{lang === "zh" ? "TDEE 是估算值，實際消耗可能有 ±20% 的差異。建議根據實際體重變化進行調整。" : "TDEE is an estimate with possible ±20% variance. Adjust based on actual weight changes."}</p>
+              </div>
             </div>
           </section>
+
+          {/* Related Tools Section */}
+          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.relatedTools}</p>
+            <h2 className="mt-2 text-3xl font-black">{t.semanticNeighbors}</h2>
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              <a href="/tools/health/bmr-calculator" className="rounded-2xl border border-blue-200 bg-blue-50 p-4 transition hover:border-blue-500">
+                <h3 className="font-black text-blue-900">BMR {lang === "zh" ? "計算機" : "Calculator"}</h3>
+                <p className="mt-2 text-sm text-blue-800">{lang === "zh" ? "計算基礎代謝率" : "Calculate basal metabolic rate"}</p>
+              </a>
+              <a href="/tools/health/calorie-deficit-calculator" className="rounded-2xl border border-slate-200 bg-slate-50 p-4 transition hover:border-slate-400">
+                <h3 className="font-black">{lang === "zh" ? "熱量赤字計算機" : "Calorie Deficit Calculator"}</h3>
+                <p className="mt-2 text-sm text-slate-700">{lang === "zh" ? "規劃熱量赤字" : "Plan calorie deficit"}</p>
+              </a>
+              <a href="/tools/health/bmi-calculator" className="rounded-2xl border border-slate-200 bg-slate-50 p-4 transition hover:border-slate-400">
+                <h3 className="font-black">BMI {lang === "zh" ? "計算機" : "Calculator"}</h3>
+                <p className="mt-2 text-sm text-slate-700">{lang === "zh" ? "評估體重狀況" : "Assess weight status"}</p>
+              </a>
+            </div>
+          </section>
+
+          {/* References Section */}
+          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.references}</p>
+            <h2 className="mt-2 text-3xl font-black">{t.trustRelatedReferences}</h2>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <div>
+                <h3 className="font-black mb-3">{t.trust}</h3>
+                <p className="text-sm leading-6 text-slate-700">{t.trustText}</p>
+              </div>
+              <div>
+                <h3 className="font-black mb-3">{t.references}</h3>
+                <ul className="space-y-2 text-sm">
+                  <li><a href="https://www.acsm.org/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">ACSM - American College of Sports Medicine</a></li>
+                  <li><a href="https://www.issn.org/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">ISSN - International Society of Sports Nutrition</a></li>
+                  <li><a href="https://www.nih.gov/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">NIH - National Institutes of Health</a></li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* Ad Slots */}
+          <AdSlot slot="tdee-knowledge" position="bottom" />
         </div>
       </div>
+
+      {/* Sidebar with Premium Gate */}
+      <div className="fixed right-4 top-32 hidden w-80 space-y-4 lg:block">
+        <AdSlot slot="tdee-sidebar" position="top" />
+        <PremiumGate />
+        <AdSlot slot="tdee-sidebar" position="bottom" />
+      </div>
+
+      {/* Footer Ad */}
+      <AdSlot slot="tdee-footer" position="footer" />
     </main>
   );
 }
