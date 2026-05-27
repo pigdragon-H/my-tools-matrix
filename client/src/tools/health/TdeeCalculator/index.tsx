@@ -1,307 +1,665 @@
 import { useMemo, useState } from "react";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
+import { AdSlot } from "@/components/business/AdSlot";
+import { PremiumGate } from "@/components/business/PremiumGate";
 
+type UnitSystem = "metric" | "imperial";
 type Lang = "zh" | "en";
-
-type BmrCategory = "low" | "normal" | "high";
-
+type TdeeCategory = "sedentary" | "light" | "moderate" | "high" | "veryHigh";
 type LocalText = { zh: string; en: string };
 
 type CategoryInfo = {
-  key: BmrCategory;
+  key: TdeeCategory;
   label: LocalText;
+  range: LocalText;
+  band: LocalText;
   tone: string;
+  meaning: LocalText;
+  risks: LocalText;
+  actions: LocalText;
+  nextTool: LocalText;
+  tools: LocalText[];
 };
 
 const l = (value: LocalText, lang: Lang) => value[lang];
 
 const categoryInfo: CategoryInfo[] = [
-  { key: "low", label: { zh: "偏低", en: "Low" }, tone: "from-sky-400 via-sky-300 to-slate-200" },
-  { key: "normal", label: { zh: "正常", en: "Normal" }, tone: "from-emerald-500 via-lime-300 to-yellow-200" },
-  { key: "high", label: { zh: "偏高", en: "High" }, tone: "from-orange-400 via-red-400 to-red-600" },
+  {
+    key: "sedentary",
+    label: { zh: "久坐", en: "Sedentary" },
+    range: { zh: "BMR × 1.2", en: "BMR × 1.2" },
+    band: { zh: "低活動量區間", en: "Low activity band" },
+    tone: "from-slate-300 via-slate-200 to-slate-100",
+    meaning: { zh: "TDEE 是你每天消耗的全部熱量，包括靜止代謝和低活動量。久坐生活方式需要最低的活動系數。", en: "TDEE is your total daily energy expenditure, including resting metabolism and low activity. Sedentary lifestyle requires the lowest activity multiplier." },
+    risks: { zh: "久坐生活可能導致低活動量、低肭上肉量和代謝效率下降。需結合運動上升活動量。", en: "Sedentary lifestyle may lead to low muscle mass and reduced metabolic efficiency. Consider increasing activity level." },
+    actions: { zh: "根據這個 TDEE 規劃飲食，並考慮逐步增加運動量以提高活動系數。", en: "Plan your diet based on this TDEE, and consider gradually increasing activity to raise your activity multiplier." },
+    nextTool: { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" },
+    tools: [{ zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" }, { zh: "體重追蹤", en: "Weight Tracking" }, { zh: "目標達成", en: "Goal Achievement" }],
+  },
+  {
+    key: "light",
+    label: { zh: "輕度", en: "Light" },
+    range: { zh: "BMR × 1.375", en: "BMR × 1.375" },
+    band: { zh: "輕度活動區間", en: "Light activity band" },
+    tone: "from-sky-400 via-sky-300 to-slate-200",
+    meaning: { zh: "輕度活動（每週 1-3 次運動）的 TDEE 估算。這是中度上的活動水準。", en: "Light activity (1-3 exercise days/week) TDEE estimate. This is a moderate-to-active lifestyle level." },
+    risks: { zh: "輕度活動是不错的平衡，但仍需確保熱量攝取不足。", en: "Light activity is a reasonable balance, but ensure adequate calorie intake." },
+    actions: { zh: "根據這個 TDEE 規劃飲食，並追蹤你的運動量。", en: "Plan your diet based on this TDEE and track your activity level." },
+    nextTool: { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" },
+    tools: [{ zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" }, { zh: "體重追蹤", en: "Weight Tracking" }, { zh: "目標達成", en: "Goal Achievement" }],
+  },
+  {
+    key: "moderate",
+    label: { zh: "中度", en: "Moderate" },
+    range: { zh: "BMR × 1.55", en: "BMR × 1.55" },
+    band: { zh: "中度活動區間", en: "Moderate activity band" },
+    tone: "from-emerald-500 via-lime-300 to-yellow-200",
+    meaning: { zh: "中度活動（每週 3-5 次運動）的 TDEE 估算。這是一個健康的活動水準。", en: "Moderate activity (3-5 exercise days/week) TDEE estimate. This is a healthy activity level." },
+    risks: { zh: "中度活動是不错的平衡，但仍需確保蛋白質攝取上升。", en: "Moderate activity is a good balance, but ensure adequate protein intake." },
+    actions: { zh: "根據這個 TDEE 規劃飲食，並增加蛋白質攝取以支持肌肉修複。", en: "Plan your diet based on this TDEE and increase protein intake to support muscle recovery." },
+    nextTool: { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" },
+    tools: [{ zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" }, { zh: "蛋白質計算機", en: "Protein Calculator" }, { zh: "進度追蹤", en: "Progress Tracking" }],
+  },
+  {
+    key: "high",
+    label: { zh: "高度", en: "High" },
+    range: { zh: "BMR × 1.725", en: "BMR × 1.725" },
+    band: { zh: "高活動量區間", en: "High activity band" },
+    tone: "from-yellow-300 via-orange-300 to-orange-500",
+    meaning: { zh: "高活動（每週 6-7 次運動）的 TDEE 估算。這是一個活躍的活動水準。", en: "High activity (6-7 exercise days/week) TDEE estimate. This is an active lifestyle level." },
+    risks: { zh: "高活動需要更多的熱量和蛋白質。需結合充足的休息。", en: "High activity requires more calories and protein. Ensure adequate rest and recovery." },
+    actions: { zh: "根據這個 TDEE 規劃飲食，並优先保證蛋白質攝取和休息。", en: "Plan your diet based on this TDEE, prioritize protein intake, and ensure adequate rest." },
+    nextTool: { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" },
+    tools: [{ zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" }, { zh: "蛋白質計算機", en: "Protein Calculator" }, { zh: "運動手璶", en: "Sports Watch" }],
+  },
+  {
+    key: "veryHigh",
+    label: { zh: "非常高度", en: "Very High" },
+    range: { zh: "BMR × 1.9", en: "BMR × 1.9" },
+    band: { zh: "非常高活動量區間", en: "Very high activity band" },
+    tone: "from-orange-400 via-red-400 to-red-600",
+    meaning: { zh: "非常高活動（每天運動或高強度訓練）的 TDEE 估算。這是一個非常活躍的活動水準。", en: "Very high activity (daily exercise or intense training) TDEE estimate. This is a very active lifestyle level." },
+    risks: { zh: "非常高活動需要最高的熱量、蛋白質和休息。需結合充足的休息以防止運動過度。", en: "Very high activity requires maximum calories, protein, and rest. Ensure adequate recovery to prevent overtraining." },
+    actions: { zh: "根據這個 TDEE 規劃飲食，優先保證蛋白質攝取、充足休息和水分。", en: "Plan your diet based on this TDEE, prioritize protein, ensure adequate rest and hydration." },
+    nextTool: { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" },
+    tools: [{ zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" }, { zh: "蛋白質計算機", en: "Protein Calculator" }, { zh: "營養計畫書", en: "Nutrition Plan" }],
+  },
 ];
 
-type FaqItem = { question: { zh: string; en: string }; answer: { zh: string; en: string } };
-
-const faqItems: FaqItem[] = [
-  {
-    question: { zh: "BMR 和 TDEE 有什麼差異？", en: "What is the difference between BMR and TDEE?" },
-    answer: { zh: "BMR 是靜止狀態的基礎消耗，TDEE 是加入日常活動後的總消耗。TDEE = BMR × 活動係數。", en: "BMR is your baseline calorie burn at rest. TDEE includes daily activity. TDEE = BMR × activity factor." },
-  },
-  {
-    question: { zh: "BMR 會隨年齡下降嗎？", en: "Does BMR decrease with age?" },
-    answer: { zh: "是的，每10年約下降1-2%。主要原因是肌肉量減少，阻力訓練可以減緩下降速度。", en: "Yes, BMR decreases about 1-2% per decade, mainly due to muscle loss. Resistance training can slow this decline." },
-  },
-  {
-    question: { zh: "節食會降低 BMR 嗎？", en: "Does dieting lower BMR?" },
-    answer: { zh: "長期嚴格節食確實會降低 BMR，稱為「代謝適應」。建議赤字不超過 500 kcal/天。", en: "Prolonged severe dieting can lower BMR through metabolic adaptation. Keep deficit under 500 kcal/day." },
-  },
-  {
-    question: { zh: "肌肉訓練能提升 BMR 嗎？", en: "Can muscle training increase BMR?" },
-    answer: { zh: "是的。每增加 1kg 肌肉，BMR 約提升 13 kcal/天。這是長期提高代謝最有效的方法。", en: "Yes. Each 1kg of muscle adds approximately 13 kcal/day to BMR. This is the most effective long-term metabolism booster." },
-  },
-  {
-    question: { zh: "BMR 計算需要多久更新一次？", en: "How often should I recalculate BMR?" },
-    answer: { zh: "建議每3個月或體重變化超過5kg時重新計算，確保熱量規劃的準確性。", en: "Recalculate every 3 months or when weight changes by more than 5kg to keep your calorie planning accurate." },
-  },
+const faqItems: { question: LocalText; answer: LocalText }[] = [
+  { question: { zh: "BMI 是診斷工具嗎？", en: "Is BMI a diagnosis?" }, answer: { zh: "不是。BMI 是篩查工具，無法診斷健康狀況、疾病或體脂率。", en: "No. BMI is a screening tool and does not diagnose health status, disease, or body fat percentage." } },
+  { question: { zh: "健康的 BMI 是多少？", en: "What is a healthy BMI?" }, answer: { zh: "對大多數成人來說，18.5–24.9 通常被歸類為健康 BMI 範圍。", en: "For most adults, 18.5–24.9 is commonly categorized as the healthy BMI range." } },
+  { question: { zh: "運動員的 BMI 會失真嗎？", en: "Can athletes have misleading BMI?" }, answer: { zh: "會。高肌肉量可能使 BMI 偏高，即使體脂並未升高。", en: "Yes. High muscle mass can raise BMI even when body fat is not elevated." } },
+  { question: { zh: "BMI 適用於兒童嗎？", en: "Is BMI valid for children?" }, answer: { zh: "兒童和青少年需要依年齡與性別的百分位解讀，不適用成人分類標準。", en: "Children and teens need age- and sex-specific percentile interpretation, not adult categories." } },
+  { question: { zh: "懷孕期間可以用 BMI 嗎？", en: "Can BMI be used during pregnancy?" }, answer: { zh: "懷孕需要臨床情境評估，標準成人 BMI 解讀並不足夠。", en: "Pregnancy requires clinical context. Standard adult BMI interpretation is not enough." } },
+  { question: { zh: "看完 BMI 後我該做什麼？", en: "What should I check after BMI?" }, answer: { zh: "BMR、TDEE、熱量計算、體脂率與腰圍等指標可提供更多情境參考。", en: "BMR, TDEE, Calories, Body Fat, and waist-based metrics can provide more context." } },
 ];
 
-const affiliateItems = [
-  { zh: "智能體重秤", en: "Smart Scale", href: "#affiliate-1" },
-  { zh: "體脂計", en: "Body Fat Monitor", href: "#affiliate-2" },
-  { zh: "蛋白質補充品", en: "Protein Supplement", href: "#affiliate-3" },
-  { zh: "健身計畫書", en: "Fitness Plan", href: "#affiliate-4" },
-];
+  const ui = {
+  zh: {
+    badge: "健康 · 生物指標 · GOLD TOOL",
+    title: "TDEE 每日總消耗計算機",
+    subtitle: "TDEE 計算引導體驗",
+    intro: "透過 TDEE 了解你每天真正消耗的熱量，設定正確的飲食目標，延伸到熱量赤字、增肌計畫等下一步工具。",
+    trustNoteLabel: "信任提醒：",
+    trustNote: "TDEE 是每日消耗熱量的估算，不是精確測量。實際消耗因人而異，需結合生活方式、運動強度和身體組成進行整體評估。",
+    quickActionCard: "快速範例卡",
+    tryCommonAdultExample: "試用常見成人範例",
+    tdeePreview: "TDEE 預覽",
+    example: "範例",
+    adultMale: "成年男性（30 歲）",
+    weight: "體重",
+    height: "身高",
+    oneClickFillAdultMaleExample: "一鍵填入成年男性範例",
+    previewHighTdeeDecisionPath: "預覽高 TDEE 決策路徑",
+    examplesCalculator: "範例 → 計算機",
+    enterOrFillValues: "輸入或填入數值",
+    examplesHelper: "範例緊貼計算機，讓使用者能快速開始，再依自己的數值調整輸入而不失去脈絡。",
+    metric: "公制",
+    imperial: "英制",
+    exampleCards: "範例卡",
+    highTdeePathDemo: "高 TDEE 路徑示範",
+    oneClickFillAllowed: "70kg · 175cm · 可一鍵填入",
+    highTdeePathDescription: "88kg · 170cm · 展示 TDEE → 熱量赤字 → 體重追蹤路徑",
+    flowDemo: "流程示範",
+    calculator: "計算機",
+    heightCm: "身高（cm）",
+    weightKg: "體重（kg）",
+    feet: "英尺",
+    inches: "英寸",
+    weightLb: "體重（lb）",
+    resultCard: "結果卡",
+    enterValidValues: "請輸入有效數值",
+    status: "TDEE 分類",
+    riskSummary: "活動評估",
+    recommendedAction: "建議行動",
+    relatedNextTool: "下一步工具",
+    resultIntelligence: "結果解讀",
+    interpretCategoryBeforeActing: "行動前先理解分類",
+    emotionConversionLayer: "情緒與轉換層",
+    turnBmiIntoJourney: "將 BMI 結果轉化為健康旅程",
+    prototypeLayerNote: "此原型層在結果後加入留存與轉換提示，但不實作儲存、分享、帳號或導航功能。",
+    progressInsightCard: "進度洞察卡",
+    possibleProgressTarget: "你的可能進度目標",
+    timeline: "時間軸",
+    estimatedTimelinePlaceholder: "預估時程（參考）",
+    currentBmi: "目前 BMI",
+    goal: "目標",
+    needed: "需調整",
+    neededWeightNote: "需調整體重是依目前身高與目標 BMI 23 推估的原型數值，並非醫療建議。",
+    motivationCard: "動力卡",
+    keepMomentum: "拿到分數後保持動力",
+    targetBmiRange: "目標 BMI 範圍",
+    weightLoss: "減重",
+    healthJourney: "健康旅程",
+    current: "目前",
+    calories: "熱量",
+    progress: "進度",
+    start: "起點",
+    step: "步驟",
+    saveSharePlaceholder: "儲存 / 分享佔位",
+    saveShareJourney: "儲存結果或分享旅程",
+    saveShareNote: "僅為 UI 佔位。不包含帳號、儲存、分享或匯出實作。",
+    saveUi: "儲存（示意）",
+    shareUi: "分享（示意）",
+    decisionPath: "決策路徑",
+    highBmiEnergyPath: "若 BMI 偏高，繼續能量路徑",
+    bmiHigh: "BMI 偏高",
+    screeningSignal: "篩查訊號",
+    restingEnergy: "靜止能量",
+    dailyNeeds: "每日需求",
+    planIntake: "規劃攝取",
+    knowledge: "知識",
+    bmiMeaning: "BMR 在健康宇宙中的意義",
+    definition: "定義",
+    definitionText: "BMR（基礎代謝率）是身體在靜止狀態下每天消耗的熱量，用於維持基本生理功能。",
+    limitations: "限制",
+    limitationsText: "BMR 是估算值，實際代謝受年齡、性別、肌肉量、激素和遺傳因素影響。",
+    semanticNeighbors: "相關工具",
+    semanticNeighborsText: "TDEE、熱量赤字、蛋白質計算、體脂率與進度追蹤能擴展代謝規劃。",
+    metricFormula: "男性：BMR = 10×體重(kg) + 6.25×身高(cm) - 5×年齡 + 5",
+    imperialFormula: "女性：BMR = 10×體重(kg) + 6.25×身高(cm) - 5×年齡 - 161",
+    faq: "FAQ",
+    commonQuestions: "常見問題",
+    trustRelatedReferences: "信任聲明 · 相關工具 · 參考資料",
+    trust: "信任聲明",
+    trustText: "參考資料應包含 WHO 活動系數、CDC 活動指引、NIH 熱量需求指引。",
+    relatedTools: "相關工具",
+    references: "參考資料",
+    referencesText: "WHO activity multiplier standards, CDC activity guidelines, NIH calorie requirement guidelines.",
+  },
+  en: {
+    badge: "Health · Biometrics · Gold Tool",
+    title: "TDEE Total Daily Energy Expenditure Calculator",
+    subtitle: "TDEE Calculator guided experience",
+    intro: "Calculate your total daily energy expenditure to set accurate nutrition goals and continue to calorie deficit or muscle gain planning.",
+    trustNoteLabel: "Trust note:",
+    trustNote: "TDEE is an estimated daily calorie expenditure, not a precise measurement. Actual expenditure varies by individual; assess together with lifestyle and body composition.",
+    quickActionCard: "Quick Action Card",
+    tryCommonAdultExample: "Try a common adult example",
+    tdeePreview: "TDEE preview",
+    example: "Example",
+    adultMale: "Adult male (age 30)",
+    weight: "Weight",
+    height: "Height",
+    oneClickFillAdultMaleExample: "One-click fill adult male example",
+    previewHighTdeeDecisionPath: "Preview high TDEE decision path",
+    examplesCalculator: "Examples → Calculator",
+    enterOrFillValues: "Enter or fill values",
+    examplesHelper: "The prototype keeps examples close to the calculator so users can start fast, then edit inputs without losing context.",
+    metric: "Metric",
+    imperial: "Imperial",
+    exampleCards: "Example cards",
+    highTdeePathDemo: "High TDEE path demo",
+    oneClickFillAllowed: "70kg · 175cm · one-click fill allowed",
+    highTdeePathDescription: "88kg · 170cm · shows TDEE → Calorie Deficit → Weight Tracking path.",
+    flowDemo: "Flow demo",
+    calculator: "Calculator",
+    heightCm: "Height (cm)",
+    weightKg: "Weight (kg)",
+    feet: "Feet",
+    inches: "Inches",
+    weightLb: "Weight (lb)",
+    resultCard: "Result Card",
+    enterValidValues: "Enter valid values",
+    status: "TDEE Category",
+    riskSummary: "Activity Assessment",
+    recommendedAction: "Recommended action",
+    relatedNextTool: "Related next tool",
+    resultIntelligence: "Result Intelligence",
+    interpretCategoryBeforeActing: "Interpret the category before acting",
+    emotionConversionLayer: "Emotion + Conversion Layer",
+    turnBmiIntoJourney: "Turn the BMI result into a health journey",
+    prototypeLayerNote: "This prototype layer adds retention and conversion prompts after the result without implementing save, share, account, or navigation behavior.",
+    progressInsightCard: "Progress Insight Card",
+    possibleProgressTarget: "Your possible progress target",
+    timeline: "Timeline",
+    estimatedTimelinePlaceholder: "Estimated timeline placeholder",
+    currentBmi: "Current BMI",
+    goal: "Goal",
+    needed: "Needed",
+    neededWeightNote: "Needed weight is a prototype estimate based on the current height and a goal BMI of 23. It is not a medical recommendation.",
+    motivationCard: "Motivation Card",
+    keepMomentum: "Keep momentum after the score",
+    targetBmiRange: "Target BMI range",
+    weightLoss: "Weight Loss",
+    healthJourney: "Health Journey",
+    current: "Current",
+    calories: "Calories",
+    progress: "Progress",
+    start: "Start",
+    step: "Step",
+    saveSharePlaceholder: "Save / Share placeholder",
+    saveShareJourney: "Save this result or share the journey",
+    saveShareNote: "UI placeholder only. No account, storage, sharing, or export implementation is included in this prototype.",
+    saveUi: "Save UI",
+    shareUi: "Share UI",
+    decisionPath: "Decision Path",
+    highBmiEnergyPath: "If BMI is high, continue through the energy path",
+    bmiHigh: "BMI high",
+    screeningSignal: "Screening signal",
+    restingEnergy: "Resting energy",
+    dailyNeeds: "Daily needs",
+    planIntake: "Plan intake",
+    knowledge: "Knowledge",
+    bmiMeaning: "What TDEE means in the Health universe",
+    definition: "Definition",
+    definitionText: "TDEE (Total Daily Energy Expenditure) is the total number of calories your body burns each day, including resting metabolism and all activities.",
+    limitations: "Limitations",
+    limitationsText: "TDEE is an estimate based on activity level. Actual expenditure varies by individual metabolism, body composition, and exercise intensity.",
+    semanticNeighbors: "Semantic neighbors",
+    semanticNeighborsText: "BMR, Calorie Deficit, Protein Calculator, Weight Tracking, and Fitness Plans expand nutrition planning.",
+    metricFormula: "TDEE = BMR × Activity Multiplier (1.2 / 1.375 / 1.55 / 1.725 / 1.9)",
+    imperialFormula: "Activity Levels: Sedentary (1.2) · Light (1.375) · Moderate (1.55) · High (1.725) · Very High (1.9)",
+    faq: "FAQ",
+    commonQuestions: "Common questions",
+    trustRelatedReferences: "Trust · Related Tools · References",
+    trust: "Trust",
+    trustText: "References should include WHO activity multiplier standards, CDC activity guidelines, and NIH calorie requirement guidelines.",
+    relatedTools: "Related Tools",
+    references: "References",
+    referencesText: "WHO activity multiplier standards, CDC activity guidelines, NIH calorie requirement guidelines.",
+  },
+} as const;
 
-const getBrowserLang = (): Lang => {
-  const locale = (typeof navigator !== "undefined" && navigator.language) || "zh";
-  return locale.startsWith("zh") ? "zh" : "en";
-};
+const adultMaleExampleBmi = 70 / (1.75 * 1.75);
 
-export default function TdeeCalculator() {
-  const [lang, setLang] = useState<Lang>(getBrowserLang);
+function getCategory(tdee: number, bmr: number): CategoryInfo {
+  const activityMultiplier = tdee / bmr;
+  if (activityMultiplier < 1.275) return categoryInfo[0];
+  if (activityMultiplier < 1.465) return categoryInfo[1];
+  if (activityMultiplier < 1.64) return categoryInfo[2];
+  if (activityMultiplier < 1.8125) return categoryInfo[3];
+  return categoryInfo[4];
+}
 
-  const [input1, setInput1] = useState("70");
-  const [input2, setInput2] = useState("175");
+function formatTdee(value: number): string {
+  return Number.isFinite(value) ? Math.round(value) : "—";
+}
 
-  const result = useMemo(() => {
-    const weight = Number(input1);
-    const height = Number(input2);
-    const age = 35;
-    if (!weight || !height) return null;
+const getBrowserLang = (): "zh" | "en" => {
+  const locale =
+    (typeof navigator !== "undefined"
+    && navigator.language) || "zh"
+  return locale.startsWith("zh") ? "zh" : "en"
+}
 
-    const bmr = 10 * weight + 6.25 * height - 5 * age + 5;
-    const category = bmr < 1400 ? categoryInfo[0] :
-      bmr < 1800 ? categoryInfo[1] : categoryInfo[2];
+export function TdeeCalculator() {
+  const [lang, setLang] = useState<"zh" | "en">(getBrowserLang());
+  const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric");
+  const [heightCm, setHeightCm] = useState("175");
+  const [weightKg, setWeightKg] = useState("70");
+  const [feet, setFeet] = useState("5");
+  const [inches, setInches] = useState("9");
+  const [pounds, setPounds] = useState("154");
 
-    return { value: bmr, category };
-  }, [input1, input2]);
+  const t = ui[lang];
 
-  const t = {
-    badge: lang === "zh" ? "健康 · 生物指標 · GOLD TOOL" : "Health · Biometrics · Gold Tool",
-    title: lang === "zh" ? "BMR 基礎代謝率計算機" : "BMR Basal Metabolic Rate Calculator",
-    subtitle: lang === "zh" ? "BMR 計算引導體驗" : "BMR Calculator guided experience",
-    intro: lang === "zh" ? "透過 Mifflin-St Jeor 公式精確計算靜止代謝率，理解你的身體基礎熱量需求，並延伸到 TDEE、熱量赤字等下一步工具。" : "Calculate your resting metabolic rate using the Mifflin-St Jeor formula, understand your body's baseline caloric needs, and continue to TDEE and calorie planning tools.",
-    trustNote: lang === "zh" ? "BMR 是估算工具，個人實際代謝因體組成、健康狀況而異。孕婦及特殊疾病患者請諮詢醫師。" : "BMR is an estimation tool. Actual metabolism varies by body composition and health status. Consult a doctor if pregnant or have medical conditions.",
+  const calculation = useMemo(() => {
+    const age = 30; // 預設年齡
+    const gender = "male"; // 預設性別
+    const activityMultiplier = 1.55; // 預設中度活動
+    
+    if (unitSystem === "metric") {
+      const weight = Number(weightKg);
+      const height = Number(heightCm);
+      if (!weight || !height || weight <= 0 || height <= 0) return null;
+      
+      // Mifflin-St Jeor 公式
+      let bmr = 10 * weight + 6.25 * height - 5 * age;
+      if (gender === "male") {
+        bmr += 5;
+      } else {
+        bmr -= 161;
+      }
+      const tdee = bmr * activityMultiplier;
+      return { bmr, tdee, category: getCategory(tdee, bmr) };
+    }
 
-    input1Label: lang === "zh" ? "體重（kg）" : "Weight (kg)",
-    input2Label: lang === "zh" ? "身高（cm）" : "Height (cm)",
-    calculate: lang === "zh" ? "計算" : "Calculate",
+    const weight = Number(pounds) * 0.45359237; // 轉換為 kg
+    const height = (Number(feet) * 12 + Number(inches)) * 2.54; // 轉換為 cm
+    if (!weight || !height || weight <= 0 || height <= 0) return null;
+    
+    let bmr = 10 * weight + 6.25 * height - 5 * age;
+    if (gender === "male") {
+      bmr += 5;
+    } else {
+      bmr -= 161;
+    }
+    const tdee = bmr * activityMultiplier;
+    return { bmr, tdee, category: getCategory(tdee, bmr) };
+  }, [feet, heightCm, inches, pounds, unitSystem, weightKg]);
 
-    resultLabel: lang === "zh" ? "BMR 結果" : "BMR Result",
-    categoryLabel: lang === "zh" ? "代謝等級" : "Metabolic Level",
+  const activeCategory = calculation?.category ?? categoryInfo[2];
+  const activeTdee = calculation?.tdee;
+  const journeyNodes = [t.current, "TDEE", "熱量赤字", "體重追蹤", t.progress];
+  const decisionNodes = ["TDEE", "熱量赤字", "體重追蹤", "目標達成"];
+  const decisionDescriptions = ["每日消耗", "熱量規劃", "體重變化", "目標達成"];
+  const motivationTools = ["熱量赤字", "體重追蹤", "目標達成", "訓練計畫"];
 
-    resultIntelligence: lang === "zh" ? "結果解讀" : "Result Intelligence",
-    interpretTitle: lang === "zh" ? "行動前先理解你的代謝等級" : "Understand your metabolic level before acting",
+  function fillAdultMaleExample() {
+    setUnitSystem("metric");
+    setHeightCm("175");
+    setWeightKg("70");
+  }
 
-    decisionTitle: lang === "zh" ? "知道 BMR 後，繼續能量規劃路徑" : "After BMR, continue your energy planning path",
-    step1: lang === "zh" ? "BMR" : "BMR",
-    step2: lang === "zh" ? "TDEE" : "TDEE",
-    step3: lang === "zh" ? "熱量赤字" : "Calorie Deficit",
-    step4: lang === "zh" ? "進度追蹤" : "Progress",
-
-    knowledgeTitle: lang === "zh" ? "BMR 在健康宇宙中的意義" : "What BMR means in the Health universe",
-    definition: lang === "zh" ? "定義" : "Definition",
-    definitionText: lang === "zh" ? "BMR（基礎代謝率）是你的身體在完全靜止狀態下維持生命功能所需的最低熱量。" : "BMR is the minimum calories your body needs to maintain vital functions at complete rest.",
-    limitations: lang === "zh" ? "限制" : "Limitations",
-    limitationsText: lang === "zh" ? "BMR 不考慮日常活動、運動、壓力或荷爾蒙變化。肌肉量高者 BMR 會偏高。" : "BMR does not account for daily activity, exercise, stress, or hormonal changes. Higher muscle mass increases BMR.",
-    relatedTools: lang === "zh" ? "相關工具" : "Related Tools",
-    relatedToolsText: lang === "zh" ? "TDEE、熱量赤字、BMI、蛋白質需求計算機" : "TDEE, Calorie Deficit, BMI, Protein Calculator",
-    formula: lang === "zh" ? "男性：BMR = 10×體重(kg) + 6.25×身高(cm) - 5×年齡 + 5\n女性：BMR = 10×體重(kg) + 6.25×身高(cm) - 5×年齡 - 161" : "Male: BMR = 10×weight(kg) + 6.25×height(cm) - 5×age + 5\nFemale: BMR = 10×weight(kg) + 6.25×height(cm) - 5×age - 161",
-
-    faqTitle: lang === "zh" ? "常見問題" : "FAQ",
-
-    trustTitle: lang === "zh" ? "信任聲明" : "Trust",
-    trustText: lang === "zh" ? "本工具基於 Mifflin-St Jeor 公式，為目前學術界最廣泛採用的 BMR 計算標準。" : "This tool uses the Mifflin-St Jeor equation, the most widely validated BMR formula in current research.",
-    references: lang === "zh" ? "參考資料" : "References",
-    referencesText: lang === "zh" ? "Mifflin MD et al. (1990)、WHO 代謝標準、NIH 熱量需求指引" : "Mifflin MD et al. (1990), WHO metabolic standards, NIH caloric needs guidelines",
-
-    recommendTitle: lang === "zh" ? "推薦商品" : "Recommended",
-    recommendSubtitle: lang === "zh" ? "配合 BMR 使用的健康工具" : "Health tools to use with BMR",
-    affiliateDisclaimer: lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission.",
-  };
+  function fillHighBmiExample() {
+    setUnitSystem("metric");
+    setHeightCm("170");
+    setWeightKg("88");
+  }
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-950">
-      <div className="container mx-auto max-w-4xl px-4 py-12 md:py-16">
-        {/* ── Hero ── */}
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.badge}</p>
-          <h1 className="mt-2 text-4xl font-black md:text-5xl">{t.title}</h1>
-          <p className="mt-2 text-sm font-black text-slate-500">{t.subtitle}</p>
-          <p className="mt-4 text-sm leading-6 text-slate-700">{t.intro}</p>
-          <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">{t.trustNote}</p>
-
-          {/* Language Toggle */}
-          <div className="mt-6 flex items-center gap-3">
-            <div className="inline-flex rounded-full border border-slate-200 bg-white/90 p-1 shadow-sm">
-              <button
-                onClick={() => setLang("zh")}
-                className={`rounded-full px-3 py-1 text-sm font-black transition-colors
-                  ${lang === "zh" ? "bg-blue-600 text-white" : "text-slate-500 hover:text-slate-800"}`}
-              >繁中</button>
-              <button
-                onClick={() => setLang("en")}
-                className={`rounded-full px-3 py-1 text-sm font-black transition-colors
-                  ${lang === "en" ? "bg-blue-600 text-white" : "text-slate-500 hover:text-slate-800"}`}
-              >EN</button>
-            </div>
+      <section className="bg-[radial-gradient(circle_at_top_left,_#dbeafe,_#f8fafc_45%,_#eef2ff)]">
+        <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
+          <div className="mb-6 flex justify-end">
+            <button
+              type="button"
+              onClick={() => setLang(lang === "zh" ? "en" : "zh")}
+              className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm transition hover:border-blue-500 hover:bg-blue-50"
+              aria-label={lang === "zh" ? "Switch to English" : "切換到中文"}
+            >
+              <span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}`}>中</span>
+              <span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}`}>EN</span>
+            </button>
           </div>
-        </section>
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+            <section className="space-y-6">
+              <p className="text-sm font-black uppercase tracking-[0.24em] text-blue-700">{t.badge}</p>
+              <h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1>
+              <p className="text-xl font-black text-blue-700">{t.subtitle}</p>
+              <p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p>
+              <div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950">
+                <strong>{t.trustNoteLabel}</strong> {t.trustNote}
+              </div>
+            </section>
 
-        <div className="mt-8 space-y-8">
-          {/* ── Calculator ── */}
-          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-green-700">{lang === "zh" ? "計算機" : "Calculator"}</p>
-            <h2 className="mt-2 text-3xl font-black">{lang === "zh" ? "計算你的 BMR" : "Calculate Your BMR"}</h2>
-            <div className="mt-5 space-y-4">
-              <div>
-                <label className="block text-sm font-black text-slate-700">{t.input1Label}</label>
-                <input
-                  type="number"
-                  value={input1}
-                  onChange={(e) => setInput1(e.target.value)}
-                  className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-2 text-slate-900"
-                  min="20"
-                  max="300"
-                />
+            <aside className="rounded-[2rem] border border-blue-100 bg-white/90 p-6 shadow-2xl shadow-blue-950/10 backdrop-blur">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-700">{t.quickActionCard}</p>
+                  <h2 className="mt-2 text-2xl font-black">{t.tryCommonAdultExample}</h2>
+                </div>
+                <div className="rounded-2xl bg-blue-600 px-4 py-3 text-center text-white">
+                  <div className="text-xs font-bold uppercase text-blue-100">{t.bmiPreview}</div>
+                  <div className="text-3xl font-black">{formatBmi(adultMaleExampleBmi)}</div>
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-black text-slate-700">{t.input2Label}</label>
-                <input
-                  type="number"
-                  value={input2}
-                  onChange={(e) => setInput2(e.target.value)}
-                  className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-2 text-slate-900"
-                  min="100"
-                  max="250"
-                />
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.example}</div><div className="mt-1 text-lg font-black">{t.adultMale}</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.weight}</div><div className="mt-1 text-lg font-black">70kg</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.height}</div><div className="mt-1 text-lg font-black">175cm</div></div>
               </div>
-              <button
-                onClick={() => {}}
-                className="mt-4 w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-black text-white transition hover:bg-blue-700"
-              >
-                {t.calculate}
+              <button onClick={fillAdultMaleExample} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white transition hover:bg-blue-700">
+                {t.oneClickFillAdultMaleExample}
               </button>
+              <button onClick={fillHighBmiExample} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900 transition hover:bg-orange-100">
+                {t.previewHighBmiDecisionPath}
+              </button>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <div className="bg-slate-50">
+        <div className="mx-auto max-w-7xl space-y-7 px-4 py-8 md:px-8">
+          <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+            <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.examplesCalculator}</p>
+                <h2 className="mt-2 text-3xl font-black">{t.enterOrFillValues}</h2>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{t.examplesHelper}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-2">
+                <button className={`rounded-xl px-4 py-3 text-sm font-black ${unitSystem === "metric" ? "bg-blue-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnitSystem("metric")}>{t.metric}</button>
+                <button className={`rounded-xl px-4 py-3 text-sm font-black ${unitSystem === "imperial" ? "bg-blue-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnitSystem("imperial")}>{t.imperial}</button>
+              </div>
+            </div>
+
+            <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                <h3 className="text-lg font-black">{t.exampleCards}</h3>
+                <div className="mt-4 space-y-3">
+                  <button onClick={fillAdultMaleExample} className="w-full rounded-2xl border border-blue-200 bg-white p-4 text-left transition hover:border-blue-500">
+                    <div className="flex items-center justify-between gap-3"><span className="font-black">{t.adultMale}</span><span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">BMI {formatBmi(adultMaleExampleBmi)}</span></div>
+                    <p className="mt-2 text-sm text-slate-600">{t.oneClickFillAllowed}</p>
+                  </button>
+                  <button onClick={fillHighBmiExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500">
+                    <div className="flex items-center justify-between gap-3"><span className="font-black">{t.highBmiPathDemo}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div>
+                    <p className="mt-2 text-sm text-slate-600">{t.highBmiPathDescription}</p>
+                  </button>
+                </div>
+              </div>
+
+              <div className="rounded-3xl border border-slate-200 bg-white p-5">
+                <h3 className="text-lg font-black">{t.calculator}</h3>
+                <div className="mt-4 grid gap-4 md:grid-cols-2">
+                  {unitSystem === "metric" ? (
+                    <>
+                      <label className="block text-sm font-black text-slate-700">{t.heightCm}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={heightCm} onChange={(e) => setHeightCm(e.target.value)} /></label>
+                      <label className="block text-sm font-black text-slate-700">{t.weightKg}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={weightKg} onChange={(e) => setWeightKg(e.target.value)} /></label>
+                    </>
+                  ) : (
+                    <>
+                      <label className="block text-sm font-black text-slate-700">{t.feet}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={feet} onChange={(e) => setFeet(e.target.value)} /></label>
+                      <label className="block text-sm font-black text-slate-700">{t.inches}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={inches} onChange={(e) => setInches(e.target.value)} /></label>
+                      <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.weightLb}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={pounds} onChange={(e) => setPounds(e.target.value)} /></label>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
           </section>
 
-          {/* ── Result ── */}
-          {result && (
-            <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-orange-700">{t.resultLabel}</p>
-              <h2 className="mt-2 text-3xl font-black">{result.value.toFixed(0)} kcal/day</h2>
-              <div className={`mt-4 rounded-2xl bg-gradient-to-br ${result.category.tone} p-6`}>
-                <p className="text-sm font-black text-slate-700">{t.categoryLabel}</p>
-                <p className="mt-2 text-2xl font-black">{l(result.category.label, lang)}</p>
+          <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">
+            <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
+              <div className={`h-5 bg-gradient-to-r ${activeCategory.tone}`} aria-label="Color band placeholder" />
+              <div className="p-6 md:p-7">
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.resultCard}</p>
+                <div className="mt-4 flex items-start justify-between gap-5">
+                  <div>
+                    <div className="text-7xl font-black tracking-tight text-slate-950">{activeBmi ? formatBmi(activeBmi) : "—"}</div>
+                    <div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{activeBmi ? l(activeCategory.label, lang) : t.enterValidValues}</div>
+                  </div>
+                  <div className="rounded-3xl bg-slate-950 p-4 text-right text-white">
+                    <div className="text-xs font-bold uppercase text-slate-300">{t.status}</div>
+                    <div className="mt-1 text-xl font-black">{l(activeCategory.range, lang)}</div>
+                    <div className="mt-1 text-xs text-slate-300">{l(activeCategory.band, lang)}</div>
+                  </div>
+                </div>
+                <div className="mt-6 grid gap-4 md:grid-cols-3">
+                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.riskSummary}</div><p className="mt-2 text-sm leading-6 text-slate-700">{l(activeCategory.risks, lang)}</p></div>
+                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.recommendedAction}</div><p className="mt-2 text-sm leading-6 text-slate-700">{l(activeCategory.actions, lang)}</p></div>
+                  <div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.relatedNextTool}</div><p className="mt-2 text-base font-black text-blue-950">{l(activeCategory.nextTool, lang)}</p></div>
+                </div>
               </div>
-            </section>
-          )}
+            </article>
 
-          {/* ── Result Intelligence ── */}
-          {result && (
-            <div className="mt-10">
-              <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-orange-700">{t.resultIntelligence}</p>
-                <h2 className="mt-2 text-2xl font-black">{t.interpretTitle}</h2>
-                <p className="mt-4 text-sm leading-6 text-slate-700">
-                  {lang === "zh"
-                    ? `你的 BMR 是 ${result.value.toFixed(0)} kcal/天。這是你的身體在完全靜止狀態下維持生命功能所需的最低熱量。`
-                    : `Your BMR is ${result.value.toFixed(0)} kcal/day. This is the minimum calories your body needs to maintain vital functions at rest.`
-                  }
-                </p>
+            <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.resultIntelligence}</p>
+              <h2 className="mt-2 text-3xl font-black">{t.interpretCategoryBeforeActing}</h2>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {categoryInfo.map((item) => (
+                  <div key={item.key} className={`rounded-2xl border p-4 ${item.key === activeCategory.key ? "border-blue-500 bg-blue-50 shadow-sm" : "border-slate-200 bg-slate-50"}`}>
+                    <div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{l(item.range, lang)}</span></div>
+                    <p className="mt-2 text-sm leading-6 text-slate-700">{l(item.meaning, lang)}</p>
+                  </div>
+                ))}
               </div>
-              {/* AdSense 廣告區塊 */}
-              <AdSenseWrapper showAds={true} adFormat="horizontal" />
+            </article>
+          </section>
+
+          {/* ────── AdSense 廣告區塊 ────── */}
+          <AdSenseWrapper
+            showAds={true}
+            adFormat="horizontal"
+          />
+
+          <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-blue-50 p-6 shadow-sm md:p-7">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p>
+            <h2 className="mt-2 text-3xl font-black">{t.turnBmiIntoJourney}</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.prototypeLayerNote}</p>
+
+            <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">
+              <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsightCard}</p>
+                    <h3 className="mt-2 text-2xl font-black">{t.possibleProgressTarget}</h3>
+                  </div>
+                  <div className="rounded-2xl bg-slate-950 px-4 py-3 text-right text-white">
+                    <div className="text-xs font-bold uppercase text-slate-300">{t.timeline}</div>
+                    <div className="text-sm font-black">{t.estimatedTimelinePlaceholder}</div>
+                  </div>
+                </div>
+                <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.currentBmi}</div><div className="mt-1 text-3xl font-black">{activeBmi ? formatBmi(activeBmi) : "—"}</div></div>
+                  <div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.goal}</div><div className="mt-1 text-3xl font-black text-blue-950">23</div></div>
+                  <div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.needed}</div><div className="mt-1 text-3xl font-black text-emerald-950">{neededWeightDisplay}</div></div>
+                </div>
+                <p className="mt-4 text-sm leading-6 text-slate-600">{t.neededWeightNote}</p>
+              </article>
+
+              <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivationCard}</p>
+                <h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3>
+                <div className="mt-5 rounded-2xl bg-pink-50 p-4">
+                  <div className="text-xs font-black uppercase text-pink-700">{t.targetBmiRange}</div>
+                  <div className="mt-1 text-3xl font-black text-pink-950">18.5–24.9</div>
+                </div>
+                <div className="mt-4 grid grid-cols-2 gap-3">
+                  {motivationTools.map((tool) => (
+                    <div key={tool} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{tool}</div>
+                  ))}
+                </div>
+              </article>
             </div>
-          )}
 
-          {/* ── Decision ── */}
+            <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.55fr]">
+              <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.healthJourney}</p>
+                <div className="mt-4 grid gap-3 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">
+                  {journeyNodes.map((node, index) => (
+                    <div key={`${node}-${index}`} className="contents">
+                      <div className={`rounded-2xl border p-4 text-center ${index === 4 ? "border-emerald-300 bg-emerald-50" : "border-blue-200 bg-blue-50"}`}>
+                        <div className="text-xs font-black uppercase text-slate-500">{index === 0 ? t.start : `${t.step} ${index}`}</div>
+                        <div className="mt-1 text-lg font-black">{node}</div>
+                      </div>
+                      {index < 4 && <div className="hidden text-2xl font-black text-slate-300 md:block">→</div>}
+                    </div>
+                  ))}
+                </div>
+              </article>
+
+              <article className="rounded-3xl border border-dashed border-slate-300 bg-white/80 p-5 shadow-sm">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-500">{t.saveSharePlaceholder}</p>
+                <h3 className="mt-2 text-xl font-black">{t.saveShareJourney}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{t.saveShareNote}</p>
+                <div className="mt-4 grid grid-cols-2 gap-3">
+                  <button type="button" className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">{t.saveUi}</button>
+                  <button type="button" className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-black text-slate-700">{t.shareUi}</button>
+                </div>
+              </article>
+            </div>
+          </section>
+
           <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-purple-700">{lang === "zh" ? "決策路徑" : "Decision Path"}</p>
-            <h2 className="mt-2 text-3xl font-black">{t.decisionTitle}</h2>
-            <div className="mt-5 flex flex-col gap-3 md:flex-row md:gap-2">
-              {[t.step1, t.step2, t.step3, t.step4].map((step, i) => (
-                <div key={i} className="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-center text-sm font-black">
-                  {step}
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.decisionPath}</p>
+            <h2 className="mt-2 text-3xl font-black">{t.highBmiEnergyPath}</h2>
+            <div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">
+              {decisionNodes.map((node, index) => (
+                <div key={`${node}-${index}`} className="contents">
+                  <div className={`rounded-3xl border p-5 text-center ${index === 0 ? "border-orange-300 bg-orange-50" : "border-blue-200 bg-blue-50"}`}>
+                    <div className="text-xs font-black uppercase text-slate-500">{t.step} {index + 1}</div>
+                    <div className="mt-1 text-xl font-black">{node}</div>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">{decisionDescriptions[index]}</p>
+                  </div>
+                  {index < 3 && <div className="hidden text-3xl font-black text-slate-300 md:block">→</div>}
                 </div>
               ))}
             </div>
           </section>
 
-          {/* ── Knowledge ── */}
-          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.knowledgeTitle}</p>
-            <h2 className="mt-2 text-3xl font-black">{lang === "zh" ? "知識中心" : "Knowledge Hub"}</h2>
-            <div className="mt-5 space-y-4">
-              <div className="rounded-2xl bg-slate-50 p-4">
-                <h3 className="font-black">{t.definition}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p>
+          <section className="grid gap-7 lg:grid-cols-[1fr_0.9fr]">
+            <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.knowledge}</p>
+              <h2 className="mt-2 text-3xl font-black">{t.bmiMeaning}</h2>
+              <div className="mt-5 grid gap-4 md:grid-cols-3">
+                <div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.semanticNeighbors}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.semanticNeighborsText}</p></div>
               </div>
-              <div className="rounded-2xl bg-slate-50 p-4">
-                <h3 className="font-black">{t.limitations}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p>
+              <pre className="mt-5 rounded-3xl bg-slate-950 p-5 text-sm leading-7 text-slate-100">{t.metricFormula}{"\n"}{t.imperialFormula}</pre>
+              
+              {/* ────── AdSlot: Knowledge 中間 ────── */}
+              <div className="mt-6">
+                <AdSlot slot="bmi-knowledge" position="middle" />
               </div>
-              <div className="rounded-2xl bg-slate-50 p-4">
-                <h3 className="font-black">{t.relatedTools}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-700">{t.relatedToolsText}</p>
+            </article>
+
+            <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.faq}</p>
+              <h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2>
+              <div className="mt-5 space-y-3">
+                {faqItems.map((item) => (
+                  <details key={l(item.question, lang)} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <summary className="cursor-pointer font-black">{l(item.question, lang)}</summary>
+                    <p className="mt-2 text-sm leading-6 text-slate-700">{l(item.answer, lang)}</p>
+                  </details>
+                ))}
               </div>
-            </div>
-            <pre className="mt-5 rounded-3xl bg-slate-950 p-5 text-sm leading-7 text-slate-100">
-              {t.formula}
-            </pre>
+            </article>
           </section>
 
-          {/* ── FAQ ── */}
-          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">FAQ</p>
-            <h2 className="mt-2 text-3xl font-black">{t.faqTitle}</h2>
-            <div className="mt-5 space-y-3">
-              {faqItems.map((item) => (
-                <details key={item.question.zh} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                  <summary className="cursor-pointer font-black">
-                    {lang === "zh" ? item.question.zh : item.question.en}
-                  </summary>
-                  <p className="mt-2 text-sm leading-6 text-slate-700">
-                    {lang === "zh" ? item.answer.zh : item.answer.en}
-                  </p>
-                </details>
-              ))}
-            </div>
-          </section>
+          {/* ────── AdSlot: FAQ 下方 ────── */}
+          <AdSlot slot="bmi-faq" position="inline" />
 
-          {/* ── Affiliate ── */}
-          <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{t.recommendTitle}</p>
-            <h3 className="mt-2 text-2xl font-black">{t.recommendSubtitle}</h3>
+          {/* ────── Affiliate Layer (L14) - 獨立顯示，不在任何 flag 內 ────── */}
+          <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 md:p-7">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{lang === "zh" ? "推薦商品" : "Recommended"}</p>
+            <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "配合 TDEE 使用的健康工具" : "Health tools to use with TDEE"}</h2>
             <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
-              {affiliateItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100"
-                >
-                  {lang === "zh" ? item.zh : item.en}
-                </a>
-              ))}
+              {[{zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-tracker"}, {zh: "智能體重秤", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "運動手璶", en: "Sports Watch", href: "#affiliate-watch"}, {zh: "營養計畫書", en: "Nutrition Plan", href: "#affiliate-nutrition"}].map((item) => (<a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
             </div>
-            <p className="mt-3 text-xs text-amber-600">{t.affiliateDisclaimer}</p>
+            <p className="mt-3 text-xs text-amber-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission."}</p>
           </section>
 
-          {/* ── Trust ── */}
+          {/* ────── Premium Layer (L15) ────── */}
+          <PremiumGate plan="PRO">
+            <div className="rounded-[2rem] border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{lang === "zh" ? "進階功能" : "Premium Features"}</p>
+              <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "解鎖完整健康追蹤" : "Unlock Complete Health Tracking"}</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{lang === "zh" ? "Premium 功能即將推出" : "Premium features coming soon"}</p>
+            </div>
+          </PremiumGate>
+
           <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">
-              {lang === "zh" ? "信任聲明 · 參考資料" : "Trust · References"}
-            </p>
-            <div className="mt-4 grid gap-5 md:grid-cols-2">
-              <div>
-                <h2 className="text-xl font-black">{t.trustTitle}</h2>
-                <p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p>
-              </div>
-              <div>
-                <h2 className="text-xl font-black">{t.references}</h2>
-                <p className="mt-2 text-sm leading-6 text-slate-700">{t.referencesText}</p>
-              </div>
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.trustRelatedReferences}</p>
+            <div className="mt-4 grid gap-5 md:grid-cols-3">
+              <div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div>
+              <div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">BMR · TDEE · {t.calories} · {lang === "zh" ? "體脂" : "Body Fat"} · {lang === "zh" ? "飲水量" : "Water Intake"} · {lang === "zh" ? "腰圍比例" : "Waist Ratio"}</p></div>
+              <div><h2 className="text-xl font-black">{t.references}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.referencesText}</p></div>
             </div>
           </section>
         </div>
