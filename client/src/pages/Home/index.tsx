@@ -43,7 +43,7 @@ type JourneyCard = {
 };
 
 type ClusterCard = {
-  websiteKey: "finance" | "health" | "dev" | "education" | "science" | "travel" | "productivity" | "ai";
+  websiteKey: "finance" | "health" | "developer" | "education" | "science" | "travel" | "productivity" | "ai";
   title: Record<Lang, string>;
   description: Record<Lang, string>;
   href: string;
@@ -86,7 +86,7 @@ const featuredTools: FeaturedTool[] = [
   { name: "CAGR 複合年增長率計算", category: "finance", description: "計算投資或資產在一段期間內的年化成長率。", href: "/tools/finance/cagr-calculator", icon: TrendingUp },
   { name: "BMI 身體質量指數", category: "health", description: "用身高與體重快速估算身體質量指數。", href: "/tools/health/bmi-calculator", icon: HeartPulse },
   { name: "退休金計算", category: "finance", description: "估算退休資金需求、儲蓄節奏與提領情境。", href: "/tools/finance/retirement-calculator", icon: PiggyBank },
-  { name: "JSON 格式化工具", category: "dev", description: "格式化、檢查與閱讀 JSON 結構資料。", href: "/tools/dev/json-formatter", icon: Code2 },
+  { name: "JSON 格式化工具", category: "developer", description: "格式化、檢查與閱讀 JSON 結構資料。", href: "/tools/developer/json-formatter", icon: Code2 },
   { name: "熱量赤字計算", category: "health", description: "估算減重所需的每日熱量赤字與追蹤節奏。", href: "/tools/health/calorie-deficit", icon: Dumbbell },
   { name: "貨幣匯率換算", category: "travel", description: "協助旅行、跨境預算與匯率情境換算。", href: "/tools/travel/currency-converter", icon: Globe2 },
   { name: "複利計算器", category: "finance", description: "模擬本金、利率、期間與再投入後的成長結果。", href: "/tools/finance/compound-interest", icon: LineChart },
@@ -96,7 +96,7 @@ const featuredTools: FeaturedTool[] = [
 const clusterCards: ClusterCard[] = [
   { websiteKey: "finance", title: { zh: "finance｜財經投資", en: "finance | Investment" }, description: { zh: "投資、複利、退休、風險與現金流決策。", en: "Investment, compounding, retirement, risk, and cash flow." }, href: "/tools/finance" },
   { websiteKey: "health", title: { zh: "health｜健康生活", en: "health | Wellness" }, description: { zh: "身體指標、代謝、熱量與生活追蹤。", en: "Body metrics, metabolism, calories, and lifestyle tracking." }, href: "/tools/health" },
-  { websiteKey: "dev", title: { zh: "dev｜開發工具", en: "dev | Developer Tools" }, description: { zh: "JSON、API、Regex、格式化與部署前檢查。", en: "JSON, API, Regex, formatting, and pre-release checks." }, href: "/tools/dev" },
+  { websiteKey: "developer", title: { zh: "developer｜開發工具", en: "developer | Developer Tools" }, description: { zh: "JSON、API、Regex、格式化與部署前檢查。", en: "JSON, API, Regex, formatting, and pre-release checks." }, href: "/tools/developer" },
   { websiteKey: "education", title: { zh: "education｜教育學習", en: "education | Learning" }, description: { zh: "學習、測驗、分數與知識整理。", en: "Learning, testing, scoring, and knowledge structure." }, href: "/tools/education" },
   { websiteKey: "science", title: { zh: "science｜科學工程", en: "science | Engineering" }, description: { zh: "單位、公式、模型、換算與工程計算。", en: "Units, formulas, models, conversions, and engineering calculations." }, href: "/tools/science" },
   { websiteKey: "travel", title: { zh: "travel｜旅遊地理", en: "travel | Geography" }, description: { zh: "預算、匯率、時區、距離與行程規劃。", en: "Budget, exchange rate, time zone, distance, and itinerary planning." }, href: "/tools/travel" },
@@ -108,7 +108,7 @@ const clusterCards: ClusterCard[] = [
 const footerCategoryLinks = [
   { key: "footerFinance" as const, href: "/tools/finance" },
   { key: "footerHealth" as const, href: "/tools/health" },
-  { key: "footerDev" as const, href: "/tools/dev" },
+  { key: "footerDev" as const, href: "/tools/developer" },
   { key: "footerProductivity" as const, href: "/tools/productivity" },
   { key: "footerEducation" as const, href: "/tools/education" },
   { key: "footerScience" as const, href: "/tools/science" },
@@ -217,7 +217,7 @@ export default function Home() {
               {t.intro}
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <Button asChild size="lg" className="gap-2"><Link href="/tools/dev">{t.exploreTools}<ArrowRight className="h-4 w-4" /></Link></Button>
+              <Button asChild size="lg" className="gap-2"><Link href="/tools/developer">{t.exploreTools}<ArrowRight className="h-4 w-4" /></Link></Button>
               <Button asChild variant="outline" size="lg"><a href="#journey">{t.startJourney}</a></Button>
             </div>
           </div>
