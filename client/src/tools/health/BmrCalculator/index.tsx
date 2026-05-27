@@ -324,7 +324,7 @@ export default function BmrCalculator() {
   }, [feet, heightCm, inches, pounds, unitSystem, weightKg, age, gender]);
 
   const activeCategory = calculation?.category ?? categoryInfo[1];
-  const activeBmr = calculation?.bmi;
+  const activeBmr = calculation?.bmr;
   const tdeeEstimate = activeBmr ? Math.round(activeBmr * 1.5) : null;
   const journeyNodes = [t.current, "BMI", "BMR", t.calories, t.progress];
   const decisionNodes = [t.bmiHigh, "BMR", "TDEE", t.calories];
