@@ -58,10 +58,8 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/dividend-reinvestment": lazy(() => import("@/tools/finance/DividendReinvestment")),
   "finance/crypto-dca-backtest": lazy(() => import("@/tools/finance/CryptoDcaBacktest")),
   // 健康工具（原有）
-  "health/tdee-calculator": lazy(() => import("@/tools/health/TdeeCalculator")),
   "health/bmi-calculator": lazy(() => import("@/tools/health/BmiCalculator")),
   "health/sleep-cycle-calculator": lazy(() => import("@/tools/health/SleepCycleCalculator")),
-  "health/calorie-deficit-calculator": lazy(() => import("@/tools/health/CalorieDeficitCalculator")),
   "health/water-intake-calculator": lazy(() => import("@/tools/health/WaterIntakeCalculator")),
   // 健康工具（Phase 11）
   "health/macros-calculator": lazy(() => import("@/tools/health/MacrosCalculator")),
@@ -139,7 +137,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "dev/image-converter": lazy(() => import("@/tools/dev/ImageConverter")),
   "dev/timezone-converter": lazy(() => import("@/tools/dev/TimezoneConverter")),
   // HLT Priority 1 Expansion BIO/CAL/FIT/WLS/NTR
-  "health/bmr-calculator": lazy(() => import("@/tools/health/BmrCalculator")),
+  // "health/bmr-calculator" 已在行 18 定義
   "health/lean-body-mass-calculator": lazy(() => import("@/tools/health/LeanBodyMassCalculator")),
   "health/waist-to-hip-ratio-calculator": lazy(() => import("@/tools/health/WaistToHipRatioCalculator")),
   "health/body-surface-area-calculator": lazy(() => import("@/tools/health/BodySurfaceAreaCalculator")),
