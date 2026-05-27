@@ -1,17 +1,17 @@
 import { useMemo, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { AdSlot } from "@/components/business/AdSlot";
 import { PremiumGate } from "@/components/business/PremiumGate";
 
 type UnitSystem = "metric" | "imperial";
 type Lang = "zh" | "en";
-type WeightCategory = "underweight" | "normal" | "overweight";
+type IdealWeightCategory = "underweight" | "normal" | "overweight";
 type LocalText = { zh: string; en: string };
 
 type CategoryInfo = {
-  key: WeightCategory;
+  key: IdealWeightCategory;
   label: LocalText;
+  tone: string;
   meaning: LocalText;
   risks: LocalText;
   actions: LocalText;
@@ -21,622 +21,479 @@ type CategoryInfo = {
 
 const l = (value: LocalText, lang: Lang) => value[lang];
 
-// L6: Human Advisory - 理想體重區域分類
 const categoryInfo: CategoryInfo[] = [
   {
     key: "underweight",
     label: { zh: "低於理想體重", en: "Below Ideal Weight" },
+    tone: "from-sky-400 via-sky-300 to-slate-200",
     meaning: { zh: "當前體重低於計算的理想體重範圍。", en: "Current weight is below the calculated ideal weight range." },
-    risks: { zh: "可能與營養不足、代謝問題或健康狀況有關。", en: "May be associated with undernutrition, metabolic issues, or health conditions." },
-    actions: { zh: "建議檢視飲食營養、能量攝入和整體健康狀況。若持續偏低，請尋求專業指導。", en: "Review nutrition, energy intake, and overall health. Seek professional guidance if persistent." },
+    risks: { zh: "可能與營養不足、代謝問題或健康狀況有關。建議檢視飲食與整體健康狀況。", en: "May be associated with undernutrition, metabolic issues, or health conditions. Review nutrition and overall health." },
+    actions: { zh: "檢視飲食營養、能量攝入和整體健康狀況。若持續偏低，請尋求專業指導。", en: "Review nutrition, energy intake, and overall health. Seek professional guidance if persistent." },
     nextTool: { zh: "BMR 計算機", en: "BMR Calculator" },
     tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "BMI 計算機", en: "BMI Calculator" }],
   },
   {
     key: "normal",
     label: { zh: "理想體重範圍", en: "Ideal Weight Range" },
+    tone: "from-emerald-500 via-lime-300 to-yellow-200",
     meaning: { zh: "當前體重在計算的理想體重範圍內。", en: "Current weight is within the calculated ideal weight range." },
-    risks: { zh: "通常表示體重與身高的比例較為健康，但需結合其他健康指標評估。", en: "Generally indicates a healthy weight-to-height ratio, but should be combined with other health metrics." },
-    actions: { zh: "維持均衡飲食、規律運動、充足睡眠。定期使用 BMI、體脂率等工具進行全面評估。", en: "Maintain balanced nutrition, regular exercise, adequate sleep. Use BMI and body composition tools for comprehensive assessment." },
+    risks: { zh: "通常表示體重與身高的比例較為健康。但應結合 BMI、體脂率等指標進行全面評估。", en: "Generally indicates a healthy weight-to-height ratio. Combine with BMI and body composition metrics for comprehensive assessment." },
+    actions: { zh: "維持均衡營養、規律運動、充足睡眠。定期評估健康指標。", en: "Maintain balanced nutrition, regular exercise, adequate sleep. Regularly assess health metrics." },
     nextTool: { zh: "BMI 計算機", en: "BMI Calculator" },
     tools: [{ zh: "BMI 計算機", en: "BMI Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "BMR 計算機", en: "BMR Calculator" }],
   },
   {
     key: "overweight",
     label: { zh: "高於理想體重", en: "Above Ideal Weight" },
+    tone: "from-yellow-300 via-orange-300 to-orange-500",
     meaning: { zh: "當前體重高於計算的理想體重範圍。", en: "Current weight is above the calculated ideal weight range." },
-    risks: { zh: "可能與較高的代謝風險相關，但需結合 BMI、體脂率等指標進行全面評估。", en: "May be associated with higher metabolic risk, but should be assessed with BMI and body composition metrics." },
-    actions: { zh: "建議先計算 BMI、TDEE、體脂率，了解完整的健康狀況後再制定體重管理計劃。", en: "Calculate BMI, TDEE, and body fat percentage to understand your complete health profile before planning weight management." },
+    risks: { zh: "可能與較高的代謝風險相關。但需結合 BMI、體脂率等指標進行全面評估。", en: "May be associated with higher metabolic risk. Assess with BMI and body composition metrics." },
+    actions: { zh: "建議先計算 BMI、TDEE、體脂率，了解完整健康狀況後再制定體重管理計劃。", en: "Calculate BMI, TDEE, and body fat percentage to understand your complete health profile before planning weight management." },
     nextTool: { zh: "BMI 計算機", en: "BMI Calculator" },
     tools: [{ zh: "BMI 計算機", en: "BMI Calculator" }, { zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }],
   },
 ];
 
+const ui = {
+  zh: {
+    badge: "健康 · 生物指標 · Gold Tool",
+    title: "理想體重計算機・健康體重指南",
+    subtitle: "理想體重計算機引導體驗",
+    intro: "根據身高計算理想體重範圍，快速了解您的健康體重目標，並延伸到 BMI、BMR、TDEE 等下一步工具。",
+    trustNoteLabel: "信任提醒：",
+    trustNote: "理想體重是參考指標，不是診斷。它無法區分肌肉和脂肪、考慮運動員體組成、懷孕情境或兒童百分位狀態。",
+    quickActionCard: "快速範例卡",
+    tryCommonHeightExample: "試用常見身高範例",
+    idealWeightPreview: "理想體重預覽",
+    example: "範例",
+    femaleHeight: "女性身高",
+    maleHeight: "男性身高",
+    weight: "體重",
+    height: "身高",
+    oneClickFillFemaleExample: "一鍵填入女性範例",
+    previewHighWeightPath: "預覽高體重決策路徑",
+    examplesCalculator: "範例 → 計算機",
+    enterOrFillValues: "輸入或填入數值",
+    examplesHelper: "範例緊貼計算機，讓使用者能快速開始，再依自己的數值調整輸入而不失去脈絡。",
+    metric: "公制",
+    imperial: "英制",
+    exampleCards: "範例卡",
+    highWeightPathDemo: "高體重路徑示範",
+    oneClickFillAllowed: "160cm · 可一鍵填入",
+    highWeightPathDescription: "180cm · 展示 BMI → BMR → TDEE 路徑",
+    flowDemo: "流程示範",
+    calculator: "計算機",
+    heightCm: "身高（cm）",
+    currentWeightKg: "當前體重（kg）",
+    feet: "英尺",
+    inches: "英寸",
+    currentWeightLb: "當前體重（lb）",
+    resultCard: "結果卡",
+    enterValidValues: "請輸入有效數值",
+    status: "狀態",
+    weightRange: "體重範圍",
+    recommendedAction: "建議行動",
+    relatedNextTool: "下一步工具",
+    resultIntelligence: "結果解讀",
+    interpretCategoryBeforeActing: "行動前先理解分類",
+    knowledge: "知識",
+    idealWeightMeaning: "理想體重在健康宇宙中的意義",
+    definition: "定義",
+    definitionText: "理想體重是根據身高計算出的健康體重範圍。本計算器採用 BMI 反推法，以 BMI 22 為中心值。",
+    limitations: "限制",
+    limitationsText: "理想體重無法區分肌肉和脂肪、考慮體脂分佈、懷孕狀態或兒童百分位狀態。",
+    semanticNeighbors: "相關工具",
+    semanticNeighborsText: "BMI、BMR、TDEE、體脂率、腰圍比例等工具可擴展結果情境。",
+    formula: "計算公式",
+    formulaText: "理想體重 = 身高(m) × 身高(m) × 22，理想體重範圍 = 中位數 ± 10%",
+    faq: "常見問題",
+    commonQuestions: "常見問題",
+    trustRelatedReferences: "信任 · 相關工具 · 參考資料",
+    trust: "信任聲明",
+    trustText: "參考資料應包含 WHO、CDC 與 NIH。理想體重是參考指標，不是診斷或醫療治療建議。",
+    relatedTools: "相關工具",
+    references: "參考資料",
+    referencesText: "WHO 分類脈絡、CDC BMI 篩查指引，以及 NIH 健康風險脈絡。",
+  },
+  en: {
+    badge: "Health · Biometrics · Gold Tool",
+    title: "Ideal Weight Calculator · Healthy Weight Guide",
+    subtitle: "Ideal Weight Calculator guided experience",
+    intro: "Calculate your ideal weight range based on height, quickly understand your healthy weight goals, and continue to BMI, BMR, TDEE, and other next tools.",
+    trustNoteLabel: "Trust note:",
+    trustNote: "Ideal weight is a reference metric, not a diagnosis. It cannot distinguish muscle from fat, consider athletic body composition, pregnancy context, or child percentile status.",
+    quickActionCard: "Quick Action Card",
+    tryCommonHeightExample: "Try a common height example",
+    idealWeightPreview: "Ideal weight preview",
+    example: "Example",
+    femaleHeight: "Female height",
+    maleHeight: "Male height",
+    weight: "Weight",
+    height: "Height",
+    oneClickFillFemaleExample: "One-click fill female example",
+    previewHighWeightPath: "Preview high weight decision path",
+    examplesCalculator: "Examples → Calculator",
+    enterOrFillValues: "Enter or fill values",
+    examplesHelper: "The prototype keeps examples close to the calculator so users can start fast, then edit inputs without losing context.",
+    metric: "Metric",
+    imperial: "Imperial",
+    exampleCards: "Example cards",
+    highWeightPathDemo: "High weight path demo",
+    oneClickFillAllowed: "160cm · one-click fill allowed",
+    highWeightPathDescription: "180cm · shows BMI → BMR → TDEE path",
+    flowDemo: "Flow demo",
+    calculator: "Calculator",
+    heightCm: "Height (cm)",
+    currentWeightKg: "Current Weight (kg)",
+    feet: "Feet",
+    inches: "Inches",
+    currentWeightLb: "Current Weight (lb)",
+    resultCard: "Result Card",
+    enterValidValues: "Enter valid values",
+    status: "Status",
+    weightRange: "Weight Range",
+    recommendedAction: "Recommended action",
+    relatedNextTool: "Related next tool",
+    resultIntelligence: "Result Intelligence",
+    interpretCategoryBeforeActing: "Interpret the category before acting",
+    knowledge: "Knowledge",
+    idealWeightMeaning: "What Ideal Weight means in the Health universe",
+    definition: "Definition",
+    definitionText: "Ideal weight is the healthy weight range calculated based on height. This calculator uses the BMI reverse calculation method with BMI 22 as the center value.",
+    limitations: "Limitations",
+    limitationsText: "Ideal weight cannot distinguish muscle from fat, consider fat distribution, pregnancy status, or child percentile status.",
+    semanticNeighbors: "Semantic neighbors",
+    semanticNeighborsText: "BMI, BMR, TDEE, Body Fat, and Waist Ratio tools expand the result context.",
+    formula: "Calculation Formula",
+    formulaText: "Ideal Weight = Height(m) × Height(m) × 22, Ideal Weight Range = Center ± 10%",
+    faq: "FAQ",
+    commonQuestions: "Common questions",
+    trustRelatedReferences: "Trust · Related Tools · References",
+    trust: "Trust",
+    trustText: "References should include WHO, CDC, and NIH. Ideal weight is a reference metric, not a diagnosis or medical treatment recommendation.",
+    relatedTools: "Related Tools",
+    references: "References",
+    referencesText: "WHO classification context, CDC BMI screening guidance, and NIH health risk context.",
+  },
+} as const;
+
+const femaleHeightExampleCm = 160;
+const maleHeightExampleCm = 180;
+
+function getIdealWeight(heightCm: number): number {
+  const heightM = heightCm / 100;
+  return heightM * heightM * 22;
+}
+
+function getCategory(currentWeight: number, idealWeight: number): CategoryInfo {
+  const min = idealWeight * 0.9;
+  const max = idealWeight * 1.1;
+  if (currentWeight < min) return categoryInfo[0];
+  if (currentWeight <= max) return categoryInfo[1];
+  return categoryInfo[2];
+}
+
+function formatWeight(value: number): string {
+  return Number.isFinite(value) ? value.toFixed(1) : "—";
+}
+
 export default function IdealWeightCalculator() {
-  const { lang } = useLanguage();
+  const { lang, setLang } = useLanguage();
   const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric");
-  const [height, setHeight] = useState<number>(170);
-  const [currentWeight, setCurrentWeight] = useState<number>(70);
+  const [heightCm, setHeightCm] = useState("170");
+  const [currentWeightKg, setCurrentWeightKg] = useState("70");
+  const [feet, setFeet] = useState("5");
+  const [inches, setInches] = useState("7");
+  const [currentWeightLb, setCurrentWeightLb] = useState("154");
 
-  // L4: Calculator - 精確計算
-  const calculations = useMemo(() => {
-    const heightM = unitSystem === "metric" ? height / 100 : height * 0.0254;
-    
-    // BMI 反推法：理想體重 = 身高(m)² × 22
-    const idealWeightCenter = heightM * heightM * 22;
-    const idealWeightMin = idealWeightCenter * 0.9;
-    const idealWeightMax = idealWeightCenter * 1.1;
+  const t = ui[lang];
 
-    // 與當前體重的對比
-    const weightDifference = currentWeight - idealWeightCenter;
-    let category: WeightCategory;
-    
-    if (currentWeight < idealWeightMin) {
-      category = "underweight";
-    } else if (currentWeight > idealWeightMax) {
-      category = "overweight";
-    } else {
-      category = "normal";
+  const calculation = useMemo(() => {
+    if (unitSystem === "metric") {
+      const hCm = Number(heightCm);
+      const weight = Number(currentWeightKg);
+      if (!hCm || !weight || hCm <= 0 || weight <= 0) return null;
+      const idealWeight = getIdealWeight(hCm);
+      return { heightCm: hCm, currentWeight: weight, idealWeight, category: getCategory(weight, idealWeight) };
     }
 
-    return {
-      idealWeightCenter: Math.round(idealWeightCenter * 10) / 10,
-      idealWeightMin: Math.round(idealWeightMin * 10) / 10,
-      idealWeightMax: Math.round(idealWeightMax * 10) / 10,
-      weightDifference: Math.round(weightDifference * 10) / 10,
-      category,
-    };
-  }, [height, currentWeight, unitSystem]);
+    const totalInches = Number(feet) * 12 + Number(inches);
+    const weightLb = Number(currentWeightLb);
+    if (!totalInches || !weightLb || totalInches <= 0 || weightLb <= 0) return null;
+    const hCm = totalInches * 2.54;
+    const weightKg = weightLb * 0.45359237;
+    const idealWeight = getIdealWeight(hCm);
+    return { heightCm: hCm, currentWeight: weightKg, idealWeight, category: getCategory(weightKg, idealWeight) };
+  }, [feet, heightCm, inches, currentWeightKg, currentWeightLb, unitSystem]);
 
-  const categoryData = categoryInfo.find((c) => c.key === calculations.category);
-  const unit = unitSystem === "metric" ? "kg" : "lbs";
-  const heightUnit = unitSystem === "metric" ? "cm" : "in";
+  const activeCategory = calculation?.category ?? categoryInfo[1];
+  const femaleIdealWeight = getIdealWeight(femaleHeightExampleCm);
+  const maleIdealWeight = getIdealWeight(maleHeightExampleCm);
 
-  // L3: Examples - 三個示例
-  const examples = [
-    {
-      title: { zh: "示例 1：身高 160 cm", en: "Example 1: Height 160 cm" },
-      description: { zh: "女性常見身高", en: "Common female height" },
-      height: 160,
-      idealWeight: Math.round((160 / 100) * (160 / 100) * 22 * 10) / 10,
-    },
-    {
-      title: { zh: "示例 2：身高 175 cm", en: "Example 2: Height 175 cm" },
-      description: { zh: "男性常見身高", en: "Common male height" },
-      height: 175,
-      idealWeight: Math.round((175 / 100) * (175 / 100) * 22 * 10) / 10,
-    },
-    {
-      title: { zh: "示例 3：身高 180 cm", en: "Example 3: Height 180 cm" },
-      description: { zh: "較高身材", en: "Taller stature" },
-      height: 180,
-      idealWeight: Math.round((180 / 100) * (180 / 100) * 22 * 10) / 10,
-    },
-  ];
+  function fillFemaleExample() {
+    setUnitSystem("metric");
+    setHeightCm("160");
+    setCurrentWeightKg("56");
+  }
+
+  function fillMaleExample() {
+    setUnitSystem("metric");
+    setHeightCm("180");
+    setCurrentWeightKg("71");
+  }
+
+  const displayIdealWeight = calculation?.idealWeight ? formatWeight(calculation.idealWeight) : "—";
+  const displayIdealMin = calculation?.idealWeight ? formatWeight(calculation.idealWeight * 0.9) : "—";
+  const displayIdealMax = calculation?.idealWeight ? formatWeight(calculation.idealWeight * 1.1) : "—";
+  const displayWeightDiff = calculation ? formatWeight(calculation.currentWeight - calculation.idealWeight) : "—";
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
-      {/* L1: Hero */}
-      <div className="bg-gradient-to-r from-purple-500 via-pink-400 to-rose-400 text-white py-12 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex justify-between items-start mb-6">
-            <div>
-              <h1 className="text-4xl font-bold mb-2">
-                {lang === "zh" ? "理想體重計算器" : "Ideal Weight Calculator"}
-              </h1>
-              <p className="text-lg opacity-90">
-                {lang === "zh"
-                  ? "根據身高計算理想體重範圍，了解您的健康體重目標。"
-                  : "Calculate your ideal weight range based on height and understand your healthy weight goals."}
-              </p>
-            </div>
-            <button className="px-4 py-2 bg-white text-purple-600 rounded-full font-semibold hover:bg-gray-100">
-              {lang === "zh" ? "繁中" : "EN"}
+    <main className="min-h-screen bg-slate-950 text-slate-950">
+      {/* Hero Section */}
+      <section className="bg-[radial-gradient(circle_at_top_left,_#dbeafe,_#f8fafc_45%,_#eef2ff)]">
+        <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
+          <div className="mb-6 flex justify-end">
+            <button
+              type="button"
+              onClick={() => setLang(lang === "zh" ? "en" : "zh")}
+              className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm transition hover:border-blue-500 hover:bg-blue-50"
+              aria-label={lang === "zh" ? "Switch to English" : "切換到中文"}
+            >
+              <span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}`}>🌐 中</span>
+              <span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}`}>🌐 EN</span>
             </button>
           </div>
-        </div>
-      </div>
-
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Breadcrumb */}
-        <div className="text-sm text-gray-600 mb-8">
-          <span>{lang === "zh" ? "首頁" : "Home"}</span>
-          <span className="mx-2">/</span>
-          <span>{lang === "zh" ? "健康生活" : "Health"}</span>
-          <span className="mx-2">/</span>
-          <span className="text-purple-600 font-semibold">
-            {lang === "zh" ? "理想體重計算器" : "Ideal Weight Calculator"}
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2">
-            {/* L2: Quick Guide */}
-            <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded mb-8">
-              <h3 className="font-bold text-blue-900 mb-3">
-                {lang === "zh" ? "快速指南" : "Quick Guide"}
-              </h3>
-              <ol className="text-sm text-blue-800 space-y-2">
-                <li>1. {lang === "zh" ? "輸入您的身高（公分或英寸）" : "Enter your height (cm or inches)"}</li>
-                <li>2. {lang === "zh" ? "輸入您的當前體重（可選）" : "Enter your current weight (optional)"}</li>
-                <li>3. {lang === "zh" ? "查看理想體重範圍" : "View your ideal weight range"}</li>
-                <li>4. {lang === "zh" ? "根據結果調整健康計劃" : "Adjust your health plan based on results"}</li>
-                <li>5. {lang === "zh" ? "使用相關工具進行深入評估" : "Use related tools for deeper assessment"}</li>
-              </ol>
-            </div>
-
-            {/* L4: Calculator */}
-            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-bold mb-6">
-                {lang === "zh" ? "計算您的理想體重" : "Calculate Your Ideal Weight"}
-              </h2>
-
-              {/* Unit System Toggle */}
-              <div className="flex gap-4 mb-6">
-                <button
-                  onClick={() => setUnitSystem("metric")}
-                  className={`px-4 py-2 rounded font-semibold ${
-                    unitSystem === "metric"
-                      ? "bg-purple-600 text-white"
-                      : "bg-gray-200 text-gray-700"
-                  }`}
-                >
-                  {lang === "zh" ? "公制" : "Metric"}
-                </button>
-                <button
-                  onClick={() => setUnitSystem("imperial")}
-                  className={`px-4 py-2 rounded font-semibold ${
-                    unitSystem === "imperial"
-                      ? "bg-purple-600 text-white"
-                      : "bg-gray-200 text-gray-700"
-                  }`}
-                >
-                  {lang === "zh" ? "英制" : "Imperial"}
-                </button>
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+            <section className="space-y-6">
+              <p className="text-sm font-black uppercase tracking-[0.24em] text-blue-700">{t.badge}</p>
+              <h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1>
+              <p className="text-xl font-black text-blue-700">{t.subtitle}</p>
+              <p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p>
+              <div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950">
+                <strong>{t.trustNoteLabel}</strong> {t.trustNote}
               </div>
+            </section>
 
-              {/* Input Fields */}
-              <div className="space-y-6">
+            <aside className="rounded-[2rem] border border-blue-100 bg-white/90 p-6 shadow-2xl shadow-blue-950/10 backdrop-blur">
+              <div className="flex items-center justify-between gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    {lang === "zh" ? "身高" : "Height"} ({heightUnit})
-                  </label>
-                  <input
-                    type="number"
-                    value={height}
-                    onChange={(e) => setHeight(Number(e.target.value))}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none"
-                  />
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-700">{t.quickActionCard}</p>
+                  <h2 className="mt-2 text-2xl font-black">{t.tryCommonHeightExample}</h2>
                 </div>
+                <div className="rounded-2xl bg-blue-600 px-4 py-3 text-center text-white">
+                  <div className="text-xs font-bold uppercase text-blue-100">{t.idealWeightPreview}</div>
+                  <div className="text-3xl font-black">{formatWeight(femaleIdealWeight)}</div>
+                </div>
+              </div>
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.example}</div><div className="mt-1 text-lg font-black">{t.femaleHeight}</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.height}</div><div className="mt-1 text-lg font-black">160cm</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.weight}</div><div className="mt-1 text-lg font-black">{formatWeight(femaleIdealWeight)}kg</div></div>
+              </div>
+              <button onClick={fillFemaleExample} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white transition hover:bg-blue-700">
+                {t.oneClickFillFemaleExample}
+              </button>
+              <button onClick={fillMaleExample} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900 transition hover:bg-orange-100">
+                {t.previewHighWeightPath}
+              </button>
+            </aside>
+          </div>
+        </div>
+      </section>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    {lang === "zh" ? "當前體重（可選）" : "Current Weight (Optional)"} ({unit})
-                  </label>
-                  <input
-                    type="number"
-                    value={currentWeight}
-                    onChange={(e) => setCurrentWeight(Number(e.target.value))}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none"
-                  />
-                </div>
+      <div className="bg-slate-50">
+        <div className="mx-auto max-w-7xl space-y-7 px-4 py-8 md:px-8">
+          {/* Calculator Section */}
+          <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+            <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.examplesCalculator}</p>
+                <h2 className="mt-2 text-3xl font-black">{t.enterOrFillValues}</h2>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{t.examplesHelper}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-2">
+                <button className={`rounded-xl px-4 py-3 text-sm font-black ${unitSystem === "metric" ? "bg-blue-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnitSystem("metric")}>{t.metric}</button>
+                <button className={`rounded-xl px-4 py-3 text-sm font-black ${unitSystem === "imperial" ? "bg-blue-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnitSystem("imperial")}>{t.imperial}</button>
               </div>
             </div>
 
-            {/* L5: Result Intelligence */}
-            <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-bold mb-6">
-                {lang === "zh" ? "您的理想體重結果" : "Your Ideal Weight Results"}
-              </h2>
-
-              <div className="grid grid-cols-3 gap-4 mb-8">
-                <div className="bg-white rounded-lg p-4 text-center">
-                  <p className="text-sm text-gray-600 mb-2">
-                    {lang === "zh" ? "最低" : "Minimum"}
-                  </p>
-                  <p className="text-3xl font-bold text-purple-600">
-                    {calculations.idealWeightMin}
-                  </p>
-                  <p className="text-xs text-gray-500">{unit}</p>
-                </div>
-
-                <div className="bg-white rounded-lg p-4 text-center border-2 border-purple-500">
-                  <p className="text-sm text-gray-600 mb-2">
-                    {lang === "zh" ? "目標" : "Target"}
-                  </p>
-                  <p className="text-3xl font-bold text-purple-600">
-                    {calculations.idealWeightCenter}
-                  </p>
-                  <p className="text-xs text-gray-500">{unit}</p>
-                </div>
-
-                <div className="bg-white rounded-lg p-4 text-center">
-                  <p className="text-sm text-gray-600 mb-2">
-                    {lang === "zh" ? "最高" : "Maximum"}
-                  </p>
-                  <p className="text-3xl font-bold text-purple-600">
-                    {calculations.idealWeightMax}
-                  </p>
-                  <p className="text-xs text-gray-500">{unit}</p>
+            <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                <h3 className="text-lg font-black">{t.exampleCards}</h3>
+                <div className="mt-4 space-y-3">
+                  <button onClick={fillFemaleExample} className="w-full rounded-2xl border border-blue-200 bg-white p-4 text-left transition hover:border-blue-500">
+                    <div className="flex items-center justify-between gap-3"><span className="font-black">{t.femaleHeight}</span><span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">{formatWeight(femaleIdealWeight)}kg</span></div>
+                    <p className="mt-2 text-sm text-slate-600">{t.oneClickFillAllowed}</p>
+                  </button>
+                  <button onClick={fillMaleExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500">
+                    <div className="flex items-center justify-between gap-3"><span className="font-black">{t.maleHeight}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div>
+                    <p className="mt-2 text-sm text-slate-600">{t.highWeightPathDescription}</p>
+                  </button>
                 </div>
               </div>
 
-              {/* Current Weight Comparison */}
-              {currentWeight && (
-                <div className="bg-white rounded-lg p-4 mb-6">
-                  <p className="text-sm text-gray-600 mb-2">
-                    {lang === "zh" ? "與理想體重的差異" : "Difference from Ideal Weight"}
-                  </p>
-                  <p className="text-2xl font-bold">
-                    <span className={calculations.weightDifference > 0 ? "text-red-600" : "text-green-600"}>
-                      {calculations.weightDifference > 0 ? "+" : ""}
-                      {calculations.weightDifference} {unit}
-                    </span>
-                  </p>
+              <div className="rounded-3xl border border-slate-200 bg-white p-5">
+                <h3 className="text-lg font-black">{t.calculator}</h3>
+                <div className="mt-4 grid gap-4 md:grid-cols-2">
+                  {unitSystem === "metric" ? (
+                    <>
+                      <label className="block text-sm font-black text-slate-700">{t.heightCm}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={heightCm} onChange={(e) => setHeightCm(e.target.value)} /></label>
+                      <label className="block text-sm font-black text-slate-700">{t.currentWeightKg}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={currentWeightKg} onChange={(e) => setCurrentWeightKg(e.target.value)} /></label>
+                    </>
+                  ) : (
+                    <>
+                      <label className="block text-sm font-black text-slate-700">{t.feet}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={feet} onChange={(e) => setFeet(e.target.value)} /></label>
+                      <label className="block text-sm font-black text-slate-700">{t.inches}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={inches} onChange={(e) => setInches(e.target.value)} /></label>
+                      <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.currentWeightLb}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={currentWeightLb} onChange={(e) => setCurrentWeightLb(e.target.value)} /></label>
+                    </>
+                  )}
                 </div>
-              )}
-
-              {/* L6: Human Advisory */}
-              {categoryData && (
-                <div className={`rounded-lg p-6 ${
-                  calculations.category === "normal"
-                    ? "bg-green-50 border-l-4 border-green-500"
-                    : calculations.category === "underweight"
-                    ? "bg-blue-50 border-l-4 border-blue-500"
-                    : "bg-orange-50 border-l-4 border-orange-500"
-                }`}>
-                  <h3 className="font-bold text-lg mb-3">
-                    {l(categoryData.label, lang)}
-                  </h3>
-                  <p className="text-sm mb-3">{l(categoryData.meaning, lang)}</p>
-                  <p className="text-sm font-semibold mb-2">
-                    {lang === "zh" ? "風險提示：" : "Risk Notice:"}
-                  </p>
-                  <p className="text-sm mb-3">{l(categoryData.risks, lang)}</p>
-                  <p className="text-sm font-semibold mb-2">
-                    {lang === "zh" ? "建議行動：" : "Recommended Actions:"}
-                  </p>
-                  <p className="text-sm">{l(categoryData.actions, lang)}</p>
-                </div>
-              )}
+              </div>
             </div>
+          </section>
 
-            {/* L3: Examples */}
-            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-bold mb-6">
-                {lang === "zh" ? "計算示例" : "Calculation Examples"}
-              </h2>
+          {/* Result Section */}
+          <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">
+            <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
+              <div className={`h-5 bg-gradient-to-r ${activeCategory.tone}`} aria-label="Color band placeholder" />
+              <div className="p-6 md:p-7">
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.resultCard}</p>
+                <div className="mt-4 flex items-start justify-between gap-5">
+                  <div>
+                    <div className="text-7xl font-black tracking-tight text-slate-950">{displayIdealWeight}</div>
+                    <div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{calculation ? l(activeCategory.label, lang) : t.enterValidValues}</div>
+                  </div>
+                  <div className="rounded-3xl bg-slate-950 p-4 text-right text-white">
+                    <div className="text-xs font-bold uppercase text-slate-300">{t.status}</div>
+                    <div className="mt-1 text-xl font-black">{displayIdealMin} - {displayIdealMax}</div>
+                    <div className="mt-1 text-xs text-slate-300">{t.weightRange}</div>
+                  </div>
+                </div>
+                <div className="mt-6 grid gap-4 md:grid-cols-3">
+                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.weightRange}</div><p className="mt-2 text-sm leading-6 text-slate-700">{l(activeCategory.meaning, lang)}</p></div>
+                  <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.recommendedAction}</div><p className="mt-2 text-sm leading-6 text-slate-700">{l(activeCategory.actions, lang)}</p></div>
+                  <div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.relatedNextTool}</div><p className="mt-2 text-base font-black text-blue-950">{l(activeCategory.nextTool, lang)}</p></div>
+                </div>
+              </div>
+            </article>
 
-              <div className="space-y-4">
-                {examples.map((example, idx) => (
-                  <div key={idx} className="border-l-4 border-purple-300 pl-4 py-2">
-                    <h4 className="font-bold">{l(example.title, lang)}</h4>
-                    <p className="text-sm text-gray-600 mb-2">{l(example.description, lang)}</p>
-                    <p className="text-sm">
-                      {lang === "zh" ? "理想體重：" : "Ideal Weight: "}
-                      <span className="font-bold text-purple-600">{example.idealWeight} kg</span>
-                    </p>
+            <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.resultIntelligence}</p>
+              <h2 className="mt-2 text-3xl font-black">{t.interpretCategoryBeforeActing}</h2>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {categoryInfo.map((item) => (
+                  <div key={item.key} className={`rounded-2xl border p-4 ${item.key === activeCategory.key ? "border-blue-500 bg-blue-50 shadow-sm" : "border-slate-200 bg-slate-50"}`}>
+                    <h3 className="font-black">{l(item.label, lang)}</h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-700">{l(item.meaning, lang)}</p>
                   </div>
                 ))}
               </div>
-            </div>
+            </article>
+          </section>
 
-            {/* L8: Knowledge */}
-            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-bold mb-6">
-                {lang === "zh" ? "知識庫" : "Knowledge"}
-              </h2>
-
-              <div className="space-y-6">
-                <div>
-                  <h3 className="font-bold text-lg mb-2">
-                    {lang === "zh" ? "什麼是理想體重？" : "What is Ideal Weight?"}
-                  </h3>
-                  <p className="text-gray-700">
-                    {lang === "zh"
-                      ? "理想體重是指根據身高計算出的健康體重範圍。本計算器採用 BMI 反推法，以 BMI 22 為中心值計算理想體重，並提供 ±10% 的健康範圍。"
-                      : "Ideal weight is the healthy weight range calculated based on height. This calculator uses the BMI reverse calculation method with BMI 22 as the center value, providing a healthy range of ±10%."}
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-lg mb-2">
-                    {lang === "zh" ? "計算公式" : "Calculation Formula"}
-                  </h3>
-                  <p className="bg-gray-100 p-4 rounded font-mono text-sm">
-                    {lang === "zh"
-                      ? "理想體重 = 身高(m) × 身高(m) × 22\n理想體重範圍 = 理想體重 ± 10%"
-                      : "Ideal Weight = Height(m) × Height(m) × 22\nIdeal Weight Range = Ideal Weight ± 10%"}
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-lg mb-2">
-                    {lang === "zh" ? "如何解釋結果" : "How to Interpret Results"}
-                  </h3>
-                  <p className="text-gray-700">
-                    {lang === "zh"
-                      ? "結果顯示您的理想體重範圍。如果您的當前體重在此範圍內，說明您的體重與身高比例較為健康。但請注意，理想體重只是一個參考指標，應結合 BMI、體脂率、肌肉量等多個指標進行全面評估。"
-                      : "The result shows your ideal weight range. If your current weight is within this range, your weight-to-height ratio is relatively healthy. However, note that ideal weight is just a reference indicator and should be combined with BMI, body fat percentage, muscle mass, and other metrics for comprehensive assessment."}
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-lg mb-2">
-                    {lang === "zh" ? "限制與注意事項" : "Limitations and Considerations"}
-                  </h3>
-                  <ul className="list-disc list-inside text-gray-700 space-y-2">
-                    <li>
-                      {lang === "zh"
-                        ? "理想體重無法區分肌肉和脂肪，運動員可能體重較重但體脂率較低。"
-                        : "Ideal weight cannot distinguish between muscle and fat; athletes may weigh more but have lower body fat percentage."}
-                    </li>
-                    <li>
-                      {lang === "zh"
-                        ? "此計算器不能替代專業醫療建議。如有健康疑慮，請諮詢醫療專業人員。"
-                        : "This calculator cannot replace professional medical advice. Consult healthcare professionals for health concerns."}
-                    </li>
-                    <li>
-                      {lang === "zh"
-                        ? "理想體重因人而異，受遺傳、代謝、生活方式等多種因素影響。"
-                        : "Ideal weight varies by individual and is influenced by genetics, metabolism, lifestyle, and other factors."}
-                    </li>
-                  </ul>
-                </div>
+          {/* Knowledge Section */}
+          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.knowledge}</p>
+            <h2 className="mt-2 text-3xl font-black">{t.idealWeightMeaning}</h2>
+            <div className="mt-6 grid gap-6 md:grid-cols-2">
+              <div>
+                <h3 className="text-lg font-black">{t.definition}</h3>
+                <p className="mt-2 leading-6 text-slate-700">{t.definitionText}</p>
+              </div>
+              <div>
+                <h3 className="text-lg font-black">{t.formula}</h3>
+                <p className="mt-2 rounded-2xl bg-slate-50 p-4 font-mono text-sm leading-6 text-slate-700">{t.formulaText}</p>
+              </div>
+              <div>
+                <h3 className="text-lg font-black">{t.limitations}</h3>
+                <p className="mt-2 leading-6 text-slate-700">{t.limitationsText}</p>
+              </div>
+              <div>
+                <h3 className="text-lg font-black">{t.semanticNeighbors}</h3>
+                <p className="mt-2 leading-6 text-slate-700">{t.semanticNeighborsText}</p>
               </div>
             </div>
+          </section>
 
-            {/* L9: FAQ */}
-            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-bold mb-6">
-                {lang === "zh" ? "常見問題" : "Frequently Asked Questions"}
-              </h2>
-
-              <div className="space-y-6">
-                <div>
-                  <h4 className="font-bold mb-2">
-                    {lang === "zh"
-                      ? "Q1：理想體重計算器與 BMI 計算器有什麼區別？"
-                      : "Q1: What is the difference between Ideal Weight Calculator and BMI Calculator?"}
-                  </h4>
-                  <p className="text-gray-700">
-                    {lang === "zh"
-                      ? "BMI 計算器根據當前體重計算 BMI 值，並提供分類（偏輕、正常、過重、肥胖）。理想體重計算器則根據身高計算應該達到的健康體重範圍。兩者互補，可結合使用。"
-                      : "BMI Calculator calculates BMI based on current weight and provides categories. Ideal Weight Calculator calculates the healthy weight range you should aim for based on height. They complement each other and should be used together."}
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="font-bold mb-2">
-                    {lang === "zh"
-                      ? "Q2：為什麼使用 BMI 22 作為理想體重的中心值？"
-                      : "Q2: Why use BMI 22 as the center value for ideal weight?"}
-                  </h4>
-                  <p className="text-gray-700">
-                    {lang === "zh"
-                      ? "BMI 22 是亞洲地區公認的健康體重標準，代表在健康 BMI 範圍（18.5-24.9）的中心。這個值被多個衛生機構認可，適合全球用戶。"
-                      : "BMI 22 is the recognized healthy weight standard in Asian regions and represents the center of the healthy BMI range (18.5-24.9). This value is recognized by multiple health organizations and is suitable for global users."}
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="font-bold mb-2">
-                    {lang === "zh"
-                      ? "Q3：如果我的體重超出理想範圍怎麼辦？"
-                      : "Q3: What should I do if my weight is outside the ideal range?"}
-                  </h4>
-                  <p className="text-gray-700">
-                    {lang === "zh"
-                      ? "首先使用 BMI 計算器了解您的 BMI 分類，然後計算 BMR 和 TDEE，制定合理的飲食和運動計劃。如果體重差異較大，建議尋求專業營養師或醫生的指導。"
-                      : "First use the BMI Calculator to understand your BMI category, then calculate BMR and TDEE to develop a reasonable diet and exercise plan. If the weight difference is significant, seek guidance from a professional nutritionist or doctor."}
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="font-bold mb-2">
-                    {lang === "zh"
-                      ? "Q4：理想體重計算器對所有人都適用嗎？"
-                      : "Q4: Is the Ideal Weight Calculator applicable to everyone?"}
-                  </h4>
-                  <p className="text-gray-700">
-                    {lang === "zh"
-                      ? "本計算器適用於成年人。對於兒童、青少年、運動員、孕婦或有特殊健康狀況的人群，理想體重可能有所不同。建議這些人群諮詢專業醫療人員。"
-                      : "This calculator is suitable for adults. For children, teenagers, athletes, pregnant women, or people with special health conditions, ideal weight may differ. These groups should consult healthcare professionals."}
-                  </p>
-                </div>
+          {/* FAQ Section */}
+          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.faq}</p>
+            <h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <h3 className="font-black">Q1: {lang === "zh" ? "理想體重與 BMI 有什麼區別？" : "What is the difference between ideal weight and BMI?"}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">{lang === "zh" ? "BMI 根據當前體重計算分類，理想體重根據身高計算目標範圍。兩者互補。" : "BMI calculates classification based on current weight, ideal weight calculates target range based on height. They complement each other."}</p>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <h3 className="font-black">Q2: {lang === "zh" ? "為什麼用 BMI 22？" : "Why use BMI 22?"}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">{lang === "zh" ? "BMI 22 是健康 BMI 範圍（18.5-24.9）的中心，被多個衛生機構認可。" : "BMI 22 is the center of the healthy BMI range (18.5-24.9), recognized by multiple health organizations."}</p>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <h3 className="font-black">Q3: {lang === "zh" ? "體重超出範圍怎麼辦？" : "What if my weight is outside the range?"}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">{lang === "zh" ? "計算 BMI、BMR、TDEE，制定體重管理計劃。如差異大，尋求專業指導。" : "Calculate BMI, BMR, TDEE to plan weight management. Seek professional guidance if difference is significant."}</p>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <h3 className="font-black">Q4: {lang === "zh" ? "適用於所有人嗎？" : "Is it applicable to everyone?"}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">{lang === "zh" ? "適用於成年人。兒童、運動員、孕婦需諮詢專業人員。" : "Suitable for adults. Children, athletes, and pregnant women should consult professionals."}</p>
               </div>
             </div>
+          </section>
 
-            {/* L7: Journey Layer */}
-            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-bold mb-6">
-                {lang === "zh" ? "健康決策路徑" : "Health Decision Journey"}
-              </h2>
-
-              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold mx-auto mb-2">
-                    1
-                  </div>
-                  <p className="font-semibold">{lang === "zh" ? "理想體重" : "Ideal Weight"}</p>
-                </div>
-
-                <div className="hidden md:block text-2xl text-purple-400">→</div>
-
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-purple-500 text-white rounded-full flex items-center justify-center font-bold mx-auto mb-2">
-                    2
-                  </div>
-                  <p className="font-semibold">{lang === "zh" ? "BMI 評估" : "BMI Assessment"}</p>
-                </div>
-
-                <div className="hidden md:block text-2xl text-purple-400">→</div>
-
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-purple-400 text-white rounded-full flex items-center justify-center font-bold mx-auto mb-2">
-                    3
-                  </div>
-                  <p className="font-semibold">{lang === "zh" ? "BMR 計算" : "BMR Calculation"}</p>
-                </div>
-
-                <div className="hidden md:block text-2xl text-purple-400">→</div>
-
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-purple-300 text-white rounded-full flex items-center justify-center font-bold mx-auto mb-2">
-                    4
-                  </div>
-                  <p className="font-semibold">{lang === "zh" ? "TDEE 規劃" : "TDEE Planning"}</p>
-                </div>
-              </div>
-
-              <p className="text-center text-gray-600 mt-6">
-                {lang === "zh"
-                  ? "了解理想體重後，使用 BMI 計算器評估當前狀況，計算 BMR 了解基礎代謝，最後規劃 TDEE 制定飲食計劃。"
-                  : "After understanding your ideal weight, use BMI Calculator to assess your current status, calculate BMR to understand basal metabolism, and finally plan TDEE for your diet."}
-              </p>
+          {/* Related Tools Section */}
+          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.relatedTools}</p>
+            <h2 className="mt-2 text-3xl font-black">{t.semanticNeighbors}</h2>
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              <a href="/tools/health/bmi-calculator" className="rounded-2xl border border-blue-200 bg-blue-50 p-4 transition hover:border-blue-500">
+                <h3 className="font-black text-blue-900">BMI {lang === "zh" ? "計算機" : "Calculator"}</h3>
+                <p className="mt-2 text-sm text-blue-800">{lang === "zh" ? "評估當前體重狀況" : "Assess current weight status"}</p>
+              </a>
+              <a href="/tools/health/bmr-calculator" className="rounded-2xl border border-slate-200 bg-slate-50 p-4 transition hover:border-slate-400">
+                <h3 className="font-black">BMR {lang === "zh" ? "計算機" : "Calculator"}</h3>
+                <p className="mt-2 text-sm text-slate-700">{lang === "zh" ? "計算基礎代謝率" : "Calculate basal metabolic rate"}</p>
+              </a>
+              <a href="/tools/health/tdee-calculator" className="rounded-2xl border border-slate-200 bg-slate-50 p-4 transition hover:border-slate-400">
+                <h3 className="font-black">TDEE {lang === "zh" ? "計算機" : "Calculator"}</h3>
+                <p className="mt-2 text-sm text-slate-700">{lang === "zh" ? "規劃每日熱量需求" : "Plan daily calorie needs"}</p>
+              </a>
             </div>
+          </section>
 
-            {/* L10: Related Tools */}
-            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-bold mb-6">
-                {lang === "zh" ? "相關工具" : "Related Tools"}
-              </h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <a href="/tools/health/bmi-calculator" className="p-4 border-2 border-purple-200 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition">
-                  <h4 className="font-bold mb-2">{lang === "zh" ? "BMI 計算機" : "BMI Calculator"}</h4>
-                  <p className="text-sm text-gray-600">
-                    {lang === "zh" ? "評估當前體重狀況" : "Assess current weight status"}
-                  </p>
-                </a>
-
-                <a href="/tools/health/bmr-calculator" className="p-4 border-2 border-purple-200 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition">
-                  <h4 className="font-bold mb-2">{lang === "zh" ? "BMR 計算機" : "BMR Calculator"}</h4>
-                  <p className="text-sm text-gray-600">
-                    {lang === "zh" ? "計算基礎代謝率" : "Calculate basal metabolic rate"}
-                  </p>
-                </a>
-
-                <a href="/tools/health/tdee-calculator" className="p-4 border-2 border-purple-200 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition">
-                  <h4 className="font-bold mb-2">{lang === "zh" ? "TDEE 計算機" : "TDEE Calculator"}</h4>
-                  <p className="text-sm text-gray-600">
-                    {lang === "zh" ? "規劃每日熱量需求" : "Plan daily calorie needs"}
-                  </p>
-                </a>
+          {/* References Section */}
+          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.references}</p>
+            <h2 className="mt-2 text-3xl font-black">{t.trustRelatedReferences}</h2>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <div>
+                <h3 className="font-black mb-3">{t.trust}</h3>
+                <p className="text-sm leading-6 text-slate-700">{t.trustText}</p>
+              </div>
+              <div>
+                <h3 className="font-black mb-3">{t.references}</h3>
+                <ul className="space-y-2 text-sm">
+                  <li><a href="https://www.who.int/tools/bmi" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">WHO - Body Mass Index</a></li>
+                  <li><a href="https://www.cdc.gov/bmi/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">CDC - About Adult BMI</a></li>
+                  <li><a href="https://www.mdcalc.com/calc/68/ideal-body-weight-adjusted-body-weight" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">MDCalc - Ideal Body Weight</a></li>
+                  <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10621523/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">NIH - Ideal Body Weight Formulae</a></li>
+                </ul>
               </div>
             </div>
+          </section>
 
-            {/* L11: Related Articles */}
-            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-bold mb-6">
-                {lang === "zh" ? "相關文章" : "Related Articles"}
-              </h2>
-
-              <div className="space-y-4">
-                <a href="#" className="block p-4 border-l-4 border-purple-300 hover:border-purple-600 hover:bg-purple-50 transition">
-                  <h4 className="font-bold mb-1">
-                    {lang === "zh"
-                      ? "如何科學地達到理想體重"
-                      : "How to Scientifically Achieve Your Ideal Weight"}
-                  </h4>
-                  <p className="text-sm text-gray-600">
-                    {lang === "zh"
-                      ? "了解健康減重的科學方法和營養原則。"
-                      : "Learn the science of healthy weight loss and nutrition principles."}
-                  </p>
-                </a>
-
-                <a href="#" className="block p-4 border-l-4 border-purple-300 hover:border-purple-600 hover:bg-purple-50 transition">
-                  <h4 className="font-bold mb-1">
-                    {lang === "zh"
-                      ? "體重管理的完整指南"
-                      : "Complete Guide to Weight Management"}
-                  </h4>
-                  <p className="text-sm text-gray-600">
-                    {lang === "zh"
-                      ? "從飲食、運動到心理健康的全方位指導。"
-                      : "Comprehensive guidance from diet, exercise to mental health."}
-                  </p>
-                </a>
-
-                <a href="#" className="block p-4 border-l-4 border-purple-300 hover:border-purple-600 hover:bg-purple-50 transition">
-                  <h4 className="font-bold mb-1">
-                    {lang === "zh"
-                      ? "BMI、理想體重與體脂率的區別"
-                      : "Differences Between BMI, Ideal Weight, and Body Fat Percentage"}
-                  </h4>
-                  <p className="text-sm text-gray-600">
-                    {lang === "zh"
-                      ? "深入理解不同的健康指標及其應用。"
-                      : "Deep understanding of different health metrics and their applications."}
-                  </p>
-                </a>
-              </div>
-            </div>
-
-            {/* L12: References */}
-            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-bold mb-6">
-                {lang === "zh" ? "參考資料" : "References"}
-              </h2>
-
-              <ul className="space-y-3 text-sm">
-                <li>
-                  <a href="https://www.who.int/tools/bmi" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                    WHO - Body Mass Index (BMI)
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.cdc.gov/bmi/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                    CDC - About Adult BMI
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.mdcalc.com/calc/68/ideal-body-weight-adjusted-body-weight" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                    MDCalc - Ideal Body Weight Calculator
-                  </a>
-                </li>
-                <li>
-                  <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10621523/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                    NIH - Variability in ideal body weight formulae
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* L13: Trust */}
-            <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded mb-8">
-              <h3 className="font-bold text-blue-900 mb-3">
-                {lang === "zh" ? "信任聲明" : "Trust Statement"}
-              </h3>
-              <p className="text-sm text-blue-800">
-                {lang === "zh"
-                  ? "本計算器基於公認的醫學標準（BMI 反推法）開發，參考 WHO、CDC、NIH 等權威機構的指南。計算結果僅供參考，不能替代專業醫療建議。如有健康疑慮，請諮詢合格的醫療專業人員。"
-                  : "This calculator is developed based on recognized medical standards (BMI reverse calculation method) and references guidelines from authoritative organizations such as WHO, CDC, and NIH. The calculation results are for reference only and cannot replace professional medical advice. Consult qualified healthcare professionals for health concerns."}
-              </p>
-            </div>
-
-            {/* Ad Slot */}
-            <AdSlot slot="ideal-weight-knowledge" position="bottom" />
-          </div>
-
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            {/* Ad Slot Sidebar */}
-            <AdSlot slot="ideal-weight-sidebar" position="top" />
-
-            {/* Premium Gate */}
-            <PremiumGate />
-
-            {/* Ad Slot Sidebar Bottom */}
-            <AdSlot slot="ideal-weight-sidebar" position="bottom" />
-          </div>
+          {/* Ad Slots */}
+          <AdSlot slot="ideal-weight-knowledge" position="bottom" />
         </div>
       </div>
 
-      {/* Ad Slot Footer */}
+      {/* Sidebar with Premium Gate */}
+      <div className="fixed right-4 top-32 hidden w-80 space-y-4 lg:block">
+        <AdSlot slot="ideal-weight-sidebar" position="top" />
+        <PremiumGate />
+        <AdSlot slot="ideal-weight-sidebar" position="bottom" />
+      </div>
+
+      {/* Footer Ad */}
       <AdSlot slot="ideal-weight-footer" position="footer" />
-    </div>
+    </main>
   );
 }
