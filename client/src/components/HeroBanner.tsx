@@ -185,10 +185,12 @@ export function HeroBanner() {
       ctx.beginPath();
       const slabTop = canvas.height * 0.28;
       const slabBot = canvas.height * 0.72;
-      const skew = canvas.width * 0.12;
+      const skew = canvas.width * 0.2; // 70% wider (0.12 → 0.2)
+      const slabHeight = slabBot - slabTop;
+      const angleOffset = slabHeight * 0.1; // 5° more right tilt
       ctx.moveTo(-skew, slabTop);
-      ctx.lineTo(canvas.width + skew, slabTop - canvas.height * 0.06);
-      ctx.lineTo(canvas.width + skew, slabBot - canvas.height * 0.06);
+      ctx.lineTo(canvas.width + skew, slabTop - angleOffset);
+      ctx.lineTo(canvas.width + skew, slabBot - angleOffset);
       ctx.lineTo(-skew, slabBot);
       ctx.closePath();
       const lavGrad = ctx.createLinearGradient(0, slabTop, canvas.width, slabBot);
@@ -374,7 +376,7 @@ export function HeroBanner() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "linear-gradient(105deg, transparent 38%, rgba(196,181,253,0.06) 38%, rgba(196,181,253,0.06) 62%, transparent 62%)",
+            "linear-gradient(100deg, transparent 15%, rgba(196,181,253,0.06) 15%, rgba(196,181,253,0.06) 85%, transparent 85%)",
         }}
       />
 
