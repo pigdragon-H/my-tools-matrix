@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
+import { AdSlot } from "@/components/business/AdSlot";
+import { PremiumGate } from "@/components/business/PremiumGate";
 
 type UnitSystem = "metric" | "imperial";
 type Lang = "zh" | "en";
@@ -608,6 +610,11 @@ export default function BmiCalculator() {
                 <div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.semanticNeighbors}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.semanticNeighborsText}</p></div>
               </div>
               <pre className="mt-5 rounded-3xl bg-slate-950 p-5 text-sm leading-7 text-slate-100">{t.metricFormula}{"\n"}{t.imperialFormula}</pre>
+              
+              {/* ────── AdSlot: Knowledge 中間 ────── */}
+              <div className="mt-6">
+                <AdSlot slot="bmi-knowledge" position="middle" />
+              </div>
             </article>
 
             <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
@@ -624,15 +631,17 @@ export default function BmiCalculator() {
             </article>
           </section>
 
-          {/* ────── Premium Upgrade Block ────── */}
-          <div className="rounded-[2rem] border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{lang === "zh" ? "進阶功能" : "Premium"}</p>
-            <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "解鎖完整健康追蹤" : "Unlock complete health tracking"}</h2>
-            <div className="mt-4 grid gap-3 md:grid-cols-3">
-              {[{zh: "📊 歷史記錄追蹤", en: "📊 History tracking"}, {zh: "📄 PDF 報告匯出", en: "📄 PDF export"}, {zh: "🤖 AI 個人化建議", en: "🤖 AI recommendations"}].map((feature) => (<div key={feature.zh} className="rounded-2xl bg-white p-4 text-sm font-black text-slate-800 shadow-sm">{lang === "zh" ? feature.zh : feature.en}</div>))}
+          {/* ────── AdSlot: FAQ 下方 ────── */}
+          <AdSlot slot="bmi-faq" position="inline" />
+
+          {/* ────── Premium Layer (L15) ────── */}
+          <PremiumGate plan="PRO">
+            <div className="rounded-[2rem] border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{lang === "zh" ? "進階功能" : "Premium Features"}</p>
+              <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "解鎖完整健康追蹤" : "Unlock Complete Health Tracking"}</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{lang === "zh" ? "Premium 功能即將推出" : "Premium features coming soon"}</p>
             </div>
-            <button className="mt-5 w-full rounded-2xl bg-blue-600 px-5 py-4 text-sm font-black text-white transition hover:bg-blue-700">{lang === "zh" ? "升級 Premium — 每月 NT$99" : "Upgrade Premium — $3.99/mo"}</button>
-          </div>
+          </PremiumGate>
 
           <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.trustRelatedReferences}</p>
