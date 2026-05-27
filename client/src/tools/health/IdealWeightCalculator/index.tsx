@@ -618,25 +618,25 @@ export default function IdealWeightCalculator() {
             </div>
 
             {/* Ad Slot */}
-            <AdSlot position="knowledge-bottom" />
+            <AdSlot slot="ideal-weight-knowledge" position="bottom" />
           </div>
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
             {/* Ad Slot Sidebar */}
-            <AdSlot position="sidebar-top" />
+            <AdSlot slot="ideal-weight-sidebar" position="top" />
 
             {/* Premium Gate */}
             <PremiumGate />
 
             {/* Ad Slot Sidebar Bottom */}
-            <AdSlot position="sidebar-bottom" />
+            <AdSlot slot="ideal-weight-sidebar" position="bottom" />
           </div>
         </div>
       </div>
 
       {/* Ad Slot Footer */}
-      <AdSlot position="footer" />
+      <AdSlot slot="ideal-weight-footer" position="footer" />
     </div>
   );
 }
