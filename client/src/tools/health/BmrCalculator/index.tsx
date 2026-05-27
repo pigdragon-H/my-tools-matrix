@@ -441,6 +441,8 @@ export default function BmrCalculator() {
                       <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.weightLb}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={pounds} onChange={(e) => setPounds(e.target.value)} /></label>
                     </>
                   )}
+                  <label className="block text-sm font-black text-slate-700">Age (years)<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" type="number" value={age} onChange={(e) => setAge(e.target.value)} /></label>
+                  <label className="block text-sm font-black text-slate-700">Gender<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={gender} onChange={(e) => setGender(e.target.value as "male" | "female")}><option value="male">Male</option><option value="female">Female</option></select></label>
                 </div>
               </div>
             </div>
