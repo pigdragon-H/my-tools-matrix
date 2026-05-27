@@ -1,3 +1,4 @@
+
 import { useMemo, useState } from "react";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { AdSlot } from "@/components/business/AdSlot";
@@ -5,11 +6,11 @@ import { PremiumGate } from "@/components/business/PremiumGate";
 
 type UnitSystem = "metric" | "imperial";
 type Lang = "zh" | "en";
-type BmrCategory = "low" | "normal" | "high";
+type BmiCategory = "underweight" | "normal" | "overweight" | "obesity1" | "obesity2" | "obesity3";
 type LocalText = { zh: string; en: string };
 
 type CategoryInfo = {
-  key: BmrCategory;
+  key: BmiCategory;
   label: LocalText;
   range: LocalText;
   band: LocalText;
@@ -25,40 +26,76 @@ const l = (value: LocalText, lang: Lang) => value[lang];
 
 const categoryInfo: CategoryInfo[] = [
   {
-    key: "low",
-    label: { zh: "偏低", en: "Low" },
-    range: { zh: "< 1400 kcal", en: "< 1400 kcal" },
-    band: { zh: "低代謝區間", en: "Low metabolism band" },
+    key: "underweight",
+    label: { zh: "偏輕", en: "Underweight" },
+    range: { zh: "低於 18.5", en: "Below 18.5" },
+    band: { zh: "低 BMI 區間", en: "Low BMI band" },
     tone: "from-sky-400 via-sky-300 to-slate-200",
-    meaning: { zh: "基礎代謝率相對較低，可能與體型、年齡或代謝狀況相關。", en: "Basal metabolic rate is relatively low, possibly related to body size, age, or metabolic condition." },
-    risks: { zh: "低 BMR 可能表示體型較小或代謝效率高。需結合 TDEE 和活動量進行整體評估。", en: "Low BMR may indicate smaller body size or efficient metabolism. Assess together with TDEE and activity level." },
-    actions: { zh: "建議計算 TDEE 以了解每日消耗熱量，再規劃適合的飲食和運動策略。", en: "Calculate TDEE to understand daily calorie expenditure, then plan appropriate nutrition and exercise strategy." },
-    nextTool: { zh: "TDEE 計算機", en: "TDEE Calculator" },
-    tools: [{ zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" }, { zh: "蛋白質計算機", en: "Protein Calculator" }],
+    meaning: { zh: "依據成人標準 BMI 分類，體重相對身高可能偏低。", en: "Weight may be low relative to height for standard adult BMI categories." },
+    risks: { zh: "可能原因：營養不足、疲勞、抵抗力下降或非預期體重減輕。BMI 無法診斷這些狀況。", en: "Possible undernutrition, fatigue, reduced resilience, or unintended weight loss context. BMI does not diagnose these conditions." },
+    actions: { zh: "建議檢視飲食營養、近期體重變化、食慾、活動量與症狀。若體重持續偏低且原因不明，請尋求專業協助。", en: "Review nutrition, recent weight change, appetite, activity, and symptoms. Seek professional guidance if low BMI is unexplained or persistent." },
+    nextTool: { zh: "BMR 計算機", en: "BMR Calculator" },
+    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "熱量計算機", en: "Calories Calculator" }, { zh: "理想體重指南", en: "Ideal Weight Guide" }],
   },
   {
     key: "normal",
     label: { zh: "正常", en: "Normal" },
-    range: { zh: "1400–2000 kcal", en: "1400–2000 kcal" },
-    band: { zh: "健康代謝區間", en: "Healthy metabolism band" },
+    range: { zh: "18.5–24.9", en: "18.5–24.9" },
+    band: { zh: "健康篩查區間", en: "Healthy screening band" },
     tone: "from-emerald-500 via-lime-300 to-yellow-200",
-    meaning: { zh: "基礎代謝率在典型成人範圍內，表示身體靜止時的能量消耗正常。", en: "Basal metabolic rate is within typical adult range, indicating normal resting energy expenditure." },
-    risks: { zh: "正常 BMR 不保證整體代謝健康，仍需結合 TDEE、體組成和生活方式評估。", en: "Normal BMR does not guarantee overall metabolic health; assess together with TDEE, body composition, and lifestyle." },
-    actions: { zh: "計算 TDEE 並根據目標（減脂、增肌或維持）規劃熱量攝取。", en: "Calculate TDEE and plan calorie intake based on your goal (fat loss, muscle gain, or maintenance)." },
+    meaning: { zh: "BMI 在成人標準健康體重篩查範圍內。", en: "BMI is within the standard adult healthy weight screening range." },
+    risks: { zh: "族群層面風險通常較低，但 BMI 無法保證代謝健康或理想體組成。", en: "Population-level risk is generally lower, but BMI does not guarantee metabolic health or ideal body composition." },
+    actions: { zh: "維持均衡營養、規律運動、充足睡眠與定期健康檢查。可搭配體組成工具進行更深入評估。", en: "Maintain balanced nutrition, movement, sleep, hydration, and preventive care. Use body composition tools for deeper context." },
     nextTool: { zh: "TDEE 計算機", en: "TDEE Calculator" },
-    tools: [{ zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
+    tools: [{ zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }, { zh: "飲水量計算機", en: "Water Intake Calculator" }],
   },
   {
-    key: "high",
-    label: { zh: "偏高", en: "High" },
-    range: { zh: "> 2000 kcal", en: "> 2000 kcal" },
-    band: { zh: "高代謝區間", en: "High metabolism band" },
+    key: "overweight",
+    label: { zh: "過重", en: "Overweight" },
+    range: { zh: "25.0–29.9", en: "25.0–29.9" },
+    band: { zh: "偏高 BMI 區間", en: "Elevated BMI band" },
+    tone: "from-yellow-300 via-orange-300 to-orange-500",
+    meaning: { zh: "體重可能超過標準身高對應的健康範圍。", en: "Weight may be above the standard healthy range for height." },
+    risks: { zh: "可能與較高的心血管代謝風險相關，具體取決於體組成與脂肪分佈。", en: "May be associated with higher cardiometabolic risk, depending on body composition and fat distribution." },
+    actions: { zh: "建議先計算 BMR、TDEE、熱量規劃、腰臀比與體脂，再做體重管理決策。", en: "Check BMR, TDEE, calorie planning, waist ratio, and body fat context before making weight-management decisions." },
+    nextTool: { zh: "BMR 計算機", en: "BMR Calculator" },
+    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量計算機", en: "Calories Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
+  },
+  {
+    key: "obesity1",
+    label: { zh: "肥胖 I 級", en: "Obesity I" },
+    range: { zh: "30.0–34.9", en: "30.0–34.9" },
+    band: { zh: "高 BMI 區間", en: "High BMI band" },
     tone: "from-orange-400 via-red-400 to-red-600",
-    meaning: { zh: "基礎代謝率較高，通常與較大體型、肌肉量或年輕年齡相關。", en: "Basal metabolic rate is higher, usually related to larger body size, muscle mass, or younger age." },
-    risks: { zh: "高 BMR 本身不是風險，但需確保每日熱量攝取充足以支持代謝需求。", en: "High BMR itself is not a risk, but ensure adequate daily calorie intake to support metabolic needs." },
-    actions: { zh: "計算 TDEE 了解總消耗，確保飲食滿足能量需求，避免不足導致疲勞或代謝下降。", en: "Calculate TDEE to understand total expenditure and ensure diet meets energy needs to avoid fatigue or metabolic slowdown." },
+    meaning: { zh: "BMI 落於成人肥胖第一級。", en: "BMI falls into Obesity Class I for adults." },
+    risks: { zh: "族群層面與高血壓、胰島素阻抗、睡眠呼吸中止及關節壓力的發生機率上升相關。", en: "Associated at population level with increased likelihood of hypertension, insulin resistance, sleep apnea, and joint stress." },
+    actions: { zh: "建議尋求專業指導，並搭配 BMR、TDEE 與體組成工具進行評估。", en: "Consider professional guidance and use BMR, TDEE, and body composition tools for context." },
+    nextTool: { zh: "BMR 計算機", en: "BMR Calculator" },
+    tools: [{ zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量計算機", en: "Calories Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
+  },
+  {
+    key: "obesity2",
+    label: { zh: "肥胖 II 級", en: "Obesity II" },
+    range: { zh: "35.0–39.9", en: "35.0–39.9" },
+    band: { zh: "極高 BMI 區間", en: "Very high BMI band" },
+    tone: "from-red-500 via-rose-600 to-purple-700",
+    meaning: { zh: "BMI 落於成人肥胖第二級。", en: "BMI falls into Obesity Class II for adults." },
+    risks: { zh: "與族群層面體重相關健康風險升高有關。", en: "Associated with higher population-level weight-related health risks." },
+    actions: { zh: "在進行重大生活方式或體重管理改變前，建議先接受專業評估。", en: "Professional assessment is recommended before major lifestyle or weight-management changes." },
     nextTool: { zh: "TDEE 計算機", en: "TDEE Calculator" },
-    tools: [{ zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" }, { zh: "蛋白質計算機", en: "Protein Calculator" }],
+    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量計算機", en: "Calories Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
+  },
+  {
+    key: "obesity3",
+    label: { zh: "肥胖 III 級", en: "Obesity III" },
+    range: { zh: "40.0 及以上", en: "40.0 and above" },
+    band: { zh: "最高 BMI 區間", en: "Highest BMI band" },
+    tone: "from-red-700 via-purple-800 to-slate-950",
+    meaning: { zh: "BMI 落於成人肥胖第三級。", en: "BMI falls into Obesity Class III for adults." },
+    risks: { zh: "與族群層面極高的體重相關健康風險有關。", en: "Associated with very high population-level weight-related health risk." },
+    actions: { zh: "請尋求合格醫療專業人員的指導。計算工具可提供參考，但無法取代專業醫療照護。", en: "Seek qualified medical guidance. Calculators can provide context but should not replace professional care." },
+    nextTool: { zh: "臨床指導 + BMR 計算機", en: "Clinical guidance + BMR Calculator" },
+    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
   },
 ];
 
@@ -71,32 +108,32 @@ const faqItems: { question: LocalText; answer: LocalText }[] = [
   { question: { zh: "看完 BMI 後我該做什麼？", en: "What should I check after BMI?" }, answer: { zh: "BMR、TDEE、熱量計算、體脂率與腰圍等指標可提供更多情境參考。", en: "BMR, TDEE, Calories, Body Fat, and waist-based metrics can provide more context." } },
 ];
 
-  const ui = {
+const ui = {
   zh: {
-    badge: "健康 · 生物指標 · GOLD TOOL",
-    title: "BMR 基礎代謝率計算機",
-    subtitle: "BMR 計算引導體驗",
-    intro: "透過 Mifflin-St Jeor 公式精確計算靜止代謝率，理解你的身體基礎熱量需求，並延伸到 TDEE、熱量赤字等下一步工具。",
+    badge: "健康 · 生物指標 · Gold Tool",
+    title: "BMI 計算機・完整健康評估",
+    subtitle: "BMI 計算機引導體驗",
+    intro: "透過 BMI 作為健康篩檢起點，快速計算身體質量指數、理解風險訊號，並延伸到 BMR、TDEE、熱量與體脂等下一步工具。",
     trustNoteLabel: "信任提醒：",
-    trustNote: "BMR 是靜止代謝率估算，不是精確測量。實際代謝因人而異，需結合 TDEE 和生活方式進行整體評估。",
+    trustNote: "BMI 是篩查工具，不是診斷。它不能直接測量體脂、運動員體組成、懷孕情境或兒童百分位狀態。",
     quickActionCard: "快速範例卡",
     tryCommonAdultExample: "試用常見成人範例",
-    bmrPreview: "BMR 預覽",
+    bmiPreview: "BMI 預覽",
     example: "範例",
-    adultMale: "成年男性（30 歲）",
+    adultMale: "成年男性",
     weight: "體重",
     height: "身高",
     oneClickFillAdultMaleExample: "一鍵填入成年男性範例",
-    previewHighBmrDecisionPath: "預覽高 BMR 決策路徑",
+    previewHighBmiDecisionPath: "預覽高 BMI 決策路徑",
     examplesCalculator: "範例 → 計算機",
     enterOrFillValues: "輸入或填入數值",
     examplesHelper: "範例緊貼計算機，讓使用者能快速開始，再依自己的數值調整輸入而不失去脈絡。",
     metric: "公制",
     imperial: "英制",
     exampleCards: "範例卡",
-    highBmrPathDemo: "高 BMR 路徑示範",
+    highBmiPathDemo: "高 BMI 路徑示範",
     oneClickFillAllowed: "70kg · 175cm · 可一鍵填入",
-    highBmrPathDescription: "88kg · 170cm · 展示 BMR → TDEE → 熱量赤字路徑",
+    highBmiPathDescription: "88kg · 170cm · 展示 BMR → TDEE → 熱量路徑",
     flowDemo: "流程示範",
     calculator: "計算機",
     heightCm: "身高（cm）",
@@ -106,8 +143,8 @@ const faqItems: { question: LocalText; answer: LocalText }[] = [
     weightLb: "體重（lb）",
     resultCard: "結果卡",
     enterValidValues: "請輸入有效數值",
-    status: "BMR 分類",
-    riskSummary: "代謝評估",
+    status: "狀態",
+    riskSummary: "風險摘要",
     recommendedAction: "建議行動",
     relatedNextTool: "下一步工具",
     resultIntelligence: "結果解讀",
@@ -146,49 +183,49 @@ const faqItems: { question: LocalText; answer: LocalText }[] = [
     dailyNeeds: "每日需求",
     planIntake: "規劃攝取",
     knowledge: "知識",
-    bmiMeaning: "BMR 在健康宇宙中的意義",
+    bmiMeaning: "BMI 在健康宇宙中的意義",
     definition: "定義",
-    definitionText: "BMR（基礎代謝率）是身體在靜止狀態下每天消耗的熱量，用於維持基本生理功能。",
+    definitionText: "BMI 使用體重除以身高平方，將成人體重與身高進行比較。",
     limitations: "限制",
-    limitationsText: "BMR 是估算值，實際代謝受年齡、性別、肌肉量、激素和遺傳因素影響。",
+    limitationsText: "BMI 不測量體脂、肌肉量、脂肪分佈、懷孕狀態或兒童百分位狀態。",
     semanticNeighbors: "相關工具",
-    semanticNeighborsText: "TDEE、熱量赤字、蛋白質計算、體脂率與進度追蹤能擴展代謝規劃。",
-    metricFormula: "男性：BMR = 10×體重(kg) + 6.25×身高(cm) - 5×年齡 + 5",
-    imperialFormula: "女性：BMR = 10×體重(kg) + 6.25×身高(cm) - 5×年齡 - 161",
+    semanticNeighborsText: "BMR、TDEE、熱量、體脂、飲水量與腰圍比例能擴展結果情境。",
+    metricFormula: "公制：BMI = 體重(kg) / 身高(m)²",
+    imperialFormula: "英制：BMI = 703 × 體重(lb) / 身高(in)²",
     faq: "FAQ",
     commonQuestions: "常見問題",
     trustRelatedReferences: "信任聲明 · 相關工具 · 參考資料",
     trust: "信任聲明",
-    trustText: "參考資料應包含 Mifflin MD et al. (1990)、WHO 代謝標準、NIH 熱量需求指引。",
+    trustText: "參考資料應包含 WHO、CDC 與 NIH。BMI 是篩查指標，不是診斷或醫療治療建議。",
     relatedTools: "相關工具",
     references: "參考資料",
-    referencesText: "Mifflin-St Jeor 公式、WHO 代謝標準、NIH 熱量需求指引。",
+    referencesText: "WHO 分類脈絡、CDC BMI 篩查指引，以及 NIH 健康風險脈絡。",
   },
   en: {
     badge: "Health · Biometrics · Gold Tool",
-    title: "BMR Basal Metabolic Rate Calculator",
-    subtitle: "BMR Calculator guided experience",
-    intro: "Calculate your resting metabolic rate using the Mifflin-St Jeor formula, understand your body's baseline caloric needs, and continue to TDEE and calorie planning.",
+    title: "BMI Calculator · Complete Health Assessment",
+    subtitle: "BMI Calculator guided experience",
+    intro: "Move through BMI as a guided health screening flow: start with a quick example, calculate your score, understand the risk signal, and continue to the most useful next tool.",
     trustNoteLabel: "Trust note:",
-    trustNote: "BMR is an estimated resting metabolic rate, not a precise measurement. Actual metabolism varies by individual; assess together with TDEE and lifestyle.",
+    trustNote: "BMI is a screening tool, not a diagnosis. It does not directly measure body fat, athletic body composition, pregnancy context, or child percentile status.",
     quickActionCard: "Quick Action Card",
     tryCommonAdultExample: "Try a common adult example",
-    bmrPreview: "BMR preview",
+    bmiPreview: "BMI preview",
     example: "Example",
-    adultMale: "Adult male (age 30)",
+    adultMale: "Adult male",
     weight: "Weight",
     height: "Height",
     oneClickFillAdultMaleExample: "One-click fill adult male example",
-    previewHighBmrDecisionPath: "Preview high BMR decision path",
+    previewHighBmiDecisionPath: "Preview high BMI decision path",
     examplesCalculator: "Examples → Calculator",
     enterOrFillValues: "Enter or fill values",
     examplesHelper: "The prototype keeps examples close to the calculator so users can start fast, then edit inputs without losing context.",
     metric: "Metric",
     imperial: "Imperial",
     exampleCards: "Example cards",
-    highBmrPathDemo: "High BMR path demo",
+    highBmiPathDemo: "High BMI path demo",
     oneClickFillAllowed: "70kg · 175cm · one-click fill allowed",
-    highBmrPathDescription: "88kg · 170cm · shows BMR → TDEE → Calorie Deficit path.",
+    highBmiPathDescription: "88kg · 170cm · shows BMR → TDEE → Calories path.",
     flowDemo: "Flow demo",
     calculator: "Calculator",
     heightCm: "Height (cm)",
@@ -198,8 +235,8 @@ const faqItems: { question: LocalText; answer: LocalText }[] = [
     weightLb: "Weight (lb)",
     resultCard: "Result Card",
     enterValidValues: "Enter valid values",
-    status: "BMR Category",
-    riskSummary: "Metabolic Assessment",
+    status: "Status",
+    riskSummary: "Risk summary",
     recommendedAction: "Recommended action",
     relatedNextTool: "Related next tool",
     resultIntelligence: "Result Intelligence",
@@ -238,36 +275,39 @@ const faqItems: { question: LocalText; answer: LocalText }[] = [
     dailyNeeds: "Daily needs",
     planIntake: "Plan intake",
     knowledge: "Knowledge",
-    bmiMeaning: "What BMR means in the Health universe",
+    bmiMeaning: "What BMI means in the Health universe",
     definition: "Definition",
-    definitionText: "BMR (Basal Metabolic Rate) is the number of calories your body burns at rest each day to maintain basic physiological functions.",
+    definitionText: "BMI compares adult weight with height using weight divided by squared height.",
     limitations: "Limitations",
-    limitationsText: "BMR is an estimate. Actual metabolism varies by age, sex, muscle mass, hormones, and genetics.",
+    limitationsText: "BMI does not measure body fat, muscle mass, fat distribution, pregnancy status, or child percentile status.",
     semanticNeighbors: "Semantic neighbors",
-    semanticNeighborsText: "TDEE, Calorie Deficit, Protein Calculator, Body Fat, and Progress Tracking expand metabolic planning.",
-    metricFormula: "Male: BMR = 10×weight(kg) + 6.25×height(cm) - 5×age + 5",
-    imperialFormula: "Female: BMR = 10×weight(kg) + 6.25×height(cm) - 5×age - 161",
+    semanticNeighborsText: "BMR, TDEE, Calories, Body Fat, Water Intake, and Waist Ratio expand the result context.",
+    metricFormula: "Metric: BMI = weight(kg) / height(m)²",
+    imperialFormula: "Imperial: BMI = 703 × weight(lb) / height(in)²",
     faq: "FAQ",
     commonQuestions: "Common questions",
     trustRelatedReferences: "Trust · Related Tools · References",
     trust: "Trust",
-    trustText: "References should include Mifflin MD et al. (1990), WHO metabolic standards, and NIH calorie requirement guidelines.",
+    trustText: "References should include WHO, CDC, and NIH. BMI is a screening metric, not a diagnosis or medical treatment recommendation.",
     relatedTools: "Related Tools",
     references: "References",
-    referencesText: "Mifflin-St Jeor formula, WHO metabolic standards, NIH calorie requirement guidelines.",
+    referencesText: "WHO classification context, CDC BMI screening guidance, and NIH health risk context.",
   },
 } as const;
 
 const adultMaleExampleBmi = 70 / (1.75 * 1.75);
 
-function getCategory(bmr: number): CategoryInfo {
-  if (bmr < 1400) return categoryInfo[0];
-  if (bmr < 2000) return categoryInfo[1];
-  return categoryInfo[2];
+function getCategory(bmi: number): CategoryInfo {
+  if (bmi < 18.5) return categoryInfo[0];
+  if (bmi < 25) return categoryInfo[1];
+  if (bmi < 30) return categoryInfo[2];
+  if (bmi < 35) return categoryInfo[3];
+  if (bmi < 40) return categoryInfo[4];
+  return categoryInfo[5];
 }
 
-function formatBmr(value: number): string {
-  return Number.isFinite(value) ? Math.round(value) : "—";
+function formatBmi(value: number): string {
+  return Number.isFinite(value) ? value.toFixed(1) : "—";
 }
 
 const getBrowserLang = (): "zh" | "en" => {
@@ -277,7 +317,7 @@ const getBrowserLang = (): "zh" | "en" => {
   return locale.startsWith("zh") ? "zh" : "en"
 }
 
-export function BmrCalculator() {
+export default function BmrCalculator() {
   const [lang, setLang] = useState<"zh" | "en">(getBrowserLang());
   const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric");
   const [heightCm, setHeightCm] = useState("175");
@@ -289,43 +329,33 @@ export function BmrCalculator() {
   const t = ui[lang];
 
   const calculation = useMemo(() => {
-    const age = 30; // 預設年齡
-    const gender = "male"; // 預設性別
-    
     if (unitSystem === "metric") {
+      const heightM = Number(heightCm) / 100;
       const weight = Number(weightKg);
-      const height = Number(heightCm);
-      if (!weight || !height || weight <= 0 || height <= 0) return null;
-      
-      // Mifflin-St Jeor 公式
-      let bmr = 10 * weight + 6.25 * height - 5 * age;
-      if (gender === "male") {
-        bmr += 5;
-      } else {
-        bmr -= 161;
-      }
-      return { bmr, category: getCategory(bmr) };
+      if (!heightM || !weight || heightM <= 0 || weight <= 0) return null;
+      const bmi = weight / (heightM * heightM);
+      return { bmi, category: getCategory(bmi) };
     }
 
-    const weight = Number(pounds) * 0.45359237; // 轉換為 kg
-    const height = (Number(feet) * 12 + Number(inches)) * 2.54; // 轉換為 cm
-    if (!weight || !height || weight <= 0 || height <= 0) return null;
-    
-    let bmr = 10 * weight + 6.25 * height - 5 * age;
-    if (gender === "male") {
-      bmr += 5;
-    } else {
-      bmr -= 161;
-    }
-    return { bmr, category: getCategory(bmr) };
+    const totalInches = Number(feet) * 12 + Number(inches);
+    const weight = Number(pounds);
+    if (!totalInches || !weight || totalInches <= 0 || weight <= 0) return null;
+    const bmi = (703 * weight) / (totalInches * totalInches);
+    return { bmi, category: getCategory(bmi) };
   }, [feet, heightCm, inches, pounds, unitSystem, weightKg]);
 
   const activeCategory = calculation?.category ?? categoryInfo[1];
-  const activeBmr = calculation?.bmr;
-  const journeyNodes = [t.current, "BMR", "TDEE", "熱量赤字", t.progress];
-  const decisionNodes = ["BMR", "TDEE", "熱量赤字", "進度追蹤"];
-  const decisionDescriptions = ["基礎代謝", "每日消耗", "熱量規劃", "體重變化"];
-  const motivationTools = ["TDEE", "熱量赤字", "蛋白質", "進度追蹤"];
+  const activeBmi = calculation?.bmi;
+  const goalBmi = 23;
+  const currentMetricHeightM = Number(heightCm) / 100;
+  const goalWeightKg = currentMetricHeightM > 0 ? goalBmi * currentMetricHeightM * currentMetricHeightM : null;
+  const currentWeightKg = unitSystem === "metric" ? Number(weightKg) : Number(pounds) * 0.45359237;
+  const neededWeightChangeKg = goalWeightKg && currentWeightKg > 0 ? goalWeightKg - currentWeightKg : null;
+  const neededWeightDisplay = neededWeightChangeKg ? `${neededWeightChangeKg > 0 ? "+" : ""}${Math.round(neededWeightChangeKg)}kg` : "—";
+  const journeyNodes = [t.current, "BMI", "BMR", t.calories, t.progress];
+  const decisionNodes = [t.bmiHigh, "BMR", "TDEE", t.calories];
+  const decisionDescriptions = [t.screeningSignal, t.restingEnergy, t.dailyNeeds, t.planIntake];
+  const motivationTools = ["BMR", "TDEE", t.calories, t.weightLoss];
 
   function fillAdultMaleExample() {
     setUnitSystem("metric");
@@ -608,9 +638,9 @@ export function BmrCalculator() {
           {/* ────── Affiliate Layer (L14) - 獨立顯示，不在任何 flag 內 ────── */}
           <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{lang === "zh" ? "推薦商品" : "Recommended"}</p>
-            <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "配合 BMR 使用的健康工具" : "Health tools to use with BMR"}</h2>
+            <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "配合 BMI 使用的健康工具" : "Health tools to use with BMI"}</h2>
             <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
-              {[{zh: "智能體重秤", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "體脂計", en: "Body Fat Monitor", href: "#affiliate-bodyfat"}, {zh: "蛋白質補充品", en: "Protein Supplements", href: "#affiliate-protein"}, {zh: "健身計畫書", en: "Fitness Plans", href: "#affiliate-plans"}].map((item) => (<a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
+              {[{zh: "智能體重計", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-tracker"}, {zh: "營養補充品", en: "Supplements", href: "#affiliate-supplements"}, {zh: "健康書籍", en: "Health Books", href: "#affiliate-books"}].map((item) => (<a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
             </div>
             <p className="mt-3 text-xs text-amber-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission."}</p>
           </section>

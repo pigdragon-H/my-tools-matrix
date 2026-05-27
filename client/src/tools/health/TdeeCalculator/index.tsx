@@ -1,3 +1,4 @@
+
 import { useMemo, useState } from "react";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { AdSlot } from "@/components/business/AdSlot";
@@ -5,11 +6,11 @@ import { PremiumGate } from "@/components/business/PremiumGate";
 
 type UnitSystem = "metric" | "imperial";
 type Lang = "zh" | "en";
-type TdeeCategory = "sedentary" | "light" | "moderate" | "high" | "veryHigh";
+type BmiCategory = "underweight" | "normal" | "overweight" | "obesity1" | "obesity2" | "obesity3";
 type LocalText = { zh: string; en: string };
 
 type CategoryInfo = {
-  key: TdeeCategory;
+  key: BmiCategory;
   label: LocalText;
   range: LocalText;
   band: LocalText;
@@ -25,64 +26,76 @@ const l = (value: LocalText, lang: Lang) => value[lang];
 
 const categoryInfo: CategoryInfo[] = [
   {
-    key: "sedentary",
-    label: { zh: "久坐", en: "Sedentary" },
-    range: { zh: "BMR × 1.2", en: "BMR × 1.2" },
-    band: { zh: "低活動量區間", en: "Low activity band" },
-    tone: "from-slate-300 via-slate-200 to-slate-100",
-    meaning: { zh: "TDEE 是你每天消耗的全部熱量，包括靜止代謝和低活動量。久坐生活方式需要最低的活動系數。", en: "TDEE is your total daily energy expenditure, including resting metabolism and low activity. Sedentary lifestyle requires the lowest activity multiplier." },
-    risks: { zh: "久坐生活可能導致低活動量、低肭上肉量和代謝效率下降。需結合運動上升活動量。", en: "Sedentary lifestyle may lead to low muscle mass and reduced metabolic efficiency. Consider increasing activity level." },
-    actions: { zh: "根據這個 TDEE 規劃飲食，並考慮逐步增加運動量以提高活動系數。", en: "Plan your diet based on this TDEE, and consider gradually increasing activity to raise your activity multiplier." },
-    nextTool: { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" },
-    tools: [{ zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" }, { zh: "體重追蹤", en: "Weight Tracking" }, { zh: "目標達成", en: "Goal Achievement" }],
-  },
-  {
-    key: "light",
-    label: { zh: "輕度", en: "Light" },
-    range: { zh: "BMR × 1.375", en: "BMR × 1.375" },
-    band: { zh: "輕度活動區間", en: "Light activity band" },
+    key: "underweight",
+    label: { zh: "偏輕", en: "Underweight" },
+    range: { zh: "低於 18.5", en: "Below 18.5" },
+    band: { zh: "低 BMI 區間", en: "Low BMI band" },
     tone: "from-sky-400 via-sky-300 to-slate-200",
-    meaning: { zh: "輕度活動（每週 1-3 次運動）的 TDEE 估算。這是中度上的活動水準。", en: "Light activity (1-3 exercise days/week) TDEE estimate. This is a moderate-to-active lifestyle level." },
-    risks: { zh: "輕度活動是不错的平衡，但仍需確保熱量攝取不足。", en: "Light activity is a reasonable balance, but ensure adequate calorie intake." },
-    actions: { zh: "根據這個 TDEE 規劃飲食，並追蹤你的運動量。", en: "Plan your diet based on this TDEE and track your activity level." },
-    nextTool: { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" },
-    tools: [{ zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" }, { zh: "體重追蹤", en: "Weight Tracking" }, { zh: "目標達成", en: "Goal Achievement" }],
+    meaning: { zh: "依據成人標準 BMI 分類，體重相對身高可能偏低。", en: "Weight may be low relative to height for standard adult BMI categories." },
+    risks: { zh: "可能原因：營養不足、疲勞、抵抗力下降或非預期體重減輕。BMI 無法診斷這些狀況。", en: "Possible undernutrition, fatigue, reduced resilience, or unintended weight loss context. BMI does not diagnose these conditions." },
+    actions: { zh: "建議檢視飲食營養、近期體重變化、食慾、活動量與症狀。若體重持續偏低且原因不明，請尋求專業協助。", en: "Review nutrition, recent weight change, appetite, activity, and symptoms. Seek professional guidance if low BMI is unexplained or persistent." },
+    nextTool: { zh: "BMR 計算機", en: "BMR Calculator" },
+    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "熱量計算機", en: "Calories Calculator" }, { zh: "理想體重指南", en: "Ideal Weight Guide" }],
   },
   {
-    key: "moderate",
-    label: { zh: "中度", en: "Moderate" },
-    range: { zh: "BMR × 1.55", en: "BMR × 1.55" },
-    band: { zh: "中度活動區間", en: "Moderate activity band" },
+    key: "normal",
+    label: { zh: "正常", en: "Normal" },
+    range: { zh: "18.5–24.9", en: "18.5–24.9" },
+    band: { zh: "健康篩查區間", en: "Healthy screening band" },
     tone: "from-emerald-500 via-lime-300 to-yellow-200",
-    meaning: { zh: "中度活動（每週 3-5 次運動）的 TDEE 估算。這是一個健康的活動水準。", en: "Moderate activity (3-5 exercise days/week) TDEE estimate. This is a healthy activity level." },
-    risks: { zh: "中度活動是不错的平衡，但仍需確保蛋白質攝取上升。", en: "Moderate activity is a good balance, but ensure adequate protein intake." },
-    actions: { zh: "根據這個 TDEE 規劃飲食，並增加蛋白質攝取以支持肌肉修複。", en: "Plan your diet based on this TDEE and increase protein intake to support muscle recovery." },
-    nextTool: { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" },
-    tools: [{ zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" }, { zh: "蛋白質計算機", en: "Protein Calculator" }, { zh: "進度追蹤", en: "Progress Tracking" }],
+    meaning: { zh: "BMI 在成人標準健康體重篩查範圍內。", en: "BMI is within the standard adult healthy weight screening range." },
+    risks: { zh: "族群層面風險通常較低，但 BMI 無法保證代謝健康或理想體組成。", en: "Population-level risk is generally lower, but BMI does not guarantee metabolic health or ideal body composition." },
+    actions: { zh: "維持均衡營養、規律運動、充足睡眠與定期健康檢查。可搭配體組成工具進行更深入評估。", en: "Maintain balanced nutrition, movement, sleep, hydration, and preventive care. Use body composition tools for deeper context." },
+    nextTool: { zh: "TDEE 計算機", en: "TDEE Calculator" },
+    tools: [{ zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }, { zh: "飲水量計算機", en: "Water Intake Calculator" }],
   },
   {
-    key: "high",
-    label: { zh: "高度", en: "High" },
-    range: { zh: "BMR × 1.725", en: "BMR × 1.725" },
-    band: { zh: "高活動量區間", en: "High activity band" },
+    key: "overweight",
+    label: { zh: "過重", en: "Overweight" },
+    range: { zh: "25.0–29.9", en: "25.0–29.9" },
+    band: { zh: "偏高 BMI 區間", en: "Elevated BMI band" },
     tone: "from-yellow-300 via-orange-300 to-orange-500",
-    meaning: { zh: "高活動（每週 6-7 次運動）的 TDEE 估算。這是一個活躍的活動水準。", en: "High activity (6-7 exercise days/week) TDEE estimate. This is an active lifestyle level." },
-    risks: { zh: "高活動需要更多的熱量和蛋白質。需結合充足的休息。", en: "High activity requires more calories and protein. Ensure adequate rest and recovery." },
-    actions: { zh: "根據這個 TDEE 規劃飲食，並优先保證蛋白質攝取和休息。", en: "Plan your diet based on this TDEE, prioritize protein intake, and ensure adequate rest." },
-    nextTool: { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" },
-    tools: [{ zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" }, { zh: "蛋白質計算機", en: "Protein Calculator" }, { zh: "運動手璶", en: "Sports Watch" }],
+    meaning: { zh: "體重可能超過標準身高對應的健康範圍。", en: "Weight may be above the standard healthy range for height." },
+    risks: { zh: "可能與較高的心血管代謝風險相關，具體取決於體組成與脂肪分佈。", en: "May be associated with higher cardiometabolic risk, depending on body composition and fat distribution." },
+    actions: { zh: "建議先計算 BMR、TDEE、熱量規劃、腰臀比與體脂，再做體重管理決策。", en: "Check BMR, TDEE, calorie planning, waist ratio, and body fat context before making weight-management decisions." },
+    nextTool: { zh: "BMR 計算機", en: "BMR Calculator" },
+    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量計算機", en: "Calories Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
   },
   {
-    key: "veryHigh",
-    label: { zh: "非常高度", en: "Very High" },
-    range: { zh: "BMR × 1.9", en: "BMR × 1.9" },
-    band: { zh: "非常高活動量區間", en: "Very high activity band" },
+    key: "obesity1",
+    label: { zh: "肥胖 I 級", en: "Obesity I" },
+    range: { zh: "30.0–34.9", en: "30.0–34.9" },
+    band: { zh: "高 BMI 區間", en: "High BMI band" },
     tone: "from-orange-400 via-red-400 to-red-600",
-    meaning: { zh: "非常高活動（每天運動或高強度訓練）的 TDEE 估算。這是一個非常活躍的活動水準。", en: "Very high activity (daily exercise or intense training) TDEE estimate. This is a very active lifestyle level." },
-    risks: { zh: "非常高活動需要最高的熱量、蛋白質和休息。需結合充足的休息以防止運動過度。", en: "Very high activity requires maximum calories, protein, and rest. Ensure adequate recovery to prevent overtraining." },
-    actions: { zh: "根據這個 TDEE 規劃飲食，優先保證蛋白質攝取、充足休息和水分。", en: "Plan your diet based on this TDEE, prioritize protein, ensure adequate rest and hydration." },
-    nextTool: { zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" },
-    tools: [{ zh: "熱量赤字計算機", en: "Calorie Deficit Calculator" }, { zh: "蛋白質計算機", en: "Protein Calculator" }, { zh: "營養計畫書", en: "Nutrition Plan" }],
+    meaning: { zh: "BMI 落於成人肥胖第一級。", en: "BMI falls into Obesity Class I for adults." },
+    risks: { zh: "族群層面與高血壓、胰島素阻抗、睡眠呼吸中止及關節壓力的發生機率上升相關。", en: "Associated at population level with increased likelihood of hypertension, insulin resistance, sleep apnea, and joint stress." },
+    actions: { zh: "建議尋求專業指導，並搭配 BMR、TDEE 與體組成工具進行評估。", en: "Consider professional guidance and use BMR, TDEE, and body composition tools for context." },
+    nextTool: { zh: "BMR 計算機", en: "BMR Calculator" },
+    tools: [{ zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量計算機", en: "Calories Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
+  },
+  {
+    key: "obesity2",
+    label: { zh: "肥胖 II 級", en: "Obesity II" },
+    range: { zh: "35.0–39.9", en: "35.0–39.9" },
+    band: { zh: "極高 BMI 區間", en: "Very high BMI band" },
+    tone: "from-red-500 via-rose-600 to-purple-700",
+    meaning: { zh: "BMI 落於成人肥胖第二級。", en: "BMI falls into Obesity Class II for adults." },
+    risks: { zh: "與族群層面體重相關健康風險升高有關。", en: "Associated with higher population-level weight-related health risks." },
+    actions: { zh: "在進行重大生活方式或體重管理改變前，建議先接受專業評估。", en: "Professional assessment is recommended before major lifestyle or weight-management changes." },
+    nextTool: { zh: "TDEE 計算機", en: "TDEE Calculator" },
+    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "熱量計算機", en: "Calories Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
+  },
+  {
+    key: "obesity3",
+    label: { zh: "肥胖 III 級", en: "Obesity III" },
+    range: { zh: "40.0 及以上", en: "40.0 and above" },
+    band: { zh: "最高 BMI 區間", en: "Highest BMI band" },
+    tone: "from-red-700 via-purple-800 to-slate-950",
+    meaning: { zh: "BMI 落於成人肥胖第三級。", en: "BMI falls into Obesity Class III for adults." },
+    risks: { zh: "與族群層面極高的體重相關健康風險有關。", en: "Associated with very high population-level weight-related health risk." },
+    actions: { zh: "請尋求合格醫療專業人員的指導。計算工具可提供參考，但無法取代專業醫療照護。", en: "Seek qualified medical guidance. Calculators can provide context but should not replace professional care." },
+    nextTool: { zh: "臨床指導 + BMR 計算機", en: "Clinical guidance + BMR Calculator" },
+    tools: [{ zh: "BMR 計算機", en: "BMR Calculator" }, { zh: "TDEE 計算機", en: "TDEE Calculator" }, { zh: "體脂率計算機", en: "Body Fat Calculator" }],
   },
 ];
 
@@ -95,32 +108,32 @@ const faqItems: { question: LocalText; answer: LocalText }[] = [
   { question: { zh: "看完 BMI 後我該做什麼？", en: "What should I check after BMI?" }, answer: { zh: "BMR、TDEE、熱量計算、體脂率與腰圍等指標可提供更多情境參考。", en: "BMR, TDEE, Calories, Body Fat, and waist-based metrics can provide more context." } },
 ];
 
-  const ui = {
+const ui = {
   zh: {
-    badge: "健康 · 生物指標 · GOLD TOOL",
-    title: "TDEE 每日總消耗計算機",
-    subtitle: "TDEE 計算引導體驗",
-    intro: "透過 TDEE 了解你每天真正消耗的熱量，設定正確的飲食目標，延伸到熱量赤字、增肌計畫等下一步工具。",
+    badge: "健康 · 生物指標 · Gold Tool",
+    title: "BMI 計算機・完整健康評估",
+    subtitle: "BMI 計算機引導體驗",
+    intro: "透過 BMI 作為健康篩檢起點，快速計算身體質量指數、理解風險訊號，並延伸到 BMR、TDEE、熱量與體脂等下一步工具。",
     trustNoteLabel: "信任提醒：",
-    trustNote: "TDEE 是每日消耗熱量的估算，不是精確測量。實際消耗因人而異，需結合生活方式、運動強度和身體組成進行整體評估。",
+    trustNote: "BMI 是篩查工具，不是診斷。它不能直接測量體脂、運動員體組成、懷孕情境或兒童百分位狀態。",
     quickActionCard: "快速範例卡",
     tryCommonAdultExample: "試用常見成人範例",
-    tdeePreview: "TDEE 預覽",
+    bmiPreview: "BMI 預覽",
     example: "範例",
-    adultMale: "成年男性（30 歲）",
+    adultMale: "成年男性",
     weight: "體重",
     height: "身高",
     oneClickFillAdultMaleExample: "一鍵填入成年男性範例",
-    previewHighTdeeDecisionPath: "預覽高 TDEE 決策路徑",
+    previewHighBmiDecisionPath: "預覽高 BMI 決策路徑",
     examplesCalculator: "範例 → 計算機",
     enterOrFillValues: "輸入或填入數值",
     examplesHelper: "範例緊貼計算機，讓使用者能快速開始，再依自己的數值調整輸入而不失去脈絡。",
     metric: "公制",
     imperial: "英制",
     exampleCards: "範例卡",
-    highTdeePathDemo: "高 TDEE 路徑示範",
+    highBmiPathDemo: "高 BMI 路徑示範",
     oneClickFillAllowed: "70kg · 175cm · 可一鍵填入",
-    highTdeePathDescription: "88kg · 170cm · 展示 TDEE → 熱量赤字 → 體重追蹤路徑",
+    highBmiPathDescription: "88kg · 170cm · 展示 BMR → TDEE → 熱量路徑",
     flowDemo: "流程示範",
     calculator: "計算機",
     heightCm: "身高（cm）",
@@ -130,8 +143,8 @@ const faqItems: { question: LocalText; answer: LocalText }[] = [
     weightLb: "體重（lb）",
     resultCard: "結果卡",
     enterValidValues: "請輸入有效數值",
-    status: "TDEE 分類",
-    riskSummary: "活動評估",
+    status: "狀態",
+    riskSummary: "風險摘要",
     recommendedAction: "建議行動",
     relatedNextTool: "下一步工具",
     resultIntelligence: "結果解讀",
@@ -170,49 +183,49 @@ const faqItems: { question: LocalText; answer: LocalText }[] = [
     dailyNeeds: "每日需求",
     planIntake: "規劃攝取",
     knowledge: "知識",
-    bmiMeaning: "BMR 在健康宇宙中的意義",
+    bmiMeaning: "BMI 在健康宇宙中的意義",
     definition: "定義",
-    definitionText: "BMR（基礎代謝率）是身體在靜止狀態下每天消耗的熱量，用於維持基本生理功能。",
+    definitionText: "BMI 使用體重除以身高平方，將成人體重與身高進行比較。",
     limitations: "限制",
-    limitationsText: "BMR 是估算值，實際代謝受年齡、性別、肌肉量、激素和遺傳因素影響。",
+    limitationsText: "BMI 不測量體脂、肌肉量、脂肪分佈、懷孕狀態或兒童百分位狀態。",
     semanticNeighbors: "相關工具",
-    semanticNeighborsText: "TDEE、熱量赤字、蛋白質計算、體脂率與進度追蹤能擴展代謝規劃。",
-    metricFormula: "男性：BMR = 10×體重(kg) + 6.25×身高(cm) - 5×年齡 + 5",
-    imperialFormula: "女性：BMR = 10×體重(kg) + 6.25×身高(cm) - 5×年齡 - 161",
+    semanticNeighborsText: "BMR、TDEE、熱量、體脂、飲水量與腰圍比例能擴展結果情境。",
+    metricFormula: "公制：BMI = 體重(kg) / 身高(m)²",
+    imperialFormula: "英制：BMI = 703 × 體重(lb) / 身高(in)²",
     faq: "FAQ",
     commonQuestions: "常見問題",
     trustRelatedReferences: "信任聲明 · 相關工具 · 參考資料",
     trust: "信任聲明",
-    trustText: "參考資料應包含 WHO 活動系數、CDC 活動指引、NIH 熱量需求指引。",
+    trustText: "參考資料應包含 WHO、CDC 與 NIH。BMI 是篩查指標，不是診斷或醫療治療建議。",
     relatedTools: "相關工具",
     references: "參考資料",
-    referencesText: "WHO activity multiplier standards, CDC activity guidelines, NIH calorie requirement guidelines.",
+    referencesText: "WHO 分類脈絡、CDC BMI 篩查指引，以及 NIH 健康風險脈絡。",
   },
   en: {
     badge: "Health · Biometrics · Gold Tool",
-    title: "TDEE Total Daily Energy Expenditure Calculator",
-    subtitle: "TDEE Calculator guided experience",
-    intro: "Calculate your total daily energy expenditure to set accurate nutrition goals and continue to calorie deficit or muscle gain planning.",
+    title: "BMI Calculator · Complete Health Assessment",
+    subtitle: "BMI Calculator guided experience",
+    intro: "Move through BMI as a guided health screening flow: start with a quick example, calculate your score, understand the risk signal, and continue to the most useful next tool.",
     trustNoteLabel: "Trust note:",
-    trustNote: "TDEE is an estimated daily calorie expenditure, not a precise measurement. Actual expenditure varies by individual; assess together with lifestyle and body composition.",
+    trustNote: "BMI is a screening tool, not a diagnosis. It does not directly measure body fat, athletic body composition, pregnancy context, or child percentile status.",
     quickActionCard: "Quick Action Card",
     tryCommonAdultExample: "Try a common adult example",
-    tdeePreview: "TDEE preview",
+    bmiPreview: "BMI preview",
     example: "Example",
-    adultMale: "Adult male (age 30)",
+    adultMale: "Adult male",
     weight: "Weight",
     height: "Height",
     oneClickFillAdultMaleExample: "One-click fill adult male example",
-    previewHighTdeeDecisionPath: "Preview high TDEE decision path",
+    previewHighBmiDecisionPath: "Preview high BMI decision path",
     examplesCalculator: "Examples → Calculator",
     enterOrFillValues: "Enter or fill values",
     examplesHelper: "The prototype keeps examples close to the calculator so users can start fast, then edit inputs without losing context.",
     metric: "Metric",
     imperial: "Imperial",
     exampleCards: "Example cards",
-    highTdeePathDemo: "High TDEE path demo",
+    highBmiPathDemo: "High BMI path demo",
     oneClickFillAllowed: "70kg · 175cm · one-click fill allowed",
-    highTdeePathDescription: "88kg · 170cm · shows TDEE → Calorie Deficit → Weight Tracking path.",
+    highBmiPathDescription: "88kg · 170cm · shows BMR → TDEE → Calories path.",
     flowDemo: "Flow demo",
     calculator: "Calculator",
     heightCm: "Height (cm)",
@@ -222,8 +235,8 @@ const faqItems: { question: LocalText; answer: LocalText }[] = [
     weightLb: "Weight (lb)",
     resultCard: "Result Card",
     enterValidValues: "Enter valid values",
-    status: "TDEE Category",
-    riskSummary: "Activity Assessment",
+    status: "Status",
+    riskSummary: "Risk summary",
     recommendedAction: "Recommended action",
     relatedNextTool: "Related next tool",
     resultIntelligence: "Result Intelligence",
@@ -262,39 +275,39 @@ const faqItems: { question: LocalText; answer: LocalText }[] = [
     dailyNeeds: "Daily needs",
     planIntake: "Plan intake",
     knowledge: "Knowledge",
-    bmiMeaning: "What TDEE means in the Health universe",
+    bmiMeaning: "What BMI means in the Health universe",
     definition: "Definition",
-    definitionText: "TDEE (Total Daily Energy Expenditure) is the total number of calories your body burns each day, including resting metabolism and all activities.",
+    definitionText: "BMI compares adult weight with height using weight divided by squared height.",
     limitations: "Limitations",
-    limitationsText: "TDEE is an estimate based on activity level. Actual expenditure varies by individual metabolism, body composition, and exercise intensity.",
+    limitationsText: "BMI does not measure body fat, muscle mass, fat distribution, pregnancy status, or child percentile status.",
     semanticNeighbors: "Semantic neighbors",
-    semanticNeighborsText: "BMR, Calorie Deficit, Protein Calculator, Weight Tracking, and Fitness Plans expand nutrition planning.",
-    metricFormula: "TDEE = BMR × Activity Multiplier (1.2 / 1.375 / 1.55 / 1.725 / 1.9)",
-    imperialFormula: "Activity Levels: Sedentary (1.2) · Light (1.375) · Moderate (1.55) · High (1.725) · Very High (1.9)",
+    semanticNeighborsText: "BMR, TDEE, Calories, Body Fat, Water Intake, and Waist Ratio expand the result context.",
+    metricFormula: "Metric: BMI = weight(kg) / height(m)²",
+    imperialFormula: "Imperial: BMI = 703 × weight(lb) / height(in)²",
     faq: "FAQ",
     commonQuestions: "Common questions",
     trustRelatedReferences: "Trust · Related Tools · References",
     trust: "Trust",
-    trustText: "References should include WHO activity multiplier standards, CDC activity guidelines, and NIH calorie requirement guidelines.",
+    trustText: "References should include WHO, CDC, and NIH. BMI is a screening metric, not a diagnosis or medical treatment recommendation.",
     relatedTools: "Related Tools",
     references: "References",
-    referencesText: "WHO activity multiplier standards, CDC activity guidelines, NIH calorie requirement guidelines.",
+    referencesText: "WHO classification context, CDC BMI screening guidance, and NIH health risk context.",
   },
 } as const;
 
 const adultMaleExampleBmi = 70 / (1.75 * 1.75);
 
-function getCategory(tdee: number, bmr: number): CategoryInfo {
-  const activityMultiplier = tdee / bmr;
-  if (activityMultiplier < 1.275) return categoryInfo[0];
-  if (activityMultiplier < 1.465) return categoryInfo[1];
-  if (activityMultiplier < 1.64) return categoryInfo[2];
-  if (activityMultiplier < 1.8125) return categoryInfo[3];
-  return categoryInfo[4];
+function getCategory(bmi: number): CategoryInfo {
+  if (bmi < 18.5) return categoryInfo[0];
+  if (bmi < 25) return categoryInfo[1];
+  if (bmi < 30) return categoryInfo[2];
+  if (bmi < 35) return categoryInfo[3];
+  if (bmi < 40) return categoryInfo[4];
+  return categoryInfo[5];
 }
 
-function formatTdee(value: number): string {
-  return Number.isFinite(value) ? Math.round(value) : "—";
+function formatBmi(value: number): string {
+  return Number.isFinite(value) ? value.toFixed(1) : "—";
 }
 
 const getBrowserLang = (): "zh" | "en" => {
@@ -304,7 +317,7 @@ const getBrowserLang = (): "zh" | "en" => {
   return locale.startsWith("zh") ? "zh" : "en"
 }
 
-export function TdeeCalculator() {
+export default function TdeeCalculator() {
   const [lang, setLang] = useState<"zh" | "en">(getBrowserLang());
   const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric");
   const [heightCm, setHeightCm] = useState("175");
@@ -316,46 +329,33 @@ export function TdeeCalculator() {
   const t = ui[lang];
 
   const calculation = useMemo(() => {
-    const age = 30; // 預設年齡
-    const gender = "male"; // 預設性別
-    const activityMultiplier = 1.55; // 預設中度活動
-    
     if (unitSystem === "metric") {
+      const heightM = Number(heightCm) / 100;
       const weight = Number(weightKg);
-      const height = Number(heightCm);
-      if (!weight || !height || weight <= 0 || height <= 0) return null;
-      
-      // Mifflin-St Jeor 公式
-      let bmr = 10 * weight + 6.25 * height - 5 * age;
-      if (gender === "male") {
-        bmr += 5;
-      } else {
-        bmr -= 161;
-      }
-      const tdee = bmr * activityMultiplier;
-      return { bmr, tdee, category: getCategory(tdee, bmr) };
+      if (!heightM || !weight || heightM <= 0 || weight <= 0) return null;
+      const bmi = weight / (heightM * heightM);
+      return { bmi, category: getCategory(bmi) };
     }
 
-    const weight = Number(pounds) * 0.45359237; // 轉換為 kg
-    const height = (Number(feet) * 12 + Number(inches)) * 2.54; // 轉換為 cm
-    if (!weight || !height || weight <= 0 || height <= 0) return null;
-    
-    let bmr = 10 * weight + 6.25 * height - 5 * age;
-    if (gender === "male") {
-      bmr += 5;
-    } else {
-      bmr -= 161;
-    }
-    const tdee = bmr * activityMultiplier;
-    return { bmr, tdee, category: getCategory(tdee, bmr) };
+    const totalInches = Number(feet) * 12 + Number(inches);
+    const weight = Number(pounds);
+    if (!totalInches || !weight || totalInches <= 0 || weight <= 0) return null;
+    const bmi = (703 * weight) / (totalInches * totalInches);
+    return { bmi, category: getCategory(bmi) };
   }, [feet, heightCm, inches, pounds, unitSystem, weightKg]);
 
-  const activeCategory = calculation?.category ?? categoryInfo[2];
-  const activeTdee = calculation?.tdee;
-  const journeyNodes = [t.current, "TDEE", "熱量赤字", "體重追蹤", t.progress];
-  const decisionNodes = ["TDEE", "熱量赤字", "體重追蹤", "目標達成"];
-  const decisionDescriptions = ["每日消耗", "熱量規劃", "體重變化", "目標達成"];
-  const motivationTools = ["熱量赤字", "體重追蹤", "目標達成", "訓練計畫"];
+  const activeCategory = calculation?.category ?? categoryInfo[1];
+  const activeBmi = calculation?.bmi;
+  const goalBmi = 23;
+  const currentMetricHeightM = Number(heightCm) / 100;
+  const goalWeightKg = currentMetricHeightM > 0 ? goalBmi * currentMetricHeightM * currentMetricHeightM : null;
+  const currentWeightKg = unitSystem === "metric" ? Number(weightKg) : Number(pounds) * 0.45359237;
+  const neededWeightChangeKg = goalWeightKg && currentWeightKg > 0 ? goalWeightKg - currentWeightKg : null;
+  const neededWeightDisplay = neededWeightChangeKg ? `${neededWeightChangeKg > 0 ? "+" : ""}${Math.round(neededWeightChangeKg)}kg` : "—";
+  const journeyNodes = [t.current, "BMI", "BMR", t.calories, t.progress];
+  const decisionNodes = [t.bmiHigh, "BMR", "TDEE", t.calories];
+  const decisionDescriptions = [t.screeningSignal, t.restingEnergy, t.dailyNeeds, t.planIntake];
+  const motivationTools = ["BMR", "TDEE", t.calories, t.weightLoss];
 
   function fillAdultMaleExample() {
     setUnitSystem("metric");
@@ -638,9 +638,9 @@ export function TdeeCalculator() {
           {/* ────── Affiliate Layer (L14) - 獨立顯示，不在任何 flag 內 ────── */}
           <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{lang === "zh" ? "推薦商品" : "Recommended"}</p>
-            <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "配合 TDEE 使用的健康工具" : "Health tools to use with TDEE"}</h2>
+            <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "配合 BMI 使用的健康工具" : "Health tools to use with BMI"}</h2>
             <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
-              {[{zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-tracker"}, {zh: "智能體重秤", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "運動手璶", en: "Sports Watch", href: "#affiliate-watch"}, {zh: "營養計畫書", en: "Nutrition Plan", href: "#affiliate-nutrition"}].map((item) => (<a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
+              {[{zh: "智能體重計", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-tracker"}, {zh: "營養補充品", en: "Supplements", href: "#affiliate-supplements"}, {zh: "健康書籍", en: "Health Books", href: "#affiliate-books"}].map((item) => (<a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
             </div>
             <p className="mt-3 text-xs text-amber-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission."}</p>
           </section>
