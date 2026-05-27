@@ -14,7 +14,7 @@ interface MortgageResult {
 }
 
 export default function MortgageCalculator() {
-  const { lang, t } = useLanguage();
+  const { lang, setLang } = useLanguage();
   const [loanAmount, setLoanAmount] = useState(300000);
   const [interestRate, setInterestRate] = useState(6.5);
   const [loanTerm, setLoanTerm] = useState(30);
@@ -50,6 +50,17 @@ export default function MortgageCalculator() {
       {/* ── L1: Hero Section ────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500 px-6 py-16 md:py-24">
         <div className="mx-auto max-w-6xl">
+          <div className="mb-8 flex items-center justify-end">
+            <button
+              type="button"
+              onClick={() => setLang(lang === 'zh' ? 'en' : 'zh')}
+              className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm transition hover:border-blue-500 hover:bg-blue-50"
+              aria-label={lang === 'zh' ? 'Switch to English' : '切換到中文'}
+            >
+              <span className={`rounded-full px-3 py-1 ${lang === 'zh' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-500'}`}>🌐 中</span>
+              <span className={`rounded-full px-3 py-1 ${lang === 'en' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-500'}`}>🌐 EN</span>
+            </button>
+          </div>
           <div className="grid gap-8 md:grid-cols-2">
             <div className="flex flex-col justify-center">
               <h1 className="text-4xl font-bold text-white md:text-5xl">
