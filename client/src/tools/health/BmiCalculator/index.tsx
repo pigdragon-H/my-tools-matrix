@@ -364,7 +364,7 @@ export default function BmiCalculator() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-950">
+    <main className="min-h-screen bg-slate-50 text-slate-950">
       <section className="bg-[radial-gradient(circle_at_top_left,_#dbeafe,_#f8fafc_45%,_#eef2ff)]">
         <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
           <div className="mb-6 flex justify-end">
