@@ -1,74 +1,35 @@
-﻿// ============================================================
-// ToolPage - /tools/:category/:toolName 工具容器頁
-// 根據路由參數動態渲染對應的計算工具組件
-// ============================================================
-
 import { useParams, Link } from "wouter";
 import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { getCategoryByKey } from "@shared/categoriesConfig";
-import { getToolByPath } from "@shared/toolsConfig";
-import { lazy, Suspense, useEffect } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { setSeoMeta } from "@/lib/seo";
+import { lazy, Suspense } from "react";
 
-// ============================================================
-// 工具組件映射（懶加載）
-// ============================================================
 const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.ReactElement>> = {
-  // ── 健康工具（已完成重造）
   "health/bmi-calculator": lazy(() => import("@/tools/health/BmiCalculator")),
   "health/bmr-calculator": lazy(() => import("@/tools/health/BmrCalculator")),
 };
 
-// ============================================================
-// ToolPage 組件
-// ============================================================
 export function ToolPage() {
   const { category, toolName } = useParams<{ category: string; toolName: string }>();
-  
+
   if (!category || !toolName) {
     return <div>Invalid tool path</div>;
   }
 
   const toolKey = `${category}/${toolName}`;
   const Component = toolComponentMap[toolKey];
-  const tool = getToolByPath(`/tools/${toolKey}`);
-  const categoryInfo = getCategoryByKey(category);
-
-  useEffect(() => {
-    if (tool) {
-      setSeoMeta({
-        title: `${tool.name} - Formula Universe`,
-        description: tool.description,
-        keywords: tool.tags?.join(", "),
-      });
-    }
-  }, [tool]);
 
   if (!Component) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 p-4">
         <div className="max-w-4xl mx-auto">
-          <Link href="/tools">
-            <Button variant="ghost" className="mb-4">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Tools
-            </Button>
+          <Link href="/">
+            <button className="mb-4 flex items-center gap-2 px-4 py-2 text-slate-700 hover:text-slate-900">
+              <ArrowLeft className="w-4 h-4" />
+              Back to Home
+            </button>
           </Link>
-          
-          <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-            <h1 className="text-2xl font-bold text-slate-900 mb-4">
-              工具正在重造中
-            </h1>
-            <p className="text-slate-600 mb-6">
-              此工具正在根據黃金模版進行完整重造。
-              <br />
-              敬請期待新版本的推出！
-            </p>
-            <Link href="/tools">
-              <Button>返回工具列表</Button>
-            </Link>
+          <div className="rounded-lg bg-white p-8 shadow">
+            <h1 className="text-2xl font-bold text-slate-900">Tool not found</h1>
+            <p className="mt-2 text-slate-600">The requested tool could not be found.</p>
           </div>
         </div>
       </div>
@@ -76,28 +37,16 @@ export function ToolPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
-      <div className="max-w-6xl mx-auto p-4">
-        <Link href={`/tools?category=${category}`}>
-          <Button variant="ghost" className="mb-4">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to {categoryInfo?.displayNameZh || category}
-          </Button>
-        </Link>
-
-        <Suspense
-          fallback={
-            <div className="space-y-4">
-              <Skeleton className="h-12 w-full" />
-              <Skeleton className="h-96 w-full" />
-            </div>
-          }
-        >
-          <Component />
-        </Suspense>
-      </div>
-    </div>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 p-4">
+          <div className="max-w-4xl mx-auto">
+            <p className="text-center text-slate-600">Loading tool...</p>
+          </div>
+        </div>
+      }
+    >
+      <Component />
+    </Suspense>
   );
 }
-
-export default ToolPage;

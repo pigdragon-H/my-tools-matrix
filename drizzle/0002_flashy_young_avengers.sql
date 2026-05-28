@@ -1,1 +1,0 @@
-ALTER TABLE `calculation_history` ADD `category` varchar(64) DEFAULT 'finance' NOT NULL;

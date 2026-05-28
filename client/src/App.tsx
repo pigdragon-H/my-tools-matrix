@@ -1,82 +1,40 @@
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
-import ErrorBoundary from "./components/ErrorBoundary";
-import { ThemeProvider } from "./contexts/ThemeContext";
-import { LanguageProvider } from "./contexts/LanguageContext";
-import { Navbar } from "./components/Navbar";
-import Home from "./pages/Home/index";
-import CategoryPage from "./pages/CategoryPage";
-import ToolPage from "./pages/ToolPage";
-import BlogList from "./pages/BlogList";
-import BlogCategoryPage from "./pages/BlogCategoryPage";
-import BlogArticle from "./pages/BlogArticle";
-import About from "./pages/About";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsOfService from "./pages/TermsOfService";
-import AdminDashboard from "./pages/AdminDashboard";
-import Login from "./pages/Login";
+import { Router, Route } from "wouter";
+import { ToolPage } from "./pages/ToolPage";
 
-function Router() {
+export default function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground">
-      <Navbar />
-      <main className="flex-1">
-        <Switch>
-          {/* 首頁：顯示 12 個分類卡片 */}
-          <Route path="/" component={Home} />
-
-          {/* 三層工具架構 */}
-          {/* 層一：所有工具總覽（重定向至首頁） */}
-          <Route path="/tools" component={Home} />
-          {/* 層二：分類工具列表頁 /tools/:category */}
-          <Route path="/tools/:category" component={CategoryPage} />
-          {/* 層三：具體工具頁面 /tools/:category/:toolName */}
-          <Route path="/tools/:category/:toolName" component={ToolPage} />
-
-          {/* 知識庫三層架構 */}
-          {/* 層一：知識庫首頁 - 12 個分類卡片 */}
-          <Route path="/blog" component={BlogList} />
-          {/* 層二：分類文章列表 /blog/:category */}
-          <Route path="/blog/:category" component={BlogCategoryPage} />
-          {/* 層三：文章頁面 /blog/:category/:articleId */}
-          <Route path="/blog/:category/:articleId" component={BlogArticle} />
-
-          {/* 關於我們 */}
-          <Route path="/about" component={About} />
-
-          {/* 法律頁面 */}
-          <Route path="/privacy-policy" component={PrivacyPolicy} />
-          <Route path="/terms-of-service" component={TermsOfService} />
-
-          {/* 後台管理 */}
-          <Route path="/admin" component={AdminDashboard} />
-
-          {/* 登入頁面 */}
-          <Route path="/login" component={Login} />
-
-          <Route path="/404" component={NotFound} />
-          <Route component={NotFound} />
-        </Switch>
-      </main>
-    </div>
+    <Router>
+      <Route path="/tools/:category/:toolName" component={ToolPage} />
+      <Route path="/">
+        <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 p-4">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-4xl font-bold mb-8">Formula Universe</h1>
+            <p className="text-lg text-slate-600 mb-8">
+              Welcome to Formula Universe. Select a tool to get started.
+            </p>
+            <div className="grid gap-4 md:grid-cols-2">
+              <a
+                href="/tools/health/bmi-calculator"
+                className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition"
+              >
+                <h2 className="text-xl font-bold mb-2">BMI Calculator</h2>
+                <p className="text-slate-600">
+                  Calculate your Body Mass Index and get personalized health insights.
+                </p>
+              </a>
+              <a
+                href="/tools/health/bmr-calculator"
+                className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition"
+              >
+                <h2 className="text-xl font-bold mb-2">BMR Calculator</h2>
+                <p className="text-slate-600">
+                  Calculate your Basal Metabolic Rate to understand your daily calorie needs.
+                </p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </Route>
+    </Router>
   );
 }
-
-function App() {
-  return (
-    <ErrorBoundary>
-      <ThemeProvider defaultTheme="light" switchable>
-        <LanguageProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Router />
-          </TooltipProvider>
-        </LanguageProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
-  );
-}
-
-export default App;
