@@ -431,7 +431,7 @@ export default function LoanCalculator() {
           <section className="grid gap-5 lg:grid-cols-[1fr_0.8fr]">
             <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
               <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-500">{lang === "zh" ? "貸款還款旅程" : "Loan Repayment Journey"}</p>
-              <h2 className "mt-2 text-3xl font-black">{lang === "zh" ? "明確貸款，輕鬆還款" : "Clear Loans, Easy Repayment"}</h2>
+              <h2 className="mt-2 text-3xl font-black">{lang === "zh" ? "明確貸款，輕鬆還款" : "Clear Loans, Easy Repayment"}</h2>
               <div className="mt-6 space-y-4">
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0 rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">{lang === "zh" ? "步驟 1" : "Step 1"}</div>
