@@ -1,7 +1,7 @@
 import { Router, Route } from "wouter";
 import Home from "./pages/Home";
 import CategoryPage from "./pages/CategoryPage";
-import { ToolPage } from "./pages/ToolPage";
+import ToolPage from "./pages/ToolPage";
 
 export default function App() {
   return (
