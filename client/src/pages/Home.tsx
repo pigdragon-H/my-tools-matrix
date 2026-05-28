@@ -139,10 +139,10 @@ function CountUpStat({ stat }: { stat: StatItem }) {
 
   return (
     <div className="text-center">
-      <div className="text-3xl font-bold text-white md:text-4xl">
+      <div className="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">
         {stat.isText ? "AI Native" : displayValue.toLocaleString()}{stat.suffix}
       </div>
-      <div className="mt-2 text-sm font-medium text-slate-300">{stat.label}</div>
+      <div className="mt-2 text-sm font-medium text-slate-600 dark:text-slate-300">{stat.label}</div>
     </div>
   );
 }
@@ -191,7 +191,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[#1e293b] py-8 text-white md:py-10">
+      <section className="bg-gradient-to-r from-blue-50 to-slate-50 dark:from-slate-900 dark:to-slate-800 py-8 md:py-10">
         <div className="container grid grid-cols-2 gap-8 md:grid-cols-4">
           {stats.map((stat) => <CountUpStat key={stat.label} stat={stat} />)}
         </div>
