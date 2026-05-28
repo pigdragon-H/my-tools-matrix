@@ -315,6 +315,54 @@ export default function CronExpressionBuilder() {
 
           <AdSlot slot="cron-expression-builder-faq" position="inline" />
 
+          {/* SAVE/SHARE Section */}
+          <section className="grid gap-5 lg:grid-cols-[1fr_0.8fr]">
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-500">{lang === "zh" ? "Cron 計畫旅程" : "Cron Scheduling Journey"}</p>
+              <h2 className="mt-2 text-3xl font-black">{lang === "zh" ? "Cron 表達式，自動化任務" : "Cron Expressions, Automate Tasks"}</h2>
+              <div className="mt-6 space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">{lang === "zh" ? "步驟 1" : "Step 1"}</div>
+                  <div>
+                    <h3 className="font-black">{lang === "zh" ? "選擇時間" : "Select Time"}</h3>
+                    <p className="mt-1 text-sm text-slate-600">{lang === "zh" ? "設定執行時間" : "Set execution time"}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">{lang === "zh" ? "步驟 2" : "Step 2"}</div>
+                  <div>
+                    <h3 className="font-black">{lang === "zh" ? "選擇頻率" : "Choose Frequency"}</h3>
+                    <p className="mt-1 text-sm text-slate-600">{lang === "zh" ? "每天、每周、每月" : "Daily, weekly, monthly"}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">{lang === "zh" ? "步驟 3" : "Step 3"}</div>
+                  <div>
+                    <h3 className="font-black">{lang === "zh" ? "生成 Cron" : "Generate Cron"}</h3>
+                    <p className="mt-1 text-sm text-slate-600">{lang === "zh" ? "Cron 表達式" : "Cron expression"}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 rounded-full bg-emerald-100 px-3 py-1 text-xs font-black text-emerald-700">{lang === "zh" ? "步驟 4" : "Step 4"}</div>
+                  <div>
+                    <h3 className="font-black">{lang === "zh" ? "使用部署" : "Deploy & Use"}</h3>
+                    <p className="mt-1 text-sm text-slate-600">{lang === "zh" ? "部署到系統" : "Deploy to system"}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <article className="rounded-3xl border border-dashed border-slate-300 bg-white/80 p-5 shadow-sm">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-500">{lang === "zh" ? "儲存 / 分享位置" : "Save / Share Placeholder"}</p>
+              <h3 className="mt-2 text-xl font-black">{lang === "zh" ? "儲存結果或分享旅程" : "Save this result or share the journey"}</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{lang === "zh" ? "僅 UI 佔位符。不包含帳號、儲存、分享或匯出實現。" : "UI placeholder only. No account, storage, sharing, or export implementation is included in this prototype."}</p>
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                <button className="rounded-2xl bg-slate-950 px-4 py-3 text-center text-sm font-black text-white transition hover:bg-slate-800">{lang === "zh" ? "儲存" : "Save"}<br /><span className="text-xs font-normal">UI</span></button>
+                <button className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-center text-sm font-black text-slate-950 transition hover:bg-slate-50">{lang === "zh" ? "分享" : "Share"}<br /><span className="text-xs font-normal">UI</span></button>
+              </div>
+            </article>
+          </section>
+
           <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{lang === "zh" ? "推薦工具" : "Recommended"}</p>
             <h2 className="mt-2 text-2xl font-black">{t.recommendedProducts}</h2>
