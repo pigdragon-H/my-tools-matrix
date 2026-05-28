@@ -550,7 +550,7 @@ export default function BmiCalculator() {
               </article>
             </div>
 
-            <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.55fr]">
+            <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">
               <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
                 <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.healthJourney}</p>
                 <div className="mt-4 grid gap-3 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">
