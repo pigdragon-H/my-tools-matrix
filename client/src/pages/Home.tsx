@@ -87,12 +87,12 @@ const flashBannerSlides: FlashBannerSlide[] = [
     visual: "TOOLS · LOGIC · ACTION",
   },
   {
-    eyebrow: { zh: "Technology CIS", en: "Technology CIS" },
-    title: { zh: "科技感品牌形象，從首頁第一屏開始", en: "A technology brand from the first screen" },
-    slogan: { zh: "深藍、光暈、網格與資料流，呈現穩定而前瞻的企業識別。", en: "Deep blue, luminous grids, and data streams create a stable, forward-looking identity." },
-    description: { zh: "首頁頂部以動態幻燈片建立 Formula Universe 的專業感。", en: "The top banner establishes the professional identity of Formula Universe." },
+    eyebrow: { zh: "Tool Matrix Vision", en: "Tool Matrix Vision" },
+    title: { zh: "一站整合日常決策需要的智慧工具", en: "One hub for smarter everyday decisions" },
+    slogan: { zh: "從計算、比較、規劃到理解結果，工具矩陣協助你更快找到可信答案。", en: "From calculation and comparison to planning and interpretation, Tool Matrix helps you reach trusted answers faster." },
+    description: { zh: "Formula Universe 將公式、知識與行動建議串成清楚路徑，讓每一次選擇更有依據。", en: "Formula Universe connects formulas, knowledge, and next-step guidance into clear paths for better choices." },
     accent: "from-sky-400 to-blue-200",
-    visual: "CIS · GRID · SIGNAL",
+    visual: "TOOLS · TRUST · FUTURE",
   },
   {
     eyebrow: { zh: "AI Native", en: "AI Native" },
