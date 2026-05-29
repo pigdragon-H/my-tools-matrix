@@ -49,9 +49,9 @@ type ClusterCard = {
 
 
 type FeaturedTool = {
-  name: string;
-  category: string;
-  description: string;
+  name: Record<Lang, string>;
+  category: Record<Lang, string>;
+  description: Record<Lang, string>;
   href: string;
   icon: typeof Calculator;
 };
@@ -140,14 +140,14 @@ const stats: StatItem[] = [
 ];
 
 const featuredTools: FeaturedTool[] = [
-  { name: "CAGR 複合年增長率計算", category: "finance", description: "計算投資或資產在一段期間內的年化成長率。", href: "/tools/finance/cagr-calculator", icon: TrendingUp },
-  { name: "BMI 身體質量指數", category: "health", description: "用身高與體重快速估算身體質量指數。", href: "/tools/health/bmi-calculator", icon: HeartPulse },
-  { name: "退休金計算", category: "finance", description: "估算退休資金需求、儲蓄節奏與提領情境。", href: "/tools/finance/retirement-calculator", icon: PiggyBank },
-  { name: "JSON 格式化工具", category: "dev", description: "格式化、檢查與閱讀 JSON 結構資料。", href: "/tools/dev/json-formatter", icon: Code2 },
-  { name: "熱量赤字計算", category: "health", description: "估算減重所需的每日熱量赤字與追蹤節奏。", href: "/tools/health/calorie-deficit", icon: Dumbbell },
-  { name: "貨幣匯率換算", category: "travel", description: "協助旅行、跨境預算與匯率情境換算。", href: "/tools/travel/currency-converter", icon: Globe2 },
-  { name: "複利計算器", category: "finance", description: "模擬本金、利率、期間與再投入後的成長結果。", href: "/tools/finance/compound-interest", icon: LineChart },
-  { name: "BMR 基礎代謝率", category: "health", description: "估算基礎代謝，作為熱量與健康規劃起點。", href: "/tools/health/bmr-calculator", icon: BarChart3 },
+  { name: { zh: "CAGR 複合年增長率計算", en: "CAGR Calculator" }, category: { zh: "財經", en: "finance" }, description: { zh: "計算投資或資產在一段期間內的年化成長率。", en: "Calculate the annualized growth rate of investments or assets over a period." }, href: "/tools/finance/cagr-calculator", icon: TrendingUp },
+  { name: { zh: "BMI 身體質量指數", en: "BMI Calculator" }, category: { zh: "健康", en: "health" }, description: { zh: "用身高與體重快速估算身體質量指數。", en: "Quickly estimate body mass index from height and weight." }, href: "/tools/health/bmi-calculator", icon: HeartPulse },
+  { name: { zh: "退休金計算", en: "Retirement Calculator" }, category: { zh: "財經", en: "finance" }, description: { zh: "估算退休資金需求、儲蓄節奏與提領情境。", en: "Estimate retirement capital needs, saving pace, and withdrawal scenarios." }, href: "/tools/finance/retirement-calculator", icon: PiggyBank },
+  { name: { zh: "JSON 格式化工具", en: "JSON Formatter" }, category: { zh: "開發", en: "dev" }, description: { zh: "格式化、檢查與閱讀 JSON 結構資料。", en: "Format, validate, and read JSON-structured data." }, href: "/tools/dev/json-formatter", icon: Code2 },
+  { name: { zh: "熱量赤字計算", en: "Calorie Deficit" }, category: { zh: "健康", en: "health" }, description: { zh: "估算減重所需的每日熱量赤字與追蹤節奏。", en: "Estimate the daily calorie deficit and tracking pace for weight loss." }, href: "/tools/health/calorie-deficit", icon: Dumbbell },
+  { name: { zh: "貨幣匯率換算", en: "Currency Converter" }, category: { zh: "旅遊", en: "travel" }, description: { zh: "協助旅行、跨境預算與匯率情境換算。", en: "Help with travel, cross-border budget, and exchange-rate scenarios." }, href: "/tools/travel/currency-converter", icon: Globe2 },
+  { name: { zh: "複利計算器", en: "Compound Interest" }, category: { zh: "財經", en: "finance" }, description: { zh: "模擬本金、利率、期間與再投入後的成長結果。", en: "Simulate growth from principal, rate, period, and reinvestment." }, href: "/tools/finance/compound-interest", icon: LineChart },
+  { name: { zh: "BMR 基礎代謝率", en: "BMR Calculator" }, category: { zh: "健康", en: "health" }, description: { zh: "估算基礎代謝，作為熱量與健康規劃起點。", en: "Estimate basal metabolic rate as the starting point for calorie and health planning." }, href: "/tools/health/bmr-calculator", icon: BarChart3 },
 ];
 
 const clusterCards: ClusterCard[] = [
@@ -193,14 +193,14 @@ const journeyStepStyles = [
 ];
 
 const footerCategories = [
-  { label: "財經投資", href: "/tools/finance" },
-  { label: "健康生活", href: "/tools/health" },
-  { label: "開發工具", href: "/tools/dev" },
-  { label: "職場效率", href: "/tools/productivity" },
-  { label: "教育學習", href: "/tools/education" },
-  { label: "科學工程", href: "/tools/science" },
-  { label: "電商零售", href: "/tools/ecommerce" },
-  { label: "旅遊地理", href: "/tools/travel" },
+  { label: { zh: "財經投資", en: "Finance" }, href: "/tools/finance" },
+  { label: { zh: "健康生活", en: "Health" }, href: "/tools/health" },
+  { label: { zh: "開發工具", en: "Developer" }, href: "/tools/dev" },
+  { label: { zh: "職場效率", en: "Productivity" }, href: "/tools/productivity" },
+  { label: { zh: "教育學習", en: "Education" }, href: "/tools/education" },
+  { label: { zh: "科學工程", en: "Science" }, href: "/tools/science" },
+  { label: { zh: "電商零售", en: "E-Commerce" }, href: "/tools/ecommerce" },
+  { label: { zh: "旅遊地理", en: "Travel" }, href: "/tools/travel" },
 ];
 
 function FlashBannerStrip({ lang }: { lang: Lang }) {
@@ -394,13 +394,13 @@ export default function Home() {
       <motion.section className="border-b border-blue-200/70 bg-[radial-gradient(circle_at_80%_10%,rgba(14,165,233,0.14),transparent_28%),linear-gradient(180deg,#ffffff_0%,#eef6ff_100%)] dark:border-blue-950/60 dark:bg-slate-950" {...sectionMotion}>
         <div className="container py-16 md:py-20">
           <div className="mb-10 max-w-3xl">
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">最常用的工具</h2>
-            <p className="mt-3 text-muted-foreground md:text-lg">從高頻決策場景進入 Formula Universe，直接前往已規劃的工具頁。</p>
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "最常用的工具" : "Most-used tools"}</h2>
+            <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "從高頻決策場景進入 Formula Universe，直接前往已規劃的工具頁。" : "Jump into Formula Universe from high-frequency decision scenarios, straight to the planned tool pages."}</p>
           </div>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {featuredTools.map((tool) => {
               const Icon = tool.icon;
-              return <Link key={tool.href} href={tool.href} className="group rounded-3xl border border-blue-100 bg-white/90 p-6 shadow-lg shadow-blue-900/10 ring-1 ring-white/80 transition-all hover:-translate-y-1 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-900/15 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><div className="mb-4 flex items-center justify-between"><div className="rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-cyan-500 p-3 shadow-lg shadow-blue-600/25"><Icon className="h-5 w-5 text-white" /></div><Badge variant="secondary" className="bg-blue-50 text-xs font-bold text-blue-700 dark:bg-blue-950 dark:text-blue-200">{tool.category}</Badge></div><h3 className="text-base font-black leading-6 text-slate-900 group-hover:text-blue-700 dark:text-white">{tool.name}</h3><p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{tool.description}</p><div className="mt-5 flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">前往工具<ArrowRight className="h-4 w-4" /></div></Link>;
+              return <Link key={tool.href} href={tool.href} className="group rounded-3xl border border-blue-100 bg-white/90 p-6 shadow-lg shadow-blue-900/10 ring-1 ring-white/80 transition-all hover:-translate-y-1 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-900/15 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><div className="mb-4 flex items-center justify-between"><div className="rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-cyan-500 p-3 shadow-lg shadow-blue-600/25"><Icon className="h-5 w-5 text-white" /></div><Badge variant="secondary" className="bg-blue-50 text-xs font-bold text-blue-700 dark:bg-blue-950 dark:text-blue-200">{tool.category[lang]}</Badge></div><h3 className="text-base font-black leading-6 text-slate-900 group-hover:text-blue-700 dark:text-white">{tool.name[lang]}</h3><p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{tool.description[lang]}</p><div className="mt-5 flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">{lang === "zh" ? "前往工具" : "Open tool"}<ArrowRight className="h-4 w-4" /></div></Link>;
             })}
           </div>
         </div>
@@ -429,13 +429,13 @@ export default function Home() {
         <div className="container py-16 md:py-20">
           <div className="mx-auto mb-10 max-w-3xl text-center">
             <Badge variant="outline" className="mb-3">AI Native</Badge>
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">不只是計算機</h2>
-            <p className="mt-3 text-muted-foreground md:text-lg">Formula Universe 的首頁是知識作業系統入口，而不是單純的工具清單。</p>
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "不只是計算機" : "More than a calculator"}</h2>
+            <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "Formula Universe 的首頁是知識作業系統入口，而不是單純的工具清單。" : "The Formula Universe homepage is an entry point to a knowledge operating system, not just a tool list."}</p>
           </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-            <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-blue-900/10 ring-1 ring-blue-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Brain className="mb-5 h-8 w-8 text-blue-600" /><h3 className="text-xl font-semibold">🧠 知識圖譜</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">工具、公式、解釋串連成知識網絡，讓每個計算結果都有上下文。</p></div>
-            <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-indigo-900/10 ring-1 ring-indigo-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Route className="mb-5 h-8 w-8 text-indigo-600" /><h3 className="text-xl font-semibold">🔗 決策路徑</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">從問題到答案的完整引導流程，協助使用者知道下一步該做什麼。</p></div>
-            <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-cyan-900/10 ring-1 ring-cyan-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Network className="mb-5 h-8 w-8 text-cyan-600" /><h3 className="text-xl font-semibold">📊 AI Native</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">每個工具都預留連接 AI 分析與建議的語義位置，支援未來智慧探索。</p></div>
+            <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-blue-900/10 ring-1 ring-blue-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Brain className="mb-5 h-8 w-8 text-blue-600" /><h3 className="text-xl font-semibold">{lang === "zh" ? "🧠 知識圖譜" : "🧠 Knowledge graph"}</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">{lang === "zh" ? "工具、公式、解釋串連成知識網絡，讓每個計算結果都有上下文。" : "Tools, formulas, and explanations are connected into a knowledge network so every result has context."}</p></div>
+            <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-indigo-900/10 ring-1 ring-indigo-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Route className="mb-5 h-8 w-8 text-indigo-600" /><h3 className="text-xl font-semibold">{lang === "zh" ? "🔗 決策路徑" : "🔗 Decision path"}</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">{lang === "zh" ? "從問題到答案的完整引導流程，協助使用者知道下一步該做什麼。" : "A complete guided flow from question to answer, helping users know what to do next."}</p></div>
+            <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-cyan-900/10 ring-1 ring-cyan-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Network className="mb-5 h-8 w-8 text-cyan-600" /><h3 className="text-xl font-semibold">📊 AI Native</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">{lang === "zh" ? "每個工具都預留連接 AI 分析與建議的語義位置，支援未來智慧探索。" : "Every tool reserves semantic slots for AI analysis and recommendations, enabling future intelligent exploration."}</p></div>
           </div>
         </div>
       </motion.section>
@@ -506,7 +506,7 @@ export default function Home() {
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-opacity hover:opacity-90"
-          aria-label="回到頂部"
+          aria-label={lang === "zh" ? "回到頂部" : "Back to top"}
         >
           <ArrowUp className="h-5 w-5" />
         </button>
@@ -517,20 +517,20 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr_0.8fr]">
             <div>
               <div className="flex items-center gap-3"><div className="rounded-2xl bg-primary/20 p-3"><Binary className="h-6 w-6 text-primary" /></div><div><p className="text-lg font-bold">Formula Universe</p><p className="text-sm text-slate-400">AI Native Knowledge Infrastructure</p></div></div>
-              <p className="mt-5 max-w-md text-sm leading-7 text-slate-300">AI Native Knowledge Infrastructure 的首頁入口。</p>
+              <p className="mt-5 max-w-md text-sm leading-7 text-slate-300">{lang === "zh" ? "AI Native Knowledge Infrastructure 的首頁入口。" : "Homepage entry to the AI Native Knowledge Infrastructure."}</p>
               <p className="mt-6 text-xs text-slate-500">© 2026 PiGragon-H. All rights reserved.</p>
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-white">分類連結</h3>
+              <h3 className="text-sm font-semibold text-white">{lang === "zh" ? "分類連結" : "Categories"}</h3>
               <div className="mt-5 grid grid-cols-2 gap-3 text-sm text-slate-300">
-                {footerCategories.map((item) => <Link key={item.href} href={item.href} className="transition-colors hover:text-white">{item.label}</Link>)}
+                {footerCategories.map((item) => <Link key={item.href} href={item.href} className="transition-colors hover:text-white">{item.label[lang]}</Link>)}
               </div>
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-white">更多</h3>
+              <h3 className="text-sm font-semibold text-white">{lang === "zh" ? "更多" : "More"}</h3>
               <div className="mt-5 grid gap-3 text-sm text-slate-300">
-                <Link href="/blog" className="transition-colors hover:text-white">知識庫</Link>
-                <Link href="/about" className="transition-colors hover:text-white">關於我們</Link>
+                <Link href="/blog" className="transition-colors hover:text-white">{lang === "zh" ? "知識庫" : "Knowledge"}</Link>
+                <Link href="/about" className="transition-colors hover:text-white">{lang === "zh" ? "關於我們" : "About"}</Link>
                 <a href="https://github.com/pigdragon-H/my-tools-matrix" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 transition-colors hover:text-white"><Github className="h-4 w-4" />GitHub</a>
               </div>
             </div>
