@@ -59,7 +59,7 @@ type FeaturedTool = {
 type StatItem = {
   value: number;
   suffix: string;
-  label: string;
+  label: Record<Lang, string>;
   isText?: boolean;
 };
 
@@ -133,10 +133,10 @@ const journeyCards: JourneyCard[] = [
 ];
 
 const stats: StatItem[] = [
-  { value: 157, suffix: "+", label: "個工具" },
-  { value: 12, suffix: "", label: "大知識領域" },
-  { value: 50000, suffix: "+", label: "公式指標（目標）" },
-  { value: 0, suffix: "", label: "AI Native 架構", isText: true },
+  { value: 157, suffix: "+", label: { zh: "個工具", en: "tools" } },
+  { value: 12, suffix: "", label: { zh: "大知識領域", en: "knowledge domains" } },
+  { value: 50000, suffix: "+", label: { zh: "公式指標（目標）", en: "formula indicators (target)" } },
+  { value: 0, suffix: "", label: { zh: "AI Native 架構", en: "AI Native architecture" }, isText: true },
 ];
 
 const featuredTools: FeaturedTool[] = [
@@ -291,7 +291,7 @@ function FlashBannerStrip({ lang }: { lang: Lang }) {
   );
 }
 
-function CountUpStat({ stat }: { stat: StatItem }) {
+function CountUpStat({ stat, lang }: { stat: StatItem; lang: Lang }) {
   const prefersReducedMotion = useReducedMotion();
   const [displayValue, setDisplayValue] = useState(prefersReducedMotion ? stat.value : 0);
 
@@ -316,7 +316,7 @@ function CountUpStat({ stat }: { stat: StatItem }) {
       <div className="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">
         {stat.isText ? "AI Native" : displayValue.toLocaleString()}{stat.suffix}
       </div>
-      <div className="mt-2 text-sm font-medium text-slate-600 dark:text-slate-300">{stat.label}</div>
+      <div className="mt-2 text-sm font-medium text-slate-600 dark:text-slate-300">{stat.label[lang]}</div>
     </div>
   );
 }
@@ -368,7 +368,7 @@ export default function Home() {
 
       <section className="bg-gradient-to-r from-blue-700 via-indigo-700 to-violet-700 py-8 text-white shadow-inner shadow-blue-950/20 dark:from-blue-950 dark:via-indigo-950 dark:to-violet-950 md:py-10">
         <div className="container grid grid-cols-2 gap-8 md:grid-cols-4">
-          {stats.map((stat) => <CountUpStat key={stat.label} stat={stat} />)}
+          {stats.map((stat) => <CountUpStat key={stat.label.zh} stat={stat} lang={lang} />)}
         </div>
       </section>
 
