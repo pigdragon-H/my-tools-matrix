@@ -12,6 +12,7 @@ import {
   ArrowUp,
   BarChart3,
   Binary,
+  BookOpen,
   Brain,
   Calculator,
   Code2,
@@ -435,6 +436,55 @@ export default function Home() {
             <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-blue-900/10 ring-1 ring-blue-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Brain className="mb-5 h-8 w-8 text-blue-600" /><h3 className="text-xl font-semibold">🧠 知識圖譜</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">工具、公式、解釋串連成知識網絡，讓每個計算結果都有上下文。</p></div>
             <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-indigo-900/10 ring-1 ring-indigo-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Route className="mb-5 h-8 w-8 text-indigo-600" /><h3 className="text-xl font-semibold">🔗 決策路徑</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">從問題到答案的完整引導流程，協助使用者知道下一步該做什麼。</p></div>
             <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-cyan-900/10 ring-1 ring-cyan-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Network className="mb-5 h-8 w-8 text-cyan-600" /><h3 className="text-xl font-semibold">📊 AI Native</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">每個工具都預留連接 AI 分析與建議的語義位置，支援未來智慧探索。</p></div>
+          </div>
+        </div>
+      </motion.section>
+
+      <motion.section className="border-b border-blue-200/70 bg-[linear-gradient(135deg,#ffffff_0%,#eff6ff_46%,#f5f3ff_100%)] dark:border-blue-950/60 dark:bg-slate-950" {...sectionMotion}>
+        <div className="container py-16 md:py-20">
+          <div className="mb-10 max-w-3xl">
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">知識庫與關於我們</h2>
+            <p className="mt-3 text-muted-foreground md:text-lg">
+              首頁不只提供工具入口，也保留知識文章、公式脈絡與品牌說明，讓使用者知道如何理解結果、為什麼可以信任這套工具矩陣。
+            </p>
+          </div>
+
+          <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+            <Link href="/blog" className="group rounded-[2rem] border border-blue-200 bg-white/90 p-7 shadow-xl shadow-blue-900/10 ring-1 ring-blue-100 transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-2xl dark:border-blue-950/60 dark:bg-white/8 dark:ring-blue-950/40 md:p-8">
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-900/20">
+                <BookOpen className="h-7 w-7" />
+              </div>
+              <h3 className="text-2xl font-black text-slate-950 dark:text-white">知識庫</h3>
+              <p className="mt-4 text-sm leading-7 text-muted-foreground md:text-base">
+                整理公式解釋、工具範例、限制說明與決策脈絡，讓每一次計算不只是得到答案，也能理解答案背後的條件與下一步行動。
+              </p>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                {["公式與指標解釋", "工具使用指南", "決策路徑文章", "常見限制提醒"].map((item) => (
+                  <div key={item} className="rounded-2xl bg-blue-50 p-4 text-sm font-bold text-blue-900 dark:bg-blue-950/40 dark:text-blue-100">{item}</div>
+                ))}
+              </div>
+              <p className="mt-6 inline-flex items-center gap-2 text-sm font-black text-blue-700 transition group-hover:gap-3 dark:text-blue-300">
+                前往知識庫 <ArrowRight className="h-4 w-4" />
+              </p>
+            </Link>
+
+            <Link href="/about" className="group rounded-[2rem] border border-indigo-200 bg-white/90 p-7 shadow-xl shadow-indigo-900/10 ring-1 ring-indigo-100 transition hover:-translate-y-1 hover:border-indigo-300 hover:shadow-2xl dark:border-indigo-950/60 dark:bg-white/8 dark:ring-indigo-950/40 md:p-8">
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-900/20">
+                <HeartPulse className="h-7 w-7" />
+              </div>
+              <h3 className="text-2xl font-black text-slate-950 dark:text-white">關於我們</h3>
+              <p className="mt-4 text-sm leading-7 text-muted-foreground md:text-base">
+                Formula Universe / 工具矩陣是一座 AI Native Knowledge Infrastructure，目標是把工具、公式、解釋、範例、限制與下一步行動串成可信任的決策入口。
+              </p>
+              <div className="mt-6 grid gap-3">
+                {["知：建立可理解的知識脈絡", "行：轉換為可操作的工具流程", "樂趣：讓學習與決策更有陪伴感"].map((item) => (
+                  <div key={item} className="rounded-2xl bg-indigo-50 p-4 text-sm font-bold text-indigo-900 dark:bg-indigo-950/40 dark:text-indigo-100">{item}</div>
+                ))}
+              </div>
+              <p className="mt-6 inline-flex items-center gap-2 text-sm font-black text-indigo-700 transition group-hover:gap-3 dark:text-indigo-300">
+                了解工具矩陣 <ArrowRight className="h-4 w-4" />
+              </p>
+            </Link>
           </div>
         </div>
       </motion.section>
