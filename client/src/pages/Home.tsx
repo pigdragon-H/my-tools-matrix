@@ -88,7 +88,7 @@ const flashBannerSlides: FlashBannerSlide[] = [
   },
   {
     eyebrow: { zh: "Tool Matrix Vision", en: "Tool Matrix Vision" },
-    title: { zh: "一站整合日常決策需要的智慧工具", en: "One hub for smarter everyday decisions" },
+    title: { zh: "工具整合中樞", en: "Smarter tool hub" },
     slogan: { zh: "從計算、比較、規劃到理解結果，工具矩陣協助你更快找到可信答案。", en: "From calculation and comparison to planning and interpretation, Tool Matrix helps you reach trusted answers faster." },
     description: { zh: "Formula Universe 將公式、知識與行動建議串成清楚路徑，讓每一次選擇更有依據。", en: "Formula Universe connects formulas, knowledge, and next-step guidance into clear paths for better choices." },
     accent: "from-sky-400 to-blue-200",
@@ -96,7 +96,7 @@ const flashBannerSlides: FlashBannerSlide[] = [
   },
   {
     eyebrow: { zh: "AI Native", en: "AI Native" },
-    title: { zh: "公式遇見智慧，答案更有上下文", en: "Formulas meet intelligence" },
+    title: { zh: "公式遇見智慧", en: "Intelligent formulas" },
     slogan: { zh: "不只計算數字，也連接解釋、限制、案例與建議。", en: "Not only calculating numbers, but connecting explanations, limits, examples, and guidance." },
     description: { zh: "為未來 AI 分析與知識網路預留語義結構。", en: "Designed with semantic structure for future AI analysis and knowledge graphs." },
     accent: "from-purple-400 to-blue-300",
@@ -104,7 +104,7 @@ const flashBannerSlides: FlashBannerSlide[] = [
   },
   {
     eyebrow: { zh: "Reliable Knowledge", en: "Reliable Knowledge" },
-    title: { zh: "可信任的公式與決策基準", en: "Reliable formulas and decision baselines" },
+    title: { zh: "可信決策基準", en: "Trusted baselines" },
     slogan: { zh: "每一次估算都應該看得懂來源、假設與限制。", en: "Every estimate should make its source, assumptions, and limits understandable." },
     description: { zh: "以透明結構提升工具結果的可讀性與可信度。", en: "Transparent structure improves readability and trust in tool results." },
     accent: "from-emerald-300 to-cyan-200",
@@ -112,7 +112,7 @@ const flashBannerSlides: FlashBannerSlide[] = [
   },
   {
     eyebrow: { zh: "Smart Helper", en: "Smart Helper" },
-    title: { zh: "你的智慧工具矩陣，隨時支援下一步", en: "Your smart tool matrix for every next step" },
+    title: { zh: "智慧工具矩陣", en: "Smart tool matrix" },
     slogan: { zh: "從問題、工具到行動，讓知識真正進入日常決策。", en: "From question to tool to action, knowledge becomes part of daily decisions." },
     description: { zh: "Formula Universe 是面向未來的知識作業系統入口。", en: "Formula Universe is the entry point to a future-facing knowledge operating system." },
     accent: "from-blue-300 to-violet-200",
@@ -223,7 +223,7 @@ function FlashBannerStrip({ lang }: { lang: Lang }) {
               <p className={`mb-4 bg-gradient-to-r ${slide.accent} bg-clip-text text-sm font-black uppercase tracking-[0.28em] text-transparent`}>
                 {lang === "zh" ? "企業形象 · 專業科技 · 智慧工具" : "Brand · Technology · Intelligent Tools"}
               </p>
-              <h2 className="max-w-3xl text-4xl font-black leading-tight tracking-tight md:text-6xl">
+              <h2 className="max-w-3xl whitespace-normal text-4xl font-black leading-tight tracking-tight md:whitespace-nowrap md:text-5xl lg:text-6xl">
                 {slide.title[lang]}
               </h2>
               <p className="mt-6 max-w-2xl text-xl font-semibold leading-8 text-blue-50 md:text-2xl">
@@ -310,10 +310,10 @@ export default function Home() {
   const sectionMotion = prefersReducedMotion ? {} : { initial: { opacity: 0, y: 18 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, amount: 0.2 }, transition: { duration: 0.45 } };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#eef6ff_0%,#f8fbff_22%,#eef4ff_52%,#f8fbff_100%)] text-foreground dark:bg-[linear-gradient(180deg,#020617_0%,#0f172a_45%,#111827_100%)]">
       <FlashBannerStrip lang={lang} />
 
-      <section className="relative border-b border-border bg-gradient-to-br from-background via-background to-primary/5">
+      <section className="relative overflow-hidden border-b border-blue-200/70 bg-[radial-gradient(circle_at_16%_20%,rgba(59,130,246,0.18),transparent_30%),radial-gradient(circle_at_82%_8%,rgba(124,58,237,0.14),transparent_28%),linear-gradient(135deg,#f8fbff_0%,#eaf3ff_48%,#f4f0ff_100%)] dark:border-blue-950/60 dark:bg-[radial-gradient(circle_at_16%_20%,rgba(37,99,235,0.20),transparent_30%),linear-gradient(135deg,#020617_0%,#0f172a_100%)]">
         <div className="container py-20 md:py-28">
           <div className="max-w-6xl">
             <Badge variant="secondary" className="mb-5 text-xs font-medium">Formula Universe · AI Native Knowledge Operating System</Badge>
@@ -332,13 +332,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-gradient-to-r from-blue-50 to-slate-50 dark:from-slate-900 dark:to-slate-800 py-8 md:py-10">
+      <section className="bg-gradient-to-r from-blue-700 via-indigo-700 to-violet-700 py-8 text-white shadow-inner shadow-blue-950/20 dark:from-blue-950 dark:via-indigo-950 dark:to-violet-950 md:py-10">
         <div className="container grid grid-cols-2 gap-8 md:grid-cols-4">
           {stats.map((stat) => <CountUpStat key={stat.label} stat={stat} />)}
         </div>
       </section>
 
-      <motion.section id="journey" className="scroll-mt-20 border-b border-border bg-muted/20" {...sectionMotion}>
+      <motion.section id="journey" className="scroll-mt-20 border-b border-blue-200/70 bg-[linear-gradient(135deg,#eff6ff_0%,#f5f3ff_45%,#ecfeff_100%)] dark:border-blue-950/60 dark:bg-slate-950" {...sectionMotion}>
         <div className="container py-16 md:py-20">
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="max-w-3xl">
@@ -348,12 +348,12 @@ export default function Home() {
             </div>
           </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {journeyCards.map((card) => <article key={card.title.zh} className="rounded-2xl border border-border bg-background p-6 shadow-sm"><h3 className="text-lg font-semibold">{card.title[lang]}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{card.description[lang]}</p><div className="mt-5 flex flex-wrap items-center gap-2">{card.steps[lang].map((step, index) => <span key={`${card.title.zh}-${step}`} className="flex items-center gap-2"><span className="rounded-full border border-border bg-muted/30 px-3 py-1.5 text-sm font-semibold">{step}</span>{index < card.steps[lang].length - 1 ? <ArrowRight className="h-4 w-4 text-muted-foreground" /> : null}</span>)}</div></article>)}
+            {journeyCards.map((card) => <article key={card.title.zh} className="group rounded-3xl border border-white/70 bg-white/90 p-6 shadow-lg shadow-blue-900/10 ring-1 ring-blue-100/70 transition-all hover:-translate-y-1 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-900/15 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><div className="mb-4 h-1.5 w-16 rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400" /><h3 className="text-lg font-black text-slate-900 group-hover:text-blue-700 dark:text-white">{card.title[lang]}</h3><p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">{card.description[lang]}</p><div className="mt-5 flex flex-wrap items-center gap-2">{card.steps[lang].map((step, index) => <span key={`${card.title.zh}-${step}`} className="flex items-center gap-2"><span className="rounded-full border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 px-3 py-1.5 text-sm font-bold text-blue-800 dark:border-blue-800 dark:from-blue-950/60 dark:to-indigo-950/60 dark:text-blue-100">{step}</span>{index < card.steps[lang].length - 1 ? <ArrowRight className="h-4 w-4 text-blue-400" /> : null}</span>)}</div></article>)}
           </div>
         </div>
       </motion.section>
 
-      <motion.section className="border-b border-border bg-background" {...sectionMotion}>
+      <motion.section className="border-b border-blue-200/70 bg-[radial-gradient(circle_at_80%_10%,rgba(14,165,233,0.14),transparent_28%),linear-gradient(180deg,#ffffff_0%,#eef6ff_100%)] dark:border-blue-950/60 dark:bg-slate-950" {...sectionMotion}>
         <div className="container py-16 md:py-20">
           <div className="mb-10 max-w-3xl">
             <Badge variant="outline" className="mb-3">Featured Tools</Badge>
@@ -363,13 +363,13 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {featuredTools.map((tool) => {
               const Icon = tool.icon;
-              return <Link key={tool.href} href={tool.href} className="group rounded-2xl border border-border bg-muted/20 p-6 shadow-sm transition-colors hover:border-primary/40"><div className="mb-4 flex items-center justify-between"><div className="rounded-xl bg-primary/10 p-3"><Icon className="h-5 w-5 text-primary" /></div><Badge variant="secondary" className="text-xs">{tool.category}</Badge></div><h3 className="text-base font-semibold leading-6 group-hover:text-primary">{tool.name}</h3><p className="mt-3 text-sm leading-6 text-muted-foreground">{tool.description}</p><div className="mt-5 flex items-center gap-2 text-sm font-semibold text-primary">前往工具<ArrowRight className="h-4 w-4" /></div></Link>;
+              return <Link key={tool.href} href={tool.href} className="group rounded-3xl border border-blue-100 bg-white/90 p-6 shadow-lg shadow-blue-900/10 ring-1 ring-white/80 transition-all hover:-translate-y-1 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-900/15 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><div className="mb-4 flex items-center justify-between"><div className="rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-cyan-500 p-3 shadow-lg shadow-blue-600/25"><Icon className="h-5 w-5 text-white" /></div><Badge variant="secondary" className="bg-blue-50 text-xs font-bold text-blue-700 dark:bg-blue-950 dark:text-blue-200">{tool.category}</Badge></div><h3 className="text-base font-black leading-6 text-slate-900 group-hover:text-blue-700 dark:text-white">{tool.name}</h3><p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{tool.description}</p><div className="mt-5 flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">前往工具<ArrowRight className="h-4 w-4" /></div></Link>;
             })}
           </div>
         </div>
       </motion.section>
 
-      <motion.section className="border-b border-border bg-muted/20" {...sectionMotion}>
+      <motion.section className="border-b border-blue-200/70 bg-[linear-gradient(135deg,#e0f2fe_0%,#eef2ff_42%,#f5f3ff_100%)] dark:border-blue-950/60 dark:bg-slate-950" {...sectionMotion}>
         <div className="container py-16 md:py-20">
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="max-w-3xl">
@@ -378,12 +378,12 @@ export default function Home() {
             </div>
           </div>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {clusterCards.map((cluster) => <Link key={cluster.websiteKey} href={cluster.href} className="group rounded-2xl border border-border bg-background p-6 shadow-sm transition-colors hover:border-primary/40"><div className="mb-4 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">{cluster.websiteKey}</div><h3 className="text-lg font-semibold group-hover:text-primary">{cluster.title[lang]}</h3><p className="mt-3 text-sm leading-6 text-muted-foreground">{cluster.description[lang]}</p><div className="mt-5 flex items-center gap-2 text-sm font-semibold text-primary">{lang === "zh" ? "前往領域" : "Open domain"}<ArrowRight className="h-4 w-4" /></div></Link>)}
+            {clusterCards.map((cluster) => <Link key={cluster.websiteKey} href={cluster.href} className="group rounded-3xl border border-white/70 bg-white/90 p-6 shadow-lg shadow-indigo-900/10 ring-1 ring-indigo-100/70 transition-all hover:-translate-y-1 hover:border-indigo-300 hover:shadow-2xl hover:shadow-indigo-900/15 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><div className="mb-4 inline-flex rounded-full bg-gradient-to-r from-blue-600 to-violet-600 px-3 py-1 text-xs font-black text-white shadow-md shadow-blue-600/20">{cluster.websiteKey}</div><h3 className="text-lg font-black text-slate-900 group-hover:text-indigo-700 dark:text-white">{cluster.title[lang]}</h3><p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{cluster.description[lang]}</p><div className="mt-5 flex items-center gap-2 text-sm font-bold text-indigo-700 dark:text-indigo-300">{lang === "zh" ? "前往領域" : "Open domain"}<ArrowRight className="h-4 w-4" /></div></Link>)}
           </div>
         </div>
       </motion.section>
 
-      <motion.section className="border-b border-border bg-gradient-to-br from-sky-50 via-blue-50 to-background dark:from-sky-950/30 dark:via-blue-950/20 dark:to-background" {...sectionMotion}>
+      <motion.section className="border-b border-blue-200/70 bg-[radial-gradient(circle_at_12%_20%,rgba(37,99,235,0.18),transparent_26%),radial-gradient(circle_at_82%_28%,rgba(124,58,237,0.16),transparent_26%),linear-gradient(135deg,#dbeafe_0%,#eef2ff_48%,#f0fdfa_100%)] dark:border-blue-950/60 dark:bg-slate-950" {...sectionMotion}>
         <div className="container py-16 md:py-20">
           <div className="mx-auto mb-10 max-w-3xl text-center">
             <Badge variant="outline" className="mb-3">AI Native</Badge>
@@ -391,9 +391,9 @@ export default function Home() {
             <p className="mt-3 text-muted-foreground md:text-lg">Formula Universe 的首頁是知識作業系統入口，而不是單純的工具清單。</p>
           </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-            <div className="rounded-3xl border border-border bg-background/80 p-7 shadow-sm"><Brain className="mb-5 h-8 w-8 text-primary" /><h3 className="text-xl font-semibold">🧠 知識圖譜</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">工具、公式、解釋串連成知識網絡，讓每個計算結果都有上下文。</p></div>
-            <div className="rounded-3xl border border-border bg-background/80 p-7 shadow-sm"><Route className="mb-5 h-8 w-8 text-primary" /><h3 className="text-xl font-semibold">🔗 決策路徑</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">從問題到答案的完整引導流程，協助使用者知道下一步該做什麼。</p></div>
-            <div className="rounded-3xl border border-border bg-background/80 p-7 shadow-sm"><Network className="mb-5 h-8 w-8 text-primary" /><h3 className="text-xl font-semibold">📊 AI Native</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">每個工具都預留連接 AI 分析與建議的語義位置，支援未來智慧探索。</p></div>
+            <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-blue-900/10 ring-1 ring-blue-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Brain className="mb-5 h-8 w-8 text-blue-600" /><h3 className="text-xl font-semibold">🧠 知識圖譜</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">工具、公式、解釋串連成知識網絡，讓每個計算結果都有上下文。</p></div>
+            <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-indigo-900/10 ring-1 ring-indigo-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Route className="mb-5 h-8 w-8 text-indigo-600" /><h3 className="text-xl font-semibold">🔗 決策路徑</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">從問題到答案的完整引導流程，協助使用者知道下一步該做什麼。</p></div>
+            <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-cyan-900/10 ring-1 ring-cyan-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Network className="mb-5 h-8 w-8 text-cyan-600" /><h3 className="text-xl font-semibold">📊 AI Native</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">每個工具都預留連接 AI 分析與建議的語義位置，支援未來智慧探索。</p></div>
           </div>
         </div>
       </motion.section>
