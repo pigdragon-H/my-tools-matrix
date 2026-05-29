@@ -485,6 +485,9 @@ export default function BmrCalculator() {
           <div className="mt-5 grid gap-4 md:grid-cols-4">
             {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5 text-center font-black text-emerald-950 transition hover:border-emerald-500 hover:bg-emerald-100">{l(item.label, lang)}</a>)}
           </div>
+          <p className="mt-3 text-xs text-emerald-700">
+            {lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}
+          </p>
         </section>
 
         <PremiumGate plan="PRO">
