@@ -27,6 +27,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { AdSlot } from "@/components/business/AdSlot";
+import { PremiumGate } from "@/components/business/PremiumGate";
 import { defaultSeo, setSeoMeta } from "@/lib/seo";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -39,9 +41,14 @@ type JourneyCard = {
 };
 
 type ClusterCard = {
-  websiteKey: "finance" | "health" | "dev" | "education" | "science" | "travel" | "productivity" | "ai";
+  websiteKey: "finance" | "health" | "productivity" | "developer" | "education" | "legal" | "design" | "science" | "language" | "ecommerce" | "travel" | "ai";
   title: Record<Lang, string>;
   description: Record<Lang, string>;
+  href: string;
+};
+
+type AffiliateItem = {
+  label: Record<Lang, string>;
   href: string;
 };
 
@@ -148,14 +155,52 @@ const featuredTools: FeaturedTool[] = [
 ];
 
 const clusterCards: ClusterCard[] = [
-  { websiteKey: "finance", title: { zh: "finance｜財經投資", en: "finance" }, description: { zh: "投資、複利、退休、風險與現金流決策。", en: "Investment, compounding, retirement, risk, and cash flow." }, href: "/tools/finance" },
-  { websiteKey: "health", title: { zh: "health｜健康生活", en: "health" }, description: { zh: "身體指標、代謝、熱量與生活追蹤。", en: "Body metrics, metabolism, calories, and lifestyle tracking." }, href: "/tools/health" },
-  { websiteKey: "dev", title: { zh: "dev｜開發工具", en: "dev" }, description: { zh: "JSON、API、Regex、格式化與部署前檢查。", en: "JSON, API, Regex, formatting, and pre-release checks." }, href: "/tools/dev" },
-  { websiteKey: "education", title: { zh: "education｜教育學習", en: "education" }, description: { zh: "學習、測驗、分數與知識整理。", en: "Learning, testing, scoring, and knowledge structure." }, href: "/tools/education" },
-  { websiteKey: "science", title: { zh: "science｜科學工程", en: "science" }, description: { zh: "單位、公式、模型、換算與工程計算。", en: "Units, formulas, models, conversions, and engineering calculations." }, href: "/tools/science" },
-  { websiteKey: "travel", title: { zh: "travel｜旅遊地理", en: "travel" }, description: { zh: "預算、匯率、時區、距離與行程規劃。", en: "Budget, exchange rate, time zone, distance, and itinerary planning." }, href: "/tools/travel" },
-  { websiteKey: "productivity", title: { zh: "productivity｜職場效率", en: "productivity" }, description: { zh: "時間、任務、文件、決策與工作流程效率。", en: "Time, tasks, documents, decisions, and workflow productivity." }, href: "/tools/productivity" },
-  { websiteKey: "ai", title: { zh: "ai｜AI 工具", en: "ai" }, description: { zh: "提示詞、Token、成本、評估與 AI 工作流。", en: "Prompts, tokens, cost, evaluation, and AI workflows." }, href: "/tools/ai" },
+  { websiteKey: "finance", title: { zh: "finance｜財經投資", en: "finance" }, description: { zh: "投資報酬、貸款試算、資產規劃、退休與現金流決策。", en: "Investment return, loans, asset planning, retirement, and cash-flow decisions." }, href: "/tools/finance" },
+  { websiteKey: "health", title: { zh: "health｜健康生活", en: "health" }, description: { zh: "熱量計算、BMI、代謝、健身規劃與生活追蹤。", en: "Calories, BMI, metabolism, fitness planning, and lifestyle tracking." }, href: "/tools/health" },
+  { websiteKey: "productivity", title: { zh: "productivity｜職場效率", en: "productivity" }, description: { zh: "時間管理、薪資試算、任務、文件與工作流程效率。", en: "Time management, salary estimates, tasks, documents, and workflow productivity." }, href: "/tools/productivity" },
+  { websiteKey: "developer", title: { zh: "developer｜開發工具", en: "developer" }, description: { zh: "編碼轉換、正則測試、API 工具、JSON 與部署前檢查。", en: "Encoding, Regex testing, API tools, JSON, and pre-release checks." }, href: "/tools/developer" },
+  { websiteKey: "education", title: { zh: "education｜教育學習", en: "education" }, description: { zh: "數學公式、學習計畫、測驗工具、分數與知識整理。", en: "Math formulas, study plans, testing tools, scoring, and knowledge structure." }, href: "/tools/education" },
+  { websiteKey: "legal", title: { zh: "legal｜法律法規", en: "legal" }, description: { zh: "勞基法試算、合約條款、法規查詢與合規決策。", en: "Labor-law estimates, contract clauses, legal lookup, and compliance decisions." }, href: "/tools/legal" },
+  { websiteKey: "design", title: { zh: "design｜創意設計", en: "design" }, description: { zh: "色彩工具、字型比較、排版輔助與視覺設計決策。", en: "Color tools, font comparison, layout helpers, and visual design decisions." }, href: "/tools/design" },
+  { websiteKey: "science", title: { zh: "science｜科學工程", en: "science" }, description: { zh: "單位換算、物理公式、模型、換算與工程計算。", en: "Unit conversion, physics formulas, models, conversions, and engineering calculations." }, href: "/tools/science" },
+  { websiteKey: "language", title: { zh: "language｜語言文字", en: "language" }, description: { zh: "字數統計、翻譯輔助、文法檢查與內容品質整理。", en: "Word counts, translation helpers, grammar checks, and content quality workflows." }, href: "/tools/language" },
+  { websiteKey: "ecommerce", title: { zh: "ecommerce｜電商零售", en: "ecommerce" }, description: { zh: "定價策略、毛利試算、廣告 ROAS 與銷售決策。", en: "Pricing strategy, margin estimates, ad ROAS, and sales decisions." }, href: "/tools/ecommerce" },
+  { websiteKey: "travel", title: { zh: "travel｜旅遊地理", en: "travel" }, description: { zh: "匯率換算、距離計算、預算、時區與行程規劃。", en: "Currency conversion, distance, budget, time zones, and itinerary planning." }, href: "/tools/travel" },
+  { websiteKey: "ai", title: { zh: "ai｜AI 工具", en: "ai" }, description: { zh: "Prompt 工具、Token、成本、模型比較、評估與 AI 工作流。", en: "Prompt tools, tokens, cost, model comparison, evaluation, and AI workflows." }, href: "/tools/ai" },
+];
+
+const journeyCardStyles = [
+  "border-emerald-200 bg-emerald-50/95 shadow-emerald-900/10 ring-emerald-100 hover:border-emerald-300 hover:shadow-emerald-900/15 dark:border-emerald-900/60 dark:bg-emerald-950/25 dark:ring-emerald-900/50",
+  "border-rose-200 bg-rose-50/95 shadow-rose-900/10 ring-rose-100 hover:border-rose-300 hover:shadow-rose-900/15 dark:border-rose-900/60 dark:bg-rose-950/25 dark:ring-rose-900/50",
+  "border-violet-200 bg-violet-50/95 shadow-violet-900/10 ring-violet-100 hover:border-violet-300 hover:shadow-violet-900/15 dark:border-violet-900/60 dark:bg-violet-950/25 dark:ring-violet-900/50",
+  "border-purple-200 bg-purple-50/95 shadow-purple-900/10 ring-purple-100 hover:border-purple-300 hover:shadow-purple-900/15 dark:border-purple-900/60 dark:bg-purple-950/25 dark:ring-purple-900/50",
+  "border-amber-200 bg-amber-50/95 shadow-amber-900/10 ring-amber-100 hover:border-amber-300 hover:shadow-amber-900/15 dark:border-amber-900/60 dark:bg-amber-950/25 dark:ring-amber-900/50",
+  "border-sky-200 bg-sky-50/95 shadow-sky-900/10 ring-sky-100 hover:border-sky-300 hover:shadow-sky-900/15 dark:border-sky-900/60 dark:bg-sky-950/25 dark:ring-sky-900/50",
+];
+
+const journeyAccentStyles = [
+  "from-emerald-400 via-teal-400 to-cyan-300",
+  "from-rose-400 via-pink-400 to-orange-300",
+  "from-violet-400 via-indigo-400 to-blue-300",
+  "from-purple-400 via-fuchsia-400 to-pink-300",
+  "from-amber-400 via-yellow-300 to-orange-300",
+  "from-sky-400 via-blue-400 to-cyan-300",
+];
+
+const journeyStepStyles = [
+  "border-emerald-200 bg-emerald-100/80 text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-100",
+  "border-rose-200 bg-rose-100/80 text-rose-900 dark:border-rose-800 dark:bg-rose-950/60 dark:text-rose-100",
+  "border-violet-200 bg-violet-100/80 text-violet-900 dark:border-violet-800 dark:bg-violet-950/60 dark:text-violet-100",
+  "border-purple-200 bg-purple-100/80 text-purple-900 dark:border-purple-800 dark:bg-purple-950/60 dark:text-purple-100",
+  "border-amber-200 bg-amber-100/80 text-amber-900 dark:border-amber-800 dark:bg-amber-950/60 dark:text-amber-100",
+  "border-sky-200 bg-sky-100/80 text-sky-900 dark:border-sky-800 dark:bg-sky-950/60 dark:text-sky-100",
+];
+
+const affiliateItems: AffiliateItem[] = [
+  { label: { zh: "效率工具組", en: "Productivity kits" }, href: "#affiliate-productivity" },
+  { label: { zh: "健康追蹤設備", en: "Health trackers" }, href: "#affiliate-health" },
+  { label: { zh: "財務規劃資源", en: "Finance planning resources" }, href: "#affiliate-finance" },
+  { label: { zh: "AI 與開發課程", en: "AI and developer courses" }, href: "#affiliate-ai-dev" },
 ];
 
 const footerCategories = [
@@ -348,7 +393,12 @@ export default function Home() {
             </div>
           </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {journeyCards.map((card) => <article key={card.title.zh} className="group rounded-3xl border border-white/70 bg-white/90 p-6 shadow-lg shadow-blue-900/10 ring-1 ring-blue-100/70 transition-all hover:-translate-y-1 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-900/15 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><div className="mb-4 h-1.5 w-16 rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400" /><h3 className="text-lg font-black text-slate-900 group-hover:text-blue-700 dark:text-white">{card.title[lang]}</h3><p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">{card.description[lang]}</p><div className="mt-5 flex flex-wrap items-center gap-2">{card.steps[lang].map((step, index) => <span key={`${card.title.zh}-${step}`} className="flex items-center gap-2"><span className="rounded-full border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 px-3 py-1.5 text-sm font-bold text-blue-800 dark:border-blue-800 dark:from-blue-950/60 dark:to-indigo-950/60 dark:text-blue-100">{step}</span>{index < card.steps[lang].length - 1 ? <ArrowRight className="h-4 w-4 text-blue-400" /> : null}</span>)}</div></article>)}
+            {journeyCards.map((card, cardIndex) => {
+              const cardStyle = journeyCardStyles[cardIndex % journeyCardStyles.length];
+              const accentStyle = journeyAccentStyles[cardIndex % journeyAccentStyles.length];
+              const stepStyle = journeyStepStyles[cardIndex % journeyStepStyles.length];
+              return <article key={card.title.zh} className={`group rounded-3xl border p-6 shadow-lg ring-1 transition-all hover:-translate-y-1 hover:shadow-2xl ${cardStyle}`}><div className={`mb-4 h-1.5 w-16 rounded-full bg-gradient-to-r ${accentStyle}`} /><h3 className="text-lg font-black text-slate-900 group-hover:text-blue-700 dark:text-white">{card.title[lang]}</h3><p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">{card.description[lang]}</p><div className="mt-5 flex flex-wrap items-center gap-2">{card.steps[lang].map((step, index) => <span key={`${card.title.zh}-${step}`} className="flex items-center gap-2"><span className={`rounded-full border px-3 py-1.5 text-sm font-bold ${stepStyle}`}>{step}</span>{index < card.steps[lang].length - 1 ? <ArrowRight className="h-4 w-4 text-slate-400" /> : null}</span>)}</div></article>;
+            })}
           </div>
         </div>
       </motion.section>
@@ -383,6 +433,12 @@ export default function Home() {
         </div>
       </motion.section>
 
+      <section className="border-b border-blue-200/70 bg-white/80 py-8 dark:border-blue-950/60 dark:bg-slate-950/80">
+        <div className="container">
+          <AdSlot slot="homepage-after-domains" position="middle" variant="responsive" />
+        </div>
+      </section>
+
       <motion.section className="border-b border-blue-200/70 bg-[radial-gradient(circle_at_12%_20%,rgba(37,99,235,0.18),transparent_26%),radial-gradient(circle_at_82%_28%,rgba(124,58,237,0.16),transparent_26%),linear-gradient(135deg,#dbeafe_0%,#eef2ff_48%,#f0fdfa_100%)] dark:border-blue-950/60 dark:bg-slate-950" {...sectionMotion}>
         <div className="container py-16 md:py-20">
           <div className="mx-auto mb-10 max-w-3xl text-center">
@@ -397,6 +453,44 @@ export default function Home() {
           </div>
         </div>
       </motion.section>
+
+      <motion.section className="border-b border-amber-200/80 bg-[linear-gradient(135deg,#fffbeb_0%,#fff7ed_50%,#eef2ff_100%)] dark:border-amber-950/60 dark:bg-slate-950" {...sectionMotion}>
+        <div className="container py-16 md:py-20">
+          <div className="mb-8 max-w-3xl">
+            <Badge variant="outline" className="mb-3 border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100">Business Layer</Badge>
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "商業經營層" : "Business operation layer"}</h2>
+            <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "保留廣告、聯盟行銷與 Premium 升級入口，讓首頁具備長期營運與變現架構。" : "Ads, affiliate resources, and Premium entry points are restored for long-term operation and monetization."}</p>
+          </div>
+
+          <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+            <section className="rounded-[2rem] border border-amber-200 bg-white/90 p-6 shadow-xl shadow-amber-900/10 ring-1 ring-amber-100 dark:border-amber-900/60 dark:bg-white/8 dark:ring-amber-900/40 md:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 dark:text-amber-300">{lang === "zh" ? "推薦商品 / 聯盟行銷" : "Recommended / Affiliate"}</p>
+              <h3 className="mt-2 text-2xl font-black text-slate-950 dark:text-white">{lang === "zh" ? "搭配工具矩陣使用的精選資源" : "Selected resources for Tool Matrix users"}</h3>
+              <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-4">
+                {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-center text-sm font-black text-amber-950 transition hover:border-amber-400 hover:bg-amber-100 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-100 dark:hover:bg-amber-900/50">{item.label[lang]}</a>)}
+              </div>
+              <p className="mt-4 text-xs leading-5 text-amber-700 dark:text-amber-300">{lang === "zh" ? "* 聯盟連結揭露：若使用者透過推薦資源購買，我們可能獲得佣金。" : "* Affiliate disclosure: we may earn a commission when users purchase through recommended resources."}</p>
+            </section>
+
+            <PremiumGate plan="PRO">
+              <section className="rounded-[2rem] border border-blue-200 bg-gradient-to-br from-blue-50 via-indigo-50 to-violet-50 p-6 shadow-xl shadow-blue-900/10 ring-1 ring-blue-100 dark:border-blue-900/60 dark:from-blue-950/50 dark:via-indigo-950/40 dark:to-violet-950/40 dark:ring-blue-900/40 md:p-7">
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700 dark:text-blue-300">{lang === "zh" ? "Premium Gate" : "Premium Gate"}</p>
+                <h3 className="mt-2 text-2xl font-black text-slate-950 dark:text-white">{lang === "zh" ? "進階工具與決策報告" : "Advanced tools and decision reports"}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{lang === "zh" ? "預留 PRO 會員入口：進階報告、跨工具比較、收藏路徑與 AI 輔助建議。" : "Reserved PRO entry: advanced reports, cross-tool comparisons, saved paths, and AI-assisted guidance."}</p>
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  {(lang === "zh" ? ["進階報告", "跨工具比較", "收藏路徑", "AI 建議"] : ["Advanced reports", "Cross-tool compare", "Saved paths", "AI guidance"]).map((item) => <div key={item} className="rounded-2xl bg-white/80 p-4 text-center text-sm font-black text-blue-900 shadow-sm dark:bg-white/10 dark:text-blue-100">{item}</div>)}
+                </div>
+              </section>
+            </PremiumGate>
+          </div>
+        </div>
+      </motion.section>
+
+      <section className="border-b border-blue-200/70 bg-white/80 py-8 dark:border-blue-950/60 dark:bg-slate-950/80">
+        <div className="container">
+          <AdSlot slot="homepage-before-footer" position="inline" variant="responsive" />
+        </div>
+      </section>
 
       {showBackToTop && (
         <button
