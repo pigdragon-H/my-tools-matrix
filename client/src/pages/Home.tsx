@@ -28,6 +28,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { defaultSeo, setSeoMeta } from "@/lib/seo";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type Lang = "zh" | "en";
 
@@ -108,15 +109,6 @@ const footerCategories = [
   { label: "旅遊地理", href: "/tools/travel" },
 ];
 
-function LanguageToggle({ lang, setLang }: { lang: Lang; setLang: (lang: Lang) => void }) {
-  return (
-    <div className="inline-flex rounded-full border border-border bg-background/90 p-1 text-xs shadow-sm">
-      <button type="button" onClick={() => setLang("zh")} className={`rounded-full px-3 py-1 font-medium transition-colors ${lang === "zh" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>繁中</button>
-      <button type="button" onClick={() => setLang("en")} className={`rounded-full px-3 py-1 font-medium transition-colors ${lang === "en" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>EN</button>
-    </div>
-  );
-}
-
 function CountUpStat({ stat }: { stat: StatItem }) {
   const prefersReducedMotion = useReducedMotion();
   const [displayValue, setDisplayValue] = useState(prefersReducedMotion ? stat.value : 0);
@@ -148,7 +140,7 @@ function CountUpStat({ stat }: { stat: StatItem }) {
 }
 
 export default function Home() {
-  const [lang, setLang] = useState<Lang>("zh");
+  const { lang } = useLanguage();
   const [showBackToTop, setShowBackToTop] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
@@ -173,7 +165,6 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground">
       <section className="relative border-b border-border bg-gradient-to-br from-background via-background to-primary/5">
         <div className="container py-20 md:py-28">
-          <div className="mb-8 flex justify-end"><LanguageToggle lang={lang} setLang={setLang} /></div>
           <div className="max-w-6xl">
             <Badge variant="secondary" className="mb-5 text-xs font-medium">Formula Universe · AI Native Knowledge Operating System</Badge>
             <h1 className="font-bold tracking-tight">
@@ -205,7 +196,6 @@ export default function Home() {
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "你的決策路徑" : "Your decision paths"}</h2>
               <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "每張卡片都是靜態 hardcode 的知識路徑，先建立首頁語義與視覺，再等待未來資料層接入。" : "Each card is a static hardcoded knowledge path that establishes homepage semantics before future data wiring."}</p>
             </div>
-            <LanguageToggle lang={lang} setLang={setLang} />
           </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
             {journeyCards.map((card) => <article key={card.title.zh} className="rounded-2xl border border-border bg-background p-6 shadow-sm"><h3 className="text-lg font-semibold">{card.title[lang]}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{card.description[lang]}</p><div className="mt-5 flex flex-wrap items-center gap-2">{card.steps[lang].map((step, index) => <span key={`${card.title.zh}-${step}`} className="flex items-center gap-2"><span className="rounded-full border border-border bg-muted/30 px-3 py-1.5 text-sm font-semibold">{step}</span>{index < card.steps[lang].length - 1 ? <ArrowRight className="h-4 w-4 text-muted-foreground" /> : null}</span>)}</div></article>)}
@@ -236,7 +226,6 @@ export default function Home() {
               <Badge variant="outline" className="mb-3">Clusters</Badge>
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "探索知識領域" : "Explore knowledge domains"}</h2>
             </div>
-            <LanguageToggle lang={lang} setLang={setLang} />
           </div>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {clusterCards.map((cluster) => <Link key={cluster.websiteKey} href={cluster.href} className="group rounded-2xl border border-border bg-background p-6 shadow-sm transition-colors hover:border-primary/40"><div className="mb-4 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">{cluster.websiteKey}</div><h3 className="text-lg font-semibold group-hover:text-primary">{cluster.title[lang]}</h3><p className="mt-3 text-sm leading-6 text-muted-foreground">{cluster.description[lang]}</p><div className="mt-5 flex items-center gap-2 text-sm font-semibold text-primary">{lang === "zh" ? "前往領域" : "Open domain"}<ArrowRight className="h-4 w-4" /></div></Link>)}
