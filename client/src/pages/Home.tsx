@@ -375,7 +375,6 @@ export default function Home() {
         <div className="container py-16 md:py-20">
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="max-w-3xl">
-              <Badge variant="outline" className="mb-3">Journey</Badge>
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "你的決策路徑" : "Your decision paths"}</h2>
               <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "每張卡片都是靜態 hardcode 的知識路徑，先建立首頁語義與視覺，再等待未來資料層接入。" : "Each card is a static hardcoded knowledge path that establishes homepage semantics before future data wiring."}</p>
             </div>
@@ -394,7 +393,6 @@ export default function Home() {
       <motion.section className="border-b border-blue-200/70 bg-[radial-gradient(circle_at_80%_10%,rgba(14,165,233,0.14),transparent_28%),linear-gradient(180deg,#ffffff_0%,#eef6ff_100%)] dark:border-blue-950/60 dark:bg-slate-950" {...sectionMotion}>
         <div className="container py-16 md:py-20">
           <div className="mb-10 max-w-3xl">
-            <Badge variant="outline" className="mb-3">Featured Tools</Badge>
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">最常用的工具</h2>
             <p className="mt-3 text-muted-foreground md:text-lg">從高頻決策場景進入 Formula Universe，直接前往已規劃的工具頁。</p>
           </div>
@@ -411,7 +409,6 @@ export default function Home() {
         <div className="container py-16 md:py-20">
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="max-w-3xl">
-              <Badge variant="outline" className="mb-3">Clusters</Badge>
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "探索知識領域" : "Explore knowledge domains"}</h2>
             </div>
           </div>
