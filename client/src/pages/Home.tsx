@@ -28,7 +28,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AdSlot } from "@/components/business/AdSlot";
-import { PremiumGate } from "@/components/business/PremiumGate";
 import { defaultSeo, setSeoMeta } from "@/lib/seo";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -47,10 +46,6 @@ type ClusterCard = {
   href: string;
 };
 
-type AffiliateItem = {
-  label: Record<Lang, string>;
-  href: string;
-};
 
 type FeaturedTool = {
   name: string;
@@ -194,13 +189,6 @@ const journeyStepStyles = [
   "border-purple-200 bg-purple-100/80 text-purple-900 dark:border-purple-800 dark:bg-purple-950/60 dark:text-purple-100",
   "border-amber-200 bg-amber-100/80 text-amber-900 dark:border-amber-800 dark:bg-amber-950/60 dark:text-amber-100",
   "border-sky-200 bg-sky-100/80 text-sky-900 dark:border-sky-800 dark:bg-sky-950/60 dark:text-sky-100",
-];
-
-const affiliateItems: AffiliateItem[] = [
-  { label: { zh: "效率工具組", en: "Productivity kits" }, href: "#affiliate-productivity" },
-  { label: { zh: "健康追蹤設備", en: "Health trackers" }, href: "#affiliate-health" },
-  { label: { zh: "財務規劃資源", en: "Finance planning resources" }, href: "#affiliate-finance" },
-  { label: { zh: "AI 與開發課程", en: "AI and developer courses" }, href: "#affiliate-ai-dev" },
 ];
 
 const footerCategories = [
@@ -453,44 +441,6 @@ export default function Home() {
           </div>
         </div>
       </motion.section>
-
-      <motion.section className="border-b border-amber-200/80 bg-[linear-gradient(135deg,#fffbeb_0%,#fff7ed_50%,#eef2ff_100%)] dark:border-amber-950/60 dark:bg-slate-950" {...sectionMotion}>
-        <div className="container py-16 md:py-20">
-          <div className="mb-8 max-w-3xl">
-            <Badge variant="outline" className="mb-3 border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100">Business Layer</Badge>
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "商業經營層" : "Business operation layer"}</h2>
-            <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "保留廣告、聯盟行銷與 Premium 升級入口，讓首頁具備長期營運與變現架構。" : "Ads, affiliate resources, and Premium entry points are restored for long-term operation and monetization."}</p>
-          </div>
-
-          <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-            <section className="rounded-[2rem] border border-amber-200 bg-white/90 p-6 shadow-xl shadow-amber-900/10 ring-1 ring-amber-100 dark:border-amber-900/60 dark:bg-white/8 dark:ring-amber-900/40 md:p-7">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 dark:text-amber-300">{lang === "zh" ? "推薦商品 / 聯盟行銷" : "Recommended / Affiliate"}</p>
-              <h3 className="mt-2 text-2xl font-black text-slate-950 dark:text-white">{lang === "zh" ? "搭配工具矩陣使用的精選資源" : "Selected resources for Tool Matrix users"}</h3>
-              <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-4">
-                {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-center text-sm font-black text-amber-950 transition hover:border-amber-400 hover:bg-amber-100 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-100 dark:hover:bg-amber-900/50">{item.label[lang]}</a>)}
-              </div>
-              <p className="mt-4 text-xs leading-5 text-amber-700 dark:text-amber-300">{lang === "zh" ? "* 聯盟連結揭露：若使用者透過推薦資源購買，我們可能獲得佣金。" : "* Affiliate disclosure: we may earn a commission when users purchase through recommended resources."}</p>
-            </section>
-
-            <PremiumGate plan="PRO">
-              <section className="rounded-[2rem] border border-blue-200 bg-gradient-to-br from-blue-50 via-indigo-50 to-violet-50 p-6 shadow-xl shadow-blue-900/10 ring-1 ring-blue-100 dark:border-blue-900/60 dark:from-blue-950/50 dark:via-indigo-950/40 dark:to-violet-950/40 dark:ring-blue-900/40 md:p-7">
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700 dark:text-blue-300">{lang === "zh" ? "Premium Gate" : "Premium Gate"}</p>
-                <h3 className="mt-2 text-2xl font-black text-slate-950 dark:text-white">{lang === "zh" ? "進階工具與決策報告" : "Advanced tools and decision reports"}</h3>
-                <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{lang === "zh" ? "預留 PRO 會員入口：進階報告、跨工具比較、收藏路徑與 AI 輔助建議。" : "Reserved PRO entry: advanced reports, cross-tool comparisons, saved paths, and AI-assisted guidance."}</p>
-                <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                  {(lang === "zh" ? ["進階報告", "跨工具比較", "收藏路徑", "AI 建議"] : ["Advanced reports", "Cross-tool compare", "Saved paths", "AI guidance"]).map((item) => <div key={item} className="rounded-2xl bg-white/80 p-4 text-center text-sm font-black text-blue-900 shadow-sm dark:bg-white/10 dark:text-blue-100">{item}</div>)}
-                </div>
-              </section>
-            </PremiumGate>
-          </div>
-        </div>
-      </motion.section>
-
-      <section className="border-b border-blue-200/70 bg-white/80 py-8 dark:border-blue-950/60 dark:bg-slate-950/80">
-        <div className="container">
-          <AdSlot slot="homepage-before-footer" position="inline" variant="responsive" />
-        </div>
-      </section>
 
       {showBackToTop && (
         <button
