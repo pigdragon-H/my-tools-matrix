@@ -60,6 +60,82 @@ type StatItem = {
   isText?: boolean;
 };
 
+type FlashBannerCard = {
+  eyebrow: Record<Lang, string>;
+  title: Record<Lang, string>;
+  description: Record<Lang, string>;
+  metric: string;
+  tone: string;
+  icon: typeof Calculator;
+};
+
+const flashBannerCards: FlashBannerCard[] = [
+  {
+    eyebrow: { zh: "AI Native", en: "AI Native" },
+    title: { zh: "公式不只計算，也能解釋下一步", en: "Formulas that explain the next move" },
+    description: { zh: "把工具、公式、限制與建議串成可執行的知識流程。", en: "Connect tools, formulas, limits, and recommendations into actionable knowledge flows." },
+    metric: "AI",
+    tone: "from-blue-700 via-indigo-600 to-violet-600",
+    icon: Brain,
+  },
+  {
+    eyebrow: { zh: "Finance", en: "Finance" },
+    title: { zh: "投資、複利、退休一次串聯", en: "Investing, compounding, retirement" },
+    description: { zh: "用 CAGR、複利與退休工具建立長期財務決策基準。", en: "Use CAGR, compound interest, and retirement tools to build long-term decision baselines." },
+    metric: "CAGR",
+    tone: "from-sky-700 via-blue-600 to-cyan-500",
+    icon: TrendingUp,
+  },
+  {
+    eyebrow: { zh: "Health", en: "Health" },
+    title: { zh: "從 BMI、BMR 到熱量策略", en: "From BMI and BMR to calorie strategy" },
+    description: { zh: "讓身體指標變成可追蹤、可調整的健康行動方案。", en: "Turn body metrics into trackable and adjustable health action plans." },
+    metric: "BMR",
+    tone: "from-blue-800 via-teal-600 to-emerald-500",
+    icon: HeartPulse,
+  },
+  {
+    eyebrow: { zh: "Developer", en: "Developer" },
+    title: { zh: "資料格式、API、Regex 快速檢查", en: "Format, API, and Regex checks" },
+    description: { zh: "把日常開發檢查流程工具化，降低部署前摩擦。", en: "Productize everyday developer checks and reduce pre-release friction." },
+    metric: "JSON",
+    tone: "from-slate-900 via-blue-800 to-indigo-600",
+    icon: Code2,
+  },
+  {
+    eyebrow: { zh: "Knowledge", en: "Knowledge" },
+    title: { zh: "知識領域導覽，不只是工具清單", en: "Knowledge domains, not only tool lists" },
+    description: { zh: "以分類、路徑與語義連結建立 AI Native Knowledge Infrastructure。", en: "Build AI Native Knowledge Infrastructure through categories, paths, and semantic links." },
+    metric: "12",
+    tone: "from-indigo-700 via-blue-700 to-sky-500",
+    icon: Network,
+  },
+  {
+    eyebrow: { zh: "Education", en: "Education" },
+    title: { zh: "學習、測驗、分數與知識整理", en: "Learning, tests, scores, structure" },
+    description: { zh: "讓學習決策從零散問題變成可持續優化的系統。", en: "Turn scattered learning questions into a system that can keep improving." },
+    metric: "EDU",
+    tone: "from-blue-600 via-violet-600 to-purple-500",
+    icon: Calculator,
+  },
+  {
+    eyebrow: { zh: "Travel", en: "Travel" },
+    title: { zh: "預算、匯率、時區與行程規劃", en: "Budget, exchange, time zones, plans" },
+    description: { zh: "用數據化旅行工具降低跨境規劃的不確定性。", en: "Use data-backed travel tools to reduce uncertainty in cross-border planning." },
+    metric: "FX",
+    tone: "from-cyan-700 via-blue-600 to-indigo-500",
+    icon: Globe2,
+  },
+  {
+    eyebrow: { zh: "Productivity", en: "Productivity" },
+    title: { zh: "把時間、任務與文件變成決策流", en: "Turn time, tasks, and documents into flows" },
+    description: { zh: "用工具矩陣支援職場效率、文件處理與下一步判斷。", en: "Use the tool matrix to support workplace productivity, documents, and next-step decisions." },
+    metric: "OPS",
+    tone: "from-blue-900 via-indigo-700 to-blue-500",
+    icon: Route,
+  },
+];
+
 const journeyCards: JourneyCard[] = [
   { title: { zh: "退休規劃", en: "Retirement planning" }, description: { zh: "從財務自由假設出發，連接成長率、退休資金與提領策略。", en: "Connect financial freedom assumptions, growth rate, retirement capital, and withdrawal strategy." }, steps: { zh: ["FIRE", "CAGR", "退休計算", "提領策略"], en: ["FIRE", "CAGR", "Retirement", "Withdrawal"] } },
   { title: { zh: "減重計畫", en: "Weight loss plan" }, description: { zh: "以身體指標、基礎代謝、熱量赤字與進度追蹤建立健康決策節奏。", en: "Use body metrics, metabolism, calorie deficit, and progress tracking for health decisions." }, steps: { zh: ["BMI", "BMR", "熱量赤字", "進度追蹤"], en: ["BMI", "BMR", "Calorie deficit", "Progress"] } },
@@ -108,6 +184,58 @@ const footerCategories = [
   { label: "電商零售", href: "/tools/ecommerce" },
   { label: "旅遊地理", href: "/tools/travel" },
 ];
+
+function FlashBannerStrip({ lang }: { lang: Lang }) {
+  return (
+    <section aria-label="Formula Universe flash banner" className="relative overflow-hidden border-b border-blue-200/70 bg-slate-950 text-white dark:border-blue-900/60">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(96,165,250,0.35),transparent_34%),radial-gradient(circle_at_80%_20%,rgba(167,139,250,0.28),transparent_30%),linear-gradient(135deg,rgba(15,23,42,1),rgba(30,64,175,0.92),rgba(15,23,42,1))]" />
+      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background/15 to-transparent" />
+      <div className="container relative py-6 md:py-8">
+        <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-blue-200">Formula Universe CIS</p>
+            <h2 className="mt-2 text-2xl font-bold tracking-tight md:text-3xl">
+              {lang === "zh" ? "工具矩陣 Flash Banner" : "Formula Universe Flash Banner"}
+            </h2>
+          </div>
+          <p className="max-w-2xl text-sm leading-6 text-blue-100/85">
+            {lang === "zh"
+              ? "以 8 個知識場景展示品牌、工具分類與功能亮點，讓首頁從導覽列下方開始就具備企業 CIS 形象。"
+              : "Eight knowledge scenes showcase the brand, tool categories, and feature highlights directly below the Navbar."}
+          </p>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-testid="homepage-flash-banner-grid">
+          {flashBannerCards.map((card) => {
+            const Icon = card.icon;
+            return (
+              <article
+                key={card.title.en}
+                className={`group relative min-h-[180px] overflow-hidden rounded-3xl bg-gradient-to-br ${card.tone} p-[1px] shadow-xl shadow-blue-950/20 transition-transform duration-300 hover:-translate-y-1`}
+              >
+                <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-3xl bg-white/10 p-5 backdrop-blur-xl ring-1 ring-white/20">
+                  <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/15 blur-2xl transition-transform duration-500 group-hover:scale-125" />
+                  <div className="absolute bottom-0 left-0 h-20 w-full bg-gradient-to-t from-black/20 to-transparent" />
+                  <div className="relative flex items-start justify-between gap-3">
+                    <div className="rounded-2xl bg-white/15 p-3 ring-1 ring-white/20">
+                      <Icon className="h-5 w-5 text-white" />
+                    </div>
+                    <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-black tracking-wide text-white ring-1 ring-white/20">{card.metric}</span>
+                  </div>
+                  <div className="relative mt-7">
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-100/80">{card.eyebrow[lang]}</p>
+                    <h3 className="mt-2 text-lg font-black leading-tight text-white">{card.title[lang]}</h3>
+                    <p className="mt-3 text-sm leading-6 text-blue-50/85">{card.description[lang]}</p>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function CountUpStat({ stat }: { stat: StatItem }) {
   const prefersReducedMotion = useReducedMotion();
@@ -163,6 +291,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <FlashBannerStrip lang={lang} />
+
       <section className="relative border-b border-border bg-gradient-to-br from-background via-background to-primary/5">
         <div className="container py-20 md:py-28">
           <div className="max-w-6xl">
