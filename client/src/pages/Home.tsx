@@ -434,14 +434,16 @@ export default function Home() {
     <div className="min-h-screen bg-[linear-gradient(180deg,#eef6ff_0%,#f8fbff_22%,#eef4ff_52%,#f8fbff_100%)] text-foreground dark:bg-[linear-gradient(180deg,#020617_0%,#0f172a_45%,#111827_100%)]">
       <FlashBannerStrip lang={lang} />
 
-      <section className="relative overflow-hidden border-b border-blue-200/70 bg-[radial-gradient(circle_at_16%_20%,rgba(59,130,246,0.18),transparent_30%),radial-gradient(circle_at_82%_8%,rgba(124,58,237,0.14),transparent_28%),linear-gradient(135deg,#f8fbff_0%,#eaf3ff_48%,#f4f0ff_100%)] dark:border-blue-950/60 dark:bg-[radial-gradient(circle_at_16%_20%,rgba(37,99,235,0.20),transparent_30%),linear-gradient(135deg,#020617_0%,#0f172a_100%)]">
-        <div className="container py-20 md:py-28">
-          <div className="max-w-6xl">
-            <Badge variant="secondary" className="mb-5 text-xs font-medium">Formula Universe · AI Native Knowledge Operating System</Badge>
-            <h1 className="font-bold tracking-tight">
-              <span className="block text-3xl text-muted-foreground md:text-5xl lg:text-6xl">{lang === "zh" ? "Formula Universe" : "Formula Universe"}</span>
-              <span className="mt-2 block w-full whitespace-nowrap text-primary text-[clamp(1.25rem,5vw,4.5rem)] leading-[1.05] tracking-tight sm:text-[clamp(1.75rem,5.8vw,4.5rem)]">{lang === "zh" ? "讓每個決策都有數據支撐" : "Data-backed decisions"}</span>
-            </h1>
+      <section className="relative overflow-hidden border-b border-blue-200/70 bg-[radial-gradient(circle_at_16%_20%,rgba(59,130,246,0.10),transparent_30%),radial-gradient(circle_at_82%_8%,rgba(124,58,237,0.08),transparent_28%),linear-gradient(135deg,#fafbfd_0%,#f3f6fb_48%,#f6f4fb_100%)] dark:border-blue-950/60 dark:bg-[radial-gradient(circle_at_16%_20%,rgba(37,99,235,0.16),transparent_30%),linear-gradient(135deg,#020617_0%,#0f172a_100%)]">
+        <div className="container py-16 md:py-20">
+          <div className="max-w-5xl">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-primary/80">
+              {lang === "zh" ? "INTRODUCTION · 介紹" : "INTRODUCTION"}
+            </p>
+            <h2 className="font-bold tracking-tight">
+              <span className="block text-2xl text-muted-foreground md:text-3xl">{lang === "zh" ? "Formula Universe" : "Formula Universe"}</span>
+              <span className="mt-3 block w-full whitespace-normal text-primary text-[clamp(1.5rem,4vw,3.25rem)] leading-[1.15] tracking-tight md:whitespace-nowrap md:text-[clamp(2rem,4.6vw,3.5rem)]">{lang === "zh" ? "讓每個決策都有數據支撐" : "Data-backed decisions"}</span>
+            </h2>
             <p className="mt-7 max-w-3xl text-lg leading-8 text-muted-foreground md:text-xl">
               {lang === "zh" ? "Formula Universe 不是單純的工具列表，而是把工具、公式、解釋、範例、限制與下一步行動串起來的 AI Native Knowledge Infrastructure。" : "Formula Universe connects tools, formulas, explanations, examples, limitations, and next actions into AI Native Knowledge Infrastructure."}
             </p>
