@@ -14,7 +14,7 @@ const PLANS = [
   {
     plan: "PRO",
     icon: Sparkles,
-    price: { zh: "NT$ 290 / 月", en: "$9 / month" },
+    price: { zh: "NT$ 96 / 月", en: "$3 / month" },
     title: { zh: "個人專業版", en: "PRO" },
     features: {
       zh: ["移除廣告", "儲存計算紀錄", "匯出 PDF / CSV", "進階公式組合"],
@@ -24,7 +24,7 @@ const PLANS = [
   {
     plan: "TEAM",
     icon: Crown,
-    price: { zh: "NT$ 990 / 月", en: "$29 / month" },
+    price: { zh: "NT$ 330 / 月", en: "$9 / month" },
     title: { zh: "團隊版", en: "TEAM" },
     features: {
       zh: ["包含 PRO 全部功能", "團隊共享空間", "5 位成員", "API 額度 10,000 / 月"],
@@ -34,7 +34,7 @@ const PLANS = [
   {
     plan: "AGENCY",
     icon: Zap,
-    price: { zh: "NT$ 2,990 / 月", en: "$99 / month" },
+    price: { zh: "NT$ 996 / 月", en: "$33 / month" },
     title: { zh: "代理 / 企業版", en: "AGENCY" },
     features: {
       zh: ["包含 TEAM 全部功能", "白標品牌", "20 位成員", "API 額度 100,000 / 月"],
@@ -70,6 +70,11 @@ export function PremiumTeaser({ lang }: PremiumTeaserProps) {
       <h3 className="text-2xl font-black text-slate-900 dark:text-white md:text-3xl">
         {lang === "zh" ? "解鎖更多公式與工作流" : "Unlock more formulas and workflows"}
       </h3>
+      <p className="mt-1 text-sm font-bold italic text-blue-700 dark:text-blue-300">
+        {lang === "zh"
+          ? "知識付費，但不要成為負擔。"
+          : "Pay for knowledge — never let it weigh you down."}
+      </p>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300">
         {lang === "zh"
           ? "Premium 方案會帶來無廣告體驗、計算紀錄、PDF 匯出、團隊協作與 API 額度,幫你把 Tool Matrix 變成日常決策的延伸。"
