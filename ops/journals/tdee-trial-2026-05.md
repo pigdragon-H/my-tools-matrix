@@ -116,3 +116,36 @@ ALL QC CHECKS PASSED
 約 25 分鐘（含 web_search / scrape / spec 撰寫 / 量產 / TS 修 / build）
 
 對比手寫從 0：約需 2-3 小時。**SOP + Profile + cp 同類黃金樣板** 加速約 5x。
+
+---
+
+## 🚨 部署後踩雷補錄（commit b28f1cb）
+
+### 事件
+TDEE 推送 Railway 後，造訪 `/tools/health/tdee-calculator` 顯示「找不到此工具」。
+
+### Root cause
+`ToolPage.tsx` 同時檢查 **兩處註冊**：
+1. `toolComponentMap[toolKey]` — 元件 lazy import map（已加 ✅）
+2. `getToolByPath(toolPath)` — 來自 `shared/toolsConfig.ts` 的 Tool 元資料（**漏加 ❌**）
+
+任一缺失即進入 fallback 顯示「找不到此工具」。
+
+### 修復
+`shared/toolsConfig.ts` 補上 `tdee-calculator` 的完整 Tool 物件 + named export。
+
+### SOP 改進建議（追加到 Phase 5）
+新增「**雙註冊檢查**」：
+
+```bash
+# Phase 5 收尾必檢清單
+grep -n "<NEW_TOOL_PATH>" client/src/pages/ToolPage.tsx     # 必須命中
+grep -n "<NEW_TOOL_PATH>" shared/toolsConfig.ts             # 必須命中
+grep -n "<NEW_TOOL_PATH>" client/src/pages/Home.tsx         # 建議命中（首頁卡片）
+```
+
+→ 任一缺漏 = 上線必爆 404 fallback。已納入 SOP 收尾檢查列表。
+
+### 啟示
+QC 腳本只檢「工具檔案內部 17 層 + 6 layout」，**不檢「工具是否被外部正確掛載」**。
+未來考慮新增 `qc_route_audit.py` 自動掃 `toolComponentMap` ∩ `tools[]` ∩ Home cards 三向一致性。
