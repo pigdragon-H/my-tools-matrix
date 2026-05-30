@@ -2,7 +2,7 @@
 
 > **v1.1 — 校正為 17-Layer 標準架構**
 >
-> SOP **Phase 2** 輸出。**所有面向使用者的文字稿在這裡定稿，再轉抄到 `locales/{zh,en}.ts`**。
+> SOP **Phase 2** 輸出。**所有面向使用者的文字稿在這裡定稿，再轉抄到 `index.tsx` 內的 inline `const ui = { zh, en }` 物件**。
 > 中英雙欄並排撰寫，避免 key 不對齊。
 > 顧問口吻原則：**有立場、有溫度、有下一步**。
 >
@@ -42,7 +42,7 @@
 
 ## L2 Lang Switcher（無文案，純 UI）
 
-> 只有「🌐 中 / 🌐 EN」兩顆切換鈕。沿用 `LanguageContext`，不需在 locale 加 key。
+> 只有「🌐 中 / 🌐 EN」兩顆切換鈕。沿用 `LanguageContext`，不需在 inline `ui` 物件加額外 key（沿用 `chineseShort` / `englishShort` / `switchToEnglish`）。
 
 ---
 
@@ -280,7 +280,7 @@
 
 ---
 
-## 自我檢查（在轉抄到 locale 之前）
+## 自我檢查（在轉抄到 inline `ui` 物件之前）
 
 - [ ] 中英每一個欄位都有填，沒有 `TBD`
 - [ ] 沒有出現「您的 X 為 Y」這種純報數句型

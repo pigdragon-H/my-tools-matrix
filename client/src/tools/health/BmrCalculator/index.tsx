@@ -280,7 +280,7 @@ export default function BmrCalculator() {
   const [pounds, setPounds] = useState("154");
   const [activity, setActivity] = useState<BmrActivity>("moderate");
 
-  const t: UiText = ui[lang];
+  const t = ui[lang];
   const activeActivity = activityByKey(activity);
 
   const calculation = useMemo(() => {
@@ -470,14 +470,14 @@ export default function BmrCalculator() {
           <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.knowledge}</p>
           <h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2>
           <div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div></div>
-          <AdSlot slot="bmr-knowledge" className="mt-5" />
+          <div className="mt-5"><AdSlot slot="bmr-knowledge" position="middle" /></div>
         </section>
 
         <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.faq}</p>
           <h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2>
           <div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div>
-          <AdSlot slot="bmr-faq" className="mt-5" />
+          <div className="mt-5"><AdSlot slot="bmr-faq" position="inline" /></div>
         </section>
         <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.affiliate}</p>

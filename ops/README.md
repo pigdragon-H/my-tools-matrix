@@ -69,7 +69,7 @@
    - 教育/科學類：教育部、ISO、IEEE、NIST、學會公告
    寫程式時若無法確認某筆數值或公式，**必須暫停並用 `web_search` 或 `scrape_webpage` 查到具名來源後再寫**，禁止「大概是這個值」「常見是這樣」這種臆測。
 5. **Bilingual lockstep.** 中英雙語的 key 必須完全對應，不准單邊新增 key 而另一邊缺。
-6. **One source of truth for copy.** 所有面向使用者的文字一律寫在 `locales/zh.ts` 與 `locales/en.ts`。
+6. **One source of truth for copy.** 所有面向使用者的文字一律寫在 `index.tsx` 內的 inline `const ui = { zh, en }` 物件。**不准建 `locales/` 子目錄，不准 import 外部 locale 檔**。
 7. **YMYL 工具必帶 Trust Note + References.** 健康、財經、法律類工具必須揭露限制與引用權威來源（含 URL 或文件全名）。
 8. **Result Card 必須回答三件事：** 是什麼狀態、為什麼重要、下一步該做什麼。三缺一退件。
 9. **Decision Path 必須具體不能裝飾。** 「下一步工具」不能寫「相關工具」這種空話，必須是具名工具 + 一句點出該工具能解決什麼問題。

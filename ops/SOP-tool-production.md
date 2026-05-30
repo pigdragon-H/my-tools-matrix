@@ -168,29 +168,32 @@ TOOL_NAME="BmiCalculator"      # PascalCase
 CATEGORY="health"              # 12 大類之一
 SLUG="bmi-calculator"          # kebab-case
 
-mkdir -p client/src/tools/${CATEGORY}/${TOOL_NAME}/locales
+mkdir -p client/src/tools/${CATEGORY}/${TOOL_NAME}
 touch client/src/tools/${CATEGORY}/${TOOL_NAME}/index.tsx
-touch client/src/tools/${CATEGORY}/${TOOL_NAME}/locales/zh.ts
-touch client/src/tools/${CATEGORY}/${TOOL_NAME}/locales/en.ts
 ```
 
-✅ Phase 3 通過條件：4 個檔案存在。
+> ⚠️ **不要建 `locales/` 子目錄**。i18n 採 inline `const ui = { zh, en }`，全部寫在 `index.tsx`。
+> 早期實驗用 `locales/zh.ts + locales/en.ts` 已驗證會發生 type literal 衝突 + key 漂移，2026-05 全面移除。
+
+✅ Phase 3 通過條件：1 個檔案存在（`index.tsx`），無 `locales/` 目錄。
 
 ---
 
-### Phase 4 — 寫 locales（雙語文字檔）
+### Phase 4 — 寫 inline `ui = { zh, en }`（雙語文字物件）
 
-**作業順序：先寫 `zh.ts`，再寫 `en.ts`，兩邊 key 必須完全相同。**
+**作業順序：在 `index.tsx` 內建立 `const ui = { zh: {...}, en: {...} }`，先寫 zh 分支，再寫 en 分支，兩邊 key 必須完全相同。**
 
-locales 寫作規則：
+i18n 撰寫規則（黃金標準）：
 
 1. **絕對不准 hardcode 中英文在 JSX 裡**（除單位、icon、數字）
-2. **每個 key 必須在中英兩個檔案都存在**
+2. **每個 key 必須在 `ui.zh` 與 `ui.en` 兩個分支都存在**（兩邊 key 集合 100% 相同）
 3. **長文字寫成單行字串**
 4. **不能有 `TBD` / `Coming soon` / `Lorem ipsum` 字樣**
-5. **不能有重複 key**（BmrCalculator 在 v1.0 出過此 bug，量產時嚴守）
+5. **不能有重複 key**（同一物件不允許 duplicate property name；TS1117 直接擋）
+6. **不准建 `locales/` 子目錄、不准 `import` 任何外部 locale 檔**
+7. JSX 取值統一用 `const t = ui[lang];` 然後 `{t.someKey}`
 
-✅ Phase 4 通過條件：兩 locale 檔 key 100% 對齊，無 hardcode、無重複 key、無未填項。
+✅ Phase 4 通過條件：`ui.zh` 與 `ui.en` key 集合 100% 對齊，無 hardcode、無重複 key、無未填項，TS 編譯零錯誤。
 
 ---
 
@@ -297,14 +300,15 @@ Railway 自動部署 3-5 分鐘。
 |---|---|
 | 任一層 missing（17 層中缺一）| QC 退件，回 Phase 5 補 |
 | Result Intelligence 不是 6 格 | QC 退件，回 Phase 1 重新拆分類 |
-| 中英 key 不對齊 / locale 有重複 key | QC 退件，回 Phase 4 |
+| 中英 key 不對齊 / inline `ui` 有重複 key | QC 退件，回 Phase 4 |
 | Trust Note 缺失或寫成空話 | QC 退件，回 Phase 2 重寫 |
 | References 寫「TBD」「常見來源」「請參考」| QC 退件，回 Phase 1 補真來源 |
 | 公式無權威來源（沒跑 web_search 驗證）| QC 退件，回 Phase 1 |
 | Result Card 缺 Risk / Action / NextTool | QC 退件，回 Phase 2 |
 | Build 新增 error | QC 退件，回 Phase 5 |
 | 視覺布局比例不對齊（如 Hero 用 1fr 1fr）| QC 退件，回 Phase 5 |
-| 在 JSX 直接寫死中英文（locale 之外）| QC 退件，回 Phase 4 |
+| 在 JSX 直接寫死中英文（inline `ui` 之外）| QC 退件，回 Phase 4 |
+| 工具資料夾出現 `locales/` 子目錄 | QC 退件，全數搬回 inline `ui` 物件 |
 | 跨域決策（擅自加 category、改 token、改路由結構）| 直接 revert |
 
 ---
@@ -316,7 +320,7 @@ Railway 自動部署 3-5 分鐘。
 1. **不要自己發明額外的 layer**
 2. **不要省略「無聊」的層**（如 L4 範例卡、L10 Save/Share Placeholder）
 3. **不要跨域決策**
-4. **token 預算意識**：每個工具的程式碼 + locales 應 ≤ 1,500 行
+4. **token 預算意識**：每個工具的 `index.tsx`（含 inline `ui` 物件）應 ≤ 1,500 行
 5. **遇到不確定就停下來問**：用 `ask` 工具向人類確認
 6. **內容研究紀律**（最重要）：
    - 寫程式前必須跑至少 1 次 `web_search` 驗證主公式

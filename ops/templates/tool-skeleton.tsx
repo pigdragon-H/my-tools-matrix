@@ -1,5 +1,5 @@
 /**
- * Tool Skeleton · 17-Layer Anatomy（v1.1 · 校正本）
+ * Tool Skeleton · 17-Layer Anatomy（v1.2 · 校正本 + i18n inline）
  * ==============================================================
  * 直接複製這個檔案到 client/src/tools/{category}/{ToolName}/index.tsx
  * 然後依序：
@@ -7,14 +7,18 @@
  *   2. 把所有 `__SLUG__` 改成 kebab-case slug（例：bmi-calculator）
  *   3. 補實 categoryInfo（依 spec §3，**固定 6 個**分類）
  *   4. 補實 calculation 函式（依 spec §4，公式必須有權威來源）
- *   5. 把 i18n keys 從 locales 帶進來（locales/zh.ts、locales/en.ts 已對齊）
+ *   5. 補實 inline `ui = { zh, en }` 物件的所有文案 key（依 copy blueprint）
+ *
+ * ⚠️ i18n 標準：黃金樣板 BMI / BMR 都採用 **inline `const ui = { zh, en }`** 機制。
+ *    不准外建 `locales/zh.ts` + `locales/en.ts`（過去實驗已驗證會破裂；2026-05 已移除）。
  *
  * 切勿：
  *   ❌ 改變 17 層順序或新增/移除 layer
  *   ❌ 改變 4 種「2 列布局」的 lg 比例
- *   ❌ 把中英文寫死在 JSX
+ *   ❌ 把中英文寫死在 JSX（一定要過 ui[lang] 或 LocalText）
  *   ❌ 移除 AdSense / AdSlot / PremiumGate
  *   ❌ 把 categoryInfo 改成不是 6 個
+ *   ❌ 在工具資料夾建 locales/ 子目錄
  *
  * 17 層對照表（與 SOP §1 同步）：
  *   L1  Hero 文字（Hero 2 列：左欄，lg [1.05fr 0.95fr]）
@@ -42,8 +46,244 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { AdSlot } from "@/components/business/AdSlot";
 import { PremiumGate } from "@/components/business/PremiumGate";
-import zhStrings from "./locales/zh";
-import enStrings from "./locales/en";
+
+// ============================================================
+// i18n inline — **黃金標準**：所有文案以 zh / en 兩個分支寫在同一個物件中
+// （取代過去 locales/zh.ts + locales/en.ts，避免 type literal 衝突與 key 漂移）
+//
+// 撰寫規則：
+//   - 每個 key 都要寫滿 zh 與 en
+//   - JSX 只能用 `t.{key}` 或 `l(localText, lang)`，不准寫死中英字串
+//   - FAQ key 命名：faq1Q / faq1A、faq2Q / faq2A ... faq8Q / faq8A
+//   - 跟 copy blueprint 表的 key 一一對應
+// ============================================================
+
+const ui = {
+  zh: {
+    // L1 Hero
+    badge: "（badge 中文，例：健康 · 生物指標 · GOLD TOOL）",
+    title: "（工具中文標題）",
+    subtitle: "（工具中文副題）",
+    intro: "（intro 中文，1-2 句把工具當引導式流程介紹）",
+    trustNoteLabel: "信任聲明：",
+    trustNote: "（寫出這個指標不能評估什麼）",
+
+    // L3 Quick Action Card
+    quickActionCard: "快速範例卡",
+    tryCommonAdultExample: "（例：試用常見成人範例）",
+    previewLabel: "（例：預覽 / 預估值）",
+    oneClickFillTypicalExample: "（例：一鍵填入典型範例）",
+    previewContrastDecisionPath: "（例：預覽對比決策路徑）",
+
+    // L4 Examples
+    examplesTitle: "範例 → 計算機",
+    examplesHelper: "（一句話解釋為什麼有範例）",
+    example: "範例",
+    exampleCardA_role: "（例：成年男性 70kg/175cm）",
+    exampleCardA_outcome: "（例：BMI 22.9 · normal）",
+    exampleCardB_role: "（例：高 BMI 88kg/170cm）",
+    exampleCardB_outcome: "（例：BMI 30.4 · obesity I）",
+
+    // L5 Calculator
+    enterOrFillValues: "輸入或填入數值",
+    metric: "公制",
+    imperial: "英制",
+    inputA_label_metric: "（例：身高 cm）",
+    inputA_label_imperial: "（例：身高 in）",
+    inputB_label_metric: "（例：體重 kg）",
+    inputB_label_imperial: "（例：體重 lb）",
+    enterValidValues: "請輸入有效數值",
+
+    // L6 Result Card
+    resultCard: "結果卡",
+    status: "狀態",
+    riskSummary: "風險摘要",
+    recommendedAction: "建議行動",
+    relatedNextTool: "下一步工具",
+
+    // L7 Result Intelligence
+    resultIntelligence: "結果解讀",
+    interpretCategoryBeforeActing: "（例：判讀分類後再行動）",
+
+    // L9 Emotion + Conversion 上排
+    emotionConversionLayer: "情緒與轉換層",
+    prototypeLayerNote: "此原型層在結果後加入留存與轉換提示，但不實作儲存、分享、帳號或導航功能。",
+    progressInsightCard: "進度洞察卡",
+    progressInsightHeadline: "（例：可能的進度目標）",
+    motivationCard: "動力卡",
+    motivationHeadline: "（例：保持動能）",
+
+    // L10 Emotion + Conversion 下排
+    journeyTitle: "（例：健康旅程節點）",
+    journeyDescription: "（旅程流程節點說明）",
+    saveSharePlaceholder: "儲存 / 分享佔位",
+    saveShareJourney: "（例：儲存這趟旅程）",
+    saveShareNote: "僅為 UI 佔位。不包含帳號、儲存、分享或匯出實作。",
+
+    // L11 Decision Path
+    decisionPath: "決策路徑",
+    decisionPathHeadline: "（例：若 X 偏高，繼續能量路徑）",
+    step: "步驟",
+    decisionStep1: "（步驟 1 名稱）",
+    decisionStep2: "（步驟 2 名稱）",
+    decisionStep3: "（步驟 3 名稱）",
+    decisionStep4: "（步驟 4 名稱）",
+    decisionDesc1: "（步驟 1 說明）",
+    decisionDesc2: "（步驟 2 說明）",
+    decisionDesc3: "（步驟 3 說明）",
+    decisionDesc4: "（步驟 4 說明）",
+
+    // L12 Knowledge
+    knowledge: "知識",
+    knowledgeHeadline: "（例：BMI 在健康宇宙中的意義）",
+    definition: "定義",
+    definitionText: "（≤ 80 字）",
+    limitations: "限制",
+    limitationsText: "（這個工具不能評估什麼）",
+    semanticNeighbors: "相關工具",
+    semanticNeighborsText: "（4-6 個相關概念）",
+    metricFormula: "公制：（公式）",
+    imperialFormula: "英制：（公式）",
+
+    // L13 FAQ（5-8 題）
+    faq: "常見問題",
+    commonQuestions: "（例：常見問題）",
+    faq1Q: "（Q1）",
+    faq1A: "（A1）",
+    faq2Q: "（Q2）",
+    faq2A: "（A2）",
+    faq3Q: "（Q3）",
+    faq3A: "（A3）",
+    faq4Q: "（Q4）",
+    faq4A: "（A4）",
+    faq5Q: "（Q5）",
+    faq5A: "（A5）",
+
+    // L15 Affiliate
+    affiliateBadge: "（例：推薦商品）",
+    affiliateTitle: "（例：配合 X 使用的工具）",
+    affiliateDisclosure: "* 聯盟連結，購買後我們可能獲得佣金",
+
+    // L16 Premium
+    premiumBadge: "進階功能",
+    premiumTitle: "（例：解鎖完整 X 追蹤）",
+    premiumDescription: "Premium 功能即將推出",
+
+    // L17 Trust · Related · References
+    trustRelatedReferences: "信任 · 相關 · 參考",
+    trust: "信任聲明",
+    trustText: "（依 spec §11 來源描述）",
+    relatedTools: "相關工具",
+    relatedToolsText: "（3-5 個站內具名工具）",
+    references: "參考資料",
+    referencesText: "（3 個來源全名 + URL）",
+  },
+  en: {
+    badge: "(badge EN)",
+    title: "(Tool English title)",
+    subtitle: "(Tool English subtitle)",
+    intro: "(intro EN)",
+    trustNoteLabel: "Trust note:",
+    trustNote: "(What this metric cannot evaluate)",
+
+    quickActionCard: "Quick Action Card",
+    tryCommonAdultExample: "Try a common adult example",
+    previewLabel: "Preview",
+    oneClickFillTypicalExample: "One-click fill typical example",
+    previewContrastDecisionPath: "Preview contrast decision path",
+
+    examplesTitle: "Examples → Calculator",
+    examplesHelper: "(One sentence explaining why examples are provided)",
+    example: "Example",
+    exampleCardA_role: "Adult male 70kg/175cm",
+    exampleCardA_outcome: "BMI 22.9 · normal",
+    exampleCardB_role: "High BMI 88kg/170cm",
+    exampleCardB_outcome: "BMI 30.4 · obesity I",
+
+    enterOrFillValues: "Enter or fill values",
+    metric: "Metric",
+    imperial: "Imperial",
+    inputA_label_metric: "Height (cm)",
+    inputA_label_imperial: "Height (in)",
+    inputB_label_metric: "Weight (kg)",
+    inputB_label_imperial: "Weight (lb)",
+    enterValidValues: "Enter valid values",
+
+    resultCard: "Result Card",
+    status: "Status",
+    riskSummary: "Risk Summary",
+    recommendedAction: "Recommended Action",
+    relatedNextTool: "Next Tool",
+
+    resultIntelligence: "Result Intelligence",
+    interpretCategoryBeforeActing: "Interpret category before acting",
+
+    emotionConversionLayer: "Emotion + Conversion Layer",
+    prototypeLayerNote: "This prototype layer adds retention prompts. No save/share/account behavior is implemented.",
+    progressInsightCard: "Progress Insight Card",
+    progressInsightHeadline: "Possible Progress Target",
+    motivationCard: "Motivation Card",
+    motivationHeadline: "Keep Momentum",
+
+    journeyTitle: "Health Journey",
+    journeyDescription: "(Journey flow description)",
+    saveSharePlaceholder: "Save / Share placeholder",
+    saveShareJourney: "Save this journey",
+    saveShareNote: "UI placeholder only. No account/storage/sharing/export.",
+
+    decisionPath: "Decision Path",
+    decisionPathHeadline: "(If X is high, continue through the energy path)",
+    step: "Step",
+    decisionStep1: "(Step 1 name)",
+    decisionStep2: "(Step 2 name)",
+    decisionStep3: "(Step 3 name)",
+    decisionStep4: "(Step 4 name)",
+    decisionDesc1: "(Step 1 description)",
+    decisionDesc2: "(Step 2 description)",
+    decisionDesc3: "(Step 3 description)",
+    decisionDesc4: "(Step 4 description)",
+
+    knowledge: "Knowledge",
+    knowledgeHeadline: "(What X means in the Y universe)",
+    definition: "Definition",
+    definitionText: "(≤ 80 chars)",
+    limitations: "Limitations",
+    limitationsText: "(What this tool cannot evaluate)",
+    semanticNeighbors: "Semantic neighbors",
+    semanticNeighborsText: "(4-6 related concepts)",
+    metricFormula: "Metric: (formula)",
+    imperialFormula: "Imperial: (formula)",
+
+    faq: "FAQ",
+    commonQuestions: "Common Questions",
+    faq1Q: "(Q1)",
+    faq1A: "(A1)",
+    faq2Q: "(Q2)",
+    faq2A: "(A2)",
+    faq3Q: "(Q3)",
+    faq3A: "(A3)",
+    faq4Q: "(Q4)",
+    faq4A: "(A4)",
+    faq5Q: "(Q5)",
+    faq5A: "(A5)",
+
+    affiliateBadge: "Recommended",
+    affiliateTitle: "(Tools to use with X)",
+    affiliateDisclosure: "* Affiliate links. We may earn a commission.",
+
+    premiumBadge: "Premium Features",
+    premiumTitle: "Unlock Complete X Tracking",
+    premiumDescription: "Premium features coming soon",
+
+    trustRelatedReferences: "Trust · Related · References",
+    trust: "Trust",
+    trustText: "(Source description per spec §11)",
+    relatedTools: "Related Tools",
+    relatedToolsText: "(3-5 named in-site tools)",
+    references: "References",
+    referencesText: "(3 source full names + URLs)",
+  },
+};
 
 // ============================================================
 // Types（依 spec §3，**固定 6 個分類 keys**）
@@ -151,7 +391,7 @@ const categoryInfo: CategoryInfo[] = [
   },
 ];
 
-// FAQ 列表（與 locales 的 key 對應；spec §8 規定 5-8 題）
+// FAQ 列表（與 inline ui 物件的 key 對應；spec §8 規定 5-8 題）
 const faqKeys: Array<[questionKey: string, answerKey: string]> = [
   ["faq1Q", "faq1A"],
   ["faq2Q", "faq2A"],
@@ -200,7 +440,7 @@ export default function __TOOL_NAME__() {
   const [inputA, setInputA] = useState("");
   const [inputB, setInputB] = useState("");
 
-  const t = lang === "zh" ? zhStrings : enStrings;
+  const t = ui[lang];
 
   const calculation = useMemo(() => {
     // 依 spec §4.1 / §4.2 公式

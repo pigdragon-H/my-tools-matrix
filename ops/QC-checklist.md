@@ -128,8 +128,9 @@ cd client && pnpm dev
 |---|---|---|---|
 | D1 | `pnpm exec vite build` 成功，0 新 error | ☐ | ☐ |
 | D2 | `pnpm exec tsc --noEmit` 不新增 error | ☐ | ☐ |
-| D3 | `locales/zh.ts` 與 `locales/en.ts` 的 key 完全對齊 | ☐ | ☐ |
-| D4 | locale 檔**沒有重複 key**（用 IDE 警告或 lint 確認）| ☐ | ☐ |
+| D3 | inline `ui.zh` 與 `ui.en` 兩個分支的 key 集合**完全相同**（用 IDE / 自寫 script diff key） | ☐ | ☐ |
+| D4 | inline `ui` 物件**沒有重複 key**（TS1117 = 直接擋；不能用 `// @ts-ignore` 繞過）| ☐ | ☐ |
+| D4b | 工具資料夾**沒有 `locales/` 子目錄**、**沒有 import 任何 `locales/*.ts`** | ☐ | ☐ |
 | D5 | 沒有 hardcode 的中英文字在 JSX | ☐ | ☐ |
 | D6 | `useMemo` 計算依賴陣列完整 | ☐ | ☐ |
 | D7 | 計算函式處理 NaN / 0 / 負數 / 空字串，不 crash | ☐ | ☐ |
