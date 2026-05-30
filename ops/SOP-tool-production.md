@@ -2,8 +2,9 @@
 
 > **適用範圍**：在 `client/src/tools/{category}/{ToolName}/` 下新增任何工具。
 > **執行單位**：AI Agent（SuperNinja / Claude Code / Cursor）或人類工程師。
-> **驗收標準**：通過 [`QC-checklist.md`](./QC-checklist.md) 全部 60 條自檢 + 3 道閘門。
+> **驗收標準**：通過 [`QC-checklist.md`](./QC-checklist.md) 全部自檢 + 3 道閘門。
 > **參考範例**：`client/src/tools/health/BmiCalculator/`、`client/src/tools/health/BmrCalculator/`。
+> **架構基準**：[標準工具架構校正本（17 層）](./README.md#標準工具架構校正本architecture-reference--17-layers)
 
 ---
 
@@ -19,34 +20,113 @@
 
 ---
 
-## 1. The 15-Layer Anatomy（黃金模版解剖）
+## 1. The 17-Layer Anatomy（黃金模版解剖 · 校正版）
 
-**任何工具必須完整實作以下 15 個區塊**。順序不能變、命名不能改、視覺風格保持一致。BMI / BMR 已驗證此結構，量產一律照搬。
+**任何工具必須完整實作以下 17 個區塊**。順序、視覺布局、命名一律不能改。BMI / BMR 已驗證此結構。
 
-| # | Layer | 區塊名 | 必要 | 用途 |
+| # | Layer / 區段 | 視覺布局 | 必要 | 用途 |
 |---|---|---|---|---|
-| L1 | Hero | 頂部主視覺 | ✅ | 工具名 / Badge / 一句 subtitle / 一段 intro / Trust Note |
-| L2 | Lang Switcher | 中英切換鈕 | ✅ | 右上角浮動切換，預設跟隨 LanguageContext |
-| L3 | Quick Action Card | 快速範例卡 | ✅ | 右側 aside，一鍵填入「典型範例」+ 一鍵填入「對比情境」 |
-| L4 | Examples → Calculator Bridge | 範例與計算機之間的轉場區 | ✅ | 解釋「為什麼有範例」+ 列出 2 張範例卡 |
-| L5 | Calculator Inputs | 計算機輸入 | ✅ | 公制/英制切換 + 全部欄位 + 即時驗算 |
-| L6 | Result Card | 結果卡（核心） | ✅ | 大數字 + 分類標籤 + Risk Summary + Recommended Action + Next Tool |
-| L7 | Result Intelligence | 結果解讀矩陣 | ✅ | 列出所有可能分類，標亮使用者落點，每格附「這個分類意味著什麼」 |
-| L8 | AdSense (mid) | 中段廣告位 | ✅ | `<AdSenseWrapper showAds adFormat="horizontal" />` |
-| L9 | Emotion + Conversion Layer | 情緒與轉換層 | ✅ | Progress Insight + Motivation Card + Save/Share UI（佔位即可） |
-| L10 | Decision Path | 決策路徑流程圖 | ✅ | 4 步具名工具串起來，每步附一句說明 |
-| L11 | Knowledge | 知識區 | ✅ | 定義 / 限制 / 相關工具 + 公式 code block + AdSlot |
-| L12 | FAQ | 常見問題 | ✅ | 5-8 題 `<details>` 折疊，每題答案 2-4 行 |
-| L13 | AdSlot (post-FAQ) | FAQ 後廣告位 | ✅ | `<AdSlot slot="..." position="inline" />` |
-| L14 | Affiliate Layer | 聯盟商品層 | ✅ | 4 個方框 + 揭露語「* 聯盟連結，購買後我們可能獲得佣金」 |
-| L15 | Premium Layer | 進階方案層 | ✅ | 包在 `<PremiumGate plan="PRO">` 內 |
-| — | Trust · Related · References | 信任聲明區 | ✅ | 三欄：Trust Note / Related Tools / References |
+| **L1** | Hero — 主視覺文字 | Hero 2 列布局：左欄 | ✅ | 工具名 / Badge / Subtitle / Intro / Trust Note |
+| **L2** | Hero — Lang Switcher | Hero 區頂部 | ✅ | 中英切換鈕，跟隨 LanguageContext |
+| **L3** | Hero — Quick Action Card | Hero 2 列布局：右欄 | ✅ | 一鍵填入「典型範例」+ 一鍵填入「對比情境」+ 預覽數字 |
+| **L4** | 計算機 — 範例卡（Examples）| 計算機 2 列布局：左欄 | ✅ | 解釋為什麼有範例 + 列出 2 張範例卡 |
+| **L5** | 計算機 — 輸入欄（Inputs）| 計算機 2 列布局：右欄 | ✅ | 公制/英制切換 + 全部欄位 + 即時驗算 |
+| **L6** | 結果卡 — Result Card | 結果 2 列布局：左欄 | ✅ | 大數字 + 分類 Tag + Range + Risk Summary + Recommended Action + Next Tool |
+| **L7** | 結果卡 — Result Intelligence | 結果 2 列布局：右欄 | ✅ | **6 個分類**全部列出，使用者落點高亮 |
+| **L8** | AdSlot 廣告位（中段）| 全寬橫幅 | ✅ | `<AdSenseWrapper showAds adFormat="horizontal" />` |
+| **L9** | Emotion + Conversion — 上排 | 2 個 2 列布局之一：Progress Insight + Motivation Card | ✅ | 進度洞察卡 + 動力卡 |
+| **L10** | Emotion + Conversion — 下排 | 2 個 2 列布局之二：Health Journey + Save/Share Placeholder | ✅ | 旅程流程節點 + 儲存分享佔位（不實作功能）|
+| **L11** | Decision Path | 4 步橫向流程圖 | ✅ | 4 步具名工具串起來，每步附一句說明 |
+| **L12** | Knowledge | 2 列並排：左欄 | ✅ | Definition / Limitations / Semantic Neighbors + 公式 code block + 中段 AdSlot |
+| **L13** | FAQ | 2 列並排：右欄 | ✅ | 5-8 題 `<details>` 折疊，每題答案 2-4 行 |
+| **L14** | AdSlot 廣告位（FAQ 後）| 全寬 inline | ✅ | `<AdSlot slot="..." position="inline" />` |
+| **L15** | 推薦商品（Affiliate）| 全寬 | ✅ | 4 個方框 + 揭露語「* 聯盟連結，購買後我們可能獲得佣金」 |
+| **L16** | Premium Gate | 全寬，包在 `<PremiumGate plan="PRO">` | ✅ | 進階方案層 |
+| **L17** | Trust · Related · References | 三欄並排 | ✅ | 信任聲明 / 相關工具 / 參考來源 |
 
 > **凡缺一層 = QC 不過**。如果某層的內容真的不適用（極少見），仍須保留容器並寫明「不適用原因」。
 
+### 1.1 視覺布局守則（Visual Layout Discipline）
+
+校正本明確指定四種「2 列布局」單位 + 一種「2 列並排」 + 一種「3 欄」：
+
+| 布局類型 | 出現位置 | desktop 比例（lg）| mobile 行為 |
+|---|---|---|---|
+| **Hero 2 列**（L1-L3）| 頂部 | `1.05fr 0.95fr` | 堆疊單欄 |
+| **計算機 2 列**（L4-L5）| 計算區 | `0.9fr 1.1fr` | 堆疊單欄 |
+| **結果 2 列**（L6-L7）| 結果區 | `0.95fr 1.05fr` | 堆疊單欄 |
+| **Emotion 2×2 列**（L9-L10）| 情緒層 | 上排 `1fr 0.9fr`、下排 `1fr 0.8fr` | 堆疊單欄 |
+| **Knowledge + FAQ 並排**（L12-L13）| 知識區 | `1fr 0.9fr` | 堆疊單欄 |
+| **Trust 三欄**（L17）| 末段 | `repeat(3, 1fr)` | 堆疊單欄 |
+
+> 不准在比例上自由發揮 —— 比例與 BMI / BMR 對齊才能讓全站節奏一致。
+
 ---
 
-## 2. 9 階段作業流程（Phase 1-9）
+## 2. 內容代碼紀律（Content Integrity Mandate）
+
+校正本明確指出每個工具的「內容代碼」由四項組成，**全部禁止亂編**：
+
+### 2.1 類型定義（Type Definitions · 6 個工具專業分類）
+
+```typescript
+type ResultCategoryKey = "k1" | "k2" | "k3" | "k4" | "k5" | "k6";  // 必須是 6 個
+```
+
+- 即使該領域看似只有 3-4 個自然分類，仍須延伸出 6 段（例：複利報酬可細分為「保守 / 穩健 / 平衡 / 積極 / 進取 / 激進」六段）
+- 每個 key 為 snake_case 英文，不超過 12 個字元
+- 6 個 key 必須有自然光譜順序（低到高、保守到激進、安全到風險）
+
+### 2.2 數據定義（Data Definitions）
+
+每筆內容必須查實來源：
+
+| 內容 | 必查來源 |
+|---|---|
+| 分類門檻數值（如 BMI 18.5 / 25 / 30）| 對應領域權威機構 |
+| 公式常數（如 BMR 5 / 161、703）| 原論文或標準引用 |
+| FAQ 答案 | 政府衛教資料、權威辭典、公開白皮書 |
+| Trust Note 限制清單 | 權威機構標明的工具邊界 |
+| References | 具名機構 + 文件年份（理想含 URL）|
+
+**如何確認來源**：
+- AI Agent 寫程式前必須跑 `web_search` 至少 1 次驗證主公式 + 至少 1 次驗證分類門檻
+- 任何「我記得是這樣」「常見是這個值」的判斷一律以 `ask` 工具中止並向人類確認
+- 若無法找到權威來源，該工具**直接不上線**
+
+### 2.3 計算邏輯（Calculation Logic · 工具專業公式）
+
+- 公式必須直接引用標準論文或機構公告（如 Mifflin-St Jeor 1990、Harris-Benedict 1919、ACSM 指南）
+- 公式 code block 同時呈現公制 + 英制（若該工具有英制單位）
+- 計算函式必須處理：
+  - `NaN` / `0` / 負數 / 空字串 → 回 `null` 並 UI 顯示 `—`
+  - 浮點精度 → `.toFixed(?)` 在 spec 中明定
+  - 公制英制切換 → 不清空使用者輸入
+
+### 2.4 狀態管理（State Management）
+
+固定模式（不准擴充）：
+
+```typescript
+const { lang, setLang } = useLanguage();              // 全站語言 context
+const [unitSystem, setUnitSystem] = useState("metric"); // 公制/英制
+const [inputA, setInputA] = useState("");             // 各輸入欄
+const [inputB, setInputB] = useState("");
+// ...
+
+const calculation = useMemo(() => {
+  // 純函式計算，依賴陣列必須完整
+}, [inputA, inputB, unitSystem]);
+```
+
+不准在工具內：
+- 自建 i18n state（必須用 `useLanguage`）
+- 用 Redux / Zustand / Context（state 留在元件即可）
+- 加 `useEffect` 做副作用（除非有極充分理由並寫進 spec）
+
+---
+
+## 3. 9 階段作業流程（Phase 1-9）
 
 ### Phase 1 — 立規格（Spec）
 
@@ -55,15 +135,15 @@
 工作清單：
 1. [ ] 確定 `category`（必須是 `shared/categoriesConfig.ts` 內已存在的 12 大類之一）
 2. [ ] 確定 `toolSlug`（kebab-case，例：`bmi-calculator`、`compound-interest`）
-3. [ ] 確定 `ToolName`（PascalCase，對應目錄名與 default export，例：`BmiCalculator`）
-4. [ ] 寫一句「用戶問題句」（≤ 25 字，例：「我是不是太胖了？」）
-5. [ ] 寫一句「核心承諾」（≤ 30 字，例：「30 秒判讀 BMI 並指出下一步」）
-6. [ ] 列出 **3-6 個結果分類**（如 BMI 的 underweight / normal / overweight / obesity 1-3）
+3. [ ] 確定 `ToolName`（PascalCase）
+4. [ ] 寫一句「用戶問題句」（≤ 25 字）
+5. [ ] 寫一句「核心承諾」（≤ 30 字）
+6. [ ] 列出 **6 個結果分類**（固定 6，不准多不准少）
 7. [ ] 列出**至少 2 個 Decision Path 下游工具**
-8. [ ] 列出**至少 3 個權威引用來源**（YMYL 類必須是政府或國際組織）
-9. [ ] 列出**至少 5 題 FAQ**
+8. [ ] **跑 web_search 確認主公式來源** + 列出**至少 3 個權威引用**
+9. [ ] 列出**至少 5 題 FAQ**（每題答案需有可追溯來源）
 
-✅ Phase 1 通過條件：規格單填完且不留空格。任何一格寫「TBD」就退件。
+✅ Phase 1 通過條件：規格單填完且不留空格。任何一格寫「TBD」就退件。**沒查到主公式來源不得進 Phase 2**。
 
 ---
 
@@ -72,20 +152,17 @@
 **輸出**：`ops/copy/{tool-slug}.md`（複製 `templates/copy-blueprint.template.md`）
 
 要點：
-1. **顧問口吻，不是工具人口吻。** 對照範例：
-   - ❌ 差：「您的 BMI 為 28」
-   - ✅ 好：「BMI 28 落在『過重』區間。這不是診斷，但建議檢視日常熱量收支與體脂分布。」
-2. **每個結果分類都要有 4 段文字**：`meaning`（這是什麼）、`risks`（風險摘要）、`actions`（建議行動）、`nextTool`（下一個工具名）。
-3. **Trust Note 必須真誠不虛偽。** 例：「BMI 是篩檢指標，不是診斷，無法評估體脂分布、運動員體態、孕期或兒童百分位。」
-4. **References 區必須具名。** 例：「WHO BMI Classification（2004）/ CDC Adult BMI（2023）/ NIH Obesity Risk」。
+1. **顧問口吻，不是工具人口吻**
+2. **每個結果分類都要有 4 段文字**：`meaning` / `risks` / `actions` / `nextTool`
+3. **Trust Note 必須真誠**（具體寫出此工具不能評估什麼）
+4. **References 區必須具名**（機構全名 + 文件年份）
 
-✅ Phase 2 通過條件：文案藍圖完整、中英對齊、語氣一致。
+✅ Phase 2 通過條件：中英對齊、語氣一致、所有引用內容已對 Phase 1 來源核對。
 
 ---
 
 ### Phase 3 — 開檔結構（Scaffold）
 
-工作清單：
 ```bash
 TOOL_NAME="BmiCalculator"      # PascalCase
 CATEGORY="health"              # 12 大類之一
@@ -97,82 +174,52 @@ touch client/src/tools/${CATEGORY}/${TOOL_NAME}/locales/zh.ts
 touch client/src/tools/${CATEGORY}/${TOOL_NAME}/locales/en.ts
 ```
 
-✅ Phase 3 通過條件：4 個檔案存在且為空。
+✅ Phase 3 通過條件：4 個檔案存在。
 
 ---
 
-### Phase 4 — 寫 locales（雙語文字檔，最重要）
+### Phase 4 — 寫 locales（雙語文字檔）
 
 **作業順序：先寫 `zh.ts`，再寫 `en.ts`，兩邊 key 必須完全相同。**
 
-文字檔結構（直接抄 BMI / BMR）：
+locales 寫作規則：
 
-```typescript
-// locales/zh.ts
-export default {
-  // L1 Hero
-  badge: "健康 · 生物指標 · 黃金工具",
-  title: "BMI 計算機 · 完整健康評估",
-  subtitle: "BMI 計算機 引導體驗",
-  intro: "把 BMI 當作引導式健康篩檢流程：先看範例、計算分數、理解風險訊號，再前往最有用的下一個工具。",
-  trustNoteLabel: "信任聲明：",
-  trustNote: "BMI 是篩檢指標，不是診斷，無法評估體脂分布、運動員體態、孕期或兒童百分位。",
+1. **絕對不准 hardcode 中英文在 JSX 裡**（除單位、icon、數字）
+2. **每個 key 必須在中英兩個檔案都存在**
+3. **長文字寫成單行字串**
+4. **不能有 `TBD` / `Coming soon` / `Lorem ipsum` 字樣**
+5. **不能有重複 key**（BmrCalculator 在 v1.0 出過此 bug，量產時嚴守）
 
-  // L3 Quick Action
-  quickActionCard: "快速範例卡",
-  tryCommonAdultExample: "試用常見成人範例",
-  // ... 完整列表見 BMI/BMR 原檔
-
-  // L6 Result Card
-  resultCard: "結果卡",
-  enterValidValues: "請輸入有效數值",
-  status: "狀態",
-  riskSummary: "風險摘要",
-  recommendedAction: "建議行動",
-  relatedNextTool: "下一步工具",
-
-  // ... L7-L15 同樣完整列出
-} as const;
-```
-
-**locales 寫作規則：**
-
-1. **絕對不准 hardcode 中英文在 JSX 裡**（例外：純粹的數字、icon、單位符號可以直寫）。
-2. **每個 key 必須在中英兩個檔案都存在**，否則 TypeScript 會報 type mismatch。BmrCalculator 之前出現過 mismatch error，請檢查 `pnpm exec tsc --noEmit`。
-3. **長文字（intro、trustNote、knowledge.text）寫成單行字串**，不要為了好看用模板字串拆行 — 翻譯工具會壞掉。
-4. **不能有 `TBD`、`Coming soon`、`Lorem ipsum` 字樣**。
-
-✅ Phase 4 通過條件：兩個 locale 檔 key 100% 對齊，無 hardcode 文字。
+✅ Phase 4 通過條件：兩 locale 檔 key 100% 對齊，無 hardcode、無重複 key、無未填項。
 
 ---
 
 ### Phase 5 — 寫 index.tsx（程式碼）
 
-**直接複製 `templates/tool-skeleton.tsx` 並改寫**。骨架已內建 15 層結構。
+**直接複製 `templates/tool-skeleton.tsx` 並改寫**。骨架已內建 17 層結構與所有視覺布局。
 
 寫程式時的硬性規則：
 
-1. **`useMemo` 處理計算結果**，避免每次 render 重算；依賴陣列必須完整列輸入欄位。
-2. **計算函式必須處理 `NaN` / 0 / 負數 / 空字串**，回傳 `null` 後 UI 顯示 `—` 或 placeholder 文字。
-3. **公制/英制切換**：在 hero aside 卡內放切換器；切換時不清空使用者已填的數字（保留輸入體驗）。
-4. **使用 `useLanguage` hook** 取 `lang` 與 `setLang`；不要自建語言狀態。
-5. **`<AdSenseWrapper>` 與 `<AdSlot>` 必須引入**：
+1. **`useMemo` 處理計算結果**，依賴陣列完整
+2. **計算函式邊界處理齊全**（見 §2.3）
+3. **公制/英制切換不清空輸入**
+4. **使用 `useLanguage` hook**
+5. **必須引入：**
    ```tsx
    import { AdSenseWrapper } from "@/components/AdSenseWrapper";
    import { AdSlot } from "@/components/business/AdSlot";
    import { PremiumGate } from "@/components/business/PremiumGate";
    ```
-6. **`<PremiumGate plan="PRO">` 包住 L15**，內部內容會在未付費時自動隱藏。
-7. **顏色語義必須一致**：
-   - Underweight / 偏低 → `from-sky-400 via-sky-300 to-slate-200`
-   - Normal / 正常 → `from-emerald-500 via-lime-300 to-yellow-200`
-   - Overweight / 偏高 → `from-yellow-300 via-orange-300 to-orange-500`
-   - Obesity / 高 → `from-orange-400 via-red-400 to-red-600`
-   - Severe → `from-red-500 via-rose-500 to-pink-600`
-   - Critical → `from-rose-700 via-purple-700 to-slate-900`
-   - 財經類請改用：rose（虧損）/ slate（持平）/ emerald（獲利）三色階。
+6. **`<PremiumGate plan="PRO">` 包住 L16**
+7. **顏色 tone 與 BMI 對齊**：
+   - 第 1 段（最低）→ `from-sky-400 via-sky-300 to-slate-200`
+   - 第 2 段（健康）→ `from-emerald-500 via-lime-300 to-yellow-200`
+   - 第 3 段（偏高）→ `from-yellow-300 via-orange-300 to-orange-500`
+   - 第 4 段（高）→ `from-orange-400 via-red-400 to-red-600`
+   - 第 5 段（極高）→ `from-red-500 via-rose-500 to-pink-600`
+   - 第 6 段（危急）→ `from-rose-700 via-purple-700 to-slate-900`
 
-✅ Phase 5 通過條件：`pnpm exec vite build` 沒有新 error，瀏覽器打開能完整看到 15 層。
+✅ Phase 5 通過條件：`pnpm exec vite build` 無新 error，瀏覽器打開能看到完整 17 層。
 
 ---
 
@@ -184,51 +231,33 @@ export default {
 const toolMap: Record<string, ReturnType<typeof lazy>> = {
   "health/bmi-calculator": lazy(() => import("@/tools/health/BmiCalculator")),
   "health/bmr-calculator": lazy(() => import("@/tools/health/BmrCalculator")),
-  // ↓ 新增
   "{category}/{slug}": lazy(() => import("@/tools/{category}/{ToolName}")),
 };
 ```
 
-修改 `client/src/pages/Home.tsx` 的 `featuredTools` 陣列（如果這個工具要在首頁曝光）：
+如要在首頁曝光，更新 `client/src/pages/Home.tsx` 的 `featuredTools`。
 
-```typescript
-{
-  name: { zh: "工具中文名", en: "Tool English Name" },
-  category: { zh: "健康", en: "health" },
-  description: { zh: "短描述", en: "Short description." },
-  href: "/tools/{category}/{slug}",
-  icon: HeartPulse,  // 從 lucide-react 選一個
-}
-```
-
-✅ Phase 6 通過條件：`/tools/{category}/{slug}` 在 dev server 能載入，不顯示 404。
+✅ Phase 6 通過條件：`/tools/{category}/{slug}` 在 dev server 載入正常，不顯示 404。
 
 ---
 
 ### Phase 7 — 本地驗證（Local Smoke Test）
 
 ```bash
-cd client && pnpm exec vite build      # 必須 0 error
-cd client && pnpm exec tsc --noEmit    # 不能新增 error（既有 error 可忽略）
-cd client && pnpm dev                  # 開 http://localhost:5173/tools/{category}/{slug}
+cd client && pnpm exec vite build      # 必須 0 新 error
+cd client && pnpm exec tsc --noEmit    # 不新增 error
+cd client && pnpm dev                  # 開 http://localhost:5173/tools/{cat}/{slug}
 ```
 
-肉眼檢查：
-- [ ] 15 層全部出現
-- [ ] 中英切換正常
-- [ ] 公制/英制切換正常
-- [ ] 一鍵填入範例正常
-- [ ] 結果卡顏色帶會根據結果換色
-- [ ] mobile viewport（375×667）不破版
-- [ ] dark mode 文字可讀
+肉眼檢查 17 層全現、中英切換、公英切換、範例填入、結果換色、mobile 不破版、dark mode 可讀。
 
 ---
 
 ### Phase 8 — 跑 QC（品質檢驗）
 
-打開 `ops/QC-checklist.md`，**逐條打勾**。任何一條 fail → 退回 Phase 4 或 5 修正。
+打開 `ops/QC-checklist.md`，**逐條打勾**。任何一條 fail → 退回對應 Phase 修正。
 
-✅ Phase 8 通過條件：60 條自檢全綠 + 3 道閘門全過。
+✅ Phase 8 通過條件：自檢全綠 + 3 道閘門全過。
 
 ---
 
@@ -243,15 +272,15 @@ git add client/src/tools/{category}/{ToolName} \
 
 git commit -m "feat(tools): add {ToolName} ({category}/{slug})
 
-15-layer anatomy complete:
-- L1 Hero / L3 Quick Action / L4 Examples bridge
-- L5 Calculator (metric+imperial) / L6 Result Card
-- L7 Result Intelligence with N classification bands
-- L8/L13 AdSense / L11 Knowledge / L12 FAQ
-- L14 Affiliate / L15 Premium Gate
-- Trust Note + References from {權威來源 1, 2, 3}
+17-layer anatomy complete:
+- L1-3 Hero (text + lang switcher + quick action card)
+- L4-5 Calculator (examples + inputs)
+- L6-7 Result (card + intelligence with 6 bands)
+- L8 AdSense / L11 Decision Path / L12-13 Knowledge+FAQ
+- L14 AdSlot / L15 Affiliate / L16 PremiumGate / L17 Trust
 
-QC: 60/60 pass, 3 gates clear."
+Content sources verified: {來源 1, 來源 2, 來源 3}.
+QC: pass, 3 gates clear."
 
 git push origin main
 ```
@@ -262,40 +291,52 @@ Railway 自動部署 3-5 分鐘。
 
 ---
 
-## 3. 違規處理（Violation Protocol）
+## 4. 違規處理（Violation Protocol）
 
 | 違規 | 後果 |
 |---|---|
-| 任一層 missing | QC 退件，回 Phase 5 補 |
-| 中英 key 不對齊 | QC 退件，回 Phase 4 補 |
-| Trust Note 缺失 / 寫成空話 | QC 退件，回 Phase 2 重寫 |
-| References 寫「TBD」「待補」 | QC 退件，回 Phase 1 補來源 |
+| 任一層 missing（17 層中缺一）| QC 退件，回 Phase 5 補 |
+| Result Intelligence 不是 6 格 | QC 退件，回 Phase 1 重新拆分類 |
+| 中英 key 不對齊 / locale 有重複 key | QC 退件，回 Phase 4 |
+| Trust Note 缺失或寫成空話 | QC 退件，回 Phase 2 重寫 |
+| References 寫「TBD」「常見來源」「請參考」| QC 退件，回 Phase 1 補真來源 |
+| 公式無權威來源（沒跑 web_search 驗證）| QC 退件，回 Phase 1 |
 | Result Card 缺 Risk / Action / NextTool | QC 退件，回 Phase 2 |
 | Build 新增 error | QC 退件，回 Phase 5 |
-| 主動加上 emoji 在 Hero（除非是中英切換鈕的 🌐）| QC 退件，回 Phase 4 |
+| 視覺布局比例不對齊（如 Hero 用 1fr 1fr）| QC 退件，回 Phase 5 |
 | 在 JSX 直接寫死中英文（locale 之外）| QC 退件，回 Phase 4 |
-| 把工具寫進 Home.tsx featuredTools 但沒有完成 Phase 6 註冊 | 直接 revert |
+| 跨域決策（擅自加 category、改 token、改路由結構）| 直接 revert |
 
 ---
 
-## 4. AI Agent 專用注意事項
+## 5. AI Agent 專用注意事項
 
 如果你是 AI Agent 在執行本 SOP：
 
-1. **不要自己發明額外的 layer**。如果你覺得「這裡加個 X 區塊會更好」—— 不行，先寫進 backlog 等 v1.0 收斂後再考慮。
-2. **不要省略「無聊」的層**（如 L4 Bridge、L9 Save/Share Placeholder）—— 它們是模版的視覺節奏，少一個整頁排版會塌。
-3. **不要跨域決策**：你不能擅自加新的 category、改 categoriesConfig.ts、改 routing 結構、動 Phase G 已封存的設計 token。
-4. **token 預算意識**：每個工具的程式碼 + locales 應 ≤ 1,500 行。如果超過，多半是過度設計，回頭精簡。
-5. **遇到不確定就停下來問**：用 `ask` 工具向人類確認，不要猜。猜錯比慢半天昂貴 100 倍（過去那 300 個殭屍工具就是這樣來的）。
+1. **不要自己發明額外的 layer**
+2. **不要省略「無聊」的層**（如 L4 範例卡、L10 Save/Share Placeholder）
+3. **不要跨域決策**
+4. **token 預算意識**：每個工具的程式碼 + locales 應 ≤ 1,500 行
+5. **遇到不確定就停下來問**：用 `ask` 工具向人類確認
+6. **內容研究紀律**（最重要）：
+   - 寫程式前必須跑至少 1 次 `web_search` 驗證主公式
+   - 分類門檻數值必須對照官方來源
+   - FAQ 答案必須有可追溯依據
+   - 任何臆測一律換成「待確認」並用 `ask` 中止
 
 ---
 
-## 5. 量產節奏建議（Throughput）
+## 6. 量產節奏建議（Throughput）
 
-- **單個工具理想工時**：AI Agent 約 2-4 小時（含跑 QC）
+- **單個工具理想工時**：AI Agent 約 3-5 小時（含內容查證 + QC）
 - **每週量產目標**：3-5 個（不要追數字，追品質）
-- **每 5 個工具回頭做一次**：本 SOP 與 QC checklist 的回顧更新
+- **每 5 個工具回頭做一次**：本 SOP 與 QC 的回顧更新
 
 ---
+
+## 版本
+
+- v1.1 — 2026-05-30 — **校正為 17-Layer 架構**，新增「內容代碼紀律」章節（§2）、視覺布局守則（§1.1）、固定 6 個結果分類規則
+- v1.0 — 2026-05-30 — 第一版
 
 **簽核**：本 SOP 即為工具量產的最高契約。SuperNinja 與其他 AI Agent 在量產期間 100% 遵守，不准即興發揮。
