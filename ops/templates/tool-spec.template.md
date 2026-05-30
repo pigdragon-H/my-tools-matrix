@@ -1,6 +1,6 @@
 # Tool Spec · {ToolName}
 
-> **v1.1 — 校正為 17-Layer 標準架構**
+> **v1.2 — Profile-aware（A/B/C/D/E/F）**
 >
 > 這是工具量產 SOP **Phase 1** 的輸出。**任何一格寫 TBD / 待定 / 未知，都不准進入 Phase 2**。
 > 複製這份檔案到 `ops/specs/{tool-slug}.md` 並填寫。
@@ -9,6 +9,22 @@
 > §3 結果分類、§4 計算邏輯、§7 Knowledge、§8 FAQ、§9 References — **禁止亂編，必須去搜尋參考**。
 > 撰寫前必須先用 `web_search` 取得 WHO / CDC / NIH / 衛福部 / 央行 / 官方文獻原文，
 > 把驗證紀錄寫到 §11「內容來源驗證紀錄」，沒紀錄不能進 Phase 2。
+
+---
+
+## 0. Profile 指派（必填）
+
+| 欄位 | 值 |
+|---|---|
+| **Profile** | `A` / `B` / `C` / `D` / `E` / `F`（擇一） |
+| Profile 名稱 | Diagnostic-YMYL / Calculator-YMYL / Planner-Practical / Converter-Utility / Developer-Tool / Education-Reference |
+| 指派人 | Strategist AI |
+| 指派理由 | （1-2 句說明為何選此 Profile）|
+
+**Profile 對 §3/§5/§9 的影響**：
+- L6/L7 marker 集會依 Profile 改變（請參照 `ops/profiles/<profile>.md`）
+- §9 References 嚴格度：A>B>F>C>E>D
+- §1 Trust Note 強度：🚨 A / ⚠️ B / 💡 C-F
 
 ---
 

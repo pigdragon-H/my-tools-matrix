@@ -1,3 +1,6 @@
+// @profile A
+// Profile A · Diagnostic-YMYL · BMI 為 17-Layer 黃金樣板 #1
+// 修改前請閱讀 ops/architecture-schema.md 與 ops/profiles/A-diagnostic-ymyl.md
 
 import { useMemo, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";

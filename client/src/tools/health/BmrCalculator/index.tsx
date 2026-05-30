@@ -1,3 +1,7 @@
+// @profile B
+// Profile B · Calculator-YMYL · BMR 為 17-Layer 黃金樣板 #2
+// 修改前請閱讀 ops/architecture-schema.md 與 ops/profiles/B-calculator-ymyl.md
+
 import { useMemo, useState } from "react";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { AdSlot } from "@/components/business/AdSlot";
@@ -104,6 +108,9 @@ const ui = {
     weeklyTrend: "每週趨勢",
     motivation: "動力卡",
     keepMomentum: "從代謝數字走向穩定行動",
+    saveShareJourney: "儲存 / 分享",
+    journeyTitle: "把今天的 BMR 帶回家",
+    journeyHint: "截圖、加書籤或分享給家人，下次回來就能直接接續比較。",
     decisionPath: "決策路徑",
     decisionTitle: "BMR → TDEE → 熱量 → 體重目標",
     bmrStep: "靜止代謝",
@@ -205,6 +212,9 @@ const ui = {
     weeklyTrend: "Weekly trend",
     motivation: "Motivation Card",
     keepMomentum: "Move from metabolism number to steady action",
+    saveShareJourney: "Save / Share",
+    journeyTitle: "Take today's BMR home",
+    journeyHint: "Screenshot, bookmark, or share with family — pick up where you left off next time.",
     decisionPath: "Decision Path",
     decisionTitle: "BMR → TDEE → Calories → Weight Goal",
     bmrStep: "Resting metabolism",
@@ -450,9 +460,22 @@ export default function BmrCalculator() {
           <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p>
           <h2 className="mt-2 text-3xl font-black">{t.turnIntoPlan}</h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.conversionNote}</p>
-          <div className="mt-6 grid gap-5 lg:grid-cols-2">
+          {/* L9 · Emotion+Conversion 上排 · Progress + Motivation · lg:grid-cols-[1_0.9] */}
+          <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">
             <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">BMR</div><div className="mt-1 text-3xl font-black">{bmrDisplay}</div></div><div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.dailyGap}</div><div className="mt-1 text-3xl font-black text-blue-950">400</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.weeklyTrend}</div><div className="mt-1 text-3xl font-black text-emerald-950">{calculation ? formatKcal(calculation.weeklyDeficit) : "—"}</div></div></div></article>
             <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.bmrShort, t.tdeeShort, t.caloriesShort, t.goalShort].map((item) => <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
+          </div>
+          {/* L10 · Emotion+Conversion 下排 · Save / Share Journey · lg:grid-cols-[1_0.8] */}
+          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">
+            <article className="rounded-3xl border border-slate-200 bg-gradient-to-br from-amber-50 to-white p-5 shadow-sm">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-amber-700">{t.saveShareJourney}</p>
+              <h3 className="mt-2 text-2xl font-black">{t.journeyTitle}</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{t.journeyHint}</p>
+            </article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm flex items-center justify-center text-sm font-black text-slate-500">
+              {/* journey placeholder · 預留下一階段卡片 */}
+              ✨
+            </article>
           </div>
         </section>
 
@@ -466,18 +489,21 @@ export default function BmrCalculator() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.knowledge}</p>
-          <h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2>
-          <div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div></div>
-          <div className="mt-5"><AdSlot slot="bmr-knowledge" position="middle" /></div>
-        </section>
+        {/* L14 · Knowledge + FAQ 並排 · lg:grid-cols-[1fr_0.9fr] */}
+        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.knowledge}</p>
+            <h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2>
+            <div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div></div>
+            <div className="mt-5"><AdSlot slot="bmr-knowledge" position="middle" /></div>
+          </div>
 
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.faq}</p>
-          <h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2>
-          <div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div>
-          <div className="mt-5"><AdSlot slot="bmr-faq" position="inline" /></div>
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.faq}</p>
+            <h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2>
+            <div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div>
+            <div className="mt-5"><AdSlot slot="bmr-faq" position="inline" /></div>
+          </div>
         </section>
         <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.affiliate}</p>
