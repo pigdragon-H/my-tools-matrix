@@ -1,5 +1,5 @@
 // ============================================================
-// CategoryPage - /tools/:category 分類工具列表頁
+// CategoryPage - /category/:category 分類工具列表頁
 // ============================================================
 
 import { useEffect, useState } from "react";

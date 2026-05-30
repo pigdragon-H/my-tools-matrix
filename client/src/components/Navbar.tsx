@@ -115,7 +115,7 @@ export function Navbar() {
                   const catName = lang === "zh" ? cat.name : cat.nameEn;
                   return (
                     <DropdownMenuItem key={cat.key} asChild>
-                      <Link href={`/tools/${cat.key}`}>
+                      <Link href={`/category/${cat.key}`}>
                         <div className={cn(
                           "flex items-center gap-2 px-2 py-1.5 cursor-pointer w-full",
                           count === 0 && "opacity-50"
@@ -309,7 +309,7 @@ export function Navbar() {
                 return (
                   <Link
                     key={cat.key}
-                    href={`/tools/${cat.key}`}
+                    href={`/category/${cat.key}`}
                     onClick={() => setMobileOpen(false)}
                   >
                     <div className={cn(

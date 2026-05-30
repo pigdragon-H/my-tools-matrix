@@ -193,7 +193,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                   {results.categoryHits.map((cat) => (
                     <button
                       key={cat.key}
-                      onClick={() => handleSelect(`/tools/${cat.key}`)}
+                      onClick={() => handleSelect(`/category/${cat.key}`)}
                       className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-muted/60 transition-colors text-left"
                     >
                       <div className="p-1.5 rounded-md bg-primary/10 shrink-0">

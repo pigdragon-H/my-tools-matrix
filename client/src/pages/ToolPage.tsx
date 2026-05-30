@@ -63,7 +63,7 @@ export default function ToolPage() {
         </p>
         <div className="flex justify-center gap-3 mt-6">
           <Button asChild variant="outline">
-            <Link href={`/tools/${category}`}>返回分類</Link>
+            <Link href={`/category/${category}`}>返回分類</Link>
           </Button>
           <Button asChild variant="ghost">
             <Link href="/">返回首頁</Link>
@@ -83,7 +83,7 @@ export default function ToolPage() {
               首頁
             </Link>
             <span>/</span>
-            <Link href={`/tools/${category}`} className="hover:text-foreground transition-colors">
+            <Link href={`/category/${category}`} className="hover:text-foreground transition-colors">
               {catInfo?.name ?? category}
             </Link>
             <span>/</span>
