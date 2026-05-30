@@ -3,6 +3,7 @@ import { ArrowRight, BookOpen, Feather, HeartHandshake, Sprout } from "lucide-re
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { TrustStrip } from "@/components/business/TrustStrip";
 
 type Lang = "zh" | "en";
 
@@ -128,6 +129,9 @@ export default function About() {
           </Card>
         </div>
       </section>
+
+      {/* L17 — Trust strip */}
+      <TrustStrip lang={lang} variant="default" />
     </div>
   );
 }

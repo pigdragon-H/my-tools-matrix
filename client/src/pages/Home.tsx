@@ -29,6 +29,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AdSlot } from "@/components/business/AdSlot";
+import { AffiliateGrid, type AffiliateItem } from "@/components/business/AffiliateGrid";
+import { PremiumTeaser } from "@/components/business/PremiumTeaser";
+import { TrustStrip } from "@/components/business/TrustStrip";
+import { NewsletterCta } from "@/components/business/NewsletterCta";
 import { defaultSeo, setSeoMeta } from "@/lib/seo";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -321,6 +325,35 @@ function CountUpStat({ stat, lang }: { stat: StatItem; lang: Lang }) {
   );
 }
 
+// Homepage affiliate items — generic recommendations until partner contracts signed.
+// data-stub: fill real href when partner agreement complete.
+const homepageAffiliateItems: AffiliateItem[] = [
+  {
+    label: { zh: "智慧體重計", en: "Smart Scale" },
+    description: { zh: "追蹤 BMI 與體脂", en: "Track BMI & body fat" },
+    href: "#affiliate-smart-scale",
+    emoji: "⚖️",
+  },
+  {
+    label: { zh: "健身追蹤器", en: "Fitness Tracker" },
+    description: { zh: "心率與卡路里", en: "Heart rate & calories" },
+    href: "#affiliate-fitness-tracker",
+    emoji: "⌚",
+  },
+  {
+    label: { zh: "決策書單", en: "Decision Books" },
+    description: { zh: "投資、健康、效率", en: "Finance, health, productivity" },
+    href: "#affiliate-books",
+    emoji: "📚",
+  },
+  {
+    label: { zh: "工具訂閱", en: "Tool Subscription" },
+    description: { zh: "進階公式與匯出", en: "Advanced formulas & export" },
+    href: "#affiliate-subscription",
+    emoji: "✨",
+  },
+];
+
 export default function Home() {
   const { lang } = useLanguage();
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -369,6 +402,13 @@ export default function Home() {
       <section className="bg-gradient-to-r from-blue-700 via-indigo-700 to-violet-700 py-8 text-white shadow-inner shadow-blue-950/20 dark:from-blue-950 dark:via-indigo-950 dark:to-violet-950 md:py-10">
         <div className="container grid grid-cols-2 gap-8 md:grid-cols-4">
           {stats.map((stat) => <CountUpStat key={stat.label.zh} stat={stat} lang={lang} />)}
+        </div>
+      </section>
+
+      {/* L8 — AdSlot above journey (data-stub: real AdSense after publisher ID set) */}
+      <section className="border-b border-blue-200/70 bg-white/80 py-6 dark:border-blue-950/60 dark:bg-slate-950/80">
+        <div className="container">
+          <AdSlot slot="homepage-hero-after" position="top" variant="responsive" />
         </div>
       </section>
 
@@ -501,6 +541,60 @@ export default function Home() {
         </div>
       </motion.section>
 
+      {/* L9-10 — Conversion strip (newsletter + bookmark) */}
+      <motion.section className="border-b border-blue-200/70 bg-[linear-gradient(135deg,#fefce8_0%,#fef3c7_46%,#fde68a_100%)] py-14 dark:border-blue-950/60 dark:bg-slate-950 md:py-16" {...sectionMotion}>
+        <div className="container">
+          <div className="mb-8 max-w-3xl">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 dark:text-amber-300">
+              {lang === "zh" ? "保持聯繫" : "Stay in the loop"}
+            </p>
+            <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-900 dark:text-white md:text-4xl">
+              {lang === "zh" ? "把工具與知識帶在身邊" : "Take the tools and knowledge with you"}
+            </h2>
+            <p className="mt-3 text-sm leading-7 text-slate-700 dark:text-slate-300 md:text-base">
+              {lang === "zh"
+                ? "訂閱電子報或加入書籤,讓 Tool Matrix 成為你日常決策的延伸,而不是搜尋一次就忘的工具。"
+                : "Subscribe or bookmark to make Tool Matrix part of your everyday decision flow, not a one-time search."}
+            </p>
+          </div>
+          <NewsletterCta lang={lang} />
+        </div>
+      </motion.section>
+
+      {/* L15 — Affiliate recommendations (data-stub: replace href when partner agreement signed) */}
+      <motion.section className="border-b border-blue-200/70 bg-white py-14 dark:border-blue-950/60 dark:bg-slate-950 md:py-16" {...sectionMotion}>
+        <div className="container">
+          <div className="mb-8 max-w-3xl">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 dark:text-amber-300">
+              {lang === "zh" ? "工具推薦" : "Tool recommendations"}
+            </p>
+            <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-900 dark:text-white md:text-4xl">
+              {lang === "zh" ? "把計算結果落地到實際生活" : "Turn results into action"}
+            </h2>
+            <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300 md:text-base">
+              {lang === "zh"
+                ? "這些是我們覺得能搭配 Tool Matrix 一起使用的硬體與資源。聯盟夥伴正在洽談中,完成後連結會啟用。"
+                : "Hardware and resources we think pair well with Tool Matrix. Partner agreements are in progress; links will activate when ready."}
+            </p>
+          </div>
+          <AffiliateGrid
+            lang={lang}
+            items={homepageAffiliateItems}
+            title={{ zh: "推薦資源", en: "Recommended resources" }}
+          />
+        </div>
+      </motion.section>
+
+      {/* L16 — Premium teaser (data-stub: wire Stripe checkout when payment ready) */}
+      <motion.section className="border-b border-blue-200/70 bg-[linear-gradient(135deg,#eff6ff_0%,#e0e7ff_50%,#f5f3ff_100%)] py-14 dark:border-blue-950/60 dark:bg-slate-950 md:py-16" {...sectionMotion}>
+        <div className="container">
+          <PremiumTeaser lang={lang} />
+        </div>
+      </motion.section>
+
+      {/* L17 — Trust strip (privacy / terms / editorial) */}
+      <TrustStrip lang={lang} variant="default" />
+
       {showBackToTop && (
         <button
           type="button"
@@ -531,6 +625,9 @@ export default function Home() {
               <div className="mt-5 grid gap-3 text-sm text-slate-300">
                 <Link href="/blog" className="transition-colors hover:text-white">{lang === "zh" ? "知識庫" : "Knowledge"}</Link>
                 <Link href="/about" className="transition-colors hover:text-white">{lang === "zh" ? "關於我們" : "About"}</Link>
+                <Link href="/privacy" className="transition-colors hover:text-white">{lang === "zh" ? "隱私政策" : "Privacy"}</Link>
+                <Link href="/terms" className="transition-colors hover:text-white">{lang === "zh" ? "使用條款" : "Terms"}</Link>
+                <Link href="/editorial" className="transition-colors hover:text-white">{lang === "zh" ? "編輯方針" : "Editorial"}</Link>
                 <a href="https://github.com/pigdragon-H/my-tools-matrix" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 transition-colors hover:text-white"><Github className="h-4 w-4" />GitHub</a>
               </div>
             </div>

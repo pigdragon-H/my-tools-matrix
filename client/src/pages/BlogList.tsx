@@ -5,6 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { categories } from "@shared/categoriesConfig";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { AdSlot } from "@/components/business/AdSlot";
+import { TrustStrip } from "@/components/business/TrustStrip";
 
 type Lang = "zh" | "en";
 
@@ -92,6 +94,11 @@ export default function BlogList() {
         </div>
       </section>
 
+      {/* L8 — AdSlot (after hero) */}
+      <section className="container py-6">
+        <AdSlot slot="blog-after-hero" position="top" variant="responsive" />
+      </section>
+
       <section className="container py-14 md:py-20">
         <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
@@ -123,6 +130,11 @@ export default function BlogList() {
         </div>
       </section>
 
+      {/* L14 — AdSlot (between guides and domains) */}
+      <section className="container py-6">
+        <AdSlot slot="blog-before-domains" position="middle" variant="responsive" />
+      </section>
+
       <section className="border-t border-blue-200/70 bg-blue-50/60 dark:border-blue-950/60 dark:bg-slate-950">
         <div className="container py-14 md:py-20">
           <div className="mb-10 max-w-2xl">
@@ -148,6 +160,9 @@ export default function BlogList() {
           </div>
         </div>
       </section>
+
+      {/* L17 — Trust strip */}
+      <TrustStrip lang={lang} variant="default" />
     </div>
   );
 }
