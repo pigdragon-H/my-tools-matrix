@@ -15,6 +15,8 @@ import {
   BookOpen,
   Brain,
   Calculator,
+  ChevronLeft,
+  ChevronRight,
   Code2,
   Dumbbell,
   Github,
@@ -209,23 +211,51 @@ const footerCategories = [
 
 function FlashBannerStrip({ lang }: { lang: Lang }) {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     if (prefersReducedMotion) return;
+    if (isHovering) return;
     const timer = window.setInterval(() => {
       setActiveSlide((current) => (current + 1) % flashBannerSlides.length);
-    }, 4200);
+    }, 6000);
     return () => window.clearInterval(timer);
-  }, [prefersReducedMotion]);
+  }, [prefersReducedMotion, isHovering]);
+
+  const goPrev = () =>
+    setActiveSlide((current) => (current - 1 + flashBannerSlides.length) % flashBannerSlides.length);
+  const goNext = () =>
+    setActiveSlide((current) => (current + 1) % flashBannerSlides.length);
+
+  // Keyboard nav: ←/→ when banner has focus
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (!document.activeElement?.closest("[data-testid='homepage-flash-banner-slider']")) return;
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        goPrev();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        goNext();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   const slide = flashBannerSlides[activeSlide];
 
   return (
     <section
       aria-label="Formula Universe flash banner slider"
+      aria-roledescription="carousel"
       className="relative overflow-hidden border-b border-blue-200/70 bg-slate-950 text-white dark:border-blue-900/60"
       data-testid="homepage-flash-banner-slider"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      onFocus={() => setIsHovering(true)}
+      onBlur={() => setIsHovering(false)}
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_25%,rgba(59,130,246,0.45),transparent_30%),radial-gradient(circle_at_82%_20%,rgba(168,85,247,0.32),transparent_28%),linear-gradient(135deg,#020617_0%,#0f2f7c_48%,#111827_100%)]" />
       <div className="absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:44px_44px]" />
@@ -273,6 +303,24 @@ function FlashBannerStrip({ lang }: { lang: Lang }) {
             </motion.div>
           </div>
 
+          {/* Chevron prev/next — Phase G Sprint D */}
+          <button
+            type="button"
+            onClick={goPrev}
+            aria-label={lang === "zh" ? "上一張" : "Previous slide"}
+            className="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full border border-white/20 bg-slate-950/40 p-2 text-blue-100 backdrop-blur transition hover:bg-slate-950/70 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 md:left-5 md:p-2.5"
+          >
+            <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
+          </button>
+          <button
+            type="button"
+            onClick={goNext}
+            aria-label={lang === "zh" ? "下一張" : "Next slide"}
+            className="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full border border-white/20 bg-slate-950/40 p-2 text-blue-100 backdrop-blur transition hover:bg-slate-950/70 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 md:right-5 md:p-2.5"
+          >
+            <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
+          </button>
+
           <div className="absolute bottom-6 left-6 right-6 z-20 flex flex-col gap-4 md:left-10 md:right-10 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-2" aria-label="Flash banner slide controls">
               {flashBannerSlides.map((item, index) => (
@@ -282,11 +330,17 @@ function FlashBannerStrip({ lang }: { lang: Lang }) {
                   onClick={() => setActiveSlide(index)}
                   className={`h-2.5 rounded-full transition-all ${index === activeSlide ? "w-10 bg-white" : "w-2.5 bg-white/35 hover:bg-white/60"}`}
                   aria-label={`Show flash banner slide ${index + 1}`}
+                  aria-current={index === activeSlide ? "true" : "false"}
                 />
               ))}
             </div>
             <div className="text-xs font-semibold uppercase tracking-[0.22em] text-blue-100/70">
               {String(activeSlide + 1).padStart(2, "0")} / {String(flashBannerSlides.length).padStart(2, "0")}
+              {isHovering && !prefersReducedMotion ? (
+                <span className="ml-2 rounded-full bg-white/15 px-2 py-0.5 text-[10px] font-bold tracking-[0.18em] text-white/90">
+                  {lang === "zh" ? "已暫停" : "PAUSED"}
+                </span>
+              ) : null}
             </div>
           </div>
         </div>
