@@ -15,6 +15,8 @@ import {
   BookOpen,
   Brain,
   Calculator,
+  ChevronLeft,
+  ChevronRight,
   Code2,
   Dumbbell,
   Github,
@@ -94,9 +96,9 @@ const flashBannerSlides: FlashBannerSlide[] = [
     visual: "TOOLS · LOGIC · ACTION",
   },
   {
-    eyebrow: { zh: "Tool Matrix Vision", en: "Tool Matrix Vision" },
+    eyebrow: { zh: "Formula Universe Vision", en: "Formula Universe Vision" },
     title: { zh: "工具整合中樞", en: "Smarter tool hub" },
-    slogan: { zh: "從計算、比較、規劃到理解結果，工具矩陣協助你更快找到可信答案。", en: "From calculation and comparison to planning and interpretation, Tool Matrix helps you reach trusted answers faster." },
+    slogan: { zh: "從計算、比較、規劃到理解結果，Formula Universe協助你更快找到可信答案。", en: "From calculation and comparison to planning and interpretation, Formula Universe helps you reach trusted answers faster." },
     description: { zh: "Formula Universe 將公式、知識與行動建議串成清楚路徑，讓每一次選擇更有依據。", en: "Formula Universe connects formulas, knowledge, and next-step guidance into clear paths for better choices." },
     accent: "from-sky-400 to-blue-200",
     visual: "TOOLS · TRUST · FUTURE",
@@ -119,7 +121,7 @@ const flashBannerSlides: FlashBannerSlide[] = [
   },
   {
     eyebrow: { zh: "Smart Helper", en: "Smart Helper" },
-    title: { zh: "智慧工具矩陣", en: "Smart tool matrix" },
+    title: { zh: "智慧Formula Universe", en: "Smart tool matrix" },
     slogan: { zh: "從問題、工具到行動，讓知識真正進入日常決策。", en: "From question to tool to action, knowledge becomes part of daily decisions." },
     description: { zh: "Formula Universe 是面向未來的知識作業系統入口。", en: "Formula Universe is the entry point to a future-facing knowledge operating system." },
     accent: "from-blue-300 to-violet-200",
@@ -137,9 +139,9 @@ const journeyCards: JourneyCard[] = [
 ];
 
 const stats: StatItem[] = [
-  { value: 157, suffix: "+", label: { zh: "個工具", en: "tools" } },
+  { value: 157, suffix: "+", label: { zh: "個工具規劃中", en: "tools planned" } },
   { value: 12, suffix: "", label: { zh: "大知識領域", en: "knowledge domains" } },
-  { value: 50000, suffix: "+", label: { zh: "公式指標（目標）", en: "formula indicators (target)" } },
+  { value: 6, suffix: "", label: { zh: "條決策路徑", en: "decision paths" } },
   { value: 0, suffix: "", label: { zh: "AI Native 架構", en: "AI Native architecture" }, isText: true },
 ];
 
@@ -209,23 +211,51 @@ const footerCategories = [
 
 function FlashBannerStrip({ lang }: { lang: Lang }) {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     if (prefersReducedMotion) return;
+    if (isHovering) return;
     const timer = window.setInterval(() => {
       setActiveSlide((current) => (current + 1) % flashBannerSlides.length);
-    }, 4200);
+    }, 6000);
     return () => window.clearInterval(timer);
-  }, [prefersReducedMotion]);
+  }, [prefersReducedMotion, isHovering]);
+
+  const goPrev = () =>
+    setActiveSlide((current) => (current - 1 + flashBannerSlides.length) % flashBannerSlides.length);
+  const goNext = () =>
+    setActiveSlide((current) => (current + 1) % flashBannerSlides.length);
+
+  // Keyboard nav: ←/→ when banner has focus
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (!document.activeElement?.closest("[data-testid='homepage-flash-banner-slider']")) return;
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        goPrev();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        goNext();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   const slide = flashBannerSlides[activeSlide];
 
   return (
     <section
       aria-label="Formula Universe flash banner slider"
+      aria-roledescription="carousel"
       className="relative overflow-hidden border-b border-blue-200/70 bg-slate-950 text-white dark:border-blue-900/60"
       data-testid="homepage-flash-banner-slider"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      onFocus={() => setIsHovering(true)}
+      onBlur={() => setIsHovering(false)}
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_25%,rgba(59,130,246,0.45),transparent_30%),radial-gradient(circle_at_82%_20%,rgba(168,85,247,0.32),transparent_28%),linear-gradient(135deg,#020617_0%,#0f2f7c_48%,#111827_100%)]" />
       <div className="absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:44px_44px]" />
@@ -273,6 +303,24 @@ function FlashBannerStrip({ lang }: { lang: Lang }) {
             </motion.div>
           </div>
 
+          {/* Chevron prev/next — Phase G Sprint D */}
+          <button
+            type="button"
+            onClick={goPrev}
+            aria-label={lang === "zh" ? "上一張" : "Previous slide"}
+            className="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full border border-white/20 bg-slate-950/40 p-2 text-blue-100 backdrop-blur transition hover:bg-slate-950/70 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 md:left-5 md:p-2.5"
+          >
+            <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
+          </button>
+          <button
+            type="button"
+            onClick={goNext}
+            aria-label={lang === "zh" ? "下一張" : "Next slide"}
+            className="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full border border-white/20 bg-slate-950/40 p-2 text-blue-100 backdrop-blur transition hover:bg-slate-950/70 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 md:right-5 md:p-2.5"
+          >
+            <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
+          </button>
+
           <div className="absolute bottom-6 left-6 right-6 z-20 flex flex-col gap-4 md:left-10 md:right-10 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-2" aria-label="Flash banner slide controls">
               {flashBannerSlides.map((item, index) => (
@@ -282,11 +330,17 @@ function FlashBannerStrip({ lang }: { lang: Lang }) {
                   onClick={() => setActiveSlide(index)}
                   className={`h-2.5 rounded-full transition-all ${index === activeSlide ? "w-10 bg-white" : "w-2.5 bg-white/35 hover:bg-white/60"}`}
                   aria-label={`Show flash banner slide ${index + 1}`}
+                  aria-current={index === activeSlide ? "true" : "false"}
                 />
               ))}
             </div>
             <div className="text-xs font-semibold uppercase tracking-[0.22em] text-blue-100/70">
               {String(activeSlide + 1).padStart(2, "0")} / {String(flashBannerSlides.length).padStart(2, "0")}
+              {isHovering && !prefersReducedMotion ? (
+                <span className="ml-2 rounded-full bg-white/15 px-2 py-0.5 text-[10px] font-bold tracking-[0.18em] text-white/90">
+                  {lang === "zh" ? "已暫停" : "PAUSED"}
+                </span>
+              ) : null}
             </div>
           </div>
         </div>
@@ -317,10 +371,10 @@ function CountUpStat({ stat, lang }: { stat: StatItem; lang: Lang }) {
 
   return (
     <div className="text-center">
-      <div className="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">
+      <div className="text-3xl font-black text-white drop-shadow-sm md:text-5xl">
         {stat.isText ? "AI Native" : displayValue.toLocaleString()}{stat.suffix}
       </div>
-      <div className="mt-2 text-sm font-medium text-slate-600 dark:text-slate-300">{stat.label[lang]}</div>
+      <div className="mt-2 text-sm font-medium text-blue-100/90 md:text-base">{stat.label[lang]}</div>
     </div>
   );
 }
@@ -380,14 +434,16 @@ export default function Home() {
     <div className="min-h-screen bg-[linear-gradient(180deg,#eef6ff_0%,#f8fbff_22%,#eef4ff_52%,#f8fbff_100%)] text-foreground dark:bg-[linear-gradient(180deg,#020617_0%,#0f172a_45%,#111827_100%)]">
       <FlashBannerStrip lang={lang} />
 
-      <section className="relative overflow-hidden border-b border-blue-200/70 bg-[radial-gradient(circle_at_16%_20%,rgba(59,130,246,0.18),transparent_30%),radial-gradient(circle_at_82%_8%,rgba(124,58,237,0.14),transparent_28%),linear-gradient(135deg,#f8fbff_0%,#eaf3ff_48%,#f4f0ff_100%)] dark:border-blue-950/60 dark:bg-[radial-gradient(circle_at_16%_20%,rgba(37,99,235,0.20),transparent_30%),linear-gradient(135deg,#020617_0%,#0f172a_100%)]">
-        <div className="container py-20 md:py-28">
-          <div className="max-w-6xl">
-            <Badge variant="secondary" className="mb-5 text-xs font-medium">Formula Universe · AI Native Knowledge Operating System</Badge>
-            <h1 className="font-bold tracking-tight">
-              <span className="block text-3xl text-muted-foreground md:text-5xl lg:text-6xl">{lang === "zh" ? "工具矩陣" : "Formula Universe"}</span>
-              <span className="mt-2 block w-full whitespace-nowrap text-primary text-[clamp(1.25rem,5vw,4.5rem)] leading-[1.05] tracking-tight sm:text-[clamp(1.75rem,5.8vw,4.5rem)]">{lang === "zh" ? "讓每個決策都有數據支撐" : "Data-backed decisions"}</span>
-            </h1>
+      <section className="relative overflow-hidden border-b border-blue-200/70 bg-[radial-gradient(circle_at_16%_20%,rgba(59,130,246,0.10),transparent_30%),radial-gradient(circle_at_82%_8%,rgba(124,58,237,0.08),transparent_28%),linear-gradient(135deg,#fafbfd_0%,#f3f6fb_48%,#f6f4fb_100%)] dark:border-blue-950/60 dark:bg-[radial-gradient(circle_at_16%_20%,rgba(37,99,235,0.16),transparent_30%),linear-gradient(135deg,#020617_0%,#0f172a_100%)]">
+        <div className="container py-16 md:py-20">
+          <div className="max-w-5xl">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-primary/80">
+              {lang === "zh" ? "INTRODUCTION · 介紹" : "INTRODUCTION"}
+            </p>
+            <h2 className="font-bold tracking-tight">
+              <span className="block text-2xl text-muted-foreground md:text-3xl">{lang === "zh" ? "Formula Universe" : "Formula Universe"}</span>
+              <span className="mt-3 block w-full whitespace-normal text-primary text-[clamp(1.5rem,4vw,3.25rem)] leading-[1.15] tracking-tight md:whitespace-nowrap md:text-[clamp(2rem,4.6vw,3.5rem)]">{lang === "zh" ? "讓每個決策都有數據支撐" : "Data-backed decisions"}</span>
+            </h2>
             <p className="mt-7 max-w-3xl text-lg leading-8 text-muted-foreground md:text-xl">
               {lang === "zh" ? "Formula Universe 不是單純的工具列表，而是把工具、公式、解釋、範例、限制與下一步行動串起來的 AI Native Knowledge Infrastructure。" : "Formula Universe connects tools, formulas, explanations, examples, limitations, and next actions into AI Native Knowledge Infrastructure."}
             </p>
@@ -486,7 +542,7 @@ export default function Home() {
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "知識庫與關於我們" : "Knowledge Base and About"}</h2>
             <p className="mt-3 text-muted-foreground md:text-lg">
               {lang === "zh"
-                ? "首頁不只提供工具入口,也保留知識文章、公式脈絡與品牌說明,讓使用者知道如何理解結果、為什麼可以信任這套工具矩陣。"
+                ? "首頁不只提供工具入口,也保留知識文章、公式脈絡與品牌說明,讓使用者知道如何理解結果、為什麼可以信任這套Formula Universe。"
                 : "The homepage is more than a tool index — it also keeps knowledge articles, formula context, and brand notes so users understand the results and why this tool matrix can be trusted."}
             </p>
           </div>
@@ -522,8 +578,8 @@ export default function Home() {
               <h3 className="text-2xl font-black text-slate-950 dark:text-white">{lang === "zh" ? "關於我們" : "About us"}</h3>
               <p className="mt-4 text-sm leading-7 text-muted-foreground md:text-base">
                 {lang === "zh"
-                  ? "Formula Universe / 工具矩陣是一座 AI Native Knowledge Infrastructure,目標是把工具、公式、解釋、範例、限制與下一步行動串成可信任的決策入口。"
-                  : "Formula Universe / Tool Matrix is an AI Native Knowledge Infrastructure that connects tools, formulas, explanations, examples, limitations, and next actions into a trusted decision gateway."}
+                  ? "Formula Universe是一座 AI Native Knowledge Infrastructure,目標是把工具、公式、解釋、範例、限制與下一步行動串成可信任的決策入口。"
+                  : "Formula Universe is an AI Native Knowledge Infrastructure that connects tools, formulas, explanations, examples, limitations, and next actions into a trusted decision gateway."}
               </p>
               <div className="mt-6 grid gap-3">
                 {(lang === "zh"
@@ -534,7 +590,7 @@ export default function Home() {
                 ))}
               </div>
               <p className="mt-6 inline-flex items-center gap-2 text-sm font-black text-indigo-700 transition group-hover:gap-3 dark:text-indigo-300">
-                {lang === "zh" ? "了解工具矩陣" : "Learn about Tool Matrix"} <ArrowRight className="h-4 w-4" />
+                {lang === "zh" ? "了解Formula Universe" : "Learn about Formula Universe"} <ArrowRight className="h-4 w-4" />
               </p>
             </Link>
           </div>
@@ -553,8 +609,8 @@ export default function Home() {
             </h2>
             <p className="mt-3 text-sm leading-7 text-slate-700 dark:text-slate-300 md:text-base">
               {lang === "zh"
-                ? "訂閱電子報或加入書籤,讓 Tool Matrix 成為你日常決策的延伸,而不是搜尋一次就忘的工具。"
-                : "Subscribe or bookmark to make Tool Matrix part of your everyday decision flow, not a one-time search."}
+                ? "訂閱電子報或加入書籤,讓 Formula Universe 成為你日常決策的延伸,而不是搜尋一次就忘的工具。"
+                : "Subscribe or bookmark to make Formula Universe part of your everyday decision flow, not a one-time search."}
             </p>
           </div>
           <NewsletterCta lang={lang} />
@@ -573,8 +629,8 @@ export default function Home() {
             </h2>
             <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300 md:text-base">
               {lang === "zh"
-                ? "這些是我們覺得能搭配 Tool Matrix 一起使用的硬體與資源。聯盟夥伴正在洽談中,完成後連結會啟用。"
-                : "Hardware and resources we think pair well with Tool Matrix. Partner agreements are in progress; links will activate when ready."}
+                ? "這些是我們覺得能搭配 Formula Universe 一起使用的硬體與資源。聯盟夥伴正在洽談中,完成後連結會啟用。"
+                : "Hardware and resources we think pair well with Formula Universe. Partner agreements are in progress; links will activate when ready."}
             </p>
           </div>
           <AffiliateGrid
@@ -612,11 +668,11 @@ export default function Home() {
             <div>
               <div className="flex items-center gap-3"><div className="rounded-2xl bg-primary/20 p-3"><Binary className="h-6 w-6 text-primary" /></div><div><p className="text-lg font-bold">Formula Universe</p><p className="text-sm text-slate-400">AI Native Knowledge Infrastructure</p></div></div>
               <p className="mt-5 max-w-md text-sm leading-7 text-slate-300">{lang === "zh" ? "AI Native Knowledge Infrastructure 的首頁入口。" : "Homepage entry to the AI Native Knowledge Infrastructure."}</p>
-              <p className="mt-6 text-xs text-slate-500">© 2026 PiGragon-H. All rights reserved.</p>
+              <p className="mt-6 text-xs text-slate-500">© {new Date().getFullYear()} PiGragon-H. All rights reserved.</p>
             </div>
             <div>
               <h3 className="text-sm font-semibold text-white">{lang === "zh" ? "分類連結" : "Categories"}</h3>
-              <div className="mt-5 grid grid-cols-2 gap-3 text-sm text-slate-300">
+              <div className="mt-5 flex flex-col gap-3 text-sm text-slate-300">
                 {footerCategories.map((item) => <Link key={item.href} href={item.href} className="transition-colors hover:text-white">{item.label[lang]}</Link>)}
               </div>
             </div>

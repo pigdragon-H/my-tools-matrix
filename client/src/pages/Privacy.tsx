@@ -13,8 +13,8 @@ export default function Privacy() {
       ...defaultSeo,
       title:
         lang === "zh"
-          ? "隱私政策｜工具矩陣 Formula Universe"
-          : "Privacy Policy | Tool Matrix",
+          ? "隱私政策｜Formula Universe"
+          : "Privacy Policy | Formula Universe",
     });
   }, [lang]);
 
@@ -32,8 +32,8 @@ export default function Privacy() {
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300">
             {lang === "zh"
-              ? "我們重視你的隱私。這份政策說明 Formula Universe / Tool Matrix 如何處理 (或不處理) 你的個人資料。"
-              : "We respect your privacy. This policy explains how Formula Universe / Tool Matrix handles (or does not handle) your personal data."}
+              ? "我們重視你的隱私。這份政策說明 Formula Universe 如何處理 (或不處理) 你的個人資料。"
+              : "We respect your privacy. This policy explains how Formula Universe handles (or does not handle) your personal data."}
           </p>
           <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
             {lang === "zh" ? `最後更新：${lastUpdated}` : `Last updated: ${lastUpdated}`}

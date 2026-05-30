@@ -28,8 +28,8 @@ export default function CategoryPage() {
     if (!catInfo) return;
 
     setSeoMeta({
-      title: `${catInfo.name}工具｜工具矩陣`,
-      description: `${catInfo.name}工具集合：${catInfo.description}。工具矩陣提供免費、快速、適合台灣使用情境的線上計算與決策輔助工具。`,
+      title: `${catInfo.name}工具｜Formula Universe`,
+      description: `${catInfo.name}工具集合：${catInfo.description}。Formula Universe提供免費、快速、適合台灣使用情境的線上計算與決策輔助工具。`,
     });
   }, [catInfo]);
 

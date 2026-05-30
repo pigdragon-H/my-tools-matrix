@@ -13,8 +13,8 @@ export default function Terms() {
       ...defaultSeo,
       title:
         lang === "zh"
-          ? "使用條款｜工具矩陣 Formula Universe"
-          : "Terms of Service | Tool Matrix",
+          ? "使用條款｜Formula Universe"
+          : "Terms of Service | Formula Universe",
     });
   }, [lang]);
 
@@ -32,8 +32,8 @@ export default function Terms() {
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300">
             {lang === "zh"
-              ? "使用 Formula Universe / Tool Matrix 即代表你同意以下條款。"
-              : "By using Formula Universe / Tool Matrix you agree to the following terms."}
+              ? "使用 Formula Universe 即代表你同意以下條款。"
+              : "By using Formula Universe you agree to the following terms."}
           </p>
           <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
             {lang === "zh" ? `最後更新：${lastUpdated}` : `Last updated: ${lastUpdated}`}

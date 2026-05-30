@@ -13,8 +13,8 @@ export default function Editorial() {
       ...defaultSeo,
       title:
         lang === "zh"
-          ? "編輯方針｜工具矩陣 Formula Universe"
-          : "Editorial Standards | Tool Matrix",
+          ? "編輯方針｜Formula Universe"
+          : "Editorial Standards | Formula Universe",
     });
   }, [lang]);
 
