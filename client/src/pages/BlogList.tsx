@@ -1,12 +1,14 @@
 import { Link } from "wouter";
-import { ArrowRight, BookOpen, FileText } from "lucide-react";
+import { ArrowRight, BookOpen, FileText, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { categories } from "@shared/categoriesConfig";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { AdSlot } from "@/components/business/AdSlot";
 import { TrustStrip } from "@/components/business/TrustStrip";
+import { trpc } from "@/lib/trpc";
 
 type Lang = "zh" | "en";
 
@@ -78,6 +80,23 @@ const copy = {
 export default function BlogList() {
   const { lang } = useLanguage();
 
+  // Latest published articles from Supabase via tRPC.
+  // Returns [] gracefully if backend / table not yet provisioned.
+  const articlesQuery = trpc.articles.listPublished.useQuery(
+    { locale: lang, limit: 12 },
+    { retry: false }
+  );
+  const dbArticles = (articlesQuery.data ?? []) as Array<{
+    id: string;
+    slug: string;
+    title: string;
+    description?: string;
+    cover_image?: string;
+    ai_summary?: string;
+    category_key?: string;
+    published_at?: string;
+  }>;
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <section className="border-b border-blue-200/70 bg-[linear-gradient(135deg,#eff6ff_0%,#f5f3ff_48%,#ecfeff_100%)] dark:border-blue-950/60 dark:bg-slate-950">
@@ -134,6 +153,53 @@ export default function BlogList() {
       <section className="container py-6">
         <AdSlot slot="blog-before-domains" position="middle" variant="responsive" />
       </section>
+
+      {/* Latest articles from the knowledge base (Supabase-backed). */}
+      {dbArticles.length > 0 && (
+        <section className="container py-14 md:py-20">
+          <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-2xl">
+              <h2 className="text-3xl font-bold tracking-tight inline-flex items-center gap-2">
+                <Sparkles className="h-6 w-6 text-blue-600" />
+                {lang === "zh" ? "最新文章" : "Latest articles"}
+              </h2>
+              <p className="mt-3 text-muted-foreground">
+                {lang === "zh"
+                  ? "由團隊與 AI 協作撰寫,經過反機械語感檢測後發布。"
+                  : "Co-authored by our team and AI, post anti-machine-tone review."}
+              </p>
+            </div>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {dbArticles.map((a) => (
+              <Link key={a.id} href={`/blog/${a.slug}`}>
+                <Card className="h-full cursor-pointer border-blue-100 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-xl dark:border-blue-950/60 dark:bg-white/5">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-2 mb-4">
+                      <FileText className="h-6 w-6 text-blue-600" />
+                      {a.category_key && (
+                        <Badge variant="secondary" className="text-xs">
+                          {a.category_key}
+                        </Badge>
+                      )}
+                    </div>
+                    <h3 className="text-lg font-bold leading-snug">{a.title}</h3>
+                    {(a.description || a.ai_summary) && (
+                      <p className="mt-3 text-sm leading-7 text-muted-foreground line-clamp-3">
+                        {a.description || a.ai_summary}
+                      </p>
+                    )}
+                    <p className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">
+                      {lang === "zh" ? "閱讀文章" : "Read article"}{" "}
+                      <ArrowRight className="h-4 w-4" />
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="border-t border-blue-200/70 bg-blue-50/60 dark:border-blue-950/60 dark:bg-slate-950">
         <div className="container py-14 md:py-20">
