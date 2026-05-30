@@ -1,10 +1,13 @@
-// PremiumTeaser.tsx
-// Reusable premium plan teaser — stub-first.
-// To activate: set ENABLE_PREMIUM=true and wire Stripe checkout in onClick handler.
+// PremiumTeaser.tsx — Phase G Sprint C
+// Pricing tiers with a real "Notify me" capture wired to /trpc/newsletter.subscribe
+// (segmented by source="pricing-interest"). When ENABLE_PREMIUM flips true,
+// the cards switch to actual upgrade CTAs.
 
+import { useState } from "react";
 import { isEnabled } from "@/config/featureFlags";
+import { trpc } from "@/lib/trpc";
 import type { Lang } from "@/contexts/LanguageContext";
-import { Sparkles, Crown, Zap } from "lucide-react";
+import { Sparkles, Crown, Zap, Loader2, BellRing } from "lucide-react";
 
 interface PremiumTeaserProps {
   lang: Lang;
@@ -45,26 +48,44 @@ const PLANS = [
 
 export function PremiumTeaser({ lang }: PremiumTeaserProps) {
   const isLive = isEnabled("ENABLE_PREMIUM");
-  const ctaLabel = isLive
-    ? lang === "zh"
-      ? "立即升級"
-      : "Upgrade now"
-    : lang === "zh"
-    ? "即將推出"
-    : "Coming soon";
+  const [showNotifyForm, setShowNotifyForm] = useState<string | null>(null);
+  const [email, setEmail] = useState("");
+  const [feedback, setFeedback] = useState<{ kind: "success" | "error"; text: string } | null>(null);
+
+  const subscribe = trpc.newsletter.subscribe.useMutation({
+    onSuccess: (data) => {
+      setFeedback({
+        kind: "success",
+        text:
+          data?.message ??
+          (lang === "zh"
+            ? "✓ 我們會在 Premium 開放時通知你!"
+            : "✓ We'll notify you when Premium launches!"),
+      });
+      setEmail("");
+      setShowNotifyForm(null);
+    },
+    onError: (err) => {
+      setFeedback({
+        kind: "error",
+        text:
+          err.message ||
+          (lang === "zh" ? "提交失敗,請稍後再試。" : "Could not submit. Please try again."),
+      });
+    },
+  });
 
   return (
     <section
       data-stub="premium-teaser"
-      data-todo="wire-stripe-checkout-when-payment-ready"
       className="rounded-[2rem] border border-blue-200 bg-gradient-to-br from-white via-blue-50 to-indigo-50 p-6 shadow-sm dark:border-blue-900/50 dark:from-slate-900 dark:via-blue-950/30 dark:to-indigo-950/30 md:p-8"
     >
-      <div className="mb-6 flex items-center gap-3">
+      <div className="mb-6 flex flex-wrap items-center gap-3">
         <span className="rounded-full bg-blue-600 px-3 py-1 text-xs font-black uppercase tracking-[0.2em] text-white">
           Premium
         </span>
         <p className="text-sm font-bold text-blue-900 dark:text-blue-200">
-          {lang === "zh" ? "進階方案規劃中" : "Plans in progress"}
+          {lang === "zh" ? "搶先預約 — 早鳥通知名單" : "Early access — notification list"}
         </p>
       </div>
       <h3 className="text-2xl font-black text-slate-900 dark:text-white md:text-3xl">
@@ -72,7 +93,7 @@ export function PremiumTeaser({ lang }: PremiumTeaserProps) {
       </h3>
       <p className="mt-1 text-sm font-bold italic text-blue-700 dark:text-blue-300">
         {lang === "zh"
-          ? "知識付費，但不要成為負擔。"
+          ? "知識付費,但不要成為負擔。"
           : "Pay for knowledge — never let it weigh you down."}
       </p>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300">
@@ -84,6 +105,7 @@ export function PremiumTeaser({ lang }: PremiumTeaserProps) {
       <div className="mt-6 grid gap-4 md:grid-cols-3">
         {PLANS.map((p) => {
           const Icon = p.icon;
+          const isThisFormOpen = showNotifyForm === p.plan;
           return (
             <div
               key={p.plan}
@@ -111,24 +133,90 @@ export function PremiumTeaser({ lang }: PremiumTeaserProps) {
                   </li>
                 ))}
               </ul>
-              <button
-                type="button"
-                disabled={!isLive}
-                onClick={() => {
-                  if (!isLive) return;
-                  // TODO: redirect to /api/checkout?plan={p.plan} when Stripe ready
-                }}
-                className={`mt-5 inline-flex w-full items-center justify-center rounded-xl px-4 py-2 text-sm font-black transition ${
-                  isLive
-                    ? "bg-blue-600 text-white hover:bg-blue-700"
-                    : "cursor-not-allowed bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400"
-                }`}
-              >
-                {ctaLabel}
-              </button>
+
+              {isLive ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    // TODO: redirect to /api/checkout?plan={p.plan} when Stripe ready
+                  }}
+                  className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-black text-white transition hover:bg-blue-700"
+                >
+                  {lang === "zh" ? "立即升級" : "Upgrade now"}
+                </button>
+              ) : isThisFormOpen ? (
+                <form
+                  className="mt-5 space-y-2"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (!email) return;
+                    setFeedback(null);
+                    subscribe.mutate({
+                      email,
+                      source: `pricing-interest:${p.plan.toLowerCase()}`,
+                      lang,
+                    });
+                  }}
+                >
+                  <input
+                    type="email"
+                    required
+                    autoFocus
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="your@email.com"
+                    disabled={subscribe.isPending}
+                    aria-label={lang === "zh" ? "Email 地址" : "Email address"}
+                    className="w-full rounded-xl border border-blue-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:opacity-60 dark:border-blue-900/50 dark:bg-slate-900 dark:text-white"
+                  />
+                  <button
+                    type="submit"
+                    disabled={subscribe.isPending}
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-black text-white transition hover:bg-blue-700 disabled:cursor-wait disabled:opacity-70"
+                  >
+                    {subscribe.isPending ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        {lang === "zh" ? "送出中…" : "Submitting…"}
+                      </>
+                    ) : (
+                      <>
+                        <BellRing className="h-4 w-4" />
+                        {lang === "zh" ? "通知我" : "Notify me"}
+                      </>
+                    )}
+                  </button>
+                </form>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFeedback(null);
+                    setShowNotifyForm(p.plan);
+                  }}
+                  className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-blue-300 bg-white px-4 py-2 text-sm font-black text-blue-700 transition hover:border-blue-500 hover:bg-blue-50 dark:border-blue-800 dark:bg-slate-900 dark:text-blue-200 dark:hover:bg-blue-950/50"
+                >
+                  <BellRing className="h-4 w-4" />
+                  {lang === "zh" ? "開放時通知我" : "Notify me when available"}
+                </button>
+              )}
             </div>
           );
         })}
+      </div>
+
+      <div aria-live="polite" className="mt-4 min-h-[1.25rem]">
+        {feedback ? (
+          <p
+            className={`text-xs font-bold ${
+              feedback.kind === "success"
+                ? "text-emerald-700 dark:text-emerald-300"
+                : "text-red-700 dark:text-red-300"
+            }`}
+          >
+            {feedback.text}
+          </p>
+        ) : null}
       </div>
     </section>
   );
