@@ -381,7 +381,7 @@ export default function BmiCalculator() {
               <span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}`}>🌐 EN</span>
             </button>
           </div>
-          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
             <section className="space-y-6">
               <p className="text-sm font-black uppercase tracking-[0.24em] text-blue-700">{t.badge}</p>
               <h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1>
@@ -434,7 +434,7 @@ export default function BmiCalculator() {
               </div>
             </div>
 
-            <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">{/* L5-Calc */}
               <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
                 <h3 className="text-lg font-black">{t.exampleCards}</h3>
                 <div className="mt-4 space-y-3">
@@ -469,7 +469,7 @@ export default function BmiCalculator() {
             </div>
           </section>
 
-          <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">
+          <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">{/* L6-Result */}
             <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
               <div className={`h-5 bg-gradient-to-r ${activeCategory.tone}`} aria-label="Color band placeholder" />
               <div className="p-6 md:p-7">
@@ -518,7 +518,7 @@ export default function BmiCalculator() {
             <h2 className="mt-2 text-3xl font-black">{t.turnBmiIntoJourney}</h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.prototypeLayerNote}</p>
 
-            <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">
+            <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9-Emotion-Upper */}
               <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
                 <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
                   <div>
@@ -553,7 +553,7 @@ export default function BmiCalculator() {
               </article>
             </div>
 
-            <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">
+            <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10-Emotion-Lower */}
               <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
                 <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.healthJourney}</p>
                 <div className="mt-4 grid gap-3 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">
@@ -598,7 +598,7 @@ export default function BmiCalculator() {
             </div>
           </section>
 
-          <section className="grid gap-7 lg:grid-cols-[1fr_0.9fr]">
+          <section className="grid gap-7 lg:grid-cols-[1fr_0.9fr]">{/* L14-Knowledge-FAQ */}
             <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
               <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.knowledge}</p>
               <h2 className="mt-2 text-3xl font-black">{t.bmiMeaning}</h2>
