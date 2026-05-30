@@ -224,6 +224,17 @@ i18n 撰寫規則（黃金標準）：
 
 ✅ Phase 5 通過條件：`pnpm exec vite build` 無新 error，瀏覽器打開能看到完整 17 層。
 
+#### 🔧 Phase 5 收尾必跑（grep 殘留檢查 · 2026-05 新增）
+
+從黃金模板 clone 後 type/變數改名常常漏改殘留參考（TDEE 試產踩過此雷）。
+收尾前必跑：
+
+```bash
+# 殘留型別 / 變數參考檢查（< 5 秒）
+grep -nE '\b(Bmi|Bmr|Tdee)Activity\b' client/src/tools/<NEW>/index.tsx
+# 應該為空。如有命中 → sed 一次性替換
+```
+
 ---
 
 ### Phase 6 — 註冊路由（Register Route）
@@ -240,7 +251,25 @@ const toolMap: Record<string, ReturnType<typeof lazy>> = {
 
 如要在首頁曝光，更新 `client/src/pages/Home.tsx` 的 `featuredTools`。
 
-✅ Phase 6 通過條件：`/tools/{category}/{slug}` 在 dev server 載入正常，不顯示 404。
+#### 🚨 Phase 6 收尾必跑（三向註冊一致性 · 2026-05 新增）
+
+新工具上線必須 **同時** 出現於三處，缺一即線上爆 404（TDEE 部署踩過此雷）：
+
+| # | 檔案 | 用途 |
+|---|---|---|
+| 1 | `client/src/pages/ToolPage.tsx` | `toolComponentMap` lazy import |
+| 2 | `shared/toolsConfig.ts` | `tools[]` 元資料（決定 `getToolByPath` 是否找得到）|
+| 3 | `client/src/pages/Home.tsx` | 首頁卡片入口（建議，缺漏為 soft warning）|
+
+**自動檢查**：
+
+```bash
+python3 scripts/qc_route_audit.py
+# exit 0 = 全綠或僅 soft warning
+# exit 1 = 1/2 缺漏，必修不可上線
+```
+
+✅ Phase 6 通過條件：`/tools/{category}/{slug}` 在 dev server 載入正常，不顯示 404，且 `qc_route_audit.py` 退出碼 = 0。
 
 ---
 
