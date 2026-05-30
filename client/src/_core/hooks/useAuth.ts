@@ -6,14 +6,17 @@ export type AuthUser = {
   id: string;
   email: string | null;
   name: string | null;
-  role: "user" | "admin";
+  role: "user" | "editor" | "admin";
+  lastSignInAt: string | null;
+  createdAt: string | null;
 };
 
 function mapSupabaseUser(user: User): AuthUser {
   const appRole = (user.app_metadata as any)?.role;
   const metaRole = (user.user_metadata as any)?.role;
-  const role: "user" | "admin" =
-    appRole === "admin" || metaRole === "admin" ? "admin" : "user";
+  const rawRole = appRole ?? metaRole ?? "user";
+  const role: "user" | "editor" | "admin" =
+    rawRole === "admin" || rawRole === "editor" ? rawRole : "user";
   const name =
     (user.user_metadata as any)?.full_name ??
     (user.user_metadata as any)?.name ??
@@ -24,6 +27,8 @@ function mapSupabaseUser(user: User): AuthUser {
     email: user.email ?? null,
     name,
     role,
+    lastSignInAt: user.last_sign_in_at ?? null,
+    createdAt: user.created_at ?? null,
   };
 }
 
