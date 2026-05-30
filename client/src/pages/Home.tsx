@@ -212,14 +212,15 @@ function FlashBannerStrip({ lang }: { lang: Lang }) {
   const [isHovering, setIsHovering] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
+  // Autoplay always runs (per product requirement). Reduce-motion only affects
+  // transition style (fade vs slide), not whether the carousel auto-advances.
   useEffect(() => {
-    if (prefersReducedMotion) return;
     if (isHovering) return;
     const timer = window.setInterval(() => {
       setActiveSlide((current) => (current + 1) % flashBannerSlides.length);
     }, 6000);
     return () => window.clearInterval(timer);
-  }, [prefersReducedMotion, isHovering]);
+  }, [isHovering]);
 
   const goPrev = () =>
     setActiveSlide((current) => (current - 1 + flashBannerSlides.length) % flashBannerSlides.length);
