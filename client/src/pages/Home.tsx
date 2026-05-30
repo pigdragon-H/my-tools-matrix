@@ -15,8 +15,6 @@ import {
   BookOpen,
   Brain,
   Calculator,
-  ChevronLeft,
-  ChevronRight,
   Code2,
   Dumbbell,
   Github,
@@ -303,24 +301,6 @@ function FlashBannerStrip({ lang }: { lang: Lang }) {
             </motion.div>
           </div>
 
-          {/* Chevron prev/next — Phase G Sprint D */}
-          <button
-            type="button"
-            onClick={goPrev}
-            aria-label={lang === "zh" ? "上一張" : "Previous slide"}
-            className="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full border border-white/20 bg-slate-950/40 p-2 text-blue-100 backdrop-blur transition hover:bg-slate-950/70 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 md:left-5 md:p-2.5"
-          >
-            <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
-          </button>
-          <button
-            type="button"
-            onClick={goNext}
-            aria-label={lang === "zh" ? "下一張" : "Next slide"}
-            className="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full border border-white/20 bg-slate-950/40 p-2 text-blue-100 backdrop-blur transition hover:bg-slate-950/70 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 md:right-5 md:p-2.5"
-          >
-            <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
-          </button>
-
           <div className="absolute bottom-6 left-6 right-6 z-20 flex flex-col gap-4 md:left-10 md:right-10 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-2" aria-label="Flash banner slide controls">
               {flashBannerSlides.map((item, index) => (
@@ -433,27 +413,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[linear-gradient(180deg,#eef6ff_0%,#f8fbff_22%,#eef4ff_52%,#f8fbff_100%)] text-foreground dark:bg-[linear-gradient(180deg,#020617_0%,#0f172a_45%,#111827_100%)]">
       <FlashBannerStrip lang={lang} />
-
-      <section className="relative overflow-hidden border-b border-blue-200/70 bg-[radial-gradient(circle_at_16%_20%,rgba(59,130,246,0.10),transparent_30%),radial-gradient(circle_at_82%_8%,rgba(124,58,237,0.08),transparent_28%),linear-gradient(135deg,#fafbfd_0%,#f3f6fb_48%,#f6f4fb_100%)] dark:border-blue-950/60 dark:bg-[radial-gradient(circle_at_16%_20%,rgba(37,99,235,0.16),transparent_30%),linear-gradient(135deg,#020617_0%,#0f172a_100%)]">
-        <div className="container py-16 md:py-20">
-          <div className="max-w-5xl">
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-primary/80">
-              {lang === "zh" ? "INTRODUCTION · 介紹" : "INTRODUCTION"}
-            </p>
-            <h2 className="font-bold tracking-tight">
-              <span className="block text-2xl text-muted-foreground md:text-3xl">{lang === "zh" ? "Formula Universe" : "Formula Universe"}</span>
-              <span className="mt-3 block w-full whitespace-normal text-primary text-[clamp(1.5rem,4vw,3.25rem)] leading-[1.15] tracking-tight md:whitespace-nowrap md:text-[clamp(2rem,4.6vw,3.5rem)]">{lang === "zh" ? "讓每個決策都有數據支撐" : "Data-backed decisions"}</span>
-            </h2>
-            <p className="mt-7 max-w-3xl text-lg leading-8 text-muted-foreground md:text-xl">
-              {lang === "zh" ? "Formula Universe 不是單純的工具列表，而是把工具、公式、解釋、範例、限制與下一步行動串起來的 AI Native Knowledge Infrastructure。" : "Formula Universe connects tools, formulas, explanations, examples, limitations, and next actions into AI Native Knowledge Infrastructure."}
-            </p>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <Button asChild size="lg" className="gap-2"><Link href="/tools/dev">{lang === "zh" ? "探索工具" : "Explore tools"}<ArrowRight className="h-4 w-4" /></Link></Button>
-              <Button asChild variant="outline" size="lg"><a href="#journey">{lang === "zh" ? "開始旅程" : "Start journey"}</a></Button>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <section className="bg-gradient-to-r from-blue-700 via-indigo-700 to-violet-700 py-8 text-white shadow-inner shadow-blue-950/20 dark:from-blue-950 dark:via-indigo-950 dark:to-violet-950 md:py-10">
         <div className="container grid grid-cols-2 gap-8 md:grid-cols-4">
