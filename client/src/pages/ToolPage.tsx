@@ -49,7 +49,7 @@ export default function ToolPage() {
     if (!toolConfig) return;
 
     setSeoMeta({
-      title: `${toolConfig.name}｜工具矩陣`,
+      title: `${toolConfig.name}｜Formula Universe`,
       description: toolConfig.description,
     });
   }, [toolConfig]);

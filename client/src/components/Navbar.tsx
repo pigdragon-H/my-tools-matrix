@@ -83,7 +83,7 @@ export function Navbar() {
           <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary">
             <Layers className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="font-bold text-base tracking-tight">{lang === "zh" ? "工具矩陣" : "Formula Universe"}</span>
+          <span className="font-bold text-base tracking-tight">{lang === "zh" ? "Formula Universe" : "Formula Universe"}</span>
         </Link>
 
         {/* ── Desktop Nav ───────────────────────────────────── */}

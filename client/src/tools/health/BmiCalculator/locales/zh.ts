@@ -1,7 +1,7 @@
 const zh = {
   // Hero
   badge: "Formula Universe · AI Native Knowledge Operating System",
-  titleLine1: "工具矩陣",
+  titleLine1: "Formula Universe",
   titleLine2: "讓每個決策都有數據支撐",
   intro: "Formula Universe 不是單純的工具列表，而是把工具、公式、解釋、範例、限制與下一步行動串起來的 AI Native Knowledge Infrastructure。",
   exploreTools: "探索工具",

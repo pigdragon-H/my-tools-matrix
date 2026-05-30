@@ -22,7 +22,7 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const t = {
-  loginTitle: { zh: "登入工具矩陣", en: "Sign in to Tool Matrix" },
+  loginTitle: { zh: "登入Formula Universe", en: "Sign in to Formula Universe" },
   loginDesc: {
     zh: "使用您的帳號登入，後台管理者可以進入 /admin 管理面板。",
     en: "Sign in with your account. Admins can access the /admin panel.",
@@ -156,7 +156,7 @@ export default function Login() {
           </div>
           <Link href="/">
             <span className="text-xl font-bold text-foreground cursor-pointer hover:text-primary transition-colors">
-              {lang === "zh" ? "工具矩陣" : "Tool Matrix"}
+              {lang === "zh" ? "Formula Universe" : "Formula Universe"}
             </span>
           </Link>
         </div>

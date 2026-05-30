@@ -12,11 +12,11 @@ export type FeatureFlag =
   | "ENABLE_TRUST_LINKS";      // Hide TrustStrip footer if false (rarely needed)
 
 const flags: Record<FeatureFlag, boolean> = {
-  ENABLE_ADS: true,            // Placeholders visible — safe default
+  ENABLE_ADS: false,           // Phase G: placeholders hidden until real AdSense inventory exists
   ENABLE_REAL_ADSENSE: false,  // TODO: flip on after AdSense approval + publisher ID set
   ENABLE_AFFILIATE: false,     // TODO: flip on after partner contracts signed
   ENABLE_PREMIUM: false,       // TODO: flip on after Stripe + auth wired
-  ENABLE_NEWSLETTER: false,    // TODO: flip on after newsletter provider chosen
+  ENABLE_NEWSLETTER: true,     // Phase G: wired to /api/newsletter/subscribe (Resend)
   ENABLE_TRUST_LINKS: true,    // Trust strip is always shown — important for AdSense audit
 };
 

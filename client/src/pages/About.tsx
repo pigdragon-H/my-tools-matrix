@@ -43,13 +43,13 @@ const principles: Principle[] = [
 const copy = {
   heroTitle: { zh: "關於我們", en: "About us" },
   heroDesc: {
-    zh: "Formula Universe / 工具矩陣是一座 AI Native Knowledge Infrastructure,目標是把工具、公式、解釋、範例、限制與下一步行動串成可信任的決策入口。",
-    en: "Formula Universe / Tool Matrix is an AI Native Knowledge Infrastructure. Our goal is to connect tools, formulas, explanations, examples, limitations, and next actions into a trusted decision gateway.",
+    zh: "Formula Universe是一座 AI Native Knowledge Infrastructure,目標是把工具、公式、解釋、範例、限制與下一步行動串成可信任的決策入口。",
+    en: "Formula Universe is an AI Native Knowledge Infrastructure. Our goal is to connect tools, formulas, explanations, examples, limitations, and next actions into a trusted decision gateway.",
   },
-  whyTitle: { zh: "為什麼建立工具矩陣", en: "Why we built Tool Matrix" },
+  whyTitle: { zh: "為什麼建立Formula Universe", en: "Why we built Formula Universe" },
   whyP1: {
-    zh: "在財務、健康、開發、學習與日常規劃中,人們經常需要快速查公式、估算結果、理解限制,並把結果轉成具體決策。工具矩陣存在的目的,就是把這些分散需求整理成可重複使用的知識與工具系統。",
-    en: "In finance, health, development, learning, and daily planning, people often need to look up formulas, estimate results, understand limitations, and turn outcomes into concrete decisions. Tool Matrix exists to organize these scattered needs into a reusable knowledge and tool system.",
+    zh: "在財務、健康、開發、學習與日常規劃中,人們經常需要快速查公式、估算結果、理解限制,並把結果轉成具體決策。Formula Universe存在的目的,就是把這些分散需求整理成可重複使用的知識與工具系統。",
+    en: "In finance, health, development, learning, and daily planning, people often need to look up formulas, estimate results, understand limitations, and turn outcomes into concrete decisions. Formula Universe exists to organize these scattered needs into a reusable knowledge and tool system.",
   },
   whyP2: {
     zh: "我們不把首頁當成單純的工具清單,而是把它設計成使用者意圖的入口:從問題開始,進入合適的工具、知識文章、決策路徑與下一步行動。",

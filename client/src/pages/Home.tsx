@@ -94,9 +94,9 @@ const flashBannerSlides: FlashBannerSlide[] = [
     visual: "TOOLS · LOGIC · ACTION",
   },
   {
-    eyebrow: { zh: "Tool Matrix Vision", en: "Tool Matrix Vision" },
+    eyebrow: { zh: "Formula Universe Vision", en: "Formula Universe Vision" },
     title: { zh: "工具整合中樞", en: "Smarter tool hub" },
-    slogan: { zh: "從計算、比較、規劃到理解結果，工具矩陣協助你更快找到可信答案。", en: "From calculation and comparison to planning and interpretation, Tool Matrix helps you reach trusted answers faster." },
+    slogan: { zh: "從計算、比較、規劃到理解結果，Formula Universe協助你更快找到可信答案。", en: "From calculation and comparison to planning and interpretation, Formula Universe helps you reach trusted answers faster." },
     description: { zh: "Formula Universe 將公式、知識與行動建議串成清楚路徑，讓每一次選擇更有依據。", en: "Formula Universe connects formulas, knowledge, and next-step guidance into clear paths for better choices." },
     accent: "from-sky-400 to-blue-200",
     visual: "TOOLS · TRUST · FUTURE",
@@ -119,7 +119,7 @@ const flashBannerSlides: FlashBannerSlide[] = [
   },
   {
     eyebrow: { zh: "Smart Helper", en: "Smart Helper" },
-    title: { zh: "智慧工具矩陣", en: "Smart tool matrix" },
+    title: { zh: "智慧Formula Universe", en: "Smart tool matrix" },
     slogan: { zh: "從問題、工具到行動，讓知識真正進入日常決策。", en: "From question to tool to action, knowledge becomes part of daily decisions." },
     description: { zh: "Formula Universe 是面向未來的知識作業系統入口。", en: "Formula Universe is the entry point to a future-facing knowledge operating system." },
     accent: "from-blue-300 to-violet-200",
@@ -137,9 +137,9 @@ const journeyCards: JourneyCard[] = [
 ];
 
 const stats: StatItem[] = [
-  { value: 157, suffix: "+", label: { zh: "個工具", en: "tools" } },
+  { value: 157, suffix: "+", label: { zh: "個工具規劃中", en: "tools planned" } },
   { value: 12, suffix: "", label: { zh: "大知識領域", en: "knowledge domains" } },
-  { value: 50000, suffix: "+", label: { zh: "公式指標（目標）", en: "formula indicators (target)" } },
+  { value: 6, suffix: "", label: { zh: "條決策路徑", en: "decision paths" } },
   { value: 0, suffix: "", label: { zh: "AI Native 架構", en: "AI Native architecture" }, isText: true },
 ];
 
@@ -317,10 +317,10 @@ function CountUpStat({ stat, lang }: { stat: StatItem; lang: Lang }) {
 
   return (
     <div className="text-center">
-      <div className="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">
+      <div className="text-3xl font-black text-white drop-shadow-sm md:text-5xl">
         {stat.isText ? "AI Native" : displayValue.toLocaleString()}{stat.suffix}
       </div>
-      <div className="mt-2 text-sm font-medium text-slate-600 dark:text-slate-300">{stat.label[lang]}</div>
+      <div className="mt-2 text-sm font-medium text-blue-100/90 md:text-base">{stat.label[lang]}</div>
     </div>
   );
 }
@@ -385,7 +385,7 @@ export default function Home() {
           <div className="max-w-6xl">
             <Badge variant="secondary" className="mb-5 text-xs font-medium">Formula Universe · AI Native Knowledge Operating System</Badge>
             <h1 className="font-bold tracking-tight">
-              <span className="block text-3xl text-muted-foreground md:text-5xl lg:text-6xl">{lang === "zh" ? "工具矩陣" : "Formula Universe"}</span>
+              <span className="block text-3xl text-muted-foreground md:text-5xl lg:text-6xl">{lang === "zh" ? "Formula Universe" : "Formula Universe"}</span>
               <span className="mt-2 block w-full whitespace-nowrap text-primary text-[clamp(1.25rem,5vw,4.5rem)] leading-[1.05] tracking-tight sm:text-[clamp(1.75rem,5.8vw,4.5rem)]">{lang === "zh" ? "讓每個決策都有數據支撐" : "Data-backed decisions"}</span>
             </h1>
             <p className="mt-7 max-w-3xl text-lg leading-8 text-muted-foreground md:text-xl">
@@ -486,7 +486,7 @@ export default function Home() {
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "知識庫與關於我們" : "Knowledge Base and About"}</h2>
             <p className="mt-3 text-muted-foreground md:text-lg">
               {lang === "zh"
-                ? "首頁不只提供工具入口,也保留知識文章、公式脈絡與品牌說明,讓使用者知道如何理解結果、為什麼可以信任這套工具矩陣。"
+                ? "首頁不只提供工具入口,也保留知識文章、公式脈絡與品牌說明,讓使用者知道如何理解結果、為什麼可以信任這套Formula Universe。"
                 : "The homepage is more than a tool index — it also keeps knowledge articles, formula context, and brand notes so users understand the results and why this tool matrix can be trusted."}
             </p>
           </div>
@@ -522,8 +522,8 @@ export default function Home() {
               <h3 className="text-2xl font-black text-slate-950 dark:text-white">{lang === "zh" ? "關於我們" : "About us"}</h3>
               <p className="mt-4 text-sm leading-7 text-muted-foreground md:text-base">
                 {lang === "zh"
-                  ? "Formula Universe / 工具矩陣是一座 AI Native Knowledge Infrastructure,目標是把工具、公式、解釋、範例、限制與下一步行動串成可信任的決策入口。"
-                  : "Formula Universe / Tool Matrix is an AI Native Knowledge Infrastructure that connects tools, formulas, explanations, examples, limitations, and next actions into a trusted decision gateway."}
+                  ? "Formula Universe是一座 AI Native Knowledge Infrastructure,目標是把工具、公式、解釋、範例、限制與下一步行動串成可信任的決策入口。"
+                  : "Formula Universe is an AI Native Knowledge Infrastructure that connects tools, formulas, explanations, examples, limitations, and next actions into a trusted decision gateway."}
               </p>
               <div className="mt-6 grid gap-3">
                 {(lang === "zh"
@@ -534,7 +534,7 @@ export default function Home() {
                 ))}
               </div>
               <p className="mt-6 inline-flex items-center gap-2 text-sm font-black text-indigo-700 transition group-hover:gap-3 dark:text-indigo-300">
-                {lang === "zh" ? "了解工具矩陣" : "Learn about Tool Matrix"} <ArrowRight className="h-4 w-4" />
+                {lang === "zh" ? "了解Formula Universe" : "Learn about Formula Universe"} <ArrowRight className="h-4 w-4" />
               </p>
             </Link>
           </div>
@@ -553,8 +553,8 @@ export default function Home() {
             </h2>
             <p className="mt-3 text-sm leading-7 text-slate-700 dark:text-slate-300 md:text-base">
               {lang === "zh"
-                ? "訂閱電子報或加入書籤,讓 Tool Matrix 成為你日常決策的延伸,而不是搜尋一次就忘的工具。"
-                : "Subscribe or bookmark to make Tool Matrix part of your everyday decision flow, not a one-time search."}
+                ? "訂閱電子報或加入書籤,讓 Formula Universe 成為你日常決策的延伸,而不是搜尋一次就忘的工具。"
+                : "Subscribe or bookmark to make Formula Universe part of your everyday decision flow, not a one-time search."}
             </p>
           </div>
           <NewsletterCta lang={lang} />
@@ -573,8 +573,8 @@ export default function Home() {
             </h2>
             <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300 md:text-base">
               {lang === "zh"
-                ? "這些是我們覺得能搭配 Tool Matrix 一起使用的硬體與資源。聯盟夥伴正在洽談中,完成後連結會啟用。"
-                : "Hardware and resources we think pair well with Tool Matrix. Partner agreements are in progress; links will activate when ready."}
+                ? "這些是我們覺得能搭配 Formula Universe 一起使用的硬體與資源。聯盟夥伴正在洽談中,完成後連結會啟用。"
+                : "Hardware and resources we think pair well with Formula Universe. Partner agreements are in progress; links will activate when ready."}
             </p>
           </div>
           <AffiliateGrid
@@ -612,11 +612,11 @@ export default function Home() {
             <div>
               <div className="flex items-center gap-3"><div className="rounded-2xl bg-primary/20 p-3"><Binary className="h-6 w-6 text-primary" /></div><div><p className="text-lg font-bold">Formula Universe</p><p className="text-sm text-slate-400">AI Native Knowledge Infrastructure</p></div></div>
               <p className="mt-5 max-w-md text-sm leading-7 text-slate-300">{lang === "zh" ? "AI Native Knowledge Infrastructure 的首頁入口。" : "Homepage entry to the AI Native Knowledge Infrastructure."}</p>
-              <p className="mt-6 text-xs text-slate-500">© 2026 PiGragon-H. All rights reserved.</p>
+              <p className="mt-6 text-xs text-slate-500">© {new Date().getFullYear()} PiGragon-H. All rights reserved.</p>
             </div>
             <div>
               <h3 className="text-sm font-semibold text-white">{lang === "zh" ? "分類連結" : "Categories"}</h3>
-              <div className="mt-5 grid grid-cols-2 gap-3 text-sm text-slate-300">
+              <div className="mt-5 flex flex-col gap-3 text-sm text-slate-300">
                 {footerCategories.map((item) => <Link key={item.href} href={item.href} className="transition-colors hover:text-white">{item.label[lang]}</Link>)}
               </div>
             </div>

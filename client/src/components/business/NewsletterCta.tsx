@@ -85,7 +85,7 @@ export function NewsletterCta({ lang }: NewsletterCtaProps) {
           <BookmarkPlus className="h-6 w-6" />
         </div>
         <h3 className="text-xl font-black text-slate-900 dark:text-white md:text-2xl">
-          {lang === "zh" ? "把 Tool Matrix 加入書籤" : "Bookmark Tool Matrix"}
+          {lang === "zh" ? "把 Formula Universe 加入書籤" : "Bookmark Formula Universe"}
         </h3>
         <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
           {lang === "zh"
