@@ -72,6 +72,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "tdee-calculator",
+    name: "TDEE 每日總消耗熱量",
+    category: "health",
+    path: "/tools/health/tdee-calculator",
+    icon: "BarChart3",
+    description: "用 Mifflin-St Jeor + 6 段活動量帶估算每日總消耗，並給維持/減脂/增肌目標。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -104,3 +119,4 @@ export function getNewTools(): Tool[] {
 // Health Tools
 export const bmiCalculator = { id: "bmi-calculator", category: "health", name: "BMI Calculator", path: "/tools/health/bmi-calculator" };
 export const bmrCalculator = { id: "bmr-calculator", category: "health", name: "BMR Calculator", path: "/tools/health/bmr-calculator" };
+export const tdeeCalculator = { id: "tdee-calculator", category: "health", name: "TDEE Calculator", path: "/tools/health/tdee-calculator" };
