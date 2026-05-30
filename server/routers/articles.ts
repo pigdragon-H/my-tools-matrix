@@ -82,18 +82,25 @@ export const articlesRouter = router({
 
   /** Public — single article by slug for /blog/:slug. */
   getBySlug: publicProcedure
-    .input(z.object({ slug: z.string() }))
+    .input(
+      z.object({
+        slug: z.string(),
+        locale: z.enum(["zh", "en"]).optional(),
+      })
+    )
     .query(async ({ input }) => {
       if (!supabaseService) return null;
       try {
-        const { data, error } = await supabaseService
+        let q = supabaseService
           .from("articles")
           .select("*")
           .eq("slug", input.slug)
           .eq("status", "published")
-          .single();
-        if (error || !data) return null;
-        return data;
+          .order("locale", { ascending: true });
+        if (input.locale) q = q.eq("locale", input.locale);
+        const { data, error } = await q;
+        if (error || !data || data.length === 0) return null;
+        return data[0];
       } catch {
         return null;
       }

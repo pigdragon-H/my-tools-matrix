@@ -19,7 +19,7 @@ export default function BlogPost() {
   const slug = params?.slug ?? "";
 
   const articleQuery = trpc.articles.getBySlug.useQuery(
-    { slug },
+    { slug, locale: lang },
     { enabled: !!slug, retry: false }
   );
 

@@ -52,16 +52,30 @@ app.get("/api/articles/:slug", async (req, res) => {
   if (!supabaseService)
     return res.status(404).json({ error: "Articles not configured" });
   try {
-    const { data, error } = await supabaseService
+    // Optional locale query param. If absent or no match, fall back to any locale.
+    const localeParam =
+      typeof req.query.locale === "string" ? req.query.locale : "";
+    let q = supabaseService
       .from("articles")
       .select("*")
       .eq("slug", req.params.slug)
       .eq("status", "published")
-      .single();
-    if (error || !data)
+      .order("locale", { ascending: true });
+    if (localeParam === "zh" || localeParam === "en") {
+      q = q.eq("locale", localeParam);
+    }
+    const { data, error } = await q;
+    if (error || !data || data.length === 0)
       return res.status(404).json({ error: "Not found" });
     res.set("Cache-Control", "public, max-age=300");
-    res.json(data);
+    // If multiple (no locale specified), return the first; expose alternates.
+    const primary = data[0];
+    if (data.length > 1) {
+      (primary as any).alternates = data
+        .filter((d: any) => d.locale !== primary.locale)
+        .map((d: any) => ({ locale: d.locale, slug: d.slug }));
+    }
+    res.json(primary);
   } catch (e) {
     res.status(500).json({ error: String(e) });
   }
