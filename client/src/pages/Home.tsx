@@ -207,20 +207,26 @@ const footerCategories = [
   { label: { zh: "旅遊地理", en: "Travel" }, href: "/tools/travel" },
 ];
 
+// Autoplay tuning: dwell ≈ 7s per slide so users have time to read,
+// transition ≈ 1.2s so the swap feels calm (not a jump cut).
+const AUTOPLAY_INTERVAL_MS = 7000;
+const AUTOPLAY_TRANSITION_S = 1.2;
+
 function FlashBannerStrip({ lang }: { lang: Lang }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
-  // Autoplay always runs (per product requirement). Reduce-motion only affects
-  // transition style (fade vs slide), not whether the carousel auto-advances.
+  // Autoplay: chained setTimeout with infinite wrap-around. Always runs unless
+  // user is hovering. Re-arms on every slide change so the cycle never stalls,
+  // even after reaching the last slide (modulo wraps back to 0).
   useEffect(() => {
     if (isHovering) return;
-    const timer = window.setInterval(() => {
+    const timer = window.setTimeout(() => {
       setActiveSlide((current) => (current + 1) % flashBannerSlides.length);
-    }, 6000);
-    return () => window.clearInterval(timer);
-  }, [isHovering]);
+    }, AUTOPLAY_INTERVAL_MS);
+    return () => window.clearTimeout(timer);
+  }, [activeSlide, isHovering]);
 
   const goPrev = () =>
     setActiveSlide((current) => (current - 1 + flashBannerSlides.length) % flashBannerSlides.length);
@@ -283,9 +289,9 @@ function FlashBannerStrip({ lang }: { lang: Lang }) {
 
             <motion.div
               key={`${activeSlide}-${lang}`}
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
-              animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.45 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: prefersReducedMotion ? 0.3 : AUTOPLAY_TRANSITION_S, ease: "easeInOut" }}
             >
               <p className={`mb-4 bg-gradient-to-r ${slide.accent} bg-clip-text text-sm font-black uppercase tracking-[0.28em] text-transparent`}>
                 {lang === "zh" ? "企業形象 · 專業科技 · 智慧工具" : "Brand · Technology · Intelligent Tools"}
