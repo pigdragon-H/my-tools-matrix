@@ -118,6 +118,51 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "retirement-calculator",
+    name: "退休金試算機",
+    category: "finance",
+    path: "/tools/finance/retirement-calculator",
+    icon: "PiggyBank",
+    description: "輸入年齡 / 退休目標 / 月儲蓄 / 報酬率，估算退休金總額、退休後月領、自備款累計，含 40/50/55/60/65/70 歲退休對照。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
+  {
+    id: "cagr-calculator",
+    name: "CAGR 年化報酬率試算",
+    category: "finance",
+    path: "/tools/finance/cagr-calculator",
+    icon: "TrendingUp",
+    description: "由起始值與終值反推真實年化報酬率（Compound Annual Growth Rate），含總報酬率、總獲利與 5/10/15/20/25/30 年六段對照。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
+  {
+    id: "savings-goal-calculator",
+    name: "存錢目標反推試算",
+    category: "finance",
+    path: "/tools/finance/savings-goal-calculator",
+    icon: "Target",
+    description: "已知目標金額、現有本金、預期報酬與年期，反推每月需固定存入多少錢；含累計自備款、利息貢獻與 5/10/15/20/25/30 年六段對照。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -155,3 +200,6 @@ export const tdeeCalculator = { id: "tdee-calculator", category: "health", name:
 // Finance Tools
 export const loanCalculator = { id: "loan-calculator", category: "finance", name: "Loan Calculator", path: "/tools/finance/loan-calculator" };
 export const compoundInterestCalculator = { id: "compound-interest-calculator", category: "finance", name: "Compound Interest Calculator", path: "/tools/finance/compound-interest-calculator" };
+export const retirementCalculator = { id: "retirement-calculator", category: "finance", name: "Retirement Calculator", path: "/tools/finance/retirement-calculator" };
+export const cagrCalculator = { id: "cagr-calculator", category: "finance", name: "CAGR Calculator", path: "/tools/finance/cagr-calculator" };
+export const savingsGoalCalculator = { id: "savings-goal-calculator", category: "finance", name: "Savings Goal Calculator", path: "/tools/finance/savings-goal-calculator" };
