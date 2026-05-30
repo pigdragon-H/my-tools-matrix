@@ -1,5 +1,13 @@
 # SOP-001 · Tool Production Standard Operating Procedure
 
+> ## 🛑 **執行本 SOP 前必讀：[ops/CONSTITUTION.md（量產憲法）](./CONSTITUTION.md)**
+> Victor 頒布的三條鐵律：
+> 1. 黃金校正版 + SOP + QC 鎖鏈三件套不可違反
+> 2. 小幅量產（每次 ≤10 個）+ 同型群組內（同 Profile + 同 category）
+> 3. 新群組必須先做典型工具，等 Victor ✅ 確認後才能展開量產
+>
+> **違反任一條 = 立即停工 · 不准 commit · 等候 Victor 裁決**
+
 > **適用範圍**：在 `client/src/tools/{category}/{ToolName}/` 下新增任何工具。
 > **執行單位**：AI Agent（SuperNinja / Claude Code / Cursor）或人類工程師。
 > **驗收標準**：通過 [`QC-checklist.md`](./QC-checklist.md) 全部自檢 + 3 道閘門。

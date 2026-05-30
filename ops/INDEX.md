@@ -1,5 +1,15 @@
 # 📚 Tool Matrix · 量產文件總索引（INDEX）
 
+> ## 🛑 最高優先級：[ops/CONSTITUTION.md（量產憲法）](./CONSTITUTION.md)
+> Victor 頒布的三條鐵律 · 任何 AI / 人類工程師 **必須先讀並遵守**：
+> 1. 🔒 黃金校正版 + SOP + QC 鎖鏈三件套不可違反
+> 2. 🔒 小幅量產（每次 ≤10 個）+ 同 Profile + 同 category
+> 3. 🔒 新群組必須先做典型工具 · 等 Victor ✅ 才能量產
+>
+> **違反 = 立即停工**
+
+---
+
 > 本檔案是「量產程序作業標準書 + 品質檢驗書」的**總目錄**。
 > 給 Victor / 其他 AI / 接手工程師快速定位文件。
 
@@ -9,6 +19,7 @@
 
 | 性質 | 檔案 | 說明 |
 |------|------|------|
+| **🛑 量產憲法（最高）** | `ops/CONSTITUTION.md` | Victor 頒布三條鐵律 · 違反即停工 |
 | **🏭 作業標準書（SOP）** | `ops/SOP-tool-production.md` | 工具量產 8 階段標準作業程序 |
 | **🔬 品質檢驗書（QC）** | `ops/QC-checklist.md` | 17 層 + 6 layout + 三重綁定檢驗清單 |
 | **🏛️ 架構規範** | `ops/architecture-schema.md` | 17-Layer 解剖 + 6 visual layouts |
@@ -119,19 +130,25 @@ https://raw.githubusercontent.com/pigdragon-H/my-tools-matrix/main/ops/QC-checkl
 ```
 你即將接手 my-tools-matrix 專案的工具量產工作。
 
-請先依序閱讀以下文件以建立上下文：
-1. ops/INDEX.md            ← 文件總索引（先讀）
-2. ops/SOP-tool-production.md ← 量產標準作業程序
-3. ops/QC-checklist.md     ← 品質檢驗清單
-4. ops/architecture-schema.md ← 17 層 + 6 layout 架構
-5. ops/profiles/B-calculator-ymyl.md ← 你要做的 Profile
-6. ops/specs/compound-interest-calculator.md ← 最新範例工具規格
+🛑 第一優先：必須先讀並承諾遵守「量產憲法」三條鐵律
+   1. ops/CONSTITUTION.md ← 量產憲法（最高優先級 · 違反即停工）
 
-讀完後請：
-- 確認你已理解 17-Layer / 6-Layout / Profile 三大規範
-- 確認你會在 Phase 6/8 執行 qc_layer / qc_layout / qc_route 三個守門員
-- 確認你會在 Phase 7 完成 ToolPage.tsx + toolsConfig.ts + Home.tsx 三重綁定
-- 開始你的 8-phase 量產流程
+接著依序閱讀以下文件以建立上下文：
+2. ops/INDEX.md            ← 文件總索引
+3. ops/SOP-tool-production.md ← 量產標準作業程序
+4. ops/QC-checklist.md     ← 品質檢驗清單
+5. ops/architecture-schema.md ← 17 層 + 6 layout 架構（黃金校正版）
+6. ops/profiles/<X>-*.md   ← 你要做的 Profile
+7. ops/specs/compound-interest-calculator.md ← 最新範例工具規格
+
+讀完後請明確回答：
+- [ ] 我承諾遵守量產憲法三條鐵律（黃金校正版+SOP+QC 不可違反 / 每次≤10個同群組 / 新群組先做典型工具等 Victor ✅）
+- [ ] 我已理解 17-Layer / 6-Layout / Profile 三大規範
+- [ ] 我會在 Phase 6/8 執行 qc_layer / qc_layout / qc_route 三個守門員
+- [ ] 我會在 Phase 7 完成 ToolPage.tsx + toolsConfig.ts + Home.tsx 三重綁定
+- [ ] 進入新群組前，我會先做 1 個典型工具給 Victor 審查
+
+四項全部 ✅ 後，才開始你的 8-phase 量產流程。
 ```
 
 ---
