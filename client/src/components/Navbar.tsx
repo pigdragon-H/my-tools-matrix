@@ -4,7 +4,7 @@
 
 import { useState, useCallback } from "react";
 import { Link } from "wouter";
-import { Menu, X, Sun, Moon, ChevronDown, Layers, BookOpen, LogIn, LogOut, Search, Info, Globe } from "lucide-react";
+import { Menu, X, Sun, Moon, ChevronDown, Layers, BookOpen, LogIn, LogOut, Search, Info, Globe, ShieldCheck } from "lucide-react";
 import { SearchDialog } from "./SearchDialog";
 import { Button } from "@/components/ui/button";
 import {
@@ -257,6 +257,12 @@ export function Navbar() {
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel className="text-xs">{user?.email}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                {user?.role === "admin" && (
+                  <DropdownMenuItem onClick={() => setLocation("/admin")} className="gap-2">
+                    <ShieldCheck className="h-3.5 w-3.5" />
+                    {lang === "zh" ? "後台管理" : "Admin"}
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem onClick={() => logout()} className="text-destructive gap-2">
                   <LogOut className="h-3.5 w-3.5" />
                   {t.signOut}
