@@ -155,6 +155,7 @@ const featuredTools: FeaturedTool[] = [
   { name: { zh: "BMR 基礎代謝率", en: "BMR Calculator" }, category: { zh: "健康", en: "health" }, description: { zh: "估算基礎代謝，作為熱量與健康規劃起點。", en: "Estimate basal metabolic rate as the starting point for calorie and health planning." }, href: "/tools/health/bmr-calculator", icon: BarChart3 },
   { name: { zh: "TDEE 每日總消耗熱量", en: "TDEE Calculator" }, category: { zh: "健康", en: "health" }, description: { zh: "用 Mifflin-St Jeor + 6 段活動量帶估算每日總消耗，並給維持/減脂/增肌目標。", en: "Estimate daily total energy expenditure with Mifflin-St Jeor + 6 activity bands; get maintenance / fat-loss / muscle-gain targets." }, href: "/tools/health/tdee-calculator", icon: BarChart3 },
   { name: { zh: "貸款試算機", en: "Loan Calculator" }, category: { zh: "財務", en: "finance" }, description: { zh: "輸入金額 / 年利率 / 年期，秒算月付、總還款與總利息，含 5/10/15/20/25/30 年六段對照。", en: "Enter principal / rate / term to instantly see monthly payment, total payment, and total interest — with a 5/10/15/20/25/30-year side-by-side comparison." }, href: "/tools/finance/loan-calculator", icon: Banknote },
+  { name: { zh: "複利計算機", en: "Compound Interest Calculator" }, category: { zh: "財務", en: "finance" }, description: { zh: "月複利 + 定期投入估算終值、總投入與複利收益，5/10/15/20/25/30 年六段對照，看清時間槓桿。", en: "Monthly-compounding + periodic contribution: see future value, total invested, and compound interest with a 5/10/15/20/25/30-year comparison." }, href: "/tools/finance/compound-interest-calculator", icon: LineChart },
 ];
 
 const clusterCards: ClusterCard[] = [

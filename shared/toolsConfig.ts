@@ -103,6 +103,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "compound-interest-calculator",
+    name: "複利計算機",
+    category: "finance",
+    path: "/tools/finance/compound-interest-calculator",
+    icon: "LineChart",
+    description: "月複利 + 定期投入公式估算終值、總投入、複利收益，含 5/10/15/20/25/30 年六段年期對照，看清時間槓桿。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -139,3 +154,4 @@ export const tdeeCalculator = { id: "tdee-calculator", category: "health", name:
 
 // Finance Tools
 export const loanCalculator = { id: "loan-calculator", category: "finance", name: "Loan Calculator", path: "/tools/finance/loan-calculator" };
+export const compoundInterestCalculator = { id: "compound-interest-calculator", category: "finance", name: "Compound Interest Calculator", path: "/tools/finance/compound-interest-calculator" };
