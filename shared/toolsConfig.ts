@@ -87,6 +87,22 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  // ── 財務工具（Profile B 試產第 3 件 · 跨領域驗證樣本）──────────────────────────
+  {
+    id: "loan-calculator",
+    name: "貸款試算機",
+    category: "finance",
+    path: "/tools/finance/loan-calculator",
+    icon: "Banknote",
+    description: "等額本息（PMT）公式估算每月還款、總還款金額與總利息支出，含 5/10/15/20/25/30 年六段年期對照。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -120,3 +136,6 @@ export function getNewTools(): Tool[] {
 export const bmiCalculator = { id: "bmi-calculator", category: "health", name: "BMI Calculator", path: "/tools/health/bmi-calculator" };
 export const bmrCalculator = { id: "bmr-calculator", category: "health", name: "BMR Calculator", path: "/tools/health/bmr-calculator" };
 export const tdeeCalculator = { id: "tdee-calculator", category: "health", name: "TDEE Calculator", path: "/tools/health/tdee-calculator" };
+
+// Finance Tools
+export const loanCalculator = { id: "loan-calculator", category: "finance", name: "Loan Calculator", path: "/tools/finance/loan-calculator" };
