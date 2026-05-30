@@ -152,6 +152,7 @@ const featuredTools: FeaturedTool[] = [
   { name: { zh: "貨幣匯率換算", en: "Currency Converter" }, category: { zh: "旅遊", en: "travel" }, description: { zh: "協助旅行、跨境預算與匯率情境換算。", en: "Help with travel, cross-border budget, and exchange-rate scenarios." }, href: "/tools/travel/currency-converter", icon: Globe2 },
   { name: { zh: "複利計算器", en: "Compound Interest" }, category: { zh: "財經", en: "finance" }, description: { zh: "模擬本金、利率、期間與再投入後的成長結果。", en: "Simulate growth from principal, rate, period, and reinvestment." }, href: "/tools/finance/compound-interest", icon: LineChart },
   { name: { zh: "BMR 基礎代謝率", en: "BMR Calculator" }, category: { zh: "健康", en: "health" }, description: { zh: "估算基礎代謝，作為熱量與健康規劃起點。", en: "Estimate basal metabolic rate as the starting point for calorie and health planning." }, href: "/tools/health/bmr-calculator", icon: BarChart3 },
+  { name: { zh: "TDEE 每日總消耗熱量", en: "TDEE Calculator" }, category: { zh: "健康", en: "health" }, description: { zh: "用 Mifflin-St Jeor + 6 段活動量帶估算每日總消耗，並給維持/減脂/增肌目標。", en: "Estimate daily total energy expenditure with Mifflin-St Jeor + 6 activity bands; get maintenance / fat-loss / muscle-gain targets." }, href: "/tools/health/tdee-calculator", icon: BarChart3 },
 ];
 
 const clusterCards: ClusterCard[] = [

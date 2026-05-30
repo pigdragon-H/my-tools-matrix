@@ -16,6 +16,7 @@ import { setSeoMeta } from "@/lib/seo";
 const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.ReactElement>> = {
   "health/bmi-calculator": lazy(() => import("@/tools/health/BmiCalculator")),
   "health/bmr-calculator": lazy(() => import("@/tools/health/BmrCalculator")),
+  "health/tdee-calculator": lazy(() => import("@/tools/health/TdeeCalculator")),
 };
 
 function ToolSkeleton() {
