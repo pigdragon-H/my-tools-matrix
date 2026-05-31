@@ -102,7 +102,7 @@ const ui = {
     termMatrixNote: "下列卡片以目前房貸本金與年利率為基礎，乘上不同年期換算月付與總利息，協助你直觀比較「年期越長，月付越輕，但總利息暴增」的取捨。",
     emotionConversionLayer: "情緒與轉換層",
     turnIntoPlan: "把試算數字轉成可執行的還款計畫",
-    conversionNote: "此層示範如何把單一試算結果轉為儲存、轉換與下一步行動，不實作帳號或付款流程。",
+    conversionNote: "看懂數字之後，下一步怎麼走？先確認月付是否舒服，再比較總成本與年期取捨。",
     progressInsight: "成本洞察卡",
     possibleTarget: "你的可能還款負擔",
     monthlyGap: "月付金額",
@@ -219,7 +219,7 @@ const ui = {
     termMatrixNote: "Cards below recompute the monthly payment and total interest for the same principal and rate at six different terms, making the long-term-vs-short-term trade-off visible in one glance.",
     emotionConversionLayer: "Emotion & conversion layer",
     turnIntoPlan: "Turn the numbers into an actionable repayment plan",
-    conversionNote: "Demonstrates how a single estimate flows into save / share / next-step actions. No real account or payment system here.",
+    conversionNote: "Now that the numbers are clear, what should you do next? Check monthly comfort first, then compare total cost and term trade-offs.",
     progressInsight: "Cost insight",
     possibleTarget: "Your likely repayment burden",
     monthlyGap: "Monthly mortgage",
@@ -380,6 +380,12 @@ export default function MortgageCalculator() {
   const mortgagePrincipalDisplay = calculation ? formatMoney(calculation.principalValue) : "—";
   const ltvDisplay = calculation ? `${(calculation.ltv * 100).toFixed(1)}%` : "—";
   const dtiDisplay = calculation ? `${(calculation.dti * 100).toFixed(1)}%` : "—";
+  const motivationMetrics = [
+    { label: t.monthlyShort, value: monthlyDisplay },
+    { label: t.totalShort, value: totalPaymentDisplay },
+    { label: t.interestShort, value: totalInterestDisplay },
+    { label: t.termShort, value: `${term} ${lang === "zh" ? "年" : "yr"}` },
+  ];
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-950">
@@ -514,7 +520,7 @@ export default function MortgageCalculator() {
           {/* L9 · Emotion+Conversion 上排 · Progress + Motivation · lg:grid-cols-[1_0.9] */}
           <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9-Emotion-Upper */}
             <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.principal}</div><div className="mt-1 text-3xl font-black">{mortgagePrincipalDisplay}</div></div><div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.monthlyGap}</div><div className="mt-1 text-3xl font-black text-blue-950">{monthlyDisplay}</div></div><div className="rounded-2xl bg-orange-50 p-4"><div className="text-xs font-black uppercase text-orange-700">{t.yearlyTrend}</div><div className="mt-1 text-3xl font-black text-orange-950">{calculation ? formatMoney(calculation.yearlyInterest) : "—"}</div></div></div></article>
-            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.monthlyShort, t.totalShort, t.interestShort, t.termShort].map((item) => <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{motivationMetrics.map((item) => <div key={item.label} className="rounded-2xl border border-slate-200 bg-slate-50 p-3"><div className="text-xs font-black uppercase tracking-[0.12em] text-slate-500">{item.label}</div><div className="mt-1 text-lg font-black text-slate-950">{item.value}</div></div>)}</div></article>
           </div>
           {/* L10 · Emotion+Conversion 下排 · Save / Share Journey · lg:grid-cols-[1_0.8] */}
           <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10-Emotion-Lower */}
