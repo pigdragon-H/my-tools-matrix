@@ -21,7 +21,6 @@ import {
   Github,
   Globe2,
   HeartPulse,
-  Home as HomeIcon,
   LineChart,
   Network,
   PiggyBank,
@@ -159,7 +158,6 @@ const featuredTools: FeaturedTool[] = [
   { name: { zh: "貸款試算機", en: "Loan Calculator" }, category: { zh: "財務", en: "finance" }, description: { zh: "輸入金額 / 年利率 / 年期，秒算月付、總還款與總利息，含 5/10/15/20/25/30 年六段對照。", en: "Enter principal / rate / term to instantly see monthly payment, total payment, and total interest — with a 5/10/15/20/25/30-year side-by-side comparison." }, href: "/tools/finance/loan-calculator", icon: Banknote },
   { name: { zh: "複利計算機", en: "Compound Interest Calculator" }, category: { zh: "財務", en: "finance" }, description: { zh: "月複利 + 定期投入估算終值、總投入與複利收益，5/10/15/20/25/30 年六段對照，看清時間槓桿。", en: "Monthly-compounding + periodic contribution: see future value, total invested, and compound interest with a 5/10/15/20/25/30-year comparison." }, href: "/tools/finance/compound-interest-calculator", icon: LineChart },
   { name: { zh: "存錢目標反推試算", en: "Savings Goal Calculator" }, category: { zh: "財務", en: "finance" }, description: { zh: "已知目標金額、現有本金、預期報酬與年期，反推每月需固定存入多少錢，含 5/10/15/20/25/30 年六段對照。", en: "Given target amount, current savings, expected return, and years — solve the required monthly contribution; includes 5/10/15/20/25/30-year comparison." }, href: "/tools/finance/savings-goal-calculator", icon: Target },
-  { name: { zh: "房貸試算機", en: "Mortgage Calculator" }, category: { zh: "財務", en: "finance" }, description: { zh: "輸入房價 / 頭期 / 利率 / 年期 / 房屋稅 / 保險，結合本利攤還 + 房屋稅 + 保險的完整月付，30 年購屋總成本一次看清楚；含 5/10/15/20/25/30 年六段對照。", en: "Home price + down payment + rate + term + tax + insurance → see your true monthly payment and 30-year total cost; includes 5/10/15/20/25/30-year comparison." }, href: "/tools/finance/mortgage-calculator", icon: HomeIcon },
 ];
 
 const clusterCards: ClusterCard[] = [

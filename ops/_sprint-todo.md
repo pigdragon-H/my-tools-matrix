@@ -1,76 +1,70 @@
-# Sprint B · finance Profile B 第二批 · 進行中 🚀
+# Sprint A · finance Profile B 三連發 ✅ 完成
 
-> **合憲性檢查**: ✅ 已驗證群組 (B+finance) · 3 個 ≤10 · 不需典型工具
-> **黃金樣板**: LoanCalculator (PMT) · CompoundInterestCalculator (FV+PMT)
-> **目標時間**: ~75 min (3 × 25min,扣除 Sprint A 經驗加速)
-> **啟動時間**: 2026-05-31 01:25 UTC
-> **完成時間**: 進行中...
-
----
-
-## 工具 1/3 · MortgageCalculator
-- **路徑**: `/tools/finance/mortgage-calculator`
-- **公式**: 房貸月付 = LoanCalculator + 房貸特化(頭期款比例 / 房屋稅 / 保險 / PMI)
-- **Clone 基準**: LoanCalculator (最接近)
-- **L6 三大主數值**: monthlyPayment / totalInterest / totalCost(含稅+保險)
-
-- [ ] Phase 1 · Spec (公式 + 3 worked examples + Node 預驗)
-- [ ] Phase 2 · Clone LoanCalculator → Mortgage
-- [ ] Phase 3-5 · 全檔重寫
-- [ ] Phase 5 收尾 · grep 殘留檢查
-- [ ] Phase 6 · tsc + naming 公約檢查
-- [ ] Phase 7 · 三向註冊 (ToolPage + toolsConfig + Home)
-- [ ] Phase 8 · Triple QC (layer + layout + route)
-- [ ] Phase 9 · DELIVERY-NOTES.md + ZIP 打包
-- [ ] Journal · ops/journals/mortgage-trial-2026-05.md
-
-## 工具 2/3 · CreditCardPayoffCalculator
-- **路徑**: `/tools/finance/credit-card-payoff-calculator`
-- **公式**: 信用卡反推月數/總利息 = 反向 PMT solver(已知 balance / APR / 月付額,求 N 月)
-- **Clone 基準**: SavingsGoalCalculator (反推 PMT 同類結構)
-- **L6 三大主數值**: payoffMonths / totalInterest / totalPaid
-
-- [ ] Phase 1 · Spec
-- [ ] Phase 2 · Clone SavingsGoalCalculator → CreditCardPayoff
-- [ ] Phase 3-5 · 全檔重寫
-- [ ] Phase 5 收尾 · grep 殘留檢查
-- [ ] Phase 6 · tsc + naming 公約檢查
-- [ ] Phase 7 · 三向註冊
-- [ ] Phase 8 · Triple QC
-- [ ] Phase 9 · DELIVERY-NOTES.md + ZIP
-- [ ] Journal
-
-## 工具 3/3 · DebtToIncomeCalculator
-- **路徑**: `/tools/finance/debt-to-income-calculator`
-- **公式**: DTI 比率 = (總月付債務 / 月稅前收入) × 100% · 含 6 段 DTI 帶 (≤20% 健康 / ≤36% 安全 / ≤43% 警戒 / >43% 高風險)
-- **Clone 基準**: BmiCalculator (純比率工具,不需金流計算)
-- **特殊性**: 這個會是 finance + Profile B 但結構接近 health 純比率工具
-- **L6 三大主數值**: dtiRatio / monthlyDebt / safeBuffer (剩餘可借空間)
-
-- [ ] Phase 1 · Spec
-- [ ] Phase 2 · Clone (待選定基準)
-- [ ] Phase 3-5 · 全檔重寫
-- [ ] Phase 5 收尾 · grep 殘留檢查
-- [ ] Phase 6 · tsc + naming 公約檢查
-- [ ] Phase 7 · 三向註冊
-- [ ] Phase 8 · Triple QC
-- [ ] Phase 9 · DELIVERY-NOTES.md + ZIP
-- [ ] Journal
-
-## Sprint B 收尾
-- [ ] 三工具一次 commit + push (一個 Sprint B capsule)
-- [ ] Sprint B 總結報告交 Victor
-- [ ] 三個獨立 DELIVERY-NOTES ZIP 各自交付
-- [ ] 上線實證(等 Railway auto-deploy)
+> **合憲性**: ✅ 已驗證群組 (B+finance) · 3 個 ≤10 · 不需典型工具
+> **黃金樣板**: CompoundInterestCalculator (commit 0ccd46d)
+> **目標時間**: ~60 min total (3 × 20min)
+> **實際耗時**: ~67 min (含 1 min CAGR 命名修復) · **平均 22.3 min/工具**
+> **啟動時間**: 2026-05-30
+> **完成時間**: 2026-05-30
 
 ---
 
-## 命名公約自我預檢 (Phase 0)
+## 工具 1/3 · RetirementCalculator ✅
+- [x] Phase 1 · Spec (公式 + 3 worked examples + Node 預驗)
+- [x] Phase 2 · Clone CompoundInterest → Retirement
+- [x] Phase 3-5 · 全檔重寫
+- [x] Phase 5 收尾 · grep 殘留檢查
+- [x] Phase 6 · tsc (0 errors)
+- [x] Phase 7 · 三向註冊 (ToolPage + toolsConfig + Home)
+- [x] Phase 8 · Triple QC (17/17 + 6/6 + route)
+- [x] Journal · ops/journals/retirement-trial-2026-05.md
 
-| 工具 | PascalCase | kebab path | 連續大寫 ≤1? |
-|---|---|---|---|
-| MortgageCalculator | Mortgage + Calculator | mortgage-calculator | ✅ M 一個 |
-| CreditCardPayoffCalculator | CreditCard + Payoff + Calculator | credit-card-payoff-calculator | ✅ 全部首字大寫 |
-| DebtToIncomeCalculator | DebtTo + Income + Calculator | debt-to-income-calculator | ✅ D, T, I 各為單一首字 |
+## 工具 2/3 · CagrCalculator ✅
+- [x] Phase 1-8 全完成
+- [x] Journal · ops/journals/cagr-trial-2026-05.md
+- [x] **教訓記錄**: 命名公約 — 連續大寫不可超過 1 個 (CAGRCalculator → CagrCalculator)
 
-3 個都通過命名公約 ✅(避免重蹈 CAGRCalculator 覆轍)
+## 工具 3/3 · SavingsGoalCalculator ✅
+- [x] Phase 1-8 全完成
+- [x] Journal · ops/journals/savings-goal-trial-2026-05.md
+- [x] **新模式記錄**: r=0 fallback 必檢項 (建議納入 SOP Phase 1)
+
+## Sprint 收尾 ✅
+- [x] 三工具一次 commit + push (本次)
+- [x] Sprint A 總結報告交 Victor
+
+---
+
+## 📊 Sprint A 最終 QC 狀態 (push 前快照)
+
+```
+$ python3 scripts/qc_all.py
+✅ 8/8 tools · 17/17 layers
+✅ 8/8 tools · 6/6 layouts
+
+$ python3 scripts/qc_route_audit.py
+🟢 8 tool(s) scanned · 0 critical · 0 soft warning
+
+$ cd client && npx tsc --noEmit
+(0 errors)
+```
+
+**TRIPLE QC ALL GREEN** 🎉
+
+---
+
+## 📝 SOP 改善 backlog (Sprint A 收穫)
+
+1. ✏️ Phase 2 Clone 收尾應加 grep 規則: 工具名連續大寫不可超過 1 個 (來自 CagrCalculator 教訓)
+2. ✏️ Phase 1 Spec 應加邊界輸入檢驗: r=0、t=0、PV=target、PV>target (來自 SavingsGoal 教訓)
+3. ✏️ ops 內維護「Profile B finance hero 配色池」避免後續工具撞色
+4. ✏️ Profile B-Inverse 子模板: SavingsGoal/CAGR/未來 NPV/IRR 共享「給 N-1 求 1」結構
+
+---
+
+## 🎯 下一個 Sprint 候選 (待 Victor 決定)
+
+- **B1**: finance Profile B 第二批 — InflationAdjuster · NetWorthCalculator · DebtPayoffCalculator
+- **B2**: health Profile A 補完 — IdealWeightCalculator · BodyFatCalculator
+- **C0**: 新群組典型工具試做 — Profile C (Dev/Tools) 首發 (需 Victor ✅ 後再展開)
+- **基建**: 修復 admin/AdminDashboard.tsx 的 `@/lib/trpc` 缺失問題 (vite build 才會綠)
