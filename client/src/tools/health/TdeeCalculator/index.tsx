@@ -546,28 +546,39 @@ export default function TdeeCalculator() {
           <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.faq}</p>
             <h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2>
-            <div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div>
-            <div className="mt-5"><AdSlot slot="tdee-faq" position="inline" /></div>
-          </div>
-        </section>
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.affiliate}</p>
-          <h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2>
-          <div className="mt-5 grid gap-4 md:grid-cols-4">
-            {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5 text-center font-black text-emerald-950 transition hover:border-emerald-500 hover:bg-emerald-100">{l(item.label, lang)}</a>)}
-          </div>
-          <p className="mt-3 text-xs text-emerald-700">
-            {lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}
-          </p>
+            <div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div>          </div>
         </section>
 
-        <PremiumGate plan="PRO">
-          <h2 className="text-3xl font-black text-slate-950">{t.premiumTitle}</h2>
-          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t.premiumText}</p>
-          <div className="mt-5 grid gap-3 md:grid-cols-4">
-            {[t.bmrShort, t.tdeeShort, t.calorieCycles, t.reports].map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-violet-900 shadow-sm">{item}</div>)}
-          </div>
-        </PremiumGate>
+
+        {/* L14-AdSlot · FAQ 後獨立廣告位 */}
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5">
+          <AdSlot slot="tdee-faq" position="inline" />
+        </section>
+
+        {/* L15-L16 · 推薦商品 + Premium Gate 並排 */}
+        <section className="grid gap-6 lg:grid-cols-[1fr_1fr]">
+          {/* L15-Affiliate */}
+          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+                    <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.affiliate}</p>
+                    <h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2>
+                    <div className="mt-5 grid gap-4 md:grid-cols-4">
+                      {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5 text-center font-black text-emerald-950 transition hover:border-emerald-500 hover:bg-emerald-100">{l(item.label, lang)}</a>)}
+                    </div>
+                    <p className="mt-3 text-xs text-emerald-700">
+                      {lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}
+                    </p>
+                  </section>
+
+          {/* L16-PremiumGate */}
+          <PremiumGate plan="PRO">
+                    <h2 className="text-3xl font-black text-slate-950">{t.premiumTitle}</h2>
+                    <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t.premiumText}</p>
+                    <div className="mt-5 grid gap-3 md:grid-cols-4">
+                      {[t.bmrShort, t.tdeeShort, t.calorieCycles, t.reports].map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-violet-900 shadow-sm">{item}</div>)}
+                    </div>
+                  </PremiumGate>
+        </section>
+
 
         <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.trustReferences}</p>

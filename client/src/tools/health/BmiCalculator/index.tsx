@@ -672,27 +672,30 @@ export default function BmiCalculator() {
             </article>
           </section>
 
-          {/* ────── AdSlot: FAQ 下方 ────── */}
-          <AdSlot slot="bmi-faq" position="inline" />
-
-          {/* ────── Affiliate Layer (L14) - 獨立顯示，不在任何 flag 內 ────── */}
-          <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{lang === "zh" ? "推薦商品" : "Recommended"}</p>
-            <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "配合 BMI 使用的健康工具" : "Health tools to use with BMI"}</h2>
-            <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
-              {[{zh: "智能體重計", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-tracker"}, {zh: "營養補充品", en: "Supplements", href: "#affiliate-supplements"}, {zh: "健康書籍", en: "Health Books", href: "#affiliate-books"}].map((item) => (<a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
-            </div>
-            <p className="mt-3 text-xs text-amber-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission."}</p>
+          {/* L14-AdSlot · FAQ 後獨立廣告位 */}
+          <section className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5">
+            <AdSlot slot="bmi-faq" position="inline" />
           </section>
 
-          {/* ────── Premium Layer (L15) ────── */}
-          <PremiumGate plan="PRO">
-            <div className="rounded-[2rem] border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-7">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{lang === "zh" ? "進階功能" : "Premium Features"}</p>
-              <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "解鎖完整健康追蹤" : "Unlock Complete Health Tracking"}</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-600">{lang === "zh" ? "Premium 功能即將推出" : "Premium features coming soon"}</p>
-            </div>
-          </PremiumGate>
+          {/* L15-L16 · 推薦商品 + Premium Gate 並排 */}
+          <section className="grid gap-6 lg:grid-cols-[1fr_1fr]">
+            <article className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 md:p-7">{/* L15-Affiliate */}
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{lang === "zh" ? "推薦商品" : "Recommended"}</p>
+              <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "配合 BMI 使用的健康工具" : "Health tools to use with BMI"}</h2>
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                {[{zh: "智能體重計", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-tracker"}, {zh: "營養補充品", en: "Supplements", href: "#affiliate-supplements"}, {zh: "健康書籍", en: "Health Books", href: "#affiliate-books"}].map((item) => (<a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
+              </div>
+              <p className="mt-3 text-xs text-amber-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission."}</p>
+            </article>
+
+            <PremiumGate plan="PRO">
+              <div className="h-full rounded-[2rem] border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-7">{/* L16-PremiumGate */}
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{lang === "zh" ? "進階功能" : "Premium Features"}</p>
+                <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "解鎖完整健康追蹤" : "Unlock Complete Health Tracking"}</h2>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{lang === "zh" ? "Premium 功能即將推出" : "Premium features coming soon"}</p>
+              </div>
+            </PremiumGate>
+          </section>
 
           <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.trustRelatedReferences}</p>
