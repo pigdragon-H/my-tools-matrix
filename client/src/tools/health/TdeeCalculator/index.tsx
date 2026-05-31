@@ -110,7 +110,14 @@ const ui = {
     motivation: "動力卡",
     keepMomentum: "從 TDEE 數字走向穩定行動",
     saveShareJourney: "儲存 / 分享",
-    saveSharePlaceholder: "儲存／分享卡片預留位",
+    nextActionLabel: "下一步行動",
+    nextActionTitle: "把計算結果變成可執行的下一步",
+    nextActionItem1: "把這個結果連結存到記事本或書籤",
+    nextActionItem2: "把試算數字寫進你的月度規劃",
+    nextActionItem3: "下個月回來重算，看數字有沒有改善",
+    shareLinkBtn: "📋 複製結果連結",
+    shareNativeBtn: "📤 分享給朋友",
+    shareCopiedToast: "已複製到剪貼簿 ✓",
     journeyTitle: "把今天的 TDEE 帶回家",
     journeyHint: "截圖、加書籤或分享給家人，下次回來就能直接接續比較。",
     decisionPath: "決策路徑",
@@ -219,7 +226,14 @@ const ui = {
     motivation: "Motivation Card",
     keepMomentum: "Move from TDEE number to steady action",
     saveShareJourney: "Save / Share",
-    saveSharePlaceholder: "Save / Share card placeholder",
+    nextActionLabel: "Next actions",
+    nextActionTitle: "Turn this number into your next concrete step",
+    nextActionItem1: "Save this result link to your notes or bookmarks",
+    nextActionItem2: "Write the numbers into your monthly plan",
+    nextActionItem3: "Come back next month and recalculate to see progress",
+    shareLinkBtn: "📋 Copy result link",
+    shareNativeBtn: "📤 Share with friends",
+    shareCopiedToast: "Copied to clipboard ✓",
     journeyTitle: "Take today's TDEE home",
     journeyHint: "Screenshot, bookmark, or share with family — pick up where you left off next time.",
     decisionPath: "Decision Path",
@@ -494,9 +508,18 @@ export default function TdeeCalculator() {
               <h3 className="mt-2 text-2xl font-black">{t.journeyTitle}</h3>
               <p className="mt-2 text-sm leading-6 text-slate-600">{t.journeyHint}</p>
             </article>
-            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm flex items-center justify-center text-sm font-black text-slate-500">
-              {/* journey placeholder · 預留下一階段卡片 */}
-              {t.saveSharePlaceholder}
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-emerald-700">{t.nextActionLabel}</p>
+              <h3 className="mt-2 text-lg font-black">{t.nextActionTitle}</h3>
+              <ul className="mt-3 space-y-2">
+                <li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">①</span><span>{t.nextActionItem1}</span></li>
+                <li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">②</span><span>{t.nextActionItem2}</span></li>
+                <li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">③</span><span>{t.nextActionItem3}</span></li>
+              </ul>
+              <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+                <button type="button" onClick={() => { if (typeof navigator !== "undefined" && navigator.clipboard) { navigator.clipboard.writeText(window.location.href); alert(t.shareCopiedToast); } }} className="rounded-2xl bg-slate-950 px-4 py-2 text-xs font-black text-white hover:bg-slate-800">{t.shareLinkBtn}</button>
+                <button type="button" onClick={() => { const sd = { title: document.title, url: window.location.href }; const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> }; if (nav.share) { nav.share(sd).catch(() => {}); } else if (navigator.clipboard) { navigator.clipboard.writeText(window.location.href); alert(t.shareCopiedToast); } }} className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700 hover:bg-slate-50">{t.shareNativeBtn}</button>
+              </div>
             </article>
           </div>
         </section>
