@@ -155,11 +155,11 @@ const ui = {
     interpretCategoryBeforeActing: "行動前先理解分類",
     emotionConversionLayer: "情緒與轉換層",
     turnBmiIntoJourney: "將 BMI 結果轉化為健康旅程",
-    prototypeLayerNote: "此原型層在結果後加入留存與轉換提示，但不實作儲存、分享、帳號或導航功能。",
+    conversionLayerNote: "結果後的情緒與轉換層，將數值轉化為你下一步可執行的健康行動。",
     progressInsightCard: "進度洞察卡",
     possibleProgressTarget: "你的可能進度目標",
     timeline: "時間軸",
-    estimatedTimelinePlaceholder: "預估時程（參考）",
+    estimatedTimelineRef: "預估時程（參考）",
     currentBmi: "目前 BMI",
     goal: "目標",
     needed: "需調整",
@@ -174,11 +174,16 @@ const ui = {
     progress: "進度",
     start: "起點",
     step: "步驟",
-    saveSharePlaceholder: "儲存 / 分享佔位",
-    saveShareJourney: "儲存結果或分享旅程",
-    saveShareNote: "僅為 UI 佔位。不包含帳號、儲存、分享或匯出實作。",
-    saveUi: "儲存（示意）",
-    shareUi: "分享（示意）",
+    nextActionsLabel: "下一步行動",
+    nextActionsTitle: "把 BMI 數字變成日常行動",
+    nextActionsNote: "依你的 BMI 分類，挑 3 件當週可執行的小事 — 微小但持續，才是真正改變身體的力量。",
+    nextAction1: "今天記錄一次體重 + 腰圍（不必每天，一週 1 次即可）",
+    nextAction2: "把今天的飲水量補到 1500 ml 以上",
+    nextAction3: "晚餐後散步 15 分鐘，或做 10 分鐘伸展",
+    shareResultLabel: "分享或留存",
+    shareResultBtn: "📋 複製結果連結",
+    shareResultNative: "📤 分享到 LINE / WhatsApp",
+    shareCopiedToast: "已複製到剪貼簿 ✓",
     decisionPath: "決策路徑",
     highBmiEnergyPath: "若 BMI 偏高，繼續能量路徑",
     bmiHigh: "BMI 偏高",
@@ -223,7 +228,7 @@ const ui = {
     previewHighBmiDecisionPath: "Preview high BMI decision path",
     examplesCalculator: "Examples → Calculator",
     enterOrFillValues: "Enter or fill values",
-    examplesHelper: "The prototype keeps examples close to the calculator so users can start fast, then edit inputs without losing context.",
+    examplesHelper: "Examples sit right next to the calculator so users can start fast, then edit inputs without losing context.",
     metric: "Metric",
     imperial: "Imperial",
     exampleCards: "Example cards",
@@ -247,15 +252,15 @@ const ui = {
     interpretCategoryBeforeActing: "Interpret the category before acting",
     emotionConversionLayer: "Emotion + Conversion Layer",
     turnBmiIntoJourney: "Turn the BMI result into a health journey",
-    prototypeLayerNote: "This prototype layer adds retention and conversion prompts after the result without implementing save, share, account, or navigation behavior.",
+    conversionLayerNote: "An emotion and conversion layer that turns the BMI number into your next concrete health action.",
     progressInsightCard: "Progress Insight Card",
     possibleProgressTarget: "Your possible progress target",
     timeline: "Timeline",
-    estimatedTimelinePlaceholder: "Estimated timeline placeholder",
+    estimatedTimelineRef: "Reference timeline (estimate)",
     currentBmi: "Current BMI",
     goal: "Goal",
     needed: "Needed",
-    neededWeightNote: "Needed weight is a prototype estimate based on the current height and a goal BMI of 23. It is not a medical recommendation.",
+    neededWeightNote: "Needed weight is a reference estimate based on the current height and a goal BMI of 23. It is not a medical recommendation.",
     motivationCard: "Motivation Card",
     keepMomentum: "Keep momentum after the score",
     targetBmiRange: "Target BMI range",
@@ -266,11 +271,16 @@ const ui = {
     progress: "Progress",
     start: "Start",
     step: "Step",
-    saveSharePlaceholder: "Save / Share placeholder",
-    saveShareJourney: "Save this result or share the journey",
-    saveShareNote: "UI placeholder only. No account, storage, sharing, or export implementation is included in this prototype.",
-    saveUi: "Save UI",
-    shareUi: "Share UI",
+    nextActionsLabel: "Next actions",
+    nextActionsTitle: "Turn your BMI into daily habits",
+    nextActionsNote: "Pick 3 small things you can do this week based on your BMI category. Tiny consistent steps beat big short bursts.",
+    nextAction1: "Log weight and waist circumference once this week (not daily)",
+    nextAction2: "Hit 1500 ml of water intake today",
+    nextAction3: "Walk 15 min after dinner, or stretch for 10 min",
+    shareResultLabel: "Share or save",
+    shareResultBtn: "📋 Copy result link",
+    shareResultNative: "📤 Share to LINE / WhatsApp",
+    shareCopiedToast: "Copied to clipboard ✓",
     decisionPath: "Decision Path",
     highBmiEnergyPath: "If BMI is high, continue through the energy path",
     bmiHigh: "BMI high",
@@ -471,7 +481,7 @@ export default function BmiCalculator() {
 
           <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">{/* L6-Result */}
             <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
-              <div className={`h-5 bg-gradient-to-r ${activeCategory.tone}`} aria-label="Color band placeholder" />
+              <div className={`h-5 bg-gradient-to-r ${activeCategory.tone}`} aria-label="BMI category color band" />
               <div className="p-6 md:p-7">
                 <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.resultCard}</p>
                 <div className="mt-4 flex items-start justify-between gap-5">
@@ -516,7 +526,7 @@ export default function BmiCalculator() {
           <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-blue-50 p-6 shadow-sm md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p>
             <h2 className="mt-2 text-3xl font-black">{t.turnBmiIntoJourney}</h2>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.prototypeLayerNote}</p>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.conversionLayerNote}</p>
 
             <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9-Emotion-Upper */}
               <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -527,7 +537,7 @@ export default function BmiCalculator() {
                   </div>
                   <div className="rounded-2xl bg-slate-950 px-4 py-3 text-right text-white">
                     <div className="text-xs font-bold uppercase text-slate-300">{t.timeline}</div>
-                    <div className="text-sm font-black">{t.estimatedTimelinePlaceholder}</div>
+                    <div className="text-sm font-black">{t.estimatedTimelineRef}</div>
                   </div>
                 </div>
                 <div className="mt-5 grid gap-3 sm:grid-cols-3">
@@ -569,13 +579,46 @@ export default function BmiCalculator() {
                 </div>
               </article>
 
-              <article className="rounded-3xl border border-dashed border-slate-300 bg-white/80 p-5 shadow-sm">
-                <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-500">{t.saveSharePlaceholder}</p>
-                <h3 className="mt-2 text-xl font-black">{t.saveShareJourney}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{t.saveShareNote}</p>
-                <div className="mt-4 grid grid-cols-2 gap-3">
-                  <button type="button" className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">{t.saveUi}</button>
-                  <button type="button" className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-black text-slate-700">{t.shareUi}</button>
+              <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-emerald-700">{t.nextActionsLabel}</p>
+                <h3 className="mt-2 text-xl font-black">{t.nextActionsTitle}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{t.nextActionsNote}</p>
+                <ul className="mt-4 space-y-2">
+                  <li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">①</span><span>{t.nextAction1}</span></li>
+                  <li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">②</span><span>{t.nextAction2}</span></li>
+                  <li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">③</span><span>{t.nextAction3}</span></li>
+                </ul>
+                <div className="mt-5 border-t border-slate-100 pt-4">
+                  <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-500">{t.shareResultLabel}</p>
+                  <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (typeof navigator !== "undefined" && navigator.clipboard) {
+                          navigator.clipboard.writeText(window.location.href);
+                          alert(t.shareCopiedToast);
+                        }
+                      }}
+                      className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white hover:bg-slate-800"
+                    >
+                      {t.shareResultBtn}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const shareData = { title: "BMI Calculator", text: t.turnBmiIntoJourney, url: window.location.href };
+                        if (typeof navigator !== "undefined" && (navigator as Navigator & { share?: (d: ShareData) => Promise<void> }).share) {
+                          (navigator as Navigator & { share: (d: ShareData) => Promise<void> }).share(shareData).catch(() => {});
+                        } else if (typeof navigator !== "undefined" && navigator.clipboard) {
+                          navigator.clipboard.writeText(window.location.href);
+                          alert(t.shareCopiedToast);
+                        }
+                      }}
+                      className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-black text-slate-700 hover:bg-slate-50"
+                    >
+                      {t.shareResultNative}
+                    </button>
+                  </div>
                 </div>
               </article>
             </div>
