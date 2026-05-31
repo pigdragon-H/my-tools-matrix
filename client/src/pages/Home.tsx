@@ -17,6 +17,7 @@ import {
   Brain,
   Calculator,
   Code2,
+  CreditCard,
   Dumbbell,
   Github,
   Globe2,
@@ -25,6 +26,7 @@ import {
   Network,
   PiggyBank,
   Route,
+  Scale,
   Target,
   TrendingUp,
 } from "lucide-react";
@@ -157,6 +159,8 @@ const featuredTools: FeaturedTool[] = [
   { name: { zh: "TDEE 每日總消耗熱量", en: "TDEE Calculator" }, category: { zh: "健康", en: "health" }, description: { zh: "用 Mifflin-St Jeor + 6 段活動量帶估算每日總消耗，並給維持/減脂/增肌目標。", en: "Estimate daily total energy expenditure with Mifflin-St Jeor + 6 activity bands; get maintenance / fat-loss / muscle-gain targets." }, href: "/tools/health/tdee-calculator", icon: BarChart3 },
   { name: { zh: "貸款試算機", en: "Loan Calculator" }, category: { zh: "財務", en: "finance" }, description: { zh: "輸入金額 / 年利率 / 年期，秒算月付、總還款與總利息，含 5/10/15/20/25/30 年六段對照。", en: "Enter principal / rate / term to instantly see monthly payment, total payment, and total interest — with a 5/10/15/20/25/30-year side-by-side comparison." }, href: "/tools/finance/loan-calculator", icon: Banknote },
   { name: { zh: "房貸試算機", en: "Mortgage Calculator" }, category: { zh: "財務", en: "finance" }, description: { zh: "輸入房價、頭期款、利率、年期與月收入，估算房貸月付、貸款成數與收入負擔率。", en: "Estimate mortgage payment, LTV, and income burden from home price, down payment, rate, term, and monthly income." }, href: "/tools/finance/mortgage-calculator", icon: Banknote },
+  { name: { zh: "信用卡還清試算機", en: "Credit Card Payoff Calculator" }, category: { zh: "財務", en: "finance" }, description: { zh: "輸入卡債、APR 與月付，估算還清月數、總付款與總利息，並比較加速還款策略。", en: "Estimate payoff months, total paid, and interest from balance, APR, and monthly payment." }, href: "/tools/finance/credit-card-payoff-calculator", icon: CreditCard },
+  { name: { zh: "負債收入比試算機", en: "Debt-to-Income Calculator" }, category: { zh: "財務", en: "finance" }, description: { zh: "輸入每月債務與月總收入，估算 DTI、債務壓力與目標門檻下的借貸空間。", en: "Estimate DTI, debt pressure, and borrowing headroom from monthly debt and gross income." }, href: "/tools/finance/debt-to-income-calculator", icon: Scale },
   { name: { zh: "複利計算機", en: "Compound Interest Calculator" }, category: { zh: "財務", en: "finance" }, description: { zh: "月複利 + 定期投入估算終值、總投入與複利收益，5/10/15/20/25/30 年六段對照，看清時間槓桿。", en: "Monthly-compounding + periodic contribution: see future value, total invested, and compound interest with a 5/10/15/20/25/30-year comparison." }, href: "/tools/finance/compound-interest-calculator", icon: LineChart },
   { name: { zh: "存錢目標反推試算", en: "Savings Goal Calculator" }, category: { zh: "財務", en: "finance" }, description: { zh: "已知目標金額、現有本金、預期報酬與年期，反推每月需固定存入多少錢，含 5/10/15/20/25/30 年六段對照。", en: "Given target amount, current savings, expected return, and years — solve the required monthly contribution; includes 5/10/15/20/25/30-year comparison." }, href: "/tools/finance/savings-goal-calculator", icon: Target },
 ];

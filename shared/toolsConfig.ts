@@ -119,6 +119,36 @@ export const tools: Tool[] = [
     seoArticles: [],
   },
   {
+    id: "credit-card-payoff-calculator",
+    name: "信用卡還清試算機",
+    category: "finance",
+    path: "/tools/finance/credit-card-payoff-calculator",
+    icon: "CreditCard",
+    description: "輸入信用卡餘額、APR、每月付款與最低繳款比例，估算還清月數、總付款與總利息，並比較六段加速還款策略。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
+  {
+    id: "debt-to-income-calculator",
+    name: "負債收入比試算機",
+    category: "finance",
+    path: "/tools/finance/debt-to-income-calculator",
+    icon: "Scale",
+    description: "輸入每月房貸或房租、其他債務與月總收入，估算 DTI 負債收入比、每月債務總額與目標門檻下的借貸空間。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
+  {
     id: "compound-interest-calculator",
     name: "複利計算機",
     category: "finance",
@@ -215,6 +245,8 @@ export const tdeeCalculator = { id: "tdee-calculator", category: "health", name:
 // Finance Tools
 export const loanCalculator = { id: "loan-calculator", category: "finance", name: "Loan Calculator", path: "/tools/finance/loan-calculator" };
 export const mortgageCalculator = { id: "mortgage-calculator", category: "finance", name: "Mortgage Calculator", path: "/tools/finance/mortgage-calculator" };
+export const creditCardPayoffCalculator = { id: "credit-card-payoff-calculator", category: "finance", name: "Credit Card Payoff Calculator", path: "/tools/finance/credit-card-payoff-calculator" };
+export const debtToIncomeCalculator = { id: "debt-to-income-calculator", category: "finance", name: "Debt-to-Income Calculator", path: "/tools/finance/debt-to-income-calculator" };
 export const compoundInterestCalculator = { id: "compound-interest-calculator", category: "finance", name: "Compound Interest Calculator", path: "/tools/finance/compound-interest-calculator" };
 export const retirementCalculator = { id: "retirement-calculator", category: "finance", name: "Retirement Calculator", path: "/tools/finance/retirement-calculator" };
 export const cagrCalculator = { id: "cagr-calculator", category: "finance", name: "CAGR Calculator", path: "/tools/finance/cagr-calculator" };
