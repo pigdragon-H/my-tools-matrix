@@ -176,12 +176,12 @@ const clusterCards: ClusterCard[] = [
 ];
 
 const journeyCardStyles = [
-  "border-emerald-200 bg-emerald-50/95 shadow-emerald-900/10 ring-emerald-100 hover:border-emerald-300 hover:shadow-emerald-900/15 dark:border-emerald-900/60 dark:bg-emerald-950/25 dark:ring-emerald-900/50",
-  "border-rose-200 bg-rose-50/95 shadow-rose-900/10 ring-rose-100 hover:border-rose-300 hover:shadow-rose-900/15 dark:border-rose-900/60 dark:bg-rose-950/25 dark:ring-rose-900/50",
-  "border-violet-200 bg-violet-50/95 shadow-violet-900/10 ring-violet-100 hover:border-violet-300 hover:shadow-violet-900/15 dark:border-violet-900/60 dark:bg-violet-950/25 dark:ring-violet-900/50",
-  "border-purple-200 bg-purple-50/95 shadow-purple-900/10 ring-purple-100 hover:border-purple-300 hover:shadow-purple-900/15 dark:border-purple-900/60 dark:bg-purple-950/25 dark:ring-purple-900/50",
-  "border-amber-200 bg-amber-50/95 shadow-amber-900/10 ring-amber-100 hover:border-amber-300 hover:shadow-amber-900/15 dark:border-amber-900/60 dark:bg-amber-950/25 dark:ring-amber-900/50",
-  "border-sky-200 bg-sky-50/95 shadow-sky-900/10 ring-sky-100 hover:border-sky-300 hover:shadow-sky-900/15 dark:border-sky-900/60 dark:bg-sky-950/25 dark:ring-sky-900/50",
+  "border-emerald-200 bg-emerald-50/60 shadow-emerald-900/10 ring-emerald-100 hover:border-emerald-300 hover:shadow-emerald-900/15 dark:border-emerald-900/60 dark:bg-emerald-950/25 dark:ring-emerald-900/50",
+  "border-rose-200 bg-rose-50/60 shadow-rose-900/10 ring-rose-100 hover:border-rose-300 hover:shadow-rose-900/15 dark:border-rose-900/60 dark:bg-rose-950/25 dark:ring-rose-900/50",
+  "border-violet-200 bg-violet-50/60 shadow-violet-900/10 ring-violet-100 hover:border-violet-300 hover:shadow-violet-900/15 dark:border-violet-900/60 dark:bg-violet-950/25 dark:ring-violet-900/50",
+  "border-purple-200 bg-purple-50/60 shadow-purple-900/10 ring-purple-100 hover:border-purple-300 hover:shadow-purple-900/15 dark:border-purple-900/60 dark:bg-purple-950/25 dark:ring-purple-900/50",
+  "border-amber-200 bg-amber-50/60 shadow-amber-900/10 ring-amber-100 hover:border-amber-300 hover:shadow-amber-900/15 dark:border-amber-900/60 dark:bg-amber-950/25 dark:ring-amber-900/50",
+  "border-sky-200 bg-sky-50/60 shadow-sky-900/10 ring-sky-100 hover:border-sky-300 hover:shadow-sky-900/15 dark:border-sky-900/60 dark:bg-sky-950/25 dark:ring-sky-900/50",
 ];
 
 const journeyAccentStyles = [
@@ -194,12 +194,12 @@ const journeyAccentStyles = [
 ];
 
 const journeyStepStyles = [
-  "border-emerald-200 bg-emerald-100/80 text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-100",
-  "border-rose-200 bg-rose-100/80 text-rose-900 dark:border-rose-800 dark:bg-rose-950/60 dark:text-rose-100",
-  "border-violet-200 bg-violet-100/80 text-violet-900 dark:border-violet-800 dark:bg-violet-950/60 dark:text-violet-100",
-  "border-purple-200 bg-purple-100/80 text-purple-900 dark:border-purple-800 dark:bg-purple-950/60 dark:text-purple-100",
-  "border-amber-200 bg-amber-100/80 text-amber-900 dark:border-amber-800 dark:bg-amber-950/60 dark:text-amber-100",
-  "border-sky-200 bg-sky-100/80 text-sky-900 dark:border-sky-800 dark:bg-sky-950/60 dark:text-sky-100",
+  "border-emerald-200 bg-emerald-100/50 text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-100",
+  "border-rose-200 bg-rose-100/50 text-rose-900 dark:border-rose-800 dark:bg-rose-950/60 dark:text-rose-100",
+  "border-violet-200 bg-violet-100/50 text-violet-900 dark:border-violet-800 dark:bg-violet-950/60 dark:text-violet-100",
+  "border-purple-200 bg-purple-100/50 text-purple-900 dark:border-purple-800 dark:bg-purple-950/60 dark:text-purple-100",
+  "border-amber-200 bg-amber-100/50 text-amber-900 dark:border-amber-800 dark:bg-amber-950/60 dark:text-amber-100",
+  "border-sky-200 bg-sky-100/50 text-sky-900 dark:border-sky-800 dark:bg-sky-950/60 dark:text-sky-100",
 ];
 
 const footerCategories = [
