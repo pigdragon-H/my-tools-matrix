@@ -104,6 +104,21 @@ export const tools: Tool[] = [
     seoArticles: [],
   },
   {
+    id: "mortgage-calculator",
+    name: "房貸試算機",
+    category: "finance",
+    path: "/tools/finance/mortgage-calculator",
+    icon: "Home",
+    description: "輸入房屋總價、頭期款、年利率、年期與家庭月收入，估算房貸月付、本息總額、總利息、貸款成數與收入負擔率，並提供 5/10/15/20/25/30 年六段對照。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
+  {
     id: "compound-interest-calculator",
     name: "複利計算機",
     category: "finance",
@@ -199,6 +214,7 @@ export const tdeeCalculator = { id: "tdee-calculator", category: "health", name:
 
 // Finance Tools
 export const loanCalculator = { id: "loan-calculator", category: "finance", name: "Loan Calculator", path: "/tools/finance/loan-calculator" };
+export const mortgageCalculator = { id: "mortgage-calculator", category: "finance", name: "Mortgage Calculator", path: "/tools/finance/mortgage-calculator" };
 export const compoundInterestCalculator = { id: "compound-interest-calculator", category: "finance", name: "Compound Interest Calculator", path: "/tools/finance/compound-interest-calculator" };
 export const retirementCalculator = { id: "retirement-calculator", category: "finance", name: "Retirement Calculator", path: "/tools/finance/retirement-calculator" };
 export const cagrCalculator = { id: "cagr-calculator", category: "finance", name: "CAGR Calculator", path: "/tools/finance/cagr-calculator" };
