@@ -678,24 +678,36 @@ export default function BmiCalculator() {
           </section>
 
           {/* L15-L16 · 推薦商品 + Premium Gate 並排 */}
-          <section className="grid gap-6 lg:grid-cols-[1fr_1fr]">
-            <article className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 md:p-7">{/* L15-Affiliate */}
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{lang === "zh" ? "推薦商品" : "Recommended"}</p>
-              <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "配合 BMI 使用的健康工具" : "Health tools to use with BMI"}</h2>
-              <div className="mt-4 grid grid-cols-2 gap-3">
-                {[{zh: "智能體重計", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-tracker"}, {zh: "營養補充品", en: "Supplements", href: "#affiliate-supplements"}, {zh: "健康書籍", en: "Health Books", href: "#affiliate-books"}].map((item) => (<a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
-              </div>
-              <p className="mt-3 text-xs text-amber-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission."}</p>
-            </article>
+          <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]">
+          {/* L15-Affiliate */}
+          <article className="flex h-full flex-col rounded-[2rem] border border-amber-200 bg-amber-50 p-6 md:p-7">
+                        <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{lang === "zh" ? "推薦商品" : "Recommended"}</p>
+                        <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "配合 BMI 使用的健康工具" : "Health tools to use with BMI"}</h2>
+                        <div className="mt-4 grid grid-cols-2 gap-3">
+                          {[{zh: "智能體重計", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-tracker"}, {zh: "營養補充品", en: "Supplements", href: "#affiliate-supplements"}, {zh: "健康書籍", en: "Health Books", href: "#affiliate-books"}].map((item) => (<a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
+                        </div>
+                        <p className="mt-3 text-xs text-amber-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission."}</p>
+                      </article>
 
-            <PremiumGate plan="PRO">
-              <div className="h-full rounded-[2rem] border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-7">{/* L16-PremiumGate */}
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{lang === "zh" ? "進階功能" : "Premium Features"}</p>
-                <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "解鎖完整健康追蹤" : "Unlock Complete Health Tracking"}</h2>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{lang === "zh" ? "Premium 功能即將推出" : "Premium features coming soon"}</p>
-              </div>
-            </PremiumGate>
-          </section>
+          {/* L16-PremiumGate */}
+          <PremiumGate plan="PRO">
+            <article className="flex h-full flex-col rounded-[2rem] border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-7">{/* L16-PremiumGate */}
+                            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{lang === "zh" ? "進階功能" : "Premium Features"}</p>
+                            <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "解鎖完整健康追蹤" : "Unlock Complete Health Tracking"}</h2>
+                            <p className="mt-2 text-sm leading-6 text-slate-600">{lang === "zh" ? "Premium 功能即將推出：把 BMI、BMR、TDEE 與趨勢追蹤整合成完整健康儀表板。" : "Premium features coming soon: combine BMI, BMR, TDEE, and trend tracking into one health dashboard."}</p>
+                            <div className="mt-5 grid grid-cols-2 gap-3">
+                              {[
+                                lang === "zh" ? "BMI 趨勢" : "BMI trends",
+                                lang === "zh" ? "BMR / TDEE" : "BMR / TDEE",
+                                lang === "zh" ? "健康報告" : "Health report",
+                                lang === "zh" ? "目標追蹤" : "Goal tracking",
+                              ].map((item) => (
+                                <div key={item} className="rounded-xl bg-white p-3 text-center text-sm font-black text-blue-900 shadow-sm">{item}</div>
+                              ))}
+                            </div>
+                          </article>
+          </PremiumGate>
+        </section>
 
           <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.trustRelatedReferences}</p>

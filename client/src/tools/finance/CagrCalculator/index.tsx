@@ -534,27 +534,29 @@ export default function CagrCalculator() {
         </section>
 
         {/* L15-L16 · 推薦商品 + Premium Gate 並排 */}
-        <section className="grid gap-6 lg:grid-cols-[1fr_1fr]">
+        <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]">
           {/* L15-Affiliate */}
-          <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-                    <p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-700">{t.affiliate}</p>
-                    <h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2>
-                    <div className="mt-5 grid gap-4 md:grid-cols-4">
-                      {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-cyan-100 bg-cyan-50 p-5 text-center font-black text-cyan-950 transition hover:border-cyan-500 hover:bg-cyan-100">{l(item.label, lang)}</a>)}
-                    </div>
-                    <p className="mt-3 text-xs text-cyan-700">
-                      {lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}
-                    </p>
-                  </section>
+          <section className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+                              <p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-700">{t.affiliate}</p>
+                              <h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2>
+                              <div className="mt-5 grid gap-4 md:grid-cols-4">
+                                {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-cyan-100 bg-cyan-50 p-5 text-center font-black text-cyan-950 transition hover:border-cyan-500 hover:bg-cyan-100">{l(item.label, lang)}</a>)}
+                              </div>
+                              <p className="mt-3 text-xs text-cyan-700">
+                                {lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}
+                              </p>
+                            </section>
 
           {/* L16-PremiumGate */}
           <PremiumGate plan="PRO">
-                    <h2 className="text-3xl font-black text-slate-950">{t.premiumTitle}</h2>
-                    <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t.premiumText}</p>
-                    <div className="mt-5 grid gap-3 md:grid-cols-4">
-                      {[t.cagrShort, t.returnShort, t.investmentCycles, t.reports].map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-cyan-900 shadow-sm">{item}</div>)}
-                    </div>
-                  </PremiumGate>
+            <article className="flex h-full flex-col rounded-[2rem] border border-cyan-200 bg-gradient-to-br from-cyan-50 to-indigo-50 p-6 md:p-7">{/* L16-PremiumGate */}
+              <h2 className="text-3xl font-black text-slate-950">{t.premiumTitle}</h2>
+                                  <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t.premiumText}</p>
+                                  <div className="mt-5 grid gap-3 md:grid-cols-4">
+                                    {[t.cagrShort, t.returnShort, t.investmentCycles, t.reports].map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-cyan-900 shadow-sm">{item}</div>)}
+                                  </div>
+            </article>
+          </PremiumGate>
         </section>
 
 
