@@ -14,17 +14,15 @@
 - **Clone 基準**: LoanCalculator (最接近)
 - **L6 三大主數值**: monthlyPayment / totalInterest / totalCost(含稅+保險)
 
-- [x] Phase 1 · Spec (公式 + 3 worked examples + Node 預驗)
-- [x] Phase 2 · Clone LoanCalculator → Mortgage
-- [x] Phase 3-5 · 全檔重寫
-- [x] Phase 5 收尾 · grep 殘留檢查
-- [x] Phase 6 · tsc + naming 公約檢查
-- [x] Phase 7 · 三向註冊 (ToolPage + toolsConfig + Home)
-- [x] Phase 8 · Triple QC (layer + layout + route) · ALL GREEN
-- [x] Phase 9 · DELIVERY-NOTES.md + ZIP 打包 · `ops/deliveries/mortgage-calculator-delivery.zip`
-- [x] Journal · ops/journals/mortgage-trial-2026-05.md
-- [x] Push to main · commit `d6ce5b2`
-- [x] Production verified · bundle `index-2wkJushs.js` 含 `finance/mortgage-calculator` ✅
+- [ ] Phase 1 · Spec (公式 + 3 worked examples + Node 預驗)
+- [ ] Phase 2 · Clone LoanCalculator → Mortgage
+- [ ] Phase 3-5 · 全檔重寫
+- [ ] Phase 5 收尾 · grep 殘留檢查
+- [ ] Phase 6 · tsc + naming 公約檢查
+- [ ] Phase 7 · 三向註冊 (ToolPage + toolsConfig + Home)
+- [ ] Phase 8 · Triple QC (layer + layout + route)
+- [ ] Phase 9 · DELIVERY-NOTES.md + ZIP 打包
+- [ ] Journal · ops/journals/mortgage-trial-2026-05.md
 
 ## 工具 2/3 · CreditCardPayoffCalculator
 - **路徑**: `/tools/finance/credit-card-payoff-calculator`
