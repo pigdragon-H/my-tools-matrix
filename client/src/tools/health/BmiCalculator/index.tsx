@@ -403,20 +403,17 @@ export default function BmiCalculator() {
             </section>
 
             <aside className="rounded-[2rem] border border-blue-100 bg-white/90 p-6 shadow-2xl shadow-blue-950/10 backdrop-blur">
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-700">{t.quickActionCard}</p>
-                  <h2 className="mt-2 text-2xl font-black">{t.tryCommonAdultExample}</h2>
-                </div>
-                <div className="rounded-2xl bg-blue-600 px-4 py-3 text-center text-white">
-                  <div className="text-xs font-bold uppercase text-blue-100">{t.bmiPreview}</div>
-                  <div className="text-3xl font-black">{formatBmi(adultMaleExampleBmi)}</div>
-                </div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-700">{t.quickActionCard}</p>
+              <h2 className="mt-2 text-2xl font-black">{t.tryCommonAdultExample}</h2>
+              <div className="mt-5 rounded-3xl bg-blue-600 p-5 text-white">
+                <div className="text-xs font-bold uppercase text-blue-100">{t.bmiPreview}</div>
+                <div className="mt-1 text-5xl font-black">{formatBmi(adultMaleExampleBmi)}</div>
+                <div className="text-sm font-bold text-blue-100">{t.adultMale}</div>
               </div>
-              <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.example}</div><div className="mt-1 text-lg font-black">{t.adultMale}</div></div>
-                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.weight}</div><div className="mt-1 text-lg font-black">70kg</div></div>
-                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.height}</div><div className="mt-1 text-lg font-black">175cm</div></div>
+              <div className="mt-5 grid grid-cols-3 gap-3 text-center">
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.example}</div><div className="font-black">{t.adultMale}</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.weight}</div><div className="font-black">70kg</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.height}</div><div className="font-black">175cm</div></div>
               </div>
               <button onClick={fillAdultMaleExample} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white transition hover:bg-blue-700">
                 {t.oneClickFillAdultMaleExample}
@@ -506,6 +503,7 @@ export default function BmiCalculator() {
             <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
               <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.resultIntelligence}</p>
               <h2 className="mt-2 text-3xl font-black">{t.interpretCategoryBeforeActing}</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{l(activeCategory.actions, lang)}</p>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 {categoryInfo.map((item) => (
                   <div key={item.key} className={`rounded-2xl border p-4 ${item.key === activeCategory.key ? "border-blue-500 bg-blue-50 shadow-sm" : "border-slate-200 bg-slate-50"}`}>
@@ -641,7 +639,7 @@ export default function BmiCalculator() {
             </div>
           </section>
 
-          <section className="grid gap-7 lg:grid-cols-[1fr_0.9fr]">{/* L14-Knowledge-FAQ */}
+          <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L14-Knowledge-FAQ */}
             <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
               <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.knowledge}</p>
               <h2 className="mt-2 text-3xl font-black">{t.bmiMeaning}</h2>
@@ -653,7 +651,7 @@ export default function BmiCalculator() {
               <pre className="mt-5 rounded-3xl bg-slate-950 p-5 text-sm leading-7 text-slate-100">{t.metricFormula}{"\n"}{t.imperialFormula}</pre>
               
               {/* ────── AdSlot: Knowledge 中間 ────── */}
-              <div className="mt-6">
+              <div className="mt-5">
                 <AdSlot slot="bmi-knowledge" position="middle" />
               </div>
             </article>
@@ -682,9 +680,9 @@ export default function BmiCalculator() {
           {/* L15-Affiliate */}
           <article className="flex h-full flex-col rounded-[2rem] border border-amber-200 bg-amber-50 p-6 md:p-7">
                         <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{lang === "zh" ? "推薦商品" : "Recommended"}</p>
-                        <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "配合 BMI 使用的健康工具" : "Health tools to use with BMI"}</h2>
-                        <div className="mt-4 grid grid-cols-2 gap-3">
-                          {[{zh: "智能體重計", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-tracker"}, {zh: "營養補充品", en: "Supplements", href: "#affiliate-supplements"}, {zh: "健康書籍", en: "Health Books", href: "#affiliate-books"}].map((item) => (<a key={item.href} href={item.href} className="rounded-xl border border-amber-200 bg-white p-3 text-center text-sm font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
+                        <h2 className="mt-2 text-3xl font-black">{lang === "zh" ? "配合 BMI 使用的健康工具" : "Health tools to use with BMI"}</h2>
+                        <div className="mt-5 grid gap-4 md:grid-cols-4">
+                          {[{zh: "智能體重計", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-tracker"}, {zh: "營養補充品", en: "Supplements", href: "#affiliate-supplements"}, {zh: "健康書籍", en: "Health Books", href: "#affiliate-books"}].map((item) => (<a key={item.href} href={item.href} className="rounded-2xl border border-amber-200 bg-white p-5 text-center font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
                         </div>
                         <p className="mt-3 text-xs text-amber-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission."}</p>
                       </article>
@@ -693,16 +691,16 @@ export default function BmiCalculator() {
           <PremiumGate plan="PRO">
             <article className="flex h-full flex-col rounded-[2rem] border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-7">{/* L16-PremiumGate */}
                             <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{lang === "zh" ? "進階功能" : "Premium Features"}</p>
-                            <h2 className="mt-2 text-2xl font-black">{lang === "zh" ? "解鎖完整健康追蹤" : "Unlock Complete Health Tracking"}</h2>
-                            <p className="mt-2 text-sm leading-6 text-slate-600">{lang === "zh" ? "Premium 功能即將推出：把 BMI、BMR、TDEE 與趨勢追蹤整合成完整健康儀表板。" : "Premium features coming soon: combine BMI, BMR, TDEE, and trend tracking into one health dashboard."}</p>
-                            <div className="mt-5 grid grid-cols-2 gap-3">
+                            <h2 className="mt-2 text-3xl font-black">{lang === "zh" ? "解鎖完整健康追蹤" : "Unlock Complete Health Tracking"}</h2>
+                            <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{lang === "zh" ? "Premium 功能即將推出：把 BMI、BMR、TDEE 與趨勢追蹤整合成完整健康儀表板。" : "Premium features coming soon: combine BMI, BMR, TDEE, and trend tracking into one health dashboard."}</p>
+                            <div className="mt-5 grid gap-3 md:grid-cols-4">
                               {[
                                 lang === "zh" ? "BMI 趨勢" : "BMI trends",
                                 lang === "zh" ? "BMR / TDEE" : "BMR / TDEE",
                                 lang === "zh" ? "健康報告" : "Health report",
                                 lang === "zh" ? "目標追蹤" : "Goal tracking",
                               ].map((item) => (
-                                <div key={item} className="rounded-xl bg-white p-3 text-center text-sm font-black text-blue-900 shadow-sm">{item}</div>
+                                <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-blue-900 shadow-sm">{item}</div>
                               ))}
                             </div>
                           </article>
