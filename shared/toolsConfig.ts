@@ -163,6 +163,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "mortgage-calculator",
+    name: "房貸試算機",
+    category: "finance",
+    path: "/tools/finance/mortgage-calculator",
+    icon: "Home",
+    description: "輸入房價 / 頭期 / 利率 / 年期 / 房屋稅 / 保險，結合本利攤還(等額本息)+ 房屋稅 + 保險 + 頭期款,30 年購屋總成本一次看清楚；含 5/10/15/20/25/30 年六段對照。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -203,3 +218,4 @@ export const compoundInterestCalculator = { id: "compound-interest-calculator", 
 export const retirementCalculator = { id: "retirement-calculator", category: "finance", name: "Retirement Calculator", path: "/tools/finance/retirement-calculator" };
 export const cagrCalculator = { id: "cagr-calculator", category: "finance", name: "CAGR Calculator", path: "/tools/finance/cagr-calculator" };
 export const savingsGoalCalculator = { id: "savings-goal-calculator", category: "finance", name: "Savings Goal Calculator", path: "/tools/finance/savings-goal-calculator" };
+export const mortgageCalculator = { id: "mortgage-calculator", category: "finance", name: "Mortgage Calculator", path: "/tools/finance/mortgage-calculator" };
