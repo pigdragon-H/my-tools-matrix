@@ -7,6 +7,7 @@ import { useMemo, useState } from "react";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { AdSlot } from "@/components/business/AdSlot";
 import { PremiumGate } from "@/components/business/PremiumGate";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type Lang = "zh" | "en";
 type UnitSystem = "metric" | "imperial";
@@ -23,12 +24,6 @@ type ActivityInfo = {
 };
 
 type AffiliateItem = { label: LocalText; href: string };
-
-const getBrowserLang = (): "zh" | "en" => {
-  const locale =
-    (typeof navigator !== "undefined" && navigator.language) || "zh";
-  return locale.startsWith("zh") ? "zh" : "en";
-};
 
 const l = (value: LocalText, lang: Lang) => value[lang];
 
@@ -291,7 +286,7 @@ const faqKeys = [
 ] as const;
 
 export default function TdeeCalculator() {
-  const [lang, setLang] = useState<Lang>(() => getBrowserLang());
+  const { lang, setLang } = useLanguage();
   const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric");
   const [sex, setSex] = useState<Sex>("male");
   const [age, setAge] = useState("30");

@@ -7,6 +7,7 @@ import { useMemo, useState } from "react";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { AdSlot } from "@/components/business/AdSlot";
 import { PremiumGate } from "@/components/business/PremiumGate";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type Lang = "zh" | "en";
 type RetireAge = 40 | 50 | 55 | 60 | 65 | 70;
@@ -20,12 +21,6 @@ type RetireInfo = {
 };
 
 type AffiliateItem = { label: LocalText; href: string };
-
-const getBrowserLang = (): "zh" | "en" => {
-  const locale =
-    (typeof navigator !== "undefined" && navigator.language) || "zh";
-  return locale.startsWith("zh") ? "zh" : "en";
-};
 
 const l = (value: LocalText, lang: Lang) => value[lang];
 
@@ -309,7 +304,7 @@ const faqKeys = [
 ] as const;
 
 export default function RetirementCalculator() {
-  const [lang, setLang] = useState<Lang>(() => getBrowserLang());
+  const { lang, setLang } = useLanguage();
   const [currency, setCurrency] = useState<"TWD" | "USD">("TWD");
   const [currentAge, setCurrentAge] = useState("30");
   const [retireAge, setRetireAge] = useState<RetireAge>(65);

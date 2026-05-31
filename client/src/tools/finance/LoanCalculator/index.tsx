@@ -7,6 +7,7 @@ import { useMemo, useState } from "react";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { AdSlot } from "@/components/business/AdSlot";
 import { PremiumGate } from "@/components/business/PremiumGate";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type Lang = "zh" | "en";
 type LoanTerm = 5 | 10 | 15 | 20 | 25 | 30;
@@ -20,12 +21,6 @@ type TermInfo = {
 };
 
 type AffiliateItem = { label: LocalText; href: string };
-
-const getBrowserLang = (): "zh" | "en" => {
-  const locale =
-    (typeof navigator !== "undefined" && navigator.language) || "zh";
-  return locale.startsWith("zh") ? "zh" : "en";
-};
 
 const l = (value: LocalText, lang: Lang) => value[lang];
 
@@ -295,7 +290,7 @@ const faqKeys = [
 ] as const;
 
 export default function LoanCalculator() {
-  const [lang, setLang] = useState<Lang>(() => getBrowserLang());
+  const { lang, setLang } = useLanguage();
   const [currency, setCurrency] = useState<"TWD" | "USD">("TWD");
   const [principal, setPrincipal] = useState("5000000");
   const [annualRate, setAnnualRate] = useState("2.1");
