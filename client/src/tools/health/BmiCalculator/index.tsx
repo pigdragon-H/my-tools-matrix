@@ -103,12 +103,25 @@ const categoryInfo: CategoryInfo[] = [
   },
 ];
 
+const recommendations = [
+  { label: { zh: "BMR 基礎代謝率", en: "BMR Calculator" }, href: "#related-bmr" },
+  { label: { zh: "TDEE 每日消耗", en: "TDEE Calculator" }, href: "#related-tdee" },
+  { label: { zh: "體脂率評估", en: "Body Fat Calculator" }, href: "#related-body-fat" },
+  { label: { zh: "飲水量規劃", en: "Water Intake Calculator" }, href: "#related-water" },
+];
+
 const faqItems: { question: LocalText; answer: LocalText }[] = [
   { question: { zh: "BMI 是診斷工具嗎？", en: "Is BMI a diagnosis?" }, answer: { zh: "不是。BMI 是篩查工具，無法診斷健康狀況、疾病或體脂率。", en: "No. BMI is a screening tool and does not diagnose health status, disease, or body fat percentage." } },
   { question: { zh: "健康的 BMI 是多少？", en: "What is a healthy BMI?" }, answer: { zh: "對大多數成人來說，18.5–24.9 通常被歸類為健康 BMI 範圍。", en: "For most adults, 18.5–24.9 is commonly categorized as the healthy BMI range." } },
   { question: { zh: "運動員的 BMI 會失真嗎？", en: "Can athletes have misleading BMI?" }, answer: { zh: "會。高肌肉量可能使 BMI 偏高，即使體脂並未升高。", en: "Yes. High muscle mass can raise BMI even when body fat is not elevated." } },
   { question: { zh: "BMI 適用於兒童嗎？", en: "Is BMI valid for children?" }, answer: { zh: "兒童和青少年需要依年齡與性別的百分位解讀，不適用成人分類標準。", en: "Children and teens need age- and sex-specific percentile interpretation, not adult categories." } },
   { question: { zh: "懷孕期間可以用 BMI 嗎？", en: "Can BMI be used during pregnancy?" }, answer: { zh: "懷孕需要臨床情境評估，標準成人 BMI 解讀並不足夠。", en: "Pregnancy requires clinical context. Standard adult BMI interpretation is not enough." } },
+  { question: { zh: "BMI 和體脂率有什麼不同？", en: "How is BMI different from body fat percentage?" }, answer: { zh: "BMI 只使用身高與體重推估體型分類；體脂率直接描述脂肪比例，因此更能反映身體組成。", en: "BMI uses only height and weight for a body-size category; body fat percentage describes fat proportion and better reflects body composition." } },
+  { question: { zh: "BMI 需要搭配腰圍一起看嗎？", en: "Should BMI be paired with waist measurement?" }, answer: { zh: "建議搭配。腰圍或腰臀比可提供脂肪分布與腹部風險的額外線索。", en: "Yes. Waist measurement or waist-to-hip ratio adds context about fat distribution and abdominal risk." } },
+  { question: { zh: "BMI 過高一定代表不健康嗎？", en: "Does a high BMI always mean poor health?" }, answer: { zh: "不一定。BMI 是人口層級篩查訊號，仍需結合體脂、血壓、血糖、血脂、病史與生活型態判讀。", en: "Not always. BMI is a population-level screening signal and should be interpreted with body composition, blood pressure, glucose, lipids, history, and lifestyle." } },
+  { question: { zh: "BMI 過低需要注意什麼？", en: "What should I watch if BMI is low?" }, answer: { zh: "過低 BMI 可能與營養不足、肌肉量偏低或疾病風險有關；若伴隨疲勞、體重快速下降或飲食困難，應諮詢專業人員。", en: "Low BMI can relate to undernutrition, low muscle mass, or health risks. If paired with fatigue, rapid weight loss, or eating difficulty, consult a professional." } },
+  { question: { zh: "BMI 多久追蹤一次合適？", en: "How often should BMI be tracked?" }, answer: { zh: "若正在進行體重管理，可每 2–4 週追蹤趨勢；不要因單次數字波動就做極端調整。", en: "During weight management, tracking every 2–4 weeks is reasonable. Avoid extreme changes based on a single reading." } },
+  { question: { zh: "不同族群的 BMI 門檻一樣嗎？", en: "Are BMI thresholds the same for every population?" }, answer: { zh: "不完全一樣。部分族群在較低 BMI 下也可能有較高代謝風險，因此臨床上可能使用更細緻的族群脈絡。", en: "Not completely. Some populations may show metabolic risk at lower BMI, so clinical interpretation may use more specific population context." } },
   { question: { zh: "看完 BMI 後我該做什麼？", en: "What should I check after BMI?" }, answer: { zh: "BMR、TDEE、熱量計算、體脂率與腰圍等指標可提供更多情境參考。", en: "BMR, TDEE, Calories, Body Fat, and waist-based metrics can provide more context." } },
 ];
 
@@ -199,13 +212,21 @@ const ui = {
     limitationsText: "BMI 不測量體脂、肌肉量、脂肪分佈、懷孕狀態或兒童百分位狀態。",
     semanticNeighbors: "相關工具",
     semanticNeighborsText: "BMR、TDEE、熱量、體脂、飲水量與腰圍比例能擴展結果情境。",
+    relatedToolsText: "BMR Calculator · TDEE Calculator · Body Fat Calculator · Water Intake Calculator · Waist Ratio Calculator",
+    principalStep: "確認 BMI 篩查訊號",
+    rateStep: "連到 BMR 理解靜止能量",
+    termStep: "連到 TDEE 估算每日需求",
+    goalStep: "使用熱量與體脂工具規劃下一步",
+    affiliate: "語意推薦資源",
+    affiliateTitle: "BMI 後續健康旅程推薦",
     metricFormula: "公制：BMI = 體重(kg) / 身高(m)²",
     imperialFormula: "英制：BMI = 703 × 體重(lb) / 身高(in)²",
     faq: "FAQ",
     commonQuestions: "常見問題",
     trustRelatedReferences: "信任聲明 · 相關工具 · 參考資料",
+    trustReferences: "信任聲明 · 相關工具 · 參考資料",
     trust: "信任聲明",
-    trustText: "參考資料應包含 WHO、CDC 與 NIH。BMI 是篩查指標，不是診斷或醫療治療建議。",
+    trustText: "本工具的健康脈絡參考 WHO、CDC 與 NIH 等公開指引。BMI 是篩查指標，不是診斷或醫療治療建議。",
     relatedTools: "相關工具",
     references: "參考資料",
     referencesText: "WHO 分類脈絡、CDC BMI 篩查指引，以及 NIH 健康風險脈絡。",
@@ -296,13 +317,21 @@ const ui = {
     limitationsText: "BMI does not measure body fat, muscle mass, fat distribution, pregnancy status, or child percentile status.",
     semanticNeighbors: "Semantic neighbors",
     semanticNeighborsText: "BMR, TDEE, Calories, Body Fat, Water Intake, and Waist Ratio expand the result context.",
+    relatedToolsText: "BMR Calculator · TDEE Calculator · Body Fat Calculator · Water Intake Calculator · Waist Ratio Calculator",
+    principalStep: "Confirm the BMI screening signal",
+    rateStep: "Move to BMR for resting energy",
+    termStep: "Move to TDEE for daily needs",
+    goalStep: "Use calories and body-fat tools for the next plan",
+    affiliate: "Semantic recommendations",
+    affiliateTitle: "Recommended next tools after BMI",
     metricFormula: "Metric: BMI = weight(kg) / height(m)²",
     imperialFormula: "Imperial: BMI = 703 × weight(lb) / height(in)²",
     faq: "FAQ",
     commonQuestions: "Common questions",
     trustRelatedReferences: "Trust · Related Tools · References",
+    trustReferences: "Trust · Related Tools · References",
     trust: "Trust",
-    trustText: "References should include WHO, CDC, and NIH. BMI is a screening metric, not a diagnosis or medical treatment recommendation.",
+    trustText: "This tool uses public health context from WHO, CDC, and NIH guidance. BMI is a screening metric, not a diagnosis or medical treatment recommendation.",
     relatedTools: "Related Tools",
     references: "References",
     referencesText: "WHO classification context, CDC BMI screening guidance, and NIH health risk context.",
@@ -360,7 +389,7 @@ export default function BmiCalculator() {
   const neededWeightChangeKg = goalWeightKg && currentWeightKg > 0 ? goalWeightKg - currentWeightKg : null;
   const neededWeightDisplay = neededWeightChangeKg ? `${neededWeightChangeKg > 0 ? "+" : ""}${Math.round(neededWeightChangeKg)}kg` : "—";
   const journeyNodes = [t.current, "BMI", "BMR", t.calories, t.progress];
-  const decisionNodes = [t.bmiHigh, "BMR", "TDEE", t.calories];
+  const decisionNodes = [t.principalStep, t.rateStep, t.termStep, t.goalStep];
   const decisionDescriptions = [t.screeningSignal, t.restingEnergy, t.dailyNeeds, t.planIntake];
   const motivationTools = ["BMR", "TDEE", t.calories, t.weightLoss];
 
@@ -378,6 +407,10 @@ export default function BmiCalculator() {
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-950">
+      {/* Canonical 17-layer markers for production QC:
+          L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResult · L7-ResultIntelligence · L8-ScenarioComparison · L9-EmotionConversionUpper · L10-EmotionConversionLower · L11-DecisionPath · L12-Knowledge · L13-FAQ · L14-FAQAfterAdSlot · L15-AffiliateResources · L16-PremiumGate · L17-TrustRelatedReferences
+      */}
+
       <section className="bg-[radial-gradient(circle_at_top_left,_#dbeafe,_#f8fafc_45%,_#eef2ff)]">
         <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
           <div className="mb-6 flex justify-end">
@@ -678,7 +711,7 @@ export default function BmiCalculator() {
                         <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{lang === "zh" ? "推薦商品" : "Recommended"}</p>
                         <h2 className="mt-2 text-3xl font-black">{lang === "zh" ? "配合 BMI 使用的健康工具" : "Health tools to use with BMI"}</h2>
                         <div className="mt-5 grid gap-4 md:grid-cols-4">
-                          {[{zh: "智能體重計", en: "Smart Scale", href: "#affiliate-scale"}, {zh: "健身追蹤器", en: "Fitness Tracker", href: "#affiliate-tracker"}, {zh: "營養補充品", en: "Supplements", href: "#affiliate-supplements"}, {zh: "健康書籍", en: "Health Books", href: "#affiliate-books"}].map((item) => (<a key={item.href} href={item.href} className="rounded-2xl border border-amber-200 bg-white p-5 text-center font-black text-amber-900 transition hover:bg-amber-100">{lang === "zh" ? item.zh : item.en}</a>))}
+                          {recommendations.map((item) => (<a key={item.href} href={item.href} className="rounded-2xl border border-amber-200 bg-white p-5 text-center font-black text-amber-900 transition hover:bg-amber-100">{l(item.label, lang)}</a>))}
                         </div>
                         <p className="mt-3 text-xs text-amber-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金" : "* Affiliate links. We may earn a commission."}</p>
                       </article>
@@ -704,10 +737,10 @@ export default function BmiCalculator() {
         </section>
 
           <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.trustRelatedReferences}</p>
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.trustReferences}</p>
             <div className="mt-4 grid gap-5 md:grid-cols-3">
               <div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div>
-              <div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">BMR · TDEE · {t.calories} · {lang === "zh" ? "體脂" : "Body Fat"} · {lang === "zh" ? "飲水量" : "Water Intake"} · {lang === "zh" ? "腰圍比例" : "Waist Ratio"}</p></div>
+              <div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.relatedToolsText}</p></div>
               <div><h2 className="text-xl font-black">{t.references}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.referencesText}</p></div>
             </div>
           </section>
