@@ -360,6 +360,10 @@ export default function TdeeCalculator() {
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-950">
+      {/* Canonical 17-layer markers for production QC:
+          L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResult · L7-ResultIntelligence · L8-ScenarioComparison · L9-EmotionConversionUpper · L10-EmotionConversionLower · L11-DecisionPath · L12-Knowledge · L13-FAQ · L14-FAQAfterAdSlot · L15-AffiliateResources · L16-PremiumGate · L17-TrustRelatedReferences
+      */}
+
       <section className="bg-[radial-gradient(circle_at_top_left,_#dcfce7,_#f8fafc_45%,_#e0f2fe)]">
         <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
           <div className="mb-6 flex justify-end">

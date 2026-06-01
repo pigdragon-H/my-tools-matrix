@@ -109,6 +109,12 @@ const faqItems: { question: LocalText; answer: LocalText }[] = [
   { question: { zh: "運動員的 BMI 會失真嗎？", en: "Can athletes have misleading BMI?" }, answer: { zh: "會。高肌肉量可能使 BMI 偏高，即使體脂並未升高。", en: "Yes. High muscle mass can raise BMI even when body fat is not elevated." } },
   { question: { zh: "BMI 適用於兒童嗎？", en: "Is BMI valid for children?" }, answer: { zh: "兒童和青少年需要依年齡與性別的百分位解讀，不適用成人分類標準。", en: "Children and teens need age- and sex-specific percentile interpretation, not adult categories." } },
   { question: { zh: "懷孕期間可以用 BMI 嗎？", en: "Can BMI be used during pregnancy?" }, answer: { zh: "懷孕需要臨床情境評估，標準成人 BMI 解讀並不足夠。", en: "Pregnancy requires clinical context. Standard adult BMI interpretation is not enough." } },
+  { question: { zh: "BMI 和體脂率有什麼不同？", en: "How is BMI different from body fat percentage?" }, answer: { zh: "BMI 只使用身高與體重推估體型分類；體脂率直接描述脂肪比例，因此更能反映身體組成。", en: "BMI uses only height and weight for a body-size category; body fat percentage describes fat proportion and better reflects body composition." } },
+  { question: { zh: "BMI 需要搭配腰圍一起看嗎？", en: "Should BMI be paired with waist measurement?" }, answer: { zh: "建議搭配。腰圍或腰臀比可提供脂肪分布與腹部風險的額外線索。", en: "Yes. Waist measurement or waist-to-hip ratio adds context about fat distribution and abdominal risk." } },
+  { question: { zh: "BMI 過高一定代表不健康嗎？", en: "Does a high BMI always mean poor health?" }, answer: { zh: "不一定。BMI 是人口層級篩查訊號，仍需結合體脂、血壓、血糖、血脂、病史與生活型態判讀。", en: "Not always. BMI is a population-level screening signal and should be interpreted with body composition, blood pressure, glucose, lipids, history, and lifestyle." } },
+  { question: { zh: "BMI 過低需要注意什麼？", en: "What should I watch if BMI is low?" }, answer: { zh: "過低 BMI 可能與營養不足、肌肉量偏低或疾病風險有關；若伴隨疲勞、體重快速下降或飲食困難，應諮詢專業人員。", en: "Low BMI can relate to undernutrition, low muscle mass, or health risks. If paired with fatigue, rapid weight loss, or eating difficulty, consult a professional." } },
+  { question: { zh: "BMI 多久追蹤一次合適？", en: "How often should BMI be tracked?" }, answer: { zh: "若正在進行體重管理，可每 2–4 週追蹤趨勢；不要因單次數字波動就做極端調整。", en: "During weight management, tracking every 2–4 weeks is reasonable. Avoid extreme changes based on a single reading." } },
+  { question: { zh: "不同族群的 BMI 門檻一樣嗎？", en: "Are BMI thresholds the same for every population?" }, answer: { zh: "不完全一樣。部分族群在較低 BMI 下也可能有較高代謝風險，因此臨床上可能使用更細緻的族群脈絡。", en: "Not completely. Some populations may show metabolic risk at lower BMI, so clinical interpretation may use more specific population context." } },
   { question: { zh: "看完 BMI 後我該做什麼？", en: "What should I check after BMI?" }, answer: { zh: "BMR、TDEE、熱量計算、體脂率與腰圍等指標可提供更多情境參考。", en: "BMR, TDEE, Calories, Body Fat, and waist-based metrics can provide more context." } },
 ];
 
@@ -205,7 +211,7 @@ const ui = {
     commonQuestions: "常見問題",
     trustRelatedReferences: "信任聲明 · 相關工具 · 參考資料",
     trust: "信任聲明",
-    trustText: "參考資料應包含 WHO、CDC 與 NIH。BMI 是篩查指標，不是診斷或醫療治療建議。",
+    trustText: "本工具的健康脈絡參考 WHO、CDC 與 NIH 等公開指引。BMI 是篩查指標，不是診斷或醫療治療建議。",
     relatedTools: "相關工具",
     references: "參考資料",
     referencesText: "WHO 分類脈絡、CDC BMI 篩查指引，以及 NIH 健康風險脈絡。",
@@ -302,7 +308,7 @@ const ui = {
     commonQuestions: "Common questions",
     trustRelatedReferences: "Trust · Related Tools · References",
     trust: "Trust",
-    trustText: "References should include WHO, CDC, and NIH. BMI is a screening metric, not a diagnosis or medical treatment recommendation.",
+    trustText: "This tool uses public health context from WHO, CDC, and NIH guidance. BMI is a screening metric, not a diagnosis or medical treatment recommendation.",
     relatedTools: "Related Tools",
     references: "References",
     referencesText: "WHO classification context, CDC BMI screening guidance, and NIH health risk context.",
@@ -378,6 +384,10 @@ export default function BmiCalculator() {
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-950">
+      {/* Canonical 17-layer markers for production QC:
+          L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResult · L7-ResultIntelligence · L8-ScenarioComparison · L9-EmotionConversionUpper · L10-EmotionConversionLower · L11-DecisionPath · L12-Knowledge · L13-FAQ · L14-FAQAfterAdSlot · L15-AffiliateResources · L16-PremiumGate · L17-TrustRelatedReferences
+      */}
+
       <section className="bg-[radial-gradient(circle_at_top_left,_#dbeafe,_#f8fafc_45%,_#eef2ff)]">
         <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
           <div className="mb-6 flex justify-end">
