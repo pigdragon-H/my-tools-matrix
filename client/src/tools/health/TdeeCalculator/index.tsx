@@ -12,7 +12,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 type Lang = "zh" | "en";
 type UnitSystem = "metric" | "imperial";
 type Sex = "male" | "female";
-type TdeeActivity = "sedentary" | "light" | "moderate" | "active" | "veryActive" | "athlete";
+type TdeeActivity = "sedentary" | "light" | "moderate" | "active" | "veryActive" | "ultraActive";
 type LocalText = { zh: string; en: string };
 
 type ActivityInfo = {
@@ -26,6 +26,7 @@ type ActivityInfo = {
 type AffiliateItem = { label: LocalText; href: string };
 
 const l = (value: LocalText, lang: Lang) => value[lang];
+const formatActivityFactor = (item: { key: string; factor: number }) => item.key === "ultraActive" ? "2.0+" : String(item.factor);
 
 const activityLevels: ActivityInfo[] = [
   { key: "sedentary",  label: { zh: "久坐",       en: "Sedentary" },         factor: 1.2,   description: { zh: "幾乎不運動，整天坐辦公或在家",                en: "Little or no exercise, mostly desk / home" },        tone: "from-sky-400 to-sky-600" },
@@ -33,7 +34,7 @@ const activityLevels: ActivityInfo[] = [
   { key: "moderate",   label: { zh: "中度活動",   en: "Moderately Active" }, factor: 1.55,  description: { zh: "每週 3-5 天中強度運動",                    en: "Moderate exercise 3-5 days per week" },               tone: "from-teal-400 to-teal-600" },
   { key: "active",     label: { zh: "活躍",       en: "Active" },            factor: 1.725, description: { zh: "每週 6-7 天高強度運動",                    en: "Hard exercise 6-7 days per week" },                   tone: "from-emerald-400 to-emerald-600" },
   { key: "veryActive", label: { zh: "極活躍",     en: "Very Active" },       factor: 1.9,   description: { zh: "每天高強度運動或體力勞動工作",              en: "Daily intense exercise or physical labor" },         tone: "from-amber-400 to-amber-600" },
-  { key: "athlete",    label: { zh: "運動員 / 雙倍訓練", en: "Athlete · Twice-a-day" }, factor: 2.1, description: { zh: "每天兩次訓練或競賽級訓練量",            en: "Two-a-day training or competitive volume" },           tone: "from-orange-400 to-orange-600" },
+  { key: "ultraActive", label: { zh: "超高強度", en: "Ultra High Intensity" }, factor: 2.0, description: { zh: "每日高強度訓練或體力勞動（×2.0+）",            en: "Daily high-intensity training or physical labor (×2.0+)" }, tone: "from-orange-500 to-red-700" },
 ];
 
 const affiliateItems: AffiliateItem[] = [
@@ -99,7 +100,7 @@ const ui = {
     fatLossTarget: "減脂目標 (−500)",
     resultIntelligence: "結果解讀",
     tdeeMatrix: "六段活動量 TDEE 推估",
-    tdeeMatrixNote: "下列卡片以目前 BMR 乘上不同活動倍數，協助比較生活型態（久坐 → 運動員）對每日總消耗的影響。",
+    tdeeMatrixNote: "下列卡片以目前 BMR 乘上不同活動倍數，協助比較生活型態（久坐 → 超高強度）對每日總消耗的影響。",
     emotionConversionLayer: "情緒與轉換層",
     turnIntoPlan: "把 TDEE 轉成可執行的飲食計畫",
     conversionNote: "此層示範如何把單一熱量數字轉為儲存、轉換與下一步行動，不實作帳號或付款流程。",
@@ -131,7 +132,7 @@ const ui = {
     definition: "定義",
     definitionText: "TDEE = REE（靜止能量消耗）+ TEF（食物熱效應）+ 身體活動。NCBI 2023 DRI 報告指出活動量佔 TEE 的 15-50%。",
     formula: "公式",
-    formulaText: "BMR 採 Mifflin-St Jeor 1990：男 = 10×kg + 6.25×cm − 5×age + 5；女 = 10×kg + 6.25×cm − 5×age − 161。TDEE = BMR × 活動係數（1.2 / 1.375 / 1.55 / 1.725 / 1.9 / 2.1）。",
+    formulaText: "BMR 採 Mifflin-St Jeor 1990：男 = 10×kg + 6.25×cm − 5×age + 5；女 = 10×kg + 6.25×cm − 5×age − 161。TDEE = BMR × 活動係數（1.2 / 1.375 / 1.55 / 1.725 / 1.9 / 2.0+）。",
     limitations: "限制",
     limitationsText: "估算值有 ±10% 誤差；體脂率高、孕哺期、慢性病或藥物使用者誤差更大。建議追蹤實際體重 2-4 週後依變化調整熱量。",
     faq: "FAQ",
@@ -247,7 +248,7 @@ const ui = {
     definition: "Definition",
     definitionText: "TDEE = REE (resting energy expenditure) + TEF (thermic effect of food) + physical activity. NIH/NAS 2023 DRI report shows physical activity accounts for 15–50% of TEE.",
     formula: "Formula",
-    formulaText: "BMR uses Mifflin-St Jeor 1990: Male = 10×kg + 6.25×cm − 5×age + 5; Female = 10×kg + 6.25×cm − 5×age − 161. TDEE = BMR × activity factor (1.2 / 1.375 / 1.55 / 1.725 / 1.9 / 2.1).",
+    formulaText: "BMR uses Mifflin-St Jeor 1990: Male = 10×kg + 6.25×cm − 5×age + 5; Female = 10×kg + 6.25×cm − 5×age − 161. TDEE = BMR × activity factor (1.2 / 1.375 / 1.55 / 1.725 / 1.9 / 2.0+).",
     limitations: "Limitations",
     limitationsText: "Estimates carry ~±10% error and are larger for high body-fat, pregnancy/lactation, chronic disease, or medication users. Track real weight for 2–4 weeks and adjust calories from observed change.",
     faq: "FAQ",
@@ -437,7 +438,7 @@ export default function TdeeCalculator() {
                 )}
                 <label className="block text-sm font-black text-slate-700">{t.age}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={age} onChange={(e) => setAge(e.target.value)} /></label>
                 <label className="block text-sm font-black text-slate-700">{t.sex}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={sex} onChange={(e) => setSex(e.target.value as Sex)}><option value="male">{t.male}</option><option value="female">{t.female}</option></select></label>
-                <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.activityLevel}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={activity} onChange={(e) => setActivity(e.target.value as TdeeActivity)}>{activityLevels.map((item) => <option key={item.key} value={item.key}>{l(item.label, lang)} × {item.factor}</option>)}</select></label>
+                <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.activityLevel}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={activity} onChange={(e) => setActivity(e.target.value as TdeeActivity)}>{activityLevels.map((item) => <option key={item.key} value={item.key}>{l(item.label, lang)} × {formatActivityFactor(item)}</option>)}</select></label>
               </div>
             </div>
           </div>
@@ -449,7 +450,7 @@ export default function TdeeCalculator() {
               <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultCard}</p>
               <div className="mt-4 flex items-start justify-between gap-5">
                 <div><div className="text-7xl font-black tracking-tight text-slate-950">{tdeeDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.bmrUnit}</div></div>
-                <div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.activityTag}</div><div className="mt-1 text-xl font-black">{l(activeActivity.label, lang)}</div><div className="mt-1 text-xs text-slate-300">× {activeActivity.factor}</div></div>
+                <div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.activityTag}</div><div className="mt-1 text-xl font-black">{l(activeActivity.label, lang)}</div><div className="mt-1 text-xs text-slate-300">× {formatActivityFactor(activeActivity)}</div></div>
               </div>
               <div className="mt-6 grid gap-4 md:grid-cols-3">
                 <div className="rounded-2xl bg-blue-50 p-4">
@@ -478,10 +479,10 @@ export default function TdeeCalculator() {
             <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultIntelligence}</p>
             <h2 className="mt-2 text-3xl font-black">{t.tdeeMatrix}</h2>
             <p className="mt-2 text-sm leading-6 text-slate-600">{t.tdeeMatrixNote}</p>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <div className="mt-5 grid gap-3 md:grid-cols-3">
               {(calculation?.matrix ?? activityLevels.map((item) => ({ ...item, tdee: 0 }))).map((item) => (
                 <div key={item.key} className={`rounded-2xl border p-4 ${item.key === activeActivity.key ? "border-emerald-500 bg-emerald-50 shadow-sm" : "border-slate-200 bg-slate-50"}`}>
-                  <div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">× {item.factor}</span></div>
+                  <div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">× {formatActivityFactor(item)}</span></div>
                   <p className="mt-2 text-sm leading-6 text-slate-700">{l(item.description, lang)}</p>
                   <p className="mt-3 text-2xl font-black text-slate-950">{formatKcal(item.tdee)} <span className="text-sm text-slate-500">{t.bmrUnit}</span></p>
                 </div>
@@ -551,7 +552,7 @@ export default function TdeeCalculator() {
 
 
         {/* L14-AdSlot · FAQ 後獨立廣告位 */}
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5">
+        <section aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5">
           <AdSlot slot="tdee-faq" position="inline" />
         </section>
 

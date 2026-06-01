@@ -11,7 +11,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 type Lang = "zh" | "en";
 type UnitSystem = "metric" | "imperial";
 type Sex = "male" | "female";
-type BmrActivity = "sedentary" | "light" | "moderate" | "active" | "veryActive";
+type BmrActivity = "sedentary" | "light" | "moderate" | "active" | "veryActive" | "ultraActive";
 type LocalText = { zh: string; en: string };
 
 type ActivityInfo = {
@@ -25,6 +25,7 @@ type ActivityInfo = {
 type AffiliateItem = { label: LocalText; href: string };
 
 const l = (value: LocalText, lang: Lang) => value[lang];
+const formatActivityFactor = (item: { key: string; factor: number }) => item.key === "ultraActive" ? "2.0+" : String(item.factor);
 
 const activityLevels: ActivityInfo[] = [
   { key: "sedentary", label: { zh: "久坐", en: "Sedentary" }, factor: 1.2, description: { zh: "很少或不運動", en: "Little or no exercise" }, tone: "from-slate-400 to-slate-600" },
@@ -32,6 +33,7 @@ const activityLevels: ActivityInfo[] = [
   { key: "moderate", label: { zh: "中度活動", en: "Moderately Active" }, factor: 1.55, description: { zh: "每週中度運動3-5天", en: "Moderate exercise 3-5 days per week" }, tone: "from-emerald-400 to-green-600" },
   { key: "active", label: { zh: "積極活動", en: "Very Active" }, factor: 1.725, description: { zh: "每週高強度運動6-7天", en: "Hard exercise 6-7 days per week" }, tone: "from-orange-400 to-red-600" },
   { key: "veryActive", label: { zh: "極度活動", en: "Extra Active" }, factor: 1.9, description: { zh: "體力勞動或兩日訓練", en: "Physical labor or two-a-day training" }, tone: "from-fuchsia-500 to-purple-700" },
+  { key: "ultraActive", label: { zh: "超高強度", en: "Ultra High Intensity" }, factor: 2.0, description: { zh: "每日高強度訓練或體力勞動（×2.0+）", en: "Daily high-intensity training or physical labor (×2.0+)" }, tone: "from-violet-500 to-indigo-700" },
 ];
 
 const affiliateItems: AffiliateItem[] = [
@@ -92,12 +94,12 @@ const ui = {
     primaryValue: "主要數值",
     maintenanceTarget: "維持目標",
     actionTarget: "行動目標",
-    estimatedTdee: "估算 TDEE",
+    estimatedTdee: "活動後每日消耗",
     maintenance: "維持熱量",
     fatLossTarget: "減脂目標",
     resultIntelligence: "結果解讀",
-    tdeeMatrix: "各活動等級 TDEE 推估",
-    tdeeMatrixNote: "下列卡片以目前 BMR 乘上不同活動倍數，協助比較生活型態對每日總消耗的影響。",
+    tdeeMatrix: "以 BMR 換算六種活動消耗",
+    tdeeMatrixNote: "下列六張卡片以目前 BMR 乘上活動係數，換算不同生活型態下的每日消耗；這是 BMR 的活動換算結果，不是 TDEE 工具頁。",
     emotionConversionLayer: "情緒與轉換層",
     turnIntoPlan: "把 BMR 轉成可執行的健康計畫",
     conversionNote: "此層示範如何把單一代謝數字轉為留存、轉換與下一步行動，不實作帳號或付款流程。",
@@ -119,9 +121,9 @@ const ui = {
     journeyTitle: "把今天的 BMR 帶回家",
     journeyHint: "截圖、加書籤或分享給家人，下次回來就能直接接續比較。",
     decisionPath: "決策路徑",
-    decisionTitle: "BMR → TDEE → 熱量 → 體重目標",
+    decisionTitle: "BMR → 活動消耗 → 熱量 → 體重目標",
     bmrStep: "靜止代謝",
-    tdeeStep: "每日總消耗",
+    tdeeStep: "活動後消耗",
     caloriesStep: "熱量規劃",
     goalStep: "體重目標",
     knowledge: "知識",
@@ -208,12 +210,12 @@ const ui = {
     primaryValue: "Primary Value",
     maintenanceTarget: "Maintenance Target",
     actionTarget: "Action Target",
-    estimatedTdee: "Estimated TDEE",
+    estimatedTdee: "Activity-adjusted daily burn",
     maintenance: "Maintenance calories",
     fatLossTarget: "Fat-loss target",
     resultIntelligence: "Result Intelligence",
-    tdeeMatrix: "TDEE estimate by activity level",
-    tdeeMatrixNote: "Each card multiplies the current BMR by an activity factor to compare how lifestyle changes daily energy expenditure.",
+    tdeeMatrix: "Six activity-adjusted BMR estimates",
+    tdeeMatrixNote: "Each of the six cards multiplies the current BMR by an activity factor to estimate daily burn under different lifestyles. This is the BMR tool’s activity adjustment, not the TDEE tool page.",
     emotionConversionLayer: "Emotion + Conversion Layer",
     turnIntoPlan: "Turn BMR into an actionable health plan",
     conversionNote: "This layer demonstrates retention, conversion, and next-step prompts without implementing accounts or payment flow.",
@@ -235,9 +237,9 @@ const ui = {
     journeyTitle: "Take today's BMR home",
     journeyHint: "Screenshot, bookmark, or share with family — pick up where you left off next time.",
     decisionPath: "Decision Path",
-    decisionTitle: "BMR → TDEE → Calories → Weight Goal",
+    decisionTitle: "BMR → Activity burn → Calories → Weight Goal",
     bmrStep: "Resting metabolism",
-    tdeeStep: "Daily expenditure",
+    tdeeStep: "Activity burn",
     caloriesStep: "Calorie planning",
     goalStep: "Weight goal",
     knowledge: "Knowledge",
@@ -435,7 +437,7 @@ export default function BmrCalculator() {
                 )}
                 <label className="block text-sm font-black text-slate-700">{t.age}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={age} onChange={(e) => setAge(e.target.value)} /></label>
                 <label className="block text-sm font-black text-slate-700">{t.sex}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={sex} onChange={(e) => setSex(e.target.value as Sex)}><option value="male">{t.male}</option><option value="female">{t.female}</option></select></label>
-                <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.activityLevel}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={activity} onChange={(e) => setActivity(e.target.value as BmrActivity)}>{activityLevels.map((item) => <option key={item.key} value={item.key}>{l(item.label, lang)} × {item.factor}</option>)}</select></label>
+                <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.activityLevel}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={activity} onChange={(e) => setActivity(e.target.value as BmrActivity)}>{activityLevels.map((item) => <option key={item.key} value={item.key}>{l(item.label, lang)} × {formatActivityFactor(item)}</option>)}</select></label>
               </div>
             </div>
           </div>
@@ -447,7 +449,7 @@ export default function BmrCalculator() {
               <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultCard}</p>
               <div className="mt-4 flex items-start justify-between gap-5">
                 <div><div className="text-7xl font-black tracking-tight text-slate-950">{bmrDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.bmrUnit}</div></div>
-                <div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.activityTag}</div><div className="mt-1 text-xl font-black">{l(activeActivity.label, lang)}</div><div className="mt-1 text-xs text-slate-300">× {activeActivity.factor}</div></div>
+                <div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.activityTag}</div><div className="mt-1 text-xl font-black">{l(activeActivity.label, lang)}</div><div className="mt-1 text-xs text-slate-300">× {formatActivityFactor(activeActivity)}</div></div>
               </div>
               <div className="mt-6 grid gap-4 md:grid-cols-3">
                 <div className="rounded-2xl bg-blue-50 p-4">
@@ -476,10 +478,10 @@ export default function BmrCalculator() {
             <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultIntelligence}</p>
             <h2 className="mt-2 text-3xl font-black">{t.tdeeMatrix}</h2>
             <p className="mt-2 text-sm leading-6 text-slate-600">{t.tdeeMatrixNote}</p>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <div className="mt-5 grid gap-3 md:grid-cols-3">
               {(calculation?.matrix ?? activityLevels.map((item) => ({ ...item, tdee: 0 }))).map((item) => (
                 <div key={item.key} className={`rounded-2xl border p-4 ${item.key === activeActivity.key ? "border-emerald-500 bg-emerald-50 shadow-sm" : "border-slate-200 bg-slate-50"}`}>
-                  <div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">× {item.factor}</span></div>
+                  <div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">× {formatActivityFactor(item)}</span></div>
                   <p className="mt-2 text-sm leading-6 text-slate-700">{l(item.description, lang)}</p>
                   <p className="mt-3 text-2xl font-black text-slate-950">{formatKcal(item.tdee)} <span className="text-sm text-slate-500">{t.bmrUnit}</span></p>
                 </div>
@@ -549,7 +551,7 @@ export default function BmrCalculator() {
 
 
         {/* L14-AdSlot · FAQ 後獨立廣告位 */}
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5">
+        <section aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5">
           <AdSlot slot="bmr-faq" position="inline" />
         </section>
 

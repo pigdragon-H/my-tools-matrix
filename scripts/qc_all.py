@@ -11,6 +11,7 @@ CHECKS = [
     ("§A · 17-Layer Anatomy",      "scripts/qc_layer_audit.py"),
     ("§E · Visual Layout",         "scripts/qc_layout_audit.py"),
     ("§F · Uniqueness/Anti-Pattern", "scripts/qc_uniqueness_audit.py"),
+    ("§G · AdSense Systemic Guardrails", "scripts/qc_adsense_systemic_audit.py"),
 ]
 
 

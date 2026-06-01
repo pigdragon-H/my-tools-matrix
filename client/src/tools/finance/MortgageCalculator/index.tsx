@@ -572,7 +572,7 @@ export default function MortgageCalculator() {
 
 
         {/* L14-AdSlot · FAQ 後獨立廣告位 */}
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5">
+        <section aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5">
           <AdSlot slot="mortgage-faq" position="inline" />
         </section>
 
