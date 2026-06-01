@@ -2,9 +2,10 @@
 """QC §G · AdSense systemic guardrails.
 
 Hard rules from 2026-06-01 Claude/Victor review:
-1. Original 11 golden tools must each expose L14 Knowledge+FAQ and an independent FAQ-after AdSlot.
-2. L14 AdSlot #2 must be visibly labeled with AD / 廣告 / Advertisement, even when ENABLE_ADS is false.
-3. L7 result intelligence must provide six cards/items. Health activity-level tools must
+1. Original 11 golden tools must each expose clean L12/L13 Knowledge+FAQ and an independent FAQ-after L14 AdSlot.
+2. L12/L13 Knowledge+FAQ must be clean side-by-side; no middle/knowledge AdSlot may be inserted before L14.
+3. L14 AdSlot #2 must be visibly labeled with AD / 廣告 / Advertisement, even when ENABLE_ADS is false.
+4. L7 result intelligence must provide six cards/items. Health activity-level tools must
    have exactly six activity levels and include Ultra High Intensity ×2.0+.
 """
 
@@ -70,6 +71,12 @@ def check_original_11_l14() -> list[str]:
             errs.append(fail(f"{route}: missing page-level L14 AD/廣告/Advertisement aria-label."))
         if 'position="inline"' not in text:
             errs.append(fail(f"{route}: FAQ-after AdSlot must use position=\"inline\"."))
+        knowledge_marker = text.find("L14-Knowledge-FAQ")
+        l14_marker = text.find("L14-AdSlot", knowledge_marker if knowledge_marker >= 0 else 0)
+        if knowledge_marker >= 0 and l14_marker >= 0:
+            knowledge_faq_segment = text[knowledge_marker:l14_marker]
+            if 'position="middle"' in knowledge_faq_segment or re.search(r'<AdSlot\b[^>]*slot="[^"]+-knowledge"', knowledge_faq_segment):
+                errs.append(fail(f"{route}: L12/L13 Knowledge+FAQ must be clean; remove middle/knowledge AdSlot before independent L14."))
         if "<AdSlot" not in text:
             errs.append(fail(f"{route}: missing AdSlot component usage."))
     return errs

@@ -649,11 +649,7 @@ export default function BmiCalculator() {
                 <div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.semanticNeighbors}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.semanticNeighborsText}</p></div>
               </div>
               <pre className="mt-5 rounded-3xl bg-slate-950 p-5 text-sm leading-7 text-slate-100">{t.metricFormula}{"\n"}{t.imperialFormula}</pre>
-              
-              {/* ────── AdSlot: Knowledge 中間 ────── */}
-              <div className="mt-5">
-                <AdSlot slot="bmi-knowledge" position="middle" />
-              </div>
+
             </article>
 
             <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
