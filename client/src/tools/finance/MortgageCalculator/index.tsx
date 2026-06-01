@@ -130,8 +130,8 @@ const ui = {
     knowledgeTitle: "等額本息在貸款規劃中的角色",
     definition: "定義",
     definitionText: "等額本息（Equal Monthly Installment）是台灣與多數國家房貸最常見的還款方式：每月還相同金額，初期利息佔比高、本金佔比低，越後期相反。",
-    semanticNeighbors: "語意鄰近工具",
-    formulaText: "房貸試算與貸款試算、提前還款試算、房租買房比較、DTI 負擔率、家庭現金流規劃高度相關；實務上應與可負擔頭期款、緊急預備金與利率壓力測試一起判讀。",
+    formula: "公式",
+    formulaText: "貸款本金 P = 房價 − 頭期款。月利率 r = 年利率 / 12，總期數 n = 年期 × 12。每月本息 M = P × r × (1+r)^n / ((1+r)^n − 1)；若 r = 0，M = P / n。" ,
     limitations: "限制",
     limitationsText: "本工具不含開辦費、火險、地震險、寬限期、抵利型、政府優惠房貸等變數；浮動利率僅以單一固定值估算；最終以銀行核貸通知為準。",
     faq: "FAQ",
@@ -247,8 +247,8 @@ const ui = {
     knowledgeTitle: "Why equal monthly installments dominate loan planning",
     definition: "Definition",
     definitionText: "Equal Monthly Installment means each month you pay the same total amount; early on, most of that goes to interest, later mostly to principal — the standard for mortgages worldwide.",
-    semanticNeighbors: "Semantic neighbors",
-    formulaText: "Mortgage planning is semantically adjacent to general loan payment, prepayment, rent-vs-buy, DTI affordability, emergency fund, and household cash-flow planning; interpret the output together with down-payment capacity and interest-rate stress tests.",
+    formula: "Formula",
+    formulaText: "Loan principal P = home price − down payment. Monthly rate r = annual rate / 12, total periods n = years × 12. Monthly payment M = P × r × (1+r)^n / ((1+r)^n − 1); if r = 0, M = P / n.",
     limitations: "Limitations",
     limitationsText: "Excludes origination fees, insurance, grace periods, offset accounts, government-subsidized rates. Floating rates are estimated using a single fixed value. Final approval always follows the lender.",
     faq: "FAQ",
@@ -564,7 +564,7 @@ export default function MortgageCalculator() {
           <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.knowledge}</p>
             <h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2>
-            <div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.semanticNeighbors}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div></div>
+            <div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div></div>
           </div>
 
           <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
