@@ -18,7 +18,7 @@ const payLevels: { key: PayLevel; label: LocalText; bump: number; mult?: number;
   { key: "plus500", label: { zh: "多一萬債務", en: "Debt +10k" }, bump: 500, tone: "from-amber-400 to-amber-600" },
   { key: "double", label: { zh: "多兩萬債務", en: "Debt +20k" }, bump: 0, mult: 2, tone: "from-orange-400 to-orange-600" },
 ];
-const affiliates = [
+const recommendations = [
   { label: { zh: "房貸資格檢查", en: "Mortgage readiness check" }, href: "#affiliate-mortgage" },
   { label: { zh: "家庭預算工具", en: "Household budget planner" }, href: "#affiliate-budget" },
   { label: { zh: "信用報告追蹤", en: "Credit report tracking" }, href: "#affiliate-credit" },
@@ -80,7 +80,7 @@ export default function DebtToIncomeCalculator() {
         {/* L15-L16 · 推薦商品 + Premium Gate 並排 */}
         <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]">
           {/* L15-Affiliate */}
-          <section className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.affiliate}</p><h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-4">{affiliates.map(item=><a key={item.href} href={item.href} className="rounded-2xl border border-blue-100 bg-blue-50 p-5 text-center font-black text-blue-950">{l(item.label,lang)}</a>)}</div><p className="mt-3 text-xs text-blue-700">{lang==="zh"?"* 聯盟連結，購買後我們可能獲得佣金。":"* Affiliate links. We may earn a commission."}</p></section>
+          <section className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.affiliate}</p><h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-4">{recommendations.map(item=><a key={item.href} href={item.href} className="rounded-2xl border border-blue-100 bg-blue-50 p-5 text-center font-black text-blue-950">{l(item.label,lang)}</a>)}</div><p className="mt-3 text-xs text-blue-700">{lang==="zh"?"* 聯盟連結，購買後我們可能獲得佣金。":"* Affiliate links. We may earn a commission."}</p></section>
 
           {/* L16-PremiumGate */}
           <PremiumGate plan="PRO">
