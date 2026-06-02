@@ -147,6 +147,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "macro-calculator",
+    name: "巨量營養素計算機",
+    category: "health",
+    path: "/tools/health/macro-calculator",
+    icon: "Beef",
+    description: "用體重、TDEE 與目標模式估算蛋白質、脂肪與碳水化合物分配。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
   // ── 財務工具（Profile B 試產第 3 件 · 跨領域驗證樣本）──────────────────────────
   {
     id: "loan-calculator",
@@ -305,6 +320,7 @@ export const idealWeightCalculator = { id: "ideal-weight-calculator", category: 
 export const bodyFatCalculator = { id: "body-fat-calculator", category: "health", name: "Body Fat Calculator", path: "/tools/health/body-fat-calculator" };
 export const calorieDeficitCalculator = { id: "calorie-deficit-calculator", category: "health", name: "Calorie Deficit Calculator", path: "/tools/health/calorie-deficit-calculator" };
 export const waterIntakeCalculator = { id: "water-intake-calculator", category: "health", name: "Water Intake Calculator", path: "/tools/health/water-intake-calculator" };
+export const macroCalculator = { id: "macro-calculator", category: "health", name: "Macro Calculator", path: "/tools/health/macro-calculator" };
 
 // Finance Tools
 export const loanCalculator = { id: "loan-calculator", category: "finance", name: "Loan Calculator", path: "/tools/finance/loan-calculator" };
