@@ -343,6 +343,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "emergency-fund-calculator",
+    name: "緊急備用金計算機",
+    category: "finance",
+    path: "/tools/finance/emergency-fund-calculator",
+    icon: "Shield",
+    description: "計算緊急備用金目標金額與達成時間，確保財務安全網穩固。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
