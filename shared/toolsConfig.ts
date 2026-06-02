@@ -117,6 +117,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "calorie-deficit-calculator",
+    name: "熱量赤字計算機",
+    category: "health",
+    path: "/tools/health/calorie-deficit-calculator",
+    icon: "Flame",
+    description: "用 TDEE 減去平均攝取熱量，估算每日赤字、每週赤字與靜態體重變化趨勢，並提示 3500 kcal/lb 模型限制。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
   // ── 財務工具（Profile B 試產第 3 件 · 跨領域驗證樣本）──────────────────────────
   {
     id: "loan-calculator",
@@ -273,6 +288,7 @@ export const bmrCalculator = { id: "bmr-calculator", category: "health", name: "
 export const tdeeCalculator = { id: "tdee-calculator", category: "health", name: "TDEE Calculator", path: "/tools/health/tdee-calculator" };
 export const idealWeightCalculator = { id: "ideal-weight-calculator", category: "health", name: "Ideal Weight Calculator", path: "/tools/health/ideal-weight-calculator" };
 export const bodyFatCalculator = { id: "body-fat-calculator", category: "health", name: "Body Fat Calculator", path: "/tools/health/body-fat-calculator" };
+export const calorieDeficitCalculator = { id: "calorie-deficit-calculator", category: "health", name: "Calorie Deficit Calculator", path: "/tools/health/calorie-deficit-calculator" };
 
 // Finance Tools
 export const loanCalculator = { id: "loan-calculator", category: "finance", name: "Loan Calculator", path: "/tools/finance/loan-calculator" };
