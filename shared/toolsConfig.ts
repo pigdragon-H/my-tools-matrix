@@ -388,6 +388,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "meeting-cost-calculator",
+    name: "會議成本計算機",
+    category: "finance",
+    path: "/tools/finance/meeting-cost-calculator",
+    icon: "Users",
+    description: "根據參與人數、平均時薪、會議時長與頻率估算單場、每月與年度會議成本。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -443,3 +458,4 @@ export const budgetRatioCalculator = { id: "budget-ratio-calculator", category: 
 export const emergencyFundCalculator = { id: "emergency-fund-calculator", category: "finance", name: "Emergency Fund Calculator", path: "/tools/finance/emergency-fund-calculator" };
 export const salaryAfterTaxCalculator = { id: "salary-after-tax-calculator", category: "finance", name: "Salary After Tax Calculator", path: "/tools/finance/salary-after-tax-calculator" };
 export const hourlyRateCalculator = { id: "hourly-rate-calculator", category: "finance", name: "Hourly Rate Calculator", path: "/tools/finance/hourly-rate-calculator" };
+export const meetingCostCalculator = { id: "meeting-cost-calculator", category: "finance", name: "Meeting Cost Calculator", path: "/tools/finance/meeting-cost-calculator" };
