@@ -419,6 +419,21 @@ export const tools: Tool[] = [
     seoArticles: [],
   },
   {
+    id: "roas-calculator",
+    name: "廣告投報率計算機",
+    category: "finance",
+    path: "/tools/finance/roas-calculator",
+    icon: "TrendingUp",
+    description: "根據廣告花費、廣告歸因收入、銷貨成本與訂單數計算 ROAS、ROI、CPA、AOV 與損益兩平 ROAS。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
+  {
     id: "profit-margin-calculator",
     name: "利潤率計算機",
     category: "finance",
@@ -491,3 +506,4 @@ export const hourlyRateCalculator = { id: "hourly-rate-calculator", category: "f
 export const meetingCostCalculator = { id: "meeting-cost-calculator", category: "finance", name: "Meeting Cost Calculator", path: "/tools/finance/meeting-cost-calculator" };
 export const pomodoroCalculator = { id: "pomodoro-calculator", category: "finance", name: "Pomodoro Calculator", path: "/tools/finance/pomodoro-calculator" };
 export const profitMarginCalculator = { id: "profit-margin-calculator", category: "finance", name: "Profit Margin Calculator", path: "/tools/finance/profit-margin-calculator" };
+export const roasCalculator = { id: "roas-calculator", category: "finance", name: "ROAS Calculator", path: "/tools/finance/roas-calculator" };
