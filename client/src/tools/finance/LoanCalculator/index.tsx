@@ -138,7 +138,7 @@ const ui = {
     relatedTools: "相關工具",
     relatedToolsText: "複利計算 · CAGR · 退休金 · 月薪存款 · 房貸 vs 租屋 · 提前還款試算（V2）",
     references: "參考資料",
-    referencesText: "Investopedia Loan Payment Formula；U.S. CFPB Mortgage Rates Tool；中華民國銀行公會房貸試算範本；Mishkin 2022《Money, Banking, and Financial Markets》。",
+    referencesText: "Investopedia 貸款月付公式；美國消費者金融保護局房貸利率工具；中華民國銀行公會房貸試算範本；Mishkin 2022《貨幣、銀行與金融市場》。",
     q1: "為什麼月付不是「金額 ÷ 年期 ÷ 12」？",
     a1: "因為每期都要付利息，等額本息把利息攤入每月固定金額，初期利息多、本金少。除式只是粗估，實際月付會比那個高。",
     q2: "年期越長一定越好嗎？",
