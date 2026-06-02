@@ -1,0 +1,8 @@
+PASS l7_grid_is_bmr_cols3
+PASS l7_maps_six_source
+PASS bmi_low_present
+PASS bmi_high_present
+PASS bmr_card_skeleton
+PASS devine_highlight
+PASS old_two_col_removed
+EXPECTED_VISUAL=L7 6 cards, md:grid-cols-3, 3x2 on desktop

@@ -9,11 +9,17 @@
 - [x] Audit #9 visible English and localization pattern
 - [x] Repair #9 Chinese layout copy and fallbacks
 - [x] Run TypeScript/QC/grep validation for #9
-- [ ] Commit and push #9 repair
-- [ ] Production verification #9
+- [x] Commit and push #9 repair (a668c68)
+- [x] Production verification #9
+
+## Current active tool: #8 savings-goal-calculator
+- [x] Audit #8 visible English and localization pattern
+- [ ] Repair #8 Chinese layout copy and fallbacks
+- [ ] Run TypeScript/QC/grep validation for #8
+- [ ] Commit and push #8 repair
+- [ ] Production verification #8
 
 ## Upcoming finance tools
-- [ ] #8 savings-goal-calculator
 - [ ] #7 cagr-calculator
 - [ ] #6 retirement-calculator
 - [ ] #5 compound-interest-calculator

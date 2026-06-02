@@ -1,0 +1,100 @@
+
+================================================================
+  §A · 17-Layer Anatomy
+================================================================
+✅ [A] client/src/tools/health/BmiCalculator/index.tsx  17/17 layers
+
+✅ [B] client/src/tools/health/BmrCalculator/index.tsx  17/17 layers
+
+✅ [B] client/src/tools/finance/CagrCalculator/index.tsx  17/17 layers
+
+✅ [B] client/src/tools/finance/CompoundInterestCalculator/index.tsx  17/17 layers
+
+✅ [B] client/src/tools/finance/CreditCardPayoffCalculator/index.tsx  17/17 layers
+
+✅ [B] client/src/tools/finance/DebtToIncomeCalculator/index.tsx  17/17 layers
+
+✅ [B] client/src/tools/finance/LoanCalculator/index.tsx  17/17 layers
+
+✅ [B] client/src/tools/finance/MortgageCalculator/index.tsx  17/17 layers
+
+✅ [B] client/src/tools/finance/RetirementCalculator/index.tsx  17/17 layers
+
+✅ [B] client/src/tools/finance/SavingsGoalCalculator/index.tsx  17/17 layers
+
+✅ [B] client/src/tools/health/IdealWeightCalculator/index.tsx  17/17 layers
+
+✅ [B] client/src/tools/health/TdeeCalculator/index.tsx  17/17 layers
+
+
+================================================================
+  §E · Visual Layout
+================================================================
+✅ client/src/tools/health/BmiCalculator/index.tsx  6/6 layouts
+
+✅ client/src/tools/health/BmrCalculator/index.tsx  6/6 layouts
+
+✅ client/src/tools/finance/CagrCalculator/index.tsx  6/6 layouts
+
+✅ client/src/tools/finance/CompoundInterestCalculator/index.tsx  6/6 layouts
+
+✅ client/src/tools/finance/CreditCardPayoffCalculator/index.tsx  6/6 layouts
+
+✅ client/src/tools/finance/DebtToIncomeCalculator/index.tsx  6/6 layouts
+
+✅ client/src/tools/finance/LoanCalculator/index.tsx  6/6 layouts
+
+✅ client/src/tools/finance/MortgageCalculator/index.tsx  6/6 layouts
+
+✅ client/src/tools/finance/RetirementCalculator/index.tsx  6/6 layouts
+
+✅ client/src/tools/finance/SavingsGoalCalculator/index.tsx  6/6 layouts
+
+✅ client/src/tools/health/IdealWeightCalculator/index.tsx  6/6 layouts
+
+✅ client/src/tools/health/TdeeCalculator/index.tsx  6/6 layouts
+
+
+================================================================
+  §F · Uniqueness/Anti-Pattern
+================================================================
+§F · Uniqueness & Anti-Pattern Audit  (12 files)
+================================================================
+  ✅ client/src/tools/finance/CagrCalculator/index.tsx
+  ✅ client/src/tools/finance/CompoundInterestCalculator/index.tsx
+  ✅ client/src/tools/finance/CreditCardPayoffCalculator/index.tsx
+  ✅ client/src/tools/finance/DebtToIncomeCalculator/index.tsx
+  ✅ client/src/tools/finance/LoanCalculator/index.tsx
+  ✅ client/src/tools/finance/MortgageCalculator/index.tsx
+  ✅ client/src/tools/finance/RetirementCalculator/index.tsx
+  ✅ client/src/tools/finance/SavingsGoalCalculator/index.tsx
+  ✅ client/src/tools/health/BmiCalculator/index.tsx
+  ✅ client/src/tools/health/BmrCalculator/index.tsx
+  ✅ client/src/tools/health/IdealWeightCalculator/index.tsx
+  ✅ client/src/tools/health/TdeeCalculator/index.tsx
+================================================================
+§F PASSED · marker uniqueness + 禁字 + L17 末位 + 廣告白名單 全綠
+
+================================================================
+  §G · AdSense Systemic Guardrails
+================================================================
+§G · AdSense Systemic Audit
+================================================================
+  ✅ AdSlot visibly labels AD / 廣告 / Advertisement even with ads disabled
+  ✅ Original 11 tools each expose L14 Knowledge+FAQ plus FAQ-after AdSlot #2
+  ✅ BMR/TDEE activity L7 has exactly 6 levels with 超高強度 ×2.0+
+  ✅ Universal batch tools expose exactly 6 L7 result-intelligence cards
+================================================================
+§G PASSED
+
+================================================================
+  §H · Homepage Tool Links
+================================================================
+Homepage Links QC
+================================================================
+  ✅ 11 homepage tool links are registered and implemented
+================================================================
+PASSED
+
+================================================================
+  ✅ ALL QC CHECKS PASSED

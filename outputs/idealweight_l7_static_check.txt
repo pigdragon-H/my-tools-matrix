@@ -1,0 +1,7 @@
+PASS uses_l7Cards
+PASS grid_cols_3
+PASS maps_l7Cards
+PASS bmi_low_card
+PASS bmi_high_card
+PASS old_l7_grid_removed
+L7_TOTAL_EXPECTED=6 (4 formula rows + BMI low + BMI high)

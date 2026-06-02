@@ -1,0 +1,131 @@
+idx,id,name,path,component,status,visible_english_hits
+1,loan-calculator,貸款試算機,/tools/finance/loan-calculator,finance/LoanCalculator,FOUND,18
+  SAMPLE > value[lang]; // 6 段年期對照（呼應 Profile B 「6 段對照」結構慣例，承襲 BMR/TDEE 6 段活動量設計） const termLevels: TermInfo[] = [ { ke
+  SAMPLE > item.key === key) ?? termLevels[3]; } const faqKeys = [ ["q1", "a1"], ["q2", "a2"], ["q3", "a3"], ["q4", "a4
+  SAMPLE > ({ ...item, ...calculateLoan(principalValue, rateValue, item.key), })); return { ...main, yearlyInterest: ma
+  SAMPLE > {/* Canonical 17-layer markers for production QC: L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputG
+  SAMPLE >{t.tryExample}<
+  SAMPLE >{t.fillExample}<
+2,mortgage-calculator,房貸試算機,/tools/finance/mortgage-calculator,finance/MortgageCalculator,FOUND,19
+  SAMPLE > value[lang]; // 6 段年期對照（呼應 Profile B 「6 段對照」結構慣例，承襲 BMR/TDEE 6 段活動量設計） const termLevels: TermInfo[] = [ { ke
+  SAMPLE > item.key === key) ?? termLevels[3]; } const faqKeys = [ ["q1", "a1"], ["q2", "a2"], ["q3", "a3"], ["q4", "a4
+  SAMPLE > ({ ...item, ...calculateLoan(principalValue, rateValue, item.key), })); return { ...main, principalValue, lt
+  SAMPLE > {/* Canonical 17-layer markers for production QC: L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputG
+  SAMPLE >{t.tryExample}<
+  SAMPLE >{t.fillExample}<
+3,credit-card-payoff-calculator,信用卡還清試算機,/tools/finance/credit-card-payoff-calculator,finance/CreditCardPayoffCalculator,FOUND,17
+  SAMPLE > v[lang]; const payLevels: { key: PayLevel; label: LocalText; bump: number; mult?: number; tone: string }[] =
+  SAMPLE >= 1200 && remaining > 0.005) return { months: Infinity, totalPayment: Infinity, totalInterest: Infinity, feas
+  SAMPLE >("TWD"); const [balance, setBalance] = useState("120000"); const [apr, setApr] = useState("19.9"); const [mon
+  SAMPLE > {/* Canonical 17-layer markers for production QC: L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputG
+  SAMPLE >{t.tryExample}<
+  SAMPLE >{t.fillExample}<
+4,debt-to-income-calculator,負債收入比試算機,/tools/finance/debt-to-income-calculator,finance/DebtToIncomeCalculator,FOUND,17
+  SAMPLE > v[lang]; const payLevels: { key: PayLevel; label: LocalText; bump: number; mult?: number; tone: string }[] =
+  SAMPLE > Number.isFinite(v) ? Math.round(v).toLocaleString() : "—"; const monthText = (m: number, lang: Lang) => Numb
+  SAMPLE >("TWD"); const [balance, setBalance] = useState("42000"); const [apr, setApr] = useState("180000"); const [mo
+  SAMPLE > {/* Canonical 17-layer markers for production QC: L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputG
+  SAMPLE >{t.tryExample}<
+  SAMPLE >{t.fillExample}<
+5,compound-interest-calculator,複利計算機,/tools/finance/compound-interest-calculator,finance/CompoundInterestCalculator,FOUND,18
+  SAMPLE > value[lang]; // 6 段年期（呼應 Loan 6 段年期，承襲 Profile B 6 段對照慣例） const periodLevels: PeriodInfo[] = [ { key: 5, lab
+  SAMPLE > item.key === key) ?? periodLevels[3]; } const faqKeys = [ ["q1", "a1"], ["q2", "a2"], ["q3", "a3"], ["q4", "
+  SAMPLE > ({ ...item, ...calculateCompound(principalValue, pmtValue, rateValue, item.key), })); return { ...main, year
+  SAMPLE > {/* Canonical 17-layer markers for production QC: L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputG
+  SAMPLE >{t.tryExample}<
+  SAMPLE >{t.fillExample}<
+6,retirement-calculator,退休金試算機,/tools/finance/retirement-calculator,finance/RetirementCalculator,FOUND,18
+  SAMPLE > value[lang]; // 6 段退休年齡（呼應 Profile B 6 段對照慣例） const retireLevels: RetireInfo[] = [ { key: 40, label: { zh: "
+  SAMPLE > 0 ? futureValue / (retireYears * 12) : 0; return { futureValue, monthlyWithdraw, totalContribution, accumYea
+  SAMPLE > ({ ...item, ...calculateRetirement(savingValue, pmtValue, rateValue, ageValue, item.key, lifespanValue), }))
+  SAMPLE > {/* Canonical 17-layer markers for production QC: L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputG
+  SAMPLE >{t.tryExample}<
+  SAMPLE >{t.fillExample}<
+7,cagr-calculator,CAGR 年化報酬率試算,/tools/finance/cagr-calculator,finance/CagrCalculator,FOUND,18
+  SAMPLE > value[lang]; // 6 段年期 const periodLevels: PeriodInfo[] = [ { key: 5, label: { zh: "5 年", en: "5 yr" }, descr
+  SAMPLE > item.key === key) ?? periodLevels[1]; } const faqKeys = [ ["q1", "a1"], ["q2", "a2"], ["q3", "a3"], ["q4", "
+  SAMPLE > ({ ...item, ...calculateCAGR(beginNum, endNum, item.key), })); return { ...main, yearlyGrowth: main.totalGai
+  SAMPLE > {/* Canonical 17-layer markers for production QC: L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputG
+  SAMPLE >{t.tryExample}<
+  SAMPLE >{t.fillExample}<
+8,savings-goal-calculator,存錢目標反推試算,/tools/finance/savings-goal-calculator,finance/SavingsGoalCalculator,FOUND,18
+  SAMPLE > value[lang]; // 6 段年期 const periodLevels: PeriodInfo[] = [ { key: 5, label: { zh: "5 年", en: "5 yr" }, descr
+  SAMPLE > item.key === key) ?? periodLevels[3]; } const faqKeys = [ ["q1", "a1"], ["q2", "a2"], ["q3", "a3"], ["q4", "
+  SAMPLE > ({ ...item, ...calculateSavingsGoal(targetNum, currentNum, rateNum, item.key), })); return { ...main, yearly
+  SAMPLE > {/* Canonical 17-layer markers for production QC: L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputG
+  SAMPLE >{t.tryExample}<
+  SAMPLE >{t.fillExample}<
+9,inflation-adjuster,通膨調整計算機,/tools/finance/inflation-adjuster,finance/InflationAdjuster,FOUND,12
+  SAMPLE > {/* Canonical 17-layer markers for production QC: L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputG
+  SAMPLE >{t.tryExample}<
+  SAMPLE >{t.fillExample}<
+  SAMPLE >{t.examplesCalculator}<
+  SAMPLE >{t.baselineExample}<
+  SAMPLE >{t.activeExample}<
+10,net-worth-calculator,淨資產計算機,/tools/finance/net-worth-calculator,finance/NetWorthCalculator,FOUND,15
+  SAMPLE >("metric"); const [cashSavings, setCashSavings] = useState("50000"); const [investments, setInvestments] = us
+  SAMPLE > {/* Canonical 17-layer markers for production QC: L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputG
+  SAMPLE >{t.tryExample}<
+  SAMPLE >{t.fillExample}<
+  SAMPLE >{t.examplesCalculator}<
+  SAMPLE >{t.baselineExample}<
+11,debt-payoff-calculator,債務清償計算機,/tools/finance/debt-payoff-calculator,finance/DebtPayoffCalculator,FOUND,13
+  SAMPLE > {/* Canonical 17-layer markers for production QC: L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputG
+  SAMPLE >{t.tryExample}<
+  SAMPLE >{t.fillExample}<
+  SAMPLE >{t.examplesCalculator}<
+  SAMPLE >{t.baselineExample}<
+  SAMPLE >{t.activeExample}<
+12,budget-ratio-calculator,預算比例計算機,/tools/finance/budget-ratio-calculator,finance/BudgetRatioCalculator,FOUND,14
+  SAMPLE > 50%", label: { zh: "過度儲蓄", en: "Over-saving" }, desc: { zh: "儲蓄佔比過高，建議適度分配到生活品質與體驗。", en: "Savings share too
+  SAMPLE > {/* Canonical 17-layer markers for production QC: L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputG
+  SAMPLE >{t.tryExample}<
+  SAMPLE >{t.fillExample}<
+  SAMPLE >{t.examplesCalculator}<
+  SAMPLE >{t.baselineExample}<
+13,emergency-fund-calculator,緊急備用金計算機,/tools/finance/emergency-fund-calculator,finance/EmergencyFundCalculator,FOUND,14
+  SAMPLE > v[lang]; const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—"; const bands = [ { key: "
+  SAMPLE > {/* Canonical 17-layer markers for production QC: L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputG
+  SAMPLE >{t.tryExample}<
+  SAMPLE >{t.fillExample}<
+  SAMPLE >{t.examplesCalculator}<
+  SAMPLE >{t.baselineExample}<
+14,salary-after-tax-calculator,稅後薪資計算機,/tools/finance/salary-after-tax-calculator,finance/SalaryAfterTaxCalculator,FOUND,16
+  SAMPLE >("metric"); const [grossSalary, setGrossSalary] = useState("75000"); const [stateTaxRate, setStateTaxRate] = 
+  SAMPLE >("single"); const t = ui[lang]; const result = useMemo(() => { const gross = Number(grossSalary) || 0; const 
+  SAMPLE > {/* Canonical 17-layer markers for production QC: L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputG
+  SAMPLE >{t.tryExample}<
+  SAMPLE >{t.fillExample}<
+  SAMPLE >{t.examplesCalculator}<
+15,hourly-rate-calculator,時薪計算機,/tools/finance/hourly-rate-calculator,finance/HourlyRateCalculator,FOUND,14
+  SAMPLE >$100/hr", label: { zh: "頂尖", en: "Elite rate" }, desc: { zh: "頂尖時薪，專注資產配置與稅務效率。", en: "Elite rate; focus on a
+  SAMPLE > {/* Canonical 17-layer markers for production QC: L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputG
+  SAMPLE >{t.tryExample}<
+  SAMPLE >{t.fillExample}<
+  SAMPLE >{t.examplesCalculator}<
+  SAMPLE >{t.baselineExample}<
+16,meeting-cost-calculator,會議成本計算機,/tools/finance/meeting-cost-calculator,finance/MeetingCostCalculator,FOUND,14
+  SAMPLE >$5k", label: { zh: "決策級", en: "Executive cost" }, desc: { zh: "決策級成本，必須對應高價值決策或營收影響。", en: "Executive-level c
+  SAMPLE > {/* Canonical 17-layer markers for production QC: L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputG
+  SAMPLE >{t.tryExample}<
+  SAMPLE >{t.fillExample}<
+  SAMPLE >{t.examplesCalculator}<
+  SAMPLE >{t.baselineExample}<
+17,pomodoro-calculator,番茄鐘計算機,/tools/finance/pomodoro-calculator,finance/PomodoroCalculator,FOUND,3
+  SAMPLE >300m", label: { zh: "極限", en: "Extreme" }, desc: { zh: "容易疲勞，建議拆成多段或降低循環。", en: "Fatigue risk; split sessions
+  SAMPLE > {/* L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResul
+  SAMPLE >Meeting Cost · Hourly Rate · Budget Ratio · Salary After Tax<
+18,roas-calculator,廣告投報率計算機,/tools/finance/roas-calculator,finance/RoasCalculator,FOUND,39
+  SAMPLE > v[lang]; const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—"; const affiliateItems: Af
+  SAMPLE > {/* L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResul
+  SAMPLE >FINANCE · ROAS · GOLD TOOL<
+  SAMPLE >ROAS Calculator · 廣告投報率計算機<
+  SAMPLE >Calculate ROAS, ROI, CPA, AOV, and break-even ROAS<
+  SAMPLE >Estimate advertising efficiency from ad spend, attributed revenue, cost of goods sold, and order volume. This
+19,profit-margin-calculator,利潤率計算機,/tools/finance/profit-margin-calculator,finance/ProfitMarginCalculator,FOUND,9
+  SAMPLE > v[lang]; const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—"; const affiliateItems: Af
+  SAMPLE >40%",label:{zh:"卓越",en:"卓越"},desc:{zh:"高利潤模型，需確認可擴張性。",en:"高利潤模型，需確認可擴張性。"}}, ] as const; const activeBand=ba
+  SAMPLE > {/* L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResul
+  SAMPLE >Profit Margin Calculator · 利潤率計算機<
+  SAMPLE >{fmt(result.netMargin,1)}%<
+  SAMPLE >{fmt(result.netMargin,1)}<

@@ -1,0 +1,5 @@
+
+> my-tools-matrix@1.0.0 check
+> tsc --noEmit
+
+sh: 1: tsc: not found

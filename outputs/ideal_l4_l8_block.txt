@@ -1,0 +1,225 @@
+            {/* L4-L5 */}
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+              {/* L4 */}
+              <h3 className="text-lg font-black">{t.exampleCards}</h3>
+              <div className="mt-4 space-y-3">
+                <button
+                  onClick={fillBaselineExample}
+                  className="w-full rounded-2xl border border-emerald-200 bg-white p-4 text-left transition hover:border-emerald-500"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-black">{t.baselineExample}</span>
+                    <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-black text-emerald-700">
+                      57.7
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm text-slate-600">
+                    165cm · 62kg · {t.female}
+                  </p>
+                </button>
+                <button
+                  onClick={fillActiveExample}
+                  className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-black">{t.activeExample}</span>
+                    <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">
+                      {t.flowDemo}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm text-slate-600">
+                    180cm · 78kg · {t.male}
+                  </p>
+                </button>
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-slate-200 bg-white p-5">
+              {/* L5 */}
+              <h3 className="text-lg font-black">{t.calculator}</h3>
+              <div className="mt-4 grid gap-4 md:grid-cols-2">
+                {unitSystem === "metric" ? (
+                  <>
+                    <label className="block text-sm font-black text-slate-700">
+                      {t.heightCm}
+                      <input
+                        className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold"
+                        value={heightCm}
+                        onChange={e => setHeightCm(e.target.value)}
+                      />
+                    </label>
+                    <label className="block text-sm font-black text-slate-700">
+                      {t.currentKg}
+                      <input
+                        className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold"
+                        value={currentKg}
+                        onChange={e => setCurrentKg(e.target.value)}
+                      />
+                    </label>
+                  </>
+                ) : (
+                  <>
+                    <label className="block text-sm font-black text-slate-700">
+                      {t.feet}
+                      <input
+                        className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold"
+                        value={feet}
+                        onChange={e => setFeet(e.target.value)}
+                      />
+                    </label>
+                    <label className="block text-sm font-black text-slate-700">
+                      {t.inches}
+                      <input
+                        className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold"
+                        value={inches}
+                        onChange={e => setInches(e.target.value)}
+                      />
+                    </label>
+                    <label className="block text-sm font-black text-slate-700 md:col-span-2">
+                      {t.weightLb}
+                      <input
+                        className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold"
+                        value={pounds}
+                        onChange={e => setPounds(e.target.value)}
+                      />
+                    </label>
+                  </>
+                )}
+                <label className="block text-sm font-black text-slate-700 md:col-span-2">
+                  {t.sex}
+                  <select
+                    className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold"
+                    value={sex}
+                    onChange={e => setSex(e.target.value as Sex)}
+                  >
+                    <option value="male">{t.male}</option>
+                    <option value="female">{t.female}</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">
+          {/* L6-L7 Result */}
+          <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
+            {/* L6 */}
+            <div className="h-5 bg-gradient-to-r from-emerald-400 to-teal-500" />
+            <div className="p-6 md:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">
+                {t.resultCard}
+              </p>
+              <div className="mt-4 flex items-start justify-between gap-5">
+                <div>
+                  <div className="text-7xl font-black tracking-tight text-slate-950">
+                    {fmt(result.avg)}
+                  </div>
+                  <div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">
+                    kg / {fmt(kgToLb(result.avg))} lb
+                  </div>
+                </div>
+                <div className="rounded-3xl bg-slate-950 p-4 text-right text-white">
+                  <div className="text-xs font-bold uppercase text-slate-300">
+                    {t.coefficientTag}
+                  </div>
+                  <div className="mt-1 text-xl font-black">
+                    {sex === "female" ? t.female : t.male}
+                  </div>
+                  <div className="mt-1 text-xs text-slate-300">
+                    {fmt(inToCm(heightIn), 0)} cm
+                  </div>
+                </div>
+              </div>
+              <div className="mt-6 grid gap-4 md:grid-cols-3">
+                <div className="rounded-2xl bg-blue-50 p-4">
+                  <div className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500">
+                    {t.primaryValue}
+                  </div>
+                  <div className="mt-1 text-xs font-black uppercase text-blue-700">
+                    {t.avgFormula}
+                  </div>
+                  <p className="mt-2 text-3xl font-black text-blue-950">
+                    {fmt(result.avg)}
+                  </p>
+                  <p className="text-sm font-bold text-blue-700">kg</p>
+                </div>
+                <div className="rounded-2xl bg-emerald-50 p-4">
+                  <div className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500">
+                    {t.bmiRangeLabel}
+                  </div>
+                  <div className="mt-1 text-xs font-black uppercase text-emerald-700">
+                    18.5–24.9
+                  </div>
+                  <p className="mt-2 text-3xl font-black text-emerald-950">
+                    {fmt(result.bmiLow)}–{fmt(result.bmiHigh)}
+                  </p>
+                  <p className="text-sm font-bold text-emerald-700">kg</p>
+                </div>
+                <div className="rounded-2xl bg-orange-50 p-4">
+                  <div className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-500">
+                    {t.currentDeltaLabel}
+                  </div>
+                  <div className="mt-1 text-xs font-black uppercase text-orange-700">
+                    {currentWeightKg >= result.avg ? "+" : "-"}
+                  </div>
+                  <p className="mt-2 text-3xl font-black text-orange-950">
+                    {fmt(Math.abs(result.delta))}
+                  </p>
+                  <p className="text-sm font-bold text-orange-700">kg</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+            {/* L7 */}
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">
+              {t.resultIntelligence}
+            </p>
+            <h2 className="mt-2 text-3xl font-black">{t.formulaMatrix}</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              {t.formulaMatrixNote}
+            </p>
+            <div className="mt-5 grid gap-3 md:grid-cols-2">
+              {result.rows.map(row => (
+                <div
+                  key={row.key}
+                  className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <h3 className="font-black">{row.name}</h3>
+                    <span
+                      className={`h-3 w-12 rounded-full bg-gradient-to-r ${row.tone}`}
+                    />
+                  </div>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">
+                    {l(row.note, lang as Lang)}
+                  </p>
+                  <p className="mt-3 text-2xl font-black text-slate-950">
+                    {fmt(row.kg)}{" "}
+                    <span className="text-sm text-slate-500">kg</span>
+                  </p>
+                </div>
+              ))}
+            </div>
+          </article>
+        </section>
+
+        <section
+          aria-label="L8 AdSlot #1 廣告位・Advertisement"
+          className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm"
+        >
+          {/* L8 */}
+          <AdSlot slot="ideal-weight-l8" position="inline" />
+        </section>
+
+        <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-emerald-50 p-6 shadow-sm md:p-7">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">
+            {t.emotionConversionLayer}
+          </p>
+          <h2 className="mt-2 text-3xl font-black">{t.turnIntoPlan}</h2>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
+            {t.conversionNote}
+          </p>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">

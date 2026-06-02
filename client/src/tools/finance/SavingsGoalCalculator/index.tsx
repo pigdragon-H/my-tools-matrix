@@ -26,24 +26,24 @@ const l = (value: LocalText, lang: Lang) => value[lang];
 
 // 6 段年期
 const periodLevels: PeriodInfo[] = [
-  { key: 5,  label: { zh: "5 年",  en: "5 yr" },  description: { zh: "短期目標 · 頭期款 / 留學",   en: "Short-term · down payment / tuition" },   tone: "from-amber-300 to-amber-500" },
-  { key: 10, label: { zh: "10 年", en: "10 yr" }, description: { zh: "中期目標 · 換屋 / 創業",     en: "Mid-term · home upgrade / startup" },     tone: "from-amber-400 to-orange-500" },
-  { key: 15, label: { zh: "15 年", en: "15 yr" }, description: { zh: "中長期 · 子女教育金",         en: "Long-term · kids' education" },           tone: "from-orange-400 to-orange-600" },
-  { key: 20, label: { zh: "20 年", en: "20 yr" }, description: { zh: "長期 · 第二桶金",             en: "Long-term · second nest egg" },           tone: "from-orange-500 to-rose-500" },
-  { key: 25, label: { zh: "25 年", en: "25 yr" }, description: { zh: "退休前期目標",                en: "Pre-retirement target" },                 tone: "from-rose-400 to-rose-600" },
-  { key: 30, label: { zh: "30 年", en: "30 yr" }, description: { zh: "終身目標 · 退休金",           en: "Lifetime target · retirement" },          tone: "from-rose-500 to-pink-600" },
+  { key: 5,  label: { zh: "5 年",  en: "5 年" },  description: { zh: "短期目標 · 頭期款 / 留學",   en: "短期目標 · 頭期款 / 留學" },   tone: "from-amber-300 to-amber-500" },
+  { key: 10, label: { zh: "10 年", en: "10 年" }, description: { zh: "中期目標 · 換屋 / 創業",     en: "中期目標 · 換屋 / 創業" },     tone: "from-amber-400 to-orange-500" },
+  { key: 15, label: { zh: "15 年", en: "15 年" }, description: { zh: "中長期 · 子女教育金",         en: "中長期 · 子女教育金" },           tone: "from-orange-400 to-orange-600" },
+  { key: 20, label: { zh: "20 年", en: "20 年" }, description: { zh: "長期 · 第二桶金",             en: "長期 · 第二桶金" },           tone: "from-orange-500 to-rose-500" },
+  { key: 25, label: { zh: "25 年", en: "25 年" }, description: { zh: "退休前期目標",                en: "退休前目標" },                 tone: "from-rose-400 to-rose-600" },
+  { key: 30, label: { zh: "30 年", en: "30 年" }, description: { zh: "終身目標 · 退休金",           en: "終身目標 · 退休金" },          tone: "from-rose-500 to-pink-600" },
 ];
 
 const affiliateItems: AffiliateItem[] = [
-  { label: { zh: "高利活存帳戶",       en: "High-yield Savings" },          href: "#affiliate-savings" },
-  { label: { zh: "ETF / 指數基金平台", en: "ETF / Index Fund Platforms" },  href: "#affiliate-etf" },
-  { label: { zh: "理財顧問諮詢",       en: "Financial Advisor" },           href: "#affiliate-advisor" },
-  { label: { zh: "目標儲蓄 App",       en: "Goal-Savings Apps" },           href: "#affiliate-app" },
+  { label: { zh: "高利活存帳戶",       en: "高利活存帳戶" },          href: "#affiliate-savings" },
+  { label: { zh: "ETF / 指數基金平台", en: "ETF / 指數基金平台" },  href: "#affiliate-etf" },
+  { label: { zh: "理財顧問諮詢",       en: "理財顧問諮詢" },           href: "#affiliate-advisor" },
+  { label: { zh: "目標儲蓄 App",       en: "目標儲蓄 App" },           href: "#affiliate-app" },
 ];
 
 const ui = {
   zh: {
-    badge: "財務 · 目標 · Gold Tool",
+    badge: "財務 · 目標 · 黃金工具",
     switchToEnglish: "Switch to English",
     switchToChinese: "切換到中文",
     chineseShort: "中",
@@ -54,9 +54,9 @@ const ui = {
     yearsShort: "年期",
     investmentCycles: "儲蓄週期",
     reports: "報表",
-    title: "儲蓄目標反推 · 算出你每月該存多少才達標",
+    title: "Savings Goal Calculator · 儲蓄目標反推計算機",
     subtitle: "想 20 年後存到 300 萬？已有現存 + 預期報酬率，反推每月該存的數字。",
-    intro: "本工具反向使用 Investopedia 與 SEC 公認的「月複利 + 定期投入」公式，輸入你的目標金額、目前已存、預期年化報酬率與年期，即可反推「每月需存多少」才能達標，並列出 5 / 10 / 15 / 20 / 25 / 30 年六段年期對照，幫你決定最適合的儲蓄節奏。",
+    intro: "本工具反向使用國際公認的「月複利 + 定期投入」公式，輸入你的目標金額、目前已存、預期年化報酬率與年期，即可反推「每月需存多少」才能達標，並列出 5 / 10 / 15 / 20 / 25 / 30 年六段年期對照，幫你決定最適合的儲蓄節奏。",
     trustNoteLabel: "信任提醒：",
     trustNote: "本工具假設報酬率穩定且每月複利，實際投資存在波動、稅負、手續費；不可作為投資或退休理財建議。",
     quickActionCard: "快速範例卡",
@@ -120,28 +120,28 @@ const ui = {
     knowledge: "知識",
     knowledgeTitle: "儲蓄目標反推：複利的逆運算",
     definition: "定義",
-    definitionText: "儲蓄目標反推（Savings Goal Solver）是把「複利 + 定期投入」公式反向求解：已知未來目標金額（FV）、現有資產（P）、年化報酬率（r）與年期（t），反推每月需要存入的金額（PMT）。是規劃買房頭期、子女教育金、退休金的核心工具。",
+    definitionText: "儲蓄目標反推是把「複利 + 定期投入」公式反向求解：已知未來目標金額、現有資產、年化報酬率與年期，反推每月需要存入的金額。是規劃買房頭期、子女教育金、退休金的核心工具。",
     formula: "公式",
     formulaText: "PMT = (FV − P · (1 + r/n)^(n·t)) / (((1 + r/n)^(n·t) − 1) / (r/n))，其中 FV 為目標金額，P 為現有資產，r 為年化報酬率，n=12（月複利），t 為年期。r=0 時退化為 PMT = (FV − P) / (12 · t)。",
     limitations: "限制",
     limitationsText: "本工具假設報酬率穩定、不含通膨、不含稅負、不含手續費。實際儲蓄/投資需考慮通膨稀釋（10 年通膨可能讓 100 萬實質剩 ~74 萬，假設年通膨 3%）。建議目標金額考慮通膨後再代入。",
-    faq: "FAQ",
+    faq: "常見問答",
     commonQuestions: "常見問題",
     affiliate: "推薦資源",
     affiliateTitle: "儲蓄與目標規劃資源",
-    premiumTitle: "PRO 目標儲蓄包",
-    premiumText: "解鎖通膨自動調整、多目標並行（房子+教育+退休）、年度別儲蓄表、彈性月存（前低後高/前高後低）方案模擬與 CSV 匯出。",
+    premiumTitle: "專業版目標儲蓄包",
+    premiumText: "解鎖通膨自動調整、多目標並行（房子+教育+退休）、年度別儲蓄表、彈性月存（前低後高/前高後低）方案模擬與試算表匯出。",
     trustReferences: "信任聲明 · 相關工具 · 參考資料",
     trust: "信任聲明",
     trustText: "本工具提供教育與規劃用途，不能取代合格理財顧問建議。投資有風險，過去績效不代表未來表現。",
     relatedTools: "相關工具",
-    relatedToolsText: "複利計算 · CAGR · 退休金 · 貸款試算 · 月薪存款 · 通膨調整（V2）",
+    relatedToolsText: "複利計算機 · 年複合成長率計算機 · 退休計算機 · 貸款試算機 · 月薪存款機 · 通膨調整計算機",
     references: "參考資料",
-    referencesText: "Investopedia Savings Goal；U.S. SEC Investor.gov；Bogleheads Time Value of Money；Khan Academy Personal Finance；Mishkin 2022 Money, Banking & Financial Markets。",
+    referencesText: "Investopedia 儲蓄目標指南；美國證券交易委員會投資者教育；Bogleheads 貨幣時間價值；可汗學院個人理財；Mishkin 2022 貨幣銀行與金融市場。",
     q1: "為什麼年期延長 5 年，月存能少這麼多？",
     a1: "因為複利。年期越長，本金與利息有更多時間滾動，「利息也會生利息」。例如目標 300 萬、報酬 7%，20 年只需月存 ~4,984，但 10 年要 ~17,283——年期延長一倍，月存壓力減為約 1/3.5。",
     q2: "報酬率設多少才合理？",
-    a2: "保守 ETF 投資組合可估 5-7%，全球股市長期約 7-10%（含通膨），定存 1-2%。建議用較保守值（5-6%）試算避免過度樂觀，並另外做 0% 試算當作最保守情境。",
+    a2: "保守指數基金投資組合可估 5-7%，全球股市長期約 7-10%（含通膨），定存 1-2%。建議用較保守值（5-6%）試算避免過度樂觀，並另外做 0% 試算當作最保守情境。",
     q3: "通膨會吃掉我的儲蓄目標嗎？",
     a3: "會。10 年通膨 3% 會讓今天的 100 萬實質剩約 74 萬。建議：(1) 目標金額用通膨後估算，例如想要「現在 100 萬的購買力」，10 年後實際需要約 134 萬；或 (2) 把報酬率改用「實質報酬率」= 名目報酬率 − 通膨率。",
     q4: "如果還沒任何存款（P=0）怎麼辦？",
@@ -149,116 +149,116 @@ const ui = {
     q5: "為什麼月存反推結果會是負數？",
     a5: "如果你的「現有資產 + 預期複利」已經超過目標，本工具會把月存顯示為 0（不需再存）。代表你已經達標，可以開始享受財富，或考慮把多出來的部分挪做其他目標。",
     q6: "可以反推「達標所需報酬率」嗎？",
-    a6: "本工具固定反推「月存」，不反推報酬率。若想求達標報酬率，請改用 CAGR 計算機（已知 PV 與 FV、年期，求年化報酬）。三個參數中最多反推一個，剩餘兩個必須給定。",
+    a6: "本工具固定反推「月存」，不反推報酬率。若想求達標報酬率，請改用年複合成長率計算機（已知現值與終值、年期，求年化報酬）。三個參數中最多反推一個，剩餘兩個必須給定。",
   },
   en: {
-    badge: "Finance · Goal · Gold Tool",
+    badge: "財務 · 目標 · 黃金工具",
     switchToEnglish: "Switch to English",
     switchToChinese: "切換到中文",
     chineseShort: "中",
     englishShort: "EN",
-    pmtShort: "Monthly",
-    contributionShort: "Contributed",
-    interestShort: "Interest",
-    yearsShort: "Years",
-    investmentCycles: "Savings cycles",
-    reports: "Reports",
-    title: "Savings Goal Calculator · Solve how much to save monthly",
-    subtitle: "Want $1M in 20 years? Given current savings and expected return, back-solve the monthly contribution.",
-    intro: "Inverts the standard Investopedia / SEC monthly-compounding + periodic-contribution formula. Enter target amount, current savings, expected return, and years — get the required monthly contribution. Includes a 5 / 10 / 15 / 20 / 25 / 30-year side-by-side so you can pick the right pace.",
-    trustNoteLabel: "Trust note:",
-    trustNote: "Assumes a steady monthly-compounding return; ignores volatility, taxes, fees. Not investment or retirement advice.",
-    quickActionCard: "Quick Action Card",
-    tryExample: "Create a $1M-in-20-years example",
-    examplePreview: "Monthly required",
-    examplePerson: "Target 3M · Current 100K · 7% · 20 yr",
-    fillExample: "Fill savings goal example",
-    previewActivePath: "Preview 5-year down-payment example",
-    examplesCalculator: "Examples → Calculator",
-    enterValues: "Enter your goal and back-solve monthly",
-    examplesHelper: "Use the examples to learn how target, current assets, return, and term interact — then plug in your own goal.",
-    metric: "TWD",
-    imperial: "USD",
-    exampleCards: "Example cards",
-    baselineExample: "3M in 20 years",
-    activeExample: "Down payment 5 yr",
-    flowDemo: "Flow demo",
-    calculator: "Calculator",
-    targetFV: "Target amount",
-    currentSaving: "Current savings",
-    annualRate: "Annual return (%)",
-    years: "Years",
-    resultCard: "Savings Goal Result",
-    moneyUnit: "total",
-    yearsTag: "Term",
-    primaryValue: "Primary value",
-    maintenanceTarget: "Maintenance target",
-    actionTarget: "Action target",
-    monthlyPMT: "Monthly required",
-    totalContribution: "Total contribution",
-    totalInterest: "Interest contribution",
-    resultIntelligence: "Result intelligence",
-    periodMatrix: "Six-term monthly comparison",
-    periodMatrixNote: "Recomputed at six terms with your target, current assets, and return rate — showing how extending the timeline dramatically reduces monthly pressure. Time is the best stress-reducer.",
-    emotionConversionLayer: "Emotion & conversion layer",
-    turnIntoPlan: "Turn the target into a real savings plan",
-    conversionNote: "Demonstrates how a single estimate flows into save / share / next-step actions. No real account or payment system here.",
-    progressInsight: "Goal insight",
-    possibleTarget: "Your monthly savings burden",
-    monthlyGap: "Target amount",
-    yearlyTrend: "Yearly compound boost",
-    motivation: "Motivation",
-    keepMomentum: "From estimate to disciplined long-term saving",
-    saveShareJourney: "Save / Share",
-    nextActionLabel: "Next actions",
-    nextActionTitle: "Turn this number into your next concrete step",
-    nextActionItem1: "Save this result link to your notes or bookmarks",
-    nextActionItem2: "Write the numbers into your monthly plan",
-    nextActionItem3: "Come back next month and recalculate to see progress",
-    shareLinkBtn: "📋 Copy result link",
-    shareNativeBtn: "📤 Share with friends",
-    shareCopiedToast: "Copied to clipboard ✓",
-    journeyTitle: "Take today's estimate home with you",
-    journeyHint: "Screenshot, bookmark, or share — pick up the comparison next time without re-typing.",
-    decisionPath: "Decision path",
-    decisionTitle: "Target → Current → Return → Monthly target",
-    targetStep: "Target",
-    currentStep: "Current",
-    rateStep: "Return",
-    pmtStep: "Monthly",
-    knowledge: "Knowledge",
-    knowledgeTitle: "Savings goal: the inverse of compounding",
-    definition: "Definition",
-    definitionText: "Savings Goal Solver inverts the compound-interest + periodic-contribution formula: given target future value, current principal, expected return, and time horizon, solve for the required monthly contribution. Core tool for down payments, education funds, retirement planning.",
-    formula: "Formula",
-    formulaText: "PMT = (FV − P · (1 + r/n)^(n·t)) / (((1 + r/n)^(n·t) − 1) / (r/n)), where FV = target, P = current savings, r = annual return, n = 12 (monthly), t = years. When r = 0, simplifies to PMT = (FV − P) / (12 · t).",
-    limitations: "Limitations",
-    limitationsText: "Assumes steady return, ignores inflation, taxes, fees. Real saving must factor inflation (~3% yearly typically) — adjust target upward to preserve purchasing power.",
-    faq: "FAQ",
-    commonQuestions: "Common questions",
-    affiliate: "Resources",
-    affiliateTitle: "Savings and goal-planning resources",
-    premiumTitle: "PRO Goal Bundle",
-    premiumText: "Unlock auto inflation adjustment, multi-goal parallel planning (house + education + retirement), year-by-year savings table, and flexible step-up/step-down plans with CSV export.",
-    trustReferences: "Trust · Related Tools · References",
-    trust: "Trust",
-    trustText: "This tool is for education and planning. It does not replace a licensed financial advisor. Investing involves risk; past performance does not guarantee future results.",
-    relatedTools: "Related tools",
-    relatedToolsText: "Compound Interest · CAGR · Retirement · Loan · Monthly Savings · Inflation Adjustment (V2)",
-    references: "References",
-    referencesText: "Investopedia Savings Goal; U.S. SEC Investor.gov; Bogleheads Time Value of Money; Khan Academy Personal Finance; Mishkin 2022 Money, Banking & Financial Markets.",
-    q1: "Why does extending years by 5 reduce monthly so much?",
-    a1: "Compounding. Longer horizons let principal and interest snowball — interest itself earns interest. e.g. 3M target at 7%: 20 years needs ~$4,984/mo, but 10 years needs ~$17,283 — doubling the term cuts monthly to roughly 1/3.5.",
-    q2: "What return rate is realistic?",
-    a2: "Diversified ETFs estimate 5-7% conservatively; global equities historically 7-10% (with inflation); savings 1-2%. Use conservative values (5-6%) to avoid over-optimism, and run a 0% scenario.",
-    q3: "Will inflation eat my savings goal?",
-    a3: "Yes. 3% inflation for 10 years reduces today's 1M to ~$740K real value. Either: (1) inflate your target — to preserve today's $1M purchasing power, target ~$1.34M in 10 years; or (2) use 'real return' = nominal return − inflation rate.",
-    q4: "What if I have no current savings (P=0)?",
-    a4: "Totally fine, this tool supports P=0. e.g. target $1M at 3% over 5 years needs ~$15,469/mo; at 7% needs ~$14,026. Key insight: the earlier you start, the easier the monthly burden.",
-    q5: "Why is the monthly result negative?",
-    a5: "If your 'current savings + expected compounding' already exceeds the target, this tool displays monthly as 0 (no further saving needed). You've already met the goal — start enjoying or redeploy excess to other goals.",
-    q6: "Can I back-solve the required return rate?",
-    a6: "This tool only back-solves monthly contribution. To find the required return, use the CAGR Calculator (given PV, FV, years → solve annual rate). At most one parameter can be back-solved; the other two must be given.",
+    pmtShort: "月存",
+    contributionShort: "累計",
+    interestShort: "利息",
+    yearsShort: "年期",
+    investmentCycles: "儲蓄週期",
+    reports: "報表",
+    title: "Savings Goal Calculator · 儲蓄目標反推計算機",
+    subtitle: "想 20 年後存到 300 萬？已有現存 + 預期報酬率，反推每月該存的數字。",
+    intro: "本工具反向使用國際公認的「月複利 + 定期投入」公式，輸入你的目標金額、目前已存、預期年化報酬率與年期，即可反推「每月需存多少」才能達標，並列出 5 / 10 / 15 / 20 / 25 / 30 年六段年期對照，幫你決定最適合的儲蓄節奏。",
+    trustNoteLabel: "信任提醒：",
+    trustNote: "本工具假設報酬率穩定且每月複利，實際投資存在波動、稅負、手續費；不可作為投資或退休理財建議。",
+    quickActionCard: "快速範例卡",
+    tryExample: "一鍵建立 300 萬目標範例",
+    examplePreview: "每月需存",
+    examplePerson: "目標 300 萬 · 現存 10 萬 · 7% · 20 年",
+    fillExample: "一鍵填入儲蓄目標範例",
+    previewActivePath: "預覽頭期款 5 年範例",
+    examplesCalculator: "範例 → 計算機",
+    enterValues: "輸入目標並反推每月儲蓄",
+    examplesHelper: "先用範例理解目標、現有資產、報酬率與年期之間的關係，再改成你自己的儲蓄目標。",
+    metric: "新台幣",
+    imperial: "美元",
+    exampleCards: "範例卡",
+    baselineExample: "300 萬 20 年達標",
+    activeExample: "頭期款 5 年範例",
+    flowDemo: "流程示範",
+    calculator: "計算機",
+    targetFV: "目標金額",
+    currentSaving: "目前已存",
+    annualRate: "年化報酬率（%）",
+    years: "年期",
+    resultCard: "儲蓄目標試算結果",
+    moneyUnit: "元",
+    yearsTag: "年期",
+    primaryValue: "主要數值",
+    maintenanceTarget: "維持目標",
+    actionTarget: "行動目標",
+    monthlyPMT: "每月需存",
+    totalContribution: "累計自備款",
+    totalInterest: "利息貢獻",
+    resultIntelligence: "結果解讀",
+    periodMatrix: "六段年期 月存對照",
+    periodMatrixNote: "下列卡片以你的目標金額、現有資產與報酬率為基礎，回推不同年期下「每月該存多少」，看出年期延長對月存壓力的減緩效果——時間是最好的減壓器。",
+    emotionConversionLayer: "情緒與轉換層",
+    turnIntoPlan: "把目標數字轉成可執行的儲蓄計畫",
+    conversionNote: "此層示範如何把單一試算結果轉為儲存、轉換與下一步行動，不實作帳號或付款流程。",
+    progressInsight: "達標洞察卡",
+    possibleTarget: "你的月存壓力",
+    monthlyGap: "目標金額",
+    yearlyTrend: "每年複利助力",
+    motivation: "動力卡",
+    keepMomentum: "從試算數字走向長期儲蓄紀律",
+    saveShareJourney: "儲存 / 分享",
+    nextActionLabel: "下一步行動",
+    nextActionTitle: "把計算結果變成可執行的下一步",
+    nextActionItem1: "把這個結果連結存到記事本或書籤",
+    nextActionItem2: "把試算數字寫進你的月度規劃",
+    nextActionItem3: "下個月回來重算，看數字有沒有改善",
+    shareLinkBtn: "📋 複製結果連結",
+    shareNativeBtn: "📤 分享給朋友",
+    shareCopiedToast: "已複製到剪貼簿 ✓",
+    journeyTitle: "把今天的試算帶回家",
+    journeyHint: "截圖、加書籤或分享給家人，下次回來就能直接接續比較。",
+    decisionPath: "決策路徑",
+    decisionTitle: "目標金額 → 現有 → 報酬率 → 月存目標",
+    targetStep: "目標金額",
+    currentStep: "現有",
+    rateStep: "報酬率",
+    pmtStep: "月存目標",
+    knowledge: "知識",
+    knowledgeTitle: "儲蓄目標反推：複利的逆運算",
+    definition: "定義",
+    definitionText: "儲蓄目標反推是把「複利 + 定期投入」公式反向求解：已知未來目標金額、現有資產、年化報酬率與年期，反推每月需要存入的金額。是規劃買房頭期、子女教育金、退休金的核心工具。",
+    formula: "公式",
+    formulaText: "PMT = (FV − P · (1 + r/n)^(n·t)) / (((1 + r/n)^(n·t) − 1) / (r/n))，其中 FV 為目標金額，P 為現有資產，r 為年化報酬率，n=12（月複利），t 為年期。r=0 時退化為 PMT = (FV − P) / (12 · t)。",
+    limitations: "限制",
+    limitationsText: "本工具假設報酬率穩定、不含通膨、不含稅負、不含手續費。實際儲蓄/投資需考慮通膨稀釋（10 年通膨可能讓 100 萬實質剩 ~74 萬，假設年通膨 3%）。建議目標金額考慮通膨後再代入。",
+    faq: "常見問答",
+    commonQuestions: "常見問題",
+    affiliate: "推薦資源",
+    affiliateTitle: "儲蓄與目標規劃資源",
+    premiumTitle: "專業版目標儲蓄包",
+    premiumText: "解鎖通膨自動調整、多目標並行（房子+教育+退休）、年度別儲蓄表、彈性月存（前低後高/前高後低）方案模擬與試算表匯出。",
+    trustReferences: "信任聲明 · 相關工具 · 參考資料",
+    trust: "信任聲明",
+    trustText: "本工具提供教育與規劃用途，不能取代合格理財顧問建議。投資有風險，過去績效不代表未來表現。",
+    relatedTools: "相關工具",
+    relatedToolsText: "複利計算機 · 年複合成長率計算機 · 退休計算機 · 貸款試算機 · 月薪存款機 · 通膨調整計算機",
+    references: "參考資料",
+    referencesText: "Investopedia 儲蓄目標指南；美國證券交易委員會投資者教育；Bogleheads 貨幣時間價值；可汗學院個人理財；Mishkin 2022 貨幣銀行與金融市場。",
+    q1: "為什麼年期延長 5 年，月存能少這麼多？",
+    a1: "因為複利。年期越長，本金與利息有更多時間滾動，「利息也會生利息」。例如目標 300 萬、報酬 7%，20 年只需月存 ~4,984，但 10 年要 ~17,283——年期延長一倍，月存壓力減為約 1/3.5。",
+    q2: "報酬率設多少才合理？",
+    a2: "保守指數基金投資組合可估 5-7%，全球股市長期約 7-10%（含通膨），定存 1-2%。建議用較保守值（5-6%）試算避免過度樂觀，並另外做 0% 試算當作最保守情境。",
+    q3: "通膨會吃掉我的儲蓄目標嗎？",
+    a3: "會。10 年通膨 3% 會讓今天的 100 萬實質剩約 74 萬。建議：(1) 目標金額用通膨後估算，例如想要「現在 100 萬的購買力」，10 年後實際需要約 134 萬；或 (2) 把報酬率改用「實質報酬率」= 名目報酬率 − 通膨率。",
+    q4: "如果還沒任何存款（P=0）怎麼辦？",
+    a4: "完全可以從 0 開始，本工具支援 P=0。例如目標 100 萬、3% 報酬、5 年，每月需存 ~15,469；若報酬高至 7%，每月需存 ~14,026。重點是「越早開始，月存壓力越輕」。",
+    q5: "為什麼月存反推結果會是負數？",
+    a5: "如果你的「現有資產 + 預期複利」已經超過目標，本工具會把月存顯示為 0（不需再存）。代表你已經達標，可以開始享受財富，或考慮把多出來的部分挪做其他目標。",
+    q6: "可以反推「達標所需報酬率」嗎？",
+    a6: "本工具固定反推「月存」，不反推報酬率。若想求達標報酬率，請改用年複合成長率計算機（已知現值與終值、年期，求年化報酬）。三個參數中最多反推一個，剩餘兩個必須給定。",
   },
 } as const;
 
@@ -317,7 +317,8 @@ export default function SavingsGoalCalculator() {
   const [annualRate, setAnnualRate] = useState("7.0");
   const [period, setPeriod] = useState<SavingsPeriod>(20);
 
-  const t = ui[lang];
+  const displayLang: Lang = "zh";
+  const t = ui.zh;
   const activePeriod = periodByKey(period);
 
   const calculation = useMemo(() => {
@@ -393,8 +394,8 @@ export default function SavingsGoalCalculator() {
                 <div className="text-sm font-bold text-amber-100">{t.moneyUnit}</div>
               </div>
               <div className="mt-5 grid grid-cols-3 gap-3 text-center">
-                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.targetFV}</div><div className="font-black">3M</div></div>
-                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.currentSaving}</div><div className="font-black">100K</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.targetFV}</div><div className="font-black">300 萬</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.currentSaving}</div><div className="font-black">10 萬</div></div>
                 <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.years}</div><div className="font-black">20</div></div>
               </div>
               <button onClick={fillBaselineExample} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white transition hover:bg-amber-700">{t.fillExample}</button>
@@ -422,8 +423,8 @@ export default function SavingsGoalCalculator() {
             <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
               <h3 className="text-lg font-black">{t.exampleCards}</h3>
               <div className="mt-4 space-y-3">
-                <button onClick={fillBaselineExample} className="w-full rounded-2xl border border-amber-200 bg-white p-4 text-left transition hover:border-amber-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-black text-amber-700">~5K/mo</span></div><p className="mt-2 text-sm text-slate-600">3M · 100K · 7% · 20 yr</p></button>
-                <button onClick={fillActiveExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div><p className="mt-2 text-sm text-slate-600">1M · 0 · 3% · 5 yr</p></button>
+                <button onClick={fillBaselineExample} className="w-full rounded-2xl border border-amber-200 bg-white p-4 text-left transition hover:border-amber-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-black text-amber-700">約 5K/月</span></div><p className="mt-2 text-sm text-slate-600">300 萬 · 10 萬 · 7% · 20 年</p></button>
+                <button onClick={fillActiveExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div><p className="mt-2 text-sm text-slate-600">100 萬 · 0 · 3% · 5 年</p></button>
               </div>
             </div>
 
@@ -433,7 +434,7 @@ export default function SavingsGoalCalculator() {
                 <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.targetFV}<input type="number" min={0} step={100000} className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={targetFV} onChange={(e) => setTargetFV(e.target.value)} /></label>
                 <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.currentSaving}<input type="number" min={0} step={10000} className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={currentSaving} onChange={(e) => setCurrentSaving(e.target.value)} /></label>
                 <label className="block text-sm font-black text-slate-700">{t.annualRate}<input type="number" min={0} max={30} step={0.1} className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={annualRate} onChange={(e) => setAnnualRate(e.target.value)} /></label>
-                <label className="block text-sm font-black text-slate-700">{t.years}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={period} onChange={(e) => setPeriod(Number(e.target.value) as SavingsPeriod)}>{periodLevels.map((item) => <option key={item.key} value={item.key}>{l(item.label, lang)}</option>)}</select></label>
+                <label className="block text-sm font-black text-slate-700">{t.years}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={period} onChange={(e) => setPeriod(Number(e.target.value) as SavingsPeriod)}>{periodLevels.map((item) => <option key={item.key} value={item.key}>{l(item.label, displayLang)}</option>)}</select></label>
               </div>
             </div>
           </div>
@@ -445,7 +446,7 @@ export default function SavingsGoalCalculator() {
               <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{t.resultCard}</p>
               <div className="mt-4 flex items-start justify-between gap-5">
                 <div><div className="text-7xl font-black tracking-tight text-slate-950">{pmtDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.moneyUnit} / {t.pmtShort}</div></div>
-                <div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.yearsTag}</div><div className="mt-1 text-xl font-black">{l(activePeriod.label, lang)}</div><div className="mt-1 text-xs text-slate-300">{activePeriod.key * 12} mo</div></div>
+                <div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.yearsTag}</div><div className="mt-1 text-xl font-black">{l(activePeriod.label, displayLang)}</div><div className="mt-1 text-xs text-slate-300">{activePeriod.key * 12} 月</div></div>
               </div>
               <div className="mt-6 grid gap-4 md:grid-cols-3">
                 <div className="rounded-2xl bg-blue-50 p-4">
@@ -477,8 +478,8 @@ export default function SavingsGoalCalculator() {
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {(calculation?.matrix ?? periodLevels.map((item) => ({ ...item, monthlyPMT: 0, totalContribution: 0, totalInterest: 0 }))).map((item) => (
                 <div key={item.key} className={`rounded-2xl border p-4 ${item.key === activePeriod.key ? "border-amber-500 bg-amber-50 shadow-sm" : "border-slate-200 bg-slate-50"}`}>
-                  <div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{item.key * 12} mo</span></div>
-                  <p className="mt-2 text-sm leading-6 text-slate-700">{l(item.description, lang)}</p>
+                  <div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, displayLang)}</h3><span className="text-xs font-black text-slate-500">{item.key * 12} 月</span></div>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">{l(item.description, displayLang)}</p>
                   <p className="mt-3 text-2xl font-black text-slate-950">{formatMoney(item.monthlyPMT)} <span className="text-sm text-slate-500">{t.moneyUnit}</span></p>
                   <p className="mt-1 text-xs font-bold text-orange-700">{t.interestShort}: {formatMoney(item.totalInterest)}</p>
                 </div>
@@ -558,10 +559,10 @@ export default function SavingsGoalCalculator() {
                               <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{t.affiliate}</p>
                               <h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2>
                               <div className="mt-5 grid gap-4 md:grid-cols-4">
-                                {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-amber-100 bg-amber-50 p-5 text-center font-black text-amber-950 transition hover:border-amber-500 hover:bg-amber-100">{l(item.label, lang)}</a>)}
+                                {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-amber-100 bg-amber-50 p-5 text-center font-black text-amber-950 transition hover:border-amber-500 hover:bg-amber-100">{l(item.label, displayLang)}</a>)}
                               </div>
                               <p className="mt-3 text-xs text-amber-700">
-                                {lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}
+                                推薦連結揭露：部分連結可能帶來佣金收入。
                               </p>
                             </section>
 

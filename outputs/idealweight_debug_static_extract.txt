@@ -1,0 +1,80 @@
+=== Branch / status ===
+feature/19-paused-tools-isolated
+?? outputs/
+\n=== Ideal L markers ===
+500:            {/* L1-Hero */}
+576:          {/* L2-L5 Examples Calculator */}
+578:            {/* L2 */}
+589:              {/* L3 */}
+606:            {/* L4-L5 */}
+608:              {/* L4 */}
+643:              {/* L5 */}
+710:          {/* L6-L7 Result */}
+712:            {/* L6 */}
+781:            {/* L7 */}
+815:          aria-label="L8 AdSlot #1 廣告位・Advertisement"
+818:          {/* L8 */}
+831:            {/* L9 */}
+884:            {/* L10 */}
+934:          {/* L11 */}
+969:          {/* L12-L13 */}
+971:            {/* L12 */}
+1014:            {/* L13 */}
+1038:          aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement"
+1041:          {/* L14 */}
+1046:          {/* L15-L16 */}
+1048:            {/* L15 */}
+1072:              {/* L16 */}
+1096:          {/* L17 */}
+\n=== Ideal ads ===
+7:import { AdSlot } from "@/components/business/AdSlot";
+815:          aria-label="L8 AdSlot #1 廣告位・Advertisement"
+819:          <AdSlot slot="ideal-weight-l8" position="inline" />
+1042:          <AdSlot slot="ideal-weight-faq" position="inline" />
+\n=== Ideal FAQ markers/questions snippets ===
+68:const faqItems: FaqItem[] = [
+219:    faq: "FAQ",
+328:    faq: "FAQ",
+329:    commonQuestions: "Common questions",
+1016:              {t.faq}
+1020:              {faqItems.map(item => (
+1038:          aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement"
+1042:          <AdSlot slot="ideal-weight-faq" position="inline" />
+\n=== Ideal formula terms ===
+81:      zh: "Devine、Robinson、Miller、Hamwi 為何不同？",
+82:      en: "Why do Devine, Robinson, Miller, and Hamwi differ?",
+136:      "比較 Devine、Robinson、Miller、Hamwi 與成人 BMI 18.5–24.9 對應體重範圍，幫你理解身高公式給出的參考區間，而不是追逐單一魔法數字。",
+215:      "Devine、Robinson、Miller、Hamwi 都以 5 英尺基準加上每英吋增量；BMI 範圍使用 18.5×h² 至 24.9×h²。",
+244:      "Compare Devine, Robinson, Miller, Hamwi, and the adult BMI 18.5–24.9 weight range to understand height-based reference weight without treating one number as a magic target.",
+324:      "Devine, Robinson, Miller, and Hamwi use a five-foot base plus per-inch increments; BMI range uses 18.5×h² to 24.9×h².",
+355:      name: "Devine",
+369:      name: "Robinson",
+376:        zh: "通常比 Devine 略保守",
+377:        en: "Often slightly more conservative than Devine",
+383:      name: "Miller",
+398:      name: "Hamwi",
+\n=== BMR L markers ===
+93:    // Profile B 三格語意（canonical L6 markers）
+209:    // Profile B canonical L6 markers
+371:          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
+414:          <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">{/* L5-Calc */}
+445:        <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">{/* L6-Result */}
+499:          {/* L9 · Emotion+Conversion 上排 · Progress + Motivation · lg:grid-cols-[1_0.9] */}
+500:          <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9-Emotion-Upper */}
+504:          {/* L10 · Emotion+Conversion 下排 · Save / Share Journey · lg:grid-cols-[1_0.8] */}
+505:          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10-Emotion-Lower */}
+537:        {/* L14 · Knowledge + FAQ 並排 · lg:grid-cols-[1fr_0.9fr] */}
+538:        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L14-Knowledge-FAQ */}
+553:        {/* L14-AdSlot · FAQ 後獨立廣告位 */}
+554:        <section aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5">
+558:        {/* L15-L16 · 推薦商品 + Premium Gate 並排 */}
+560:          {/* L15-Affiliate */}
+572:          {/* L16-PremiumGate */}
+574:            <article className="flex h-full flex-col rounded-[2rem] border border-emerald-200 bg-gradient-to-br from-emerald-50 to-indigo-50 p-6 md:p-7">{/* L16-PremiumGate */}
+\n=== BMR ads ===
+6:import { AdSenseWrapper } from "@/components/AdSenseWrapper";
+7:import { AdSlot } from "@/components/business/AdSlot";
+493:        <AdSenseWrapper showAds={true} adSlot="bmr-result-intelligence" adFormat="horizontal" className="my-2" />
+543:            <div className="mt-5"><AdSlot slot="bmr-knowledge" position="middle" /></div>
+553:        {/* L14-AdSlot · FAQ 後獨立廣告位 */}
+555:          <AdSlot slot="bmr-faq" position="inline" />

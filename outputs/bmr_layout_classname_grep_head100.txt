@@ -1,0 +1,92 @@
+224:    dailyGap: "Daily gap",
+361:    <main className="min-h-screen bg-slate-50 text-slate-950">
+363:        <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
+365:            <button type="button" onClick={() => setLang(lang === "zh" ? "en" : "zh")} className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm transition hover:border-emerald-500 hover:bg-emerald-50" aria-label={lang === "zh" ? t.switchToEnglish : t.switchToChinese}>
+366:              <span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.chineseShort}</span>
+367:              <span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.englishShort}</span>
+371:          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
+372:            <section className="space-y-6">
+374:              <h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1>
+376:              <p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p>
+377:              <div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950"><strong>{t.trustNoteLabel}</strong> {t.trustNote}</div>
+380:            <aside className="rounded-[2rem] border border-emerald-100 bg-white/90 p-6 shadow-2xl shadow-emerald-950/10 backdrop-blur">
+383:              <div className="mt-5 rounded-3xl bg-emerald-600 p-5 text-white">
+388:              <div className="mt-5 grid grid-cols-3 gap-3 text-center">
+389:                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.examplePerson}</div><div className="font-black">30</div></div>
+390:                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.weightKg}</div><div className="font-black">70</div></div>
+391:                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.heightCm}</div><div className="font-black">175</div></div>
+393:              <button onClick={fillBaselineExample} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white transition hover:bg-emerald-700">{t.fillExample}</button>
+394:              <button onClick={fillActiveExample} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900 transition hover:bg-orange-100">{t.previewActivePath}</button>
+400:      <div className="mx-auto max-w-7xl space-y-7 px-4 py-8 md:px-8">
+401:        <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+402:          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+406:              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{t.examplesHelper}</p>
+408:            <div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-2">
+409:              <button className={`rounded-xl px-4 py-3 text-sm font-black ${unitSystem === "metric" ? "bg-emerald-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnitSystem("metric")}>{t.metric}</button>
+410:              <button className={`rounded-xl px-4 py-3 text-sm font-black ${unitSystem === "imperial" ? "bg-emerald-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnitSystem("imperial")}>{t.imperial}</button>
+414:          <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">{/* L5-Calc */}
+415:            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+417:              <div className="mt-4 space-y-3">
+418:                <button onClick={fillBaselineExample} className="w-full rounded-2xl border border-emerald-200 bg-white p-4 text-left transition hover:border-emerald-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-black text-emerald-700">1,649</span></div><p className="mt-2 text-sm text-slate-600">70kg · 175cm · 30</p></button>
+419:                <button onClick={fillActiveExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div><p className="mt-2 text-sm text-slate-600">62kg · 168cm · 28</p></button>
+423:            <div className="rounded-3xl border border-slate-200 bg-white p-5">
+425:              <div className="mt-4 grid gap-4 md:grid-cols-2">
+428:                    <label className="block text-sm font-black text-slate-700">{t.heightCm}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={heightCm} onChange={(e) => setHeightCm(e.target.value)} /></label>
+429:                    <label className="block text-sm font-black text-slate-700">{t.weightKg}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={weightKg} onChange={(e) => setWeightKg(e.target.value)} /></label>
+433:                    <label className="block text-sm font-black text-slate-700">{t.feet}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={feet} onChange={(e) => setFeet(e.target.value)} /></label>
+434:                    <label className="block text-sm font-black text-slate-700">{t.inches}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={inches} onChange={(e) => setInches(e.target.value)} /></label>
+435:                    <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.weightLb}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={pounds} onChange={(e) => setPounds(e.target.value)} /></label>
+438:                <label className="block text-sm font-black text-slate-700">{t.age}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={age} onChange={(e) => setAge(e.target.value)} /></label>
+439:                <label className="block text-sm font-black text-slate-700">{t.sex}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={sex} onChange={(e) => setSex(e.target.value as Sex)}><option value="male">{t.male}</option><option value="female">{t.female}</option></select></label>
+440:                <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.activityLevel}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={activity} onChange={(e) => setActivity(e.target.value as BmrActivity)}>{activityLevels.map((item) => <option key={item.key} value={item.key}>{l(item.label, lang)} × {formatActivityFactor(item)}</option>)}</select></label>
+445:        <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">{/* L6-Result */}
+446:          <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
+448:            <div className="p-6 md:p-7">
+450:              <div className="mt-4 flex items-start justify-between gap-5">
+451:                <div><div className="text-7xl font-black tracking-tight text-slate-950">{bmrDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.bmrUnit}</div></div>
+452:                <div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.activityTag}</div><div className="mt-1 text-xl font-black">{l(activeActivity.label, lang)}</div><div className="mt-1 text-xs text-slate-300">× {formatActivityFactor(activeActivity)}</div></div>
+454:              <div className="mt-6 grid gap-4 md:grid-cols-3">
+455:                <div className="rounded-2xl bg-blue-50 p-4">
+461:                <div className="rounded-2xl bg-emerald-50 p-4">
+467:                <div className="rounded-2xl bg-orange-50 p-4">
+477:          <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+481:            <div className="mt-5 grid gap-3 md:grid-cols-3">
+483:                <div key={item.key} className={`rounded-2xl border p-4 ${item.key === activeActivity.key ? "border-emerald-500 bg-emerald-50 shadow-sm" : "border-slate-200 bg-slate-50"}`}>
+484:                  <div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">× {formatActivityFactor(item)}</span></div>
+495:        <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-emerald-50 p-6 shadow-sm md:p-7">
+498:          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.conversionNote}</p>
+499:          {/* L9 · Emotion+Conversion 上排 · Progress + Motivation · lg:grid-cols-[1_0.9] */}
+500:          <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9-Emotion-Upper */}
+501:            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">BMR</div><div className="mt-1 text-3xl font-black">{bmrDisplay}</div></div><div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.dailyGap}</div><div className="mt-1 text-3xl font-black text-blue-950">400</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.weeklyTrend}</div><div className="mt-1 text-3xl font-black text-emerald-950">{calculation ? formatKcal(calculation.weeklyDeficit) : "—"}</div></div></div></article>
+502:            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.bmrShort, t.tdeeShort, t.caloriesShort, t.goalShort].map((item) => <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
+504:          {/* L10 · Emotion+Conversion 下排 · Save / Share Journey · lg:grid-cols-[1_0.8] */}
+505:          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10-Emotion-Lower */}
+506:            <article className="rounded-3xl border border-slate-200 bg-gradient-to-br from-amber-50 to-white p-5 shadow-sm">
+511:            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+514:              <ul className="mt-3 space-y-2">
+515:                <li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">①</span><span>{t.nextActionItem1}</span></li>
+516:                <li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">②</span><span>{t.nextActionItem2}</span></li>
+517:                <li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">③</span><span>{t.nextActionItem3}</span></li>
+519:              <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+520:                <button type="button" onClick={() => { if (typeof navigator !== "undefined" && navigator.clipboard) { navigator.clipboard.writeText(window.location.href); alert(t.shareCopiedToast); } }} className="rounded-2xl bg-slate-950 px-4 py-2 text-xs font-black text-white hover:bg-slate-800">{t.shareLinkBtn}</button>
+521:                <button type="button" onClick={() => { const sd = { title: document.title, url: window.location.href }; const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> }; if (nav.share) { nav.share(sd).catch(() => {}); } else if (navigator.clipboard) { navigator.clipboard.writeText(window.location.href); alert(t.shareCopiedToast); } }} className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700 hover:bg-slate-50">{t.shareNativeBtn}</button>
+527:        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+530:          <div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">
+532:              <div key={node.label} className="contents"><div className={`rounded-3xl border p-5 text-center ${index === 0 ? "border-emerald-300 bg-emerald-50" : "border-blue-200 bg-blue-50"}`}><div className="text-xs font-black uppercase text-slate-500">{index + 1}</div><div className="mt-1 text-xl font-black">{node.label}</div><p className="mt-2 text-sm leading-6 text-slate-600">{node.note}</p></div>{index < 3 && <div className="hidden text-3xl font-black text-slate-300 md:block">→</div>}</div>
+537:        {/* L14 · Knowledge + FAQ 並排 · lg:grid-cols-[1fr_0.9fr] */}
+538:        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L14-Knowledge-FAQ */}
+539:          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+542:            <div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div></div>
+546:          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+549:            <div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div>          </div>
+554:        <section aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5">
+559:        <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]">
+561:          <section className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+564:                              <div className="mt-5 grid gap-4 md:grid-cols-4">
+565:                                {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5 text-center font-black text-emerald-950 transition hover:border-emerald-500 hover:bg-emerald-100">{l(item.label, lang)}</a>)}
+574:            <article className="flex h-full flex-col rounded-[2rem] border border-emerald-200 bg-gradient-to-br from-emerald-50 to-indigo-50 p-6 md:p-7">{/* L16-PremiumGate */}
+576:                                  <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t.premiumText}</p>
+577:                                  <div className="mt-5 grid gap-3 md:grid-cols-4">
+578:                                    {[t.bmrShort, t.tdeeShort, t.calorieCycles, t.reports].map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-violet-900 shadow-sm">{item}</div>)}
+585:        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+587:          <div className="mt-4 grid gap-5 md:grid-cols-3">
