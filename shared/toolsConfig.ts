@@ -373,6 +373,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "hourly-rate-calculator",
+    name: "時薪計算機",
+    category: "finance",
+    path: "/tools/finance/hourly-rate-calculator",
+    icon: "Clock",
+    description: "將年薪換算成實際時薪，考量每週工時、工作週數與休假天數。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -427,3 +442,4 @@ export const debtPayoffCalculator = { id: "debt-payoff-calculator", category: "f
 export const budgetRatioCalculator = { id: "budget-ratio-calculator", category: "finance", name: "Budget Ratio Calculator", path: "/tools/finance/budget-ratio-calculator" };
 export const emergencyFundCalculator = { id: "emergency-fund-calculator", category: "finance", name: "Emergency Fund Calculator", path: "/tools/finance/emergency-fund-calculator" };
 export const salaryAfterTaxCalculator = { id: "salary-after-tax-calculator", category: "finance", name: "Salary After Tax Calculator", path: "/tools/finance/salary-after-tax-calculator" };
+export const hourlyRateCalculator = { id: "hourly-rate-calculator", category: "finance", name: "Hourly Rate Calculator", path: "/tools/finance/hourly-rate-calculator" };
