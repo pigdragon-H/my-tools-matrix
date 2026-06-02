@@ -17,6 +17,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "health/bmi-calculator": lazy(() => import("@/tools/health/BmiCalculator")),
   "health/bmr-calculator": lazy(() => import("@/tools/health/BmrCalculator")),
   "health/tdee-calculator": lazy(() => import("@/tools/health/TdeeCalculator")),
+  "health/ideal-weight-calculator": lazy(() => import("@/tools/health/IdealWeightCalculator")),
   "finance/loan-calculator": lazy(() => import("@/tools/finance/LoanCalculator")),
   "finance/mortgage-calculator": lazy(() => import("@/tools/finance/MortgageCalculator")),
   "finance/credit-card-payoff-calculator": lazy(() => import("@/tools/finance/CreditCardPayoffCalculator")),

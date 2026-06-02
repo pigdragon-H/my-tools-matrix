@@ -87,6 +87,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "ideal-weight-calculator",
+    name: "理想體重計算機",
+    category: "health",
+    path: "/tools/health/ideal-weight-calculator",
+    icon: "Scale",
+    description: "依身高估算常見理想體重區間，對照 Devine、Robinson、Miller 與 Hamwi 公式。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
   // ── 財務工具（Profile B 試產第 3 件 · 跨領域驗證樣本）──────────────────────────
   {
     id: "loan-calculator",
@@ -241,6 +256,7 @@ export function getNewTools(): Tool[] {
 export const bmiCalculator = { id: "bmi-calculator", category: "health", name: "BMI Calculator", path: "/tools/health/bmi-calculator" };
 export const bmrCalculator = { id: "bmr-calculator", category: "health", name: "BMR Calculator", path: "/tools/health/bmr-calculator" };
 export const tdeeCalculator = { id: "tdee-calculator", category: "health", name: "TDEE Calculator", path: "/tools/health/tdee-calculator" };
+export const idealWeightCalculator = { id: "ideal-weight-calculator", category: "health", name: "Ideal Weight Calculator", path: "/tools/health/ideal-weight-calculator" };
 
 // Finance Tools
 export const loanCalculator = { id: "loan-calculator", category: "finance", name: "Loan Calculator", path: "/tools/finance/loan-calculator" };
