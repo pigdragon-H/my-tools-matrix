@@ -418,6 +418,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "profit-margin-calculator",
+    name: "利潤率計算機",
+    category: "finance",
+    path: "/tools/finance/profit-margin-calculator",
+    icon: "Percent",
+    description: "根據營收、銷貨成本、營業費用與單價計算毛利率、淨利率、加價率與損益兩平件數。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -475,3 +490,4 @@ export const salaryAfterTaxCalculator = { id: "salary-after-tax-calculator", cat
 export const hourlyRateCalculator = { id: "hourly-rate-calculator", category: "finance", name: "Hourly Rate Calculator", path: "/tools/finance/hourly-rate-calculator" };
 export const meetingCostCalculator = { id: "meeting-cost-calculator", category: "finance", name: "Meeting Cost Calculator", path: "/tools/finance/meeting-cost-calculator" };
 export const pomodoroCalculator = { id: "pomodoro-calculator", category: "finance", name: "Pomodoro Calculator", path: "/tools/finance/pomodoro-calculator" };
+export const profitMarginCalculator = { id: "profit-margin-calculator", category: "finance", name: "Profit Margin Calculator", path: "/tools/finance/profit-margin-calculator" };

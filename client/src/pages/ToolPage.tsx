@@ -39,6 +39,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/hourly-rate-calculator": lazy(() => import("@/tools/finance/HourlyRateCalculator")),
   "finance/meeting-cost-calculator": lazy(() => import("@/tools/finance/MeetingCostCalculator")),
   "finance/pomodoro-calculator": lazy(() => import("@/tools/finance/PomodoroCalculator")),
+  "finance/profit-margin-calculator": lazy(() => import("@/tools/finance/ProfitMarginCalculator")),
 };
 
 function ToolSkeleton() {
