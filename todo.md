@@ -14,13 +14,17 @@
 
 ## Current active tool: #8 savings-goal-calculator
 - [x] Audit #8 visible English and localization pattern
-- [ ] Repair #8 Chinese layout copy and fallbacks
-- [ ] Run TypeScript/QC/grep validation for #8
-- [ ] Commit and push #8 repair
-- [ ] Production verification #8
+- [x] Repair #8 Chinese layout copy and fallbacks
+- [x] Run TypeScript/QC/grep validation for #8
+- [x] Commit and push #8 repair (70ca2f9)
+- [x] Production verification #8
 
-## Upcoming finance tools
-- [ ] #7 cagr-calculator
+## Current active tool: #7 cagr-calculator
+- [x] Audit #7 visible English and localization pattern
+- [ ] Repair #7 Chinese layout copy and fallbacks
+- [ ] Run TypeScript/QC/grep validation for #7
+- [ ] Commit and push #7 repair
+- [ ] Production verification #7
 - [ ] #6 retirement-calculator
 - [ ] #5 compound-interest-calculator
 - [ ] #4 debt-to-income-calculator
