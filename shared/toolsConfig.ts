@@ -298,6 +298,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "net-worth-calculator",
+    name: "淨資產計算機",
+    category: "finance",
+    path: "/tools/finance/net-worth-calculator",
+    icon: "Wallet",
+    description: "計算總資產扣除總負債後的淨資產與負債比率，全面掌握個人財務健康狀態。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -347,3 +362,4 @@ export const retirementCalculator = { id: "retirement-calculator", category: "fi
 export const cagrCalculator = { id: "cagr-calculator", category: "finance", name: "CAGR Calculator", path: "/tools/finance/cagr-calculator" };
 export const savingsGoalCalculator = { id: "savings-goal-calculator", category: "finance", name: "Savings Goal Calculator", path: "/tools/finance/savings-goal-calculator" };
 export const inflationAdjuster = { id: "inflation-adjuster", category: "finance", name: "Inflation Adjuster", path: "/tools/finance/inflation-adjuster" };
+export const netWorthCalculator = { id: "net-worth-calculator", category: "finance", name: "Net Worth Calculator", path: "/tools/finance/net-worth-calculator" };
