@@ -22,6 +22,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "health/calorie-deficit-calculator": lazy(() => import("@/tools/health/CalorieDeficitCalculator")),
   "health/water-intake-calculator": lazy(() => import("@/tools/health/WaterIntakeCalculator")),
   "health/macro-calculator": lazy(() => import("@/tools/health/MacroCalculator")),
+  "finance/inflation-adjuster": lazy(() => import("@/tools/finance/InflationAdjuster")),
   "finance/loan-calculator": lazy(() => import("@/tools/finance/LoanCalculator")),
   "finance/mortgage-calculator": lazy(() => import("@/tools/finance/MortgageCalculator")),
   "finance/credit-card-payoff-calculator": lazy(() => import("@/tools/finance/CreditCardPayoffCalculator")),

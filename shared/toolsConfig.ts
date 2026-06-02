@@ -283,6 +283,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "inflation-adjuster",
+    name: "通膨調整計算機",
+    category: "finance",
+    path: "/tools/finance/inflation-adjuster",
+    icon: "TrendingUp",
+    description: "用通膨率與年數計算貨幣未來購買力與實質價值，協助長期財務規劃。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -331,3 +346,4 @@ export const compoundInterestCalculator = { id: "compound-interest-calculator", 
 export const retirementCalculator = { id: "retirement-calculator", category: "finance", name: "Retirement Calculator", path: "/tools/finance/retirement-calculator" };
 export const cagrCalculator = { id: "cagr-calculator", category: "finance", name: "CAGR Calculator", path: "/tools/finance/cagr-calculator" };
 export const savingsGoalCalculator = { id: "savings-goal-calculator", category: "finance", name: "Savings Goal Calculator", path: "/tools/finance/savings-goal-calculator" };
+export const inflationAdjuster = { id: "inflation-adjuster", category: "finance", name: "Inflation Adjuster", path: "/tools/finance/inflation-adjuster" };
