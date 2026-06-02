@@ -11,6 +11,8 @@
 - [x] 列出 finance 前 19 個工具順序與第 19 項定位
 - [x] 監查 1–19 中文版面英文殘留風險（初掃：#18 高風險、#19 已修主體、#1–17 需 production 抽查確認）
 - [x] 修復 #18 roas-calculator 中文版面硬編英文
-- [ ] Production verification #18
-- [ ] 抽查 #1–17 production 中文可見內容
+- [x] Production verification #18
+- [x] 抽查 #1–17 production 中文可見內容
+- [x] 修復 #17 pomodoro-calculator 中文版面硬編英文
+- [ ] Production verification #17
 - [ ] 彙整需後續修復清單
