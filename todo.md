@@ -16,5 +16,7 @@
 - [x] 修復 #17 pomodoro-calculator 中文版面硬編英文
 - [x] Production verification #17
 - [x] 修復 #16 meeting-cost-calculator 中文版面硬編英文
-- [ ] Production verification #16
+- [x] Production verification #16
+- [x] 補修 #16 PremiumGate 小卡英文殘留
+- [ ] Production verification #16 補修
 - [ ] 彙整需後續修復清單
