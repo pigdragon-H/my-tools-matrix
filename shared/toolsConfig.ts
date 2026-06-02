@@ -358,6 +358,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "salary-after-tax-calculator",
+    name: "稅後薪資計算機",
+    category: "finance",
+    path: "/tools/finance/salary-after-tax-calculator",
+    icon: "Receipt",
+    description: "計算年薪扣除聯邦稅、州稅、社安稅與醫保稅後的實際到手薪資與有效稅率。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -411,3 +426,4 @@ export const netWorthCalculator = { id: "net-worth-calculator", category: "finan
 export const debtPayoffCalculator = { id: "debt-payoff-calculator", category: "finance", name: "Debt Payoff Calculator", path: "/tools/finance/debt-payoff-calculator" };
 export const budgetRatioCalculator = { id: "budget-ratio-calculator", category: "finance", name: "Budget Ratio Calculator", path: "/tools/finance/budget-ratio-calculator" };
 export const emergencyFundCalculator = { id: "emergency-fund-calculator", category: "finance", name: "Emergency Fund Calculator", path: "/tools/finance/emergency-fund-calculator" };
+export const salaryAfterTaxCalculator = { id: "salary-after-tax-calculator", category: "finance", name: "Salary After Tax Calculator", path: "/tools/finance/salary-after-tax-calculator" };
