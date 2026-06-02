@@ -21,4 +21,6 @@
 - [x] Production verification #16 補修
 - [ ] 彙整需後續修復清單
 - [x] 修復 #15 hourly-rate-calculator 中文版面硬編英文
-- [ ] Production verification #15
+- [x] Production verification #15
+- [x] 修復 #14 salary-after-tax-calculator 中文版面硬編英文
+- [ ] Production verification #14
