@@ -14,5 +14,7 @@
 - [x] Production verification #18
 - [x] 抽查 #1–17 production 中文可見內容
 - [x] 修復 #17 pomodoro-calculator 中文版面硬編英文
-- [ ] Production verification #17
+- [x] Production verification #17
+- [x] 修復 #16 meeting-cost-calculator 中文版面硬編英文
+- [ ] Production verification #16
 - [ ] 彙整需後續修復清單
