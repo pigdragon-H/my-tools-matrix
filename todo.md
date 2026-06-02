@@ -27,11 +27,16 @@
 - [x] Production verification #7
 ## Current active tool: #6 retirement-calculator
 - [x] Audit #6 visible English and localization pattern
-- [ ] Repair #6 Chinese layout copy and fallbacks (repair script + patches)
-- [ ] Run TypeScript/QC/grep validation for #6
-- [ ] Commit and push #6 repair
-- [ ] Production verification #6
-- [ ] #5 compound-interest-calculator
+- [x] Repair #6 Chinese layout copy and fallbacks (repair script + patches)
+- [x] Run TypeScript/QC/grep validation for #6
+- [x] Commit and push #6 repair (f00f850)
+- [x] Production verification #6
+## Current active tool: #5 compound-interest-calculator
+- [x] Audit #5 visible English and localization pattern
+- [ ] Repair #5 Chinese layout copy and fallbacks (repair script + patches)
+- [ ] Run TypeScript/QC/grep validation for #5
+- [ ] Commit and push #5 repair
+- [ ] Production verification #5
 - [ ] #4 debt-to-income-calculator
 - [ ] #3 credit-card-payoff-calculator
 - [ ] #2 mortgage-calculator
