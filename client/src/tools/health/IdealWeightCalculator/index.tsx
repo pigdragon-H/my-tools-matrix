@@ -445,8 +445,34 @@ export default function IdealWeightCalculator() {
     const bmiLow = 18.5 * heightM * heightM;
     const bmiHigh = 24.9 * heightM * heightM;
     const delta = currentWeightKg - avg;
-    return { rows, avg, low, high, bmiLow, bmiHigh, delta };
-  }, [heightIn, sex, currentWeightKg]);
+    const l7Cards = [
+      ...rows.map(row => ({
+        key: row.key,
+        name: row.name,
+        note: l(row.note, lang as Lang),
+        value: row.kg,
+        unit: "kg",
+        tone: row.tone,
+      })),
+      {
+        key: "bmi-low",
+        name: lang === "zh" ? "BMI 下限" : "BMI Low",
+        note: lang === "zh" ? "成人 BMI 18.5 篩檢下緣" : "Adult BMI 18.5 screening lower bound",
+        value: bmiLow,
+        unit: "kg",
+        tone: "from-sky-400 to-blue-600",
+      },
+      {
+        key: "bmi-high",
+        name: lang === "zh" ? "BMI 上限" : "BMI High",
+        note: lang === "zh" ? "成人 BMI 24.9 篩檢上緣" : "Adult BMI 24.9 screening upper bound",
+        value: bmiHigh,
+        unit: "kg",
+        tone: "from-violet-500 to-indigo-700",
+      },
+    ];
+    return { rows, avg, low, high, bmiLow, bmiHigh, delta, l7Cards };
+  }, [heightIn, sex, currentWeightKg, lang]);
 
   const fillBaselineExample = () => {
     setUnitSystem("metric");
@@ -784,24 +810,24 @@ export default function IdealWeightCalculator() {
             <p className="mt-2 text-sm leading-6 text-slate-600">
               {t.formulaMatrixNote}
             </p>
-            <div className="mt-5 grid gap-3 md:grid-cols-2">
-              {result.rows.map(row => (
+            <div className="mt-5 grid gap-3 md:grid-cols-3">
+              {result.l7Cards.map(card => (
                 <div
-                  key={row.key}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+                  key={card.key}
+                  className={`rounded-2xl border p-4 ${card.key === "devine" ? "border-emerald-500 bg-emerald-50 shadow-sm" : "border-slate-200 bg-slate-50"}`}
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <h3 className="font-black">{row.name}</h3>
+                    <h3 className="font-black">{card.name}</h3>
                     <span
-                      className={`h-3 w-12 rounded-full bg-gradient-to-r ${row.tone}`}
+                      className={`h-3 w-12 rounded-full bg-gradient-to-r ${card.tone}`}
                     />
                   </div>
                   <p className="mt-2 text-sm leading-6 text-slate-700">
-                    {l(row.note, lang as Lang)}
+                    {card.note}
                   </p>
                   <p className="mt-3 text-2xl font-black text-slate-950">
-                    {fmt(row.kg)}{" "}
-                    <span className="text-sm text-slate-500">kg</span>
+                    {fmt(card.value)}{" "}
+                    <span className="text-sm text-slate-500">{card.unit}</span>
                   </p>
                 </div>
               ))}
