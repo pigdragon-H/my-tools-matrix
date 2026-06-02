@@ -403,6 +403,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "pomodoro-calculator",
+    name: "番茄鐘計算機",
+    category: "finance",
+    path: "/tools/finance/pomodoro-calculator",
+    icon: "Clock",
+    description: "計算番茄鐘專注循環、休息時間、總排程長度與專注占比。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -459,3 +474,4 @@ export const emergencyFundCalculator = { id: "emergency-fund-calculator", catego
 export const salaryAfterTaxCalculator = { id: "salary-after-tax-calculator", category: "finance", name: "Salary After Tax Calculator", path: "/tools/finance/salary-after-tax-calculator" };
 export const hourlyRateCalculator = { id: "hourly-rate-calculator", category: "finance", name: "Hourly Rate Calculator", path: "/tools/finance/hourly-rate-calculator" };
 export const meetingCostCalculator = { id: "meeting-cost-calculator", category: "finance", name: "Meeting Cost Calculator", path: "/tools/finance/meeting-cost-calculator" };
+export const pomodoroCalculator = { id: "pomodoro-calculator", category: "finance", name: "Pomodoro Calculator", path: "/tools/finance/pomodoro-calculator" };
