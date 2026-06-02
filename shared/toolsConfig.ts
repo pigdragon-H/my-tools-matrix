@@ -132,6 +132,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "water-intake-calculator",
+    name: "飲水量計算機",
+    category: "health",
+    path: "/tools/health/water-intake-calculator",
+    icon: "Droplets",
+    description: "用體重與活動量估算每日建議飲水量，並提供公升與液體盎司換算。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
   // ── 財務工具（Profile B 試產第 3 件 · 跨領域驗證樣本）──────────────────────────
   {
     id: "loan-calculator",
@@ -289,6 +304,7 @@ export const tdeeCalculator = { id: "tdee-calculator", category: "health", name:
 export const idealWeightCalculator = { id: "ideal-weight-calculator", category: "health", name: "Ideal Weight Calculator", path: "/tools/health/ideal-weight-calculator" };
 export const bodyFatCalculator = { id: "body-fat-calculator", category: "health", name: "Body Fat Calculator", path: "/tools/health/body-fat-calculator" };
 export const calorieDeficitCalculator = { id: "calorie-deficit-calculator", category: "health", name: "Calorie Deficit Calculator", path: "/tools/health/calorie-deficit-calculator" };
+export const waterIntakeCalculator = { id: "water-intake-calculator", category: "health", name: "Water Intake Calculator", path: "/tools/health/water-intake-calculator" };
 
 // Finance Tools
 export const loanCalculator = { id: "loan-calculator", category: "finance", name: "Loan Calculator", path: "/tools/finance/loan-calculator" };
