@@ -21,11 +21,16 @@
 
 ## Current active tool: #7 cagr-calculator
 - [x] Audit #7 visible English and localization pattern
-- [ ] Repair #7 Chinese layout copy and fallbacks
-- [ ] Run TypeScript/QC/grep validation for #7
-- [ ] Commit and push #7 repair
-- [ ] Production verification #7
-- [ ] #6 retirement-calculator
+- [x] Repair #7 Chinese layout copy and fallbacks
+- [x] Run TypeScript/QC/grep validation for #7
+- [x] Commit and push #7 repair (63db043)
+- [x] Production verification #7
+## Current active tool: #6 retirement-calculator
+- [x] Audit #6 visible English and localization pattern
+- [ ] Repair #6 Chinese layout copy and fallbacks (repair script + patches)
+- [ ] Run TypeScript/QC/grep validation for #6
+- [ ] Commit and push #6 repair
+- [ ] Production verification #6
 - [ ] #5 compound-interest-calculator
 - [ ] #4 debt-to-income-calculator
 - [ ] #3 credit-card-payoff-calculator
