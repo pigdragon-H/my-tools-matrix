@@ -19,7 +19,7 @@ const bands = [
   { key: "moderate", range: "20–30%", label: { zh: "中等", en: "中等" }, desc: { zh: "稅率在常見範圍，持續善用扣除額。", en: "稅率在常見範圍，持續善用扣除額。" } },
   { key: "low", range: "10–20%", label: { zh: "低稅", en: "低稅" }, desc: { zh: "稅率較低，可將更多資金投入投資。", en: "稅率較低，可將更多資金投入投資。" } },
   { key: "minimal", range: "<10%", label: { zh: "極低", en: "極低" }, desc: { zh: "稅率極低，適合加速累積資產。", en: "稅率極低，適合加速累積資產。" } },
-  { key: "credit", range: "Negative", label: { zh: "退稅", en: "退稅" }, desc: { zh: "扣除額超過收入，可能獲得退稅。", en: "扣除額超過收入，可能獲得退稅。" } },
+  { key: "credit", range: "負值", label: { zh: "退稅", en: "退稅" }, desc: { zh: "扣除額超過收入，可能獲得退稅。", en: "扣除額超過收入，可能獲得退稅。" } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [
@@ -72,7 +72,7 @@ const ui = {
     shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給朋友", shareCopiedToast: "已複製到剪貼簿 ✓",
     decisionPath: "決策路徑", decisionTitle: "稅後薪資 → 時薪 → 預算比例 → 淨資產", bmrStep: "稅後薪資", deficitStep: "時薪", trendStep: "預算比例", mealStep: "淨資產",
     knowledge: "知識", knowledgeTitle: "稅後薪資在財務規劃中的意義", definition: "定義", definitionText: "稅後薪資是扣除所有強制稅費後的實際到手收入，包括聯邦所得稅、州所得稅、社會安全稅與醫療保險稅。",
-    formula: "公式", formulaText: "應稅收入 = 年薪 − 扣除額。聯邦稅依累進稅率計算。州稅 = 應稅收入 × 州稅率。社會安全稅 = min(年薪, 168,600) × 6.2%。醫療保險稅 = 年薪 × 1.45%。稅後薪資 = 年薪 − 總稅額。有效稅率 = 總稅額 ÷ 年薪 × 100%。",
+    formula: "公式", formulaText: "應稅收入 = 年薪 − 扣除額。聯邦稅依累進稅率計算。州稅 = 應稅收入 × 州稅率。社會安全稅 = 年薪與 168,600 的較小值 × 6.2%。醫療保險稅 = 年薪 × 1.45%。稅後薪資 = 年薪 − 總稅額。有效稅率 = 總稅額 ÷ 年薪 × 100%。",
     limitations: "限制", limitationsText: "使用簡化單身聯邦稅率表；未計算 AMT、資本利得、稅額抵減或家庭狀況差異。實際稅務請諮詢專業稅務人員。",
     interpretation: "解讀", interpretationText: "有效稅率 20–30% 為一般受薪者常見範圍；超過 30% 建議檢視扣除額與退休帳戶貢獻。",
     context: "脈絡", contextText: "稅後薪資應搭配時薪計算、預算比例與淨資產一起看。",
@@ -106,7 +106,7 @@ const ui = {
     shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給朋友", shareCopiedToast: "已複製到剪貼簿 ✓",
     decisionPath: "決策路徑", decisionTitle: "稅後薪資 → 時薪 → 預算比例 → 淨資產", bmrStep: "稅後薪資", deficitStep: "時薪", trendStep: "預算比例", mealStep: "淨資產",
     knowledge: "知識", knowledgeTitle: "稅後薪資在財務規劃中的意義", definition: "定義", definitionText: "稅後薪資是扣除所有強制稅費後的實際到手收入，包括聯邦所得稅、州所得稅、社會安全稅與醫療保險稅。",
-    formula: "公式", formulaText: "應稅收入 = 年薪 − 扣除額。聯邦稅依累進稅率計算。州稅 = 應稅收入 × 州稅率。社會安全稅 = min(年薪, 168,600) × 6.2%。醫療保險稅 = 年薪 × 1.45%。稅後薪資 = 年薪 − 總稅額。有效稅率 = 總稅額 ÷ 年薪 × 100%。",
+    formula: "公式", formulaText: "應稅收入 = 年薪 − 扣除額。聯邦稅依累進稅率計算。州稅 = 應稅收入 × 州稅率。社會安全稅 = 年薪與 168,600 的較小值 × 6.2%。醫療保險稅 = 年薪 × 1.45%。稅後薪資 = 年薪 − 總稅額。有效稅率 = 總稅額 ÷ 年薪 × 100%。",
     limitations: "限制", limitationsText: "使用簡化單身聯邦稅率表；未計算 AMT、資本利得、稅額抵減或家庭狀況差異。實際稅務請諮詢專業稅務人員。",
     interpretation: "解讀", interpretationText: "有效稅率 20–30% 為一般受薪者常見範圍；超過 30% 建議檢視扣除額與退休帳戶貢獻。",
     context: "脈絡", contextText: "稅後薪資應搭配時薪計算、預算比例與淨資產一起看。",
