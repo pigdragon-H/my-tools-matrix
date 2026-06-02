@@ -102,6 +102,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "body-fat-calculator",
+    name: "體脂率計算機",
+    category: "health",
+    path: "/tools/health/body-fat-calculator",
+    icon: "Activity",
+    description: "使用 U.S. Navy 圍度法，依身高、頸圍、腰圍與臀圍估算體脂率，協助連接 BMI、TDEE 與熱量赤字規劃。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
   // ── 財務工具（Profile B 試產第 3 件 · 跨領域驗證樣本）──────────────────────────
   {
     id: "loan-calculator",
@@ -257,6 +272,7 @@ export const bmiCalculator = { id: "bmi-calculator", category: "health", name: "
 export const bmrCalculator = { id: "bmr-calculator", category: "health", name: "BMR Calculator", path: "/tools/health/bmr-calculator" };
 export const tdeeCalculator = { id: "tdee-calculator", category: "health", name: "TDEE Calculator", path: "/tools/health/tdee-calculator" };
 export const idealWeightCalculator = { id: "ideal-weight-calculator", category: "health", name: "Ideal Weight Calculator", path: "/tools/health/ideal-weight-calculator" };
+export const bodyFatCalculator = { id: "body-fat-calculator", category: "health", name: "Body Fat Calculator", path: "/tools/health/body-fat-calculator" };
 
 // Finance Tools
 export const loanCalculator = { id: "loan-calculator", category: "finance", name: "Loan Calculator", path: "/tools/finance/loan-calculator" };
