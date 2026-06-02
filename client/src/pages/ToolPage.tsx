@@ -13,18 +13,38 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { setSeoMeta } from "@/lib/seo";
 
 // 工具組件映射（懶加載）
-const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.ReactElement>> = {
+const toolComponentMap: Record<
+  string,
+  React.LazyExoticComponent<() => React.ReactElement>
+> = {
   "health/bmi-calculator": lazy(() => import("@/tools/health/BmiCalculator")),
   "health/bmr-calculator": lazy(() => import("@/tools/health/BmrCalculator")),
   "health/tdee-calculator": lazy(() => import("@/tools/health/TdeeCalculator")),
-  "finance/loan-calculator": lazy(() => import("@/tools/finance/LoanCalculator")),
-  "finance/mortgage-calculator": lazy(() => import("@/tools/finance/MortgageCalculator")),
-  "finance/credit-card-payoff-calculator": lazy(() => import("@/tools/finance/CreditCardPayoffCalculator")),
-  "finance/debt-to-income-calculator": lazy(() => import("@/tools/finance/DebtToIncomeCalculator")),
-  "finance/compound-interest-calculator": lazy(() => import("@/tools/finance/CompoundInterestCalculator")),
-  "finance/retirement-calculator": lazy(() => import("@/tools/finance/RetirementCalculator")),
-  "finance/cagr-calculator": lazy(() => import("@/tools/finance/CagrCalculator")),
-  "finance/savings-goal-calculator": lazy(() => import("@/tools/finance/SavingsGoalCalculator")),
+  "finance/loan-calculator": lazy(
+    () => import("@/tools/finance/LoanCalculator")
+  ),
+  "finance/mortgage-calculator": lazy(
+    () => import("@/tools/finance/MortgageCalculator")
+  ),
+  "finance/credit-card-payoff-calculator": lazy(
+    () => import("@/tools/finance/CreditCardPayoffCalculator")
+  ),
+  "finance/debt-to-income-calculator": lazy(
+    () => import("@/tools/finance/DebtToIncomeCalculator")
+  ),
+  "finance/compound-interest-calculator": lazy(
+    () => import("@/tools/finance/CompoundInterestCalculator")
+  ),
+  "finance/retirement-calculator": lazy(
+    () => import("@/tools/finance/RetirementCalculator")
+  ),
+  "finance/cagr-calculator": lazy(
+    () => import("@/tools/finance/CagrCalculator")
+  ),
+  "finance/savings-goal-calculator": lazy(
+    () => import("@/tools/finance/SavingsGoalCalculator")
+  ),
+  "health/ideal-weight-calculator": lazy(() => import("@/tools/health/IdealWeightCalculator")),
 };
 
 function ToolSkeleton() {
@@ -46,7 +66,10 @@ function ToolSkeleton() {
 }
 
 export default function ToolPage() {
-  const { category, toolName } = useParams<{ category: string; toolName: string }>();
+  const { category, toolName } = useParams<{
+    category: string;
+    toolName: string;
+  }>();
   const toolKey = `${category}/${toolName}`;
   const toolPath = `/tools/${toolKey}`;
 
@@ -92,11 +115,16 @@ export default function ToolPage() {
               首頁
             </Link>
             <span>/</span>
-            <Link href={`/category/${category}`} className="hover:text-foreground transition-colors">
+            <Link
+              href={`/category/${category}`}
+              className="hover:text-foreground transition-colors"
+            >
               {catInfo?.name ?? category}
             </Link>
             <span>/</span>
-            <span className="text-foreground font-medium">{toolConfig.name}</span>
+            <span className="text-foreground font-medium">
+              {toolConfig.name}
+            </span>
           </nav>
         </div>
       </div>
