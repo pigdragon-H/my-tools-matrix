@@ -328,6 +328,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "budget-ratio-calculator",
+    name: "預算比例計算機",
+    category: "finance",
+    path: "/tools/finance/budget-ratio-calculator",
+    icon: "PieChart",
+    description: "用 50/30/20 法則分配月收入，計算需要、想要與儲蓄比例，掌握財務結構。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -378,3 +393,5 @@ export const cagrCalculator = { id: "cagr-calculator", category: "finance", name
 export const savingsGoalCalculator = { id: "savings-goal-calculator", category: "finance", name: "Savings Goal Calculator", path: "/tools/finance/savings-goal-calculator" };
 export const inflationAdjuster = { id: "inflation-adjuster", category: "finance", name: "Inflation Adjuster", path: "/tools/finance/inflation-adjuster" };
 export const netWorthCalculator = { id: "net-worth-calculator", category: "finance", name: "Net Worth Calculator", path: "/tools/finance/net-worth-calculator" };
+export const debtPayoffCalculator = { id: "debt-payoff-calculator", category: "finance", name: "Debt Payoff Calculator", path: "/tools/finance/debt-payoff-calculator" };
+export const budgetRatioCalculator = { id: "budget-ratio-calculator", category: "finance", name: "Budget Ratio Calculator", path: "/tools/finance/budget-ratio-calculator" };
