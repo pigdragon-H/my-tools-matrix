@@ -32,6 +32,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/cagr-calculator": lazy(() => import("@/tools/finance/CagrCalculator")),
   "finance/savings-goal-calculator": lazy(() => import("@/tools/finance/SavingsGoalCalculator")),
   "finance/net-worth-calculator": lazy(() => import("@/tools/finance/NetWorthCalculator")),
+  "finance/debt-payoff-calculator": lazy(() => import("@/tools/finance/DebtPayoffCalculator")),
 };
 
 function ToolSkeleton() {

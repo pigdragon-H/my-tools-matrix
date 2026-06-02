@@ -313,6 +313,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "debt-payoff-calculator",
+    name: "債務清償計算機",
+    category: "finance",
+    path: "/tools/finance/debt-payoff-calculator",
+    icon: "CreditCard",
+    description: "計算每月固定還款額、總利息支出與清償日期，制定最有效的債務清償策略。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
