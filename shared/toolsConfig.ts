@@ -395,3 +395,4 @@ export const inflationAdjuster = { id: "inflation-adjuster", category: "finance"
 export const netWorthCalculator = { id: "net-worth-calculator", category: "finance", name: "Net Worth Calculator", path: "/tools/finance/net-worth-calculator" };
 export const debtPayoffCalculator = { id: "debt-payoff-calculator", category: "finance", name: "Debt Payoff Calculator", path: "/tools/finance/debt-payoff-calculator" };
 export const budgetRatioCalculator = { id: "budget-ratio-calculator", category: "finance", name: "Budget Ratio Calculator", path: "/tools/finance/budget-ratio-calculator" };
+export const emergencyFundCalculator = { id: "emergency-fund-calculator", category: "finance", name: "Emergency Fund Calculator", path: "/tools/finance/emergency-fund-calculator" };
