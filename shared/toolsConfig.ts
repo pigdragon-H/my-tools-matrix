@@ -819,6 +819,22 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "scientific-calculator",
+    name: "Scientific Calculator",
+    nameZh: "科學計算機",
+    category: "education",
+    path: "/tools/education/scientific-calculator",
+    icon: "Calculator",
+    description: "Full scientific keypad with sin / cos / tan, log / ln, exponents, square root, factorial, π and e constants. DEG / RAD switch and instant live evaluation in a sealed browser sandbox.",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -904,3 +920,4 @@ export const gradeCalculator = { id: "grade-calculator", category: "education", 
 export const studyTimeCalculator = { id: "study-time-calculator", category: "education", name: "Study Time Calculator", path: "/tools/education/study-time-calculator" };
 export const mathPercentageCalculator = { id: "math-percentage-calculator", category: "education", name: "Math Percentage Calculator", path: "/tools/education/math-percentage-calculator" };
 export const tuitionCostCalculator = { id: "tuition-cost-calculator", category: "education", name: "Tuition Cost Calculator", path: "/tools/education/tuition-cost-calculator" };
+export const scientificCalculator = { id: "scientific-calculator", category: "education", name: "Scientific Calculator", path: "/tools/education/scientific-calculator" };
