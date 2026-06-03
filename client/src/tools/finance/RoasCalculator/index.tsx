@@ -33,6 +33,9 @@ const faqKeys = [["q1", "a1"], ["q2", "a2"], ["q3", "a3"], ["q4", "a4"], ["q5", 
 
 const ui = {
   zh: {
+    fillExample: "一鍵填入標準範例", primaryValue: "主要數值", maintenanceTarget: "主要數值", actionTarget: "次要數值",
+    progressInsightCard: "進度洞察", motivationCard: "動力卡片", nextActionsTitle: "下一步行動",
+    unitSystem: "單位", metric: "公制", imperial: "英制",
     title: "ROAS Calculator · 廣告投報率計算機", subtitle: "計算廣告投報率、投資回報率、每單取得成本、平均訂單金額與損益兩平投報率", badge: "財務 · 廣告投報率 · 黃金工具",
     intro: "根據廣告花費、廣告歸因收入、銷貨成本與訂單數估算投放效率。本工具僅供教育與規劃參考,不取代正式財務或行銷建議。",
     quick: "快速範例", returnMultiple: "投報倍數", fillStd: "標準範例", fillThin: "低利潤範例",
@@ -60,6 +63,9 @@ const ui = {
     q6: "這能取代廣告平台報表嗎?", a6: "不能。這是教育估算工具;正式投放決策仍需搭配廣告平台、客戶關係管理資料、會計資料與專業行銷分析。",
   },
   en: {
+    fillExample: "Fill the standard example", primaryValue: "Headline number", maintenanceTarget: "Headline number", actionTarget: "Secondary metric",
+    progressInsightCard: "Progress insight", motivationCard: "Motivation card", nextActionsTitle: "Next actions",
+    unitSystem: "Unit", metric: "Simple", imperial: "Detailed",
     title: "ROAS Calculator", subtitle: "Calculate ROAS, after-ads ROI, cost per acquisition, average order value, and break-even ROAS", badge: "FINANCE · ROAS · GOLD TOOL",
     intro: "Estimate ad efficiency from ad spend, ad-attributed revenue, COGS, and order count. This tool is for educational and planning use only and does not replace professional financial or marketing advice.",
     quick: "Quick example", returnMultiple: "Return multiple", fillStd: "Standard example", fillThin: "Thin-margin example",

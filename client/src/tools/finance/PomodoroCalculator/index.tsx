@@ -33,6 +33,9 @@ const faqKeys = [["q1","a1"],["q2","a2"],["q3","a3"],["q4","a4"],["q5","a5"],["q
 
 const ui = {
   zh: {
+    fillExample: "一鍵填入標準範例", primaryValue: "主要數值", maintenanceTarget: "主要數值", actionTarget: "次要數值",
+    progressInsightCard: "進度洞察", motivationCard: "動力卡片", nextActionsTitle: "下一步行動",
+    unitSystem: "單位", metric: "公制", imperial: "英制",
     title: "Pomodoro Calculator · 番茄鐘計算機", subtitle: "計算專注循環、休息時間與總排程長度", badge: "財務 · 生產力 · 黃金工具", note: "此工具用於時間規劃與教育用途；實際效率仍受任務難度、睡眠、干擾與工作環境影響。",
     focus: "專注分鐘", short: "短休息分鐘", long: "長休息分鐘", cycles: "循環數", result: "番茄鐘排程結果", focusTotal: "總專注時間", totalTime: "總排程時間", breakTime: "總休息時間", ratio: "專注占比",
     quick: "快速範例", fillStd: "一鍵標準 25/5", fillDeep: "一鍵深度工作", calc: "計算機", examples: "範例 → 計算機", examplesHelp: "先用標準番茄鐘理解節奏，再調整成自己的工作排程。",
@@ -44,6 +47,9 @@ const ui = {
     q1: "25/5 一定最好嗎？", a1: "不一定。25/5 是常見起點，若任務需要更長進入狀態，可改成 50/10 或 90/15。", q2: "長休息要放在哪裡？", a2: "常見做法是在 4 個循環後安排一次長休息，讓注意力恢復。", q3: "可以用來排會議嗎？", a3: "可以估算專注區塊，但會議通常需要另外考量參與者與決策成本。", q4: "專注占比越高越好嗎？", a4: "不一定。休息太少會降低後段品質，建議保留足夠恢復時間。", q5: "如何處理中斷？", a5: "記錄中斷來源，下一輪前先排除通知、開放問題與不必要會議。", q6: "這是醫療或心理建議嗎？", a6: "不是。若長期注意力困難或壓力過高，請諮詢合格專業人士。",
   },
   en: {
+    fillExample: "Fill the standard example", primaryValue: "Headline number", maintenanceTarget: "Headline number", actionTarget: "Secondary metric",
+    progressInsightCard: "Progress insight", motivationCard: "Motivation card", nextActionsTitle: "Next actions",
+    unitSystem: "Unit", metric: "Simple", imperial: "Detailed",
     title: "Pomodoro Calculator", subtitle: "Calculate focus cycles, breaks, and total schedule length", badge: "FINANCE · PRODUCTIVITY · GOLD TOOL", note: "This tool is for time-planning and educational use; actual productivity also depends on task difficulty, sleep, distractions, and environment.",
     focus: "Focus minutes", short: "Short break (min)", long: "Long break (min)", cycles: "Cycles", result: "Pomodoro schedule results", focusTotal: "Total focus time", totalTime: "Total schedule time", breakTime: "Total break time", ratio: "Focus ratio",
     quick: "Quick example", fillStd: "Fill standard 25/5", fillDeep: "Fill deep work", calc: "Enter focus & break minutes", examples: "EXAMPLES → CALCULATOR", examplesHelp: "Start with the standard pomodoro to understand the rhythm, then tune cycles for your own workflow.",
