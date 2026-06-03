@@ -113,6 +113,48 @@ B 視窗只做 Victor 指派給 B 的工具。
 
 > **金句**:「別的視窗的產品,沒有 Victor 指令,一行都不能動。」
 
+### 配色規範(永久決策 · 來自 Victor 量產啟動指令)
+
+> **本節為 Victor 在 cb559ad 後正式公告的配色決策,寫入手冊 = 永久生效。**
+
+#### 鐵律
+
+1. **配色不在 QC 查核範圍內。** 任何金樣板顏色(emerald / sky / slate / amber …)都不算紅燈。
+2. **各類別自由配色,不求一致。**
+   - Developer 類可走 emerald / slate dark
+   - Education 類可走 emerald / teal
+   - Health / Finance / Productivity 等類別 — 可自選主色,**不需要對齊 JsonFormatter 的紫色**
+3. **「purple Developer 主題」是 JsonFormatter 自身的選色,不是全站強制。**
+
+#### QC 真正查核重點(配色除外的四維)
+
+| 維度 | 說明 |
+|------|------|
+| 🦴 **骨架** | 17 層完整、L1 OuterShell → L17 Footer,層序不可亂 |
+| 📐 **層序** | 每層職責對齊黃金樣板(Hero / RadialBackground / GlassCard / GoldenRatio / 雙欄 / Result / Matrix / Ad / Conversion / NextAction / DecisionPath / Knowledge / FAQ / SchemaJsonLd / TrustBadge / RelatedTools / Footer) |
+| 📏 **層塊尺寸** | BMR Sizing v1.1:`rounded-[2rem]`、`p-6 md:p-7`、`gap-6/gap-7`、`text-3xl font-black` 標題、`text-7xl` 主數字 等 |
+| 🎯 **領域實質內容** | i18n key 命名要對應工具領域(GPA 不可用 outputBytes / TDEE)、L11 決策路徑要是該工具自身邏輯、L12 知識卡要寫該領域真知識 |
+
+#### 跟 §10「15 條代碼紅燈」的關係
+
+- §10 紅燈中 **凡涉及顏色的條目** → **降級為觀察**,不阻擋 commit
+- 4 個金沙印計數(`rounded-[2rem]` / `font-black` / `bg-[radial-gradient]` / `md:grid-cols-[1fr_auto_1fr]`)**仍要盤點**,因為這些是「結構印」不是「顏色印」
+- 領域實質內容(i18n key 領域對應、L11 自身邏輯、L12 真知識)→ **這才是新的查核紅燈**
+
+#### Cheat Sheet(commit 前自我盤點)
+
+```
+□ 17 層完整 ✓
+□ 層序對齊 (L1 OuterShell → L17 Footer) ✓
+□ 4 金沙印計數達標 (rounded-[2rem]≥11 · font-black≥15 · radial=1 · 1fr_auto_1fr=1) ✓
+□ i18n key 領域對應 (無 BMR/TDEE/Macro 殘留) ✓
+□ L11 決策路徑寫該工具自身 step ✓
+□ L12 知識卡寫該領域真知識 ✓
+□ 配色 — 不查 (自由發揮)
+```
+
+> **金句**:「配色自由,骨架鐵律。」 —— Victor 量產啟動指令, post-cb559ad
+
 ---
 
 ## 1. 新視窗開場白(必讀)
@@ -122,7 +164,8 @@ B 視窗只做 Victor 指派給 B 的工具。
 > 「Victor,我已讀完 `docs/A_PLUS_PRODUCTION_MANUAL.md` v2.0。
 > 目前 main HEAD = `<git rev-parse HEAD>`,
 > 最新工具為 `<最新工具名稱>`。
-> 我已內化 §0 跨視窗紅線、v2 五步精簡 SOP、preflight + safe-push 兩支效率腳本。
+> 我已內化 §0 跨視窗紅線、配色自由規範、v2 五步精簡 SOP、preflight + safe-push 兩支效率腳本。
+> QC 查核四維 = 骨架 / 層序 / 層塊尺寸 / 領域實質內容(配色不查)。
 > 請確認下一支要做的工具編號與規格。」
 
 執行此句之前,**禁止**寫任何代碼。先做以下 5 件事:
