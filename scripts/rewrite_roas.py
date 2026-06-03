@@ -1,4 +1,11 @@
-// @profile B
+#!/usr/bin/env python3
+"""Wholesale rewrite of RoasCalculator: move bands to top, expand ui with full key set,
+   bilingualize all hardcoded JSX. Keep AdSlot/AdSense slots, formula intact."""
+from pathlib import Path
+
+p = Path("client/src/tools/finance/RoasCalculator/index.tsx")
+
+content = '''// @profile B
 // Profile B · 計算機-YMYL · ROAS計算機（GOLD-STANDARD-001 compatible）
 
 import { useMemo, useState } from "react";
@@ -122,3 +129,6 @@ export default function RoasCalculator() {
     </div>
   </main>;
 }
+'''
+p.write_text(content, encoding="utf-8")
+print("RoasCalculator wholesale rewrite OK")
