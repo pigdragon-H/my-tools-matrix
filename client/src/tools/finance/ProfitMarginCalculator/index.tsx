@@ -49,7 +49,7 @@ export default function ProfitMargin計算機() {
   const [cogs, setCogs] = useState("45000");
   const [opex, setOpex] = useState("25000");
   const [price, setPrice] = useState("100");
-  const t = ui.zh;
+  const t = ui[lang];
   const result = useMemo(() => {
     const r=Number(revenue)||0, c=Number(cogs)||0, o=Number(opex)||0, pr=Number(price)||0;
     const grossProfit=r-c, netProfit=r-c-o;

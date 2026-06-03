@@ -108,7 +108,7 @@ export default function HourlyRateCalculator() {
   const [weeklyHours, setWeeklyHours] = useState("40");
   const [weeksPerYear, setWeeksPerYear] = useState("50");
   const [vacationDays, setVacationDays] = useState("10");
-  const t = ui.zh;
+  const t = ui[lang];
 
   const result = useMemo(() => {
     const salary = Number(annualSalary) || 0;

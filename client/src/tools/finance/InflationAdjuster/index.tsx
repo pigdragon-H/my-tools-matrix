@@ -88,7 +88,7 @@ export default function InflationAdjuster() {
   const [rate, setRate] = useState("3");
   const [years, setYears] = useState("10");
   const [mode, setMode] = useState<Mode>("future");
-  const t = ui.zh;
+  const t = ui[lang];
 
   const result = useMemo(() => {
     const a = Number(amount);

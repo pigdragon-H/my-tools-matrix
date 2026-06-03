@@ -89,7 +89,7 @@ export default function NetWorthCalculator() {
   const [creditCard, setCreditCard] = useState("20000");
   const [otherDebts, setOtherDebts] = useState("0");
   const displayLang: Lang = "zh";
-  const t = ui.zh;
+  const t = ui[lang];
 
   const result = useMemo(() => {
     const totalAssets = Number(cashSavings) + Number(investments) + Number(property) + Number(otherAssets);

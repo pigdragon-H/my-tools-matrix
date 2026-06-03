@@ -108,7 +108,7 @@ export default function MeetingCostCalculator() {
   const [averageHourlyRate, setAverageHourlyRate] = useState("65");
   const [durationHours, setDurationHours] = useState("1.5");
   const [meetingsPerMonth, setMeetingsPerMonth] = useState("12");
-  const t = ui.zh;
+  const t = ui[lang];
 
   const result = useMemo(() => {
     const people = Number(participants) || 0;

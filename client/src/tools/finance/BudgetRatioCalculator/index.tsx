@@ -98,7 +98,7 @@ export default function BudgetRatioCalculator() {
   const [needs, setNeeds] = useState("2500");
   const [wants, setWants] = useState("1500");
   const [savings, setSavings] = useState("1000");
-  const t = ui.zh;
+  const t = ui[lang];
 
   const result = useMemo(() => {
     const inc = Number(monthlyIncome) || 1;

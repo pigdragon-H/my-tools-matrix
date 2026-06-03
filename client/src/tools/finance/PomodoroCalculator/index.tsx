@@ -63,7 +63,7 @@ export default function PomodoroCalculator() {
   const [shortBreak, setShortBreak] = useState("5");
   const [longBreak, setLongBreak] = useState("15");
   const [cycles, setCycles] = useState("4");
-  const t = ui.zh;
+  const t = ui[lang];
   const result = useMemo(() => {
     const f = Number(focus) || 0, s = Number(shortBreak) || 0, lbr = Number(longBreak) || 0, c = Number(cycles) || 0;
     const totalFocus = f * c;

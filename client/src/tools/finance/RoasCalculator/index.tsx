@@ -48,7 +48,7 @@ export default function Roas計算機() {
   const [adRevenue, setAdRevenue] = useState("12000");
   const [cogs, setCogs] = useState("5000");
   const [orders, setOrders] = useState("120");
-  const t = ui.zh;
+  const t = ui[lang];
   const result = useMemo(() => {
     const spend=Number(adSpend)||0, revenue=Number(adRevenue)||0, cost=Number(cogs)||0, orderCount=Number(orders)||0;
     const roas=spend>0?revenue/spend:0, grossProfit=revenue-cost, profitAfterAds=revenue-cost-spend;

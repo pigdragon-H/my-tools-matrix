@@ -112,7 +112,7 @@ export default function DebtPayoffCalculator() {
   const [termMonths, setTermMonths] = useState("120");
   const [extraPayment, setExtraPayment] = useState("0");
   const displayLang: Lang = "zh";
-  const t = ui.zh;
+  const t = ui[lang];
 
   const result = useMemo(() => {
     const p = Number(principal);

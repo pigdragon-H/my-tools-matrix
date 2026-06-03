@@ -98,7 +98,7 @@ export default function EmergencyFundCalculator() {
   const [currentSavings, setCurrentSavings] = useState("10000");
   const [targetMonths, setTargetMonths] = useState("6");
   const [monthlySaving, setMonthlySaving] = useState("500");
-  const t = ui.zh;
+  const t = ui[lang];
 
   const result = useMemo(() => {
     const exp = Number(monthlyExpenses) || 1;

@@ -132,7 +132,7 @@ export default function SalaryAfterTaxCalculator() {
   const [stateTaxRate, setStateTaxRate] = useState("5");
   const [deductions, setDeductions] = useState("14600");
   const [filingStatus, setFilingStatus] = useState<"single" | "married">("single");
-  const t = ui.zh;
+  const t = ui[lang];
 
   const result = useMemo(() => {
     const gross = Number(grossSalary) || 0;
