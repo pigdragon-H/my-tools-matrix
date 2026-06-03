@@ -539,6 +539,18 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "base64-encoder",
+    name: "Base64 Encoder",
+    nameZh: "Base64 編碼器",
+    description: "Base64 Encoder — Profile B Calculator-YMYL tool.",
+    descriptionZh: "Base64 編碼器 — Profile B 計算器型 YMYL 工具。",
+    category: "developer",
+    icon: "Binary",
+    path: "/tools/developer/base64-encoder",
+    isPaid: false,
+    isNew: true,
+  },
 ];
 
 // ============================================================
@@ -606,3 +618,4 @@ export const wordCounter = { id: "word-counter", category: "productivity", name:
 export const dateDurationCalculator = { id: "date-duration-calculator", category: "productivity", name: "Date Duration Calculator", path: "/tools/productivity/date-duration-calculator" };
 export const ageCalculator = { id: "age-calculator", category: "productivity", name: "Age Calculator", path: "/tools/productivity/age-calculator" };
 export const jsonFormatter = { id: "json-formatter", category: "developer", name: "JSON Formatter", path: "/tools/developer/json-formatter" };
+export const base64Encoder = { id: "base64-encoder", category: "developer", name: "Base64 Encoder", path: "/tools/developer/base64-encoder" };

@@ -47,6 +47,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "productivity/date-duration-calculator": lazy(() => import("@/tools/productivity/DateDurationCalculator")),
   "productivity/age-calculator": lazy(() => import("@/tools/productivity/AgeCalculator")),
   "developer/json-formatter": lazy(() => import("@/tools/developer/JsonFormatter")),
+  "developer/base64-encoder": lazy(() => import("@/tools/developer/Base64Encoder")),
 };
 
 function ToolSkeleton() {
