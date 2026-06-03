@@ -771,6 +771,22 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "study-time-calculator",
+    name: "Study Time Calculator",
+    nameZh: "讀書時間計算機",
+    category: "education",
+    path: "/tools/education/study-time-calculator",
+    icon: "Clock",
+    description: "Compute weekly study hours from credits, difficulty, and target GPA using the Carnegie Unit standard (2-3 hr per credit). Six-band load matrix: Light / Moderate / Standard / Heavy / Intense / Burnout. Browser-side only.",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -853,3 +869,4 @@ export const cronExpression = { id: "cron-expression", category: "developer", na
 export const ipCalculator = { id: "ip-calculator", category: "developer", name: "IP Calculator", path: "/tools/developer/ip-calculator" };
 export const gpaCalculator = { id: "gpa-calculator", category: "education", name: "GPA Calculator", path: "/tools/education/gpa-calculator" };
 export const gradeCalculator = { id: "grade-calculator", category: "education", name: "Grade Calculator", path: "/tools/education/grade-calculator" };
+export const studyTimeCalculator = { id: "study-time-calculator", category: "education", name: "Study Time Calculator", path: "/tools/education/study-time-calculator" };
