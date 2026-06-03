@@ -692,6 +692,22 @@ export const tools: Tool[] = [
     seoArticles: [],
   },
   {
+    id: "jwt-decoder",
+    name: "JWT Decoder",
+    nameZh: "JWT 解碼器",
+    category: "developer",
+    path: "/tools/developer/jwt-decoder",
+    icon: "KeyRound",
+    description: "Browser-side JWT (RFC 7519) decoder — splits header.payload.signature, base64url-decodes (RFC 7515 §2), parses claims, shows exp countdown. Six-band algorithm judgement (none / weak HS256 / RS256 / ES256 / EdDSA / expired) per RFC 8725 BCP and OWASP JWT Cheat Sheet. Tokens never leave the browser.",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
+  {
     id: "gpa-calculator",
     name: "GPA Calculator",
     nameZh: "GPA計算機",
@@ -800,5 +816,6 @@ export const diffChecker = { id: "diff-checker", category: "developer", name: "D
 export const csvToJson = { id: "csv-to-json", category: "developer", name: "CSV to JSON Converter", path: "/tools/developer/csv-to-json" };
 export const hashGenerator = { id: "hash-generator", category: "developer", name: "Hash Generator", path: "/tools/developer/hash-generator" };
 export const htmlEncoder = { id: "html-encoder", category: "developer", name: "HTML Encoder", path: "/tools/developer/html-encoder" };
+export const jwtDecoder = { id: "jwt-decoder", category: "developer", name: "JWT Decoder", path: "/tools/developer/jwt-decoder" };
 export const gpaCalculator = { id: "gpa-calculator", category: "education", name: "GPA Calculator", path: "/tools/education/gpa-calculator" };
 export const gradeCalculator = { id: "grade-calculator", category: "education", name: "Grade Calculator", path: "/tools/education/grade-calculator" };
