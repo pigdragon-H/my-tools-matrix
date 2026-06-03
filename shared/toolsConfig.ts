@@ -509,6 +509,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "age-calculator",
+    name: "年齡計算機",
+    category: "productivity",
+    path: "/tools/productivity/age-calculator",
+    icon: "Cake",
+    description: "把出生日期換算成精確年/月/日年齡、總天數、總週數與下次生日倒數,並提供六格人生階段判讀矩陣。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -574,3 +589,4 @@ export const pomodoroPlanner = { id: "pomodoro-planner", category: "productivity
 export const timeZoneConverter = { id: "time-zone-converter", category: "productivity", name: "Time Zone Converter", path: "/tools/productivity/time-zone-converter" };
 export const wordCounter = { id: "word-counter", category: "productivity", name: "Word Counter", path: "/tools/productivity/word-counter" };
 export const dateDurationCalculator = { id: "date-duration-calculator", category: "productivity", name: "Date Duration Calculator", path: "/tools/productivity/date-duration-calculator" };
+export const ageCalculator = { id: "age-calculator", category: "productivity", name: "Age Calculator", path: "/tools/productivity/age-calculator" };
