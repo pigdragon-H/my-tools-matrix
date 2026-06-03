@@ -489,7 +489,7 @@ export default function CompoundInterestCalculator() {
           </article>
         </section>
 
-        <AdSenseWrapper showAds={true} adSlot="compound-result-intelligence" adFormat="horizontal" className="my-2" />
+        <AdSenseWrapper showAds={true} adSlot="compound-interest-result-intelligence" adFormat="horizontal" className="my-2" />
 
         <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-emerald-50 p-6 shadow-sm md:p-7">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p>
@@ -550,7 +550,7 @@ export default function CompoundInterestCalculator() {
 
         {/* L14-AdSlot · FAQ 後獨立廣告位 */}
         <section aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5">
-          <AdSlot slot="compound-faq" position="inline" />
+          <AdSlot slot="compound-interest-faq" position="inline" />
         </section>
 
         {/* L15-L16 · 推薦商品 + Premium Gate 並排 */}
