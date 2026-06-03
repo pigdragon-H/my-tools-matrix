@@ -583,7 +583,7 @@ export default function RetirementCalculator() {
                                 {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-violet-100 bg-violet-50 p-5 text-center font-black text-violet-950 transition hover:border-violet-500 hover:bg-violet-100">{l(item.label, displayLang)}</a>)}
                               </div>
                               <p className="mt-3 text-xs text-violet-700">
-                                推薦連結揭露：部分連結可能帶來佣金收入。
+                                {lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}
                               </p>
                             </section>
 

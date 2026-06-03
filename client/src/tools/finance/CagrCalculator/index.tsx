@@ -547,7 +547,7 @@ export default function CagrCalculator() {
                                 {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-cyan-100 bg-cyan-50 p-5 text-center font-black text-cyan-950 transition hover:border-cyan-500 hover:bg-cyan-100">{l(item.label, displayLang)}</a>)}
                               </div>
                               <p className="mt-3 text-xs text-cyan-700">
-                                推薦連結揭露：部分連結可能帶來佣金收入。
+                                {lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}
                               </p>
                             </section>
 
