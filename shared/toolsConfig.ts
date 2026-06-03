@@ -676,6 +676,22 @@ export const tools: Tool[] = [
     seoArticles: [],
   },
   {
+    id: "html-encoder",
+    name: "HTML Encoder",
+    nameZh: "HTML 編碼解碼器",
+    category: "developer",
+    path: "/tools/developer/html-encoder",
+    icon: "Code2",
+    description: "Browser-side HTML escape / unescape for the five HTML special characters (< > & \" ') with optional non-ASCII full escape, grounded in WHATWG HTML Living Standard §13 and the OWASP HTML Encoding Cheat Sheet. Six-band readout judges escape volume. Inputs never leave the browser.",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
+  {
     id: "gpa-calculator",
     name: "GPA Calculator",
     nameZh: "GPA計算機",
@@ -783,5 +799,6 @@ export const markdownPreview = { id: "markdown-preview", category: "developer", 
 export const diffChecker = { id: "diff-checker", category: "developer", name: "Diff Checker", path: "/tools/developer/diff-checker" };
 export const csvToJson = { id: "csv-to-json", category: "developer", name: "CSV to JSON Converter", path: "/tools/developer/csv-to-json" };
 export const hashGenerator = { id: "hash-generator", category: "developer", name: "Hash Generator", path: "/tools/developer/hash-generator" };
+export const htmlEncoder = { id: "html-encoder", category: "developer", name: "HTML Encoder", path: "/tools/developer/html-encoder" };
 export const gpaCalculator = { id: "gpa-calculator", category: "education", name: "GPA Calculator", path: "/tools/education/gpa-calculator" };
 export const gradeCalculator = { id: "grade-calculator", category: "education", name: "Grade Calculator", path: "/tools/education/grade-calculator" };
