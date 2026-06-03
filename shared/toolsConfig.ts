@@ -660,6 +660,22 @@ export const tools: Tool[] = [
     seoArticles: [],
   },
   {
+    id: "hash-generator",
+    name: "Hash Generator",
+    nameZh: "雜湊生成器",
+    category: "developer",
+    path: "/tools/developer/hash-generator",
+    icon: "Fingerprint",
+    description: "In-browser SHA-1 / SHA-256 / SHA-384 / SHA-512 hash generation via Web Crypto API (SubtleCrypto), with UTF-8 byte counting and a six-band security matrix grounded in NIST FIPS 180-4 and RFC 6234. Inputs never leave the browser.",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
+  {
     id: "gpa-calculator",
     name: "GPA Calculator",
     nameZh: "GPA計算機",
@@ -766,5 +782,6 @@ export const timestampConverter = { id: "timestamp-converter", category: "develo
 export const markdownPreview = { id: "markdown-preview", category: "developer", name: "Markdown Preview", path: "/tools/developer/markdown-preview" };
 export const diffChecker = { id: "diff-checker", category: "developer", name: "Diff Checker", path: "/tools/developer/diff-checker" };
 export const csvToJson = { id: "csv-to-json", category: "developer", name: "CSV to JSON Converter", path: "/tools/developer/csv-to-json" };
+export const hashGenerator = { id: "hash-generator", category: "developer", name: "Hash Generator", path: "/tools/developer/hash-generator" };
 export const gpaCalculator = { id: "gpa-calculator", category: "education", name: "GPA Calculator", path: "/tools/education/gpa-calculator" };
 export const gradeCalculator = { id: "grade-calculator", category: "education", name: "Grade Calculator", path: "/tools/education/grade-calculator" };

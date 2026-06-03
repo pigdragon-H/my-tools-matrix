@@ -55,6 +55,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "developer/markdown-preview": lazy(() => import("@/tools/developer/MarkdownPreview")),
   "developer/diff-checker": lazy(() => import("@/tools/developer/DiffChecker")),
   "developer/csv-to-json": lazy(() => import("@/tools/developer/CsvToJson")),
+  "developer/hash-generator": lazy(() => import("@/tools/developer/HashGenerator")),
   "education/gpa-calculator": lazy(() => import("@/tools/education/GpaCalculator")),
   "education/grade-calculator": lazy(() => import("@/tools/education/GradeCalculator")),
 };
