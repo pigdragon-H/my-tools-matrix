@@ -563,6 +563,18 @@ export const tools: Tool[] = [
     isPaid: false,
     isNew: true,
   },
+  {
+    id: "regex-tester",
+    name: "Regex Tester",
+    nameZh: "正則表達式測試器",
+    description: "Regex Tester — Profile B Calculator-YMYL tool.",
+    descriptionZh: "正則表達式測試器 — Profile B 計算器型 YMYL 工具。",
+    category: "developer",
+    icon: "Regex",
+    path: "/tools/developer/regex-tester",
+    isPaid: false,
+    isNew: true,
+  },
 ];
 
 // ============================================================
@@ -632,3 +644,4 @@ export const ageCalculator = { id: "age-calculator", category: "productivity", n
 export const jsonFormatter = { id: "json-formatter", category: "developer", name: "JSON Formatter", path: "/tools/developer/json-formatter" };
 export const base64Encoder = { id: "base64-encoder", category: "developer", name: "Base64 Encoder", path: "/tools/developer/base64-encoder" };
 export const urlEncoder = { id: "url-encoder", category: "developer", name: "URL Encoder", path: "/tools/developer/url-encoder" };
+export const regexTester = { id: "regex-tester", category: "developer", name: "Regex Tester", path: "/tools/developer/regex-tester" };

@@ -49,6 +49,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "developer/json-formatter": lazy(() => import("@/tools/developer/JsonFormatter")),
   "developer/base64-encoder": lazy(() => import("@/tools/developer/Base64Encoder")),
   "developer/url-encoder": lazy(() => import("@/tools/developer/UrlEncoder")),
+  "developer/regex-tester": lazy(() => import("@/tools/developer/RegexTester")),
 };
 
 function ToolSkeleton() {
