@@ -448,6 +448,22 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  // ── 職場效率（Productivity Batch 1）──────────────────────────────────
+  {
+    id: "pomodoro-planner",
+    name: "番茄鐘日程規劃器",
+    category: "productivity",
+    path: "/tools/productivity/pomodoro-planner",
+    icon: "Timer",
+    description: "把今日可用工作時數轉成番茄鐘循環、總專注分鐘與週度節奏,協助規劃可持續的深度工作日。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -507,3 +523,6 @@ export const meetingCostCalculator = { id: "meeting-cost-calculator", category: 
 export const pomodoroCalculator = { id: "pomodoro-calculator", category: "finance", name: "Pomodoro Calculator", path: "/tools/finance/pomodoro-calculator" };
 export const profitMarginCalculator = { id: "profit-margin-calculator", category: "finance", name: "Profit Margin Calculator", path: "/tools/finance/profit-margin-calculator" };
 export const roasCalculator = { id: "roas-calculator", category: "finance", name: "ROAS Calculator", path: "/tools/finance/roas-calculator" };
+
+// Productivity Tools
+export const pomodoroPlanner = { id: "pomodoro-planner", category: "productivity", name: "Pomodoro Planner", path: "/tools/productivity/pomodoro-planner" };
