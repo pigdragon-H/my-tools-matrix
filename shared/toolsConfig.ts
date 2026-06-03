@@ -524,6 +524,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "json-formatter",
+    name: "JSON 格式化器",
+    category: "developer",
+    path: "/tools/developer/json-formatter",
+    icon: "Braces",
+    description: "瀏覽器端 JSON 格式化/最小化/驗證,提供位元組、深度、token 統計與六格大小判讀矩陣;資料不上傳。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -590,3 +605,4 @@ export const timeZoneConverter = { id: "time-zone-converter", category: "product
 export const wordCounter = { id: "word-counter", category: "productivity", name: "Word Counter", path: "/tools/productivity/word-counter" };
 export const dateDurationCalculator = { id: "date-duration-calculator", category: "productivity", name: "Date Duration Calculator", path: "/tools/productivity/date-duration-calculator" };
 export const ageCalculator = { id: "age-calculator", category: "productivity", name: "Age Calculator", path: "/tools/productivity/age-calculator" };
+export const jsonFormatter = { id: "json-formatter", category: "developer", name: "JSON Formatter", path: "/tools/developer/json-formatter" };
