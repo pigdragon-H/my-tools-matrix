@@ -26,19 +26,19 @@ const l = (value: LocalText, lang: Lang) => value[lang];
 
 // 6 段退休年齡（呼應 Profile B 6 段對照慣例）
 const retireLevels: RetireInfo[] = [
-  { key: 40, label: { zh: "40 歲退休", en: "40 歲退休" }, description: { zh: "FIRE 提早財務自由",   en: "FIRE 提早財務自由" },         tone: "from-violet-400 to-violet-600" },
-  { key: 50, label: { zh: "50 歲退休", en: "50 歲退休" }, description: { zh: "提前退休，仍需長備",   en: "提前退休，仍需長備" },     tone: "from-fuchsia-400 to-fuchsia-600" },
-  { key: 55, label: { zh: "55 歲退休", en: "55 歲退休" }, description: { zh: "彈性退休，部分提撥",   en: "彈性退休，部分提撥" },         tone: "from-purple-400 to-purple-600" },
-  { key: 60, label: { zh: "60 歲退休", en: "60 歲退休" }, description: { zh: "傳統退休年齡",         en: "傳統退休年齡" },        tone: "from-indigo-400 to-indigo-600" },
-  { key: 65, label: { zh: "65 歲退休", en: "65 歲退休" }, description: { zh: "勞退法定請領年齡",     en: "勞退法定請領年齡" },              tone: "from-blue-400 to-blue-600" },
-  { key: 70, label: { zh: "70 歲退休", en: "70 歲退休" }, description: { zh: "延後退休，最大化複利", en: "延後退休，最大化複利" }, tone: "from-sky-400 to-sky-600" },
+  { key: 40, label: { zh: "40 歲退休", en: "Retire at 40" }, description: { zh: "FIRE 提早財務自由",   en: "FIRE — early financial independence" },         tone: "from-violet-400 to-violet-600" },
+  { key: 50, label: { zh: "50 歲退休", en: "Retire at 50" }, description: { zh: "提前退休，仍需長備",   en: "Early retirement — long horizon ahead" },     tone: "from-fuchsia-400 to-fuchsia-600" },
+  { key: 55, label: { zh: "55 歲退休", en: "Retire at 55" }, description: { zh: "彈性退休，部分提撥",   en: "Flexible retirement, partial drawdown" },         tone: "from-purple-400 to-purple-600" },
+  { key: 60, label: { zh: "60 歲退休", en: "Retire at 60" }, description: { zh: "傳統退休年齡",         en: "Traditional retirement age" },        tone: "from-indigo-400 to-indigo-600" },
+  { key: 65, label: { zh: "65 歲退休", en: "Retire at 65" }, description: { zh: "勞退法定請領年齡",     en: "Statutory pension-claim age" },              tone: "from-blue-400 to-blue-600" },
+  { key: 70, label: { zh: "70 歲退休", en: "Retire at 70" }, description: { zh: "延後退休，最大化複利", en: "Delayed retirement — maximizes compounding" }, tone: "from-sky-400 to-sky-600" },
 ];
 
 const affiliateItems: AffiliateItem[] = [
-  { label: { zh: "退休金規劃顧問",     en: "退休金規劃顧問" }, href: "#affiliate-retire-advisor" },
-  { label: { zh: "ETF / 指數基金平台", en: "ETF / 指數基金平台" },  href: "#affiliate-etf" },
-  { label: { zh: "勞退試算服務",       en: "勞退試算服務" }, href: "#affiliate-pension" },
-  { label: { zh: "理財顧問諮詢",       en: "理財顧問諮詢" },           href: "#affiliate-advisor" },
+  { label: { zh: "退休金規劃顧問",     en: "Retirement Planning Advisor" }, href: "#affiliate-retire-advisor" },
+  { label: { zh: "ETF / 指數基金平台", en: "ETF / Index Fund Platforms" },  href: "#affiliate-etf" },
+  { label: { zh: "勞退試算服務",       en: "Pension Calculator Service" }, href: "#affiliate-pension" },
+  { label: { zh: "理財顧問諮詢",       en: "Financial Advisor Consult" },           href: "#affiliate-advisor" },
 ];
 
 const ui = {
@@ -155,116 +155,115 @@ const ui = {
     a6: "FIRE（財務自由提早退休）需要極高儲蓄率（30-70%）與長累積期。經典 25 倍法則：年支出 × 25 = 目標退休金。例如年支出 60 萬，需 1500 萬退休金。本工具可幫你估算達標所需的月儲蓄與年化報酬率組合。",
   },
   en: {
-    badge: "財務 · 退休 · 黃金工具",
-    switchToEnglish: "切換到英文",
-    switchToChinese: "切換到中文",
+    badge: "Finance · Retirement · Gold tool",
+    switchToEnglish: "Switch to English",
+    switchToChinese: "Switch to Chinese",
     chineseShort: "中",
     englishShort: "EN",
-    fvShort: "退休金",
-    withdrawShort: "月領",
-    contributionShort: "自備款",
-    yearsShort: "累積期",
-    investmentCycles: "退休週期",
-    reports: "報表",
-    title: "Retirement Calculator · 退休金試算機",
-    subtitle: "從現在到退休還剩幾年？每月該存多少？退休後每月能領多少？一次算清。",
-    intro: "本工具採用國際公認的「月複利 + 定期投入」標準公式，讓你輸入目前年齡、預計退休年齡、預計壽命、現有退休金、每月儲蓄與年化報酬率，即可估算退休時可累積的退休金總額、退休後每月可支取金額、以及自備款累計。並提供 40 / 50 / 55 / 60 / 65 / 70 歲退休年齡六段對照表，協助你直觀感受「退休年齡每延後 5 年，複利效應有多大差異」。",
-    trustNoteLabel: "信任提醒：",
-    trustNote: "本工具假設報酬率穩定、不含通膨、退休後支取採「平均分配模型」，實際退休規劃應考量勞保勞退、健保、長照、通膨、稅負等多重變數；不可取代合格理財顧問建議。",
-    quickActionCard: "快速範例卡",
-    tryExample: "一鍵建立退休規劃範例",
-    examplePreview: "退休金預覽",
-    examplePerson: "30→65→85 · 5 萬現存 · 月 1 萬 · 6%",
-    fillExample: "一鍵填入標準退休範例",
-    previewActivePath: "預覽 FIRE 提早退休範例",
-    examplesCalculator: "範例 → 計算機",
-    enterValues: "輸入退休資料並試算",
-    examplesHelper: "先用範例理解年齡、儲蓄與報酬率之間的關係，再改成你自己的退休計畫。",
-    metric: "新台幣",
-    imperial: "美元",
-    exampleCards: "範例卡",
-    baselineExample: "標準退休範例",
-    activeExample: "FIRE 提早退休",
-    flowDemo: "流程示範",
-    calculator: "計算機",
-    currentAge: "目前年齡",
-    retireAgeInput: "預計退休年齡",
-    lifespan: "預計壽命",
-    currentSaving: "目前已存退休金",
-    monthlyContribution: "每月儲蓄",
-    annualRate: "年化報酬率（%）",
-    resultCard: "退休試算結果",
-    moneyUnit: "元",
-    yearsTag: "退休年齡",
-    // Profile B 三格語意（canonical L6 markers）
-    primaryValue: "主要數值",
-    maintenanceTarget: "維持目標",
-    actionTarget: "行動目標",
-    futureValue: "退休金總額",
-    monthlyWithdraw: "退休後月領",
-    totalContribution: "自備款累計",
-    resultIntelligence: "結果解讀",
-    retireMatrix: "六段退休年齡 退休金對照",
-    retireMatrixNote: "下列卡片以你目前已存退休金、月儲蓄與年化報酬率為基礎，換算不同退休年齡下的累積總額與每月可支取金額，協助你直觀感受「退休年齡每延後 5 年，複利效應呈倍數放大」。",
-    emotionConversionLayer: "情緒與轉換層",
-    turnIntoPlan: "把試算數字轉成可執行的退休計畫",
-    conversionNote: "此層示範如何把單一試算結果轉為儲存、轉換與下一步行動，不實作帳號或付款流程。",
-    progressInsight: "成長洞察卡",
-    possibleTarget: "你的可能退休金成長",
-    monthlyGap: "月儲蓄金額",
-    yearlyTrend: "每年複利成長",
-    motivation: "動力卡",
-    keepMomentum: "從試算數字走向長期紀律退休儲蓄",
-    saveShareJourney: "儲存 / 分享",
-    nextActionLabel: "下一步行動",
-    nextActionTitle: "把計算結果變成可執行的下一步",
-    nextActionItem1: "把這個結果連結存到記事本或書籤",
-    nextActionItem2: "把試算數字寫進你的月度規劃",
-    nextActionItem3: "下個月回來重算，看數字有沒有改善",
-    shareLinkBtn: "📋 複製結果連結",
-    shareNativeBtn: "📤 分享給朋友",
-    shareCopiedToast: "已複製到剪貼簿 ✓",
-    journeyTitle: "把今天的試算帶回家",
-    journeyHint: "截圖、加書籤或分享給家人，下次回來就能直接接續比較。",
-    decisionPath: "決策路徑",
-    decisionTitle: "目前年齡 → 退休年齡 → 月儲蓄 → 退休金目標",
-    ageStep: "目前年齡",
-    retireAgeStep: "退休年齡",
-    contributionStep: "月儲蓄",
-    goalStep: "退休金目標",
-    knowledge: "知識",
-    knowledgeTitle: "退休金規劃為什麼必須越早開始",
-    definition: "定義",
-    definitionText: "退休金規劃是指在工作期間透過儲蓄、投資與資產配置，累積足以支應退休後生活的資金。核心變數是「累積期長度」與「複利報酬」——時間越長，每塊錢的最終價值呈指數放大。",
-    formula: "公式",
-    formulaText: "FV = P · (1 + r/n)^(n·t) + PMT · [((1 + r/n)^(n·t) − 1) / (r/n)]，其中 P 為現有退休金，PMT 為每月儲蓄，r 為年化報酬率，n = 12（月複利），t 為累積年數。退休後每月可領 = FV / (退休年數 × 12)。",
-    limitations: "限制",
-    limitationsText: "本工具假設報酬率穩定、退休後採平均分配支取，未計入通膨、稅負、勞保勞退、健保、長照與市場波動。實際退休規劃應與專業顧問討論，本工具僅供概念試算。",
-    faq: "常見問答",
-    commonQuestions: "常見問題",
-    affiliate: "推薦資源",
-    affiliateTitle: "退休規劃相關資源",
-    premiumTitle: "專業版退休進階規劃包",
-    premiumText: "解鎖通膨調整、4% 提領模擬、勞保勞退整合估算、保守/平衡/積極三方案並排，與退休現金流年度表試算表匯出。",
-    trustReferences: "信任聲明 · 相關工具 · 參考資料",
-    trust: "信任聲明",
-    trustText: "本工具提供教育與規劃用途，不能取代合格理財顧問或退休規劃師。退休涉及通膨、稅負、勞保勞退、健保等變數，建議搭配專業諮詢。",
-    relatedTools: "相關工具",
-    relatedToolsText: "複利計算機 · 年複合成長率計算機 · 貸款試算機 · 月薪存款機 · 4% 提領法則 · 通膨調整計算機",
-    references: "參考資料",
-    referencesText: "Investopedia 退休規劃指南；SEC 投資者複利計算器；Bengen 1994 4% 提領法則；Bogleheads 退休規劃；Mishkin 2022 貨幣銀行與金融市場。",
-    q1: "30 歲開始和 40 歲開始差多少？",
-    a1: "假設月儲 1 萬、年化 6%，30 歲到 65 歲累積約 1,465 萬元；40 歲才開始則只有約 650 萬元，差距超過 800 萬元。複利的最大槓桿就是「時間」，越早開始越輕鬆。",
-    q2: "報酬率該設多少才合理？",
-    a2: "全球股市長期平均年化約 7-10%（含通膨），保守指數基金投資組合可估 5-7%，定存約 1-2%。建議用較保守值（5-6%）試算避免過度樂觀，並另外做一份 0% 試算當作最保守情境。",
-    q3: "退休後每月可領的數字怎麼解讀？",
-    a3: "本工具採「平均分配」模型：FV ÷ (退休年數 × 12)。實務上若把退休金繼續放在低風險投資（年化 3-4%），可領金額會更高；若按 4% 提領法則，每年可領約退休金的 4%，安全期限可達 30 年。",
-    q4: "為什麼忽略通膨？",
-    a4: "V1 版以「名目金額」呈現便於理解，V2 將加入通膨調整。粗估方式：把報酬率改用「實質報酬率」= 名目報酬率 − 通膨率（例如 7% − 2.5% = 4.5%），算出的就是以今日購買力計的退休金。",
-    q5: "勞保勞退要納進來嗎？",
-    a5: "本工具僅試算個人自主儲蓄部分。勞保老年年金與勞退新制都需另行試算（勞保局有官方計算器），完整退休金來源 = 個人儲蓄 + 勞保 + 勞退 + 其他資產。建議三者分開試算後加總。",
-    q6: "FIRE 提早退休可行嗎？",
-    a6: "FIRE（財務自由提早退休）需要極高儲蓄率（30-70%）與長累積期。經典 25 倍法則：年支出 × 25 = 目標退休金。例如年支出 60 萬，需 1500 萬退休金。本工具可幫你估算達標所需的月儲蓄與年化報酬率組合。",
+    fvShort: "Nest egg",
+    withdrawShort: "Monthly draw",
+    contributionShort: "Self-saved",
+    yearsShort: "Years",
+    investmentCycles: "Retirement horizons",
+    reports: "Reports",
+    title: "Retirement Calculator",
+    subtitle: "How many years until retirement? How much should you save each month? How much can you draw each month after retiring? One quick calculation.",
+    intro: "This tool uses the internationally recognized monthly-compounding formula with periodic contributions. Enter your current age, planned retirement age, life expectancy, current retirement savings, monthly contribution, and annual return rate to see your projected nest egg at retirement, monthly drawdown after retirement, and total self-funded contributions. A 40 / 50 / 55 / 60 / 65 / 70 retirement-age side-by-side matrix lets you feel how every 5-year delay multiplies the compounding effect.",
+    trustNoteLabel: "Note:",
+    trustNote: "This tool assumes a steady return rate, no inflation, and a flat-distribution withdrawal model after retirement. Real-world planning should also factor in social security, health insurance, long-term care, inflation, and taxes. It is not a substitute for advice from a qualified financial advisor.",
+    quickActionCard: "Quick example",
+    tryExample: "Try a retirement-planning example",
+    examplePreview: "Nest-egg preview",
+    examplePerson: "30→65→85 · $50K saved · $1K/mo · 6%",
+    fillExample: "Fill the standard retirement example",
+    previewActivePath: "Try the FIRE early-retirement example",
+    examplesCalculator: "Examples → Calculator",
+    enterValues: "Enter your numbers and run the math",
+    examplesHelper: "Use the examples to see how age, savings, and return rate interact — then change the numbers to match your own retirement plan.",
+    metric: "TWD",
+    imperial: "USD",
+    exampleCards: "Example cards",
+    baselineExample: "Standard retirement",
+    activeExample: "FIRE early retirement",
+    flowDemo: "Flow demo",
+    calculator: "Calculator",
+    currentAge: "Current age",
+    retireAgeInput: "Planned retirement age",
+    lifespan: "Life expectancy",
+    currentSaving: "Current retirement savings",
+    monthlyContribution: "Monthly contribution",
+    annualRate: "Annual return rate (%)",
+    resultCard: "Retirement result",
+    moneyUnit: "currency",
+    yearsTag: "Retirement age",
+    primaryValue: "Headline number",
+    maintenanceTarget: "Maintenance target",
+    actionTarget: "Action target",
+    futureValue: "Total nest egg",
+    monthlyWithdraw: "Monthly drawdown",
+    totalContribution: "Total self-saved",
+    resultIntelligence: "Result intelligence",
+    retireMatrix: "Six-age retirement-fund matrix",
+    retireMatrixNote: "Each card uses your current savings, monthly contribution, and return rate, then projects total nest egg and monthly drawdown across different retirement ages — so you can feel how every 5-year delay multiplies the compounding effect.",
+    emotionConversionLayer: "Emotion & conversion layer",
+    turnIntoPlan: "Turn the numbers into an actionable retirement plan",
+    conversionNote: "This layer shows how to save, share, and convert a single calculation into a next action — it does not create accounts or move money.",
+    progressInsight: "Growth insight",
+    possibleTarget: "Your potential retirement growth",
+    monthlyGap: "Monthly contribution",
+    yearlyTrend: "Annual compound growth",
+    motivation: "Motivation",
+    keepMomentum: "Move from a calculation to long-term, disciplined retirement saving",
+    saveShareJourney: "Save / share",
+    nextActionLabel: "Next action",
+    nextActionTitle: "Turn the result into a concrete next step",
+    nextActionItem1: "Save this result link to your notes or bookmarks",
+    nextActionItem2: "Write the calculation into your monthly plan",
+    nextActionItem3: "Recalculate next month and see whether the numbers improved",
+    shareLinkBtn: "📋 Copy result link",
+    shareNativeBtn: "📤 Share with a friend",
+    shareCopiedToast: "Copied to clipboard ✓",
+    journeyTitle: "Take today’s calculation home",
+    journeyHint: "Take a screenshot, bookmark, or share with family — next time you come back, you can compare directly.",
+    decisionPath: "Decision path",
+    decisionTitle: "Current age → Retirement age → Monthly contribution → Nest-egg goal",
+    ageStep: "Current age",
+    retireAgeStep: "Retirement age",
+    contributionStep: "Monthly contribution",
+    goalStep: "Nest-egg goal",
+    knowledge: "Knowledge",
+    knowledgeTitle: "Why retirement planning must start as early as possible",
+    definition: "Definition",
+    definitionText: "Retirement planning means accumulating enough capital — through saving, investing, and asset allocation during your working years — to support life after retirement. The two core variables are length of accumulation and compound return: the longer the horizon, the more each dollar grows exponentially.",
+    formula: "Formula",
+    formulaText: "FV = P · (1 + r/n)^(n·t) + PMT · [((1 + r/n)^(n·t) − 1) / (r/n)], where P = current retirement savings, PMT = monthly contribution, r = annual return rate, n = 12 (monthly compounding), t = years of accumulation. Monthly drawdown after retirement = FV / (retirement years × 12).",
+    limitations: "Limitations",
+    limitationsText: "This tool assumes a steady return rate and a flat-distribution drawdown after retirement. It does not account for inflation, taxes, social security, health insurance, long-term care, or market volatility. Real retirement planning should be done with a professional advisor; this is a conceptual estimate only.",
+    faq: "FAQ",
+    commonQuestions: "Common questions",
+    affiliate: "Recommended resources",
+    affiliateTitle: "Retirement-planning resources",
+    premiumTitle: "Pro Retirement Planning Toolkit",
+    premiumText: "Unlock inflation-adjusted projections, the 4% safe-withdrawal simulator, integrated social-security estimation, multi-scenario comparison (conservative / balanced / aggressive), and yearly retirement cash-flow exports.",
+    trustReferences: "Trust · Related tools · References",
+    trust: "Trust",
+    trustText: "This tool is for educational and planning purposes only and is not a substitute for advice from a qualified financial advisor or retirement-planning specialist. Retirement involves inflation, taxes, social security, and health-insurance variables — a professional consult is recommended.",
+    relatedTools: "Related tools",
+    relatedToolsText: "Compound Interest Calculator · CAGR Calculator · Loan Calculator · Savings Goal Calculator · 4% Safe-Withdrawal Rule · Inflation Adjuster",
+    references: "References",
+    referencesText: "Investopedia retirement-planning guide; SEC investor compound-interest calculator; Bengen 1994 4% safe-withdrawal rule; Bogleheads retirement planning; Mishkin 2022 Money, Banking and Financial Markets.",
+    q1: "How much difference does starting at 30 vs starting at 40 make?",
+    a1: "Assuming $1K/mo at 6% annualized, age 30 to 65 accumulates roughly $14.65M; starting at age 40 reaches only about $6.5M — a gap of more than $8M. Time is the biggest lever in compounding; the earlier you start, the easier it gets.",
+    q2: "What return rate is reasonable to assume?",
+    a2: "Long-term global stock-market returns have averaged about 7–10% annualized (including inflation). Conservative index-fund portfolios are around 5–7%; bank deposits are around 1–2%. Use a more conservative 5–6% to avoid over-optimism, and run a 0% scenario as a stress test.",
+    q3: "How should I read the monthly drawdown number?",
+    a3: "This tool uses a flat-distribution model: FV ÷ (retirement years × 12). In practice, if you keep the nest egg in a low-risk investment (3–4% annualized), the monthly amount can be higher; under the 4% safe-withdrawal rule, you draw about 4% of the nest egg each year and can sustain it for roughly 30 years.",
+    q4: "Why is inflation ignored?",
+    a4: "V1 shows nominal numbers for clarity; V2 will add inflation adjustment. As a quick estimate, replace the return rate with a real return rate = nominal return − inflation rate (e.g., 7% − 2.5% = 4.5%). The result is then in today’s purchasing power.",
+    q5: "Should social security and pensions be included?",
+    a5: "This tool only calculates personal voluntary savings. Social security and pension benefits should be calculated separately (most government pension agencies provide official calculators). Total retirement income = personal savings + social security + pension + other assets — calculate each separately and add them up.",
+    q6: "Is FIRE early retirement realistic?",
+    a6: "FIRE (Financial Independence, Retire Early) requires an extremely high savings rate (30–70%) and a long accumulation horizon. The classic 25× rule: annual expenses × 25 = target nest egg. For example, $60K of annual spending would need $1.5M. This tool can help you estimate the monthly contribution and return rate needed to hit your target.",
   },
 } as const;
 
@@ -328,7 +327,6 @@ export default function RetirementCalculator() {
   const [monthlyContribution, setMonthlyContribution] = useState("10000");
   const [annualRate, setAnnualRate] = useState("6.0");
 
-  const displayLang: Lang = "zh";
   const t = ui[lang];
   const activeRetire = retireByKey(retireAge);
 
@@ -415,7 +413,7 @@ export default function RetirementCalculator() {
               <div className="mt-5 grid grid-cols-3 gap-3 text-center">
                 <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.currentAge}</div><div className="font-black">30</div></div>
                 <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.retireAgeInput}</div><div className="font-black">65</div></div>
-                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.monthlyContribution}</div><div className="font-black">1 萬</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.monthlyContribution}</div><div className="font-black">{lang === "zh" ? "1 萬" : "$1K"}</div></div>
               </div>
               <button onClick={fillBaselineExample} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white transition hover:bg-violet-700">{t.fillExample}</button>
               <button onClick={fillActiveExample} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900 transition hover:bg-orange-100">{t.previewActivePath}</button>
@@ -442,8 +440,8 @@ export default function RetirementCalculator() {
             <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
               <h3 className="text-lg font-black">{t.exampleCards}</h3>
               <div className="mt-4 space-y-3">
-                <button onClick={fillBaselineExample} className="w-full rounded-2xl border border-violet-200 bg-white p-4 text-left transition hover:border-violet-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-violet-100 px-3 py-1 text-xs font-black text-violet-700">1,465 萬+</span></div><p className="mt-2 text-sm text-slate-600">30→65→85 · 5 萬 + 1 萬/月 · 6%</p></button>
-                <button onClick={fillActiveExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div><p className="mt-2 text-sm text-slate-600">30→40→85 · 50 萬 + 5 萬/月 · 7%</p></button>
+                <button onClick={fillBaselineExample} className="w-full rounded-2xl border border-violet-200 bg-white p-4 text-left transition hover:border-violet-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-violet-100 px-3 py-1 text-xs font-black text-violet-700">{lang === "zh" ? "1,465 萬+" : "$14.65M+"}</span></div><p className="mt-2 text-sm text-slate-600">{lang === "zh" ? "30→65→85 · 5 萬 + 1 萬/月 · 6%" : "30→65→85 · $50K + $1K/mo · 6%"}</p></button>
+                <button onClick={fillActiveExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div><p className="mt-2 text-sm text-slate-600">{lang === "zh" ? "30→40→85 · 50 萬 + 5 萬/月 · 7%" : "30→40→85 · $500K + $5K/mo · 7%"}</p></button>
               </div>
             </div>
 
@@ -451,7 +449,7 @@ export default function RetirementCalculator() {
               <h3 className="text-lg font-black">{t.calculator}</h3>
               <div className="mt-4 grid gap-4 md:grid-cols-2">
                 <label className="block text-sm font-black text-slate-700">{t.currentAge}<input type="number" min={18} max={75} step={1} className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={currentAge} onChange={(e) => setCurrentAge(e.target.value)} /></label>
-                <label className="block text-sm font-black text-slate-700">{t.retireAgeInput}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={retireAge} onChange={(e) => setRetireAge(Number(e.target.value) as RetireAge)}>{retireLevels.map((item) => <option key={item.key} value={item.key}>{l(item.label, displayLang)}</option>)}</select></label>
+                <label className="block text-sm font-black text-slate-700">{t.retireAgeInput}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={retireAge} onChange={(e) => setRetireAge(Number(e.target.value) as RetireAge)}>{retireLevels.map((item) => <option key={item.key} value={item.key}>{l(item.label, lang)}</option>)}</select></label>
                 <label className="block text-sm font-black text-slate-700">{t.lifespan}<input type="number" min={60} max={110} step={1} className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={lifespan} onChange={(e) => setLifespan(e.target.value)} /></label>
                 <label className="block text-sm font-black text-slate-700">{t.annualRate}<input type="number" min={0} max={30} step={0.1} className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={annualRate} onChange={(e) => setAnnualRate(e.target.value)} /></label>
                 <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.currentSaving}<input type="number" min={0} step={10000} className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={currentSaving} onChange={(e) => setCurrentSaving(e.target.value)} /></label>
@@ -467,7 +465,7 @@ export default function RetirementCalculator() {
               <p className="text-xs font-black uppercase tracking-[0.2em] text-violet-700">{t.resultCard}</p>
               <div className="mt-4 flex items-start justify-between gap-5">
                 <div><div className="text-7xl font-black tracking-tight text-slate-950">{fvDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.moneyUnit}</div></div>
-                <div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.yearsTag}</div><div className="mt-1 text-xl font-black">{l(activeRetire.label, displayLang)}</div><div className="mt-1 text-xs text-slate-300">{calculation?.accumYears ?? 0} 年累積</div></div>
+                <div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.yearsTag}</div><div className="mt-1 text-xl font-black">{l(activeRetire.label, lang)}</div><div className="mt-1 text-xs text-slate-300">{calculation?.accumYears ?? 0} {lang === "zh" ? "年累積" : "yr saved"}</div></div>
               </div>
               <div className="mt-6 grid gap-4 md:grid-cols-3">
                 <div className="rounded-2xl bg-blue-50 p-4">
@@ -499,8 +497,8 @@ export default function RetirementCalculator() {
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {(calculation?.matrix ?? retireLevels.map((item) => ({ ...item, futureValue: 0, monthlyWithdraw: 0, totalContribution: 0, accumYears: 0, retireYears: 0 }))).map((item) => (
                 <div key={item.key} className={`rounded-2xl border p-4 ${item.key === activeRetire.key ? "border-violet-500 bg-violet-50 shadow-sm" : "border-slate-200 bg-slate-50"}`}>
-                  <div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, displayLang)}</h3><span className="text-xs font-black text-slate-500">{item.accumYears} 年</span></div>
-                  <p className="mt-2 text-sm leading-6 text-slate-700">{l(item.description, displayLang)}</p>
+                  <div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{item.accumYears} {lang === "zh" ? "年" : "yr"}</span></div>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">{l(item.description, lang)}</p>
                   <p className="mt-3 text-2xl font-black text-slate-950">{formatMoney(item.futureValue)} <span className="text-sm text-slate-500">{t.moneyUnit}</span></p>
                   <p className="mt-1 text-xs font-bold text-emerald-700">{t.withdrawShort}: {formatMoney(item.monthlyWithdraw)}</p>
                 </div>
@@ -580,7 +578,7 @@ export default function RetirementCalculator() {
                               <p className="text-xs font-black uppercase tracking-[0.2em] text-violet-700">{t.affiliate}</p>
                               <h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2>
                               <div className="mt-5 grid gap-4 md:grid-cols-4">
-                                {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-violet-100 bg-violet-50 p-5 text-center font-black text-violet-950 transition hover:border-violet-500 hover:bg-violet-100">{l(item.label, displayLang)}</a>)}
+                                {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-violet-100 bg-violet-50 p-5 text-center font-black text-violet-950 transition hover:border-violet-500 hover:bg-violet-100">{l(item.label, lang)}</a>)}
                               </div>
                               <p className="mt-3 text-xs text-violet-700">
                                 {lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}
