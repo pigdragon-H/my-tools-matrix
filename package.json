@@ -12,8 +12,11 @@
     "test": "vitest run",
     "db:push": "drizzle-kit generate && drizzle-kit migrate",
     "generate:routes": "npx tsx scripts/generate-routes.ts",
-    "validate:registry": "npx tsx scripts/validate-registry.ts",
-    "generate:sitemap": "npx tsx scripts/generate-sitemap.ts"
+    "validate:registry": "node scripts/validate-registry.mjs",
+    "generate:sitemap": "npx tsx scripts/generate-sitemap.ts",
+    "qc:blackhole": "node scripts/qc_blackhole.mjs",
+    "scaffold:tool": "node scripts/scaffold-tool.mjs",
+    "prebuild": "node scripts/validate-registry.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",
