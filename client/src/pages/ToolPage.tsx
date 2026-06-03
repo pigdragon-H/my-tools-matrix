@@ -64,9 +64,6 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "education/grade-calculator": lazy(() => import("@/tools/education/GradeCalculator")),
   "education/study-time-calculator": lazy(() => import("@/tools/education/StudyTimeCalculator")),
   "education/math-percentage-calculator": lazy(() => import("@/tools/education/MathPercentageCalculator")),
-  "education/tuition-cost-calculator": lazy(() => import("@/tools/education/TuitionCostCalculator")),
-  "education/scientific-calculator": lazy(() => import("@/tools/education/ScientificCalculator")),
-  "education/fraction-calculator": lazy(() => import("@/tools/education/FractionCalculator")),
 };
 
 function ToolSkeleton() {
