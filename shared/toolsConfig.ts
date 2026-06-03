@@ -667,7 +667,6 @@ export const tools: Tool[] = [
     path: "/tools/education/gpa-calculator",
     icon: "GraduationCap",
     description: "Compute weighted GPA on the US 4.0 scale with a six-band academic standing matrix; supports Academic Renewal toggle for retake exclusion. Browser-side only, no data uploaded.",
-    descriptionZh: "美國 4.0 制加權平均 GPA 計算,含六格學業判讀矩陣與重修豁免(Academic Renewal)切換;瀏覽器端執行,資料不上傳。",
     isPremium: false,
     showAds: true,
     rateLimit: 30,
