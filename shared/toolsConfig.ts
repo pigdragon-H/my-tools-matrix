@@ -551,6 +551,18 @@ export const tools: Tool[] = [
     isPaid: false,
     isNew: true,
   },
+  {
+    id: "url-encoder",
+    name: "URL Encoder",
+    nameZh: "URL 編碼器",
+    description: "URL Encoder — Profile B Calculator-YMYL tool.",
+    descriptionZh: "URL 編碼器 — Profile B 計算器型 YMYL 工具。",
+    category: "developer",
+    icon: "Calculator",
+    path: "/tools/developer/url-encoder",
+    isPaid: false,
+    isNew: true,
+  },
 ];
 
 // ============================================================
@@ -619,3 +631,4 @@ export const dateDurationCalculator = { id: "date-duration-calculator", category
 export const ageCalculator = { id: "age-calculator", category: "productivity", name: "Age Calculator", path: "/tools/productivity/age-calculator" };
 export const jsonFormatter = { id: "json-formatter", category: "developer", name: "JSON Formatter", path: "/tools/developer/json-formatter" };
 export const base64Encoder = { id: "base64-encoder", category: "developer", name: "Base64 Encoder", path: "/tools/developer/base64-encoder" };
+export const urlEncoder = { id: "url-encoder", category: "developer", name: "URL Encoder", path: "/tools/developer/url-encoder" };
