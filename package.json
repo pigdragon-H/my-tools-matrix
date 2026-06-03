@@ -17,6 +17,8 @@
     "qc:blackhole": "node scripts/qc_blackhole.mjs",
     "qc:commit": "node scripts/qc_commit_integrity.mjs",
     "qc:remote": "node scripts/qc_remote_match.mjs",
+    "preflight": "node scripts/preflight.mjs",
+    "safe-push": "node scripts/safe-push.mjs",
     "scaffold:tool": "node scripts/scaffold-tool.mjs",
     "prebuild": "node scripts/validate-registry.mjs"
   },
