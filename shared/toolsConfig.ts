@@ -494,6 +494,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "date-duration-calculator",
+    name: "日期天數計算機",
+    category: "productivity",
+    path: "/tools/productivity/date-duration-calculator",
+    icon: "CalendarDays",
+    description: "計算兩個日期之間的天數、週數、月數、年數與工作日(扣除週末),並提供六格時程判讀矩陣。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -558,3 +573,4 @@ export const roasCalculator = { id: "roas-calculator", category: "finance", name
 export const pomodoroPlanner = { id: "pomodoro-planner", category: "productivity", name: "Pomodoro Planner", path: "/tools/productivity/pomodoro-planner" };
 export const timeZoneConverter = { id: "time-zone-converter", category: "productivity", name: "Time Zone Converter", path: "/tools/productivity/time-zone-converter" };
 export const wordCounter = { id: "word-counter", category: "productivity", name: "Word Counter", path: "/tools/productivity/word-counter" };
+export const dateDurationCalculator = { id: "date-duration-calculator", category: "productivity", name: "Date Duration Calculator", path: "/tools/productivity/date-duration-calculator" };

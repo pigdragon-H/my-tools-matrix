@@ -44,6 +44,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "productivity/pomodoro-planner": lazy(() => import("@/tools/productivity/PomodoroPlanner")),
   "productivity/time-zone-converter": lazy(() => import("@/tools/productivity/TimeZoneConverter")),
   "productivity/word-counter": lazy(() => import("@/tools/productivity/WordCounter")),
+  "productivity/date-duration-calculator": lazy(() => import("@/tools/productivity/DateDurationCalculator")),
 };
 
 function ToolSkeleton() {
