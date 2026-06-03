@@ -599,6 +599,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "timestamp-converter",
+    name: "時間戳轉換器",
+    category: "developer",
+    path: "/tools/developer/timestamp-converter",
+    icon: "Clock",
+    description: "Unix 時間戳與人類可讀日期雙向轉換，支援秒/毫秒、UTC、ISO 8601 與 RFC 2822；瀏覽器端執行，並提供時間軸六格分區判讀矩陣。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -670,3 +685,4 @@ export const base64Encoder = { id: "base64-encoder", category: "developer", name
 export const urlEncoder = { id: "url-encoder", category: "developer", name: "URL Encoder", path: "/tools/developer/url-encoder" };
 export const regexTester = { id: "regex-tester", category: "developer", name: "Regex Tester", path: "/tools/developer/regex-tester" };
 export const colorConverter = { id: "color-converter", category: "developer", name: "Color Converter", path: "/tools/developer/color-converter" };
+export const timestampConverter = { id: "timestamp-converter", category: "developer", name: "Timestamp Converter", path: "/tools/developer/timestamp-converter" };
