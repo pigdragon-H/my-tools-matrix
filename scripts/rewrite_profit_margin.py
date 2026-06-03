@@ -1,4 +1,10 @@
-// @profile B
+#!/usr/bin/env python3
+"""Wholesale rewrite of ProfitMarginCalculator: bands hoisted, full bilingual ui, all hardcoded ZH JSX bilingualized."""
+from pathlib import Path
+
+p = Path("client/src/tools/finance/ProfitMarginCalculator/index.tsx")
+
+content = '''// @profile B
 // Profile B · 計算機-YMYL · ProfitMargin計算機（GOLD-STANDARD-001 compatible）
 
 import { useMemo, useState } from "react";
@@ -122,3 +128,6 @@ export default function ProfitMarginCalculator() {
     </div>
   </main>;
 }
+'''
+p.write_text(content, encoding="utf-8")
+print("ProfitMarginCalculator wholesale rewrite OK")
