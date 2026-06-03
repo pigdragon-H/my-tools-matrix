@@ -787,6 +787,22 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "math-percentage-calculator",
+    name: "Math Percentage Calculator",
+    nameZh: "百分比計算機",
+    category: "education",
+    path: "/tools/education/math-percentage-calculator",
+    icon: "Percent",
+    description: "Three-mode percentage engine: X% of Y, X is what % of Y, and percent change from X to Y. Six-band real-world matrix covers tip, sales tax, discount, markup, growth, and CPI scenarios. Browser-side only.",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -870,3 +886,4 @@ export const ipCalculator = { id: "ip-calculator", category: "developer", name: 
 export const gpaCalculator = { id: "gpa-calculator", category: "education", name: "GPA Calculator", path: "/tools/education/gpa-calculator" };
 export const gradeCalculator = { id: "grade-calculator", category: "education", name: "Grade Calculator", path: "/tools/education/grade-calculator" };
 export const studyTimeCalculator = { id: "study-time-calculator", category: "education", name: "Study Time Calculator", path: "/tools/education/study-time-calculator" };
+export const mathPercentageCalculator = { id: "math-percentage-calculator", category: "education", name: "Math Percentage Calculator", path: "/tools/education/math-percentage-calculator" };
