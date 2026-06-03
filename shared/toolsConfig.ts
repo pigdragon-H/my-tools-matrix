@@ -614,6 +614,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "markdown-preview",
+    name: "Markdown 預覽器",
+    category: "developer",
+    path: "/tools/developer/markdown-preview",
+    icon: "FileText",
+    description: "瀏覽器端 CommonMark Markdown 即時預覽,支援標題、清單、連結、程式碼區塊與表格;統計六格內容密度判讀矩陣 (字數、段落、標題、連結、程式碼、表格);資料不上傳。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -686,3 +701,4 @@ export const urlEncoder = { id: "url-encoder", category: "developer", name: "URL
 export const regexTester = { id: "regex-tester", category: "developer", name: "Regex Tester", path: "/tools/developer/regex-tester" };
 export const colorConverter = { id: "color-converter", category: "developer", name: "Color Converter", path: "/tools/developer/color-converter" };
 export const timestampConverter = { id: "timestamp-converter", category: "developer", name: "Timestamp Converter", path: "/tools/developer/timestamp-converter" };
+export const markdownPreview = { id: "markdown-preview", category: "developer", name: "Markdown Preview", path: "/tools/developer/markdown-preview" };
