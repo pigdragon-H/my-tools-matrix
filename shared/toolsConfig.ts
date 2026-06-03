@@ -708,6 +708,22 @@ export const tools: Tool[] = [
     seoArticles: [],
   },
   {
+    id: "cron-expression",
+    name: "Cron Expression Parser",
+    nameZh: "Cron 表達式解析器",
+    category: "developer",
+    path: "/tools/developer/cron-expression",
+    icon: "Clock",
+    description: "Browser-side cron parser supporting POSIX 5-field crontab(5) and Quartz 6/7-field syntax (with second and year). Decomposes each field, lists next 5 fire times, and provides a six-band frequency readout (every-second-spam / every-minute / hourly / daily / weekly / rare). Expressions never leave the browser.",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
+  {
     id: "gpa-calculator",
     name: "GPA Calculator",
     nameZh: "GPA計算機",
@@ -817,5 +833,6 @@ export const csvToJson = { id: "csv-to-json", category: "developer", name: "CSV 
 export const hashGenerator = { id: "hash-generator", category: "developer", name: "Hash Generator", path: "/tools/developer/hash-generator" };
 export const htmlEncoder = { id: "html-encoder", category: "developer", name: "HTML Encoder", path: "/tools/developer/html-encoder" };
 export const jwtDecoder = { id: "jwt-decoder", category: "developer", name: "JWT Decoder", path: "/tools/developer/jwt-decoder" };
+export const cronExpression = { id: "cron-expression", category: "developer", name: "Cron Expression Parser", path: "/tools/developer/cron-expression" };
 export const gpaCalculator = { id: "gpa-calculator", category: "education", name: "GPA Calculator", path: "/tools/education/gpa-calculator" };
 export const gradeCalculator = { id: "grade-calculator", category: "education", name: "Grade Calculator", path: "/tools/education/grade-calculator" };
