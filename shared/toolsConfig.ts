@@ -675,6 +675,22 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "grade-calculator",
+    name: "Grade Calculator",
+    nameZh: "成績計算機",
+    category: "education",
+    path: "/tools/education/grade-calculator",
+    icon: "Calculator",
+    description: "Compute weighted course grades and Final Grade Needed reverse calculation on the US 13-band letter scale (A+ 97 / A 93 / A- 90 ... F <60). Browser-side only, no data uploaded.",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -751,3 +767,4 @@ export const markdownPreview = { id: "markdown-preview", category: "developer", 
 export const diffChecker = { id: "diff-checker", category: "developer", name: "Diff Checker", path: "/tools/developer/diff-checker" };
 export const csvToJson = { id: "csv-to-json", category: "developer", name: "CSV to JSON Converter", path: "/tools/developer/csv-to-json" };
 export const gpaCalculator = { id: "gpa-calculator", category: "education", name: "GPA Calculator", path: "/tools/education/gpa-calculator" };
+export const gradeCalculator = { id: "grade-calculator", category: "education", name: "Grade Calculator", path: "/tools/education/grade-calculator" };
