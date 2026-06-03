@@ -26,19 +26,19 @@ const l = (value: LocalText, lang: Lang) => value[lang];
 
 // 6 段年期
 const periodLevels: PeriodInfo[] = [
-  { key: 5,  label: { zh: "5 年",  en: "5 年" },  description: { zh: "短期波動為主",   en: "短期波動為主" },   tone: "from-cyan-300 to-cyan-500" },
-  { key: 10, label: { zh: "10 年", en: "10 年" }, description: { zh: "短期投資回望",   en: "短期投資回望" },                tone: "from-cyan-400 to-cyan-600" },
-  { key: 15, label: { zh: "15 年", en: "15 年" }, description: { zh: "中期投資週期",   en: "中期投資週期" },                   tone: "from-teal-400 to-teal-600" },
-  { key: 20, label: { zh: "20 年", en: "20 年" }, description: { zh: "長期投資主流",   en: "長期投資主流" },             tone: "from-emerald-400 to-emerald-600" },
-  { key: 25, label: { zh: "25 年", en: "25 年" }, description: { zh: "退休前期回望",   en: "退休前回望" },            tone: "from-amber-400 to-amber-600" },
-  { key: 30, label: { zh: "30 年", en: "30 年" }, description: { zh: "終身投資週期",   en: "終身投資週期" },         tone: "from-orange-400 to-orange-600" },
+  { key: 5,  label: { zh: "5 年",  en: "5 yr" },  description: { zh: "短期波動為主",   en: "Short-term volatility dominates" }, tone: "from-cyan-300 to-cyan-500" },
+  { key: 10, label: { zh: "10 年", en: "10 yr" }, description: { zh: "短期投資回望",   en: "Short-term retrospective view" },   tone: "from-cyan-400 to-cyan-600" },
+  { key: 15, label: { zh: "15 年", en: "15 yr" }, description: { zh: "中期投資週期",   en: "Mid-term investment cycle" },       tone: "from-teal-400 to-teal-600" },
+  { key: 20, label: { zh: "20 年", en: "20 yr" }, description: { zh: "長期投資主流",   en: "Long-term mainstream horizon" },    tone: "from-emerald-400 to-emerald-600" },
+  { key: 25, label: { zh: "25 年", en: "25 yr" }, description: { zh: "退休前期回望",   en: "Pre-retirement retrospective" },    tone: "from-amber-400 to-amber-600" },
+  { key: 30, label: { zh: "30 年", en: "30 yr" }, description: { zh: "終身投資週期",   en: "Lifetime investment cycle" },       tone: "from-orange-400 to-orange-600" },
 ];
 
 const affiliateItems: AffiliateItem[] = [
-  { label: { zh: "ETF / 指數基金平台", en: "ETF / 指數基金平台" }, href: "#affiliate-etf" },
-  { label: { zh: "投資績效追蹤工具",   en: "投資績效追蹤工具" }, href: "#affiliate-tracker" },
-  { label: { zh: "理財顧問諮詢",       en: "理財顧問諮詢" },          href: "#affiliate-advisor" },
-  { label: { zh: "投資分析書籍",       en: "投資分析書籍" },  href: "#affiliate-books" },
+  { label: { zh: "ETF / 指數基金平台", en: "ETF / Index Fund Platforms" }, href: "#affiliate-etf" },
+  { label: { zh: "投資績效追蹤工具",   en: "Investment Performance Trackers" }, href: "#affiliate-tracker" },
+  { label: { zh: "理財顧問諮詢",       en: "Financial Advisor Consultation" },  href: "#affiliate-advisor" },
+  { label: { zh: "投資分析書籍",       en: "Investment Analysis Books" },       href: "#affiliate-books" },
 ];
 
 const ui = {
@@ -47,7 +47,13 @@ const ui = {
     switchToEnglish: "Switch to English",
     switchToChinese: "切換到中文",
     chineseShort: "中",
-    englishShort: "EN",
+        englishShort: "EN",
+    exampleStartValue: "10 萬",
+    exampleEndValue: "20 萬",
+    exampleNegativeEndValue: "9 萬",
+    exampleStartToEnd: "10 萬 → 20 萬 · 10 年",
+    exampleNegativeFlow: "10 萬 → 9 萬 · 5 年",
+    monthsUnit: "月",
     cagrShort: "年化",
     returnShort: "總報酬率",
     gainShort: "總獲利",
@@ -152,113 +158,119 @@ const ui = {
     a6: "算數平均（每年報酬相加除以 n）會嚴重高估。例如先 +50% 再 -50%，算數平均 0%，但實際 1×1.5×0.5 = 0.75，CAGR 約 -13.4%。複利報酬必須用幾何平均（即 CAGR）才正確。",
   },
   en: {
-    badge: "財務 · 績效 · 黃金工具",
+    badge: "Finance · Performance · Gold Tool",
     switchToEnglish: "Switch to English",
     switchToChinese: "切換到中文",
     chineseShort: "中",
-    englishShort: "EN",
-    cagrShort: "年化",
-    returnShort: "總報酬率",
-    gainShort: "總獲利",
-    yearsShort: "年期",
-    investmentCycles: "投資週期",
-    reports: "報表",
-    title: "CAGR Calculator · 年複合成長率計算機",
-    subtitle: "「翻倍」聽起來很厲害，10 年翻倍其實只有 7.18% 年化——CAGR 才是真實的功夫。",
-    intro: "本工具採用國際公認的「複合年化成長率」（CAGR）標準公式，輸入起始投資金額、目前金額與投資年期，即可換算真實的年化報酬率、總報酬率與總獲利。並提供 5 / 10 / 15 / 20 / 25 / 30 年六段對照，幫你判斷投資績效在不同時間尺度下的表現。",
-    trustNoteLabel: "信任提醒：",
-    trustNote: "CAGR 假設報酬以年複利方式平滑成長，未反映期間波動、稅負、手續費；過去績效不保證未來表現，不可作為投資建議。",
-    quickActionCard: "快速範例卡",
-    tryExample: "一鍵建立 10 年翻倍範例",
-    examplePreview: "年化預覽",
-    examplePerson: "10 萬 → 20 萬 · 10 年",
-    fillExample: "一鍵填入 10 年翻倍範例",
-    previewActivePath: "預覽負報酬範例",
-    examplesCalculator: "範例 → 計算機",
-    enterValues: "輸入投資金額並反推年化",
-    examplesHelper: "先用範例感受「翻倍≠很厲害」這件事，再改成你自己的投資績效。",
-    metric: "新台幣",
-    imperial: "美元",
-    exampleCards: "範例卡",
-    baselineExample: "10 年翻倍範例",
-    activeExample: "5 年負報酬範例",
-    flowDemo: "流程示範",
-    calculator: "計算機",
-    beginValue: "起始投資金額",
-    endValue: "目前投資金額",
-    years: "投資年期",
-    resultCard: "CAGR 試算結果",
+        englishShort: "EN",
+    exampleStartValue: "100k",
+    exampleEndValue: "200k",
+    exampleNegativeEndValue: "90k",
+    exampleStartToEnd: "100k → 200k · 10 yr",
+    exampleNegativeFlow: "100k → 90k · 5 yr",
+    monthsUnit: "mo",
+    cagrShort: "CAGR",
+    returnShort: "Total return",
+    gainShort: "Total gain",
+    yearsShort: "Period",
+    investmentCycles: "Investment cycles",
+    reports: "Reports",
+    title: "CAGR Calculator",
+    subtitle: "\"Doubling\" sounds dramatic, but doubling in 10 years is only a 7.18% annualized return — CAGR is the real measure.",
+    intro: "This tool uses the internationally recognized Compound Annual Growth Rate (CAGR) formula. Enter your starting amount, current amount, and investment period, and instantly compute the true annualized return, total return, and total gain. We also show 5 / 10 / 15 / 20 / 25 / 30-year side-by-side comparisons so you can judge investment performance across different time horizons.",
+    trustNoteLabel: "Trust note:",
+    trustNote: "CAGR assumes returns compound smoothly each year and does not reflect interim volatility, taxes, or fees. Past performance does not guarantee future returns and should not be treated as investment advice.",
+    quickActionCard: "Quick example",
+    tryExample: "One-click 10-year doubling example",
+    examplePreview: "Annualized preview",
+    examplePerson: "100k → 200k · 10 yr",
+    fillExample: "Fill the 10-year doubling example",
+    previewActivePath: "Preview a negative-return example",
+    examplesCalculator: "Example → Calculator",
+    enterValues: "Enter your investment values to derive CAGR",
+    examplesHelper: "Use the example first to feel why \"doubling ≠ dramatic\", then enter your own performance.",
+    metric: "TWD",
+    imperial: "USD",
+    exampleCards: "Examples",
+    baselineExample: "10-year doubling example",
+    activeExample: "5-year negative-return example",
+    flowDemo: "Flow demo",
+    calculator: "Calculator",
+    beginValue: "Starting amount",
+    endValue: "Current amount",
+    years: "Investment period",
+    resultCard: "CAGR result",
     percentUnit: "%",
-    moneyUnit: "元",
-    yearsTag: "年期",
-    primaryValue: "主要數值",
-    maintenanceTarget: "維持目標",
-    actionTarget: "行動目標",
-    cagr: "年化報酬率",
-    totalReturn: "總報酬率",
-    totalGain: "總獲利金額",
-    resultIntelligence: "結果解讀",
-    periodMatrix: "六段年期 年化對照",
-    periodMatrixNote: "下列卡片以你的起始與終值為基礎，假設不同年期回望，看出 CAGR 對「年期」的敏感度——同樣翻倍，5 年和 30 年的年化天差地遠。",
-    emotionConversionLayer: "情緒與轉換層",
-    turnIntoPlan: "把試算數字轉成投資績效檢視計畫",
-    conversionNote: "此層示範如何把單一試算結果轉為儲存、轉換與下一步行動，不實作帳號或付款流程。",
-    progressInsight: "績效洞察卡",
-    possibleTarget: "你的真實年化績效",
-    monthlyGap: "起始投資",
-    yearlyTrend: "每年複利成長",
-    motivation: "動力卡",
-    keepMomentum: "從試算數字走向長期績效追蹤",
-    saveShareJourney: "儲存 / 分享",
-    nextActionLabel: "下一步行動",
-    nextActionTitle: "把計算結果變成可執行的下一步",
-    nextActionItem1: "把這個結果連結存到記事本或書籤",
-    nextActionItem2: "把試算數字寫進你的月度規劃",
-    nextActionItem3: "下個月回來重算，看數字有沒有改善",
-    shareLinkBtn: "📋 複製結果連結",
-    shareNativeBtn: "📤 分享給朋友",
-    shareCopiedToast: "已複製到剪貼簿 ✓",
-    journeyTitle: "把今天的試算帶回家",
-    journeyHint: "截圖、加書籤或分享給家人，下次回來就能直接接續比較。",
-    decisionPath: "決策路徑",
-    decisionTitle: "起始投資 → 目前金額 → 年期 → 年化報酬率",
-    beginStep: "起始投資",
-    endStep: "目前金額",
-    yearStep: "年期",
-    cagrStep: "年化報酬",
-    knowledge: "知識",
-    knowledgeTitle: "為什麼 CAGR 是判斷投資績效的金本位",
-    definition: "定義",
-    definitionText: "CAGR 即「複合年化成長率」，把多年期報酬還原成「假裝每年都漲一樣百分比」的單一數字，方便跨產品、跨期間比較。它消除中間波動，呈現「平均每年的真實年化複利報酬」。",
-    formula: "公式",
-    formulaText: "CAGR = (FV / PV)^(1/years) − 1，其中 PV 為起始投資金額，FV 為目前金額，years 為投資年期。回傳值為小數，乘 100 即百分比。",
-    limitations: "限制",
-    limitationsText: "CAGR 只看頭尾兩個時點，忽略中間波動（最大回撤可能很慘但 CAGR 仍漂亮）。也不含稅負、手續費、股利再投入細節。實務應搭配波動率（標準差、Sharpe ratio）一起看。",
-    faq: "常見問答",
-    commonQuestions: "常見問題",
-    affiliate: "推薦資源",
-    affiliateTitle: "投資分析相關資源",
-    premiumTitle: "專業版績效分析包",
-    premiumText: "解鎖年度別報酬分解、波動率（標準差）、Sharpe ratio、最大回撤、與多檔投資組合並排比較與 試算表匯出。",
-    trustReferences: "信任聲明 · 相關工具 · 參考資料",
-    trust: "信任聲明",
-    trustText: "本工具提供教育與績效檢視用途，不能取代合格理財顧問或投資專業人員建議。投資有風險，過去績效不代表未來表現。",
-    relatedTools: "相關工具",
-    relatedToolsText: "複利計算機 · 貸款試算機 · 退休計算機 · 月薪存款機 · 4% 提領法則 · 通膨調整計算機",
-    references: "參考資料",
-    referencesText: "Investopedia CAGR 指南；美國證券交易委員會投資者教育；Bogleheads 時間加權報酬；CFA 協會績效計算原則；Mishkin 2022 貨幣銀行與金融市場。",
-    q1: "CAGR 跟「總報酬率」差在哪？",
-    a1: "總報酬率 (FV-PV)/PV 看你「總共賺多少％」；CAGR 把這個總報酬攤平到每年，告訴你「平均每年複利賺多少％」。10 年翻倍，總報酬 100%，CAGR 只有 7.18%。",
-    q2: "為什麼 10 年翻倍的 CAGR 是 7.18% 而不是 10%？",
-    a2: "因為複利。每年 7.18% 連續 10 年 = (1.0718)^10 ≈ 2.00，剛好翻倍。直覺把 100% / 10 = 10% 是「單利」算法，會嚴重高估真實績效。",
-    q3: "CAGR 可以是負的嗎？",
-    a3: "可以。如果終值小於起始值，CAGR 為負，代表投資實際在「縮水」。例如 10 萬 → 9 萬經過 5 年，CAGR 約 -2.09%。",
-    q4: "CAGR 跟 IRR 有什麼差？",
-    a4: "CAGR 假設只有一筆起始投入、一筆終值，中間沒有金流。IRR（內部報酬率）能處理多筆進出（定期定額、提款）的情境，更符合真實投資行為。本工具屬 CAGR 簡化版。",
-    q5: "什麼 CAGR 算「好」？",
-    a5: "歷史上 S&P 500 長期 CAGR 約 10%（含股利），全球股市約 7-9%，債券約 3-5%，定存 1-2%。低於通膨率 (~2-3%) 等於實質虧損。投資 CAGR 應至少超越通膨。",
-    q6: "為什麼不能用算數平均？",
-    a6: "算數平均（每年報酬相加除以 n）會嚴重高估。例如先 +50% 再 -50%，算數平均 0%，但實際 1×1.5×0.5 = 0.75，CAGR 約 -13.4%。複利報酬必須用幾何平均（即 CAGR）才正確。",
+    moneyUnit: "",
+    yearsTag: "Period",
+    primaryValue: "Primary value",
+    maintenanceTarget: "Maintenance target",
+    actionTarget: "Action target",
+    cagr: "Annualized return",
+    totalReturn: "Total return",
+    totalGain: "Total gain",
+    resultIntelligence: "Result intelligence",
+    periodMatrix: "Six-period CAGR comparison",
+    periodMatrixNote: "The cards below use your start and end values, assume different periods, and reveal how sensitive CAGR is to time horizon — the same doubling looks very different at 5 years vs. 30 years.",
+    emotionConversionLayer: "Emotion & conversion layer",
+    turnIntoPlan: "Turn the result into a performance review plan",
+    conversionNote: "This layer demonstrates how to turn a single calculation into save/share and next-step actions; it does not create accounts or trigger payments.",
+    progressInsight: "Performance insight",
+    possibleTarget: "Your true annualized performance",
+    monthlyGap: "Starting investment",
+    yearlyTrend: "Yearly compound growth",
+    motivation: "Motivation",
+    keepMomentum: "From a single calculation to long-term performance tracking",
+    saveShareJourney: "Save / Share",
+    nextActionLabel: "Next step",
+    nextActionTitle: "Turn the result into actionable next steps",
+    nextActionItem1: "Save this result link to your notebook or bookmarks",
+    nextActionItem2: "Write the figures into your monthly plan",
+    nextActionItem3: "Re-run next month and compare the trend",
+    shareLinkBtn: "📋 Copy result link",
+    shareNativeBtn: "📤 Share with friends",
+    shareCopiedToast: "Copied to clipboard ✓",
+    journeyTitle: "Take today's calculation home",
+    journeyHint: "Screenshot it, bookmark it, or share with family — next time you can pick up where you left off.",
+    decisionPath: "Decision path",
+    decisionTitle: "Starting amount → Current amount → Period → Annualized return",
+    beginStep: "Starting",
+    endStep: "Current",
+    yearStep: "Period",
+    cagrStep: "Annualized",
+    knowledge: "Knowledge",
+    knowledgeTitle: "Why CAGR is the gold standard for judging investment performance",
+    definition: "Definition",
+    definitionText: "CAGR is the Compound Annual Growth Rate — it converts a multi-year return into a single number representing what the average annual compounding return would have been. It removes interim volatility and shows the true annualized compound return.",
+    formula: "Formula",
+    formulaText: "CAGR = (FV / PV)^(1/years) − 1, where PV is the starting amount, FV is the current amount, and years is the investment period. The result is a decimal; multiply by 100 for percent.",
+    limitations: "Limitations",
+    limitationsText: "CAGR only looks at the start and end points and ignores interim volatility (max drawdown can be ugly while CAGR still looks great). It also excludes taxes, fees, and dividend reinvestment details. In practice it should be paired with volatility (standard deviation, Sharpe ratio).",
+    faq: "FAQ",
+    commonQuestions: "Common questions",
+    affiliate: "Recommended Resources",
+    affiliateTitle: "Investment-analysis related resources",
+    premiumTitle: "PRO Performance Analysis Pack",
+    premiumText: "Unlock year-by-year return decomposition, volatility (standard deviation), Sharpe ratio, max drawdown, multi-portfolio side-by-side comparison, and calculation-table CSV export.",
+    trustReferences: "Trust · Related tools · References",
+    trust: "Trust statement",
+    trustText: "This tool is for education and performance review only and does not replace a qualified financial advisor or investment professional. Investing carries risk; past performance does not guarantee future results.",
+    relatedTools: "Related tools",
+    relatedToolsText: "Compound Interest · Loan Calculator · Retirement Calculator · Salary Savings · 4% Withdrawal Rule · Inflation Adjuster",
+    references: "References",
+    referencesText: "Investopedia CAGR guide; U.S. SEC investor education; Bogleheads time-weighted return; CFA Institute performance principles; Mishkin 2022 Money, Banking and Financial Markets.",
+    q1: "How is CAGR different from \"total return\"?",
+    a1: "Total return (FV-PV)/PV tells you \"how much did I make in total %\"; CAGR spreads that total return across each year, telling you \"on average, how much did I compound each year\". A 10-year doubling is 100% total return but only a 7.18% CAGR.",
+    q2: "Why is the CAGR of a 10-year doubling 7.18% and not 10%?",
+    a2: "Because of compounding. 7.18% per year for 10 years = (1.0718)^10 ≈ 2.00, exactly doubling. The intuition of 100% / 10 = 10% is the \"simple-interest\" approach, which significantly overstates true performance.",
+    q3: "Can CAGR be negative?",
+    a3: "Yes. If the ending value is below the starting value, CAGR is negative — the investment is shrinking. For example, 100k → 90k over 5 years gives a CAGR of about −2.09%.",
+    q4: "What is the difference between CAGR and IRR?",
+    a4: "CAGR assumes a single starting investment and a single ending value with no cash flows in between. IRR (Internal Rate of Return) handles multiple cash flows (regular contributions, withdrawals) and better reflects real investment behavior. This tool implements the simplified CAGR version.",
+    q5: "What CAGR is considered \"good\"?",
+    a5: "Historically, the long-term CAGR of the S&P 500 is about 10% (with dividends), global equities about 7–9%, bonds about 3–5%, and bank deposits 1–2%. Anything below inflation (~2–3%) is a real loss. An investment CAGR should at minimum beat inflation.",
+    q6: "Why can't I just use the arithmetic mean?",
+    a6: "The arithmetic mean (sum the yearly returns and divide by n) significantly overstates performance. For example, +50% then −50% is 0% by arithmetic mean, but actually 1×1.5×0.5 = 0.75, a CAGR of about −13.4%. Compound returns must use the geometric mean (i.e. CAGR) to be correct.",
   },
 } as const;
 
@@ -305,8 +317,6 @@ export default function CagrCalculator() {
   const [beginValue, setBeginValue] = useState("100000");
   const [endValue, setEndValue] = useState("200000");
   const [period, setPeriod] = useState<CagrPeriod>(10);
-
-  const displayLang: Lang = "zh";
   const t = ui[lang];
   const activePeriod = periodByKey(period);
 
@@ -380,8 +390,8 @@ export default function CagrCalculator() {
                 <div className="text-sm font-bold text-cyan-100">{t.percentUnit}</div>
               </div>
               <div className="mt-5 grid grid-cols-3 gap-3 text-center">
-                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.beginValue}</div><div className="font-black">10 萬</div></div>
-                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.endValue}</div><div className="font-black">20 萬</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.beginValue}</div><div className="font-black">{t.exampleStartValue}</div></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.endValue}</div><div className="font-black">{t.exampleEndValue}</div></div>
                 <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.years}</div><div className="font-black">10</div></div>
               </div>
               <button onClick={fillBaselineExample} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white transition hover:bg-cyan-700">{t.fillExample}</button>
@@ -409,8 +419,8 @@ export default function CagrCalculator() {
             <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
               <h3 className="text-lg font-black">{t.exampleCards}</h3>
               <div className="mt-4 space-y-3">
-                <button onClick={fillBaselineExample} className="w-full rounded-2xl border border-cyan-200 bg-white p-4 text-left transition hover:border-cyan-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-cyan-100 px-3 py-1 text-xs font-black text-cyan-700">7.18%</span></div><p className="mt-2 text-sm text-slate-600">10 萬 → 20 萬 · 10 年</p></button>
-                <button onClick={fillActiveExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div><p className="mt-2 text-sm text-slate-600">10 萬 → 9 萬 · 5 年</p></button>
+                <button onClick={fillBaselineExample} className="w-full rounded-2xl border border-cyan-200 bg-white p-4 text-left transition hover:border-cyan-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-cyan-100 px-3 py-1 text-xs font-black text-cyan-700">7.18%</span></div><p className="mt-2 text-sm text-slate-600">{t.exampleStartToEnd}</p></button>
+                <button onClick={fillActiveExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div><p className="mt-2 text-sm text-slate-600">{t.exampleNegativeFlow}</p></button>
               </div>
             </div>
 
@@ -419,7 +429,7 @@ export default function CagrCalculator() {
               <div className="mt-4 grid gap-4 md:grid-cols-2">
                 <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.beginValue}<input type="number" min={0} step={10000} className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={beginValue} onChange={(e) => setBeginValue(e.target.value)} /></label>
                 <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.endValue}<input type="number" min={0} step={10000} className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={endValue} onChange={(e) => setEndValue(e.target.value)} /></label>
-                <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.years}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={period} onChange={(e) => setPeriod(Number(e.target.value) as CagrPeriod)}>{periodLevels.map((item) => <option key={item.key} value={item.key}>{l(item.label, displayLang)}</option>)}</select></label>
+                <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.years}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={period} onChange={(e) => setPeriod(Number(e.target.value) as CagrPeriod)}>{periodLevels.map((item) => <option key={item.key} value={item.key}>{l(item.label, lang)}</option>)}</select></label>
               </div>
             </div>
           </div>
@@ -431,7 +441,7 @@ export default function CagrCalculator() {
               <p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-700">{t.resultCard}</p>
               <div className="mt-4 flex items-start justify-between gap-5">
                 <div><div className="text-7xl font-black tracking-tight text-slate-950">{cagrDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.percentUnit} · {t.cagr}</div></div>
-                <div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.yearsTag}</div><div className="mt-1 text-xl font-black">{l(activePeriod.label, displayLang)}</div><div className="mt-1 text-xs text-slate-300">{activePeriod.key * 12} 月</div></div>
+                <div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.yearsTag}</div><div className="mt-1 text-xl font-black">{l(activePeriod.label, lang)}</div><div className="mt-1 text-xs text-slate-300">{activePeriod.key * 12} {t.monthsUnit}</div></div>
               </div>
               <div className="mt-6 grid gap-4 md:grid-cols-3">
                 <div className="rounded-2xl bg-blue-50 p-4">
@@ -463,8 +473,8 @@ export default function CagrCalculator() {
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {(calculation?.matrix ?? periodLevels.map((item) => ({ ...item, cagr: 0, totalReturn: 0, totalGain: 0 }))).map((item) => (
                 <div key={item.key} className={`rounded-2xl border p-4 ${item.key === activePeriod.key ? "border-cyan-500 bg-cyan-50 shadow-sm" : "border-slate-200 bg-slate-50"}`}>
-                  <div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, displayLang)}</h3><span className="text-xs font-black text-slate-500">{item.key * 12} 月</span></div>
-                  <p className="mt-2 text-sm leading-6 text-slate-700">{l(item.description, displayLang)}</p>
+                  <div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{item.key * 12} {t.monthsUnit}</span></div>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">{l(item.description, lang)}</p>
                   <p className="mt-3 text-2xl font-black text-slate-950">{formatPercent(item.cagr)} <span className="text-sm text-slate-500">{t.percentUnit}</span></p>
                   <p className="mt-1 text-xs font-bold text-orange-700">{t.gainShort}: {formatMoney(item.totalGain)}</p>
                 </div>
@@ -544,7 +554,7 @@ export default function CagrCalculator() {
                               <p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-700">{t.affiliate}</p>
                               <h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2>
                               <div className="mt-5 grid gap-4 md:grid-cols-4">
-                                {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-cyan-100 bg-cyan-50 p-5 text-center font-black text-cyan-950 transition hover:border-cyan-500 hover:bg-cyan-100">{l(item.label, displayLang)}</a>)}
+                                {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-cyan-100 bg-cyan-50 p-5 text-center font-black text-cyan-950 transition hover:border-cyan-500 hover:bg-cyan-100">{l(item.label, lang)}</a>)}
                               </div>
                               <p className="mt-3 text-xs text-cyan-700">
                                 {lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}
