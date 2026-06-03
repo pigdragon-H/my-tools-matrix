@@ -479,6 +479,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "word-counter",
+    name: "字數統計工具",
+    category: "productivity",
+    path: "/tools/productivity/word-counter",
+    icon: "Type",
+    description: "貼上文字內容即時統計英文單字、中文字元、段落、句子與閱讀分鐘,並提供六格長度判讀矩陣。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -542,3 +557,4 @@ export const roasCalculator = { id: "roas-calculator", category: "finance", name
 // Productivity Tools
 export const pomodoroPlanner = { id: "pomodoro-planner", category: "productivity", name: "Pomodoro Planner", path: "/tools/productivity/pomodoro-planner" };
 export const timeZoneConverter = { id: "time-zone-converter", category: "productivity", name: "Time Zone Converter", path: "/tools/productivity/time-zone-converter" };
+export const wordCounter = { id: "word-counter", category: "productivity", name: "Word Counter", path: "/tools/productivity/word-counter" };

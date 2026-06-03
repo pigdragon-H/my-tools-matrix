@@ -43,6 +43,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/roas-calculator": lazy(() => import("@/tools/finance/RoasCalculator")),
   "productivity/pomodoro-planner": lazy(() => import("@/tools/productivity/PomodoroPlanner")),
   "productivity/time-zone-converter": lazy(() => import("@/tools/productivity/TimeZoneConverter")),
+  "productivity/word-counter": lazy(() => import("@/tools/productivity/WordCounter")),
 };
 
 function ToolSkeleton() {
