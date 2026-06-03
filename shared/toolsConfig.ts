@@ -464,6 +464,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "time-zone-converter",
+    name: "時區轉換器",
+    category: "productivity",
+    path: "/tools/productivity/time-zone-converter",
+    icon: "Globe",
+    description: "輸入兩地 UTC 偏移與工作時段,計算重疊小時、建議會議時段與週度可同步小時,協助跨國團隊規劃協作節奏。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -526,3 +541,4 @@ export const roasCalculator = { id: "roas-calculator", category: "finance", name
 
 // Productivity Tools
 export const pomodoroPlanner = { id: "pomodoro-planner", category: "productivity", name: "Pomodoro Planner", path: "/tools/productivity/pomodoro-planner" };
+export const timeZoneConverter = { id: "time-zone-converter", category: "productivity", name: "Time Zone Converter", path: "/tools/productivity/time-zone-converter" };

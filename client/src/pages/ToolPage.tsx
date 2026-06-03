@@ -42,6 +42,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/profit-margin-calculator": lazy(() => import("@/tools/finance/ProfitMarginCalculator")),
   "finance/roas-calculator": lazy(() => import("@/tools/finance/RoasCalculator")),
   "productivity/pomodoro-planner": lazy(() => import("@/tools/productivity/PomodoroPlanner")),
+  "productivity/time-zone-converter": lazy(() => import("@/tools/productivity/TimeZoneConverter")),
 };
 
 function ToolSkeleton() {
