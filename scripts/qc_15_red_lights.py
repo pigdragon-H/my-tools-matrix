@@ -53,8 +53,8 @@ def check(path: Path):
     a_keys = set(re.findall(r'\ba(\d+):', src))
     has_placeholder = re.search(r'\b(TODO|FIXME|Lorem ipsum)\b', src) or re.search(r'placeholder.*"[^"]{0,3}"', src)
     # FAQ key 命名以 faqKeys = [["q1","a1"],...] 為主：檢查 faqKeys 數量
-    faq_match = re.search(r'faqKeys\s*=\s*(\[\[.*?\]\])', src, re.DOTALL)
-    pair_count = len(re.findall(r'\["q\d+"\s*,\s*"a\d+"\]', faq_match.group(1))) if faq_match else 0
+    faq_match = re.search(r'faqKeys\s*=\s*(\[[\s\S]*?\])\s*as\s+const', src)
+    pair_count = len(re.findall(r'\[\s*"q\d+"\s*,\s*"a\d+"\s*\]', faq_match.group(1))) if faq_match else 0
     results.append((f"R7 L13 FAQ=6 (q-keys={len(q_keys)} a-keys={len(a_keys)} pairs={pair_count}) 無 placeholder",
                     len(q_keys) == 6 and len(a_keys) == 6 and pair_count == 6 and not has_placeholder))
 
