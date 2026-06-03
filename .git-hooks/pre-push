@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Gate 3 pre-push hook — auto-block incomplete tool commits
+# Triggered before `git push` actually transmits to GitHub.
+# If any commit being pushed introduces a new tool component without
+# the trio (toolsConfig.ts + ToolPage.tsx), abort.
+
+set -e
+
+remote="$1"
+url="$2"
+
+# stdin gives us: <local ref> <local sha> <remote ref> <remote sha>
+while read -r local_ref local_sha remote_ref remote_sha; do
+  [ "$local_sha" = "0000000000000000000000000000000000000000" ] && continue
+
+  if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
+    range="$local_sha"
+    range_arg="$local_sha~..$local_sha"
+  else
+    range_arg="$remote_sha..$local_sha"
+  fi
+
+  echo ""
+  echo "▶ pre-push Gate 3: checking commits in $range_arg"
+  if ! node "$(git rev-parse --show-toplevel)/scripts/qc_commit_integrity.mjs" --range "$range_arg"; then
+    echo ""
+    echo "✗ pre-push aborted by Gate 3 (commit integrity)"
+    echo "  Fix the commit(s) above before pushing. See message for instructions."
+    exit 1
+  fi
+done
+
+exit 0
