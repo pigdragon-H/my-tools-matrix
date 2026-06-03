@@ -659,6 +659,23 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "gpa-calculator",
+    name: "GPA Calculator",
+    nameZh: "GPA計算機",
+    category: "education",
+    path: "/tools/education/gpa-calculator",
+    icon: "GraduationCap",
+    description: "Compute weighted GPA on the US 4.0 scale with a six-band academic standing matrix; supports Academic Renewal toggle for retake exclusion. Browser-side only, no data uploaded.",
+    descriptionZh: "美國 4.0 制加權平均 GPA 計算,含六格學業判讀矩陣與重修豁免(Academic Renewal)切換;瀏覽器端執行,資料不上傳。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -734,3 +751,4 @@ export const timestampConverter = { id: "timestamp-converter", category: "develo
 export const markdownPreview = { id: "markdown-preview", category: "developer", name: "Markdown Preview", path: "/tools/developer/markdown-preview" };
 export const diffChecker = { id: "diff-checker", category: "developer", name: "Diff Checker", path: "/tools/developer/diff-checker" };
 export const csvToJson = { id: "csv-to-json", category: "developer", name: "CSV to JSON Converter", path: "/tools/developer/csv-to-json" };
+export const gpaCalculator = { id: "gpa-calculator", category: "education", name: "GPA Calculator", path: "/tools/education/gpa-calculator" };
