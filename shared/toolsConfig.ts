@@ -629,6 +629,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "diff-checker",
+    name: "差異比對器",
+    category: "developer",
+    path: "/tools/developer/diff-checker",
+    icon: "GitCompare",
+    description: "瀏覽器端純文字差異比對 (Myers diff 簡化版),逐行標示新增/刪除/相同,並提供六格變更密度判讀矩陣 (相同度、純新增、純刪除、混合修改、結構重排、完全不同);資料不上傳。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -702,3 +717,4 @@ export const regexTester = { id: "regex-tester", category: "developer", name: "R
 export const colorConverter = { id: "color-converter", category: "developer", name: "Color Converter", path: "/tools/developer/color-converter" };
 export const timestampConverter = { id: "timestamp-converter", category: "developer", name: "Timestamp Converter", path: "/tools/developer/timestamp-converter" };
 export const markdownPreview = { id: "markdown-preview", category: "developer", name: "Markdown Preview", path: "/tools/developer/markdown-preview" };
+export const diffChecker = { id: "diff-checker", category: "developer", name: "Diff Checker", path: "/tools/developer/diff-checker" };

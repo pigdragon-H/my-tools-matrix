@@ -53,6 +53,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "developer/color-converter": lazy(() => import("@/tools/developer/ColorConverter")),
   "developer/timestamp-converter": lazy(() => import("@/tools/developer/TimestampConverter")),
   "developer/markdown-preview": lazy(() => import("@/tools/developer/MarkdownPreview")),
+  "developer/diff-checker": lazy(() => import("@/tools/developer/DiffChecker")),
 };
 
 function ToolSkeleton() {
