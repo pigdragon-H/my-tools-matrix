@@ -644,6 +644,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "csv-to-json",
+    name: "CSV 轉 JSON 工具",
+    category: "developer",
+    path: "/tools/developer/csv-to-json",
+    icon: "Table",
+    description: "瀏覽器端 CSV 轉 JSON 結構化陣列(RFC 4180 子集),支援雙引號逸出、自訂分隔字元(逗號/分號/Tab)、型別推斷(數值/布林/null);提供六格列數判讀矩陣 (極小/輕量/標準/中型/倉儲級/超大);資料不上傳。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -718,3 +733,4 @@ export const colorConverter = { id: "color-converter", category: "developer", na
 export const timestampConverter = { id: "timestamp-converter", category: "developer", name: "Timestamp Converter", path: "/tools/developer/timestamp-converter" };
 export const markdownPreview = { id: "markdown-preview", category: "developer", name: "Markdown Preview", path: "/tools/developer/markdown-preview" };
 export const diffChecker = { id: "diff-checker", category: "developer", name: "Diff Checker", path: "/tools/developer/diff-checker" };
+export const csvToJson = { id: "csv-to-json", category: "developer", name: "CSV to JSON Converter", path: "/tools/developer/csv-to-json" };

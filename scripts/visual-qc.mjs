@@ -9,7 +9,8 @@ mkdirSync(OUT, { recursive: true });
 
 const ROUTES = [
   { name: 'gold-json-formatter', path: '/tools/developer/json-formatter' },
-  { name: 'd09-diff-checker',    path: '/tools/developer/diff-checker' },
+  { name: 'd10-csv-to-json',     path: '/tools/developer/csv-to-json' },
+  { name: 'category-developer',  path: '/category/developer' },
 ];
 
 const browser = await chromium.launch();
