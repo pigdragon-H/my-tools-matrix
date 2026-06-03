@@ -1,4 +1,10 @@
-// @profile B
+#!/usr/bin/env python3
+"""Wholesale rewrite of ProfitMarginCalculator: bands hoisted, full bilingual ui, all hardcoded ZH JSX bilingualized."""
+from pathlib import Path
+
+p = Path("client/src/tools/finance/ProfitMarginCalculator/index.tsx")
+
+content = '''// @profile B
 // Profile B · 計算機-YMYL · ProfitMargin計算機（GOLD-STANDARD-001 compatible）
 
 import { useMemo, useState } from "react";
@@ -33,9 +39,6 @@ const faqKeys = [["q1", "a1"], ["q2", "a2"], ["q3", "a3"], ["q4", "a4"], ["q5", 
 
 const ui = {
   zh: {
-    fillExample: "一鍵填入標準範例", primaryValue: "主要數值", maintenanceTarget: "主要數值", actionTarget: "次要數值",
-    progressInsightCard: "進度洞察", motivationCard: "動力卡片", nextActionsTitle: "下一步行動",
-    unitSystem: "單位", metric: "公制", imperial: "英制",
     title: "Profit Margin Calculator · 利潤率計算機", subtitle: "計算毛利率、淨利率、加價率與損益兩平件數", badge: "財務 · 利潤率 · 黃金工具",
     intro: "根據營收、銷貨成本、營業費用與單價估算獲利能力。本工具僅供教育與規劃參考,不取代正式會計建議。",
     quick: "快速範例", netMarginLabel: "淨利率", fillStd: "標準範例", fillLow: "低利潤範例",
@@ -63,9 +66,6 @@ const ui = {
     q6: "這能取代會計報表嗎?", a6: "不能。這只是教育估算工具;稅務、審計、財報與投資決策請諮詢合格會計或財務專業人士。",
   },
   en: {
-    fillExample: "Fill the standard example", primaryValue: "Headline number", maintenanceTarget: "Headline number", actionTarget: "Secondary metric",
-    progressInsightCard: "Progress insight", motivationCard: "Motivation card", nextActionsTitle: "Next actions",
-    unitSystem: "Unit", metric: "Simple", imperial: "Detailed",
     title: "Profit Margin Calculator", subtitle: "Calculate gross margin, net margin, markup, and break-even units", badge: "FINANCE · PROFIT MARGIN · GOLD TOOL",
     intro: "Estimate profitability from revenue, COGS, operating expenses, and unit price. This tool is for educational and planning use only and does not replace professional accounting advice.",
     quick: "Quick example", netMarginLabel: "Net margin", fillStd: "Standard example", fillLow: "Thin-margin example",
@@ -128,3 +128,6 @@ export default function ProfitMarginCalculator() {
     </div>
   </main>;
 }
+'''
+p.write_text(content, encoding="utf-8")
+print("ProfitMarginCalculator wholesale rewrite OK")

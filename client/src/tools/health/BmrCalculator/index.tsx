@@ -539,7 +539,7 @@ export default function BmrCalculator() {
         </section>
 
         {/* L14 · Knowledge + FAQ 並排 · lg:grid-cols-[1fr_0.9fr] */}
-        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L14-Knowledge-FAQ */}
+        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L12-Knowledge · L13-FAQ */}
           <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.knowledge}</p>
             <h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2>
