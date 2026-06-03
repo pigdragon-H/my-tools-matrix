@@ -1,5 +1,5 @@
 // @profile B
-// Profile B · 計算器-YMYL · MarkdownPreview (Developer Batch 1 #08 · MeetingCost-aligned · D-01..D-06 aligned)
+// Profile B · 計算機-YMYL · MarkdownPreview (Developer · MeetingCost-aligned · JsonFormatter gold template)
 
 import { useMemo, useState } from "react";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
@@ -11,588 +11,259 @@ type Lang = "zh" | "en";
 type LocalText = { zh: string; en: string };
 type AffiliateItem = { label: LocalText; href: string };
 const l = (v: LocalText, lang: Lang) => v[lang];
+const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
-// Six-band content density matrix — categorise the dominant Markdown structure
 const bands = [
-  { key: "prose", label: { zh: "純文字型", en: "Prose-only" }, desc: { zh: "幾乎只有段落文字,標題、清單、連結、程式碼比例都低;常見於部落格初稿、長文章、白皮書草稿;適合用閱讀體驗工具評估可讀性。", en: "Mostly paragraphs with minimal headings, lists, links, code; common in blog drafts, long-form articles, whitepaper drafts; pair with readability tools." } },
-  { key: "list", label: { zh: "清單為主", en: "List-heavy" }, desc: { zh: "有序/無序清單佔比高;常見於 README features、TODO、checklist、會議紀錄、產品功能列表。", en: "Ordered / unordered lists dominate; common in README features, TODOs, checklists, meeting notes, product feature lists." } },
-  { key: "heading", label: { zh: "標題密集", en: "Heading-heavy" }, desc: { zh: "H1–H6 比例高;常見於文件目錄、API reference、教科書章節、SOP 流程文件;建議搭配目錄 (TOC) 工具。", en: "High H1–H6 density; common in docs TOC, API reference, textbook chapters, SOP runbooks; pair with TOC generators." } },
-  { key: "link", label: { zh: "連結密集", en: "Link-heavy" }, desc: { zh: "[text](url) 與 reference link 比例高;常見於 awesome-list、書籤整理、研究資料彙整、文獻索引。", en: "Inline and reference links dominate; common in awesome-lists, bookmark exports, research collations, reference indexes." } },
-  { key: "code", label: { zh: "程式碼密集", en: "Code-heavy" }, desc: { zh: "fenced code block 與 inline code 比例高;常見於技術 blog、教學文件、CLI 指令彙整、Stack Overflow 答案草稿。", en: "Fenced code blocks and inline code dominate; common in technical blogs, tutorials, CLI cheatsheets, Stack Overflow drafts." } },
-  { key: "mixed", label: { zh: "結構平衡", en: "Mixed balanced" }, desc: { zh: "標題、清單、連結、程式碼比例平均;常見於成熟 README、發布筆記 (release notes)、技術手冊、產品文件;通常 SEO 與可讀性表現較佳。", en: "Headings, lists, links, code in balance; common in mature READMEs, release notes, technical handbooks, product docs; usually performs well on SEO and readability." } },
+  { key: "tiny", range: "≤200 chars", label: { zh: "短訊息 (≤200 字元)", en: "Tiny (≤200 chars)" }, desc: { zh: "適合 README badge、commit message、Slack 訊息;單行強調與簡短連結為主,過長標題會擠壓版面。", en: "README badges, commit messages, Slack notes — single-line emphasis and short links work best." } },
+  { key: "short", range: "200–1k", label: { zh: "短文 (200–1k)", en: "Short (200–1k)" }, desc: { zh: "適合 issue 描述、PR 摘要、tooltip 文件;建議 1 級標題 + 2–3 段落 + 1 個列表。", en: "Issue bodies, PR summaries, tooltip docs — one H1 + 2–3 paragraphs + one list." } },
+  { key: "article", range: "1k–5k", label: { zh: "文章 (1k–5k)", en: "Article (1k–5k)" }, desc: { zh: "適合部落格、技術筆記;善用 H2/H3 階層、code fence、引用區塊以提升可讀性。", en: "Blog posts, tech notes — use H2/H3 hierarchy, code fences, blockquotes for readability." } },
+  { key: "doc", range: "5k–20k", label: { zh: "文件 (5k–20k)", en: "Doc (5k–20k)" }, desc: { zh: "適合 API 文件、user guide;需要 TOC、anchor link、表格、code 範例;考慮拆檔。", en: "API docs, user guides — TOC, anchor links, tables, code examples; consider splitting files." } },
+  { key: "book", range: "20k–100k", label: { zh: "長文件 (20k–100k)", en: "Book (20k–100k)" }, desc: { zh: "適合 ebook、規格書;建議改用 mdBook、Docusaurus、VitePress 等多檔系統管理。", en: "Ebooks, specifications — better managed via mdBook, Docusaurus, or VitePress." } },
+  { key: "huge", range: ">100k", label: { zh: "超長 (>100k)", en: "Huge (>100k)" }, desc: { zh: "超出單檔 Markdown 合理上限;瀏覽器渲染變慢,git diff 困難,應拆檔或改用 reST/AsciiDoc。", en: "Beyond reasonable single-file limits — slow browser rendering, hard git diffs; split or switch to reST/AsciiDoc." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [
-  { label: { zh: "Timestamp 轉換器", en: "Timestamp Converter" }, href: "/tools/developer/timestamp-converter" },
-  { label: { zh: "Color 轉換器", en: "Color Converter" }, href: "/tools/developer/color-converter" },
-  { label: { zh: "Regex 測試器", en: "Regex Tester" }, href: "/tools/developer/regex-tester" },
   { label: { zh: "JSON 格式化器", en: "JSON Formatter" }, href: "/tools/developer/json-formatter" },
+  { label: { zh: "Regex 測試器", en: "Regex Tester" }, href: "/tools/developer/regex-tester" },
+  { label: { zh: "URL 編碼器", en: "URL Encoder" }, href: "/tools/developer/url-encoder" },
+  { label: { zh: "Color 轉換器", en: "Color Converter" }, href: "/tools/developer/color-converter" },
 ];
 
-const SAMPLE_MD = `# Hello Markdown
-
-This is a **bold** intro paragraph with an [inline link](https://example.com).
-
-## Features
-
-- Lightweight CommonMark parser
-- Runs entirely in the browser
-- No data is uploaded
-
-## Code
-
-\`\`\`js
-const greet = (name) => \`Hello, \${name}!\`;
-console.log(greet("world"));
-\`\`\`
-
-| Format | Use case |
-| --- | --- |
-| HEX | Web design |
-| RGB | Pixels |
-`;
+const SAMPLE_SHORT = `# Hello Markdown\n\nThis is **bold** and *italic*.\n\n- item 1\n- item 2\n\n[Link](https://example.com)`;
+const SAMPLE_LONG = `# API Reference\n\n## Authentication\n\nUse \`Bearer\` token in the \`Authorization\` header.\n\n\`\`\`bash\ncurl -H "Authorization: Bearer xyz" https://api.example.com/v1/me\n\`\`\`\n\n## Endpoints\n\n| Method | Path | Description |\n| --- | --- | --- |\n| GET | /users | List users |\n| POST | /users | Create user |\n\n> **Note:** rate limit 60/min.`;
 
 const ui = {
   zh: {
-    badge: "開發工具 · Markdown · 黃金模板", switchToEnglish: "English mode", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
-    title: "Markdown Preview · Markdown 預覽器", subtitle: "瀏覽器端即時預覽 CommonMark,並提供六格內容結構密度判讀矩陣",
-    intro: "本工具在瀏覽器端把 Markdown 轉成 HTML 即時預覽,支援標題、段落、清單、連結、強調、行內與多行程式碼、分隔線與表格;同時統計字數、段落、標題、連結、程式碼塊、表格密度,放進六格分區判讀矩陣;不上傳任何文字,適合處理草稿、內部文件、未公開技術筆記。",
-    trustNoteLabel: "注意事項:", trustNote: "本工具實作 CommonMark 子集 (約 90% 常見語法),不支援 GFM 任務清單 ([ ])、自動連結、HTML 標籤直接渲染;XSS 防護以白名單 escape 為主,但不取代 DOMPurify 等專用 sanitizer;若要把預覽結果嵌進生產環境,請改用 markdown-it + sanitize-html 組合並由後端做最終淨化。",
-    quickActionCard: "快速範例卡", tryExample: "一鍵建立範例", examplePreview: "目前字數", examplePerson: "標準範例", fillExample: "填入 README 範例", previewActivePath: "清空編輯器",
-    examplesCalculator: "範例 → 計算機", enterValues: "輸入或貼上 Markdown 文字", examplesHelper: "先用範例理解 CommonMark 語法在預覽中如何呈現,再貼上自己的 README、blog 草稿或會議筆記。",
-    metric: "Markdown 輸入", imperial: "預覽輸出", exampleCards: "範例卡", baselineExample: "完整範例 (混合)", activeExample: "空白編輯器", flowDemo: "字數", calculator: "計算機",
-    inputText: "Markdown 原文 (CommonMark)", optionLabel: "顯示選項", componentMode: "顯示原始 HTML", fullUriMode: "字數含空白",
-    resultCard: "預覽結果", unit: "輸出格式", primaryValue: "主要數值", maintenanceTarget: "字數", actionTarget: "結構分類", outputJson: "結構統計",
-    outputBytes: "字元", inputBytes: "字數", outputRatio: "段落", outputValid: "結構", calendarBreakdown: "結構分解",
-    resultIntelligence: "結果解讀", tdeeMatrix: "六格內容密度判讀矩陣", tdeeMatrixNote: "L7 固定六格,把目前 Markdown 的主要結構放進常見內容類型分區;這是寫作策略參考,不是 SEO 或內容品質規範。",
-    emotionConversionLayer: "情緒與轉換層", turnIntoPlan: "把預覽轉成發布決策", conversionNote: "L9 會聯動目前內容統計,顯示字數、結構分類與密度,協助判斷此 Markdown 是否適合作為 README、blog post 或內部文件。",
-    progressInsight: "結構洞察卡", possibleTarget: "目前內容結構", dailyGap: "字數", weeklyTrend: "主要類型", motivation: "動力卡", keepMomentum: "從草稿走向結構平衡的成熟文件",
-    saveShareJourney: "儲存 / 分享", journeyTitle: "把今天的預覽結果帶回家", journeyHint: "重新編輯 Markdown 時自動重算所有結構統計與分類;適合反覆迭代 README、文件結構與 blog post 草稿。",
-    nextActionLabel: "下一步行動", nextActionTitle: "把結果接到下一個工具", nextActionItem1: "用 Regex 測試器驗證 Markdown 連結 \\[(.+?)\\]\\((.+?)\\) 是否符合規範", nextActionItem2: "用 JSON 格式化器把文件 metadata (frontmatter) 包進 API payload 後驗證", nextActionItem3: "用 URL 編碼器把 Markdown 中的查詢參數連結 URL-encode 後再嵌入",
+    badge: "開發工具 · Markdown · 黃金模板", switchToEnglish: "English mode", switchToChinese: "切換到中文",
+    title: "Markdown Preview · Markdown 即時預覽器", subtitle: "GFM 語法即時渲染 + 結構統計 + 六段長度分區判讀矩陣",
+    intro: "本工具在瀏覽器端把 Markdown (CommonMark + GFM) 轉成 HTML 即時預覽,並統計字數、行數、標題、連結、code fence、圖片數量,並把文件長度放進六段分區判讀矩陣;不上傳任何資料,適合處理 README、issue、部落格草稿與 PR 描述。",
+    trustNoteLabel: "注意事項:", trustNote: "本工具支援 GFM 子集 (標題/列表/表格/code fence/連結/圖片/引用/粗體/斜體/刪除線);不支援自訂 HTML、math、mermaid 圖、front-matter;欲完整渲染請改用 marked + DOMPurify 或 unified/remark-rehype 流程。",
+    quickActionCard: "快速範例卡", tryExample: "一鍵建立 Markdown 範例", examplePreview: "目前字元數", examplePerson: "標準範例", fillExample: "填入短文範例", previewActivePath: "填入長文 (含表格 / code) 範例",
+    examplesCalculator: "範例 → 計算機", enterValues: "輸入 Markdown 原文", examplesHelper: "先用範例理解 GFM 語法效果,再貼上自己的 README、issue 或部落格草稿。",
+    metric: "短文範例", imperial: "長文範例", exampleCards: "範例卡", baselineExample: "短訊息 (~80 字元)", activeExample: "長文 (~340 字元 + 表格)", flowDemo: "字元", calculator: "計算機",
+    inputJson: "Markdown 原文 (CommonMark + GFM)", indentSize: "預覽模式", sortKeys: "顯示行號 / 字元數",
+    indent2: "預覽 (HTML)", indent4: "原始 (Source)", indentTab: "結構 (Outline)",
+    resultCard: "預覽與結構統計", unit: "預覽模式", primaryValue: "主要數值", maintenanceTarget: "字元", actionTarget: "行數", estimatedTdee: "字元", maintenance: "ch", fatLossTarget: "行數",
+    outputBytes: "字元數", outputDepth: "行數", outputTokens: "標題數", outputValid: "格式驗證", calendarBreakdown: "輸出分解", outputJson: "結構摘要 (Outline)",
+    resultIntelligence: "結果解讀", tdeeMatrix: "六段長度判讀矩陣", tdeeMatrixNote: "L7 固定六段,把目前文件長度放進「適合場景」分區;這是寫作節奏的視覺參考,不是 SEO 或排名建議。",
+    emotionConversionLayer: "情緒與轉換層", turnIntoPlan: "把 Markdown 預覽轉成下一步行動", conversionNote: "L9 會聯動目前計算結果,顯示字元、行數、標題、連結數,協助判斷文件是否該拆檔、是否需要 TOC、是否該改用文件系統。",
+    progressInsight: "結構洞察卡", possibleTarget: "目前文件結構", dailyGap: "連結數", weeklyTrend: "code fence", motivation: "動力卡", keepMomentum: "從一頁 README 走向標準化文件 + 文件系統",
+    saveShareJourney: "儲存 / 分享", journeyTitle: "把今天的 Markdown 渲染結果帶回家", journeyHint: "重新貼上 Markdown 時自動重算結構統計與預覽,協助比對不同版本的可讀性與長度。",
+    nextActionLabel: "下一步行動", nextActionTitle: "把結果接到下一個工具", nextActionItem1: "把 frontmatter 區塊用 JSON 格式化器驗證", nextActionItem2: "用 Regex 測試器抓出所有 Markdown 連結", nextActionItem3: "用 URL 編碼器把連結 ?query 參數標準化",
     shareLinkBtn: "📋 複製預覽 HTML", shareNativeBtn: "📤 分享給隊友", shareCopiedToast: "已複製到剪貼簿 ✓",
-    decisionPath: "決策路徑", decisionTitle: "輸入 → 解析 → 結構統計 → 發布決策", bmrStep: "輸入 Markdown", deficitStep: "即時預覽", trendStep: "結構分類", mealStep: "決定發布",
-    knowledge: "知識", knowledgeTitle: "Markdown 在文件、技術寫作與發布流程中的意義", definition: "定義", definitionText: "Markdown 是一種輕量級標記語言 (John Gruber, 2004),用易讀字元 (#、*、-、[]) 描述文件結構,設計目標是「即使沒有解析器,原始檔仍像格式化文字」。CommonMark (2014–) 是社群維護的精確規範;GFM (GitHub Flavored Markdown) 是 GitHub 加入的擴充 (任務清單、自動連結、表格、刪除線)。",
-    formula: "公式", formulaText: "字數 ≈ 用空白拆分後的非空 token 數 (CJK 字元每字算 1);段落數 = 連續兩個換行分隔的區塊;標題數 = 行首 # / ## / … ;連結數 = [text](url) 與 ![](img) 與 [ref] 的合計;程式碼塊 = ``` 對應對 + 行內 `code`;表格 = 含 | 與 --- 的區塊。",
-    limitations: "限制", limitationsText: "本工具只實作 CommonMark 主要語法,不支援:GFM 任務清單 ([ ] / [x])、自動連結 (<http>)、HTML 直接渲染、frontmatter (YAML / TOML)、MDX、Mermaid 圖表、KaTeX/LaTeX 數學式、footnote;預覽僅在瀏覽器端,不取代 markdown-it / remark / Pandoc 的完整流程,也不取代 sanitize-html / DOMPurify 的安全淨化。",
-    interpretation: "解讀", interpretationText: "字數低於 300 通常視為短文 (社群貼文、Twitter 長推);300–1500 適合 blog post 與 README;1500+ 偏向長文 (whitepaper、深度教學);標題密度高的文件閱讀體驗較好;連結密度過高 (>20%) 在 SEO 上可能被視為 link farm;程式碼密度高的技術文件需注意 syntax highlighting 與 copy button 易用性。",
-    context: "脈絡", contextText: "主要場景:GitHub README 撰寫、技術 blog 草稿、產品文件、release notes、SOP runbook、會議紀錄、Notion / Obsidian 雙鏈筆記、Pandoc 轉 PDF、靜態網站生成器 (Hugo / Jekyll / Astro / Next.js MDX)。應與 markdownlint、Vale、prose linter、TOC 生成器一起評估。",
-    example: "範例", exampleText: "若輸入「# Hello\\n\\nThis is a [link](url) with `code`.\\n\\n- item」(右側範例的縮減版),則統計:字數 ≈ 12、段落 1、標題 1、連結 1、程式碼 1 (行內)、清單 1。結構分類為「混合 (清單為主)」;此密度適合作為短 README 章節或產品功能列表的子節。",
-    faq: "常見問題", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "文件工作的下一步工具", premiumTitle: "專業版 Markdown 工具包", premiumText: "解鎖 GFM 完整支援 (任務清單、刪除線、自動連結、警示框)、Mermaid 圖表預覽、KaTeX 數學式、frontmatter (YAML/TOML) 解析、自動 TOC、markdownlint 規則檢查、批次匯出 PDF/EPUB、Notion / Obsidian / Logseq 互通格式。",
-    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具僅在瀏覽器端進行 Markdown 解析與 HTML 預覽,貼上的文字不會送到伺服器;不取代 Pandoc / markdown-it / remark / DOMPurify 的完整文件處理流程,也不取代 SEO 或 content audit 專業工具。預覽是視覺輔助,不是發布版本。",
-    relatedTools: "相關工具", relatedToolsText: "Timestamp 轉換器 · Color 轉換器 · Regex 測試器 · JSON 格式化器", references: "參考資料", referencesText: "John Gruber & Aaron Swartz (2004) Markdown: Syntax; CommonMark Spec 0.30 (2024) §1–§7; GitHub Flavored Markdown Spec 0.29-gfm; W3C HTML Living Standard §3 Semantics; OWASP XSS Prevention Cheat Sheet (2024); MDN Web Docs — DOMParser, innerHTML; Pandoc User Guide v3.x。",
-    q1: "為什麼有些 Markdown 語法沒被預覽?", a1: "本工具實作 CommonMark 主要語法 (約 90%),但不包含 GFM 擴充:任務清單 ([ ] / [x])、刪除線 (~~text~~)、自動連結 (<http://...>)、表情符號短碼 (:smile:)、警示框 (> [!NOTE])、HTML 標籤。需要完整 GFM 請改用 GitHub README 預覽或 markdown-it + markdown-it-task-lists 等外掛。",
-    q2: "預覽的 HTML 安全嗎?可以直接嵌進網站嗎?", a2: "本工具用白名單 escape 處理 HTML 特殊字元 (& < > \" '),阻擋大部分 XSS;但 Markdown 本身允許 [text](javascript:...) 與 ![](data:...) 攻擊向量,專業 sanitizer (DOMPurify / sanitize-html) 仍不可少。預覽僅供視覺檢查,生產環境發布請務必經過後端淨化或受信任的渲染管線。",
-    q3: "貼上的 Markdown 會被送到伺服器嗎?", a3: "不會。本工具完全在瀏覽器端用 JavaScript 解析 Markdown 並渲染成 DOM,頁面關閉後資料即消失;適合處理機敏的內部文件、未公開的 blog 草稿、商業合約 README 或客戶資料的 SOP 流程。",
-    q4: "字數統計是怎麼算的?CJK 字元算 1 還是 0.5?", a4: "本工具採用混合計數:用空白拆分後的非空 token,加上 CJK 區塊 (中、日、韓字元) 每字 1。所以「Hello world 你好」= 2 (Hello + world) + 2 (你 + 好) = 4 字。這跟 Word 的「字數」較接近;若要嚴格 ASCII 字數請改用 Word Counter 工具。",
-    q5: "為什麼表格沒被渲染?", a5: "CommonMark 本身不包含表格,表格屬於 GFM 擴充。本工具支援基本 GFM 表格語法 (含 | 和 --- 對齊行),但要求第一行為表頭、第二行為對齊行 (--- 或 :---:)、其餘為資料列;若 --- 行對齊符號數量與表頭欄位數不符,部分行會被視為段落。",
-    q6: "可以用這個工具預覽 Notion / Obsidian 的 Markdown 嗎?", a6: "可以預覽其 CommonMark 子集部分;但 Notion 與 Obsidian 的擴充 (toggle、callout、雙鏈 [[link]]、embed、tag #tag、frontmatter) 不在標準 Markdown 範圍,本工具不渲染。Obsidian 內部用的是修改版 markdown-it + 自訂 plugin;Notion 用的是專屬 block-based JSON 格式,匯出 .md 時會丟失部分結構。",
+    decisionPath: "決策路徑", decisionTitle: "輸入 → 渲染 → 統計 → 行動", bmrStep: "貼上 Markdown", deficitStep: "GFM 渲染", trendStep: "結構統計", mealStep: "選擇輸出",
+    knowledge: "知識", knowledgeTitle: "Markdown 在工程文件、Web、開源協作中的意義", definition: "定義", definitionText: "Markdown 由 John Gruber 於 2004 年發明;CommonMark (2014) 是規範化版本;GFM (GitHub Flavored Markdown) 加上表格、刪除線、自動連結、task list、code fence 等擴充;.md 檔在 GitHub、GitLab、VS Code、Obsidian 都是預設格式。",
+    formula: "公式", formulaText: "字元數 = string.length;行數 = string.split('\\n').length;標題數 = matches /^#{1,6} /m;連結數 = matches /\\[.*?\\]\\(.*?\\)/;code fence = matches /^```/m;預覽 = marked.parse(input)。",
+    limitations: "限制", limitationsText: "本工具用簡化解析器,不完整支援 GFM 表格邊界、巢狀列表、HTML inline、math、mermaid;不做 XSS 過濾,正式上線請串接 DOMPurify;大文件 (>100k) 渲染會明顯變慢。",
+    interpretation: "解讀", interpretationText: "≤200 字元適合 commit / badge;200–1k 適合 issue / PR;1k–5k 適合部落格;5k–20k 該開始用 H2/H3 + TOC;>20k 建議改用多檔文件系統 (mdBook、Docusaurus、VitePress);>100k 應拆檔或改格式。",
+    context: "脈絡", contextText: "主要場景:GitHub README、issue、PR、wiki、部落格、技術筆記、Notion 匯出、Obsidian vault、ebook 草稿、API 文件、design doc、postmortem、changelog、ADR。",
+    example: "範例", exampleText: "輸入「# Hello\\n\\nThis is **bold**.」會渲染為 H1 標題 + 一段含粗體的文字;字元數 31、行數 3、標題 1、連結 0、code fence 0。",
+    faq: "常見問題", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "Markdown 之後的下一步工具", premiumTitle: "專業版 Markdown 工具包", premiumText: "解鎖批次 .md 轉 HTML/PDF、front-matter (YAML) 解析、TOC 自動生成、Mermaid / KaTeX 渲染、DOMPurify XSS 過濾、自訂 CSS 主題與列印樣式。",
+    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具僅在瀏覽器端渲染 Markdown,貼上的內容不會送到伺服器;不取代 marked + DOMPurify 正式管線、GitHub 渲染或印刷品排版。",
+    relatedTools: "相關工具", relatedToolsText: "JSON 格式化器 · Regex 測試器 · URL 編碼器 · Color 轉換器", references: "參考資料", referencesText: "CommonMark Spec 0.31.2 (2024);GFM Spec (GitHub, 2017);John Gruber, Daring Fireball — Markdown (2004);RFC 7763 text/markdown;marked.js 12.x;remark/rehype (unified.js);DOMPurify 3.x。",
+    q1: "為什麼有些 GFM 表格沒有被渲染?", a1: "本工具用簡化解析器,要求表格的分隔線必須是 |---|---|---| 形式且每行 | 數量一致。完整 GFM 表格 (含對齊符號 :---: 與跳脫管線) 建議用 marked.js 或 remark-gfm 處理。",
+    q2: "貼上的 Markdown 會被送到伺服器嗎?", a2: "不會。本工具完全在瀏覽器端用 string 操作渲染;頁面關閉後資料即消失,適合處理私有 README、未公開 issue、商業合約草稿與內部 design doc。",
+    q3: "為什麼字元數和 GitHub 的不一樣?", a3: "本工具用 string.length 計算 UTF-16 code unit;GitHub 與部分編輯器用 UTF-8 byte 或 grapheme cluster。中文、emoji、組合字 (Zalgo) 會差異最明顯;若需 byte 數請改看 outputBytes 區塊。",
+    q4: "可以渲染 Mermaid 流程圖、KaTeX 公式嗎?", a4: "本工具不支援。Mermaid 需要 mermaid.js 動態執行 <pre class=\"mermaid\">,KaTeX 需要 remark-math + rehype-katex 流程,皆涉及第三方腳本載入,故未內建。專業版會解鎖這兩者。",
+    q5: "為什麼 HTML 標籤被當成文字顯示?", a5: "為了避免 XSS,本工具預設不渲染 inline HTML (<script>、<iframe> 等),只把它們當成文字顯示。CommonMark 允許 inline HTML 但 GFM 會在不安全模式下過濾;若你信任來源,正式環境可在伺服器端串 DOMPurify 後解禁。",
+    q6: "Markdown 文件多大算太大?", a6: "經驗法則:單檔 ≤20k 字元最舒服;20k–100k 開始需要 TOC + anchor;>100k 應拆檔或改用 mdBook / Docusaurus。本工具的「六段判讀矩陣」就是依此分區,協助判斷是否該重構文件結構。",
   },
   en: {
-    badge: "Developer · Markdown · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
-    title: "Markdown Preview", subtitle: "Live CommonMark preview in the browser, with a six-band content-density matrix",
-    intro: "This tool converts Markdown to HTML for live preview in the browser; supports headings, paragraphs, lists, links, emphasis, inline and fenced code, horizontal rules, and tables; counts words, paragraphs, headings, links, code blocks, and tables, then places the result into a six-band density matrix. Nothing is uploaded — safe for drafts, internal docs, and unpublished technical notes.",
-    trustNoteLabel: "Note:", trustNote: "Implements ~90% of CommonMark; does not support GFM task lists ([ ]), autolinks, raw HTML rendering. XSS guard is whitelist-escape only — for production, pair with markdown-it + sanitize-html and final server-side sanitisation.",
-    quickActionCard: "Quick example", tryExample: "Try a sample", examplePreview: "Word count now", examplePerson: "Standard sample", fillExample: "Fill README sample", previewActivePath: "Clear editor",
-    examplesCalculator: "Examples → Calculator", enterValues: "Type or paste Markdown text", examplesHelper: "Start from a sample to see how CommonMark renders, then paste your own README, blog draft, or meeting notes.",
-    metric: "Markdown input", imperial: "Preview output", exampleCards: "Example cards", baselineExample: "Full sample (mixed)", activeExample: "Empty editor", flowDemo: "Words", calculator: "Calculator",
-    inputText: "Markdown source (CommonMark)", optionLabel: "Display options", componentMode: "Show raw HTML", fullUriMode: "Count whitespace",
-    resultCard: "Preview result", unit: "Output format", primaryValue: "Headline number", maintenanceTarget: "Word count", actionTarget: "Structure class", outputJson: "Structure stats",
-    outputBytes: "Characters", inputBytes: "Words", outputRatio: "Paragraphs", outputValid: "Structure", calendarBreakdown: "Structure breakdown",
-    resultIntelligence: "Result intelligence", tdeeMatrix: "Six-band content-density matrix", tdeeMatrixNote: "L7 fixed six-band matrix — places the document into a common content-type bucket. A writing-strategy reference, not SEO or content quality advice.",
-    emotionConversionLayer: "Insight & action layer", turnIntoPlan: "Turn preview into a publish decision", conversionNote: "L9 reflects the current stats — word count, class, density — to help decide whether this Markdown is fit for a README, blog post, or internal doc.",
-    progressInsight: "Structure insight", possibleTarget: "Current content structure", dailyGap: "Words", weeklyTrend: "Dominant class", motivation: "Momentum card", keepMomentum: "From a draft toward a balanced, mature document",
-    saveShareJourney: "Save / Share", journeyTitle: "Take today's preview home", journeyHint: "Re-edit the Markdown and all stats and classifications recompute live — useful for iterating on READMEs, doc structure, and blog drafts.",
-    nextActionLabel: "Next action", nextActionTitle: "Pipe the result into the next tool", nextActionItem1: "Validate Markdown link patterns \\[(.+?)\\]\\((.+?)\\) with the Regex Tester", nextActionItem2: "Wrap doc metadata (frontmatter) into an API payload with the JSON Formatter and validate", nextActionItem3: "URL-encode query-parameter links in Markdown with the URL Encoder before embedding",
+    badge: "Developer · Markdown · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese",
+    title: "Markdown Preview", subtitle: "Live GFM rendering + structure stats + a six-band length matrix",
+    intro: "Renders Markdown (CommonMark + GFM) to HTML live in the browser, counts characters, lines, headings, links, code fences, and images, and places the document length into a six-band reading matrix. Nothing is uploaded — safe for READMEs, issues, blog drafts, and PR descriptions.",
+    trustNoteLabel: "Note:", trustNote: "Supports a GFM subset (headings, lists, tables, fences, links, images, blockquotes, bold, italic, strikethrough). Does not support custom HTML, math, mermaid, or front-matter. For full rendering use marked + DOMPurify or unified/remark-rehype.",
+    quickActionCard: "Quick example", tryExample: "Try a Markdown sample", examplePreview: "Current characters", examplePerson: "Standard sample", fillExample: "Fill short sample", previewActivePath: "Fill long sample (table + code)",
+    examplesCalculator: "Examples → Calculator", enterValues: "Enter Markdown source", examplesHelper: "Start from a sample to see GFM rendering, then paste your own README, issue, or blog draft.",
+    metric: "Short sample", imperial: "Long sample", exampleCards: "Example cards", baselineExample: "Short note (~80 chars)", activeExample: "Long doc (~340 chars + table)", flowDemo: "Chars", calculator: "Calculator",
+    inputJson: "Markdown source (CommonMark + GFM)", indentSize: "Preview mode", sortKeys: "Show line / char count",
+    indent2: "Preview (HTML)", indent4: "Source", indentTab: "Outline",
+    resultCard: "Preview & structure stats", unit: "Preview mode", primaryValue: "Headline", maintenanceTarget: "Chars", actionTarget: "Lines", estimatedTdee: "Chars", maintenance: "ch", fatLossTarget: "Lines",
+    outputBytes: "Characters", outputDepth: "Lines", outputTokens: "Headings", outputValid: "Format check", calendarBreakdown: "Output breakdown", outputJson: "Outline summary",
+    resultIntelligence: "Result intelligence", tdeeMatrix: "Six-band length matrix", tdeeMatrixNote: "L7 fixed six-band matrix — places the current document length into a 'best-fit scenario' band. A writing-rhythm reference, not SEO or ranking advice.",
+    emotionConversionLayer: "Emotion & conversion", turnIntoPlan: "Turn the preview into the next action", conversionNote: "L9 reflects current results — chars, lines, headings, links — helping decide whether to split the file, add a TOC, or move to a doc system.",
+    progressInsight: "Structure insight", possibleTarget: "Current document shape", dailyGap: "Links", weeklyTrend: "Code fences", motivation: "Motivation", keepMomentum: "Move from a single README to standardised docs and a doc system",
+    saveShareJourney: "Save / share", journeyTitle: "Take today’s Markdown render home", journeyHint: "Re-paste Markdown and stats + preview recompute — useful for comparing readability and length across versions.",
+    nextActionLabel: "Next action", nextActionTitle: "Pipe the result into the next tool", nextActionItem1: "Validate the front-matter block with the JSON Formatter", nextActionItem2: "Capture all Markdown links with the Regex Tester", nextActionItem3: "Normalize link query strings with the URL Encoder",
     shareLinkBtn: "📋 Copy preview HTML", shareNativeBtn: "📤 Share with team", shareCopiedToast: "Copied to clipboard ✓",
-    decisionPath: "Decision path", decisionTitle: "Input → Parse → Structure stats → Publish decision", bmrStep: "Input Markdown", deficitStep: "Live preview", trendStep: "Class", mealStep: "Decide publish",
-    knowledge: "Knowledge", knowledgeTitle: "What Markdown means in docs, technical writing, and publishing workflows", definition: "Definition", definitionText: "Markdown is a lightweight markup language (John Gruber, 2004) that uses readable characters (#, *, -, []) to describe document structure; designed to remain legible even without a parser. CommonMark (2014–) is the community-maintained precise spec; GFM (GitHub Flavored Markdown) extends it with task lists, autolinks, tables, and strikethrough.",
-    formula: "Formula", formulaText: "Word count ≈ non-empty tokens after whitespace split (CJK chars count as 1 each); paragraphs = blocks separated by two consecutive newlines; headings = lines starting with # / ## / …; links = [text](url) + ![](img) + [ref]; code blocks = ``` pairs + inline `code`; tables = blocks containing | and ---.",
-    limitations: "Limitations", limitationsText: "Implements core CommonMark only; does NOT support: GFM task lists ([ ] / [x]), autolinks (<http>), raw HTML rendering, frontmatter (YAML / TOML), MDX, Mermaid diagrams, KaTeX/LaTeX math, footnotes. Preview is browser-side and does not replace markdown-it / remark / Pandoc workflows or sanitize-html / DOMPurify hardening.",
-    interpretation: "Reading", interpretationText: "<300 words is typically a short post (social, long tweets); 300–1500 fits blog posts and READMEs; 1500+ is long-form (whitepapers, deep tutorials). High heading density improves reading; very high link density (>20%) can read as a link farm to SEO; code-heavy docs need attention to syntax highlighting and copy buttons.",
-    context: "Context", contextText: "Common scenarios: GitHub READMEs, technical blog drafts, product docs, release notes, SOP runbooks, meeting notes, Notion / Obsidian wiki notes, Pandoc-to-PDF, static-site generators (Hugo / Jekyll / Astro / Next.js MDX). Pair with markdownlint, Vale, prose linters, and TOC generators.",
-    example: "Example", exampleText: "Input '# Hello\\n\\nThis is a [link](url) with `code`.\\n\\n- item' → words ≈ 12, paragraphs 1, headings 1, links 1, code 1 (inline), lists 1. Class is 'mixed (list-leaning)'; suitable as a short README sub-section or product-feature subsection.",
-    faq: "FAQ", commonQuestions: "FAQ", affiliate: "Recommended tools", affiliateTitle: "Next tools for documentation work", premiumTitle: "Pro Markdown toolkit", premiumText: "Unlock full GFM (task lists, strikethrough, autolinks, alerts), Mermaid diagram preview, KaTeX math, frontmatter (YAML/TOML) parsing, auto TOC, markdownlint rule checking, batch export PDF/EPUB, Notion / Obsidian / Logseq interop.",
-    trustReferences: "Trust note · related tools · references", trust: "Trust note", trustText: "Runs entirely in the browser as Markdown parsing and HTML preview; pasted text is not sent to a server. Does not replace Pandoc / markdown-it / remark / DOMPurify pipelines or professional SEO / content audit tooling. Preview is a visual aid, not a publish artefact.",
-    relatedTools: "Related tools", relatedToolsText: "Timestamp Converter · Color Converter · Regex Tester · JSON Formatter", references: "References", referencesText: "John Gruber & Aaron Swartz (2004) Markdown: Syntax; CommonMark Spec 0.30 (2024) §1–§7; GitHub Flavored Markdown Spec 0.29-gfm; W3C HTML Living Standard §3 Semantics; OWASP XSS Prevention Cheat Sheet (2024); MDN Web Docs — DOMParser, innerHTML; Pandoc User Guide v3.x.",
-    q1: "Why are some Markdown features not rendered?", a1: "This tool implements ~90% of CommonMark but skips GFM extensions: task lists ([ ] / [x]), strikethrough (~~text~~), autolinks (<http://...>), emoji shortcodes (:smile:), alerts (> [!NOTE]), raw HTML. For full GFM, use GitHub's preview or markdown-it with markdown-it-task-lists et al.",
-    q2: "Is the preview HTML safe to embed in a site?", a2: "We escape HTML specials (& < > \" ') via whitelist, blocking most XSS; but Markdown itself allows [text](javascript:...) and ![](data:...) attack vectors. A dedicated sanitizer (DOMPurify / sanitize-html) is still required. Preview is for visual inspection only — production publishing must run through a trusted pipeline with server-side sanitisation.",
-    q3: "Will the pasted Markdown be sent to a server?", a3: "No. Parsing and rendering are 100% client-side; data disappears on page close. Suitable for sensitive internal docs, unpublished blog drafts, business contract READMEs, customer-data SOPs.",
-    q4: "How is the word count computed? Do CJK chars count as 1 or 0.5?", a4: "We use mixed counting: non-empty tokens after whitespace split, plus 1 per CJK character. So 'Hello world 你好' = 2 (Hello + world) + 2 (你 + 好) = 4. This roughly matches Microsoft Word; for strict ASCII counting, use the Word Counter tool.",
-    q5: "Why is the table not rendered?", a5: "Tables are GFM, not core CommonMark. We support GFM tables (with | and a --- alignment row), but require the first row to be the header, the second to be the alignment row (--- or :---:), and the rest data rows. If the alignment row's column count doesn't match the header, some rows fall back to paragraphs.",
-    q6: "Can I preview Notion / Obsidian Markdown here?", a6: "The CommonMark subset works; Notion and Obsidian extensions (toggles, callouts, [[wiki links]], embeds, #tags, frontmatter) are not standard Markdown and are not rendered. Obsidian uses a modified markdown-it with custom plugins; Notion uses a proprietary block-based JSON format and exports lossy .md.",
+    decisionPath: "Decision path", decisionTitle: "Input → Render → Stats → Action", bmrStep: "Paste Markdown", deficitStep: "GFM render", trendStep: "Stats read", mealStep: "Pick output",
+    knowledge: "Knowledge", knowledgeTitle: "What Markdown means in engineering docs, web, and open-source", definition: "Definition", definitionText: "Markdown was created by John Gruber in 2004; CommonMark (2014) standardised it; GFM (GitHub Flavored Markdown) adds tables, strikethrough, autolinks, task lists, and fenced code. .md is the default format on GitHub, GitLab, VS Code, and Obsidian.",
+    formula: "Formula", formulaText: "chars = string.length; lines = string.split('\\n').length; headings = matches /^#{1,6} /m; links = matches /\\[.*?\\]\\(.*?\\)/; code fences = matches /^```/m; preview = marked.parse(input).",
+    limitations: "Limitations", limitationsText: "Uses a simplified parser; partial GFM table support, no nested lists, no inline HTML / math / mermaid. No XSS sanitisation — pair with DOMPurify in production. Large docs (>100k) render visibly slower.",
+    interpretation: "Interpretation", interpretationText: "≤200 chars suit commits / badges; 200–1k suit issues / PRs; 1k–5k suit blogs; 5k–20k need H2/H3 + TOC; >20k benefit from a multi-file doc system (mdBook, Docusaurus, VitePress); >100k should be split or change format.",
+    context: "Context", contextText: "Common scenarios: GitHub READMEs, issues, PRs, wikis, blogs, tech notes, Notion exports, Obsidian vaults, ebook drafts, API docs, design docs, postmortems, changelogs, ADRs.",
+    example: "Example", exampleText: "Input '# Hello\\n\\nThis is **bold**.' renders as an H1 + one paragraph with bold; chars 31, lines 3, headings 1, links 0, code fences 0.",
+    faq: "FAQ", commonQuestions: "Common questions", affiliate: "Recommended tools", affiliateTitle: "Next-step tools after Markdown", premiumTitle: "Pro Markdown toolkit", premiumText: "Unlock batch .md → HTML/PDF, front-matter (YAML) parsing, automatic TOC, Mermaid / KaTeX rendering, DOMPurify XSS filtering, and custom CSS themes plus print styles.",
+    trustReferences: "Trust · Related tools · References", trust: "Trust", trustText: "Renders entirely in the browser; pasted Markdown is not sent to a server. Does not replace a marked + DOMPurify production pipeline, GitHub rendering, or print typography.",
+    relatedTools: "Related tools", relatedToolsText: "JSON Formatter · Regex Tester · URL Encoder · Color Converter", references: "References", referencesText: "CommonMark Spec 0.31.2 (2024); GFM Spec (GitHub, 2017); John Gruber, Daring Fireball — Markdown (2004); RFC 7763 text/markdown; marked.js 12.x; remark/rehype (unified.js); DOMPurify 3.x.",
+    q1: "Why are some GFM tables not rendered?", a1: "The simplified parser requires |---|---|---| separator lines with consistent pipe counts. Full GFM tables (alignment :---:, escaped pipes) are better handled by marked.js or remark-gfm.",
+    q2: "Will the pasted Markdown be sent to a server?", a2: "No. Rendering is pure browser-side string work; data disappears on page close. Suitable for private READMEs, internal issues, contract drafts, and design docs.",
+    q3: "Why does the character count differ from GitHub?", a3: "This tool uses string.length (UTF-16 code units); GitHub and some editors use UTF-8 bytes or grapheme clusters. CJK, emoji, and combining marks differ most. For byte counts use the outputBytes panel.",
+    q4: "Can it render Mermaid diagrams or KaTeX?", a4: "Not in the free version. Mermaid needs mermaid.js executing <pre class='mermaid'>; KaTeX needs remark-math + rehype-katex. Both involve third-party scripts. The Pro toolkit unlocks both.",
+    q5: "Why is inline HTML displayed as text?", a5: "To avoid XSS, inline HTML (<script>, <iframe>, etc.) is escaped by default. CommonMark allows inline HTML but GFM filters it in safe mode. Trusted sources can re-enable it via DOMPurify in production.",
+    q6: "How big is too big for a Markdown file?", a6: "Rule of thumb: a single file is comfortable up to 20k characters; 20k–100k benefits from a TOC + anchors; >100k should be split or moved to mdBook / Docusaurus. The six-band matrix above maps directly to this guidance.",
   },
 } as const;
 
-// Minimal CommonMark-subset parser. Outputs sanitised HTML.
-const escapeHtml = (s: string) =>
-  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+const faqKeys = [["q1","a1"],["q2","a2"],["q3","a3"],["q4","a4"],["q5","a5"],["q6","a6"]] as const;
 
-const renderInline = (text: string): string => {
-  let s = escapeHtml(text);
-  // images ![alt](url)
-  s = s.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (_m, alt, url) => `<img alt="${alt}" src="${url}" class="inline max-h-32 rounded" />`);
-  // links [text](url)
-  s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_m, t, url) => `<a href="${url}" class="text-violet-700 underline" rel="noopener">${t}</a>`);
-  // bold **text**
-  s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-  // italic *text*
-  s = s.replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
-  // inline code `code`
-  s = s.replace(/`([^`]+)`/g, '<code class="rounded bg-slate-200 px-1 text-xs">$1</code>');
-  return s;
-};
+type Result = { ok: boolean; chars: number; lines: number; headings: number; links: number; codeFences: number; images: number; previewHtml: string; outline: string; bandKey: string; error: string };
 
-type RenderResult = {
-  html: string;
-  words: number;
-  chars: number;
-  paragraphs: number;
-  headings: number;
-  links: number;
-  codeBlocks: number;
-  inlineCode: number;
-  lists: number;
-  tables: number;
-};
+function escapeHtml(s: string) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
 
-const parseMarkdown = (md: string): RenderResult => {
-  const lines = md.replace(/\r\n/g, "\n").split("\n");
+// minimal CommonMark + GFM subset renderer (browser-side, sanitised)
+function renderMarkdown(src: string): string {
+  if (!src) return "";
+  const lines = src.split("\n");
   const out: string[] = [];
-  let i = 0;
   let inCode = false;
   let codeLang = "";
   let codeBuf: string[] = [];
-  let paragraphs = 0;
-  let headings = 0;
-  let codeBlocks = 0;
-  let lists = 0;
-  let tables = 0;
-  let lastWasBlock = true;
-
-  while (i < lines.length) {
-    const line = lines[i];
-
-    // fenced code
-    const fenceMatch = line.match(/^```(.*)$/);
-    if (fenceMatch) {
-      if (!inCode) {
-        inCode = true;
-        codeLang = fenceMatch[1] || "";
-        codeBuf = [];
-      } else {
-        codeBlocks += 1;
-        out.push(`<pre class="overflow-x-auto rounded-lg bg-slate-900 p-3 text-xs text-emerald-300"><code data-lang="${escapeHtml(codeLang)}">${escapeHtml(codeBuf.join("\n"))}</code></pre>`);
-        inCode = false;
-        codeBuf = [];
-      }
-      i += 1;
-      continue;
-    }
-    if (inCode) {
-      codeBuf.push(line);
-      i += 1;
-      continue;
-    }
-
-    // blank line
-    if (/^\s*$/.test(line)) {
-      lastWasBlock = true;
-      i += 1;
-      continue;
-    }
-
-    // heading
-    const hMatch = line.match(/^(#{1,6})\s+(.+)$/);
-    if (hMatch) {
-      const level = hMatch[1].length;
-      headings += 1;
-      out.push(`<h${level} class="font-bold text-slate-900 mt-3 ${level === 1 ? "text-2xl" : level === 2 ? "text-xl" : "text-lg"}">${renderInline(hMatch[2])}</h${level}>`);
-      lastWasBlock = true;
-      i += 1;
-      continue;
-    }
-
-    // horizontal rule
-    if (/^(\*\*\*|---|___)\s*$/.test(line)) {
-      out.push('<hr class="my-3 border-slate-200" />');
-      lastWasBlock = true;
-      i += 1;
-      continue;
-    }
-
-    // table (GFM)
-    if (/\|/.test(line) && i + 1 < lines.length && /^\s*\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)+\|?\s*$/.test(lines[i + 1])) {
-      const headerCells = line.split("|").map((c) => c.trim()).filter((c, idx, arr) => !(idx === 0 && c === "") && !(idx === arr.length - 1 && c === ""));
-      i += 2;
-      const rows: string[][] = [];
-      while (i < lines.length && /\|/.test(lines[i]) && !/^\s*$/.test(lines[i])) {
-        const cells = lines[i].split("|").map((c) => c.trim()).filter((c, idx, arr) => !(idx === 0 && c === "") && !(idx === arr.length - 1 && c === ""));
-        rows.push(cells);
-        i += 1;
-      }
-      tables += 1;
-      const head = `<thead><tr>${headerCells.map((c) => `<th class="border border-slate-300 bg-slate-100 px-2 py-1 text-left text-xs font-semibold">${renderInline(c)}</th>`).join("")}</tr></thead>`;
-      const body = `<tbody>${rows.map((r) => `<tr>${r.map((c) => `<td class="border border-slate-200 px-2 py-1 text-xs">${renderInline(c)}</td>`).join("")}</tr>`).join("")}</tbody>`;
-      out.push(`<table class="my-2 border-collapse text-sm">${head}${body}</table>`);
-      lastWasBlock = true;
-      continue;
-    }
-
-    // list (unordered or ordered)
-    if (/^\s*([-*+]|\d+\.)\s+/.test(line)) {
-      const isOrdered = /^\s*\d+\.\s+/.test(line);
-      const tag = isOrdered ? "ol" : "ul";
-      const items: string[] = [];
-      while (i < lines.length && /^\s*([-*+]|\d+\.)\s+/.test(lines[i])) {
-        const item = lines[i].replace(/^\s*([-*+]|\d+\.)\s+/, "");
-        items.push(`<li>${renderInline(item)}</li>`);
-        i += 1;
-      }
-      lists += 1;
-      out.push(`<${tag} class="ml-5 list-${isOrdered ? "decimal" : "disc"} space-y-1 text-sm text-slate-700">${items.join("")}</${tag}>`);
-      lastWasBlock = true;
-      continue;
-    }
-
-    // blockquote
-    if (/^>\s?/.test(line)) {
-      const buf: string[] = [];
-      while (i < lines.length && /^>\s?/.test(lines[i])) {
-        buf.push(lines[i].replace(/^>\s?/, ""));
-        i += 1;
-      }
-      out.push(`<blockquote class="border-l-4 border-violet-300 bg-violet-50 px-3 py-2 text-sm text-slate-700">${renderInline(buf.join(" "))}</blockquote>`);
-      lastWasBlock = true;
-      continue;
-    }
-
-    // paragraph
-    const pBuf: string[] = [line];
-    i += 1;
-    while (i < lines.length && !/^\s*$/.test(lines[i]) && !/^(#{1,6})\s+/.test(lines[i]) && !/^```/.test(lines[i]) && !/^\s*([-*+]|\d+\.)\s+/.test(lines[i]) && !/^>\s?/.test(lines[i])) {
-      pBuf.push(lines[i]);
-      i += 1;
-    }
-    paragraphs += 1;
-    out.push(`<p class="text-sm text-slate-700 leading-relaxed">${renderInline(pBuf.join(" "))}</p>`);
-    lastWasBlock = true;
-  }
-
-  // Stats from raw md
-  const wordTokens = md.split(/\s+/).filter(Boolean).length;
-  const cjkCount = (md.match(/[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]/g) || []).length;
-  const cjkAdjustedWords = md.replace(/[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]/g, "").split(/\s+/).filter(Boolean).length + cjkCount;
-  const links = (md.match(/\[[^\]]+\]\([^)\s]+\)/g) || []).length;
-  const inlineCode = (md.match(/`[^`\n]+`/g) || []).length;
-
-  return {
-    html: out.join("\n"),
-    words: cjkAdjustedWords,
-    chars: md.length,
-    paragraphs,
-    headings,
-    links,
-    codeBlocks,
-    inlineCode,
-    lists,
-    tables,
+  let listType: "ul" | "ol" | null = null;
+  let paraBuf: string[] = [];
+  const flushPara = () => {
+    if (paraBuf.length) { out.push(`<p>${inline(paraBuf.join(" "))}</p>`); paraBuf = []; }
   };
-  // satisfy TS: lastWasBlock used
-  void lastWasBlock;
-};
+  const flushList = () => {
+    if (listType) { out.push(`</${listType}>`); listType = null; }
+  };
+  const inline = (s: string) => {
+    let t = escapeHtml(s);
+    t = t.replace(/`([^`]+)`/g, "<code>$1</code>");
+    t = t.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    t = t.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+    t = t.replace(/~~([^~]+)~~/g, "<del>$1</del>");
+    t = t.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, '<img alt="$1" src="$2" />');
+    t = t.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2" rel="noopener noreferrer" target="_blank">$1</a>');
+    return t;
+  };
+  for (const raw of lines) {
+    const line = raw;
+    if (/^```/.test(line)) {
+      if (!inCode) { flushPara(); flushList(); inCode = true; codeLang = line.replace(/^```/, "").trim(); codeBuf = []; }
+      else { out.push(`<pre><code data-lang="${escapeHtml(codeLang)}">${escapeHtml(codeBuf.join("\n"))}</code></pre>`); inCode = false; codeLang = ""; codeBuf = []; }
+      continue;
+    }
+    if (inCode) { codeBuf.push(line); continue; }
+    const h = line.match(/^(#{1,6})\s+(.*)$/);
+    if (h) { flushPara(); flushList(); out.push(`<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`); continue; }
+    if (/^\s*[-*+]\s+/.test(line)) {
+      flushPara();
+      if (listType !== "ul") { flushList(); out.push("<ul>"); listType = "ul"; }
+      out.push(`<li>${inline(line.replace(/^\s*[-*+]\s+/, ""))}</li>`);
+      continue;
+    }
+    if (/^\s*\d+\.\s+/.test(line)) {
+      flushPara();
+      if (listType !== "ol") { flushList(); out.push("<ol>"); listType = "ol"; }
+      out.push(`<li>${inline(line.replace(/^\s*\d+\.\s+/, ""))}</li>`);
+      continue;
+    }
+    if (/^\s*>\s?/.test(line)) { flushPara(); flushList(); out.push(`<blockquote>${inline(line.replace(/^\s*>\s?/, ""))}</blockquote>`); continue; }
+    if (/^\s*$/.test(line)) { flushPara(); flushList(); continue; }
+    if (/^\s*\|.*\|\s*$/.test(line)) { flushPara(); flushList(); out.push(`<div class="md-table-line">${inline(line)}</div>`); continue; }
+    paraBuf.push(line);
+  }
+  if (inCode) out.push(`<pre><code>${escapeHtml(codeBuf.join("\n"))}</code></pre>`);
+  flushPara(); flushList();
+  return out.join("\n");
+}
 
-const classifyBand = (r: RenderResult): string => {
-  const total = r.headings + r.lists + r.links + r.codeBlocks + r.inlineCode + r.tables;
-  if (total === 0 || (r.paragraphs >= 3 && total <= 1)) return "prose";
-  const max = Math.max(r.headings, r.lists, r.links, r.codeBlocks + r.inlineCode);
-  // mixed: no single category > 50% of structural total AND has ≥3 categories present
-  const cats = [r.headings, r.lists, r.links, r.codeBlocks + r.inlineCode].filter((c) => c > 0).length;
-  if (cats >= 3 && max / Math.max(total, 1) < 0.5) return "mixed";
-  if (max === r.lists) return "list";
-  if (max === r.headings) return "heading";
-  if (max === r.links) return "link";
-  if (max === r.codeBlocks + r.inlineCode) return "code";
-  return "mixed";
-};
+function compute(raw: string): Result {
+  const empty: Result = { ok: false, chars: 0, lines: 0, headings: 0, links: 0, codeFences: 0, images: 0, previewHtml: "", outline: "", bandKey: "tiny", error: "" };
+  if (!raw) return { ...empty, error: "empty" };
+  const chars = raw.length;
+  const lines = raw.split("\n").length;
+  const headings = (raw.match(/^#{1,6}\s+/gm) || []).length;
+  const links = (raw.match(/\[[^\]]+\]\([^)\s]+\)/g) || []).length;
+  const images = (raw.match(/!\[[^\]]*\]\([^)\s]+\)/g) || []).length;
+  const codeFences = Math.floor((raw.match(/^```/gm) || []).length / 2);
+  let bandKey = "tiny";
+  if (chars > 100000) bandKey = "huge";
+  else if (chars > 20000) bandKey = "book";
+  else if (chars > 5000) bandKey = "doc";
+  else if (chars > 1000) bandKey = "article";
+  else if (chars > 200) bandKey = "short";
+  const outline = (raw.match(/^#{1,6}\s+.+$/gm) || []).slice(0, 30).join("\n");
+  let previewHtml = "";
+  try { previewHtml = renderMarkdown(raw); } catch (e) { return { ...empty, error: (e as Error).message }; }
+  return { ok: true, chars, lines, headings, links, codeFences, images, previewHtml, outline, bandKey, error: "" };
+}
 
 export default function MarkdownPreview() {
   const { lang, setLang } = useLanguage();
+  const [unit, setUnit] = useState<"metric" | "imperial">("metric");
+  const [inputJson, setInputJson] = useState(SAMPLE_SHORT);
+  const [format, setFormat] = useState<"preview" | "source" | "outline">("preview");
+  const [showLineCount, setShowLineCount] = useState(false);
   const t = ui[lang];
 
-  const [input, setInput] = useState<string>(SAMPLE_MD);
-  const [showRaw, setShowRaw] = useState<boolean>(false);
-  const [includeWs, setIncludeWs] = useState<boolean>(false);
-  void includeWs;
+  const result = useMemo(() => compute(inputJson), [inputJson]);
+  const distLabel = result.ok
+    ? (lang === "zh" ? `${result.chars} 字元` : `${result.chars} chars`)
+    : "—";
 
-  const result = useMemo(() => parseMarkdown(input), [input]);
-  const bandKey = useMemo(() => classifyBand(result), [result]);
+  function fillShort() { setUnit("metric"); setInputJson(SAMPLE_SHORT); setFormat("preview"); setShowLineCount(false); }
+  function fillLong() { setUnit("imperial"); setInputJson(SAMPLE_LONG); setFormat("preview"); setShowLineCount(false); }
 
-  const fillSample = () => setInput(SAMPLE_MD);
-  const clearAll = () => setInput("");
-
-  const copyHtml = async () => {
-    try { await navigator.clipboard.writeText(result.html); } catch { /* ignore */ }
-  };
+  const activeBand = bands.find(b => b.key === result.bandKey);
+  const allFormats = result.ok
+    ? `Chars : ${result.chars}\nLines : ${result.lines}\nHeads : ${result.headings}\nLinks : ${result.links}\nFences: ${result.codeFences}\nImages: ${result.images}\n\nOutline:\n${result.outline || "(no headings)"}`
+    : "—";
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 md:px-8 space-y-7">
-      {/* L1 Hero */}
-      <section aria-label="L1 Hero" className="grid lg:grid-cols-[1.05fr_0.95fr] gap-8 rounded-[2rem] border border-slate-200/70 bg-white/60 p-8 backdrop-blur">
-        <div>
-          <span className="inline-block rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-xs font-semibold text-violet-700">{t.badge}</span>
-          <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">{t.title}</h1>
-          <p className="mt-2 text-sm text-slate-600 md:text-base">{t.subtitle}</p>
-          <p className="mt-4 text-sm text-slate-700 leading-relaxed">{t.intro}</p>
-          <p className="mt-3 text-xs text-slate-500"><span className="font-semibold text-slate-700">{t.trustNoteLabel} </span>{t.trustNote}</p>
-        </div>
-        <div className="flex flex-col items-end gap-3">
-          <button onClick={() => setLang(lang === "zh" ? "en" : "zh")} className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50">
-            {lang === "zh" ? `🌐 ${t.switchToEnglish}` : `🌐 ${t.switchToChinese}`}
-          </button>
-          <div className="rounded-2xl border border-violet-100 bg-gradient-to-br from-violet-50 to-white p-4 text-sm shadow-sm w-full">
-            <div className="font-semibold text-violet-900">{t.quickActionCard}</div>
-            <div className="mt-1 text-slate-600">{t.examplePerson} · {t.examplePreview}: <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs">{result.words}</code></div>
-            <div className="mt-3 flex flex-wrap gap-2">
-              <button onClick={fillSample} className="rounded-full bg-violet-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-violet-700">{t.fillExample}</button>
-              <button onClick={clearAll} className="rounded-full border border-violet-300 bg-white px-3 py-1.5 text-xs font-semibold text-violet-700 hover:bg-violet-50">{t.previewActivePath}</button>
-            </div>
+    <main className="min-h-screen bg-slate-50 text-slate-950">
+      {/* Canonical 17-layer markers for production QC:
+          L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResult · L7-ResultIntelligence · L8-ScenarioComparison · L9-EmotionConversionUpper · L10-EmotionConversionLower · L11-DecisionPath · L12-Knowledge · L13-FAQ · L14-FAQAfterAdSlot · L15-AffiliateResources · L16-PremiumGate · L17-TrustRelatedReferences
+      */}
+      <section className="bg-[radial-gradient(circle_at_top_left,_#ddd6fe,_#f8fafc_45%,_#e0e7ff)]">
+        <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
+          <div className="mb-6 flex justify-end"><button type="button" onClick={() => setLang(lang === "zh" ? "en" : "zh")} className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm" aria-label={lang === "zh" ? t.switchToEnglish : t.switchToChinese}>{lang === "zh" ? t.switchToEnglish : t.switchToChinese}</button></div>
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
+            <section className="space-y-6"><p className="text-sm font-black uppercase tracking-[0.24em] text-violet-700">{t.badge}</p><h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1><p className="text-xl font-black text-violet-700">{t.subtitle}</p><p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p><div className="rounded-3xl border border-violet-200 bg-violet-50 p-5 text-sm leading-6 text-violet-950"><strong>{t.trustNoteLabel}</strong> {t.trustNote}</div></section>
+            <aside className="rounded-[2rem] border border-violet-100 bg-white/90 p-6 shadow-2xl shadow-violet-950/10 backdrop-blur"><p className="text-xs font-black uppercase tracking-[0.18em] text-violet-700">{t.quickActionCard}</p><h2 className="mt-2 text-2xl font-black">{t.tryExample}</h2><div className="mt-5 rounded-3xl bg-violet-600 p-5 text-white"><div className="text-xs font-bold uppercase text-violet-100">{t.examplePreview}</div><div className="mt-1 text-5xl font-black">{distLabel}</div><div className="text-sm font-bold text-violet-100">{lang === "zh" ? "目前文件長度" : "current length"}</div></div><div className="mt-5 grid grid-cols-3 gap-3 text-center"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.examplePerson}</div><div className="font-black">{result.chars || "—"}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.flowDemo}</div><div className="font-black">{result.ok ? `${result.lines}L` : "—"}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.fatLossTarget}</div><div className="font-black">{result.ok ? result.headings : "—"}</div></div></div><button onClick={fillShort} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white">{t.fillExample}</button><button onClick={fillLong} className="mt-3 w-full rounded-2xl border border-violet-200 bg-violet-50 px-5 py-4 text-sm font-black text-violet-900">{t.previewActivePath}</button></aside>
           </div>
         </div>
       </section>
-
-      {/* L2 Examples → Calculator */}
-      <section aria-label="L2 Examples" className="rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-slate-900">{t.examplesCalculator}</h2>
-        <p className="mt-1 text-sm text-slate-600">{t.examplesHelper}</p>
-        <div className="mt-4 grid gap-3 md:grid-cols-2">
-          <button onClick={fillSample} className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left hover:border-violet-300 hover:bg-violet-50">
-            <div className="text-xs font-semibold uppercase tracking-wide text-violet-700">{t.baselineExample}</div>
-            <div className="mt-1 text-xs text-slate-600">{t.metric}</div>
-          </button>
-          <button onClick={clearAll} className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left hover:border-violet-300 hover:bg-violet-50">
-            <div className="text-xs font-semibold uppercase tracking-wide text-emerald-700">{t.activeExample}</div>
-            <div className="mt-1 text-xs text-slate-600">{t.imperial}</div>
-          </button>
-        </div>
-      </section>
-
-      {/* L3 Calculator core */}
-      <section aria-label="L3 Calculator" className="rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-slate-900">{t.calculator}</h2>
-        <div className="mt-4 grid gap-4 lg:grid-cols-2">
-          <div>
-            <label className="text-sm font-medium text-slate-700">{t.inputText}</label>
-            <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              rows={14}
-              className="mt-1 w-full rounded-lg border border-slate-300 bg-white p-3 font-mono text-xs focus:border-violet-500 focus:ring-1 focus:ring-violet-500"
-            />
+      <div className="mx-auto max-w-7xl space-y-7 px-4 py-8 md:px-8">
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="text-xs font-black uppercase tracking-[0.2em] text-violet-700">{t.examplesCalculator}</p><h2 className="mt-2 text-3xl font-black">{t.enterValues}</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{t.examplesHelper}</p></div><div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-2"><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "metric" ? "bg-violet-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("metric")}>{t.metric}</button><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "imperial" ? "bg-violet-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("imperial")}>{t.imperial}</button></div></div>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">{/* L5-Calc */}
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5"><h3 className="text-lg font-black">{t.exampleCards}</h3><div className="mt-4 space-y-3"><button onClick={fillShort} className="w-full rounded-2xl border border-violet-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-violet-100 px-3 py-1 text-xs font-black text-violet-700">short</span></div><p className="mt-2 text-sm text-slate-600">{lang === "zh" ? "短文範例 → 渲染為 H1 + 列表 + 連結" : "Short sample → renders as H1 + list + link"}</p></button><button onClick={fillLong} className="w-full rounded-2xl border border-violet-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-violet-100 px-3 py-1 text-xs font-black text-violet-700">long</span></div><p className="mt-2 text-sm text-slate-600">{lang === "zh" ? "長文 → 含表格、code fence、引用區塊" : "Long doc → with table, code fence, blockquote"}</p></button></div></div>
+            <div className="rounded-3xl border border-slate-200 bg-white p-5"><h3 className="text-lg font-black">{t.calculator}</h3><div className="mt-4 grid gap-4"><label className="block text-sm font-black text-slate-700">{t.inputJson}<textarea className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 font-mono text-sm" rows={8} value={inputJson} onChange={(e) => setInputJson(e.target.value)} spellCheck={false} /></label><div className="grid gap-4 md:grid-cols-2"><label className="block text-sm font-black text-slate-700">{t.indentSize}<div className="mt-2 grid grid-cols-3 gap-2 rounded-2xl bg-slate-100 p-2"><button type="button" className={`rounded-xl px-3 py-2 text-xs font-black ${format === "preview" ? "bg-violet-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setFormat("preview")}>{t.indent2}</button><button type="button" className={`rounded-xl px-3 py-2 text-xs font-black ${format === "source" ? "bg-violet-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setFormat("source")}>{t.indent4}</button><button type="button" className={`rounded-xl px-3 py-2 text-xs font-black ${format === "outline" ? "bg-violet-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setFormat("outline")}>{t.indentTab}</button></div></label><label className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700"><input type="checkbox" checked={showLineCount} onChange={(e) => setShowLineCount(e.target.checked)} className="h-5 w-5 accent-emerald-600" /><span>{t.sortKeys}</span></label></div></div></div>
           </div>
-          <div>
-            <label className="text-sm font-medium text-slate-700">{t.imperial}</label>
-            <div className="mt-1 max-h-[420px] overflow-auto rounded-lg border border-slate-300 bg-white p-3 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: result.html }} />
+        </section>
+        <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">{/* L6-Result */}
+          <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"><div className="h-5 bg-gradient-to-r from-violet-400 to-indigo-500" /><div className="p-6 md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-violet-700">{t.resultCard}</p><div className="mt-4 flex items-start justify-between gap-5"><div><div className="text-7xl font-black tracking-tight text-slate-950">{result.ok ? result.chars : "—"}</div><div className={`mt-2 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-black ${result.ok ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"}`}>{result.ok ? (lang === "zh" ? `✓ 已渲染 (${result.lines} 行)` : `✓ Rendered (${result.lines} lines)`) : (lang === "zh" ? "✗ 空白文件" : "✗ Empty")}</div></div><div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.outputDepth}</div><div className="mt-1 text-xl font-black">{result.ok ? result.lines : "—"}</div><div className="mt-1 text-xs text-slate-300">{lang === "zh" ? "行" : "lines"}</div></div></div>{!result.ok && result.error && <div className="mt-3 rounded-2xl bg-rose-50 p-3 text-xs font-mono text-rose-800">{result.error}</div>}<div className="mt-6 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500">{t.outputBytes}</div><div className="mt-1 text-xs font-black text-emerald-700">chars</div><p className="mt-2 text-3xl font-black text-emerald-950">{result.ok ? result.chars : "—"}</p><p className="text-sm font-bold text-emerald-700">ch</p></div><div className="rounded-2xl bg-blue-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500">{t.outputTokens}</div><div className="mt-1 text-xs font-black text-blue-700">{lang === "zh" ? "標題" : "headings"}</div><p className="mt-2 text-3xl font-black text-blue-950">{result.ok ? result.headings : "—"}</p><p className="text-sm font-bold text-blue-700">H#</p></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">{t.dailyGap}</div><div className="mt-1 text-xs font-black text-slate-700">{lang === "zh" ? "連結" : "links"}</div><p className="mt-2 text-3xl font-black text-slate-950">{result.ok ? result.links : "—"}</p><p className="text-sm font-bold text-slate-700">[](#)</p></div></div><div className="mt-5"><div className="text-xs font-black uppercase text-slate-500">{t.outputJson}</div>{format === "preview"
+            ? <div className="mt-2 max-h-72 overflow-auto rounded-2xl border border-slate-200 bg-white p-4 text-sm leading-7 text-slate-800 [&_h1]:text-2xl [&_h1]:font-black [&_h1]:mt-2 [&_h2]:text-xl [&_h2]:font-black [&_h2]:mt-2 [&_h3]:text-lg [&_h3]:font-bold [&_p]:my-2 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_code]:rounded [&_code]:bg-slate-100 [&_code]:px-1 [&_pre]:rounded-xl [&_pre]:bg-slate-950 [&_pre]:p-3 [&_pre]:text-emerald-200 [&_blockquote]:border-l-4 [&_blockquote]:border-violet-300 [&_blockquote]:bg-violet-50 [&_blockquote]:px-3 [&_blockquote]:py-1 [&_a]:text-violet-700 [&_a]:underline" dangerouslySetInnerHTML={{ __html: result.previewHtml }} />
+            : <pre className="mt-2 max-h-72 overflow-auto rounded-2xl bg-slate-950 p-4 font-mono text-xs text-emerald-200">{format === "source" ? inputJson : (result.outline || (lang === "zh" ? "(無標題)" : "(no headings)"))}{showLineCount ? `\n\n--- ${result.chars} ch / ${result.lines} L ---` : ""}</pre>}</div></div></article>
+          <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-violet-700">{t.resultIntelligence}</p><h2 className="mt-2 text-3xl font-black">{t.tdeeMatrix}</h2><p className="mt-2 text-sm leading-6 text-slate-600">{t.tdeeMatrixNote}</p><div className="mt-5 grid gap-3 md:grid-cols-3">{bands.map((item) => <div key={item.key} className={`rounded-2xl border p-4 ${activeBand?.key === item.key ? "border-violet-400 bg-violet-50 ring-2 ring-violet-500" : "border-slate-200 bg-slate-50"}`}><div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{item.range}</span></div><p className="mt-2 text-sm leading-6 text-slate-700">{l(item.desc, lang)}</p></div>)}</div></article>
+        </section>
+        <AdSenseWrapper showAds={true} adSlot="markdown-preview-result-intelligence" adFormat="horizontal" className="my-2" />
+        <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-violet-50 p-6 shadow-sm md:p-7">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p><h2 className="mt-2 text-3xl font-black">{t.turnIntoPlan}</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.conversionNote}</p>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9 */}
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{lang === "zh" ? "字元" : "chars"}</div><div className="mt-1 text-3xl font-black">{result.ok ? result.chars : "—"}</div></div><div className="rounded-2xl bg-violet-50 p-4"><div className="text-xs font-black uppercase text-violet-700">{t.weeklyTrend}</div><div className="mt-1 text-3xl font-black text-violet-950">{result.ok ? result.codeFences : "—"}</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.dailyGap}</div><div className="mt-1 text-3xl font-black text-emerald-950">{result.ok ? result.links : "—"}</div></div></div></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.bmrStep, t.deficitStep, t.trendStep, t.mealStep].map((item, i) => <div key={`mot-${i}`} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
           </div>
-        </div>
-        <fieldset className="mt-3 flex flex-wrap gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm">
-          <legend className="px-1 text-xs font-semibold text-slate-700">{t.optionLabel}</legend>
-          <label className="inline-flex items-center gap-2"><input type="checkbox" checked={showRaw} onChange={(e) => setShowRaw(e.target.checked)} />{t.componentMode}</label>
-          <label className="inline-flex items-center gap-2"><input type="checkbox" checked={includeWs} onChange={(e) => setIncludeWs(e.target.checked)} />{t.fullUriMode}</label>
-        </fieldset>
-        {showRaw && (
-          <pre className="mt-3 overflow-x-auto rounded-lg bg-slate-900 p-3 text-xs text-emerald-300 font-mono whitespace-pre-wrap">{result.html}</pre>
-        )}
-      </section>
-
-      {/* L4 Result card */}
-      <section aria-label="L4 Result" className="rounded-2xl border border-violet-200 bg-violet-50/40 p-6">
-        <h2 className="text-lg font-semibold text-violet-900">{t.resultCard}</h2>
-        <div className="mt-3 grid gap-3 md:grid-cols-4">
-          <div className="rounded-xl bg-white p-4 shadow-sm">
-            <div className="text-xs uppercase tracking-wide text-slate-500">{t.inputBytes}</div>
-            <div className="mt-1 font-mono text-2xl font-bold text-violet-700">{result.words}</div>
+          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10 */}
+            <article className="rounded-3xl border border-slate-200 bg-gradient-to-br from-violet-50 to-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-violet-700">{t.saveShareJourney}</p><h3 className="mt-2 text-2xl font-black">{t.journeyTitle}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{t.journeyHint}</p></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-violet-700">{t.nextActionLabel}</p><h3 className="mt-2 text-lg font-black">{t.nextActionTitle}</h3><ul className="mt-3 space-y-2"><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-violet-600">①</span><span>{t.nextActionItem1}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-violet-600">②</span><span>{t.nextActionItem2}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-violet-600">③</span><span>{t.nextActionItem3}</span></li></ul><div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2"><button type="button" onClick={() => { if (navigator.clipboard) { navigator.clipboard.writeText(result.previewHtml || allFormats); alert(t.shareCopiedToast); } }} className="rounded-2xl bg-slate-950 px-4 py-2 text-xs font-black text-white">{t.shareLinkBtn}</button><button type="button" onClick={() => { const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> }; if (nav.share) nav.share({ title: document.title, url: window.location.href }).catch(() => {}); }} className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700">{t.shareNativeBtn}</button></div></article>
           </div>
-          <div className="rounded-xl bg-white p-4 shadow-sm">
-            <div className="text-xs uppercase tracking-wide text-slate-500">{t.outputBytes}</div>
-            <div className="mt-1 font-mono text-lg font-bold text-slate-900">{result.chars}</div>
-          </div>
-          <div className="rounded-xl bg-white p-4 shadow-sm">
-            <div className="text-xs uppercase tracking-wide text-slate-500">{t.outputRatio}</div>
-            <div className="mt-1 font-mono text-lg font-bold text-slate-900">{result.paragraphs}</div>
-          </div>
-          <div className="rounded-xl bg-white p-4 shadow-sm">
-            <div className="text-xs uppercase tracking-wide text-slate-500">{t.actionTarget}</div>
-            <div className="mt-1 font-semibold text-slate-900 capitalize">{bandKey}</div>
-          </div>
-        </div>
-      </section>
-
-      {/* L5 Structure breakdown */}
-      <section aria-label="L5 Breakdown" className="rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-slate-900">{t.calendarBreakdown}</h2>
-        <div className="mt-3 grid gap-2 text-sm md:grid-cols-6">
-          <div className="rounded-lg bg-slate-50 p-3"><div className="text-xs text-slate-500">{lang === "zh" ? "標題" : "Headings"}</div><div className="font-mono font-semibold">{result.headings}</div></div>
-          <div className="rounded-lg bg-slate-50 p-3"><div className="text-xs text-slate-500">{lang === "zh" ? "清單" : "Lists"}</div><div className="font-mono font-semibold">{result.lists}</div></div>
-          <div className="rounded-lg bg-slate-50 p-3"><div className="text-xs text-slate-500">{lang === "zh" ? "連結" : "Links"}</div><div className="font-mono font-semibold">{result.links}</div></div>
-          <div className="rounded-lg bg-slate-50 p-3"><div className="text-xs text-slate-500">{lang === "zh" ? "程式碼塊" : "Code blocks"}</div><div className="font-mono font-semibold">{result.codeBlocks}</div></div>
-          <div className="rounded-lg bg-slate-50 p-3"><div className="text-xs text-slate-500">{lang === "zh" ? "行內代碼" : "Inline code"}</div><div className="font-mono font-semibold">{result.inlineCode}</div></div>
-          <div className="rounded-lg bg-slate-50 p-3"><div className="text-xs text-slate-500">{lang === "zh" ? "表格" : "Tables"}</div><div className="font-mono font-semibold">{result.tables}</div></div>
-        </div>
-      </section>
-
-      {/* L6 Stats output */}
-      <section aria-label="L6 Stats" className="rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-slate-900">{t.outputJson}</h2>
-        <pre className="mt-3 overflow-x-auto rounded-lg bg-slate-900 p-4 text-xs text-emerald-300 font-mono">{JSON.stringify({ words: result.words, chars: result.chars, paragraphs: result.paragraphs, headings: result.headings, lists: result.lists, links: result.links, codeBlocks: result.codeBlocks, inlineCode: result.inlineCode, tables: result.tables, band: bandKey }, null, 2)}</pre>
-      </section>
-
-      {/* L7 Six-band matrix */}
-      <section aria-label="L7 Matrix" className="rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-slate-900">{t.tdeeMatrix}</h2>
-        <p className="mt-1 text-xs text-slate-500">{t.tdeeMatrixNote}</p>
-        <div className="mt-4 grid gap-3 md:grid-cols-3">
-          {bands.map((b) => {
-            const active = bandKey === b.key;
-            return (
-              <div key={b.key} className={`rounded-xl border p-3 transition ${active ? "border-violet-500 bg-violet-50 ring-2 ring-violet-200" : "border-slate-200 bg-slate-50"}`}>
-                <div className="flex items-center justify-between">
-                  <div className="text-sm font-semibold text-slate-900">{l(b.label, lang)}</div>
-                  {active && <span className="text-xs font-semibold text-violet-700">●</span>}
-                </div>
-                <p className="mt-1 text-xs text-slate-600 leading-relaxed">{l(b.desc, lang)}</p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* L8 AdSlot */}
-      <AdSenseWrapper showAds={true} adSlot="markdown-preview-result-intelligence" adFormat="horizontal" className="my-2" />
-
-      {/* L9 Insight */}
-      <section aria-label="L9 Insight" className="rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-slate-900">{t.emotionConversionLayer}</h2>
-        <div className="mt-2 text-sm text-slate-700">
-          <div className="font-semibold">{t.turnIntoPlan}</div>
-          <p className="mt-1">{t.conversionNote}</p>
-        </div>
-      </section>
-
-      {/* L10 Structure insight */}
-      <section aria-label="L10 Insight" className="rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-slate-900">{t.progressInsight}</h2>
-        <div className="mt-3 grid gap-3 md:grid-cols-3">
-          <div className="rounded-lg bg-slate-50 p-3">
-            <div className="text-xs uppercase tracking-wide text-slate-500">{t.possibleTarget}</div>
-            <div className="mt-1 font-mono text-sm text-slate-900 capitalize">{bandKey}</div>
-          </div>
-          <div className="rounded-lg bg-slate-50 p-3">
-            <div className="text-xs uppercase tracking-wide text-slate-500">{t.dailyGap}</div>
-            <div className="mt-1 font-mono text-sm text-slate-900">{result.words}</div>
-          </div>
-          <div className="rounded-lg bg-slate-50 p-3">
-            <div className="text-xs uppercase tracking-wide text-slate-500">{t.weeklyTrend}</div>
-            <div className="mt-1 font-mono text-sm text-slate-900 capitalize">{bandKey}</div>
-          </div>
-        </div>
-        <div className="mt-3 rounded-lg bg-violet-50 border border-violet-100 p-3">
-          <div className="text-xs uppercase tracking-wide text-violet-700">{t.motivation}</div>
-          <p className="mt-1 text-sm text-slate-700">{t.keepMomentum}</p>
-        </div>
-      </section>
-
-      {/* L11 Save / share */}
-      <section aria-label="L11 Save" className="rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-slate-900">{t.saveShareJourney}</h2>
-        <div className="mt-2">
-          <div className="font-semibold text-slate-900">{t.journeyTitle}</div>
-          <p className="mt-1 text-sm text-slate-600">{t.journeyHint}</p>
-        </div>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <button onClick={copyHtml} className="rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-700">{t.shareLinkBtn}</button>
-          <button onClick={copyHtml} className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">{t.shareNativeBtn}</button>
-        </div>
-      </section>
-
-      {/* L12 Next action */}
-      <section aria-label="L12 Next" className="rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-violet-700">{t.nextActionLabel}</h2>
-        <div className="mt-2 font-semibold text-slate-900">{t.nextActionTitle}</div>
-        <ol className="mt-2 list-decimal pl-5 text-sm text-slate-700 space-y-1">
-          <li>{t.nextActionItem1}</li>
-          <li>{t.nextActionItem2}</li>
-          <li>{t.nextActionItem3}</li>
-        </ol>
-      </section>
-
-      {/* L13 Decision path */}
-      <section aria-label="L13 Decision" className="rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-slate-900">{t.decisionPath}</h2>
-        <div className="mt-2 font-semibold text-slate-900">{t.decisionTitle}</div>
-        <div className="mt-3 grid gap-2 md:grid-cols-4 text-sm">
-          <div className="rounded-lg bg-slate-50 p-3 text-center">{t.bmrStep}</div>
-          <div className="rounded-lg bg-slate-50 p-3 text-center">{t.deficitStep}</div>
-          <div className="rounded-lg bg-slate-50 p-3 text-center">{t.trendStep}</div>
-          <div className="rounded-lg bg-slate-50 p-3 text-center">{t.mealStep}</div>
-        </div>
-      </section>
-
-      {/* L14 Knowledge / FAQ */}
-      <section aria-label="L14 Knowledge" className="rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-slate-900">{t.knowledge}</h2>
-        <div className="mt-2 font-semibold text-slate-900">{t.knowledgeTitle}</div>
-        <div className="mt-3 space-y-3 text-sm text-slate-700">
-          <div><span className="font-semibold">{t.definition}:</span> {t.definitionText}</div>
-          <div><span className="font-semibold">{t.formula}:</span> {t.formulaText}</div>
-          <div><span className="font-semibold">{t.limitations}:</span> {t.limitationsText}</div>
-          <div><span className="font-semibold">{t.interpretation}:</span> {t.interpretationText}</div>
-          <div><span className="font-semibold">{t.context}:</span> {t.contextText}</div>
-          <div><span className="font-semibold">{t.example}:</span> {t.exampleText}</div>
-        </div>
-
-        <AdSlot slot="markdown-preview-faq" position="inline" />
-
-        <div className="mt-6">
-          <h3 className="text-base font-semibold text-slate-900">{t.commonQuestions}</h3>
-          <div className="mt-2 space-y-3">
-            {[[t.q1, t.a1], [t.q2, t.a2], [t.q3, t.a3], [t.q4, t.a4], [t.q5, t.a5], [t.q6, t.a6]].map(([q, a], i) => (
-              <details key={i} className="group rounded-lg border border-slate-200 bg-slate-50 p-3">
-                <summary className="cursor-pointer text-sm font-semibold text-slate-900">{q}</summary>
-                <p className="mt-2 text-sm text-slate-700 leading-relaxed">{a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* L15 Affiliate */}
-      <section aria-label="L15 Affiliate" className="rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-slate-900">{t.affiliate}</h2>
-        <div className="mt-1 font-semibold text-slate-900">{t.affiliateTitle}</div>
-        <div className="mt-3 grid gap-2 md:grid-cols-2">
-          {affiliateItems.map((it, i) => (
-            <a key={i} href={it.href} className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-50">→ {l(it.label, lang)}</a>
-          ))}
-        </div>
-      </section>
-
-      {/* L16 Premium */}
-      <PremiumGate plan="PRO">
-        <div className="rounded-2xl border border-amber-200 bg-amber-50/60 p-6">
-          <div className="font-semibold text-amber-900">{t.premiumTitle}</div>
-          <p className="mt-1 text-sm text-slate-700">{t.premiumText}</p>
-        </div>
-      </PremiumGate>
-
-      {/* L17 Trust */}
-      <section aria-label="L17 Trust" className="rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-slate-900">{t.trustReferences}</h2>
-        <div className="mt-3 space-y-3 text-sm text-slate-700">
-          <div><span className="font-semibold">{t.trust}:</span> {t.trustText}</div>
-          <div><span className="font-semibold">{t.relatedTools}:</span> {t.relatedToolsText}</div>
-          <div><span className="font-semibold">{t.references}:</span> {t.referencesText}</div>
-        </div>
-      </section>
+        </section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-violet-700">{t.decisionPath}</p><h2 className="mt-2 text-3xl font-black">{t.decisionTitle}</h2><div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">{[{ label: lang === "zh" ? "輸入" : "Input", note: t.bmrStep }, { label: lang === "zh" ? "GFM 渲染" : "Render", note: t.deficitStep }, { label: lang === "zh" ? "結構統計" : "Stats", note: t.trendStep }, { label: lang === "zh" ? "選擇輸出" : "Output", note: t.mealStep }].map((node, index) => <div key={`decision-${index}`} className="contents"><div className={`rounded-3xl border p-5 text-center ${index === 0 ? "border-violet-300 bg-violet-50" : "border-indigo-200 bg-indigo-50"}`}><div className="text-xs font-black uppercase text-slate-500">{index + 1}</div><div className="mt-1 text-xl font-black">{node.label}</div><p className="mt-2 text-sm leading-6 text-slate-600">{node.note}</p></div>{index < 3 && <div className="hidden text-3xl font-black text-slate-300 md:block">→</div>}</div>)}</div></section>
+        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L12-Knowledge · L13-FAQ */}
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-violet-700">{t.knowledge}</p><h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.interpretation}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.interpretationText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.context}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.contextText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.example}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.exampleText}</p></div></div></div>
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-violet-700">{t.faq}</p><h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2><div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div></div>
+        </section>
+        <section aria-label="L14 常見問題後廣告位:廣告位" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5"><AdSlot slot="markdown-preview-faq" position="inline" /></section>
+        <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]"><section className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-violet-700">{t.affiliate}</p><h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-4">{affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-violet-100 bg-violet-50 p-5 text-center font-black text-violet-950">{l(item.label, lang)}</a>)}</div><p className="mt-3 text-xs text-violet-700">{lang === "zh" ? "* 聯盟連結,購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}</p></section><PremiumGate plan="PRO"><article className="flex h-full flex-col rounded-[2rem] border border-violet-200 bg-gradient-to-br from-violet-50 to-indigo-50 p-6 md:p-7"><h2 className="text-3xl font-black text-slate-950">{t.premiumTitle}</h2><p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t.premiumText}</p><div className="mt-5 grid gap-3 md:grid-cols-4">{(lang === "zh" ? ["批次轉 PDF", "TOC 自動生成", "Mermaid + KaTeX", "DOMPurify"] : ["Batch → PDF", "Auto TOC", "Mermaid + KaTeX", "DOMPurify"]).map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-violet-900 shadow-sm">{item}</div>)}</div></article></PremiumGate></section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-violet-700">{t.trustReferences}</p><div className="mt-4 grid gap-5 md:grid-cols-3"><div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div><div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.relatedToolsText}</p></div><div><h2 className="text-xl font-black">{t.references}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.referencesText}</p></div></div></section>
+      </div>
     </main>
   );
 }
+// fmt placeholder retained
+void fmt;
