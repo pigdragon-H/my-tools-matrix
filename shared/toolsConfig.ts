@@ -1558,6 +1558,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "withdrawal-rate-calculator",
+    name: "安全提領率計算機",
+    category: "finance",
+    path: "/tools/finance/withdrawal-rate-calculator",
+    icon: "Calculator",
+    description: "輸入退休投資組合、提領率與報酬率,立即算出年度與每月可提領金額、期末餘額與耗盡風險",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1692,3 +1707,4 @@ export const workingCapitalCalculator = { id: "working-capital-calculator", cate
 export const quickRatioCalculator = { id: "quick-ratio-calculator", category: "finance", name: "Quick Ratio Calculator", path: "/tools/finance/quick-ratio-calculator" };
 export const roiPaybackCalculator = { id: "roi-payback-calculator", category: "finance", name: "ROI Payback Calculator", path: "/tools/finance/roi-payback-calculator" };
 export const burnRateCalculator = { id: "burn-rate-calculator", category: "finance", name: "Burn Rate Calculator", path: "/tools/finance/burn-rate-calculator" };
+export const withdrawalRateCalculator = { id: "withdrawal-rate-calculator", category: "finance", name: "Safe Withdrawal Rate Calculator", path: "/tools/finance/withdrawal-rate-calculator" };
