@@ -1663,6 +1663,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "rent-vs-buy-calculator",
+    name: "租屋 vs 購屋計算機",
+    category: "finance",
+    path: "/tools/finance/rent-vs-buy-calculator",
+    icon: "Calculator",
+    description: "在相同期間內比較租屋與購屋的總成本,找出較划算的選項。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1804,3 +1819,4 @@ export const socialSecurityCalculator = { id: "social-security-calculator", cate
 export const rothConversionCalculator = { id: "roth-conversion-calculator", category: "finance", name: "Roth Conversion Calculator", path: "/tools/finance/roth-conversion-calculator" };
 export const ltvRatioCalculator = { id: "ltv-ratio-calculator", category: "finance", name: "LTV Ratio Calculator", path: "/tools/finance/ltv-ratio-calculator" };
 export const homeEquityCalculator = { id: "home-equity-calculator", category: "finance", name: "Home Equity Calculator", path: "/tools/finance/home-equity-calculator" };
+export const rentVsBuyCalculator = { id: "rent-vs-buy-calculator", category: "finance", name: "Rent vs Buy Calculator", path: "/tools/finance/rent-vs-buy-calculator" };
