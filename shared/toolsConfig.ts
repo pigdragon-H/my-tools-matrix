@@ -1738,6 +1738,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "tax-withholding-calculator",
+    name: "薪資預扣稅計算機",
+    category: "finance",
+    path: "/tools/finance/tax-withholding-calculator",
+    icon: "Calculator",
+    description: "比較全年預扣稅與預估稅負,估算退稅或補稅金額。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1884,3 +1899,4 @@ export const closingCostCalculator = { id: "closing-cost-calculator", category: 
 export const propertyTaxCalculator = { id: "property-tax-calculator", category: "finance", name: "Property Tax Calculator", path: "/tools/finance/property-tax-calculator" };
 export const capitalGainsCalculator = { id: "capital-gains-calculator", category: "finance", name: "Capital Gains Calculator", path: "/tools/finance/capital-gains-calculator" };
 export const estateTaxCalculator = { id: "estate-tax-calculator", category: "finance", name: "Estate Tax Calculator", path: "/tools/finance/estate-tax-calculator" };
+export const taxWithholdingCalculator = { id: "tax-withholding-calculator", category: "finance", name: "Tax Withholding Calculator", path: "/tools/finance/tax-withholding-calculator" };
