@@ -3,6 +3,7 @@
 // first import in the server entry so the polyfill runs before @supabase/supabase-js
 // (createClient) initializes its RealtimeClient, which otherwise throws
 // "Node.js 20 detected without native WebSocket support." and crashes the process.
+// @ts-ignore — `ws` ships no bundled type declarations; runtime import is correct.
 import WebSocket from "ws";
 
 if (typeof (globalThis as unknown as { WebSocket?: unknown }).WebSocket === "undefined") {

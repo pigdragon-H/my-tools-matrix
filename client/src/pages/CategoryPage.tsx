@@ -120,9 +120,12 @@ export default function CategoryPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredTools.map((tool: Tool) => (
+            {filteredTools.map((tool: Tool, index: number) => (
               <Link key={tool.id} href={tool.path}>
-                <Card className="group cursor-pointer transition-all duration-200 hover:border-primary/50 hover:shadow-md h-full">
+                <Card className="group relative cursor-pointer transition-all duration-200 hover:border-primary/50 hover:shadow-md h-full">
+                  <span className="absolute top-3 left-3 z-10 w-7 h-7 rounded-full bg-white/80 backdrop-blur border border-slate-200 flex items-center justify-center text-xs font-black text-slate-600 shadow-sm">
+                    {index + 1}
+                  </span>
                   <CardHeader className="pb-3">
                     <div className="flex items-start justify-between">
                       <div className={`rounded-lg p-2 ${catInfo.bgColor} ${catInfo.color}`}>
