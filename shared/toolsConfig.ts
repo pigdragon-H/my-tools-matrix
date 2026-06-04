@@ -1843,6 +1843,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "capm-calculator",
+    name: "CAPM 資本資產定價計算機",
+    category: "finance",
+    path: "/tools/finance/capm-calculator",
+    icon: "Calculator",
+    description: "由無風險利率、Beta 與市場報酬計算資產的預期必要報酬率。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1996,3 +2011,4 @@ export const peRatioCalculator = { id: "pe-ratio-calculator", category: "finance
 export const epsCalculator = { id: "eps-calculator", category: "finance", name: "EPS Calculator", path: "/tools/finance/eps-calculator" };
 export const sharpeRatioCalculator = { id: "sharpe-ratio-calculator", category: "finance", name: "Sharpe Ratio Calculator", path: "/tools/finance/sharpe-ratio-calculator" };
 export const betaCalculator = { id: "beta-calculator", category: "finance", name: "Beta Calculator", path: "/tools/finance/beta-calculator" };
+export const capmCalculator = { id: "capm-calculator", category: "finance", name: "CAPM Calculator", path: "/tools/finance/capm-calculator" };

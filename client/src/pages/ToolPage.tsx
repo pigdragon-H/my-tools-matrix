@@ -133,6 +133,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/eps-calculator": lazy(() => import("@/tools/finance/EpsCalculator")),
   "finance/sharpe-ratio-calculator": lazy(() => import("@/tools/finance/SharpeRatioCalculator")),
   "finance/beta-calculator": lazy(() => import("@/tools/finance/BetaCalculator")),
+  "finance/capm-calculator": lazy(() => import("@/tools/finance/CapmCalculator")),
 };
 
 function ToolSkeleton() {
