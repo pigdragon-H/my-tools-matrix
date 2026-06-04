@@ -1858,6 +1858,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "price-to-book-calculator",
+    name: "股價淨值比計算機",
+    category: "finance",
+    path: "/tools/finance/price-to-book-calculator",
+    icon: "Calculator",
+    description: "由每股市價與每股淨值計算股價淨值比與合理股價區間。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2012,3 +2027,4 @@ export const epsCalculator = { id: "eps-calculator", category: "finance", name: 
 export const sharpeRatioCalculator = { id: "sharpe-ratio-calculator", category: "finance", name: "Sharpe Ratio Calculator", path: "/tools/finance/sharpe-ratio-calculator" };
 export const betaCalculator = { id: "beta-calculator", category: "finance", name: "Beta Calculator", path: "/tools/finance/beta-calculator" };
 export const capmCalculator = { id: "capm-calculator", category: "finance", name: "CAPM Calculator", path: "/tools/finance/capm-calculator" };
+export const priceToBookCalculator = { id: "price-to-book-calculator", category: "finance", name: "Price-to-Book Ratio Calculator", path: "/tools/finance/price-to-book-calculator" };
