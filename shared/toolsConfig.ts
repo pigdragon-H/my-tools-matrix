@@ -1918,6 +1918,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "portfolio-rebalance-calculator",
+    name: "投資組合再平衡計算機",
+    category: "finance",
+    path: "/tools/finance/portfolio-rebalance-calculator",
+    icon: "Calculator",
+    description: "由組合總值、股票市值與目標比重計算再平衡所需的交易金額。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2076,3 +2091,4 @@ export const priceToBookCalculator = { id: "price-to-book-calculator", category:
 export const bookValueCalculator = { id: "book-value-calculator", category: "finance", name: "Book Value Calculator", path: "/tools/finance/book-value-calculator" };
 export const riskToleranceCalculator = { id: "risk-tolerance-calculator", category: "finance", name: "Risk Tolerance Calculator", path: "/tools/finance/risk-tolerance-calculator" };
 export const realReturnCalculator = { id: "real-return-calculator", category: "finance", name: "Real Return Calculator", path: "/tools/finance/real-return-calculator" };
+export const portfolioRebalanceCalculator = { id: "portfolio-rebalance-calculator", category: "finance", name: "Portfolio Rebalance Calculator", path: "/tools/finance/portfolio-rebalance-calculator" };
