@@ -1093,6 +1093,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "financial-ratio-calculator",
+    name: "財務比率計算機",
+    category: "finance",
+    path: "/tools/finance/financial-ratio-calculator",
+    icon: "Calculator",
+    description: "輸入流動資產、流動負債、總負債、總權益，立即計算流動比率、負債權益比與槓桿指標",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1196,3 +1211,4 @@ export const dividendYieldCalculator = { id: "dividend-yield-calculator", catego
 export const netPresentValueCalculator = { id: "net-present-value-calculator", category: "finance", name: "Net Present Value Calculator", path: "/tools/finance/net-present-value-calculator" };
 export const paybackPeriodCalculator = { id: "payback-period-calculator", category: "finance", name: "Payback Period Calculator", path: "/tools/finance/payback-period-calculator" };
 export const cashFlowCalculator = { id: "cash-flow-calculator", category: "finance", name: "Cash Flow Calculator", path: "/tools/finance/cash-flow-calculator" };
+export const financialRatioCalculator = { id: "financial-ratio-calculator", category: "finance", name: "Financial Ratio Calculator", path: "/tools/finance/financial-ratio-calculator" };
