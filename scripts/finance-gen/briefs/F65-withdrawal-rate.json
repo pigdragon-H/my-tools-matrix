@@ -1,0 +1,150 @@
+{
+  "id": "withdrawal-rate-calculator",
+  "nameZh": "安全提領率計算機",
+  "nameEn": "Safe Withdrawal Rate Calculator",
+  "color": "teal",
+  "inputs": [
+    "退休投資組合",
+    "年度提領率(%)",
+    "預期年報酬率(%)",
+    "退休年數"
+  ],
+  "inputsEn": [
+    "Retirement Portfolio",
+    "Annual Withdrawal Rate (%)",
+    "Expected Annual Return (%)",
+    "Retirement Years"
+  ],
+  "defaults": [
+    "10000000",
+    "4",
+    "5",
+    "30"
+  ],
+  "steps": [
+    "100000",
+    "0.1",
+    "0.1",
+    "1"
+  ],
+  "accentIdx": 1,
+  "compute": "依投資組合、提領率、報酬率與年數計算年度與每月提領金額、實質淨成長與耗盡風險",
+  "computeFn": "    const portfolio = Number(retirementPortfolio) || 0;\n    const rate = Number(annualWithdrawalRate) || 0;\n    const ret = Number(expectedAnnualReturn) || 0;\n    const years = Number(retirementYears) || 1;\n    const annualWithdrawal = portfolio * (rate / 100);\n    const monthlyWithdrawal = annualWithdrawal / 12;\n    const realGrowth = ret - rate;\n    let bal = portfolio;\n    let depleted = years;\n    let survived = true;\n    for (let y = 1; y <= years; y++) {\n      bal = bal * (1 + ret / 100) - annualWithdrawal;\n      if (bal <= 0) { depleted = y; survived = false; break; }\n    }\n    const endBalance = survived ? bal : 0;\n    return { withdrawalRate: rate, annualWithdrawal, monthlyWithdrawal, endBalance };",
+  "primaryKey": "withdrawalRate",
+  "primaryDecimals": 1,
+  "primaryUnit": "%",
+  "secondaryKey": "annualWithdrawal",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "$",
+  "tertiaryKey": "monthlyWithdrawal",
+  "tertiaryDecimals": 0,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "endBalance",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "提領率",
+  "primaryLabelEn": "Withdrawal Rate",
+  "secondaryLabelZh": "年度提領金額",
+  "secondaryLabelEn": "Annual Withdrawal",
+  "tertiaryLabelZh": "每月提領金額",
+  "tertiaryLabelEn": "Monthly Withdrawal",
+  "quaternaryLabelZh": "期末餘額",
+  "quaternaryLabelEn": "Ending Balance",
+  "bands": [
+    "極保守",
+    "保守",
+    "穩健",
+    "偏高",
+    "高風險",
+    "極危險"
+  ],
+  "bandsEn": [
+    "Very conservative",
+    "Conservative",
+    "Balanced",
+    "Elevated",
+    "High risk",
+    "Very risky"
+  ],
+  "bandThresholds": [
+    2.5,
+    3.5,
+    4,
+    5,
+    6
+  ],
+  "bandHints": [
+    "提領率 < 2.5%,極保守,資產幾乎只進不出,長壽與遺產規劃綽綽有餘。",
+    "2.5-3.5%,保守,接近多數研究建議的安全下限,跨越市場循環極穩健。",
+    "3.5-4%,穩健,對應經典「4% 法則」核心區間,30 年存活機率高。",
+    "4-5%,偏高,需搭配彈性支出或較高報酬,空頭年份要主動減提。",
+    "5-6%,高風險,在弱市開局時耗盡機率明顯上升,建議重新檢視。",
+    "> 6%,極危險,長期難以支撐,資產很可能在退休中段前耗盡。"
+  ],
+  "faqTitles": [
+    "什麼是安全提領率?",
+    "4% 法則可靠嗎?",
+    "提領率該設多少?",
+    "報酬率怎麼估?",
+    "資料會上傳嗎?",
+    "可以模擬通膨嗎?"
+  ],
+  "faqAnswers": [
+    "安全提領率(Safe Withdrawal Rate, SWR)指退休後每年從投資組合提領、又能在預期年數內不耗盡資產的比率。它把退休資產換算成可持續的年度與每月現金流,是規劃退休生活費最核心的指標之一。",
+    "經典「4% 法則」源自 Trinity Study,指以投資組合 4% 為首年提領、其後隨通膨調整,在 30 年期間有很高機率不耗盡。它是實用起點,但受市場開局順序、資產配置與退休年數影響;本工具讓你自訂提領率、報酬率與年數試算,而非套單一數字。",
+    "多數研究落在 3-4% 之間:追求保守或更長退休年數者可降到 3% 或以下;能接受彈性支出、退休年數較短者可略高。建議先用本工具看不同提領率下的期末餘額與是否耗盡,再決定。",
+    "報酬率應使用扣除費用後的長期年化預期,而非單一年度高點。股債混合組合常見假設約 4-6%。本工具用固定報酬率簡化試算;實際報酬會逐年波動,弱市開局風險最大。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,投資組合與提領率等資料不會傳送到任何伺服器。",
+    "通膨調整提領、市場報酬序列模擬(Monte Carlo)、動態提領策略與多情境存活率屬於專業版功能,免費版聚焦固定報酬下的提領率與耗盡判斷。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "退休金計算機",
+      "label_en": "Retirement Calculator",
+      "href": "/tools/finance/retirement-calculator"
+    },
+    {
+      "label_zh": "401k 退休計算機",
+      "label_en": "401k Retirement Calculator",
+      "href": "/tools/finance/retirement-401k-calculator"
+    },
+    {
+      "label_zh": "複利計算機",
+      "label_en": "Compound Interest Calculator",
+      "href": "/tools/finance/compound-interest-calculator"
+    },
+    {
+      "label_zh": "未來價值計算機",
+      "label_en": "Future Value Calculator",
+      "href": "/tools/finance/future-value-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "10000000",
+    "4",
+    "5",
+    "30"
+  ],
+  "exampleHigh": [
+    "8000000",
+    "6",
+    "4",
+    "35"
+  ],
+  "solidLabelZh": "組合 1000 萬 · 提領 4% · 報酬 5%",
+  "solidLabelEn": "Portfolio 10M · 4% · Return 5%",
+  "highLabelZh": "組合 800 萬 · 提領 6% · 報酬 4%",
+  "highLabelEn": "Portfolio 8M · 6% · Return 4%",
+  "subtitleZh": "輸入退休投資組合、提領率與報酬率,立即算出年度與每月可提領金額、期末餘額與耗盡風險",
+  "subtitleEn": "Enter your retirement portfolio, withdrawal rate, and return to see annual and monthly withdrawals, ending balance, and depletion risk",
+  "definitionZh": "安全提領率計算機以退休投資組合、年度提領率、預期年報酬率與退休年數,計算可持續的年度與每月提領金額、期末餘額與是否耗盡,協助規劃退休現金流並評估 4% 法則在你情境下的可行性。",
+  "formulaZh": "年度提領 = 投資組合 × 提領率;每月提領 = 年度提領 ÷ 12;逐年餘額 = 前一年餘額 ×(1+報酬率) − 年度提領,任一年 ≤ 0 即視為耗盡。",
+  "limitationsZh": "本工具假設報酬率固定、提領金額固定且不含通膨調整與稅負;實際市場報酬逐年波動,弱市開局(序列風險)會顯著影響存活機率。",
+  "interpretationZh": "提領率越低越安全;3-4% 為經典穩健區間,5% 以上需搭配彈性支出與較高報酬,並在空頭年份主動減提以延長資產壽命。",
+  "premiumTitleZh": "專業版 退休提領規劃",
+  "premiumTextZh": "解鎖通膨調整提領、Monte Carlo 報酬序列模擬、動態提領策略、稅務最佳化與多情境存活率分析。",
+  "premiumChipsZh": "通膨調整|Monte Carlo|動態提領|存活率",
+  "premiumTitleEn": "Pro Withdrawal Planner",
+  "premiumTextEn": "Unlock inflation-adjusted withdrawals, Monte Carlo return-sequence simulation, dynamic withdrawal strategies, tax optimization, and multi-scenario survival analysis.",
+  "premiumChipsEn": "Inflation-adj|Monte Carlo|Dynamic|Survival"
+}
