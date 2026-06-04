@@ -1873,6 +1873,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "book-value-calculator",
+    name: "每股淨值計算機",
+    category: "finance",
+    path: "/tools/finance/book-value-calculator",
+    icon: "Calculator",
+    description: "由股東權益、特別股與股數計算普通股每股淨值與市價溢價。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2028,3 +2043,4 @@ export const sharpeRatioCalculator = { id: "sharpe-ratio-calculator", category: 
 export const betaCalculator = { id: "beta-calculator", category: "finance", name: "Beta Calculator", path: "/tools/finance/beta-calculator" };
 export const capmCalculator = { id: "capm-calculator", category: "finance", name: "CAPM Calculator", path: "/tools/finance/capm-calculator" };
 export const priceToBookCalculator = { id: "price-to-book-calculator", category: "finance", name: "Price-to-Book Ratio Calculator", path: "/tools/finance/price-to-book-calculator" };
+export const bookValueCalculator = { id: "book-value-calculator", category: "finance", name: "Book Value Calculator", path: "/tools/finance/book-value-calculator" };
