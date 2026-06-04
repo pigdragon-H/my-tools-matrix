@@ -145,6 +145,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/saas-metrics-calculator": lazy(() => import("@/tools/finance/SaasMetricsCalculator")),
   "finance/startup-runway-calculator": lazy(() => import("@/tools/finance/StartupRunwayCalculator")),
   "health/waist-hip-ratio-calculator": lazy(() => import("@/tools/health/WaistHipRatioCalculator")),
+  "health/weight-trend-calculator": lazy(() => import("@/tools/health/WeightTrendCalculator")),
 };
 
 function ToolSkeleton() {

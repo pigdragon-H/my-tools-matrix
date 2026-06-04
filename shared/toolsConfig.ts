@@ -2023,6 +2023,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "weight-trend-calculator",
+    name: "體重趨勢預測機",
+    category: "health",
+    path: "/tools/health/weight-trend-calculator",
+    icon: "TrendingDown",
+    description: "用起始體重、目標體重與每週熱量赤字，預測每週減重速度與達標所需週數。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2188,3 +2203,4 @@ export const ltvCacRatioCalculator = { id: "ltv-cac-ratio-calculator", category:
 export const saasMetricsCalculator = { id: "saas-metrics-calculator", category: "finance", name: "SaaS Metrics Calculator", path: "/tools/finance/saas-metrics-calculator" };
 export const startupRunwayCalculator = { id: "startup-runway-calculator", category: "finance", name: "Startup Runway Calculator", path: "/tools/finance/startup-runway-calculator" };
 export const waistHipRatioCalculator = { id: "waist-hip-ratio-calculator", category: "health", name: "Waist-Hip Ratio Calculator", path: "/tools/health/waist-hip-ratio-calculator" };
+export const weightTrendCalculator = { id: "weight-trend-calculator", category: "health", name: "Weight Trend Calculator", path: "/tools/health/weight-trend-calculator" };
