@@ -2008,6 +2008,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "waist-hip-ratio-calculator",
+    name: "腰臀比計算機",
+    category: "health",
+    path: "/tools/health/waist-hip-ratio-calculator",
+    icon: "Activity",
+    description: "用腰圍與臀圍計算腰臀比（WHR），依 WHO 性別分級判讀脂肪分布與心血管代謝風險。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2172,3 +2187,4 @@ export const ruleOf72Calculator = { id: "rule-of-72-calculator", category: "fina
 export const ltvCacRatioCalculator = { id: "ltv-cac-ratio-calculator", category: "finance", name: "LTV/CAC Ratio Calculator", path: "/tools/finance/ltv-cac-ratio-calculator" };
 export const saasMetricsCalculator = { id: "saas-metrics-calculator", category: "finance", name: "SaaS Metrics Calculator", path: "/tools/finance/saas-metrics-calculator" };
 export const startupRunwayCalculator = { id: "startup-runway-calculator", category: "finance", name: "Startup Runway Calculator", path: "/tools/finance/startup-runway-calculator" };
+export const waistHipRatioCalculator = { id: "waist-hip-ratio-calculator", category: "health", name: "Waist-Hip Ratio Calculator", path: "/tools/health/waist-hip-ratio-calculator" };
