@@ -2143,6 +2143,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "protein-calculator",
+    name: "蛋白質需求計算機",
+    category: "health",
+    path: "/tools/health/protein-calculator",
+    icon: "Egg",
+    description: "蛋白質需求計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2316,3 +2331,4 @@ export const oneRepMaxCalculator = { id: "one-rep-max-calculator", category: "he
 export const runningPaceCalculator = { id: "running-pace-calculator", category: "health", name: "Running Pace Calculator", path: "/tools/health/running-pace-calculator" };
 export const swimmingCaloriesCalculator = { id: "swimming-calories-calculator", category: "health", name: "Swimming Calories Calculator", path: "/tools/health/swimming-calories-calculator" };
 export const workoutPlanCalculator = { id: "workout-plan-calculator", category: "health", name: "Workout Plan Calculator", path: "/tools/health/workout-plan-calculator" };
+export const proteinCalculator = { id: "protein-calculator", category: "health", name: "Protein Calculator", path: "/tools/health/protein-calculator" };
