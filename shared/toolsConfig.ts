@@ -2188,6 +2188,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "caffeine-intake-calculator",
+    name: "咖啡因攝取計算機",
+    category: "health",
+    path: "/tools/health/caffeine-intake-calculator",
+    icon: "Coffee",
+    description: "咖啡因攝取計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2364,3 +2379,4 @@ export const workoutPlanCalculator = { id: "workout-plan-calculator", category: 
 export const proteinCalculator = { id: "protein-calculator", category: "health", name: "Protein Calculator", path: "/tools/health/protein-calculator" };
 export const intermittentFastingCalculator = { id: "intermittent-fasting-calculator", category: "health", name: "Intermittent Fasting Calculator", path: "/tools/health/intermittent-fasting-calculator" };
 export const alcoholCaloriesCalculator = { id: "alcohol-calories-calculator", category: "health", name: "Alcohol Calories Calculator", path: "/tools/health/alcohol-calories-calculator" };
+export const caffeineIntakeCalculator = { id: "caffeine-intake-calculator", category: "health", name: "Caffeine Intake Calculator", path: "/tools/health/caffeine-intake-calculator" };
