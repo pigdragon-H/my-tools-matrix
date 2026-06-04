@@ -883,6 +883,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "tax-bracket-calculator",
+    name: "稅率級距計算機",
+    category: "finance",
+    path: "/tools/finance/tax-bracket-calculator",
+    icon: "Calculator",
+    description: "輸入年收入、申報身分、扣除額與抵免額，估算邊際稅率、有效稅率與稅後所得。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -972,3 +987,4 @@ export const passwordGenerator = { id: "password-generator", category: "develope
 export const qrCodeGenerator = { id: "qr-code-generator", category: "developer", name: "QR Code Generator", path: "/tools/developer/qr-code-generator" };
 export const markdownToHtml = { id: "markdown-to-html", category: "developer", name: "Markdown to HTML", path: "/tools/developer/markdown-to-html" };
 export const numberBaseConverter = { id: "number-base-converter", category: "developer", name: "Number Base Converter", path: "/tools/developer/number-base-converter" };
+export const taxBracketCalculator = { id: "tax-bracket-calculator", category: "finance", name: "Tax Bracket Calculator", path: "/tools/finance/tax-bracket-calculator" };

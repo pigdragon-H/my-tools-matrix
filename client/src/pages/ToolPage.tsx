@@ -69,6 +69,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "developer/qr-code-generator": lazy(() => import("@/tools/developer/QrCodeGenerator")),
   "developer/markdown-to-html": lazy(() => import("@/tools/developer/MarkdownToHtml")),
   "developer/number-base-converter": lazy(() => import("@/tools/developer/NumberBaseConverter")),
+  "finance/tax-bracket-calculator": lazy(() => import("@/tools/finance/TaxBracketCalculator")),
 };
 
 function ToolSkeleton() {
