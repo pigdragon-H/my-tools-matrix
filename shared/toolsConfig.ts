@@ -1018,6 +1018,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "options-profit-calculator",
+    name: "選擇權損益計算機",
+    category: "finance",
+    path: "/tools/finance/options-profit-calculator",
+    icon: "Calculator",
+    description: "輸入履約價、權利金、標的價與口數，即時試算 Call/Put 多頭損益與損益兩平點",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1116,3 +1131,4 @@ export const rentalYieldCalculator = { id: "rental-yield-calculator", category: 
 export const insurancePremiumCalculator = { id: "insurance-premium-calculator", category: "finance", name: "Insurance Premium Calculator", path: "/tools/finance/insurance-premium-calculator" };
 export const pensionCalculator = { id: "pension-calculator", category: "finance", name: "Pension Calculator", path: "/tools/finance/pension-calculator" };
 export const bondYieldCalculator = { id: "bond-yield-calculator", category: "finance", name: "Bond Yield Calculator", path: "/tools/finance/bond-yield-calculator" };
+export const optionsProfitCalculator = { id: "options-profit-calculator", category: "finance", name: "Options Profit Calculator", path: "/tools/finance/options-profit-calculator" };
