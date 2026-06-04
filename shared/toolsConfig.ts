@@ -928,6 +928,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "currency-converter",
+    name: "匯率換算計算機",
+    category: "finance",
+    path: "/tools/finance/currency-converter",
+    icon: "Calculator",
+    description: "輸入原幣金額與雙邊對美元的匯率，立即得出目標幣別的扣費後實得金額",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1020,3 +1035,4 @@ export const numberBaseConverter = { id: "number-base-converter", category: "dev
 export const taxBracketCalculator = { id: "tax-bracket-calculator", category: "finance", name: "Tax Bracket Calculator", path: "/tools/finance/tax-bracket-calculator" };
 export const investmentReturnCalculator = { id: "investment-return-calculator", category: "finance", name: "Investment Return Calculator", path: "/tools/finance/investment-return-calculator" };
 export const breakEvenCalculator = { id: "break-even-calculator", category: "finance", name: "Break-Even Calculator", path: "/tools/finance/break-even-calculator" };
+export const currencyConverter = { id: "currency-converter", category: "finance", name: "Currency Converter", path: "/tools/finance/currency-converter" };

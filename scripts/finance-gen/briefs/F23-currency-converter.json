@@ -1,0 +1,73 @@
+{
+  "id": "currency-converter",
+  "nameZh": "匯率換算計算機",
+  "nameEn": "Currency Converter",
+  "color": "emerald",
+  "inputs": ["原幣金額", "原幣匯率(對 USD)", "目標幣匯率(對 USD)", "手續費 %"],
+  "inputsEn": ["Source Amount", "Source Rate Vs Usd", "Target Rate Vs Usd", "Fee Pct"],
+  "defaults": ["1000", "31.5", "0.92", "1.5"],
+  "steps": ["10", "0.01", "0.01", "0.1"],
+  "accentIdx": 2,
+
+  "compute": "依輸入的原幣金額與雙邊對美元匯率交叉換算目標幣金額，並扣除換匯手續費",
+  "computeFn": "    const amt = Number(sourceAmount) || 0;\n    const sR = Number(sourceRateVsUsd) || 1;\n    const tR = Number(targetRateVsUsd) || 1;\n    const fee = (Number(feePct) || 0) / 100;\n    const usdAmount = sR > 0 ? amt / sR : 0;\n    const targetAmount = usdAmount * tR;\n    const fees = targetAmount * fee;\n    const netTarget = targetAmount - fees;\n    const effectiveRate = amt > 0 ? netTarget / amt : 0;\n    return { netTarget, targetAmount, effectiveRate, fees };",
+
+  "primaryKey": "netTarget",        "primaryDecimals": 2, "primaryUnit": "",
+  "secondaryKey": "targetAmount",   "secondaryDecimals": 2, "secondaryUnit": "",
+  "tertiaryKey": "effectiveRate",   "tertiaryDecimals": 4, "tertiaryUnit": "",
+  "quaternaryKey": "fees",          "quaternaryDecimals": 2, "quaternaryUnit": "",
+
+  "primaryLabelZh": "扣費後可得", "primaryLabelEn": "Net Target Received",
+  "secondaryLabelZh": "毛換匯金額", "secondaryLabelEn": "Gross Target",
+  "tertiaryLabelZh": "有效匯率", "tertiaryLabelEn": "Effective Rate",
+  "quaternaryLabelZh": "手續費總額", "quaternaryLabelEn": "Total Fees",
+
+  "bands": ["小額", "一般", "中額", "中大", "大額", "巨額"],
+  "bandThresholds": [100, 1000, 10000, 50000, 200000],
+  "bandHints": [
+    "小於 100 USD 的零碎換匯,銀行匯差通常已蓋過便利性,可直接用信用卡刷卡。",
+    "100-1000 USD 屬旅遊或日常網購規模,Wise/Revolut 比銀行省 0.5-2%。",
+    "1000-10000 USD,務必比較三家以上的中間匯率與手續費,單筆價差可達 $50-150。",
+    "10000-50000 USD,屬留學費、海外房貸、外幣定存規模,需注意當地申報門檻。",
+    "5 萬至 20 萬 USD,涉及反洗錢申報、可能要求資金來源證明,建議分批或事前諮詢。",
+    "20 萬 USD 以上屬大額外匯,銀行多會主動聯繫,匯率可協商,務必比較電匯費與中間行費用。"
+  ],
+
+  "faqTitles": [
+    "中間匯率(mid-market rate)和銀行牌告差多少?",
+    "手續費 %、固定費、匯差,哪個影響最大?",
+    "信用卡海外刷卡的「外幣交易手續費」要怎麼算?",
+    "Wise、Revolut、Western Union 哪家最便宜?",
+    "結果會上傳到伺服器嗎?",
+    "為什麼線上看到的匯率,實際換到的金額不一樣?"
+  ],
+  "faqAnswers": [
+    "中間匯率是「Google/Yahoo Finance 顯示的實時市價」,是買價與賣價的中點;銀行牌告會把「賣出/買入」拉開 0.5-2.5% 形成匯差(spread),這就是銀行的隱藏利潤。本工具讓你輸入兩邊對 USD 的匯率,自己交叉計算,可避免被牌告價的隱藏匯差混淆。",
+    "三者影響大小排序通常是:**匯差 > 固定費 > 手續費 %**。對於 1000 USD 以下的小額,固定電匯費(常見 $15-30)佔比最大;1000-10000 USD,匯差(0.5-2%)主導;10000 USD 以上,匯差仍是最大成本,因為它隨金額線性放大,而固定費被稀釋。",
+    "信用卡海外交易通常收 1.5%(發卡行手續費)+ Visa/Mastercard 1% 國際清算費 = 約 2.5%;部分高階卡或數位帳戶(Wise Card、Revolut Premium、國泰世華 CUBE 卡)可全免或退回。長期海外消費建議辦一張免外幣手續費卡,長期下來能省 2-3% 換匯成本。",
+    "依金額與走向不同:**Wise(原 TransferWise)** 適合 100-50000 USD 的個人匯款,匯差通常 0.4-0.8%、固定費低;**Revolut** 假日小額免費,但匯差只在工作日以中間價計算;**Western Union** 急件現金到現金最快,但匯差高達 2-5%。本工具不推薦特定服務,輸入你查到的匯率與費率即可比較。",
+    "完全不會。所有換算都在你的瀏覽器內以 JavaScript 完成,輸入的金額、匯率、手續費不會傳送到任何伺服器。本工具不抓即時匯率,所以你必須手動填入兩邊對 USD 的匯率,這也是隱私保護的設計。",
+    "三個原因疊加:**(1) 中間匯率 vs 銀行牌告匯差** 0.5-2%、**(2) 隱藏手續費或最低收費門檻**、**(3) 結算時點價差** —— 你看到的匯率是現在,實際清算可能在 1-3 工作日後。本工具把這些拆開讓你看清楚,輸入「實際給的匯率」與「實收手續費 %」即可逼近真實結果。"
+  ],
+
+  "affiliates": [
+    { "label_zh": "通膨調整計算機", "label_en": "Inflation Adjuster", "href": "/tools/finance/inflation-adjuster" },
+    { "label_zh": "退休計算機", "label_en": "Retirement Calculator", "href": "/tools/finance/retirement-calculator" },
+    { "label_zh": "投資報酬率計算機", "label_en": "Investment Return Calculator", "href": "/tools/finance/investment-return-calculator" },
+    { "label_zh": "稅率級距計算機", "label_en": "Tax Bracket Calculator", "href": "/tools/finance/tax-bracket-calculator" }
+  ],
+
+  "exampleSolid": ["1000", "31.5", "0.92", "1.5"],
+  "exampleHigh": ["50000", "31.5", "0.92", "0.5"],
+  "solidLabelZh": "TWD 1000 → EUR (TWD 31.5/USD, EUR 0.92/USD)",
+  "solidLabelEn": "TWD 1000 → EUR · 1.5% fee",
+  "highLabelZh": "TWD 50000 → EUR · 0.5% fee",
+  "highLabelEn": "TWD 50000 → EUR · 0.5% fee",
+
+  "subtitleZh": "輸入原幣金額與雙邊對美元的匯率，立即得出目標幣別的扣費後實得金額",
+  "subtitleEn": "Enter source amount and both currencies' rates against USD to see the net target received after fees",
+  "definitionZh": "本工具透過「原幣 → USD → 目標幣」的交叉換算邏輯,讓你即使沒有原幣對目標幣的直接報價,也能用兩邊對美元的匯率推算實際換匯金額,並扣除指定手續費比率。",
+  "formulaZh": "目標幣淨額 = (原幣金額 / 原幣對 USD 匯率) × 目標幣對 USD 匯率 × (1 − 手續費 %)",
+  "limitationsZh": "本工具不抓即時匯率,需手動填入;未涵蓋固定電匯費($15-30)、最低收費門檻、銀行隱藏匯差;結算實際金額仍以收款帳單為準。",
+  "interpretationZh": "「有效匯率」與「中間匯率」的差距即你支付的全部成本(匯差 + 手續費),長期換匯應以此為比較基準,而非單看手續費 %。"
+}

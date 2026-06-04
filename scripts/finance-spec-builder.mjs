@@ -125,8 +125,14 @@ function buildInputs(brief) {
   const namesEn = brief.inputsEn || labels.map(tr);
   // try to make camelCase var names from EN
   const inputNames = namesEn.map(en => {
-    const c = en.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim().split(/\s+/);
+    // strip anything non-alphanumeric (parens, %, slashes, dots), lowercase, split, camelCase
+    const c = en.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim().split(/\s+/).filter(Boolean);
+    if (!c.length) return "input";
     return c[0] + c.slice(1).map(w => w[0]?.toUpperCase()+w.slice(1)).join("");
+  });
+  // ensure JS-safe identifier (must start with [a-z_$])
+  inputNames.forEach((n,i) => {
+    if (!/^[a-z_$][a-zA-Z0-9_$]*$/.test(n)) inputNames[i] = "input" + i;
   });
   // ensure unique
   const seen = {};
@@ -504,6 +510,16 @@ function generateToolFromSpec(specPath) {
 
 export function processBrief(brief, { writeSpec = true } = {}) {
   const spec = buildSpec(brief);
+  // sanity: warn if computeFn references identifiers not in inputs
+  const declared = spec.inputs.map(i => i.name);
+  console.log(`[spec-builder] ${brief.id} input names: ${declared.join(", ")}`);
+  const refs = (brief.computeFn.match(/Number\(([a-zA-Z_$][\w$]*)\)/g) || []).map(s => s.replace(/Number\(/, "").replace(/\)$/, ""));
+  const missing = refs.filter(r => !declared.includes(r));
+  if (missing.length) {
+    console.error(`[spec-builder] ❌ computeFn references unknown identifiers: ${missing.join(", ")}`);
+    console.error(`[spec-builder]    declared inputs: ${declared.join(", ")}`);
+    throw new Error("computeFn references unknown identifiers — fix brief.inputsEn or computeFn");
+  }
   const specDir = path.join(repoRoot, "scripts/finance-gen/specs");
   if (!fs.existsSync(specDir)) fs.mkdirSync(specDir, { recursive: true });
   const specPath = path.join(specDir, `${brief.id}.json`);
