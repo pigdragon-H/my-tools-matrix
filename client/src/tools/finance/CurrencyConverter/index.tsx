@@ -163,7 +163,7 @@ const ui = {
     switchToChinese: "切換到中文",
     chineseShort: "中",
     englishShort: "EN",
-    title: "Currency Converter · 匯率換算計算機",
+    title: "Currency Converter",
     subtitle: "Enter source amount and both currencies' rates against USD to see the net target received after fees",
     intro: "Currency Converter runs the standard formula in your browser. Enter source amount, source rate vs usd, target rate vs usd, fee pct to see the primary result and three supporting metrics. Nothing is uploaded.",
     trustNoteLabel: "Notes:",
@@ -237,7 +237,7 @@ const ui = {
     bmrStep: "Step 1 · Gather inputs",
     bmrNote: "Fill source amount, source rate vs usd, target rate vs usd, fee pct.",
     deficitStep: "Step 2 · Apply formula",
-    deficitNote: "依輸入的原幣金額與雙邊對美元匯率交叉換算目標幣金額，並扣除換匯手續費.",
+    deficitNote: "Currency Converter standard formula.",
     trendStep: "Step 3 · Read bands",
     trendNote: "Locate your primary result on the six-band matrix.",
     mealStep: "Step 4 · Act",
@@ -247,7 +247,7 @@ const ui = {
     definition: "Definition",
     definitionText: "Currency Converter converts inputs (source amount, source rate vs usd, target rate vs usd, fee pct) into Net Target Received. It is widely used in personal finance and investment planning.",
     formula: "Formula",
-    formulaText: "目標幣淨額 = (原幣金額 / 原幣對 USD 匯率) × 目標幣對 USD 匯率 × (1 − 手續費 %)",
+    formulaText: "result = f(source amount, source rate vs usd, target rate vs usd, fee pct)",
     limitations: "Limitations",
     limitationsText: "Does not include tax variations, market shocks, special clauses, or regional differences. Results are general estimates only.",
     interpretation: "Interpretation",
@@ -271,18 +271,18 @@ const ui = {
     relatedToolsText: "The related tools below pair well with this calculator.",
     references: "References",
     referencesText: "Investopedia · NerdWallet · Bogleheads Wiki · Khan Academy Finance · official tax authorities.",
-    q1: "About: 中間匯率(mid-market rate)和銀行牌告差多少?",
-    a1: "For \"中間匯率(mid-market rate)和銀行牌告差多少?\": Currency Converter runs the standard formula client-side; no data leaves the browser. Use the band guidance shown next to the result for your next step.",
-    q2: "About: 手續費 %、固定費、匯差,哪個影響最大?",
-    a2: "For \"手續費 %、固定費、匯差,哪個影響最大?\": Currency Converter runs the standard formula client-side; no data leaves the browser. For unusual scenarios, consult a qualified professional.",
-    q3: "About: 信用卡海外刷卡的「外幣交易手續費」要怎麼算?",
-    a3: "For \"信用卡海外刷卡的「外幣交易手續費」要怎麼算?\": Currency Converter runs the standard formula client-side; no data leaves the browser. Use the band guidance shown next to the result for your next step.",
-    q4: "About: Wise、Revolut、Western Union 哪家最便宜?",
-    a4: "For \"Wise、Revolut、Western Union 哪家最便宜?\": Currency Converter runs the standard formula client-side; no data leaves the browser. For unusual scenarios, consult a qualified professional.",
-    q5: "About: 結果會上傳到伺服器嗎?",
-    a5: "For \"結果會上傳到伺服器嗎?\": Currency Converter runs the standard formula client-side; no data leaves the browser. Use the band guidance shown next to the result for your next step.",
-    q6: "About: 為什麼線上看到的匯率,實際換到的金額不一樣?",
-    a6: "For \"為什麼線上看到的匯率,實際換到的金額不一樣?\": Currency Converter runs the standard formula client-side; no data leaves the browser. For unusual scenarios, consult a qualified professional."
+    q1: "What does Currency Converter calculate?",
+    a1: "Currency Converter applies the standard formula to your inputs and returns Net Target Received plus three supporting metrics, all computed in your browser.",
+    q2: "Which inputs do I need for Currency Converter?",
+    a2: "Enter source amount, source rate vs usd, target rate vs usd, fee pct. Currency Converter runs the standard formula client-side and updates instantly as you type.",
+    q3: "How do I read the six bands?",
+    a3: "The result is placed into one of six bands. The hint shown next to the band tells you what the value means and what to consider next.",
+    q4: "Are the results accurate enough to rely on?",
+    a4: "It is a solid general estimate. For edge cases such as cross-border rules, special taxes, or unusual clauses, consult a qualified professional.",
+    q5: "Is my data uploaded to any server?",
+    a5: "No. Every calculation runs locally in JavaScript inside your browser. Your inputs are never sent to a server, logged, or stored.",
+    q6: "What does the Pro version unlock?",
+    a6: "Unlock batch multi-currency conversion, historical rate lookback, hidden-spread detection, wire-fee comparison, and best cross-border payment routing."
   },
 } as const;
 
@@ -338,7 +338,7 @@ export default function CurrencyConverter() {
           <div className="mb-6 flex justify-end"><button type="button" onClick={() => setLang(lang === "zh" ? "en" : "zh")} className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm" aria-label={lang === "zh" ? t.switchToEnglish : t.switchToChinese}>{lang === "zh" ? t.switchToEnglish : t.switchToChinese}</button></div>
           <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
             <section className="space-y-6"><p className="text-sm font-black uppercase tracking-[0.24em] text-emerald-700">{t.badge}</p><h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1><p className="text-xl font-black text-emerald-700">{t.subtitle}</p><p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p><div className="rounded-3xl border border-emerald-200 bg-emerald-50 p-5 text-sm leading-6 text-emerald-950"><strong>{t.trustNoteLabel}</strong> {t.trustNote}</div></section>
-            <aside className="rounded-[2rem] border border-emerald-100 bg-white/90 p-6 shadow-2xl shadow-emerald-950/10 backdrop-blur"><p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">{t.quickActionCard}</p><h2 className="mt-2 text-2xl font-black">{t.tryExample}</h2><div className="mt-5 rounded-3xl bg-emerald-600 p-5 text-white"><div className="text-xs font-bold uppercase text-emerald-100">{t.examplePreview}</div><div className="mt-1 text-5xl font-black">{primaryDisplay}</div><div className="text-sm font-bold text-emerald-100">{t.headlineCaption}</div></div><div className="mt-5 grid grid-cols-3 gap-3 text-center"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.examplePerson}</div><div className="font-black">{primaryDisplay}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.flowDemo}</div><div className="font-black">{sourceAmount} × {sourceRateVsUsd}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.fatLossTarget}</div><div className="font-black">{secondaryDisplay}</div></div></div><button onClick={fillSolid} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white">{t.fillExample}</button><button onClick={fillHighSalary} className="mt-3 w-full rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-black text-emerald-900">{t.previewActivePath}</button></aside>
+            <aside className="rounded-[2rem] border border-emerald-100 bg-white/90 p-6 shadow-2xl shadow-emerald-950/10 backdrop-blur"><p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">{t.quickActionCard}</p><h2 className="mt-2 text-2xl font-black">{t.tryExample}</h2><div className="mt-5 rounded-3xl bg-emerald-600 p-5 text-white"><div className="text-xs font-bold uppercase text-emerald-100">{t.examplePreview}</div><div className="mt-1 text-5xl font-black">{primaryDisplay}<span>{t.primaryUnitTail}</span></div><div className="text-sm font-bold text-emerald-100">{t.headlineCaption}</div></div><div className="mt-5 grid grid-cols-3 gap-3 text-center"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.examplePerson}</div><div className="font-black">{primaryDisplay}<span>{t.primaryUnitTail}</span></div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.flowDemo}</div><div className="font-black">{sourceAmount} × {sourceRateVsUsd}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.fatLossTarget}</div><div className="font-black">{secondaryDisplay}</div></div></div><button onClick={fillSolid} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white">{t.fillExample}</button><button onClick={fillHighSalary} className="mt-3 w-full rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-black text-emerald-900">{t.previewActivePath}</button></aside>
           </div>
         </div>
       </section>
@@ -358,7 +358,7 @@ export default function CurrencyConverter() {
         <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-emerald-50 p-6 shadow-sm md:p-7">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p><h2 className="mt-2 text-3xl font-black">{t.turnIntoPlan}</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.conversionNote}</p>
           <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9 */}
-            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.weeklyTrend}</div><div className="mt-1 text-3xl font-black">{primaryDisplay}</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.dailyGap}</div><div className="mt-1 text-3xl font-black text-emerald-950">{secondaryDisplay}</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.tertiaryTag}</div><div className="mt-1 text-3xl font-black text-emerald-950">{tertiaryDisplay}</div></div></div></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.weeklyTrend}</div><div className="mt-1 text-3xl font-black">{primaryDisplay}<span>{t.primaryUnitTail}</span></div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.dailyGap}</div><div className="mt-1 text-3xl font-black text-emerald-950">{secondaryDisplay}</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.tertiaryTag}</div><div className="mt-1 text-3xl font-black text-emerald-950">{tertiaryDisplay}</div></div></div></article>
             <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.bmrStep, t.deficitStep, t.trendStep, t.mealStep].map((item) => <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
           </div>
           <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10 */}

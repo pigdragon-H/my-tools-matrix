@@ -159,9 +159,28 @@ function buildFaqs(brief) {
   if (!q || q.length !== 6) throw new Error("brief.faqTitles must have 6 entries");
   const a = brief.faqAnswers || q.map((qq,i) =>
     `針對「${qq}」這個問題,${brief.nameZh} 的處理原則是依公開公式試算,所有計算在瀏覽器端完成,個資不外傳。${i % 2 ? "若你的場景特別複雜(例如跨境、特殊稅務、衍生工具),建議再諮詢合格專業人士。" : "結果會落在六個級距的其中一格,旁邊的提示會告訴你下一步可以怎麼做。"}`);
-  const qEn = brief.faqTitlesEn || q.map(qq => `About: ${qq}`);
-  const aEn = brief.faqAnswersEn || a.map((aa,i) => `For "${q[i]}": ${brief.nameEn} runs the standard formula client-side; no data leaves the browser.${i % 2 ? " For unusual scenarios, consult a qualified professional." : " Use the band guidance shown next to the result for your next step."}`);
+  const qEn = brief.faqTitlesEn || [
+    `What does ${brief.nameEn} calculate?`,
+    `Which inputs do I need for ${brief.nameEn}?`,
+    `How do I read the six bands?`,
+    `Are the results accurate enough to rely on?`,
+    `Is my data uploaded to any server?`,
+    `What does the Pro version unlock?`,
+  ];
+  const aEn = brief.faqAnswersEn || [
+    `${brief.nameEn} applies the standard formula to your inputs and returns ${brief.primaryLabelEn || "the primary result"} plus three supporting metrics, all computed in your browser.`,
+    `Enter ${inEnList(brief)}. ${brief.nameEn} runs the standard formula client-side and updates instantly as you type.`,
+    `The result is placed into one of six bands. The hint shown next to the band tells you what the value means and what to consider next.`,
+    `It is a solid general estimate. For edge cases such as cross-border rules, special taxes, or unusual clauses, consult a qualified professional.`,
+    `No. Every calculation runs locally in JavaScript inside your browser. Your inputs are never sent to a server, logged, or stored.`,
+    `${brief.premiumTextEn || `The Pro version unlocks batch calculation, history, PDF export, multi-scenario comparison, and an ad-free experience for ${brief.nameEn}.`}`,
+  ];
   return { q, a, qEn, aEn };
+}
+
+function inEnList(brief) {
+  const en = brief.inputsEn || brief.inputs || [];
+  return en.map(s => String(s).toLowerCase()).join(", ");
 }
 
 // ---------------- affiliate items ----------------
@@ -187,8 +206,24 @@ function buildExamples(brief, inputBundle) {
 }
 
 // ---------------- UI strings (full 116-key bilingual) ----------------
+// Chinese unit -> English unit map (for EN mode, no Chinese pollution)
+const UNIT_EN_MAP = {
+  "件": " units", "倍": "x", "年": " yr", "月": " mo", "天": " days", "日": " days",
+  "小時": " hr", "次": "x", "人": " ppl", "週": " wk", "%": "%", "$": "$", "x": "x",
+};
+function unitEn(u) {
+  if (!u) return "";
+  if (Object.prototype.hasOwnProperty.call(UNIT_EN_MAP, u)) return UNIT_EN_MAP[u];
+  // if it already has no CJK chars, keep as-is; else strip to empty
+  return /[\u4e00-\u9fff]/.test(u) ? "" : u;
+}
+
 function buildUI(brief, inputBundle) {
   const { nameZh, nameEn, primaryUnit="", secondaryUnit="", tertiaryUnit="%", quaternaryUnit="" } = brief;
+  const primaryUnitEnV = unitEn(primaryUnit);
+  const secondaryUnitEnV = unitEn(secondaryUnit);
+  const tertiaryUnitEnV = unitEn(tertiaryUnit);
+  const quaternaryUnitEnV = unitEn(quaternaryUnit);
   const inZh = inputBundle.inputZh;
   const inEn = inputBundle.inputEn;
   const inNames = inputBundle.inputNames;
@@ -310,7 +345,7 @@ function buildUI(brief, inputBundle) {
     badge: `Finance · ${nameEn} · Gold Tool`,
     switchToEnglish: "English mode", switchToChinese: "切換到中文",
     chineseShort: "中", englishShort: "EN",
-    title: `${nameEn} · ${nameZh}`,
+    title: `${nameEn}`,
     subtitle: brief.subtitleEn || `Enter ${inEn.slice(0,2).join(", ").toLowerCase()} and instantly estimate ${brief.primaryLabelEn || "the result"}.`,
     intro: brief.introEn || `${nameEn} runs the standard formula in your browser. Enter ${inEn.join(", ").toLowerCase()} to see the primary result and three supporting metrics. Nothing is uploaded.`,
     trustNoteLabel: "Notes:",
@@ -337,18 +372,18 @@ function buildUI(brief, inputBundle) {
     ...inputLabelsEn,
     resultCard: "Result card",
     primaryValue: brief.primaryLabelEn || "Primary result",
-    primaryUnitTail: primaryUnit,
+    primaryUnitTail: primaryUnitEnV,
     secondaryLabel: brief.secondaryLabelEn || "Supporting metric",
-    secondaryTail: secondaryUnit,
+    secondaryTail: secondaryUnitEnV,
     metricALabel: brief.primaryLabelEn || "Primary",
     metricACaption: brief.primaryHintEn || "Main figure from the standard formula",
-    metricATail: primaryUnit,
+    metricATail: primaryUnitEnV,
     metricBLabel: brief.secondaryLabelEn || "Supporting",
     metricBCaption: brief.secondaryHintEn || "Secondary metric tied to the primary",
-    metricBTail: secondaryUnit,
+    metricBTail: secondaryUnitEnV,
     metricCLabel: brief.tertiaryLabelEn || "Ratio",
     metricCCaption: brief.tertiaryHintEn || "Percentage view",
-    metricCTail: tertiaryUnit,
+    metricCTail: tertiaryUnitEnV,
     headlineCaption: `${nameEn} · live calc`,
     fatLossTarget: brief.quaternaryLabelEn || "Composite",
     resultIntelligence: "Result intelligence",
@@ -374,14 +409,14 @@ function buildUI(brief, inputBundle) {
     decisionPath: "Decision path",
     decisionTitle: `${nameEn} · 4-step decision`,
     bmrStep: "Step 1 · Gather inputs", bmrNote: `Fill ${inEn.join(", ").toLowerCase()}.`,
-    deficitStep: "Step 2 · Apply formula", deficitNote: `${brief.computeEn || brief.compute || nameEn + " standard formula"}.`,
+    deficitStep: "Step 2 · Apply formula", deficitNote: `${brief.computeEn || (nameEn + " standard formula")}.`,
     trendStep: "Step 3 · Read bands", trendNote: "Locate your primary result on the six-band matrix.",
     mealStep: "Step 4 · Act", mealNote: "Pick a band-aligned action, run it 30 days, then re-calculate.",
     knowledge: "Knowledge", knowledgeTitle: `${nameEn} · concept primer`,
     definition: "Definition",
     definitionText: brief.definitionEn || `${nameEn} converts inputs (${inEn.join(", ").toLowerCase()}) into ${brief.primaryLabelEn || "a primary metric"}. It is widely used in personal finance and investment planning.`,
     formula: "Formula",
-    formulaText: brief.formulaEn || brief.formulaZh || brief.compute || `result = f(${inEn.join(", ").toLowerCase()})`,
+    formulaText: brief.formulaEn || `result = f(${inEn.join(", ").toLowerCase()})`,
     limitations: "Limitations",
     limitationsText: brief.limitationsEn || `Does not include tax variations, market shocks, special clauses, or regional differences. Results are general estimates only.`,
     interpretation: "Interpretation",
@@ -436,7 +471,7 @@ export function buildSpec(brief) {
     inputs: inputBundle.inputs,
     compute,
     primaryKey: pk, primaryDecimals: brief.primaryDecimals ?? 2,
-    primaryPrefix: brief.primaryPrefix || "", primarySuffix: brief.primaryUnit || "",
+    primaryPrefix: brief.primaryPrefix || "", primarySuffix: "",
     secondaryKey: sk, secondaryDecimals: brief.secondaryDecimals ?? 0,
     tertiaryKey: tk,  tertiaryDecimals: brief.tertiaryDecimals ?? 2,
     quaternaryKey: qk, quaternaryDecimals: brief.quaternaryDecimals ?? 0,
