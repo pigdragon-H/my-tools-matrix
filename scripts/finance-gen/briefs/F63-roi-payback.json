@@ -1,0 +1,150 @@
+{
+  "id": "roi-payback-calculator",
+  "nameZh": "ROI 回本計算機",
+  "nameEn": "ROI Payback Calculator",
+  "color": "rose",
+  "inputs": [
+    "初始投資",
+    "每年淨收益",
+    "投資年數",
+    "年成長率%"
+  ],
+  "inputsEn": [
+    "Initial Investment",
+    "Annual Net Income",
+    "Years",
+    "Annual Growth Pct"
+  ],
+  "defaults": [
+    "1000000",
+    "250000",
+    "5",
+    "3"
+  ],
+  "steps": [
+    "10000",
+    "10000",
+    "1",
+    "0.5"
+  ],
+  "accentIdx": 1,
+  "compute": "依初始投資與每年收益計算 ROI、回本年數與總報酬",
+  "computeFn": "    const invest = Number(initialInvestment) || 0;\n    const annual = Number(annualNetIncome) || 0;\n    const yrs = Number(years) || 0;\n    const g = (Number(annualGrowthPct) || 0) / 100;\n    let total = 0, cum = 0, payback = 0;\n    for (let y = 1; y <= yrs; y++) { const inc = annual * Math.pow(1 + g, y - 1); total += inc; if (cum < invest && cum + inc >= invest) { payback = (y - 1) + (invest - cum) / inc; } cum += inc; }\n    if (payback === 0 && cum >= invest && yrs > 0) { payback = invest / (annual || 1); }\n    const roi = invest > 0 ? ((total - invest) / invest) * 100 : 0;\n    const netProfit = total - invest;\n    return { roi, payback, netProfit, total };",
+  "primaryKey": "roi",
+  "primaryDecimals": 1,
+  "primaryUnit": "%",
+  "secondaryKey": "payback",
+  "secondaryDecimals": 1,
+  "secondaryUnit": "yr",
+  "tertiaryKey": "netProfit",
+  "tertiaryDecimals": 0,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "total",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "投資報酬率",
+  "primaryLabelEn": "ROI",
+  "secondaryLabelZh": "回本年數",
+  "secondaryLabelEn": "Payback Years",
+  "tertiaryLabelZh": "淨獲利",
+  "tertiaryLabelEn": "Net Profit",
+  "quaternaryLabelZh": "總收益",
+  "quaternaryLabelEn": "Total Income",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandsEn": [
+    "Very low",
+    "Low",
+    "Moderate",
+    "Elevated",
+    "High",
+    "Very high"
+  ],
+  "bandThresholds": [
+    20,
+    50,
+    100,
+    200,
+    400
+  ],
+  "bandHints": [
+    "ROI < 20%,極低,報酬有限,須評估是否優於無風險利率。",
+    "20-50%,低,溫和報酬,常見於穩健型專案。",
+    "50-100%,中等,屬合理的多年期投資報酬。",
+    "100-200%,偏高,本金翻倍以上,報酬良好。",
+    "200-400%,高,優異報酬,須確認可持續性。",
+    "> 400%,極高,罕見高報酬,務必檢視風險與假設合理性。"
+  ],
+  "faqTitles": [
+    "ROI 怎麼計算?",
+    "ROI 和回本期差在哪?",
+    "ROI 沒考慮時間嗎?",
+    "ROI 多少才值得投資?",
+    "資料會上傳嗎?",
+    "可以算 IRR 嗎?"
+  ],
+  "faqAnswers": [
+    "投資報酬率(ROI)=(總收益 − 初始投資)÷ 初始投資 × 100%,衡量一筆投資相對於成本賺了多少百分比。它直觀、易比較,是評估專案、行銷活動與資本支出最常用的指標之一。",
+    "ROI 衡量「總共賺了幾%」,回本期(Payback Period)衡量「多久拿回本金」。高 ROI 但回本慢、與低 ROI 但回本快,適合不同風險偏好。兩者搭配看,才能完整評估投資的報酬與風險。",
+    "傳統 ROI 確實忽略了金錢的時間價值——明年的 100 元不等於今天的 100 元。對多年期投資,應搭配淨現值(NPV)與內部報酬率(IRR)來考量折現,避免高估長期專案的吸引力。",
+    "至少要高於無風險利率(如定存、公債)加上風險溢酬,否則不如把錢放在更安全的地方。實務上會與同類專案、機會成本比較,並考量回本期與風險,而非只看 ROI 數字。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,投資金額與收益等資料不會傳送到任何伺服器。",
+    "內部報酬率(IRR)、淨現值(NPV)、折現回本期與多情境敏感度分析屬於專業版功能,免費版聚焦 ROI 與回本年數。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "投資報酬率計算機",
+      "label_en": "Investment Return Calculator",
+      "href": "/tools/finance/investment-return-calculator"
+    },
+    {
+      "label_zh": "回本期計算機",
+      "label_en": "Payback Period Calculator",
+      "href": "/tools/finance/payback-period-calculator"
+    },
+    {
+      "label_zh": "淨現值計算機",
+      "label_en": "Net Present Value Calculator",
+      "href": "/tools/finance/net-present-value-calculator"
+    },
+    {
+      "label_zh": "ROAS 廣告投報計算機",
+      "label_en": "ROAS Calculator",
+      "href": "/tools/finance/roas-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "1000000",
+    "250000",
+    "5",
+    "3"
+  ],
+  "exampleHigh": [
+    "500000",
+    "300000",
+    "4",
+    "5"
+  ],
+  "solidLabelZh": "投資 100 萬 · 年收益 25 萬 · 5 年",
+  "solidLabelEn": "1M · 250k/yr · 5y",
+  "highLabelZh": "投資 50 萬 · 年收益 30 萬 · 4 年",
+  "highLabelEn": "500k · 300k/yr · 4y",
+  "subtitleZh": "輸入初始投資與每年淨收益,立即算出投資報酬率、回本年數與淨獲利",
+  "subtitleEn": "Enter initial investment and annual net income to see the ROI, payback years, and net profit",
+  "definitionZh": "ROI 回本計算機以初始投資、每年淨收益、投資年數與年成長率,計算投資報酬率(ROI)、回本年數、淨獲利與總收益,協助評估專案或資本支出的報酬與回收速度。",
+  "formulaZh": "總收益 = Σ 每年淨收益 ×(1 + 成長率)^(年−1);ROI =(總收益 − 初始投資)÷ 初始投資 × 100%",
+  "limitationsZh": "本工具不折現,忽略金錢時間價值;多年期專案應搭配 NPV 與 IRR,避免高估長期報酬。",
+  "interpretationZh": "ROI 越高、回本越快越佳;但須與機會成本和風險比較,並注意長期專案應折現後再評估。",
+  "premiumTitleZh": "專業版 投資決策工具組",
+  "premiumTextZh": "解鎖內部報酬率(IRR)、淨現值(NPV)、折現回本期、多情境敏感度與專案比較。",
+  "premiumChipsZh": "IRR|NPV|折現回本|情境分析",
+  "premiumTitleEn": "Pro Investment Decision Suite",
+  "premiumTextEn": "Unlock IRR, NPV, discounted payback, multi-scenario sensitivity, and project comparison.",
+  "premiumChipsEn": "IRR|NPV|Discounted|Scenarios"
+}

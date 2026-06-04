@@ -1,0 +1,150 @@
+{
+  "id": "student-loan-calculator",
+  "nameZh": "學生貸款計算機",
+  "nameEn": "Student Loan Calculator",
+  "color": "indigo",
+  "inputs": [
+    "貸款總額",
+    "年利率%",
+    "還款年限",
+    "寬限期月數"
+  ],
+  "inputsEn": [
+    "Loan Amount",
+    "Annual Rate Pct",
+    "Repay Years",
+    "Grace Months"
+  ],
+  "defaults": [
+    "400000",
+    "1.15",
+    "8",
+    "12"
+  ],
+  "steps": [
+    "10000",
+    "0.05",
+    "1",
+    "1"
+  ],
+  "accentIdx": 0,
+  "compute": "依貸款總額、利率與年限計算每月還款、總利息與利息佔本金比",
+  "computeFn": "    const P = Number(loanAmount) || 0;\n    const r = (Number(annualRatePct) || 0) / 100 / 12;\n    const n = (Number(repayYears) || 1) * 12;\n    const grace = Number(graceMonths) || 0;\n    const principalAfterGrace = P * Math.pow(1 + r, grace);\n    const monthly = r > 0 ? (principalAfterGrace * r) / (1 - Math.pow(1 + r, -n)) : principalAfterGrace / n;\n    const totalPaid = monthly * n;\n    const totalInterest = totalPaid - P;\n    const interestRatio = P > 0 ? (totalInterest / P) * 100 : 0;\n    return { interestRatio, monthly, totalInterest, totalPaid };",
+  "primaryKey": "interestRatio",
+  "primaryDecimals": 1,
+  "primaryUnit": "%",
+  "secondaryKey": "monthly",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "$",
+  "tertiaryKey": "totalInterest",
+  "tertiaryDecimals": 0,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "totalPaid",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "利息佔本金比",
+  "primaryLabelEn": "Interest-to-Principal",
+  "secondaryLabelZh": "每月還款",
+  "secondaryLabelEn": "Monthly Payment",
+  "tertiaryLabelZh": "總利息",
+  "tertiaryLabelEn": "Total Interest",
+  "quaternaryLabelZh": "還款總額",
+  "quaternaryLabelEn": "Total Repaid",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandsEn": [
+    "Very low",
+    "Low",
+    "Moderate",
+    "Elevated",
+    "High",
+    "Very high"
+  ],
+  "bandThresholds": [
+    3,
+    8,
+    15,
+    25,
+    40
+  ],
+  "bandHints": [
+    "利息佔本金 < 3%,屬於極低利助學貸款,財務負擔極輕。",
+    "3-8%,低利,常見於政府就學貸款短年限方案。",
+    "8-15%,中等,屬一般民間就學貸款 5-8 年期。",
+    "15-25%,偏高,年限拉長或利率上升,建議提前還款。",
+    "25-40%,高,長年限中高利率,務必比較再融資。",
+    "> 40%,極高,利息接近本金一半,強烈建議重新規劃。"
+  ],
+  "faqTitles": [
+    "寬限期會增加利息嗎?",
+    "畢業後該先還哪筆?",
+    "提前還款划算嗎?",
+    "就學貸款利率怎麼算?",
+    "資料會上傳嗎?",
+    "可以模擬多筆貸款嗎?"
+  ],
+  "faqAnswers": [
+    "會。寬限期(在學或畢業緩衝期)雖暫不還本金,但部分方案仍計息並滾入本金,寬限越久、起算本金越高、總利息越多。本工具讓你看到寬限期對利息佔比的影響。",
+    "優先還利率最高的那筆(利率法),數學上最省;若想要還清成就感與動力,可先還餘額最小的(雪球法)。就學貸款多為低利,若有更高利率的卡債或信貸應優先處理。",
+    "就學貸款通常利率極低,提前還款省息有限,反而可能犧牲手上現金與投資機會。若預期投資報酬高於貸款利率,維持低利貸款、把錢拿去投資可能更有利。",
+    "台灣就學貸款利率多隨郵局一年期定儲機動利率加碼計算,屬機動利率;美國聯邦學貸則為固定利率。本工具以你輸入的年利率試算,實際以借據為準。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,貸款金額與利率等資料不會傳送到任何伺服器。",
+    "多筆貸款合併試算、再融資比較、收入導向還款(IBR/PAYE)模擬與寬限期最佳化屬於專業版功能,免費版提供單筆總覽。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "貸款計算機",
+      "label_en": "Loan Calculator",
+      "href": "/tools/finance/loan-calculator"
+    },
+    {
+      "label_zh": "債務還清計算機",
+      "label_en": "Debt Payoff Calculator",
+      "href": "/tools/finance/debt-payoff-calculator"
+    },
+    {
+      "label_zh": "有效年利率計算機",
+      "label_en": "Effective Annual Rate Calculator",
+      "href": "/tools/finance/effective-annual-rate-calculator"
+    },
+    {
+      "label_zh": "再融資計算機",
+      "label_en": "Refinance Calculator",
+      "href": "/tools/finance/refinance-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "400000",
+    "1.15",
+    "8",
+    "12"
+  ],
+  "exampleHigh": [
+    "1200000",
+    "4.5",
+    "15",
+    "24"
+  ],
+  "solidLabelZh": "40 萬 · 1.15% · 8 年",
+  "solidLabelEn": "400k · 1.15% · 8y",
+  "highLabelZh": "120 萬 · 4.5% · 15 年",
+  "highLabelEn": "1.2M · 4.5% · 15y",
+  "subtitleZh": "輸入學貸總額、利率與還款年限,立即算出每月還款、總利息與利息佔本金比",
+  "subtitleEn": "Enter loan amount, rate, and term to see monthly payment, total interest, and interest-to-principal ratio",
+  "definitionZh": "學生貸款計算機以貸款總額、年利率、還款年限與寬限期,計算每月還款額、總利息與利息佔本金比例,協助學生與家長規劃畢業後的還款壓力。",
+  "formulaZh": "每月還款 = 本金 × 月利率 ÷ (1 − (1 + 月利率)^−期數);寬限期利息滾入本金後再攤還",
+  "limitationsZh": "本工具假設固定利率與本息均攤,不含收入導向還款、利率變動、補貼利息或違約金等情境。",
+  "interpretationZh": "利息佔本金比越低代表借貸成本越輕;就學貸款多為低利,提前還款效益有限,應與投資報酬比較後再決定。",
+  "premiumTitleZh": "專業版 學貸還款策略",
+  "premiumTextZh": "解鎖多筆貸款合併、再融資比較、收入導向還款(IBR/PAYE)模擬、寬限期最佳化與還款排程匯出。",
+  "premiumChipsZh": "多筆合併|再融資|IBR模擬|排程匯出",
+  "premiumTitleEn": "Pro Student Loan Strategy",
+  "premiumTextEn": "Unlock multi-loan consolidation, refinance compare, income-driven repayment (IBR/PAYE) simulation, grace optimization, and schedule export.",
+  "premiumChipsEn": "Consolidate|Refinance|IBR Sim|Schedule"
+}

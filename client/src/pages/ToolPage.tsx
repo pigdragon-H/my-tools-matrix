@@ -99,6 +99,21 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/lease-vs-buy-calculator": lazy(() => import("@/tools/finance/LeaseVsBuyCalculator")),
   "finance/refinance-calculator": lazy(() => import("@/tools/finance/RefinanceCalculator")),
   "finance/home-affordability-calculator": lazy(() => import("@/tools/finance/HomeAffordabilityCalculator")),
+  "finance/student-loan-calculator": lazy(() => import("@/tools/finance/StudentLoanCalculator")),
+  "finance/auto-loan-calculator": lazy(() => import("@/tools/finance/AutoLoanCalculator")),
+  "finance/down-payment-calculator": lazy(() => import("@/tools/finance/DownPaymentCalculator")),
+  "finance/retirement-401k-calculator": lazy(() => import("@/tools/finance/Retirement401kCalculator")),
+  "finance/roth-ira-calculator": lazy(() => import("@/tools/finance/RothIraCalculator")),
+  "finance/sip-calculator": lazy(() => import("@/tools/finance/SipCalculator")),
+  "finance/cd-calculator": lazy(() => import("@/tools/finance/CdCalculator")),
+  "finance/cap-rate-calculator": lazy(() => import("@/tools/finance/CapRateCalculator")),
+  "finance/debt-snowball-calculator": lazy(() => import("@/tools/finance/DebtSnowballCalculator")),
+  "finance/gross-margin-calculator": lazy(() => import("@/tools/finance/GrossMarginCalculator")),
+  "finance/ebitda-calculator": lazy(() => import("@/tools/finance/EbitdaCalculator")),
+  "finance/working-capital-calculator": lazy(() => import("@/tools/finance/WorkingCapitalCalculator")),
+  "finance/quick-ratio-calculator": lazy(() => import("@/tools/finance/QuickRatioCalculator")),
+  "finance/roi-payback-calculator": lazy(() => import("@/tools/finance/RoiPaybackCalculator")),
+  "finance/burn-rate-calculator": lazy(() => import("@/tools/finance/BurnRateCalculator")),
 };
 
 function ToolSkeleton() {

@@ -1,0 +1,150 @@
+{
+  "id": "auto-loan-calculator",
+  "nameZh": "汽車貸款計算機",
+  "nameEn": "Auto Loan Calculator",
+  "color": "amber",
+  "inputs": [
+    "車價",
+    "頭期款",
+    "年利率%",
+    "貸款年限"
+  ],
+  "inputsEn": [
+    "Vehicle Price",
+    "Down Payment",
+    "Annual Rate Pct",
+    "Loan Years"
+  ],
+  "defaults": [
+    "800000",
+    "160000",
+    "3.5",
+    "5"
+  ],
+  "steps": [
+    "10000",
+    "10000",
+    "0.1",
+    "1"
+  ],
+  "accentIdx": 2,
+  "compute": "依車價、頭期款、利率與年限計算每月還款、總利息與利息佔貸款比",
+  "computeFn": "    const price = Number(vehiclePrice) || 0;\n    const down = Number(downPayment) || 0;\n    const principal = Math.max(0, price - down);\n    const r = (Number(annualRatePct) || 0) / 100 / 12;\n    const n = (Number(loanYears) || 1) * 12;\n    const monthly = r > 0 ? (principal * r) / (1 - Math.pow(1 + r, -n)) : principal / n;\n    const totalPaid = monthly * n;\n    const totalInterest = totalPaid - principal;\n    const interestRatio = principal > 0 ? (totalInterest / principal) * 100 : 0;\n    return { interestRatio, monthly, totalInterest, principal };",
+  "primaryKey": "interestRatio",
+  "primaryDecimals": 1,
+  "primaryUnit": "%",
+  "secondaryKey": "monthly",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "$",
+  "tertiaryKey": "totalInterest",
+  "tertiaryDecimals": 0,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "principal",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "利息佔貸款比",
+  "primaryLabelEn": "Interest-to-Loan",
+  "secondaryLabelZh": "每月還款",
+  "secondaryLabelEn": "Monthly Payment",
+  "tertiaryLabelZh": "總利息",
+  "tertiaryLabelEn": "Total Interest",
+  "quaternaryLabelZh": "貸款本金",
+  "quaternaryLabelEn": "Loan Principal",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandsEn": [
+    "Very low",
+    "Low",
+    "Moderate",
+    "Elevated",
+    "High",
+    "Very high"
+  ],
+  "bandThresholds": [
+    3,
+    7,
+    12,
+    20,
+    30
+  ],
+  "bandHints": [
+    "利息佔貸款 < 3%,屬於超低利車貸或車商促銷 0 利率方案。",
+    "3-7%,低,常見於銀行優質信用車貸短年限。",
+    "7-12%,中等,屬一般車貸 5 年期主流區間。",
+    "12-20%,偏高,長年限或中等信用,建議比較其他銀行。",
+    "20-30%,高,信用較弱或超長年限,利息負擔沉重。",
+    "> 30%,極高,常見於次級車貸,務必重新議價或增加頭期。"
+  ],
+  "faqTitles": [
+    "頭期款放多少最好?",
+    "車貸年限越長越好嗎?",
+    "0 利率車貸是真的嗎?",
+    "車貸和租賃哪個划算?",
+    "資料會上傳嗎?",
+    "可以含稅金保險試算嗎?"
+  ],
+  "faqAnswers": [
+    "一般建議頭期款至少 20%,可降低貸款本金與每月負擔,也避免車輛貶值速度超過還款速度造成的負資產(欠款大於車值)。頭期越高、總利息越少。",
+    "不一定。年限越長每月還款越低,但總利息越多,且車輛貶值快,容易出現負資產。建議車貸年限不超過 5 年,且不超過車輛預期使用年限。",
+    "車商的 0 利率方案通常以放棄現金折扣為代價,等於把利息藏在車價裡。比較時應同時詢問「現金價」與「貸款價」,用本工具換算實際成本再決定。",
+    "若你習慣每 3-4 年換車、在意月付金與保固,租賃可能較適合;若打算長期持有(5 年以上),貸款買斷通常總成本較低。建議搭配租賃 vs 購買計算機比較。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,車價與利率等資料不會傳送到任何伺服器。",
+    "含牌照稅、燃料稅、強制險、車體險與領牌費的全成本試算屬於專業版功能,免費版聚焦貸款本息。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "貸款計算機",
+      "label_en": "Loan Calculator",
+      "href": "/tools/finance/loan-calculator"
+    },
+    {
+      "label_zh": "租賃 vs 購買計算機",
+      "label_en": "Lease vs Buy Calculator",
+      "href": "/tools/finance/lease-vs-buy-calculator"
+    },
+    {
+      "label_zh": "頭期款計算機",
+      "label_en": "Down Payment Calculator",
+      "href": "/tools/finance/down-payment-calculator"
+    },
+    {
+      "label_zh": "債務收入比計算機",
+      "label_en": "Debt-to-Income Calculator",
+      "href": "/tools/finance/debt-to-income-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "800000",
+    "160000",
+    "3.5",
+    "5"
+  ],
+  "exampleHigh": [
+    "1500000",
+    "150000",
+    "8",
+    "7"
+  ],
+  "solidLabelZh": "車價 80 萬 · 頭期 16 萬 · 5 年",
+  "solidLabelEn": "800k · 160k down · 5y",
+  "highLabelZh": "車價 150 萬 · 頭期 15 萬 · 7 年",
+  "highLabelEn": "1.5M · 150k down · 7y",
+  "subtitleZh": "輸入車價、頭期款、利率與年限,立即算出每月還款、總利息與利息佔貸款比",
+  "subtitleEn": "Enter vehicle price, down payment, rate, and term to see monthly payment, total interest, and interest-to-loan ratio",
+  "definitionZh": "汽車貸款計算機以車價、頭期款、年利率與貸款年限,計算每月還款額、總利息與利息佔貸款比例,協助買車前評估真實負擔與比較不同方案。",
+  "formulaZh": "貸款本金 = 車價 − 頭期款;每月還款 = 本金 × 月利率 ÷ (1 − (1 + 月利率)^−期數)",
+  "limitationsZh": "本工具不含牌照稅、保險、領牌費與車商手續費,亦不計入車輛貶值與殘值,僅試算貸款本息。",
+  "interpretationZh": "利息佔貸款比越低代表借貸成本越輕;車貸建議搭配高頭期與短年限,避免負資產與過高總利息。",
+  "premiumTitleZh": "專業版 購車全成本分析",
+  "premiumTextZh": "解鎖含稅金保險的全持有成本(TCO)、車輛貶值曲線、貸款 vs 租賃比較、多方案利率試算與負資產警示。",
+  "premiumChipsZh": "TCO全成本|貶值曲線|貸租比較|負資產警示",
+  "premiumTitleEn": "Pro Vehicle Cost Analysis",
+  "premiumTextEn": "Unlock total cost of ownership with tax and insurance, depreciation curve, loan vs lease compare, multi-rate simulation, and negative-equity alerts.",
+  "premiumChipsEn": "TCO|Depreciation|Loan/Lease|Equity Alert"
+}

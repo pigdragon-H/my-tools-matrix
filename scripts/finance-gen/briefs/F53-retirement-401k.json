@@ -1,0 +1,150 @@
+{
+  "id": "retirement-401k-calculator",
+  "nameZh": "401k 退休帳戶計算機",
+  "nameEn": "401k Retirement Calculator",
+  "color": "violet",
+  "inputs": [
+    "年薪",
+    "提撥比例%",
+    "雇主相對提撥%",
+    "年數"
+  ],
+  "inputsEn": [
+    "Annual Salary",
+    "Contribution Pct",
+    "Employer Match Pct",
+    "Years"
+  ],
+  "defaults": [
+    "1500000",
+    "10",
+    "5",
+    "30"
+  ],
+  "steps": [
+    "50000",
+    "1",
+    "1",
+    "1"
+  ],
+  "accentIdx": 0,
+  "compute": "依年薪、提撥率、雇主相對提撥與年數計算退休帳戶終值與雇主貢獻佔比",
+  "computeFn": "    const salary = Number(annualSalary) || 0;\n    const cPct = (Number(contributionPct) || 0) / 100;\n    const mPct = (Number(employerMatchPct) || 0) / 100;\n    const yrs = Number(years) || 0;\n    const r = 0.07;\n    const annualSelf = salary * cPct;\n    const annualMatch = salary * Math.min(mPct, cPct);\n    const annualTotal = annualSelf + annualMatch;\n    const fv = r > 0 ? annualTotal * ((Math.pow(1 + r, yrs) - 1) / r) : annualTotal * yrs;\n    const totalContributed = annualTotal * yrs;\n    const matchShare = totalContributed > 0 ? (annualMatch * yrs / totalContributed) * 100 : 0;\n    return { matchShare, fv, totalContributed, annualMatch };",
+  "primaryKey": "matchShare",
+  "primaryDecimals": 1,
+  "primaryUnit": "%",
+  "secondaryKey": "fv",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "$",
+  "tertiaryKey": "totalContributed",
+  "tertiaryDecimals": 0,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "annualMatch",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "雇主貢獻佔比",
+  "primaryLabelEn": "Employer Match Share",
+  "secondaryLabelZh": "退休帳戶終值",
+  "secondaryLabelEn": "Account Future Value",
+  "tertiaryLabelZh": "累計提撥",
+  "tertiaryLabelEn": "Total Contributed",
+  "quaternaryLabelZh": "雇主年提撥",
+  "quaternaryLabelEn": "Annual Match",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandsEn": [
+    "Very low",
+    "Low",
+    "Moderate",
+    "Elevated",
+    "High",
+    "Very high"
+  ],
+  "bandThresholds": [
+    5,
+    15,
+    25,
+    35,
+    50
+  ],
+  "bandHints": [
+    "雇主貢獻 < 5%,相對提撥偏低或自提率遠高於上限,等於少拿免費的錢。",
+    "5-15%,一般,接近多數企業 3-6% 的相對提撥水準。",
+    "15-25%,良好,充分利用雇主相對提撥。",
+    "25-35%,優異,雇主相對提撥慷慨且你已提滿。",
+    "35-50%,極佳,雇主貢獻接近你自提的一半。",
+    "> 50%,罕見,雇主提撥超過自提,務必提滿以拿好拿滿。"
+  ],
+  "faqTitles": [
+    "雇主相對提撥是免費的錢嗎?",
+    "該提撥多少比例?",
+    "401k 和 IRA 差在哪?",
+    "提早領出會怎樣?",
+    "資料會上傳嗎?",
+    "可以模擬不同報酬率嗎?"
+  ],
+  "faqAnswers": [
+    "是。雇主相對提撥(employer match)是你提撥後,公司按比例額外存入你帳戶的錢,等於即時 100% 報酬。沒提滿相對提撥的上限,就等於放棄一部分薪水,務必至少提到能拿滿 match 的比例。",
+    "至少提撥到能拿滿雇主相對提撥的比例(常見 5-6%);若行有餘力,建議朝年度上限(美國 2024 年為 $23,000)邁進。本工具預設 7% 年化報酬估算長期終值。",
+    "401k 由雇主提供、提撥上限高且常有相對提撥;IRA 為個人開設、上限較低但投資選擇更彈性。常見策略:先提滿 401k 的 match,再補 IRA,有餘力再回頭提滿 401k。",
+    "59½ 歲前提領 401k 通常需繳所得稅加 10% 罰款(部分例外如首購、醫療)。提早領出會嚴重損害複利效果,應視為最後手段。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,薪資與提撥等資料不會傳送到任何伺服器。",
+    "自訂報酬率、含通膨的實質購買力、Roth vs Traditional 稅務比較與提領策略屬於專業版功能,免費版以 7% 報酬估算。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "退休計算機",
+      "label_en": "Retirement Calculator",
+      "href": "/tools/finance/retirement-calculator"
+    },
+    {
+      "label_zh": "Roth IRA 計算機",
+      "label_en": "Roth IRA Calculator",
+      "href": "/tools/finance/roth-ira-calculator"
+    },
+    {
+      "label_zh": "複利計算機",
+      "label_en": "Compound Interest Calculator",
+      "href": "/tools/finance/compound-interest-calculator"
+    },
+    {
+      "label_zh": "年金計算機",
+      "label_en": "Annuity Calculator",
+      "href": "/tools/finance/annuity-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "1500000",
+    "10",
+    "5",
+    "30"
+  ],
+  "exampleHigh": [
+    "2500000",
+    "15",
+    "6",
+    "25"
+  ],
+  "solidLabelZh": "年薪 150 萬 · 自提 10% · match 5%",
+  "solidLabelEn": "Salary 1.5M · 10% · match 5%",
+  "highLabelZh": "年薪 250 萬 · 自提 15% · match 6%",
+  "highLabelEn": "Salary 2.5M · 15% · match 6%",
+  "subtitleZh": "輸入年薪、提撥比例與雇主相對提撥,立即算出退休帳戶終值與雇主貢獻佔比",
+  "subtitleEn": "Enter salary, contribution percent, and employer match to see the account future value and employer share",
+  "definitionZh": "401k 退休帳戶計算機以年薪、自提比例、雇主相對提撥與年數,估算退休帳戶終值、累計提撥與雇主貢獻佔比,協助上班族評估退休儲蓄成效。",
+  "formulaZh": "年提撥 = 年薪 ×(自提率 + min(雇主match率, 自提率));終值 = 年提撥 × ((1 + r)^年數 − 1) ÷ r,r 預設 7%",
+  "limitationsZh": "本工具以固定 7% 年化報酬估算,不含通膨、稅務、投資波動與年度提撥上限限制。",
+  "interpretationZh": "雇主貢獻佔比越高代表你越充分利用免費的相對提撥;務必至少提到能拿滿 match 的比例。",
+  "premiumTitleZh": "專業版 退休帳戶規劃",
+  "premiumTextZh": "解鎖自訂報酬率、含通膨實質終值、Roth vs Traditional 稅務比較、年度上限檢核與提領策略模擬。",
+  "premiumChipsZh": "自訂報酬|通膨調整|稅務比較|提領策略",
+  "premiumTitleEn": "Pro Retirement Planner",
+  "premiumTextEn": "Unlock custom returns, inflation-adjusted value, Roth vs Traditional tax compare, contribution-limit checks, and withdrawal strategy simulation.",
+  "premiumChipsEn": "Custom Return|Inflation|Tax Compare|Withdrawal"
+}

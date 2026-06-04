@@ -1,0 +1,150 @@
+{
+  "id": "cap-rate-calculator",
+  "nameZh": "資本化率計算機",
+  "nameEn": "Cap Rate Calculator",
+  "color": "teal",
+  "inputs": [
+    "年租金收入",
+    "年營運費用",
+    "物業總價",
+    "預期空置率%"
+  ],
+  "inputsEn": [
+    "Annual Rent Income",
+    "Annual Operating Cost",
+    "Property Price",
+    "Vacancy Rate Pct"
+  ],
+  "defaults": [
+    "600000",
+    "120000",
+    "10000000",
+    "5"
+  ],
+  "steps": [
+    "10000",
+    "5000",
+    "100000",
+    "1"
+  ],
+  "accentIdx": 2,
+  "compute": "依淨營運收入與物業總價計算資本化率(Cap Rate)、淨營運收入與毛租金報酬率",
+  "computeFn": "    const rent = Number(annualRentIncome) || 0;\n    const opex = Number(annualOperatingCost) || 0;\n    const price = Number(propertyPrice) || 0;\n    const vacancy = (Number(vacancyRatePct) || 0) / 100;\n    const effectiveRent = rent * (1 - vacancy);\n    const noi = effectiveRent - opex;\n    const capRate = price > 0 ? (noi / price) * 100 : 0;\n    const grossYield = price > 0 ? (rent / price) * 100 : 0;\n    return { capRate, noi, grossYield, effectiveRent };",
+  "primaryKey": "capRate",
+  "primaryDecimals": 2,
+  "primaryUnit": "%",
+  "secondaryKey": "noi",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "$",
+  "tertiaryKey": "grossYield",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "%",
+  "quaternaryKey": "effectiveRent",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "資本化率",
+  "primaryLabelEn": "Cap Rate",
+  "secondaryLabelZh": "淨營運收入",
+  "secondaryLabelEn": "Net Operating Income",
+  "tertiaryLabelZh": "毛租金報酬率",
+  "tertiaryLabelEn": "Gross Yield",
+  "quaternaryLabelZh": "有效租金收入",
+  "quaternaryLabelEn": "Effective Rent",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandsEn": [
+    "Very low",
+    "Low",
+    "Moderate",
+    "Elevated",
+    "High",
+    "Very high"
+  ],
+  "bandThresholds": [
+    3,
+    5,
+    7,
+    9,
+    12
+  ],
+  "bandHints": [
+    "Cap Rate < 3%,屬於極低,常見於蛋黃區高價低租金物件,偏資本利得導向。",
+    "3-5%,低,精華地段穩健物件,流動性高但現金流薄。",
+    "5-7%,中等,屬租金與風險平衡的常見區間。",
+    "7-9%,偏高,郊區或老屋,現金流佳但需留意維護與空置。",
+    "9-12%,高,通常風險較高地段或商用,須審慎評估。",
+    "> 12%,極高,多伴隨高風險(地段、屋況、租客穩定度),非穩賺。"
+  ],
+  "faqTitles": [
+    "Cap Rate 是什麼?",
+    "Cap Rate 越高越好嗎?",
+    "和租金報酬率差在哪?",
+    "該不該含貸款利息?",
+    "資料會上傳嗎?",
+    "可以含增值與稅嗎?"
+  ],
+  "faqAnswers": [
+    "資本化率(Cap Rate)= 淨營運收入(NOI)÷ 物業總價,衡量不考慮貸款下,物業以現金購買的年化現金報酬率。它是房地產投資人比較不同物件、不同市場相對價值的核心指標。",
+    "不一定。高 Cap Rate 通常代表高風險(地段差、屋況老、租客不穩);低 Cap Rate 多為精華地段、流動性高、增值潛力大。應在你的風險承受度與目標(現金流 vs 增值)間取捨。",
+    "毛租金報酬率 = 年租金 ÷ 房價,沒扣費用;Cap Rate 用的是扣除營運費用與空置後的「淨」營運收入(NOI),更貼近真實收益。本工具同時提供兩者方便對照。",
+    "傳統 Cap Rate 不含貸款利息,因為它衡量「物業本身」的報酬,讓不同融資條件的買家能公平比較。若要看自有資金報酬,應另算現金報酬率(Cash-on-Cash),屬專業版功能。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,租金與物業價格等資料不會傳送到任何伺服器。",
+    "含增值報酬、現金報酬率(CoC)、內部報酬率(IRR)、稅務與持有成本的完整投報分析屬於專業版功能,免費版聚焦 Cap Rate 與 NOI。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "租金報酬率計算機",
+      "label_en": "Rental Yield Calculator",
+      "href": "/tools/finance/rental-yield-calculator"
+    },
+    {
+      "label_zh": "房貸計算機",
+      "label_en": "Mortgage Calculator",
+      "href": "/tools/finance/mortgage-calculator"
+    },
+    {
+      "label_zh": "投資報酬率計算機",
+      "label_en": "Investment Return Calculator",
+      "href": "/tools/finance/investment-return-calculator"
+    },
+    {
+      "label_zh": "現金流計算機",
+      "label_en": "Cash Flow Calculator",
+      "href": "/tools/finance/cash-flow-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "600000",
+    "120000",
+    "10000000",
+    "5"
+  ],
+  "exampleHigh": [
+    "900000",
+    "200000",
+    "8000000",
+    "10"
+  ],
+  "solidLabelZh": "租金 60 萬 · 費用 12 萬 · 價 1000 萬",
+  "solidLabelEn": "Rent 600k · OpEx 120k · 10M",
+  "highLabelZh": "租金 90 萬 · 費用 20 萬 · 價 800 萬",
+  "highLabelEn": "Rent 900k · OpEx 200k · 8M",
+  "subtitleZh": "輸入年租金、營運費用與物業總價,立即算出資本化率、淨營運收入與毛租金報酬率",
+  "subtitleEn": "Enter annual rent, operating cost, and property price to see the cap rate, net operating income, and gross yield",
+  "definitionZh": "資本化率計算機以年租金收入、年營運費用、物業總價與空置率,計算資本化率(Cap Rate)、淨營運收入(NOI)與毛租金報酬率,協助房地產投資人快速評估物件相對價值。",
+  "formulaZh": "有效租金 = 年租金 × (1 − 空置率);NOI = 有效租金 − 營運費用;Cap Rate = NOI ÷ 物業總價",
+  "limitationsZh": "本工具不含貸款利息、增值報酬、稅務與資本支出(CapEx),僅衡量物業本身的現金報酬。",
+  "interpretationZh": "Cap Rate 須與當地市場行情比較才有意義;高 Cap Rate 常伴隨高風險,應結合地段與屋況綜合判斷。",
+  "premiumTitleZh": "專業版 房產投報分析",
+  "premiumTextZh": "解鎖現金報酬率(CoC)、內部報酬率(IRR)、增值情境、稅務與持有成本、多物件比較與槓桿分析。",
+  "premiumChipsZh": "現金報酬|IRR|增值情境|多物件比較",
+  "premiumTitleEn": "Pro Property ROI",
+  "premiumTextEn": "Unlock cash-on-cash return, IRR, appreciation scenarios, tax and holding costs, multi-property compare, and leverage analysis.",
+  "premiumChipsEn": "Cash-on-Cash|IRR|Appreciation|Compare"
+}

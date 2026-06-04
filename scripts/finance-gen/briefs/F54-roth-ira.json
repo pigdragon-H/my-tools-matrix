@@ -1,0 +1,150 @@
+{
+  "id": "roth-ira-calculator",
+  "nameZh": "Roth IRA 計算機",
+  "nameEn": "Roth IRA Calculator",
+  "color": "rose",
+  "inputs": [
+    "每年提撥",
+    "年化報酬率%",
+    "年數",
+    "目前餘額"
+  ],
+  "inputsEn": [
+    "Annual Contribution",
+    "Annual Return Pct",
+    "Years",
+    "Current Balance"
+  ],
+  "defaults": [
+    "180000",
+    "7",
+    "30",
+    "0"
+  ],
+  "steps": [
+    "10000",
+    "0.5",
+    "1",
+    "10000"
+  ],
+  "accentIdx": 1,
+  "compute": "依每年提撥、報酬率與年數計算 Roth IRA 終值、總提撥與免稅獲利佔比",
+  "computeFn": "    const pmt = Number(annualContribution) || 0;\n    const r = (Number(annualReturnPct) || 0) / 100;\n    const yrs = Number(years) || 0;\n    const start = Number(currentBalance) || 0;\n    const fvStart = start * Math.pow(1 + r, yrs);\n    const fvContrib = r > 0 ? pmt * ((Math.pow(1 + r, yrs) - 1) / r) : pmt * yrs;\n    const fv = fvStart + fvContrib;\n    const totalContributed = start + pmt * yrs;\n    const taxFreeGain = fv - totalContributed;\n    const gainShare = fv > 0 ? (taxFreeGain / fv) * 100 : 0;\n    return { gainShare, fv, totalContributed, taxFreeGain };",
+  "primaryKey": "gainShare",
+  "primaryDecimals": 1,
+  "primaryUnit": "%",
+  "secondaryKey": "fv",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "$",
+  "tertiaryKey": "totalContributed",
+  "tertiaryDecimals": 0,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "taxFreeGain",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "免稅獲利佔比",
+  "primaryLabelEn": "Tax-Free Gain Share",
+  "secondaryLabelZh": "帳戶終值",
+  "secondaryLabelEn": "Account Future Value",
+  "tertiaryLabelZh": "總提撥",
+  "tertiaryLabelEn": "Total Contributed",
+  "quaternaryLabelZh": "免稅獲利",
+  "quaternaryLabelEn": "Tax-Free Gain",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandsEn": [
+    "Very low",
+    "Low",
+    "Moderate",
+    "Elevated",
+    "High",
+    "Very high"
+  ],
+  "bandThresholds": [
+    20,
+    40,
+    55,
+    70,
+    85
+  ],
+  "bandHints": [
+    "獲利佔比 < 20%,投資年限短或報酬低,複利尚未發揮。",
+    "20-40%,複利開始累積,常見於 10-15 年期。",
+    "40-55%,過半,長期投資的複利效果顯現。",
+    "55-70%,獲利已超過本金,接近 20-25 年期成果。",
+    "70-85%,複利強勁,多為 30 年以上長期投資。",
+    "> 85%,絕大部分為免稅獲利,展現極長期複利的威力。"
+  ],
+  "faqTitles": [
+    "Roth IRA 的最大優勢是什麼?",
+    "Roth 和 Traditional 怎麼選?",
+    "提撥有上限嗎?",
+    "可以提前領本金嗎?",
+    "資料會上傳嗎?",
+    "可以模擬通膨嗎?"
+  ],
+  "faqAnswers": [
+    "Roth IRA 用稅後的錢提撥,但帳戶內的成長與未來提領完全免稅。對年輕、目前稅率較低、預期退休時稅率更高的人特別有利,因為今天繳低稅、未來免稅領出,複利成長全歸自己。",
+    "若你預期退休時稅率高於現在(年輕、收入成長期),選 Roth(現在繳稅、未來免稅);若預期退休稅率較低,選 Traditional(現在抵稅、未來繳稅)。許多人兩者並用以分散稅務風險。",
+    "有。美國 2024 年 IRA 年度提撥上限為 $7,000(50 歲以上 $8,000),且高收入者有資格限制(MAGI phase-out)。本工具以你輸入的提撥金額試算,實際以 IRS 規定為準。",
+    "Roth IRA 的「本金」(已提撥部分)可隨時免稅免罰提領,但「獲利」在 59½ 歲且帳戶滿 5 年前提領需繳稅加罰款。這項彈性讓 Roth 兼具退休與緊急備援功能。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,提撥與報酬等資料不會傳送到任何伺服器。",
+    "含通膨的實質終值、Roth vs Traditional 稅後比較、提撥上限檢核與提領排程屬於專業版功能,免費版以名目報酬估算。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "複利計算機",
+      "label_en": "Compound Interest Calculator",
+      "href": "/tools/finance/compound-interest-calculator"
+    },
+    {
+      "label_zh": "401k 退休帳戶計算機",
+      "label_en": "401k Retirement Calculator",
+      "href": "/tools/finance/retirement-401k-calculator"
+    },
+    {
+      "label_zh": "退休計算機",
+      "label_en": "Retirement Calculator",
+      "href": "/tools/finance/retirement-calculator"
+    },
+    {
+      "label_zh": "未來價值計算機",
+      "label_en": "Future Value Calculator",
+      "href": "/tools/finance/future-value-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "180000",
+    "7",
+    "30",
+    "0"
+  ],
+  "exampleHigh": [
+    "210000",
+    "8",
+    "25",
+    "300000"
+  ],
+  "solidLabelZh": "年提 18 萬 · 7% · 30 年",
+  "solidLabelEn": "180k/yr · 7% · 30y",
+  "highLabelZh": "年提 21 萬 · 8% · 25 年 · 起始 30 萬",
+  "highLabelEn": "210k/yr · 8% · 25y · 300k start",
+  "subtitleZh": "輸入每年提撥、報酬率與年數,立即算出 Roth IRA 終值、總提撥與免稅獲利佔比",
+  "subtitleEn": "Enter annual contribution, return rate, and years to see the Roth IRA future value, total contributed, and tax-free gain share",
+  "definitionZh": "Roth IRA 計算機以每年提撥金額、年化報酬率、投資年數與目前餘額,計算退休帳戶終值、累計提撥與免稅獲利佔比,展現稅後提撥、免稅成長的長期威力。",
+  "formulaZh": "終值 = 目前餘額 × (1 + r)^年數 + 每年提撥 × ((1 + r)^年數 − 1) ÷ r;免稅獲利 = 終值 − 總提撥",
+  "limitationsZh": "本工具以名目報酬估算,不含通膨、投資波動、提撥上限與收入資格限制。",
+  "interpretationZh": "免稅獲利佔比越高代表複利成長越顯著;年限越長、佔比越高,凸顯及早投資的重要性。",
+  "premiumTitleZh": "專業版 免稅退休規劃",
+  "premiumTextZh": "解鎖含通膨實質終值、Roth vs Traditional 稅後比較、提撥上限與收入資格檢核、轉換策略與提領排程。",
+  "premiumChipsZh": "通膨調整|稅後比較|資格檢核|轉換策略",
+  "premiumTitleEn": "Pro Tax-Free Retirement",
+  "premiumTextEn": "Unlock inflation-adjusted value, Roth vs Traditional after-tax compare, contribution-limit and income checks, conversion strategy, and withdrawal schedule.",
+  "premiumChipsEn": "Inflation|After-tax|Eligibility|Conversion"
+}

@@ -1,0 +1,150 @@
+{
+  "id": "debt-snowball-calculator",
+  "nameZh": "債務雪球計算機",
+  "nameEn": "Debt Snowball Calculator",
+  "color": "orange",
+  "inputs": [
+    "總債務",
+    "平均年利率%",
+    "每月可還",
+    "債務筆數"
+  ],
+  "inputsEn": [
+    "Total Debt",
+    "Average Rate Pct",
+    "Monthly Payment",
+    "Number of Debts"
+  ],
+  "defaults": [
+    "500000",
+    "12",
+    "20000",
+    "4"
+  ],
+  "steps": [
+    "10000",
+    "0.5",
+    "1000",
+    "1"
+  ],
+  "accentIdx": 0,
+  "compute": "依總債務、利率與每月可還計算還清月數、總利息與利息佔債務比",
+  "computeFn": "    const debt = Number(totalDebt) || 0;\n    const r = (Number(averageRatePct) || 0) / 100 / 12;\n    const pmt = Number(monthlyPayment) || 0;\n    let bal = debt, months = 0, interestPaid = 0;\n    const minPay = bal * r + 1;\n    if (pmt <= minPay) { return { interestRatio: 999, monthsToClear: 0, totalInterest: 0, totalPaid: 0 }; }\n    while (bal > 0 && months < 1200) { const i = bal * r; interestPaid += i; bal = bal + i - pmt; months++; }\n    const totalPaid = debt + interestPaid;\n    const interestRatio = debt > 0 ? (interestPaid / debt) * 100 : 0;\n    return { interestRatio, monthsToClear: months, totalInterest: interestPaid, totalPaid };",
+  "primaryKey": "interestRatio",
+  "primaryDecimals": 1,
+  "primaryUnit": "%",
+  "secondaryKey": "monthsToClear",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "mo",
+  "tertiaryKey": "totalInterest",
+  "tertiaryDecimals": 0,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "totalPaid",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "利息佔債務比",
+  "primaryLabelEn": "Interest-to-Debt",
+  "secondaryLabelZh": "還清月數",
+  "secondaryLabelEn": "Months to Clear",
+  "tertiaryLabelZh": "總利息",
+  "tertiaryLabelEn": "Total Interest",
+  "quaternaryLabelZh": "還款總額",
+  "quaternaryLabelEn": "Total Paid",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandsEn": [
+    "Very low",
+    "Low",
+    "Moderate",
+    "Elevated",
+    "High",
+    "Very high"
+  ],
+  "bandThresholds": [
+    5,
+    12,
+    25,
+    45,
+    80
+  ],
+  "bandHints": [
+    "利息佔債務 < 5%,還款迅速,利率低或還款力道強,負擔極輕。",
+    "5-12%,低,健康還款節奏,1-2 年內可清。",
+    "12-25%,中等,屬一般信貸或卡債分期區間。",
+    "25-45%,偏高,還款拖長或利率偏高,建議加大還款。",
+    "45-80%,高,利息侵蝕嚴重,優先處理高利債並考慮整合。",
+    "> 80%,極高,接近最低還款陷阱,務必重整或協商。"
+  ],
+  "faqTitles": [
+    "雪球法和雪崩法差在哪?",
+    "為什麼雪球法有效?",
+    "該先存錢還是先還債?",
+    "可以提前還清嗎?",
+    "資料會上傳嗎?",
+    "可以逐筆排序嗎?"
+  ],
+  "faqAnswers": [
+    "**雪球法**先還餘額最小的債務,快速清掉一筆建立成就感與動力;**雪崩法**先還利率最高的,數學上最省利息。雪球法心理效果強、堅持率高;雪崩法省錢但需要紀律。本工具估算整體還清時程。",
+    "雪球法的威力在於行為心理:每還清一筆就釋放該筆的最低還款,滾入下一筆形成「雪球」,加上成就感維持動力,提高長期堅持率。對容易半途而廢的人,堅持到底往往比省一點利息更重要。",
+    "原則上先建立 1 個月的小額緊急金(避免再借新債),然後全力還高利債(尤其卡債),還清後再補滿 3-6 個月緊急備用金並開始投資。高利債的「報酬」(省下的利息)通常高於投資。",
+    "可以,且強烈建議。提前還款直接減少本金,後續利息按新餘額重算,越早還、省越多。任何額外收入(獎金、退稅)優先投入高利債,能大幅縮短還清時間。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,債務與利率等資料不會傳送到任何伺服器。",
+    "逐筆債務排序、雪球 vs 雪崩比較、額外還款情境與還清排程匯出屬於專業版功能,免費版提供整體還清試算。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "債務還清計算機",
+      "label_en": "Debt Payoff Calculator",
+      "href": "/tools/finance/debt-payoff-calculator"
+    },
+    {
+      "label_zh": "信用卡還款計算機",
+      "label_en": "Credit Card Payoff Calculator",
+      "href": "/tools/finance/credit-card-payoff-calculator"
+    },
+    {
+      "label_zh": "債務收入比計算機",
+      "label_en": "Debt-to-Income Calculator",
+      "href": "/tools/finance/debt-to-income-calculator"
+    },
+    {
+      "label_zh": "緊急備用金計算機",
+      "label_en": "Emergency Fund Calculator",
+      "href": "/tools/finance/emergency-fund-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "500000",
+    "12",
+    "20000",
+    "4"
+  ],
+  "exampleHigh": [
+    "800000",
+    "18",
+    "18000",
+    "6"
+  ],
+  "solidLabelZh": "債 50 萬 · 12% · 月還 2 萬",
+  "solidLabelEn": "500k · 12% · 20k/mo",
+  "highLabelZh": "債 80 萬 · 18% · 月還 1.8 萬",
+  "highLabelEn": "800k · 18% · 18k/mo",
+  "subtitleZh": "輸入總債務、平均利率與每月可還,立即算出還清月數、總利息與利息佔債務比",
+  "subtitleEn": "Enter total debt, average rate, and monthly payment to see months to clear, total interest, and interest-to-debt ratio",
+  "definitionZh": "債務雪球計算機以總債務、平均年利率與每月還款金額,估算還清所需月數、累計利息與利息佔債務比,協助規劃債務清償策略並維持還款動力。",
+  "formulaZh": "每月:利息 = 餘額 × 月利率,餘額 = 餘額 + 利息 − 每月還款;重複至餘額歸零得還清月數與總利息",
+  "limitationsZh": "本工具以平均利率與固定月還款估算整體時程,不逐筆模擬雪球順序;若每月還款低於利息,將永遠無法還清。",
+  "interpretationZh": "利息佔債務比越低代表還款效率越高;加大每月還款或優先處理高利債可顯著縮短還清時間。",
+  "premiumTitleZh": "專業版 債務清償策略",
+  "premiumTextZh": "解鎖逐筆債務排序、雪球 vs 雪崩比較、額外還款情境模擬、整合貸款試算與還清排程匯出。",
+  "premiumChipsZh": "逐筆排序|雪球雪崩|額外還款|排程匯出",
+  "premiumTitleEn": "Pro Debt Payoff Strategy",
+  "premiumTextEn": "Unlock per-debt ordering, snowball vs avalanche compare, extra-payment scenarios, consolidation simulation, and payoff schedule export.",
+  "premiumChipsEn": "Per-debt|Snowball/Avalanche|Extra Pay|Schedule"
+}

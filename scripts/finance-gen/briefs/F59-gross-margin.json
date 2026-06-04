@@ -1,0 +1,150 @@
+{
+  "id": "gross-margin-calculator",
+  "nameZh": "毛利計算機",
+  "nameEn": "Gross Margin Calculator",
+  "color": "lime",
+  "inputs": [
+    "營收",
+    "銷貨成本",
+    "退貨折讓",
+    "單位數量"
+  ],
+  "inputsEn": [
+    "Revenue",
+    "Cost of Goods Sold",
+    "Returns Allowance",
+    "Unit Count"
+  ],
+  "defaults": [
+    "1000000",
+    "600000",
+    "20000",
+    "1000"
+  ],
+  "steps": [
+    "10000",
+    "10000",
+    "1000",
+    "10"
+  ],
+  "accentIdx": 1,
+  "compute": "依營收與銷貨成本計算毛利率、毛利金額與單位毛利",
+  "computeFn": "    const rev = Number(revenue) || 0;\n    const cogs = Number(costOfGoodsSold) || 0;\n    const returns = Number(returnsAllowance) || 0;\n    const units = Number(unitCount) || 1;\n    const netRev = rev - returns;\n    const grossProfit = netRev - cogs;\n    const grossMargin = netRev > 0 ? (grossProfit / netRev) * 100 : 0;\n    const unitMargin = units > 0 ? grossProfit / units : 0;\n    return { grossMargin, grossProfit, unitMargin, netRev };",
+  "primaryKey": "grossMargin",
+  "primaryDecimals": 1,
+  "primaryUnit": "%",
+  "secondaryKey": "grossProfit",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "$",
+  "tertiaryKey": "unitMargin",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "netRev",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "毛利率",
+  "primaryLabelEn": "Gross Margin",
+  "secondaryLabelZh": "毛利金額",
+  "secondaryLabelEn": "Gross Profit",
+  "tertiaryLabelZh": "單位毛利",
+  "tertiaryLabelEn": "Unit Margin",
+  "quaternaryLabelZh": "淨營收",
+  "quaternaryLabelEn": "Net Revenue",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandsEn": [
+    "Very low",
+    "Low",
+    "Moderate",
+    "Elevated",
+    "High",
+    "Very high"
+  ],
+  "bandThresholds": [
+    10,
+    25,
+    40,
+    55,
+    70
+  ],
+  "bandHints": [
+    "毛利率 < 10%,極薄,常見於量販、3C 通路等低毛利高週轉產業。",
+    "10-25%,低,屬零售、製造等成本佔比高的產業。",
+    "25-40%,中等,屬一般消費品與餐飲的健康區間。",
+    "40-55%,偏高,品牌溢價或服務型產業的良好水準。",
+    "55-70%,高,軟體、精品或專業服務的優異毛利。",
+    "> 70%,極高,常見於 SaaS、數位內容等近零邊際成本產業。"
+  ],
+  "faqTitles": [
+    "毛利率和淨利率差在哪?",
+    "毛利率多少算好?",
+    "退貨折讓要扣嗎?",
+    "怎麼提升毛利率?",
+    "資料會上傳嗎?",
+    "可以多產品比較嗎?"
+  ],
+  "faqAnswers": [
+    "**毛利率** = (營收 − 銷貨成本)÷ 營收,只扣直接生產成本;**淨利率**再扣掉營業費用、利息與稅,反映最終獲利。毛利率衡量產品本身的賺錢能力,淨利率反映整體經營效率,兩者要一起看。",
+    "因產業而異,沒有絕對標準。軟體與精品常達 60-80%,零售與製造常 20-40%,量販可能低於 10%。重點是與同業比較、觀察趨勢:毛利率持續下滑可能代表成本上升或削價競爭。",
+    "建議扣除。退貨折讓會減少實際收到的營收,以「淨營收」計算毛利率更貼近真實獲利能力。本工具讓你輸入退貨折讓,自動算出淨營收與真實毛利率。",
+    "兩條路:提高售價(品牌、差異化、組合銷售)或降低銷貨成本(規模採購、製程優化、供應鏈議價)。也可調整產品組合,主推高毛利品項。本工具的單位毛利可協助定價決策。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,營收與成本等資料不會傳送到任何伺服器。",
+    "多產品毛利比較、毛利趨勢圖、加權平均毛利與目標毛利反推屬於專業版功能,免費版聚焦單一產品線毛利。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "利潤率計算機",
+      "label_en": "Profit Margin Calculator",
+      "href": "/tools/finance/profit-margin-calculator"
+    },
+    {
+      "label_zh": "加價率計算機",
+      "label_en": "Markup Calculator",
+      "href": "/tools/finance/markup-calculator"
+    },
+    {
+      "label_zh": "損益兩平計算機",
+      "label_en": "Break-Even Calculator",
+      "href": "/tools/finance/break-even-calculator"
+    },
+    {
+      "label_zh": "ROAS 廣告投報計算機",
+      "label_en": "ROAS Calculator",
+      "href": "/tools/finance/roas-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "1000000",
+    "600000",
+    "20000",
+    "1000"
+  ],
+  "exampleHigh": [
+    "2000000",
+    "500000",
+    "30000",
+    "800"
+  ],
+  "solidLabelZh": "營收 100 萬 · COGS 60 萬",
+  "solidLabelEn": "Rev 1M · COGS 600k",
+  "highLabelZh": "營收 200 萬 · COGS 50 萬",
+  "highLabelEn": "Rev 2M · COGS 500k",
+  "subtitleZh": "輸入營收與銷貨成本,立即算出毛利率、毛利金額與單位毛利",
+  "subtitleEn": "Enter revenue and cost of goods sold to see the gross margin, gross profit, and unit margin",
+  "definitionZh": "毛利計算機以營收、銷貨成本、退貨折讓與單位數量,計算毛利率、毛利金額、單位毛利與淨營收,協助企業評估產品獲利能力與制定定價策略。",
+  "formulaZh": "淨營收 = 營收 − 退貨折讓;毛利 = 淨營收 − 銷貨成本;毛利率 = 毛利 ÷ 淨營收 × 100%",
+  "limitationsZh": "本工具僅計算毛利,不含營業費用、利息、稅與折舊,無法反映最終淨利與整體經營績效。",
+  "interpretationZh": "毛利率應與同業比較並觀察趨勢;持續下滑代表成本上升或削價,單位毛利可協助定價與產品組合決策。",
+  "premiumTitleZh": "專業版 毛利分析工具組",
+  "premiumTextZh": "解鎖多產品毛利比較、毛利趨勢圖、加權平均毛利、目標毛利反推與成本結構拆解。",
+  "premiumChipsZh": "多產品比較|趨勢圖|加權毛利|目標反推",
+  "premiumTitleEn": "Pro Margin Analysis Suite",
+  "premiumTextEn": "Unlock multi-product compare, margin trend charts, weighted-average margin, target-margin back-solve, and cost-structure breakdown.",
+  "premiumChipsEn": "Multi-product|Trends|Weighted|Back-solve"
+}

@@ -1,0 +1,150 @@
+{
+  "id": "sip-calculator",
+  "nameZh": "定期定額計算機",
+  "nameEn": "SIP Calculator",
+  "color": "cyan",
+  "inputs": [
+    "每月投資",
+    "年化報酬率%",
+    "投資年數",
+    "預期年通膨%"
+  ],
+  "inputsEn": [
+    "Monthly Investment",
+    "Annual Return Pct",
+    "Years",
+    "Inflation Pct"
+  ],
+  "defaults": [
+    "10000",
+    "8",
+    "20",
+    "2"
+  ],
+  "steps": [
+    "1000",
+    "0.5",
+    "1",
+    "0.5"
+  ],
+  "accentIdx": 0,
+  "compute": "依每月投資、報酬率與年數計算定期定額終值、總投入與獲利佔比",
+  "computeFn": "    const pmt = Number(monthlyInvestment) || 0;\n    const r = (Number(annualReturnPct) || 0) / 100 / 12;\n    const n = (Number(years) || 0) * 12;\n    const fv = r > 0 ? pmt * ((Math.pow(1 + r, n) - 1) / r) * (1 + r) : pmt * n;\n    const invested = pmt * n;\n    const gain = fv - invested;\n    const gainShare = fv > 0 ? (gain / fv) * 100 : 0;\n    return { gainShare, fv, invested, gain };",
+  "primaryKey": "gainShare",
+  "primaryDecimals": 1,
+  "primaryUnit": "%",
+  "secondaryKey": "fv",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "$",
+  "tertiaryKey": "invested",
+  "tertiaryDecimals": 0,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "gain",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "獲利佔比",
+  "primaryLabelEn": "Gain Share",
+  "secondaryLabelZh": "投資終值",
+  "secondaryLabelEn": "Future Value",
+  "tertiaryLabelZh": "總投入",
+  "tertiaryLabelEn": "Total Invested",
+  "quaternaryLabelZh": "累計獲利",
+  "quaternaryLabelEn": "Total Gain",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandsEn": [
+    "Very low",
+    "Low",
+    "Moderate",
+    "Elevated",
+    "High",
+    "Very high"
+  ],
+  "bandThresholds": [
+    20,
+    40,
+    55,
+    70,
+    85
+  ],
+  "bandHints": [
+    "獲利佔比 < 20%,投資年限短或報酬低,複利尚未明顯發揮。",
+    "20-40%,複利開始累積,常見於 10-15 年期定期定額。",
+    "40-55%,過半,長期紀律投資的成果顯現。",
+    "55-70%,獲利超過本金,接近 20-25 年期成果。",
+    "70-85%,複利強勁,多為 25-30 年期長線。",
+    "> 85%,絕大部分為複利獲利,展現超長期定期定額威力。"
+  ],
+  "faqTitles": [
+    "定期定額為什麼有效?",
+    "報酬率該假設多少?",
+    "可以隨時停扣嗎?",
+    "定期定額 vs 單筆投入哪個好?",
+    "資料會上傳嗎?",
+    "可以調整通膨嗎?"
+  ],
+  "faqAnswers": [
+    "定期定額(SIP/DCA)透過固定金額分批買進,在低點買到較多單位、高點買到較少單位,自動拉低平均成本(成本平均效應),並搭配長期複利成長,降低擇時風險,適合一般投資人長期累積資產。",
+    "保守可用 4-6%,股市長期歷史約 7-10%(扣通膨後約 5-7%)。報酬率假設越高、終值越樂觀但也越不確定。建議用不同報酬率情境(悲觀/中性/樂觀)各算一次,管理預期。",
+    "可以,定期定額多無強制鎖定期,可隨時調整金額或暫停。但長期紀律是其威力來源,頻繁停扣或追高殺低會破壞成本平均效果。建議設定自動扣款維持紀律。",
+    "若手上已有大筆閒置資金、市場處於長期低檔,單筆投入期望報酬略高;但定期定額分散擇時風險、心理壓力小、適合薪資族。多數人現金流是月領,定期定額更貼近實際。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,投資金額與報酬等資料不會傳送到任何伺服器。",
+    "含通膨的實質終值、報酬遞增(step-up SIP)、多情境蒙地卡羅與最佳扣款日屬於專業版功能,免費版以固定名目報酬估算。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "複利計算機",
+      "label_en": "Compound Interest Calculator",
+      "href": "/tools/finance/compound-interest-calculator"
+    },
+    {
+      "label_zh": "投資報酬率計算機",
+      "label_en": "Investment Return Calculator",
+      "href": "/tools/finance/investment-return-calculator"
+    },
+    {
+      "label_zh": "未來價值計算機",
+      "label_en": "Future Value Calculator",
+      "href": "/tools/finance/future-value-calculator"
+    },
+    {
+      "label_zh": "通膨調整計算機",
+      "label_en": "Inflation Adjuster",
+      "href": "/tools/finance/inflation-adjuster"
+    }
+  ],
+  "exampleSolid": [
+    "10000",
+    "8",
+    "20",
+    "2"
+  ],
+  "exampleHigh": [
+    "25000",
+    "10",
+    "30",
+    "3"
+  ],
+  "solidLabelZh": "月投 1 萬 · 8% · 20 年",
+  "solidLabelEn": "10k/mo · 8% · 20y",
+  "highLabelZh": "月投 2.5 萬 · 10% · 30 年",
+  "highLabelEn": "25k/mo · 10% · 30y",
+  "subtitleZh": "輸入每月投資、報酬率與年數,立即算出定期定額終值、總投入與獲利佔比",
+  "subtitleEn": "Enter monthly investment, return rate, and years to see the SIP future value, total invested, and gain share",
+  "definitionZh": "定期定額計算機以每月投資金額、年化報酬率與投資年數,計算定期定額(SIP/DCA)終值、總投入與獲利佔比,展現紀律投資加複利的長期累積效果。",
+  "formulaZh": "終值 = 每月投資 × ((1 + 月報酬)^月數 − 1) ÷ 月報酬 × (1 + 月報酬);獲利 = 終值 − 總投入",
+  "limitationsZh": "本工具以固定名目報酬估算,不含通膨、投資波動、手續費與稅務,實際報酬會隨市場起伏。",
+  "interpretationZh": "獲利佔比越高代表複利成長越顯著;年限越長、佔比越高,凸顯及早並持續投資的重要性。",
+  "premiumTitleZh": "專業版 定期定額策略",
+  "premiumTextZh": "解鎖含通膨實質終值、報酬遞增(step-up)、多情境蒙地卡羅模擬、最佳扣款日與目標回推。",
+  "premiumChipsZh": "通膨調整|報酬遞增|蒙地卡羅|目標回推",
+  "premiumTitleEn": "Pro SIP Strategy",
+  "premiumTextEn": "Unlock inflation-adjusted value, step-up SIP, multi-scenario Monte Carlo, optimal debit date, and goal back-solving.",
+  "premiumChipsEn": "Inflation|Step-up|Monte Carlo|Goal Solve"
+}

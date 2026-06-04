@@ -1,0 +1,150 @@
+{
+  "id": "ebitda-calculator",
+  "nameZh": "EBITDA 計算機",
+  "nameEn": "EBITDA Calculator",
+  "color": "fuchsia",
+  "inputs": [
+    "營收",
+    "營業費用",
+    "折舊攤銷",
+    "利息與稅"
+  ],
+  "inputsEn": [
+    "Revenue",
+    "Operating Expenses",
+    "Depreciation Amortization",
+    "Interest and Tax"
+  ],
+  "defaults": [
+    "5000000",
+    "3500000",
+    "400000",
+    "300000"
+  ],
+  "steps": [
+    "100000",
+    "100000",
+    "10000",
+    "10000"
+  ],
+  "accentIdx": 0,
+  "compute": "依營收與費用計算 EBITDA、EBITDA 利潤率與淨利",
+  "computeFn": "    const rev = Number(revenue) || 0;\n    const opex = Number(operatingExpenses) || 0;\n    const da = Number(depreciationAmortization) || 0;\n    const it = Number(interestAndTax) || 0;\n    const ebitda = rev - opex;\n    const ebit = ebitda - da;\n    const netIncome = ebit - it;\n    const ebitdaMargin = rev > 0 ? (ebitda / rev) * 100 : 0;\n    return { ebitdaMargin, ebitda, ebit, netIncome };",
+  "primaryKey": "ebitdaMargin",
+  "primaryDecimals": 1,
+  "primaryUnit": "%",
+  "secondaryKey": "ebitda",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "$",
+  "tertiaryKey": "ebit",
+  "tertiaryDecimals": 0,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "netIncome",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "EBITDA 利潤率",
+  "primaryLabelEn": "EBITDA Margin",
+  "secondaryLabelZh": "EBITDA",
+  "secondaryLabelEn": "EBITDA",
+  "tertiaryLabelZh": "EBIT",
+  "tertiaryLabelEn": "EBIT",
+  "quaternaryLabelZh": "淨利",
+  "quaternaryLabelEn": "Net Income",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandsEn": [
+    "Very low",
+    "Low",
+    "Moderate",
+    "Elevated",
+    "High",
+    "Very high"
+  ],
+  "bandThresholds": [
+    5,
+    12,
+    20,
+    30,
+    45
+  ],
+  "bandHints": [
+    "EBITDA 利潤率 < 5%,極薄,常見於低毛利通路或競爭激烈產業。",
+    "5-12%,低,屬製造、零售等資本密集產業常見水準。",
+    "12-20%,中等,健康營運的一般區間。",
+    "20-30%,偏高,品牌或具規模經濟企業的良好表現。",
+    "30-45%,高,軟體、電信等高營運槓桿產業的優異水準。",
+    "> 45%,極高,常見於 SaaS、授權與壟斷性業務,獲利能力極強。"
+  ],
+  "faqTitles": [
+    "EBITDA 是什麼?",
+    "EBITDA 和淨利差在哪?",
+    "EBITDA 利潤率多少算好?",
+    "EBITDA 有什麼盲點?",
+    "資料會上傳嗎?",
+    "可以算 EV/EBITDA 嗎?"
+  ],
+  "faqAnswers": [
+    "EBITDA = 稅前息前折舊攤銷前獲利(Earnings Before Interest, Taxes, Depreciation and Amortization),衡量企業核心營運產生現金的能力,排除融資結構、稅制與非現金費用的影響,常用於跨公司、跨國比較與併購估值。",
+    "EBITDA 加回了利息、稅、折舊與攤銷;淨利則扣除全部。EBITDA 反映「營運本身」賺現金的能力,淨利反映「股東最終」拿到多少。資本密集或高負債公司的 EBITDA 會明顯高於淨利。",
+    "因產業而異。軟體、電信常達 30-50%,製造、零售常 10-20%,低毛利通路可能低於 5%。重點是與同業比較並看趨勢:利潤率穩定或上升代表營運效率良好。",
+    "EBITDA 忽略了維持營運所需的資本支出(CapEx)與折舊,可能高估自由現金流;高負債公司用 EBITDA 美化體質時尤其要小心。應搭配自由現金流與淨利一起看,避免被單一指標誤導。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,財務數字不會傳送到任何伺服器。",
+    "EV/EBITDA 估值倍數、EBITDA 趨勢、調整後 EBITDA 與同業比較屬於專業版功能,免費版聚焦 EBITDA 與利潤率。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "財務比率計算機",
+      "label_en": "Financial Ratio Calculator",
+      "href": "/tools/finance/financial-ratio-calculator"
+    },
+    {
+      "label_zh": "利潤率計算機",
+      "label_en": "Profit Margin Calculator",
+      "href": "/tools/finance/profit-margin-calculator"
+    },
+    {
+      "label_zh": "毛利計算機",
+      "label_en": "Gross Margin Calculator",
+      "href": "/tools/finance/gross-margin-calculator"
+    },
+    {
+      "label_zh": "現金流計算機",
+      "label_en": "Cash Flow Calculator",
+      "href": "/tools/finance/cash-flow-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "5000000",
+    "3500000",
+    "400000",
+    "300000"
+  ],
+  "exampleHigh": [
+    "8000000",
+    "4000000",
+    "500000",
+    "600000"
+  ],
+  "solidLabelZh": "營收 500 萬 · 費用 350 萬",
+  "solidLabelEn": "Rev 5M · OpEx 3.5M",
+  "highLabelZh": "營收 800 萬 · 費用 400 萬",
+  "highLabelEn": "Rev 8M · OpEx 4M",
+  "subtitleZh": "輸入營收與營業費用,立即算出 EBITDA、EBITDA 利潤率與淨利",
+  "subtitleEn": "Enter revenue and operating expenses to see the EBITDA, EBITDA margin, and net income",
+  "definitionZh": "EBITDA 計算機以營收、營業費用、折舊攤銷與利息稅,計算稅前息前折舊攤銷前獲利(EBITDA)、EBITDA 利潤率、EBIT 與淨利,協助評估企業核心營運的現金產生能力。",
+  "formulaZh": "EBITDA = 營收 − 營業費用;EBIT = EBITDA − 折舊攤銷;淨利 = EBIT − 利息與稅;EBITDA 利潤率 = EBITDA ÷ 營收",
+  "limitationsZh": "本工具不計入資本支出(CapEx)與營運資金變動,EBITDA 可能高估自由現金流,高負債企業須審慎解讀。",
+  "interpretationZh": "EBITDA 利潤率越高代表營運效率越好;應與同業比較並搭配自由現金流,避免被單一指標誤導。",
+  "premiumTitleZh": "專業版 企業估值工具組",
+  "premiumTextZh": "解鎖 EV/EBITDA 估值倍數、調整後 EBITDA、自由現金流橋接、同業比較與多期趨勢分析。",
+  "premiumChipsZh": "EV/EBITDA|調整EBITDA|現金流橋接|同業比較",
+  "premiumTitleEn": "Pro Valuation Suite",
+  "premiumTextEn": "Unlock EV/EBITDA multiples, adjusted EBITDA, free-cash-flow bridge, peer comparison, and multi-period trend analysis.",
+  "premiumChipsEn": "EV/EBITDA|Adjusted|FCF Bridge|Peers"
+}

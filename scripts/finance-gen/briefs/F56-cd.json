@@ -1,0 +1,150 @@
+{
+  "id": "cd-calculator",
+  "nameZh": "定存單計算機",
+  "nameEn": "CD Calculator",
+  "color": "blue",
+  "inputs": [
+    "本金",
+    "年利率%",
+    "存款月數",
+    "每年複利次數"
+  ],
+  "inputsEn": [
+    "Principal",
+    "Annual Rate Pct",
+    "Term Months",
+    "Compounds Per Year"
+  ],
+  "defaults": [
+    "1000000",
+    "1.6",
+    "12",
+    "12"
+  ],
+  "steps": [
+    "10000",
+    "0.05",
+    "1",
+    "1"
+  ],
+  "accentIdx": 1,
+  "compute": "依本金、利率與存款期間計算定存到期本利和、利息與有效年利率",
+  "computeFn": "    const P = Number(principal) || 0;\n    const rate = (Number(annualRatePct) || 0) / 100;\n    const months = Number(termMonths) || 0;\n    const m = Number(compoundsPerYear) || 1;\n    const t = months / 12;\n    const maturity = P * Math.pow(1 + rate / m, m * t);\n    const interest = maturity - P;\n    const ear = (Math.pow(1 + rate / m, m) - 1) * 100;\n    return { ear, maturity, interest, P };",
+  "primaryKey": "ear",
+  "primaryDecimals": 3,
+  "primaryUnit": "%",
+  "secondaryKey": "maturity",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "$",
+  "tertiaryKey": "interest",
+  "tertiaryDecimals": 0,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "P",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "有效年利率",
+  "primaryLabelEn": "Effective Annual Rate",
+  "secondaryLabelZh": "到期本利和",
+  "secondaryLabelEn": "Maturity Value",
+  "tertiaryLabelZh": "利息",
+  "tertiaryLabelEn": "Interest Earned",
+  "quaternaryLabelZh": "本金",
+  "quaternaryLabelEn": "Principal",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandsEn": [
+    "Very low",
+    "Low",
+    "Moderate",
+    "Elevated",
+    "High",
+    "Very high"
+  ],
+  "bandThresholds": [
+    1,
+    2,
+    3.5,
+    5,
+    7
+  ],
+  "bandHints": [
+    "有效年利率 < 1%,屬於極低利環境,常見於日本或零利率時期。",
+    "1-2%,低,接近近年台灣銀行定存水準。",
+    "2-3.5%,中等,常見於升息循環或高評級定存。",
+    "3.5-5%,偏高,接近美元定存或高利率環境。",
+    "5-7%,高,常見於新興市場貨幣或長天期方案。",
+    "> 7%,極高,留意匯率與信用風險,並非無風險報酬。"
+  ],
+  "faqTitles": [
+    "定存單和活存差在哪?",
+    "複利次數有差嗎?",
+    "可以提前解約嗎?",
+    "機動利率還是固定利率?",
+    "資料會上傳嗎?",
+    "可以比較多家利率嗎?"
+  ],
+  "faqAnswers": [
+    "定存單(CD/定期存款)約定固定期間鎖定資金換取較高利率,期間不能自由動用;活存隨時可領但利率極低。定存適合短期內用不到、想賺取較高且穩定利息的閒置資金。",
+    "有。複利次數越多,有效年利率(EAR)略高於名目利率。例如名目 2% 月複利的 EAR ≈ 2.018%,年複利則為 2%。差距雖小,長天期或大額本金仍有感。本工具幫你算出真實 EAR。",
+    "可以,但通常會被打折計息(以較低的活存或解約利率重算),損失原本約定的高利。建議只把確定短期用不到的資金放定存,或採分散到期日的「定存梯」策略保持彈性。",
+    "台灣定存可選機動或固定利率:升息預期下選機動、降息預期下選固定較有利。本工具以你輸入的年利率試算到期本利和,實際以銀行牌告為準。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,本金與利率等資料不會傳送到任何伺服器。",
+    "多家銀行利率比較、定存梯規劃、含稅後實質報酬與匯率風險試算屬於專業版功能,免費版聚焦單筆本利和。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "複利計算機",
+      "label_en": "Compound Interest Calculator",
+      "href": "/tools/finance/compound-interest-calculator"
+    },
+    {
+      "label_zh": "有效年利率計算機",
+      "label_en": "Effective Annual Rate Calculator",
+      "href": "/tools/finance/effective-annual-rate-calculator"
+    },
+    {
+      "label_zh": "簡單利息計算機",
+      "label_en": "Simple Interest Calculator",
+      "href": "/tools/finance/simple-interest-calculator"
+    },
+    {
+      "label_zh": "儲蓄目標計算機",
+      "label_en": "Savings Goal Calculator",
+      "href": "/tools/finance/savings-goal-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "1000000",
+    "1.6",
+    "12",
+    "12"
+  ],
+  "exampleHigh": [
+    "2000000",
+    "4.5",
+    "24",
+    "4"
+  ],
+  "solidLabelZh": "本金 100 萬 · 1.6% · 12 月",
+  "solidLabelEn": "1M · 1.6% · 12mo",
+  "highLabelZh": "本金 200 萬 · 4.5% · 24 月",
+  "highLabelEn": "2M · 4.5% · 24mo",
+  "subtitleZh": "輸入本金、利率與存款期間,立即算出到期本利和、利息與有效年利率",
+  "subtitleEn": "Enter principal, rate, and term to see the maturity value, interest earned, and effective annual rate",
+  "definitionZh": "定存單計算機以本金、年利率、存款月數與複利次數,計算到期本利和、利息收入與有效年利率(EAR),協助比較不同定存方案的真實收益。",
+  "formulaZh": "到期本利和 = 本金 × (1 + 年利率 / m)^(m × 年數);有效年利率 = (1 + 年利率 / m)^m − 1,m 為每年複利次數",
+  "limitationsZh": "本工具不含利息所得稅、提前解約折息與匯率變動,海外高利定存的名目報酬須扣除匯率與信用風險。",
+  "interpretationZh": "有效年利率越高代表真實收益越好;比較不同方案時應看 EAR 而非名目利率,並留意是否需扣稅。",
+  "premiumTitleZh": "專業版 定存最佳化",
+  "premiumTextZh": "解鎖多家銀行利率比較、定存梯規劃、稅後實質報酬、自動續存試算與匯率風險分析。",
+  "premiumChipsZh": "多家比較|定存梯|稅後報酬|匯率風險",
+  "premiumTitleEn": "Pro CD Optimizer",
+  "premiumTextEn": "Unlock multi-bank rate compare, CD laddering, after-tax real yield, auto-renewal simulation, and currency risk analysis.",
+  "premiumChipsEn": "Compare Banks|Laddering|After-tax|FX Risk"
+}

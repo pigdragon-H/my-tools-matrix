@@ -1,0 +1,150 @@
+{
+  "id": "working-capital-calculator",
+  "nameZh": "營運資金計算機",
+  "nameEn": "Working Capital Calculator",
+  "color": "sky",
+  "inputs": [
+    "流動資產",
+    "流動負債",
+    "存貨",
+    "年營收"
+  ],
+  "inputsEn": [
+    "Current Assets",
+    "Current Liabilities",
+    "Inventory",
+    "Annual Revenue"
+  ],
+  "defaults": [
+    "3000000",
+    "1500000",
+    "800000",
+    "12000000"
+  ],
+  "steps": [
+    "100000",
+    "100000",
+    "10000",
+    "100000"
+  ],
+  "accentIdx": 1,
+  "compute": "依流動資產與負債計算營運資金、流動比率與營運資金週轉率",
+  "computeFn": "    const ca = Number(currentAssets) || 0;\n    const cl = Number(currentLiabilities) || 0;\n    const inv = Number(inventory) || 0;\n    const rev = Number(annualRevenue) || 0;\n    const workingCapital = ca - cl;\n    const currentRatio = cl > 0 ? ca / cl : 0;\n    const quickRatio = cl > 0 ? (ca - inv) / cl : 0;\n    const wcTurnover = workingCapital > 0 ? rev / workingCapital : 0;\n    return { currentRatio, workingCapital, quickRatio, wcTurnover };",
+  "primaryKey": "currentRatio",
+  "primaryDecimals": 2,
+  "primaryUnit": "x",
+  "secondaryKey": "workingCapital",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "$",
+  "tertiaryKey": "quickRatio",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "x",
+  "quaternaryKey": "wcTurnover",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "x",
+  "primaryLabelZh": "流動比率",
+  "primaryLabelEn": "Current Ratio",
+  "secondaryLabelZh": "營運資金",
+  "secondaryLabelEn": "Working Capital",
+  "tertiaryLabelZh": "速動比率",
+  "tertiaryLabelEn": "Quick Ratio",
+  "quaternaryLabelZh": "營運資金週轉率",
+  "quaternaryLabelEn": "WC Turnover",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandsEn": [
+    "Very low",
+    "Low",
+    "Moderate",
+    "Elevated",
+    "High",
+    "Very high"
+  ],
+  "bandThresholds": [
+    0.8,
+    1.2,
+    1.8,
+    2.5,
+    4
+  ],
+  "bandHints": [
+    "流動比率 < 0.8,極低,流動資產不足以覆蓋短期負債,流動性風險高。",
+    "0.8-1.2,低,僅勉強覆蓋短債,須留意現金週轉。",
+    "1.2-1.8,中等,屬多數產業的健康區間。",
+    "1.8-2.5,偏高,流動性充裕,財務體質穩健。",
+    "2.5-4,高,流動性極佳,但可能資金運用效率偏低。",
+    "> 4,極高,大量閒置流動資產,宜檢視是否過度保守。"
+  ],
+  "faqTitles": [
+    "營運資金是什麼?",
+    "流動比率多少才健康?",
+    "流動比率和速動比率差在哪?",
+    "營運資金越多越好嗎?",
+    "資料會上傳嗎?",
+    "可以算現金循環嗎?"
+  ],
+  "faqAnswers": [
+    "營運資金(Working Capital)= 流動資產 − 流動負債,衡量企業以短期資產償付短期負債後,可支應日常營運的資金緩衝。正營運資金代表短期財務健康,負營運資金可能面臨週轉困難。",
+    "一般認為流動比率 1.5-2.0 為健康區間,代表流動資產約為短債的 1.5-2 倍。但因產業而異:零售與餐飲現金週轉快,比率可較低;製造業存貨多,通常需較高比率。重點是與同業比較並看趨勢。",
+    "流動比率 = 流動資產 ÷ 流動負債,包含存貨;速動比率 =(流動資產 − 存貨)÷ 流動負債,排除較難變現的存貨,更嚴格衡量「即時」償債能力。存貨多的公司兩者差距會較大。",
+    "不全然。營運資金太少有週轉風險,太多則代表大量資金閒置(過多存貨、應收帳款或現金),拉低資金運用效率。理想是在流動性安全與資金效率間取得平衡,並監控週轉率。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,財務數字不會傳送到任何伺服器。",
+    "現金轉換循環(CCC)、應收/應付/存貨天數、營運資金趨勢與同業比較屬於專業版功能,免費版聚焦營運資金與流動比率。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "財務比率計算機",
+      "label_en": "Financial Ratio Calculator",
+      "href": "/tools/finance/financial-ratio-calculator"
+    },
+    {
+      "label_zh": "現金流計算機",
+      "label_en": "Cash Flow Calculator",
+      "href": "/tools/finance/cash-flow-calculator"
+    },
+    {
+      "label_zh": "速動比率計算機",
+      "label_en": "Quick Ratio Calculator",
+      "href": "/tools/finance/quick-ratio-calculator"
+    },
+    {
+      "label_zh": "EBITDA 計算機",
+      "label_en": "EBITDA Calculator",
+      "href": "/tools/finance/ebitda-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "3000000",
+    "1500000",
+    "800000",
+    "12000000"
+  ],
+  "exampleHigh": [
+    "5000000",
+    "1200000",
+    "500000",
+    "8000000"
+  ],
+  "solidLabelZh": "流動資產 300 萬 · 流動負債 150 萬",
+  "solidLabelEn": "CA 3M · CL 1.5M",
+  "highLabelZh": "流動資產 500 萬 · 流動負債 120 萬",
+  "highLabelEn": "CA 5M · CL 1.2M",
+  "subtitleZh": "輸入流動資產與流動負債,立即算出營運資金、流動比率與速動比率",
+  "subtitleEn": "Enter current assets and current liabilities to see the working capital, current ratio, and quick ratio",
+  "definitionZh": "營運資金計算機以流動資產、流動負債、存貨與年營收,計算營運資金、流動比率、速動比率與營運資金週轉率,協助評估企業短期財務健康與資金運用效率。",
+  "formulaZh": "營運資金 = 流動資產 − 流動負債;流動比率 = 流動資產 ÷ 流動負債;速動比率 =(流動資產 − 存貨)÷ 流動負債",
+  "limitationsZh": "本工具為靜態快照,不反映現金流時點、季節性波動與應收應付帳齡,須搭配現金轉換循環綜合評估。",
+  "interpretationZh": "流動比率落在健康區間且趨勢穩定最佳;過低有週轉風險、過高代表資金閒置,應與同業比較。",
+  "premiumTitleZh": "專業版 營運資金管理",
+  "premiumTextZh": "解鎖現金轉換循環(CCC)、應收/應付/存貨天數、營運資金趨勢、同業比較與季節性分析。",
+  "premiumChipsZh": "現金循環|周轉天數|趨勢分析|同業比較",
+  "premiumTitleEn": "Pro Working Capital Mgmt",
+  "premiumTextEn": "Unlock cash conversion cycle, receivable/payable/inventory days, working-capital trends, peer comparison, and seasonality analysis.",
+  "premiumChipsEn": "CCC|Days|Trends|Peers"
+}

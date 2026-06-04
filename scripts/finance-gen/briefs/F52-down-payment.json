@@ -1,0 +1,150 @@
+{
+  "id": "down-payment-calculator",
+  "nameZh": "頭期款計算機",
+  "nameEn": "Down Payment Calculator",
+  "color": "emerald",
+  "inputs": [
+    "房屋總價",
+    "頭期款比例%",
+    "目前已存",
+    "每月可存"
+  ],
+  "inputsEn": [
+    "Home Price",
+    "Down Payment Pct",
+    "Saved So Far",
+    "Monthly Savings"
+  ],
+  "defaults": [
+    "10000000",
+    "20",
+    "800000",
+    "40000"
+  ],
+  "steps": [
+    "100000",
+    "1",
+    "10000",
+    "1000"
+  ],
+  "accentIdx": 1,
+  "compute": "依房價與頭期比例計算所需頭期款、尚缺金額與達標所需月數",
+  "computeFn": "    const price = Number(homePrice) || 0;\n    const pct = (Number(downPaymentPct) || 0) / 100;\n    const saved = Number(savedSoFar) || 0;\n    const monthly = Number(monthlySavings) || 0;\n    const required = price * pct;\n    const gap = Math.max(0, required - saved);\n    const monthsToGoal = monthly > 0 ? gap / monthly : 0;\n    const progressPct = required > 0 ? (saved / required) * 100 : 0;\n    return { progressPct, required, gap, monthsToGoal };",
+  "primaryKey": "progressPct",
+  "primaryDecimals": 1,
+  "primaryUnit": "%",
+  "secondaryKey": "required",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "$",
+  "tertiaryKey": "gap",
+  "tertiaryDecimals": 0,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "monthsToGoal",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "mo",
+  "primaryLabelZh": "頭期達成率",
+  "primaryLabelEn": "Down Payment Progress",
+  "secondaryLabelZh": "所需頭期",
+  "secondaryLabelEn": "Required Down Payment",
+  "tertiaryLabelZh": "尚缺金額",
+  "tertiaryLabelEn": "Remaining Gap",
+  "quaternaryLabelZh": "達標月數",
+  "quaternaryLabelEn": "Months to Goal",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandsEn": [
+    "Very low",
+    "Low",
+    "Moderate",
+    "Elevated",
+    "High",
+    "Very high"
+  ],
+  "bandThresholds": [
+    20,
+    40,
+    60,
+    80,
+    100
+  ],
+  "bandHints": [
+    "達成率 < 20%,剛起步,建議建立自動轉帳儲蓄習慣。",
+    "20-40%,穩定累積中,可考慮高利活存或短債提升收益。",
+    "40-60%,過半,維持紀律即可如期達標。",
+    "60-80%,接近目標,可開始研究房貸利率與物件。",
+    "80-100%,即將達標,建議鎖定資金、避免高風險投資。",
+    "≥ 100%,已達標,可進一步準備裝潢、稅費與緊急備用金。"
+  ],
+  "faqTitles": [
+    "頭期款要準備幾成?",
+    "頭期越多越好嗎?",
+    "頭期款可以借嗎?",
+    "除了頭期還要準備什麼?",
+    "資料會上傳嗎?",
+    "可以模擬利率與通膨嗎?"
+  ],
+  "faqAnswers": [
+    "台灣首購房貸成數約 7-8 成,因此頭期常需 2-3 成;美國傳統貸款建議 20% 以免額外保險(PMI)。頭期越高、貸款越少、每月負擔越輕,但也壓縮手頭流動性。",
+    "不全然。頭期越多省息越多,但若把所有現金投入頭期,將缺乏緊急備用金與裝潢費。建議保留 6 個月生活費與裝潢預算後,再決定頭期金額。",
+    "原則上不建議用信貸或借款湊頭期,因為這等於用高利債支撐低利房貸,且銀行核貸時會檢視負債比。靠自有儲蓄或家人贈與較穩健。",
+    "除頭期款外,還需準備契稅、印花稅、代書費、仲介費、貸款開辦費(約房價 3-6%)、裝潢費,以及搬家後的緊急備用金。建議搭配緊急備用金計算機。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,房價與儲蓄等資料不會傳送到任何伺服器。",
+    "含利率與通膨調整的真實購買力、儲蓄報酬複利與多目標排序屬於專業版功能,免費版提供達標進度試算。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "房貸計算機",
+      "label_en": "Mortgage Calculator",
+      "href": "/tools/finance/mortgage-calculator"
+    },
+    {
+      "label_zh": "儲蓄目標計算機",
+      "label_en": "Savings Goal Calculator",
+      "href": "/tools/finance/savings-goal-calculator"
+    },
+    {
+      "label_zh": "購屋負擔力計算機",
+      "label_en": "Home Affordability Calculator",
+      "href": "/tools/finance/home-affordability-calculator"
+    },
+    {
+      "label_zh": "緊急備用金計算機",
+      "label_en": "Emergency Fund Calculator",
+      "href": "/tools/finance/emergency-fund-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "10000000",
+    "20",
+    "800000",
+    "40000"
+  ],
+  "exampleHigh": [
+    "15000000",
+    "30",
+    "1000000",
+    "30000"
+  ],
+  "solidLabelZh": "房價 1000 萬 · 2 成 · 月存 4 萬",
+  "solidLabelEn": "10M · 20% · 40k/mo",
+  "highLabelZh": "房價 1500 萬 · 3 成 · 月存 3 萬",
+  "highLabelEn": "15M · 30% · 30k/mo",
+  "subtitleZh": "輸入房價、頭期比例與儲蓄進度,立即算出所需頭期、尚缺金額與達標月數",
+  "subtitleEn": "Enter home price, down payment percent, and savings to see the required amount, remaining gap, and months to goal",
+  "definitionZh": "頭期款計算機以房屋總價、頭期款比例、目前已存金額與每月可存金額,計算所需頭期款、尚缺金額、達標所需月數與達成率,協助購屋族規劃儲蓄目標。",
+  "formulaZh": "所需頭期 = 房價 × 頭期比例;尚缺 = 所需頭期 − 已存;達標月數 = 尚缺 ÷ 每月可存",
+  "limitationsZh": "本工具不計入儲蓄報酬利息、房價變動與通膨,僅以線性儲蓄估算達標時間。",
+  "interpretationZh": "達成率越高代表越接近購屋目標;建議保留緊急備用金與裝潢預算後再衝刺頭期。",
+  "premiumTitleZh": "專業版 購屋儲蓄規劃",
+  "premiumTextZh": "解鎖含利率與通膨的真實購買力、儲蓄報酬複利、多目標排序、PMI 試算與最佳頭期建議。",
+  "premiumChipsZh": "通膨調整|複利報酬|多目標|PMI試算",
+  "premiumTitleEn": "Pro Home Savings Planner",
+  "premiumTextEn": "Unlock inflation-adjusted purchasing power, savings-return compounding, multi-goal sequencing, PMI estimate, and optimal down payment advice.",
+  "premiumChipsEn": "Inflation|Compounding|Multi-goal|PMI"
+}
