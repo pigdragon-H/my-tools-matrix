@@ -2038,6 +2038,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "calorie-burn-calculator",
+    name: "活動熱量消耗計算機",
+    category: "health",
+    path: "/tools/health/calorie-burn-calculator",
+    icon: "Flame",
+    description: "用 MET 代謝當量、體重與運動時間，估算各種活動消耗的熱量，幫你規劃運動與熱量平衡。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2204,3 +2219,4 @@ export const saasMetricsCalculator = { id: "saas-metrics-calculator", category: 
 export const startupRunwayCalculator = { id: "startup-runway-calculator", category: "finance", name: "Startup Runway Calculator", path: "/tools/finance/startup-runway-calculator" };
 export const waistHipRatioCalculator = { id: "waist-hip-ratio-calculator", category: "health", name: "Waist-Hip Ratio Calculator", path: "/tools/health/waist-hip-ratio-calculator" };
 export const weightTrendCalculator = { id: "weight-trend-calculator", category: "health", name: "Weight Trend Calculator", path: "/tools/health/weight-trend-calculator" };
+export const calorieBurnCalculator = { id: "calorie-burn-calculator", category: "health", name: "Calorie Burn Calculator", path: "/tools/health/calorie-burn-calculator" };
