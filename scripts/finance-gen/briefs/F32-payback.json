@@ -3,27 +3,68 @@
   "nameZh": "回收期計算機",
   "nameEn": "Payback Period Calculator",
   "color": "yellow",
-  "inputs": ["初始投資", "月現金流", "現金流月成長率%", "折現率%"],
-  "inputsEn": ["Initial Investment", "Monthly Cashflow", "Monthly Growth Rate Pct", "Discount Rate Pct"],
-  "defaults": ["50000", "1500", "1", "6"],
-  "steps": ["1000", "100", "0.1", "0.5"],
+  "inputs": [
+    "初始投資",
+    "月現金流",
+    "現金流月成長率%",
+    "折現率%"
+  ],
+  "inputsEn": [
+    "Initial Investment",
+    "Monthly Cashflow",
+    "Monthly Growth Rate Pct",
+    "Discount Rate Pct"
+  ],
+  "defaults": [
+    "50000",
+    "1500",
+    "1",
+    "6"
+  ],
+  "steps": [
+    "1000",
+    "100",
+    "0.1",
+    "0.5"
+  ],
   "accentIdx": 2,
-
   "compute": "依初始投資、月現金流、月成長率、折現率計算回收月數、折現後回收月數、回收年數與5年後累計現金",
   "computeFn": "    const init = Number(initialInvestment) || 0;\n    const cf0 = Number(monthlyCashflow) || 0;\n    const g = (Number(monthlyGrowthRatePct) || 0) / 100;\n    const r = (Number(discountRatePct) || 0) / 100 / 12;\n    let cum = 0; let cumDisc = 0; let payback = 0; let paybackDisc = 0;\n    for (let m = 1; m <= 600; m++) {\n      const cf = cf0 * Math.pow(1 + g, m - 1);\n      cum += cf;\n      cumDisc += cf / Math.pow(1 + r, m);\n      if (!payback && cum >= init) payback = m;\n      if (!paybackDisc && cumDisc >= init) paybackDisc = m;\n      if (payback && paybackDisc) break;\n    }\n    const years = payback / 12;\n    const cumFiveYr = (() => { let s = 0; for (let m = 1; m <= 60; m++) s += cf0 * Math.pow(1 + g, m - 1); return s; })();\n    return { payback, paybackDisc, years, cumFiveYr };",
-
-  "primaryKey": "payback",     "primaryDecimals": 0, "primaryUnit": "月",
-  "secondaryKey": "paybackDisc","secondaryDecimals": 0, "secondaryUnit": "月",
-  "tertiaryKey": "years",      "tertiaryDecimals": 1, "tertiaryUnit": "年",
-  "quaternaryKey": "cumFiveYr","quaternaryDecimals": 0, "quaternaryUnit": "$",
-
-  "primaryLabelZh": "簡單回收月數", "primaryLabelEn": "Payback Months",
-  "secondaryLabelZh": "折現回收月數", "secondaryLabelEn": "Discounted Payback",
-  "tertiaryLabelZh": "回收年數", "tertiaryLabelEn": "Payback Years",
-  "quaternaryLabelZh": "5 年累計現金", "quaternaryLabelEn": "5Y Cumulative",
-
-  "bands": ["極快", "快", "合理", "略長", "偏長", "過長"],
-  "bandThresholds": [12, 24, 48, 84, 120],
+  "primaryKey": "payback",
+  "primaryDecimals": 0,
+  "primaryUnit": "月",
+  "secondaryKey": "paybackDisc",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "月",
+  "tertiaryKey": "years",
+  "tertiaryDecimals": 1,
+  "tertiaryUnit": "年",
+  "quaternaryKey": "cumFiveYr",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "簡單回收月數",
+  "primaryLabelEn": "Payback Months",
+  "secondaryLabelZh": "折現回收月數",
+  "secondaryLabelEn": "Discounted Payback",
+  "tertiaryLabelZh": "回收年數",
+  "tertiaryLabelEn": "Payback Years",
+  "quaternaryLabelZh": "5 年累計現金",
+  "quaternaryLabelEn": "5Y Cumulative",
+  "bands": [
+    "極快",
+    "快",
+    "合理",
+    "略長",
+    "偏長",
+    "過長"
+  ],
+  "bandThresholds": [
+    12,
+    24,
+    48,
+    84,
+    120
+  ],
   "bandHints": [
     "回收 < 12 個月,屬極佳,常見於高效率自動化或軟體訂閱模型。",
     "12-24 個月,屬快速回收,商業模式經過驗證,適合擴張。",
@@ -32,7 +73,6 @@
     "84-120 個月(7-10 年),偏長,需評估技術過時、市場結構變化風險。",
     "> 120 個月(10 年以上),屬超長回收,通常為大型基建或不動產;需嚴謹折現分析。"
   ],
-
   "faqTitles": [
     "為什麼要看「折現後回收期」?",
     "回收期短就是好的嗎?",
@@ -49,25 +89,54 @@
     "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,投資金額、現金流、成長率等資料不會傳送到任何伺服器,也不會記錄到日誌或資料庫。",
     "**最適合**: 設備採購、店面開設、小型併購、產品線延伸、軟體授權、行銷活動。**不適合**: 不動產(現金流結構複雜)、長期 R&D(現金流晚發)、戰略性虧損投資(市佔重於回收)。對長期項目應改用 NPV 與 IRR。"
   ],
-
   "affiliates": [
-    { "label_zh": "淨現值計算機", "label_en": "Net Present Value Calculator", "href": "/tools/finance/net-present-value-calculator" },
-    { "label_zh": "投資報酬率計算機", "label_en": "Investment Return Calculator", "href": "/tools/finance/investment-return-calculator" },
-    { "label_zh": "現金流計算機", "label_en": "Cash Flow Calculator", "href": "/tools/finance/cash-flow-calculator" },
-    { "label_zh": "損益兩平計算機", "label_en": "Break-Even Calculator", "href": "/tools/finance/break-even-calculator" }
+    {
+      "label_zh": "淨現值計算機",
+      "label_en": "Net Present Value Calculator",
+      "href": "/tools/finance/net-present-value-calculator"
+    },
+    {
+      "label_zh": "投資報酬率計算機",
+      "label_en": "Investment Return Calculator",
+      "href": "/tools/finance/investment-return-calculator"
+    },
+    {
+      "label_zh": "現金流計算機",
+      "label_en": "Cash Flow Calculator",
+      "href": "/tools/finance/cash-flow-calculator"
+    },
+    {
+      "label_zh": "損益兩平計算機",
+      "label_en": "Break-Even Calculator",
+      "href": "/tools/finance/break-even-calculator"
+    }
   ],
-
-  "exampleSolid": ["50000", "1500", "1", "6"],
-  "exampleHigh": ["200000", "8000", "0.5", "8"],
+  "exampleSolid": [
+    "50000",
+    "1500",
+    "1",
+    "6"
+  ],
+  "exampleHigh": [
+    "200000",
+    "8000",
+    "0.5",
+    "8"
+  ],
   "solidLabelZh": "$50k · 月 $1.5k · 1%/月 · 6%",
   "solidLabelEn": "$50k · $1.5k/mo · 1% · 6%",
   "highLabelZh": "$200k · 月 $8k · 0.5%/月 · 8%",
   "highLabelEn": "$200k · $8k/mo · 0.5% · 8%",
-
   "subtitleZh": "輸入初始投資、月現金流與成長率，立即計算簡單回收期與折現後回收期",
   "subtitleEn": "Enter initial investment, monthly cashflow, and growth rate to compute simple and discounted payback periods",
   "definitionZh": "回收期(Payback Period)是「投資多久後現金流累計等於初始投入」的時間,衡量流動性風險;折現回收期則進一步考慮錢的時間價值,更貼近真實。",
   "formulaZh": "Payback = 累計現金流首次 ≥ 初始投資 的月份;Discounted Payback 同邏輯,以 CFₜ/(1+r)ᵗ 累計",
   "limitationsZh": "本工具假設成長率為複合月成長,未含營收高峰、季節性、突發事件;最大計算 600 個月(50 年),超過則不顯示回收。",
-  "interpretationZh": "回收期短代表流動性風險低,但不代表報酬高;與 NPV、IRR 一同判斷才完整。"
+  "interpretationZh": "回收期短代表流動性風險低,但不代表報酬高;與 NPV、IRR 一同判斷才完整。",
+  "premiumTitleZh": "專業版 回收期與流動性分析",
+  "premiumTextZh": "解鎖不規則現金流回收、折現回收期、多專案回收比較、流動性風險評分與盈虧平衡時點預測。",
+  "premiumChipsZh": "不規則現金流|折現回收|多專案比較|風險評分",
+  "premiumTitleEn": "Pro Payback & Liquidity Analytics",
+  "premiumTextEn": "Unlock irregular-cashflow payback, discounted payback, multi-project comparison, liquidity-risk scoring, and breakeven-timing prediction.",
+  "premiumChipsEn": "Irregular CF|Discounted|Compare|Risk Score"
 }

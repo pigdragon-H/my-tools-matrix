@@ -3,27 +3,68 @@
   "nameZh": "損益兩平計算機",
   "nameEn": "Break-Even Calculator",
   "color": "rose",
-  "inputs": ["固定成本", "單位售價", "單位變動成本", "目標利潤"],
-  "inputsEn": ["Fixed Costs", "Price per Unit", "Variable Cost per Unit", "Target Profit"],
-  "defaults": ["50000", "100", "60", "0"],
-  "steps": ["1000", "1", "1", "100"],
+  "inputs": [
+    "固定成本",
+    "單位售價",
+    "單位變動成本",
+    "目標利潤"
+  ],
+  "inputsEn": [
+    "Fixed Costs",
+    "Price per Unit",
+    "Variable Cost per Unit",
+    "Target Profit"
+  ],
+  "defaults": [
+    "50000",
+    "100",
+    "60",
+    "0"
+  ],
+  "steps": [
+    "1000",
+    "1",
+    "1",
+    "100"
+  ],
   "accentIdx": 2,
-
   "compute": "依固定成本、單位售價、變動成本計算損益兩平銷量、損益兩平營收與貢獻邊際",
   "computeFn": "    const FC = Number(fixedCosts) || 0;\n    const P = Number(pricePerUnit) || 0;\n    const VC = Number(variableCostPerUnit) || 0;\n    const target = Number(targetProfit) || 0;\n    const contribution = P - VC;\n    const breakEvenUnits = contribution > 0 ? (FC + target) / contribution : 0;\n    const breakEvenRevenue = breakEvenUnits * P;\n    const contributionMargin = P > 0 ? (contribution / P) * 100 : 0;\n    return { breakEvenUnits, breakEvenRevenue, contributionMargin, contribution };",
-
-  "primaryKey": "breakEvenUnits",      "primaryDecimals": 0, "primaryUnit": "件",
-  "secondaryKey": "breakEvenRevenue",  "secondaryDecimals": 0, "secondaryUnit": "$",
-  "tertiaryKey": "contributionMargin", "tertiaryDecimals": 1, "tertiaryUnit": "%",
-  "quaternaryKey": "contribution",     "quaternaryDecimals": 0, "quaternaryUnit": "$",
-
-  "primaryLabelZh": "損益兩平銷量", "primaryLabelEn": "Break-even Units",
-  "secondaryLabelZh": "損益兩平營收", "secondaryLabelEn": "Break-even Revenue",
-  "tertiaryLabelZh": "貢獻邊際率", "tertiaryLabelEn": "Contribution Margin %",
-  "quaternaryLabelZh": "單位貢獻", "quaternaryLabelEn": "Unit Contribution",
-
-  "bands": ["極輕鬆", "輕鬆", "可達", "吃力", "困難", "不可行"],
-  "bandThresholds": [100, 500, 2000, 5000, 10000],
+  "primaryKey": "breakEvenUnits",
+  "primaryDecimals": 0,
+  "primaryUnit": "件",
+  "secondaryKey": "breakEvenRevenue",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "$",
+  "tertiaryKey": "contributionMargin",
+  "tertiaryDecimals": 1,
+  "tertiaryUnit": "%",
+  "quaternaryKey": "contribution",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "損益兩平銷量",
+  "primaryLabelEn": "Break-even Units",
+  "secondaryLabelZh": "損益兩平營收",
+  "secondaryLabelEn": "Break-even Revenue",
+  "tertiaryLabelZh": "貢獻邊際率",
+  "tertiaryLabelEn": "Contribution Margin %",
+  "quaternaryLabelZh": "單位貢獻",
+  "quaternaryLabelEn": "Unit Contribution",
+  "bands": [
+    "極輕鬆",
+    "輕鬆",
+    "可達",
+    "吃力",
+    "困難",
+    "不可行"
+  ],
+  "bandThresholds": [
+    100,
+    500,
+    2000,
+    5000,
+    10000
+  ],
   "bandHints": [
     "不到 100 件即可損益兩平,毛利結構非常健康,可考慮降價搶市佔。",
     "100-500 件達標,屬常見小型零售或 SaaS 月訂閱規模,行銷預算彈性大。",
@@ -32,7 +73,6 @@
     "5000-10000 件,單靠線下難達標,需要規模化通路或數位轉型。",
     "超過 10000 件才回本,商業模式可能需要重新設計,或固定成本過高。"
   ],
-
   "faqTitles": [
     "貢獻邊際是什麼?為什麼比毛利率重要?",
     "固定成本要包含老闆薪水嗎?",
@@ -49,25 +89,54 @@
     "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,固定成本、售價、變動成本等敏感營業資料不會傳送到任何伺服器,也不會記錄到日誌或資料庫。關閉分頁後資料就消失。",
     "可以但要轉換思路:把「單位售價」當月費(例如 $20/月),「單位變動成本」當每用戶服務成本(例如 $5/月,含金流手續費、客服、資料庫),「固定成本」當每月公司支出。算出的「損益兩平銷量」即「需要的付費訂戶數」。建議再搭配 Churn 率與 LTV/CAC 一起看。"
   ],
-
   "affiliates": [
-    { "label_zh": "毛利率計算機", "label_en": "Profit Margin Calculator", "href": "/tools/finance/profit-margin-calculator" },
-    { "label_zh": "預算比例計算機", "label_en": "Budget Ratio Calculator", "href": "/tools/finance/budget-ratio-calculator" },
-    { "label_zh": "ROAS 廣告投報計算機", "label_en": "ROAS Calculator", "href": "/tools/finance/roas-calculator" },
-    { "label_zh": "現金流計算機", "label_en": "Cash Flow Calculator", "href": "/tools/finance/cash-flow-calculator" }
+    {
+      "label_zh": "毛利率計算機",
+      "label_en": "Profit Margin Calculator",
+      "href": "/tools/finance/profit-margin-calculator"
+    },
+    {
+      "label_zh": "預算比例計算機",
+      "label_en": "Budget Ratio Calculator",
+      "href": "/tools/finance/budget-ratio-calculator"
+    },
+    {
+      "label_zh": "ROAS 廣告投報計算機",
+      "label_en": "ROAS Calculator",
+      "href": "/tools/finance/roas-calculator"
+    },
+    {
+      "label_zh": "現金流計算機",
+      "label_en": "Cash Flow Calculator",
+      "href": "/tools/finance/cash-flow-calculator"
+    }
   ],
-
-  "exampleSolid": ["50000", "100", "60", "0"],
-  "exampleHigh": ["200000", "299", "120", "50000"],
+  "exampleSolid": [
+    "50000",
+    "100",
+    "60",
+    "0"
+  ],
+  "exampleHigh": [
+    "200000",
+    "299",
+    "120",
+    "50000"
+  ],
   "solidLabelZh": "FC $50k · 售 $100 · 成本 $60",
   "solidLabelEn": "FC $50k · Price $100 · VC $60",
   "highLabelZh": "FC $200k · 售 $299 · 成本 $120 + 目標利潤 $50k",
   "highLabelEn": "FC $200k · Price $299 · VC $120 + target $50k",
-
   "subtitleZh": "輸入固定成本、單位售價、單位變動成本，立即算出回本所需銷量與營收門檻",
   "subtitleEn": "Enter fixed costs, price per unit, and variable cost per unit to see the units and revenue needed to break even",
   "definitionZh": "損益兩平分析(Break-even Analysis)是衡量營運所需最低銷量的工具,公式為「固定成本 ÷ (單位售價 − 單位變動成本)」,廣泛用於零售、製造、SaaS、餐飲等定價決策。",
   "formulaZh": "Break-even Units = (固定成本 + 目標利潤) ÷ (單位售價 − 單位變動成本)",
   "limitationsZh": "本工具未考慮分批採購折扣、季節性需求、產能上限、機會成本與稅後利潤;僅供初步定價與營運門檻試算。",
-  "interpretationZh": "貢獻邊際率 ≥ 50% 代表每元營收有一半可拿來覆蓋固定成本與利潤,屬高槓桿模式;< 30% 則屬低毛利高週轉,需依量制勝。"
+  "interpretationZh": "貢獻邊際率 ≥ 50% 代表每元營收有一半可拿來覆蓋固定成本與利潤,屬高槓桿模式;< 30% 則屬低毛利高週轉,需依量制勝。",
+  "premiumTitleZh": "專業版 損益兩平與定價沙盤",
+  "premiumTextZh": "解鎖多產品加權損益兩平、安全邊際分析、價格敏感度矩陣、目標利潤反推與營運槓桿報告。",
+  "premiumChipsZh": "多產品加權|安全邊際|敏感度矩陣|槓桿報告",
+  "premiumTitleEn": "Pro Break-Even & Pricing Sandbox",
+  "premiumTextEn": "Unlock multi-product weighted break-even, margin-of-safety analysis, price-sensitivity matrix, target-profit reverse solving, and operating-leverage reports.",
+  "premiumChipsEn": "Weighted BE|Safety Margin|Sensitivity|Leverage"
 }

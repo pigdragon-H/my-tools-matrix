@@ -3,27 +3,69 @@
   "nameZh": "投資報酬率計算機",
   "nameEn": "Investment Return Calculator",
   "color": "sky",
-  "inputs": ["初始投資", "每月加碼", "年化報酬率", "投資年限"],
-  "inputsEn": ["Initial Investment", "Monthly Contribution", "Annual Return Rate", "Years"],
-  "defaults": ["10000", "500", "8", "20"],
-  "steps": ["100", "50", "0.1", "1"],
+  "inputs": [
+    "初始投資",
+    "每月加碼",
+    "年化報酬率",
+    "投資年限"
+  ],
+  "inputsEn": [
+    "Initial Investment",
+    "Monthly Contribution",
+    "Annual Return Rate",
+    "Years"
+  ],
+  "defaults": [
+    "10000",
+    "500",
+    "8",
+    "20"
+  ],
+  "steps": [
+    "100",
+    "50",
+    "0.1",
+    "1"
+  ],
   "accentIdx": 2,
-
   "compute": "依複利公式計算未來價值、總投入、累計獲利與年化報酬率",
   "computeFn": "    const P = Number(initialInvestment) || 0;\n    const M = Number(monthlyContribution) || 0;\n    const r = (Number(annualReturnRate) || 0) / 100;\n    const t = Number(years) || 0;\n    const n = 12; // monthly compounding\n    const monthlyRate = r / n;\n    const totalMonths = t * n;\n    // FV of lump sum + FV of annuity\n    const fvLump = P * Math.pow(1 + monthlyRate, totalMonths);\n    const fvAnnuity = monthlyRate === 0 ? M * totalMonths : M * ((Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate);\n    const futureValue = fvLump + fvAnnuity;\n    const totalContributed = P + M * totalMonths;\n    const totalGain = futureValue - totalContributed;\n    const gainRatio = totalContributed > 0 ? (totalGain / totalContributed) * 100 : 0;\n    return { futureValue, totalContributed, totalGain, gainRatio };",
-
-  "primaryKey": "futureValue",         "primaryDecimals": 0, "primaryUnit": "$", "primaryPrefix": "$",
-  "secondaryKey": "totalContributed",  "secondaryDecimals": 0, "secondaryUnit": "$",
-  "tertiaryKey": "gainRatio",          "tertiaryDecimals": 1, "tertiaryUnit": "%",
-  "quaternaryKey": "totalGain",        "quaternaryDecimals": 0, "quaternaryUnit": "$",
-
-  "primaryLabelZh": "未來價值", "primaryLabelEn": "Future Value",
-  "secondaryLabelZh": "總投入本金", "secondaryLabelEn": "Total Contributed",
-  "tertiaryLabelZh": "累計報酬率", "tertiaryLabelEn": "Total Gain %",
-  "quaternaryLabelZh": "累計獲利", "quaternaryLabelEn": "Total Gain $",
-
-  "bands": ["保守", "穩健", "平衡", "成長", "積極", "極積極"],
-  "bandThresholds": [50000, 150000, 300000, 600000, 1000000],
+  "primaryKey": "futureValue",
+  "primaryDecimals": 0,
+  "primaryUnit": "$",
+  "primaryPrefix": "$",
+  "secondaryKey": "totalContributed",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "$",
+  "tertiaryKey": "gainRatio",
+  "tertiaryDecimals": 1,
+  "tertiaryUnit": "%",
+  "quaternaryKey": "totalGain",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "未來價值",
+  "primaryLabelEn": "Future Value",
+  "secondaryLabelZh": "總投入本金",
+  "secondaryLabelEn": "Total Contributed",
+  "tertiaryLabelZh": "累計報酬率",
+  "tertiaryLabelEn": "Total Gain %",
+  "quaternaryLabelZh": "累計獲利",
+  "quaternaryLabelEn": "Total Gain $",
+  "bands": [
+    "保守",
+    "穩健",
+    "平衡",
+    "成長",
+    "積極",
+    "極積極"
+  ],
+  "bandThresholds": [
+    50000,
+    150000,
+    300000,
+    600000,
+    1000000
+  ],
   "bandHints": [
     "短期目標或退休前 5 年的緊急資金,優先考量本金安全。",
     "20–30 年穩定累積區間,核心配置為大盤指數 ETF。",
@@ -32,7 +74,6 @@
     "可進一步討論稅務優化(401k/IRA/ROTH)與遺產規劃。",
     "百萬美元級資產,建議搭配理財顧問做整體財富管理。"
   ],
-
   "faqTitles": [
     "投資報酬率怎麼算才合理?",
     "為什麼長期 ETF 報酬約 7-10%?",
@@ -65,25 +106,54 @@
     "No. All calculations run in your browser via JavaScript. Your inputs never leave your device, are not logged, and disappear when you close the tab.",
     "After-tax depends on account type: 401(k) Traditional taxed on withdrawal, Roth IRA tax-free, taxable accounts pay dividend + capital-gains tax (0/15/20% LTCG). A rough rule: nominal × 0.85. For retirement planning, re-run with 5.5-7% net rate."
   ],
-
   "affiliates": [
-    { "label_zh": "退休計算機", "label_en": "Retirement Calculator", "href": "/tools/finance/retirement-calculator" },
-    { "label_zh": "複利計算機", "label_en": "Compound Interest Calculator", "href": "/tools/finance/compound-interest-calculator" },
-    { "label_zh": "通膨調整計算機", "label_en": "Inflation Adjuster", "href": "/tools/finance/inflation-adjuster" },
-    { "label_zh": "緊急預備金計算機", "label_en": "Emergency Fund Calculator", "href": "/tools/finance/emergency-fund-calculator" }
+    {
+      "label_zh": "退休計算機",
+      "label_en": "Retirement Calculator",
+      "href": "/tools/finance/retirement-calculator"
+    },
+    {
+      "label_zh": "複利計算機",
+      "label_en": "Compound Interest Calculator",
+      "href": "/tools/finance/compound-interest-calculator"
+    },
+    {
+      "label_zh": "通膨調整計算機",
+      "label_en": "Inflation Adjuster",
+      "href": "/tools/finance/inflation-adjuster"
+    },
+    {
+      "label_zh": "緊急預備金計算機",
+      "label_en": "Emergency Fund Calculator",
+      "href": "/tools/finance/emergency-fund-calculator"
+    }
   ],
-
-  "exampleSolid": ["10000", "500", "8", "20"],
-  "exampleHigh": ["50000", "1500", "10", "30"],
+  "exampleSolid": [
+    "10000",
+    "500",
+    "8",
+    "20"
+  ],
+  "exampleHigh": [
+    "50000",
+    "1500",
+    "10",
+    "30"
+  ],
   "solidLabelZh": "$10k 起 + 月加 $500 · 8% · 20 年",
   "solidLabelEn": "$10k start + $500/mo · 8% · 20 yrs",
   "highLabelZh": "$50k 起 + 月加 $1500 · 10% · 30 年",
   "highLabelEn": "$50k start + $1.5k/mo · 10% · 30 yrs",
-
   "subtitleZh": "輸入初始本金、月加碼、年化報酬與年限，立即得出複利後的未來價值",
   "subtitleEn": "Enter initial principal, monthly contribution, annual return, and years to see the compounded future value",
   "definitionZh": "投資報酬率計算機以複利公式估算「初始本金 + 每月定期定額」於既定年化報酬率下的長期累積價值,常用於退休規劃、教育基金、財務獨立試算。",
   "formulaZh": "FV = P × (1+r/n)^(nt) + M × [((1+r/n)^(nt) - 1) / (r/n)]",
   "limitationsZh": "本工具假設報酬率穩定、扣稅前、不含交易費用與基金管理費,且未模擬市場波動。實務上年度報酬會在 -40% 至 +30% 間波動,長期才趨近預期。",
-  "interpretationZh": "未來價值的「累計獲利」佔比比絕對金額更能反映複利效應 —— 同樣未來價值,獲利佔比 80% 代表本金翻 5 倍,只佔 30% 則表示主要靠加碼累積,而非報酬。"
+  "interpretationZh": "未來價值的「累計獲利」佔比比絕對金額更能反映複利效應 —— 同樣未來價值,獲利佔比 80% 代表本金翻 5 倍,只佔 30% 則表示主要靠加碼累積,而非報酬。",
+  "premiumTitleZh": "專業版 投資組合報酬分析",
+  "premiumTextZh": "解鎖多資產配置模擬、蒙地卡羅退休成功率、實質報酬(扣通膨)、定期定額 vs 單筆投入回測與 PDF 投資計畫書。",
+  "premiumChipsZh": "多資產配置|蒙地卡羅|實質報酬|回測報告",
+  "premiumTitleEn": "Pro Portfolio Return Analytics",
+  "premiumTextEn": "Unlock multi-asset allocation, Monte Carlo success rate, real (inflation-adjusted) returns, DCA vs lump-sum backtests, and a PDF investment plan.",
+  "premiumChipsEn": "Allocation|Monte Carlo|Real Return|Backtest"
 }

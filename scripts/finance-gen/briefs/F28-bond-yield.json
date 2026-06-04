@@ -3,27 +3,68 @@
   "nameZh": "債券殖利率計算機",
   "nameEn": "Bond Yield Calculator",
   "color": "amber",
-  "inputs": ["債券面值", "現價", "票面利率%", "剩餘年限"],
-  "inputsEn": ["Face Value", "Current Price", "Coupon Rate Pct", "Years To Maturity"],
-  "defaults": ["1000", "950", "5", "10"],
-  "steps": ["100", "5", "0.1", "0.5"],
+  "inputs": [
+    "債券面值",
+    "現價",
+    "票面利率%",
+    "剩餘年限"
+  ],
+  "inputsEn": [
+    "Face Value",
+    "Current Price",
+    "Coupon Rate Pct",
+    "Years To Maturity"
+  ],
+  "defaults": [
+    "1000",
+    "950",
+    "5",
+    "10"
+  ],
+  "steps": [
+    "100",
+    "5",
+    "0.1",
+    "0.5"
+  ],
   "accentIdx": 1,
-
   "compute": "依面值、現價、票面利率與年限計算當期殖利率、到期殖利率(YTM)、年配息與資本利得",
   "computeFn": "    const F = Number(faceValue) || 1000;\n    const P = Number(currentPrice) || 1000;\n    const c = (Number(couponRatePct) || 0) / 100;\n    const n = Number(yearsToMaturity) || 1;\n    const annualCoupon = F * c;\n    const currentYield = P > 0 ? (annualCoupon / P) * 100 : 0;\n    const ytm = n > 0 ? ((annualCoupon + (F - P) / n) / ((F + P) / 2)) * 100 : 0;\n    const capitalGain = F - P;\n    return { ytm, currentYield, annualCoupon, capitalGain };",
-
-  "primaryKey": "ytm",          "primaryDecimals": 2, "primaryUnit": "%",
-  "secondaryKey": "currentYield","secondaryDecimals": 2, "secondaryUnit": "%",
-  "tertiaryKey": "annualCoupon","tertiaryDecimals": 2, "tertiaryUnit": "$",
-  "quaternaryKey": "capitalGain","quaternaryDecimals": 2, "quaternaryUnit": "$",
-
-  "primaryLabelZh": "到期殖利率 (YTM)", "primaryLabelEn": "Yield to Maturity",
-  "secondaryLabelZh": "當期殖利率", "secondaryLabelEn": "Current Yield",
-  "tertiaryLabelZh": "年配息", "tertiaryLabelEn": "Annual Coupon",
-  "quaternaryLabelZh": "資本利得", "quaternaryLabelEn": "Capital Gain",
-
-  "bands": ["極低", "低", "中等", "良好", "高", "極高"],
-  "bandThresholds": [1, 2.5, 4, 6, 8],
+  "primaryKey": "ytm",
+  "primaryDecimals": 2,
+  "primaryUnit": "%",
+  "secondaryKey": "currentYield",
+  "secondaryDecimals": 2,
+  "secondaryUnit": "%",
+  "tertiaryKey": "annualCoupon",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "capitalGain",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "到期殖利率 (YTM)",
+  "primaryLabelEn": "Yield to Maturity",
+  "secondaryLabelZh": "當期殖利率",
+  "secondaryLabelEn": "Current Yield",
+  "tertiaryLabelZh": "年配息",
+  "tertiaryLabelEn": "Annual Coupon",
+  "quaternaryLabelZh": "資本利得",
+  "quaternaryLabelEn": "Capital Gain",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "良好",
+    "高",
+    "極高"
+  ],
+  "bandThresholds": [
+    1,
+    2.5,
+    4,
+    6,
+    8
+  ],
   "bandHints": [
     "YTM < 1%,屬於負實質報酬區(扣通膨後),僅適合避險或現金管理。",
     "1-2.5%,類似定存利率,適合短期資金停泊與保本配置。",
@@ -32,7 +73,6 @@
     "6-8%,進入高收益債(垃圾債)或新興市場債區,違約風險上升。",
     "> 8%,屬高風險區,可能含信用評級 BB-以下、新興市場、可贖回條款,需仔細評估違約機率。"
   ],
-
   "faqTitles": [
     "YTM 和當期殖利率差在哪?哪個重要?",
     "為什麼債券價格漲,殖利率反而跌?",
@@ -49,25 +89,54 @@
     "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,債券面值、現價等資料不會傳送到任何伺服器,也不會記錄到日誌或資料庫。",
     "**不建議**。可贖回債(callable bond)的真實 YTM 應用「Yield to Worst(YTW)」計算,即「YTM 與 Yield to Call(YTC)取較低者」。本工具只算到期殖利率,可能高估可贖回債的實際報酬。買可贖回債前務必查發行條款的贖回時點與贖回價。"
   ],
-
   "affiliates": [
-    { "label_zh": "投資報酬率計算機", "label_en": "Investment Return Calculator", "href": "/tools/finance/investment-return-calculator" },
-    { "label_zh": "通膨調整計算機", "label_en": "Inflation Adjuster", "href": "/tools/finance/inflation-adjuster" },
-    { "label_zh": "退休計算機", "label_en": "Retirement Calculator", "href": "/tools/finance/retirement-calculator" },
-    { "label_zh": "稅率級距計算機", "label_en": "Tax Bracket Calculator", "href": "/tools/finance/tax-bracket-calculator" }
+    {
+      "label_zh": "投資報酬率計算機",
+      "label_en": "Investment Return Calculator",
+      "href": "/tools/finance/investment-return-calculator"
+    },
+    {
+      "label_zh": "通膨調整計算機",
+      "label_en": "Inflation Adjuster",
+      "href": "/tools/finance/inflation-adjuster"
+    },
+    {
+      "label_zh": "退休計算機",
+      "label_en": "Retirement Calculator",
+      "href": "/tools/finance/retirement-calculator"
+    },
+    {
+      "label_zh": "稅率級距計算機",
+      "label_en": "Tax Bracket Calculator",
+      "href": "/tools/finance/tax-bracket-calculator"
+    }
   ],
-
-  "exampleSolid": ["1000", "950", "5", "10"],
-  "exampleHigh": ["1000", "1080", "6", "5"],
+  "exampleSolid": [
+    "1000",
+    "950",
+    "5",
+    "10"
+  ],
+  "exampleHigh": [
+    "1000",
+    "1080",
+    "6",
+    "5"
+  ],
   "solidLabelZh": "面值 1000 · 現價 950 · 5% · 10 年",
   "solidLabelEn": "FV 1000 · P 950 · 5% · 10y",
   "highLabelZh": "面值 1000 · 現價 1080 · 6% · 5 年",
   "highLabelEn": "FV 1000 · P 1080 · 6% · 5y",
-
   "subtitleZh": "輸入面值、現價、票面利率與剩餘年限，立即估算到期殖利率與當期殖利率",
   "subtitleEn": "Enter face value, current price, coupon rate, and years to maturity to estimate YTM and current yield",
   "definitionZh": "債券殖利率計算機以面值、現價、票面利率、剩餘年限,計算「到期殖利率(YTM)」與「當期殖利率」,衡量債券的真實年化報酬,適用於公司債、政府債、ETF 內含債券估算。",
   "formulaZh": "YTM ≈ (年配息 + (面值 − 現價) / 年數) / ((面值 + 現價) / 2);Current Yield = 年配息 / 現價",
   "limitationsZh": "本工具用近似公式,不計再投資率、可贖回條款、稅後報酬、信用利差變動;精確 YTM 應用 IRR 求解,實務請查 Bloomberg 或券商系統。",
-  "interpretationZh": "YTM > 當期殖利率 → 折價債(現價 < 面值,賺資本利得);YTM < 當期殖利率 → 溢價債(現價 > 面值,賠資本利得但配息高)。"
+  "interpretationZh": "YTM > 當期殖利率 → 折價債(現價 < 面值,賺資本利得);YTM < 當期殖利率 → 溢價債(現價 > 面值,賠資本利得但配息高)。",
+  "premiumTitleZh": "專業版 債券分析工具組",
+  "premiumTextZh": "解鎖殖利率曲線、存續期間(Duration)、凸性(Convexity)、Yield to Worst、利率敏感度與債券階梯建構。",
+  "premiumChipsZh": "殖利率曲線|存續期間|凸性|YTW",
+  "premiumTitleEn": "Pro Bond Analytics Suite",
+  "premiumTextEn": "Unlock yield curve, duration, convexity, yield-to-worst, rate sensitivity, and bond-ladder construction.",
+  "premiumChipsEn": "Yield Curve|Duration|Convexity|YTW"
 }

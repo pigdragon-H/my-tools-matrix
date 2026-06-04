@@ -3,27 +3,68 @@
   "nameZh": "現金流計算機",
   "nameEn": "Cash Flow Calculator",
   "color": "green",
-  "inputs": ["月收入", "固定支出", "變動支出", "儲蓄目標%"],
-  "inputsEn": ["Monthly Income", "Fixed Expenses", "Variable Expenses", "Savings Target Pct"],
-  "defaults": ["80000", "35000", "20000", "20"],
-  "steps": ["1000", "500", "500", "1"],
+  "inputs": [
+    "月收入",
+    "固定支出",
+    "變動支出",
+    "儲蓄目標%"
+  ],
+  "inputsEn": [
+    "Monthly Income",
+    "Fixed Expenses",
+    "Variable Expenses",
+    "Savings Target Pct"
+  ],
+  "defaults": [
+    "80000",
+    "35000",
+    "20000",
+    "20"
+  ],
+  "steps": [
+    "1000",
+    "500",
+    "500",
+    "1"
+  ],
   "accentIdx": 3,
-
   "compute": "依月收入、固定支出、變動支出、儲蓄目標計算淨現金流、儲蓄率、自由現金與年度節餘",
   "computeFn": "    const inc = Number(monthlyIncome) || 0;\n    const fix = Number(fixedExpenses) || 0;\n    const varE = Number(variableExpenses) || 0;\n    const target = (Number(savingsTargetPct) || 0) / 100;\n    const totalExp = fix + varE;\n    const targetSavings = inc * target;\n    const netCashflow = inc - totalExp;\n    const freeCash = netCashflow - targetSavings;\n    const savingsRate = inc > 0 ? (netCashflow / inc) * 100 : 0;\n    const annualSurplus = netCashflow * 12;\n    return { netCashflow, savingsRate, freeCash, annualSurplus };",
-
-  "primaryKey": "netCashflow",  "primaryDecimals": 0, "primaryUnit": "$",
-  "secondaryKey": "savingsRate","secondaryDecimals": 1, "secondaryUnit": "%",
-  "tertiaryKey": "freeCash",   "tertiaryDecimals": 0, "tertiaryUnit": "$",
-  "quaternaryKey": "annualSurplus","quaternaryDecimals": 0, "quaternaryUnit": "$",
-
-  "primaryLabelZh": "月淨現金流", "primaryLabelEn": "Monthly Net Cashflow",
-  "secondaryLabelZh": "儲蓄率", "secondaryLabelEn": "Savings Rate",
-  "tertiaryLabelZh": "自由現金(扣目標儲蓄後)", "tertiaryLabelEn": "Free Cash After Target",
-  "quaternaryLabelZh": "年度節餘", "quaternaryLabelEn": "Annual Surplus",
-
-  "bands": ["赤字", "緊縮", "持平", "穩健", "充裕", "豐厚"],
-  "bandThresholds": [-1, 5000, 15000, 30000, 60000],
+  "primaryKey": "netCashflow",
+  "primaryDecimals": 0,
+  "primaryUnit": "$",
+  "secondaryKey": "savingsRate",
+  "secondaryDecimals": 1,
+  "secondaryUnit": "%",
+  "tertiaryKey": "freeCash",
+  "tertiaryDecimals": 0,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "annualSurplus",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "月淨現金流",
+  "primaryLabelEn": "Monthly Net Cashflow",
+  "secondaryLabelZh": "儲蓄率",
+  "secondaryLabelEn": "Savings Rate",
+  "tertiaryLabelZh": "自由現金(扣目標儲蓄後)",
+  "tertiaryLabelEn": "Free Cash After Target",
+  "quaternaryLabelZh": "年度節餘",
+  "quaternaryLabelEn": "Annual Surplus",
+  "bands": [
+    "赤字",
+    "緊縮",
+    "持平",
+    "穩健",
+    "充裕",
+    "豐厚"
+  ],
+  "bandThresholds": [
+    -1,
+    5000,
+    15000,
+    30000,
+    60000
+  ],
   "bandThresholdNote": "primary = monthly net cashflow (TWD)",
   "bandHints": [
     "月淨現金流 < 0,屬赤字狀態,需立即縮減固定支出或增加收入,否則債務累積。",
@@ -33,7 +74,6 @@
     "$30k-60k,充裕,可加速還貸、退休儲蓄與被動投資並進。",
     "> $60k,豐厚現金流,可規劃進階稅務優化、不動產投資與多元配置。"
   ],
-
   "faqTitles": [
     "現金流和損益表有什麼不同?",
     "儲蓄率多少才健康?",
@@ -50,25 +90,54 @@
     "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,收入、支出、儲蓄等資料不會傳送到任何伺服器,也不會記錄到日誌或資料庫。",
     "**完全可以**,本工具就是基本的家庭預算工具。**進階做法**: (1) 每月初先填一次「預估」,月底再填「實際」;(2) 變動支出建議再細分為食、衣、行、樂、雜;(3) 把儲蓄率設為「先存後花」目標;(4) 連續追蹤 3 個月,觀察季節性與消費漂移。建議搭配「預算比例計算機」做更細的 50/30/20 分類。"
   ],
-
   "affiliates": [
-    { "label_zh": "預算比例計算機", "label_en": "Budget Ratio Calculator", "href": "/tools/finance/budget-ratio-calculator" },
-    { "label_zh": "緊急預備金計算機", "label_en": "Emergency Fund Calculator", "href": "/tools/finance/emergency-fund-calculator" },
-    { "label_zh": "債務償還計算機", "label_en": "Debt Payoff Calculator", "href": "/tools/finance/debt-payoff-calculator" },
-    { "label_zh": "退休計算機", "label_en": "Retirement Calculator", "href": "/tools/finance/retirement-calculator" }
+    {
+      "label_zh": "預算比例計算機",
+      "label_en": "Budget Ratio Calculator",
+      "href": "/tools/finance/budget-ratio-calculator"
+    },
+    {
+      "label_zh": "緊急預備金計算機",
+      "label_en": "Emergency Fund Calculator",
+      "href": "/tools/finance/emergency-fund-calculator"
+    },
+    {
+      "label_zh": "債務償還計算機",
+      "label_en": "Debt Payoff Calculator",
+      "href": "/tools/finance/debt-payoff-calculator"
+    },
+    {
+      "label_zh": "退休計算機",
+      "label_en": "Retirement Calculator",
+      "href": "/tools/finance/retirement-calculator"
+    }
   ],
-
-  "exampleSolid": ["80000", "35000", "20000", "20"],
-  "exampleHigh": ["150000", "50000", "30000", "30"],
+  "exampleSolid": [
+    "80000",
+    "35000",
+    "20000",
+    "20"
+  ],
+  "exampleHigh": [
+    "150000",
+    "50000",
+    "30000",
+    "30"
+  ],
   "solidLabelZh": "月入 $80k · 固 $35k · 變 $20k · 目標 20%",
   "solidLabelEn": "$80k · fix $35k · var $20k · 20%",
   "highLabelZh": "月入 $150k · 固 $50k · 變 $30k · 目標 30%",
   "highLabelEn": "$150k · fix $50k · var $30k · 30%",
-
   "subtitleZh": "輸入月收入與固定/變動支出，立即估算月淨現金流、儲蓄率與年度節餘",
   "subtitleEn": "Enter monthly income and fixed/variable expenses to compute net cashflow, savings rate, and annual surplus",
   "definitionZh": "現金流(Cash Flow)是個人或家庭在一段期間內「進帳 − 出帳」的淨值,正向現金流是儲蓄、投資、還貸的基礎,負向現金流則代表財務漏洞。",
   "formulaZh": "淨現金流 = 月收入 − (固定支出 + 變動支出);儲蓄率 = 淨現金流 / 月收入 × 100%",
   "limitationsZh": "本工具未含年度大額支出(年終獎、保費、稅金)、季節性消費(年節、學費);建議再用「預算比例計算機」做更細項目分配。",
-  "interpretationZh": "儲蓄率不是越高越好,過低(<5%)無緩衝、過高(>50%)犧牲生活品質;依年齡與目標,新鮮人 10-20%、中年 25-35%、財務獨立追求者 40-60% 為宜。"
+  "interpretationZh": "儲蓄率不是越高越好,過低(<5%)無緩衝、過高(>50%)犧牲生活品質;依年齡與目標,新鮮人 10-20%、中年 25-35%、財務獨立追求者 40-60% 為宜。",
+  "premiumTitleZh": "專業版 現金流管理與預算",
+  "premiumTextZh": "解鎖年度大額支出平攤、12 個月現金流預測、消費漂移偵測、儲蓄率趨勢圖與 50/30/20 自動分類。",
+  "premiumChipsZh": "年度平攤|12月預測|漂移偵測|趨勢圖",
+  "premiumTitleEn": "Pro Cashflow Management & Budgeting",
+  "premiumTextEn": "Unlock annual lump-sum smoothing, 12-month cashflow forecast, spending-drift detection, savings-rate trends, and auto 50/30/20 categorization.",
+  "premiumChipsEn": "Smoothing|Forecast|Drift|Trends"
 }

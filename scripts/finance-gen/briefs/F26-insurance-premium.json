@@ -3,27 +3,68 @@
   "nameZh": "保費試算計算機",
   "nameEn": "Insurance Premium Calculator",
   "color": "rose",
-  "inputs": ["保額", "投保年齡", "繳費年期", "費率（每萬元）"],
-  "inputsEn": ["Coverage", "Insured Age", "Premium Years", "Rate Per Ten Thousand"],
-  "defaults": ["3000000", "35", "20", "180"],
-  "steps": ["100000", "1", "1", "10"],
+  "inputs": [
+    "保額",
+    "投保年齡",
+    "繳費年期",
+    "費率（每萬元）"
+  ],
+  "inputsEn": [
+    "Coverage",
+    "Insured Age",
+    "Premium Years",
+    "Rate Per Ten Thousand"
+  ],
+  "defaults": [
+    "3000000",
+    "35",
+    "20",
+    "180"
+  ],
+  "steps": [
+    "100000",
+    "1",
+    "1",
+    "10"
+  ],
   "accentIdx": 3,
-
   "compute": "依保額、年齡、年期、費率計算年保費、月保費、總繳保費與保額成本比",
   "computeFn": "    const cov = Number(coverage) || 0;\n    const a = Number(insuredAge) || 30;\n    const yrs = Number(premiumYears) || 20;\n    const rate = Number(ratePerTenThousand) || 0;\n    const ageFactor = 1 + Math.max(0, a - 30) * 0.03;\n    const annualPremium = (cov / 10000) * rate * ageFactor;\n    const monthlyPremium = annualPremium / 12;\n    const totalPaid = annualPremium * yrs;\n    const costRatio = cov > 0 ? (totalPaid / cov) * 100 : 0;\n    return { annualPremium, monthlyPremium, totalPaid, costRatio };",
-
-  "primaryKey": "annualPremium",   "primaryDecimals": 0, "primaryUnit": "$",
-  "secondaryKey": "monthlyPremium","secondaryDecimals": 0, "secondaryUnit": "$",
-  "tertiaryKey": "costRatio",      "tertiaryDecimals": 1, "tertiaryUnit": "%",
-  "quaternaryKey": "totalPaid",    "quaternaryDecimals": 0, "quaternaryUnit": "$",
-
-  "primaryLabelZh": "年保費", "primaryLabelEn": "Annual Premium",
-  "secondaryLabelZh": "月保費", "secondaryLabelEn": "Monthly Premium",
-  "tertiaryLabelZh": "總繳/保額比", "tertiaryLabelEn": "Total/Coverage %",
-  "quaternaryLabelZh": "總繳保費", "quaternaryLabelEn": "Total Paid",
-
-  "bands": ["極低", "低", "合理", "略高", "偏貴", "明顯偏貴"],
-  "bandThresholds": [10000, 30000, 60000, 100000, 200000],
+  "primaryKey": "annualPremium",
+  "primaryDecimals": 0,
+  "primaryUnit": "$",
+  "secondaryKey": "monthlyPremium",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "$",
+  "tertiaryKey": "costRatio",
+  "tertiaryDecimals": 1,
+  "tertiaryUnit": "%",
+  "quaternaryKey": "totalPaid",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "年保費",
+  "primaryLabelEn": "Annual Premium",
+  "secondaryLabelZh": "月保費",
+  "secondaryLabelEn": "Monthly Premium",
+  "tertiaryLabelZh": "總繳/保額比",
+  "tertiaryLabelEn": "Total/Coverage %",
+  "quaternaryLabelZh": "總繳保費",
+  "quaternaryLabelEn": "Total Paid",
+  "bands": [
+    "極低",
+    "低",
+    "合理",
+    "略高",
+    "偏貴",
+    "明顯偏貴"
+  ],
+  "bandThresholds": [
+    10000,
+    30000,
+    60000,
+    100000,
+    200000
+  ],
   "bandHints": [
     "年保費 < 1 萬元,屬入門級定期壽險或意外險,可作為基礎保障。",
     "1-3 萬元,涵蓋基本壽險、醫療、意外,適合社會新鮮人到三口之家。",
@@ -32,7 +73,6 @@
     "10-20 萬元,屬高保費區,需檢視是否有過多儲蓄險或投資型保單。",
     "> 20 萬元,通常含大量儲蓄險、終身壽險與年金險,建議重新檢視保障 vs 儲蓄比例。"
   ],
-
   "faqTitles": [
     "保費「費率」是怎麼算出來的?",
     "我該買多少保額才夠?",
@@ -49,25 +89,54 @@
     "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,保額、年齡、年期等資料不會傳送到任何伺服器,也不會記錄到日誌或資料庫。",
     "**佣金結構** 是主因。傳統壽險佣金可達首年保費 30-60%,儲蓄險與投資型保單佣金更高,業務員自然會推這類高傭金商品,且傾向「貴的=好的」話術。**健康的保費佔比** 約年收入 5-10%(依年齡、家庭責任調整),超過 15% 通常是儲蓄險過多。建議用本工具試算多份方案後再決定。"
   ],
-
   "affiliates": [
-    { "label_zh": "退休計算機", "label_en": "Retirement Calculator", "href": "/tools/finance/retirement-calculator" },
-    { "label_zh": "預算比例計算機", "label_en": "Budget Ratio Calculator", "href": "/tools/finance/budget-ratio-calculator" },
-    { "label_zh": "緊急預備金計算機", "label_en": "Emergency Fund Calculator", "href": "/tools/finance/emergency-fund-calculator" },
-    { "label_zh": "淨資產計算機", "label_en": "Net Worth Calculator", "href": "/tools/finance/net-worth-calculator" }
+    {
+      "label_zh": "退休計算機",
+      "label_en": "Retirement Calculator",
+      "href": "/tools/finance/retirement-calculator"
+    },
+    {
+      "label_zh": "預算比例計算機",
+      "label_en": "Budget Ratio Calculator",
+      "href": "/tools/finance/budget-ratio-calculator"
+    },
+    {
+      "label_zh": "緊急預備金計算機",
+      "label_en": "Emergency Fund Calculator",
+      "href": "/tools/finance/emergency-fund-calculator"
+    },
+    {
+      "label_zh": "淨資產計算機",
+      "label_en": "Net Worth Calculator",
+      "href": "/tools/finance/net-worth-calculator"
+    }
   ],
-
-  "exampleSolid": ["3000000", "35", "20", "180"],
-  "exampleHigh": ["10000000", "45", "20", "250"],
+  "exampleSolid": [
+    "3000000",
+    "35",
+    "20",
+    "180"
+  ],
+  "exampleHigh": [
+    "10000000",
+    "45",
+    "20",
+    "250"
+  ],
   "solidLabelZh": "$300 萬 · 35 歲 · 20 年期",
   "solidLabelEn": "$3M · age 35 · 20yr",
   "highLabelZh": "$1000 萬 · 45 歲 · 20 年期",
   "highLabelEn": "$10M · age 45 · 20yr",
-
   "subtitleZh": "輸入保額、年齡、年期與費率，立即估算年保費、月保費與總繳保費",
   "subtitleEn": "Enter coverage, age, term, and rate to estimate annual, monthly, and total premium",
   "definitionZh": "保費試算工具依保額、年齡、繳費年期與費率,粗估壽險或重疾險的年/月/總繳保費,並計算「總繳保費 / 保額」的成本比,作為保單比較與保費合理性檢視的初篩工具。",
   "formulaZh": "年保費 ≈ (保額 / 10000) × 費率 × 年齡因子(1 + (年齡 − 30) × 3%)",
   "limitationsZh": "本工具未涵蓋實際保險公司精算費率、職業加費、健康狀況、女性費率調整、附約費用、宣告利率變動與解約金;僅供概念性對比,實際保費以保險公司核保為準。",
-  "interpretationZh": "「總繳/保額比」< 50% 屬合理,50-80% 為偏貴,> 80% 通常是含大量儲蓄成分的終身險或投資型保單,需重新檢視。"
+  "interpretationZh": "「總繳/保額比」< 50% 屬合理,50-80% 為偏貴,> 80% 通常是含大量儲蓄成分的終身險或投資型保單,需重新檢視。",
+  "premiumTitleZh": "專業版 保單分析與保障缺口",
+  "premiumTextZh": "解鎖保障缺口分析(壽險/醫療/失能)、儲蓄險 vs 定期險 IRR 比較、多家保單試算與保費佔收入健診。",
+  "premiumChipsZh": "保障缺口|IRR 比較|多家試算|保費健診",
+  "premiumTitleEn": "Pro Policy Analysis & Coverage Gap",
+  "premiumTextEn": "Unlock coverage-gap analysis (life/health/disability), savings vs term IRR comparison, multi-insurer quoting, and premium-to-income health checks.",
+  "premiumChipsEn": "Coverage Gap|IRR|Multi-quote|Health Check"
 }

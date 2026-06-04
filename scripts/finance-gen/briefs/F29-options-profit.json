@@ -3,27 +3,68 @@
   "nameZh": "選擇權損益計算機",
   "nameEn": "Options Profit Calculator",
   "color": "fuchsia",
-  "inputs": ["履約價", "權利金", "標的價", "口數"],
-  "inputsEn": ["Strike Price", "Premium", "Underlying Price", "Contracts"],
-  "defaults": ["100", "5", "110", "1"],
-  "steps": ["1", "0.1", "0.5", "1"],
+  "inputs": [
+    "履約價",
+    "權利金",
+    "標的價",
+    "口數"
+  ],
+  "inputsEn": [
+    "Strike Price",
+    "Premium",
+    "Underlying Price",
+    "Contracts"
+  ],
+  "defaults": [
+    "100",
+    "5",
+    "110",
+    "1"
+  ],
+  "steps": [
+    "1",
+    "0.1",
+    "0.5",
+    "1"
+  ],
   "accentIdx": 1,
-
   "compute": "依履約價、權利金、標的價、口數計算 Call 多頭損益、Put 多頭損益、損益兩平點、最大風險",
   "computeFn": "    const K = Number(strikePrice) || 0;\n    const prem = Number(premium) || 0;\n    const S = Number(underlyingPrice) || 0;\n    const ct = Number(contracts) || 1;\n    const multiplier = 100;\n    const callPnL = (Math.max(0, S - K) - prem) * multiplier * ct;\n    const putPnL = (Math.max(0, K - S) - prem) * multiplier * ct;\n    const breakeven = K + prem;\n    const maxRisk = prem * multiplier * ct;\n    return { callPnL, putPnL, breakeven, maxRisk };",
-
-  "primaryKey": "callPnL",   "primaryDecimals": 2, "primaryUnit": "$",
-  "secondaryKey": "putPnL",  "secondaryDecimals": 2, "secondaryUnit": "$",
-  "tertiaryKey": "breakeven","tertiaryDecimals": 2, "tertiaryUnit": "$",
-  "quaternaryKey": "maxRisk","quaternaryDecimals": 2, "quaternaryUnit": "$",
-
-  "primaryLabelZh": "Call 多頭損益", "primaryLabelEn": "Call Long PnL",
-  "secondaryLabelZh": "Put 多頭損益", "secondaryLabelEn": "Put Long PnL",
-  "tertiaryLabelZh": "Call 損益兩平點", "tertiaryLabelEn": "Call Breakeven",
-  "quaternaryLabelZh": "最大風險(權利金)", "quaternaryLabelEn": "Max Risk",
-
-  "bands": ["大幅虧損", "小虧", "持平", "小賺", "大賺", "翻倍以上"],
-  "bandThresholds": [-500, -100, 100, 500, 2000],
+  "primaryKey": "callPnL",
+  "primaryDecimals": 2,
+  "primaryUnit": "$",
+  "secondaryKey": "putPnL",
+  "secondaryDecimals": 2,
+  "secondaryUnit": "$",
+  "tertiaryKey": "breakeven",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "maxRisk",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "Call 多頭損益",
+  "primaryLabelEn": "Call Long PnL",
+  "secondaryLabelZh": "Put 多頭損益",
+  "secondaryLabelEn": "Put Long PnL",
+  "tertiaryLabelZh": "Call 損益兩平點",
+  "tertiaryLabelEn": "Call Breakeven",
+  "quaternaryLabelZh": "最大風險(權利金)",
+  "quaternaryLabelEn": "Max Risk",
+  "bands": [
+    "大幅虧損",
+    "小虧",
+    "持平",
+    "小賺",
+    "大賺",
+    "翻倍以上"
+  ],
+  "bandThresholds": [
+    -500,
+    -100,
+    100,
+    500,
+    2000
+  ],
   "bandHints": [
     "Call 損益 < -$500,通常為 OTM 到期失效,權利金歸零,需檢視策略合理性。",
     "-$500 至 -$100,小幅虧損,可能因標的小幅未觸及履約價,屬正常波動。",
@@ -32,7 +73,6 @@
     "$500-$2000,顯著獲利,行情明顯方向確立,建議設追蹤停利。",
     "> $2000,屬大行情,務必落袋為安,選擇權獲利波動劇烈,容易回吐。"
   ],
-
   "faqTitles": [
     "選擇權的「乘數」(multiplier)是什麼?",
     "為什麼最大風險就是權利金?",
@@ -49,25 +89,54 @@
     "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,履約價、權利金、標的價等資料不會傳送到任何伺服器,也不會記錄到日誌或資料庫。",
     "**不一定**。權利金 = 內含價值 + 時間價值。權利金高代表「市場預期波動大」(隱含波動率 IV 高)或「ITM 程度深」。買 IV 高的選擇權,即使方向看對,行情過後 IV 收斂仍可能虧損(Vega 風險)。建議查 IV Rank/IV Percentile,選擇 IV < 50% 的時點買入。"
   ],
-
   "affiliates": [
-    { "label_zh": "股票損益計算機", "label_en": "Stock Profit Calculator", "href": "/tools/finance/stock-profit-calculator" },
-    { "label_zh": "投資報酬率計算機", "label_en": "Investment Return Calculator", "href": "/tools/finance/investment-return-calculator" },
-    { "label_zh": "稅率級距計算機", "label_en": "Tax Bracket Calculator", "href": "/tools/finance/tax-bracket-calculator" },
-    { "label_zh": "退休計算機", "label_en": "Retirement Calculator", "href": "/tools/finance/retirement-calculator" }
+    {
+      "label_zh": "股票損益計算機",
+      "label_en": "Stock Profit Calculator",
+      "href": "/tools/finance/stock-profit-calculator"
+    },
+    {
+      "label_zh": "投資報酬率計算機",
+      "label_en": "Investment Return Calculator",
+      "href": "/tools/finance/investment-return-calculator"
+    },
+    {
+      "label_zh": "稅率級距計算機",
+      "label_en": "Tax Bracket Calculator",
+      "href": "/tools/finance/tax-bracket-calculator"
+    },
+    {
+      "label_zh": "退休計算機",
+      "label_en": "Retirement Calculator",
+      "href": "/tools/finance/retirement-calculator"
+    }
   ],
-
-  "exampleSolid": ["100", "5", "110", "1"],
-  "exampleHigh": ["50", "2", "70", "10"],
+  "exampleSolid": [
+    "100",
+    "5",
+    "110",
+    "1"
+  ],
+  "exampleHigh": [
+    "50",
+    "2",
+    "70",
+    "10"
+  ],
   "solidLabelZh": "K=100 · 權利金 5 · 標的 110 · 1 口",
   "solidLabelEn": "K=100 · prem 5 · S 110 · 1 ct",
   "highLabelZh": "K=50 · 權利金 2 · 標的 70 · 10 口",
   "highLabelEn": "K=50 · prem 2 · S 70 · 10 ct",
-
   "subtitleZh": "輸入履約價、權利金、標的價與口數，即時試算 Call/Put 多頭損益與損益兩平點",
   "subtitleEn": "Enter strike, premium, underlying price, and contracts to compute Call/Put long PnL and breakeven",
   "definitionZh": "選擇權損益計算機計算「買方(Long)」於到期日的 Call 與 Put 損益,並標出損益兩平點與最大風險,用於檢視策略合理性與風險報酬比。",
   "formulaZh": "Call PnL = (max(0, S − K) − prem) × 乘數 × 口數;Put PnL = (max(0, K − S) − prem) × 乘數 × 口數",
   "limitationsZh": "本工具僅計算到期日損益,未含時間價值、隱含波動率、Greeks(Delta/Gamma/Theta/Vega)、提早履約、美式選擇權差異;不適用於賣方(Short)策略。",
-  "interpretationZh": "Call PnL > 0 表示標的價已突破「損益兩平點 = 履約價 + 權利金」;Put PnL > 0 表示標的跌破「履約價 − 權利金」。在這兩個門檻間,選擇權買方都是虧損的。"
+  "interpretationZh": "Call PnL > 0 表示標的價已突破「損益兩平點 = 履約價 + 權利金」;Put PnL > 0 表示標的跌破「履約價 − 權利金」。在這兩個門檻間,選擇權買方都是虧損的。",
+  "premiumTitleZh": "專業版 選擇權策略分析",
+  "premiumTextZh": "解鎖多腳策略(價差/跨式/鐵兀鷹)、Greeks(Delta/Gamma/Theta/Vega)、隱含波動率分析與損益圖視覺化。",
+  "premiumChipsZh": "多腳策略|Greeks|隱含波動率|損益圖",
+  "premiumTitleEn": "Pro Options Strategy Analytics",
+  "premiumTextEn": "Unlock multi-leg strategies (spreads/straddles/iron condors), Greeks (Delta/Gamma/Theta/Vega), implied-volatility analysis, and payoff-diagram visualization.",
+  "premiumChipsEn": "Multi-leg|Greeks|IV|Payoff Chart"
 }
