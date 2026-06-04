@@ -1588,6 +1588,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "fire-number-calculator",
+    name: "FIRE 目標數字計算機",
+    category: "finance",
+    path: "/tools/finance/fire-number-calculator",
+    icon: "Calculator",
+    description: "以安全提領率回推財務自由所需資產,評估目前進度與達標年數。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1724,3 +1739,4 @@ export const roiPaybackCalculator = { id: "roi-payback-calculator", category: "f
 export const burnRateCalculator = { id: "burn-rate-calculator", category: "finance", name: "Burn Rate Calculator", path: "/tools/finance/burn-rate-calculator" };
 export const withdrawalRateCalculator = { id: "withdrawal-rate-calculator", category: "finance", name: "Safe Withdrawal Rate Calculator", path: "/tools/finance/withdrawal-rate-calculator" };
 export const coastFireCalculator = { id: "coast-fire-calculator", category: "finance", name: "Coast FIRE Calculator", path: "/tools/finance/coast-fire-calculator" };
+export const fireNumberCalculator = { id: "fire-number-calculator", category: "finance", name: "FIRE Number Calculator", path: "/tools/finance/fire-number-calculator" };
