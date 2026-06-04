@@ -1648,6 +1648,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "home-equity-calculator",
+    name: "房屋淨值計算機",
+    category: "finance",
+    path: "/tools/finance/home-equity-calculator",
+    icon: "Calculator",
+    description: "計算房屋淨值、淨值比例與 HELOC 可借額度。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1788,3 +1803,4 @@ export const fireNumberCalculator = { id: "fire-number-calculator", category: "f
 export const socialSecurityCalculator = { id: "social-security-calculator", category: "finance", name: "Social Security Calculator", path: "/tools/finance/social-security-calculator" };
 export const rothConversionCalculator = { id: "roth-conversion-calculator", category: "finance", name: "Roth Conversion Calculator", path: "/tools/finance/roth-conversion-calculator" };
 export const ltvRatioCalculator = { id: "ltv-ratio-calculator", category: "finance", name: "LTV Ratio Calculator", path: "/tools/finance/ltv-ratio-calculator" };
+export const homeEquityCalculator = { id: "home-equity-calculator", category: "finance", name: "Home Equity Calculator", path: "/tools/finance/home-equity-calculator" };

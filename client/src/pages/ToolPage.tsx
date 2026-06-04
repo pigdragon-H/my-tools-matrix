@@ -120,6 +120,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/social-security-calculator": lazy(() => import("@/tools/finance/SocialSecurityCalculator")),
   "finance/roth-conversion-calculator": lazy(() => import("@/tools/finance/RothConversionCalculator")),
   "finance/ltv-ratio-calculator": lazy(() => import("@/tools/finance/LtvRatioCalculator")),
+  "finance/home-equity-calculator": lazy(() => import("@/tools/finance/HomeEquityCalculator")),
 };
 
 function ToolSkeleton() {
