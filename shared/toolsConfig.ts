@@ -2068,6 +2068,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "max-heart-rate-calculator",
+    name: "最大心率計算機",
+    category: "health",
+    path: "/tools/health/max-heart-rate-calculator",
+    icon: "HeartPulse",
+    description: "最大心率計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2236,3 +2251,4 @@ export const waistHipRatioCalculator = { id: "waist-hip-ratio-calculator", categ
 export const weightTrendCalculator = { id: "weight-trend-calculator", category: "health", name: "Weight Trend Calculator", path: "/tools/health/weight-trend-calculator" };
 export const calorieBurnCalculator = { id: "calorie-burn-calculator", category: "health", name: "Calorie Burn Calculator", path: "/tools/health/calorie-burn-calculator" };
 export const exerciseCaloriesCalculator = { id: "exercise-calories-calculator", category: "health", name: "Exercise Calories Calculator", path: "/tools/health/exercise-calories-calculator" };
+export const maxHeartRateCalculator = { id: "max-heart-rate-calculator", category: "health", name: "Max Heart Rate Calculator", path: "/tools/health/max-heart-rate-calculator" };
