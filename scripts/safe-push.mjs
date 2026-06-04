@@ -237,6 +237,24 @@ if (!gate4Ok) {
   process.exit(1);
 }
 
+// ── 5f: Gate 6 real live-deployment verification ──────────────────
+// 補 Gate 4 盲點:Gate 4 只確認 commit 在 remote,Gate 6 真正 curl live
+// bundle 確認 Railway 已部署。dryRun / noPush 時跳過(無實際部署)。
+if (!dryRun && !noPush) {
+  const gate6Ok = run("5f  Gate 6 (qc_live_deploy)", "node",
+    ["scripts/qc_live_deploy.mjs", id, "--retries=10", "--interval=30"]);
+  if (!gate6Ok) {
+    console.error(`${RED}\ud83d\udd34 5f FAIL — Gate 6:GitHub 有 commit 但 Railway 未部署到 live(黑洞)${RST}`);
+    console.error(`${YEL}   commit 已成功推送,但 live 站台尚未含 ${id}${RST}`);
+    console.error(`${DIM}   1. 檢查 Railway dashboard → Deployments(failed? auto-deploy 關閉?)${RST}`);
+    console.error(`${DIM}   2. 確認 railway.json 存在${RST}`);
+    console.error(`${DIM}   3. 手動 redeploy 後重跑:npm run qc:live -- ${id}${RST}`);
+    process.exit(1);
+  }
+} else {
+  console.log(`${DIM}5f  Gate 6 (qc_live_deploy) — 跳過(dryRun/noPush 模式)${RST}`);
+}
+
 // ── PASS — delivery report ──────────────────────────────────
 const dt = ((Date.now() - overallStart) / 1000).toFixed(1);
 console.log(`${GREEN}${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RST}`);
