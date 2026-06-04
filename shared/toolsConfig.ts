@@ -819,6 +819,22 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "password-generator",
+    name: "Password Generator",
+    nameZh: "密碼生成器",
+    category: "developer",
+    path: "/tools/developer/password-generator",
+    icon: "Key",
+    description: "Browser-side cryptographic password generator using Web Crypto API (crypto.getRandomValues), with configurable length, charset (lower/upper/digit/symbol), and Shannon-entropy readout. A six-band entropy matrix grades passwords from disposable to nation-state-resistant, grounded in NIST SP 800-63B and OWASP ASVS 4.0. Inputs never leave the browser.",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -904,3 +920,4 @@ export const mathPercentageCalculator = { id: "math-percentage-calculator", cate
 export const cronExpression = { id: "cron-expression", category: "developer", name: "Cron Expression Parser", path: "/tools/developer/cron-expression" };
 export const ipCalculator = { id: "ip-calculator", category: "developer", name: "IP / CIDR Calculator", path: "/tools/developer/ip-calculator" };
 export const colorPaletteGenerator = { id: "color-palette-generator", category: "developer", name: "Color Palette Generator", path: "/tools/developer/color-palette-generator" };
+export const passwordGenerator = { id: "password-generator", category: "developer", name: "Password Generator", path: "/tools/developer/password-generator" };
