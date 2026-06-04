@@ -1003,6 +1003,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "bond-yield-calculator",
+    name: "債券殖利率計算機",
+    category: "finance",
+    path: "/tools/finance/bond-yield-calculator",
+    icon: "Calculator",
+    description: "輸入面值、現價、票面利率與剩餘年限，立即估算到期殖利率與當期殖利率",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1100,3 +1115,4 @@ export const stockProfitCalculator = { id: "stock-profit-calculator", category: 
 export const rentalYieldCalculator = { id: "rental-yield-calculator", category: "finance", name: "Rental Yield Calculator", path: "/tools/finance/rental-yield-calculator" };
 export const insurancePremiumCalculator = { id: "insurance-premium-calculator", category: "finance", name: "Insurance Premium Calculator", path: "/tools/finance/insurance-premium-calculator" };
 export const pensionCalculator = { id: "pension-calculator", category: "finance", name: "Pension Calculator", path: "/tools/finance/pension-calculator" };
+export const bondYieldCalculator = { id: "bond-yield-calculator", category: "finance", name: "Bond Yield Calculator", path: "/tools/finance/bond-yield-calculator" };

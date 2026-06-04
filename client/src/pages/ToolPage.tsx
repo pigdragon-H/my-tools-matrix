@@ -77,6 +77,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/rental-yield-calculator": lazy(() => import("@/tools/finance/RentalYieldCalculator")),
   "finance/insurance-premium-calculator": lazy(() => import("@/tools/finance/InsurancePremiumCalculator")),
   "finance/pension-calculator": lazy(() => import("@/tools/finance/PensionCalculator")),
+  "finance/bond-yield-calculator": lazy(() => import("@/tools/finance/BondYieldCalculator")),
 };
 
 function ToolSkeleton() {
