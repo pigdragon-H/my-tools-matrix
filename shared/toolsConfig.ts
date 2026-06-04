@@ -2113,6 +2113,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "swimming-calories-calculator",
+    name: "游泳消耗計算機",
+    category: "health",
+    path: "/tools/health/swimming-calories-calculator",
+    icon: "Waves",
+    description: "游泳消耗計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2284,3 +2299,4 @@ export const exerciseCaloriesCalculator = { id: "exercise-calories-calculator", 
 export const maxHeartRateCalculator = { id: "max-heart-rate-calculator", category: "health", name: "Max Heart Rate Calculator", path: "/tools/health/max-heart-rate-calculator" };
 export const oneRepMaxCalculator = { id: "one-rep-max-calculator", category: "health", name: "One Rep Max Calculator", path: "/tools/health/one-rep-max-calculator" };
 export const runningPaceCalculator = { id: "running-pace-calculator", category: "health", name: "Running Pace Calculator", path: "/tools/health/running-pace-calculator" };
+export const swimmingCaloriesCalculator = { id: "swimming-calories-calculator", category: "health", name: "Swimming Calories Calculator", path: "/tools/health/swimming-calories-calculator" };
