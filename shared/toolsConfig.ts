@@ -2083,6 +2083,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "one-rep-max-calculator",
+    name: "一次最大重量計算機",
+    category: "health",
+    path: "/tools/health/one-rep-max-calculator",
+    icon: "Dumbbell",
+    description: "一次最大重量計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2252,3 +2267,4 @@ export const weightTrendCalculator = { id: "weight-trend-calculator", category: 
 export const calorieBurnCalculator = { id: "calorie-burn-calculator", category: "health", name: "Calorie Burn Calculator", path: "/tools/health/calorie-burn-calculator" };
 export const exerciseCaloriesCalculator = { id: "exercise-calories-calculator", category: "health", name: "Exercise Calories Calculator", path: "/tools/health/exercise-calories-calculator" };
 export const maxHeartRateCalculator = { id: "max-heart-rate-calculator", category: "health", name: "Max Heart Rate Calculator", path: "/tools/health/max-heart-rate-calculator" };
+export const oneRepMaxCalculator = { id: "one-rep-max-calculator", category: "health", name: "One Rep Max Calculator", path: "/tools/health/one-rep-max-calculator" };
