@@ -787,6 +787,22 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "ip-calculator",
+    name: "IP / CIDR Calculator",
+    nameZh: "IP / CIDR 計算器",
+    category: "developer",
+    path: "/tools/developer/ip-calculator",
+    icon: "Network",
+    description: "Browser-side IPv4 CIDR calculator deriving network address, broadcast, usable host range, subnet mask, wildcard, and host count from any IP/prefix combination, grounded in RFC 4632 (CIDR), RFC 1918 (private space), and RFC 6890 (special-purpose registry). A six-band scale categorizes subnet size from /32 single host to /8 enterprise blocks. Inputs never leave the browser.",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -870,3 +886,4 @@ export const gradeCalculator = { id: "grade-calculator", category: "education", 
 export const studyTimeCalculator = { id: "study-time-calculator", category: "education", name: "Study Time Calculator", path: "/tools/education/study-time-calculator" };
 export const mathPercentageCalculator = { id: "math-percentage-calculator", category: "education", name: "Math Percentage Calculator", path: "/tools/education/math-percentage-calculator" };
 export const cronExpression = { id: "cron-expression", category: "developer", name: "Cron Expression Parser", path: "/tools/developer/cron-expression" };
+export const ipCalculator = { id: "ip-calculator", category: "developer", name: "IP / CIDR Calculator", path: "/tools/developer/ip-calculator" };
