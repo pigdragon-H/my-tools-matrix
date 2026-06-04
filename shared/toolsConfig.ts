@@ -943,6 +943,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "stock-profit-calculator",
+    name: "股票損益計算機",
+    category: "finance",
+    path: "/tools/finance/stock-profit-calculator",
+    icon: "Calculator",
+    description: "輸入買賣股價、股數與手續費，立即得出股票交易的總損益、報酬率與成本",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1036,3 +1051,4 @@ export const taxBracketCalculator = { id: "tax-bracket-calculator", category: "f
 export const investmentReturnCalculator = { id: "investment-return-calculator", category: "finance", name: "Investment Return Calculator", path: "/tools/finance/investment-return-calculator" };
 export const breakEvenCalculator = { id: "break-even-calculator", category: "finance", name: "Break-Even Calculator", path: "/tools/finance/break-even-calculator" };
 export const currencyConverter = { id: "currency-converter", category: "finance", name: "Currency Converter", path: "/tools/finance/currency-converter" };
+export const stockProfitCalculator = { id: "stock-profit-calculator", category: "finance", name: "Stock Profit Calculator", path: "/tools/finance/stock-profit-calculator" };

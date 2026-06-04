@@ -73,6 +73,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/investment-return-calculator": lazy(() => import("@/tools/finance/InvestmentReturnCalculator")),
   "finance/break-even-calculator": lazy(() => import("@/tools/finance/BreakEvenCalculator")),
   "finance/currency-converter": lazy(() => import("@/tools/finance/CurrencyConverter")),
+  "finance/stock-profit-calculator": lazy(() => import("@/tools/finance/StockProfitCalculator")),
 };
 
 function ToolSkeleton() {
