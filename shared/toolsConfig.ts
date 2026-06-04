@@ -2128,6 +2128,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "workout-plan-calculator",
+    name: "健身計畫計算機",
+    category: "health",
+    path: "/tools/health/workout-plan-calculator",
+    icon: "Dumbbell",
+    description: "健身計畫計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2300,3 +2315,4 @@ export const maxHeartRateCalculator = { id: "max-heart-rate-calculator", categor
 export const oneRepMaxCalculator = { id: "one-rep-max-calculator", category: "health", name: "One Rep Max Calculator", path: "/tools/health/one-rep-max-calculator" };
 export const runningPaceCalculator = { id: "running-pace-calculator", category: "health", name: "Running Pace Calculator", path: "/tools/health/running-pace-calculator" };
 export const swimmingCaloriesCalculator = { id: "swimming-calories-calculator", category: "health", name: "Swimming Calories Calculator", path: "/tools/health/swimming-calories-calculator" };
+export const workoutPlanCalculator = { id: "workout-plan-calculator", category: "health", name: "Workout Plan Calculator", path: "/tools/health/workout-plan-calculator" };
