@@ -851,6 +851,22 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "markdown-to-html",
+    name: "Markdown to HTML",
+    nameZh: "Markdown 轉 HTML",
+    description: "Convert CommonMark Markdown to clean HTML in your browser. 17-layer JsonFormatter gold template, Profile B (violet/purple).",
+    category: "developer",
+    icon: "FileText",
+    path: "/tools/developer/markdown-to-html",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isFeatured: true,
+    isNew: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -938,3 +954,4 @@ export const ipCalculator = { id: "ip-calculator", category: "developer", name: 
 export const colorPaletteGenerator = { id: "color-palette-generator", category: "developer", name: "Color Palette Generator", path: "/tools/developer/color-palette-generator" };
 export const passwordGenerator = { id: "password-generator", category: "developer", name: "Password Generator", path: "/tools/developer/password-generator" };
 export const qrCodeGenerator = { id: "qr-code-generator", category: "developer", name: "QR Code Generator", path: "/tools/developer/qr-code-generator" };
+export const markdownToHtml = { id: "markdown-to-html", category: "developer", name: "Markdown to HTML", path: "/tools/developer/markdown-to-html" };
