@@ -1723,6 +1723,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "estate-tax-calculator",
+    name: "遺產稅計算機",
+    category: "finance",
+    path: "/tools/finance/estate-tax-calculator",
+    icon: "Calculator",
+    description: "依免稅額與扣除項目,估算聯邦遺產稅與繼承人實得淨額。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1868,3 +1883,4 @@ export const rentVsBuyCalculator = { id: "rent-vs-buy-calculator", category: "fi
 export const closingCostCalculator = { id: "closing-cost-calculator", category: "finance", name: "Closing Cost Calculator", path: "/tools/finance/closing-cost-calculator" };
 export const propertyTaxCalculator = { id: "property-tax-calculator", category: "finance", name: "Property Tax Calculator", path: "/tools/finance/property-tax-calculator" };
 export const capitalGainsCalculator = { id: "capital-gains-calculator", category: "finance", name: "Capital Gains Calculator", path: "/tools/finance/capital-gains-calculator" };
+export const estateTaxCalculator = { id: "estate-tax-calculator", category: "finance", name: "Estate Tax Calculator", path: "/tools/finance/estate-tax-calculator" };
