@@ -25,8 +25,9 @@
 - [ ] F-63 break-even-roi-calculator (ROI 回本)
 - [ ] F-64 burn-rate-calculator (燒錢速率/runway)
 
-## 驗收
-- [ ] 15/15 sigils OK
-- [ ] 15/15 audit CLEAN
-- [ ] tsc=0, preflight PASS
-- [ ] commit + push HASH
+## 驗收 ✅ 全部完成
+- [x] 15/15 sigils OK (11/18/1/0)
+- [x] 15/15 audit CLEAN (Step 2.5)
+- [x] tsc=0, preflight 103/103 PASS
+- [x] commit + push HASH = 1c40491
+- Finance: 49 → 64 tools

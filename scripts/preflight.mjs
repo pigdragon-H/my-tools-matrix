@@ -88,6 +88,11 @@ if (!run("② Gate 1 (validate-registry)", "node", ["scripts/validate-registry.m
 }
 
 // ── Step ③: Gate 2 black-hole ───────────────────────────────
+if (!run("Gate 1.5 (tool-trunk drift)", "node", ["scripts/tool-trunk.mjs", "--audit"])) {
+  console.error(`\n${RED}\u{1F534} PREFLIGHT FAIL \u2014 Gate 1.5 tool-trunk conflict (dup id / export const / route key / cross-cat component)${RST}`);
+  process.exit(1);
+}
+
 if (SKIP_BLACKHOLE) {
   console.log(`${YEL}⚠  ③ Gate 2 已用 --skip-blackhole 跳過${RST}\n`);
 } else {

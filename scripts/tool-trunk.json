@@ -1,0 +1,716 @@
+{
+  "generatedAt": "2026-06-04T08:55:06.679Z",
+  "total": 100,
+  "categories": {
+    "developer": [
+      {
+        "id": "base64-encoder",
+        "name": "Base64 編碼器",
+        "path": "/tools/developer/base64-encoder",
+        "component": "Base64Encoder",
+        "exportConst": "base64Encoder"
+      },
+      {
+        "id": "color-converter",
+        "name": "色彩格式轉換器",
+        "path": "/tools/developer/color-converter",
+        "component": "ColorConverter",
+        "exportConst": "colorConverter"
+      },
+      {
+        "id": "color-palette-generator",
+        "name": "Color Palette Generator",
+        "path": "/tools/developer/color-palette-generator",
+        "component": "ColorPaletteGenerator",
+        "exportConst": "colorPaletteGenerator"
+      },
+      {
+        "id": "cron-expression",
+        "name": "Cron Expression Parser",
+        "path": "/tools/developer/cron-expression",
+        "component": "CronExpression",
+        "exportConst": "cronExpression"
+      },
+      {
+        "id": "csv-to-json",
+        "name": "CSV 轉 JSON 工具",
+        "path": "/tools/developer/csv-to-json",
+        "component": "CsvToJson",
+        "exportConst": "csvToJson"
+      },
+      {
+        "id": "diff-checker",
+        "name": "差異比對器",
+        "path": "/tools/developer/diff-checker",
+        "component": "DiffChecker",
+        "exportConst": "diffChecker"
+      },
+      {
+        "id": "hash-generator",
+        "name": "Hash Generator",
+        "path": "/tools/developer/hash-generator",
+        "component": "HashGenerator",
+        "exportConst": "hashGenerator"
+      },
+      {
+        "id": "html-encoder",
+        "name": "HTML Encoder",
+        "path": "/tools/developer/html-encoder",
+        "component": "HtmlEncoder",
+        "exportConst": "htmlEncoder"
+      },
+      {
+        "id": "ip-calculator",
+        "name": "IP / CIDR Calculator",
+        "path": "/tools/developer/ip-calculator",
+        "component": "IpCalculator",
+        "exportConst": "ipCalculator"
+      },
+      {
+        "id": "json-formatter",
+        "name": "JSON 格式化器",
+        "path": "/tools/developer/json-formatter",
+        "component": "JsonFormatter",
+        "exportConst": "jsonFormatter"
+      },
+      {
+        "id": "jwt-decoder",
+        "name": "JWT Decoder",
+        "path": "/tools/developer/jwt-decoder",
+        "component": "JwtDecoder",
+        "exportConst": "jwtDecoder"
+      },
+      {
+        "id": "markdown-preview",
+        "name": "Markdown 預覽器",
+        "path": "/tools/developer/markdown-preview",
+        "component": "MarkdownPreview",
+        "exportConst": "markdownPreview"
+      },
+      {
+        "id": "markdown-to-html",
+        "name": "Markdown to HTML",
+        "path": "/tools/developer/markdown-to-html",
+        "component": "MarkdownToHtml",
+        "exportConst": "markdownToHtml"
+      },
+      {
+        "id": "number-base-converter",
+        "name": "Number Base Converter",
+        "path": "/tools/developer/number-base-converter",
+        "component": "NumberBaseConverter",
+        "exportConst": "numberBaseConverter"
+      },
+      {
+        "id": "password-generator",
+        "name": "Password Generator",
+        "path": "/tools/developer/password-generator",
+        "component": "PasswordGenerator",
+        "exportConst": "passwordGenerator"
+      },
+      {
+        "id": "qr-code-generator",
+        "name": "QR Code Generator",
+        "path": "/tools/developer/qr-code-generator",
+        "component": "QrCodeGenerator",
+        "exportConst": "qrCodeGenerator"
+      },
+      {
+        "id": "regex-tester",
+        "name": "正則表達式測試器",
+        "path": "/tools/developer/regex-tester",
+        "component": "RegexTester",
+        "exportConst": "regexTester"
+      },
+      {
+        "id": "timestamp-converter",
+        "name": "時間戳轉換器",
+        "path": "/tools/developer/timestamp-converter",
+        "component": "TimestampConverter",
+        "exportConst": "timestampConverter"
+      },
+      {
+        "id": "url-encoder",
+        "name": "URL 編碼器",
+        "path": "/tools/developer/url-encoder",
+        "component": "UrlEncoder",
+        "exportConst": "urlEncoder"
+      }
+    ],
+    "education": [
+      {
+        "id": "gpa-calculator",
+        "name": "GPA Calculator",
+        "path": "/tools/education/gpa-calculator",
+        "component": "GpaCalculator",
+        "exportConst": "gpaCalculator"
+      },
+      {
+        "id": "grade-calculator",
+        "name": "Grade Calculator",
+        "path": "/tools/education/grade-calculator",
+        "component": "GradeCalculator",
+        "exportConst": "gradeCalculator"
+      },
+      {
+        "id": "math-percentage-calculator",
+        "name": "Math Percentage Calculator",
+        "path": "/tools/education/math-percentage-calculator",
+        "component": "MathPercentageCalculator",
+        "exportConst": "mathPercentageCalculator"
+      },
+      {
+        "id": "study-time-calculator",
+        "name": "Study Time Calculator",
+        "path": "/tools/education/study-time-calculator",
+        "component": "StudyTimeCalculator",
+        "exportConst": "studyTimeCalculator"
+      }
+    ],
+    "finance": [
+      {
+        "id": "amortization-schedule-calculator",
+        "name": "攤還排程計算機",
+        "path": "/tools/finance/amortization-schedule-calculator",
+        "component": "AmortizationScheduleCalculator",
+        "exportConst": "amortizationScheduleCalculator"
+      },
+      {
+        "id": "annuity-calculator",
+        "name": "年金計算機",
+        "path": "/tools/finance/annuity-calculator",
+        "component": "AnnuityCalculator",
+        "exportConst": "annuityCalculator"
+      },
+      {
+        "id": "auto-loan-calculator",
+        "name": "汽車貸款計算機",
+        "path": "/tools/finance/auto-loan-calculator",
+        "component": "AutoLoanCalculator",
+        "exportConst": "autoLoanCalculator"
+      },
+      {
+        "id": "bond-yield-calculator",
+        "name": "債券殖利率計算機",
+        "path": "/tools/finance/bond-yield-calculator",
+        "component": "BondYieldCalculator",
+        "exportConst": "bondYieldCalculator"
+      },
+      {
+        "id": "break-even-calculator",
+        "name": "損益兩平計算機",
+        "path": "/tools/finance/break-even-calculator",
+        "component": "BreakEvenCalculator",
+        "exportConst": "breakEvenCalculator"
+      },
+      {
+        "id": "budget-ratio-calculator",
+        "name": "預算比例計算機",
+        "path": "/tools/finance/budget-ratio-calculator",
+        "component": "BudgetRatioCalculator",
+        "exportConst": "budgetRatioCalculator"
+      },
+      {
+        "id": "burn-rate-calculator",
+        "name": "燒錢速率計算機",
+        "path": "/tools/finance/burn-rate-calculator",
+        "component": "BurnRateCalculator",
+        "exportConst": "burnRateCalculator"
+      },
+      {
+        "id": "cagr-calculator",
+        "name": "CAGR 年化報酬率試算",
+        "path": "/tools/finance/cagr-calculator",
+        "component": "CagrCalculator",
+        "exportConst": "cagrCalculator"
+      },
+      {
+        "id": "cap-rate-calculator",
+        "name": "資本化率計算機",
+        "path": "/tools/finance/cap-rate-calculator",
+        "component": "CapRateCalculator",
+        "exportConst": "capRateCalculator"
+      },
+      {
+        "id": "capital-gains-tax-calculator",
+        "name": "資本利得稅計算機",
+        "path": "/tools/finance/capital-gains-tax-calculator",
+        "component": "CapitalGainsTaxCalculator",
+        "exportConst": "capitalGainsTaxCalculator"
+      },
+      {
+        "id": "cash-flow-calculator",
+        "name": "現金流計算機",
+        "path": "/tools/finance/cash-flow-calculator",
+        "component": "CashFlowCalculator",
+        "exportConst": "cashFlowCalculator"
+      },
+      {
+        "id": "cd-calculator",
+        "name": "定存單計算機",
+        "path": "/tools/finance/cd-calculator",
+        "component": "CdCalculator",
+        "exportConst": "cdCalculator"
+      },
+      {
+        "id": "compound-interest-calculator",
+        "name": "複利計算機",
+        "path": "/tools/finance/compound-interest-calculator",
+        "component": "CompoundInterestCalculator",
+        "exportConst": "compoundInterestCalculator"
+      },
+      {
+        "id": "credit-card-payoff-calculator",
+        "name": "信用卡還清試算機",
+        "path": "/tools/finance/credit-card-payoff-calculator",
+        "component": "CreditCardPayoffCalculator",
+        "exportConst": "creditCardPayoffCalculator"
+      },
+      {
+        "id": "currency-converter",
+        "name": "匯率換算計算機",
+        "path": "/tools/finance/currency-converter",
+        "component": "CurrencyConverter",
+        "exportConst": "currencyConverter"
+      },
+      {
+        "id": "debt-payoff-calculator",
+        "name": "債務清償計算機",
+        "path": "/tools/finance/debt-payoff-calculator",
+        "component": "DebtPayoffCalculator",
+        "exportConst": "debtPayoffCalculator"
+      },
+      {
+        "id": "debt-snowball-calculator",
+        "name": "債務雪球計算機",
+        "path": "/tools/finance/debt-snowball-calculator",
+        "component": "DebtSnowballCalculator",
+        "exportConst": "debtSnowballCalculator"
+      },
+      {
+        "id": "debt-to-income-calculator",
+        "name": "負債收入比試算機",
+        "path": "/tools/finance/debt-to-income-calculator",
+        "component": "DebtToIncomeCalculator",
+        "exportConst": "debtToIncomeCalculator"
+      },
+      {
+        "id": "discount-calculator",
+        "name": "折扣計算機",
+        "path": "/tools/finance/discount-calculator",
+        "component": "DiscountCalculator",
+        "exportConst": "discountCalculator"
+      },
+      {
+        "id": "dividend-yield-calculator",
+        "name": "股息殖利率計算機",
+        "path": "/tools/finance/dividend-yield-calculator",
+        "component": "DividendYieldCalculator",
+        "exportConst": "dividendYieldCalculator"
+      },
+      {
+        "id": "down-payment-calculator",
+        "name": "頭期款計算機",
+        "path": "/tools/finance/down-payment-calculator",
+        "component": "DownPaymentCalculator",
+        "exportConst": "downPaymentCalculator"
+      },
+      {
+        "id": "ebitda-calculator",
+        "name": "EBITDA 計算機",
+        "path": "/tools/finance/ebitda-calculator",
+        "component": "EbitdaCalculator",
+        "exportConst": "ebitdaCalculator"
+      },
+      {
+        "id": "effective-annual-rate-calculator",
+        "name": "有效年利率計算機",
+        "path": "/tools/finance/effective-annual-rate-calculator",
+        "component": "EffectiveAnnualRateCalculator",
+        "exportConst": "effectiveAnnualRateCalculator"
+      },
+      {
+        "id": "emergency-fund-calculator",
+        "name": "緊急備用金計算機",
+        "path": "/tools/finance/emergency-fund-calculator",
+        "component": "EmergencyFundCalculator",
+        "exportConst": "emergencyFundCalculator"
+      },
+      {
+        "id": "financial-ratio-calculator",
+        "name": "財務比率計算機",
+        "path": "/tools/finance/financial-ratio-calculator",
+        "component": "FinancialRatioCalculator",
+        "exportConst": "financialRatioCalculator"
+      },
+      {
+        "id": "future-value-calculator",
+        "name": "終值計算機",
+        "path": "/tools/finance/future-value-calculator",
+        "component": "FutureValueCalculator",
+        "exportConst": "futureValueCalculator"
+      },
+      {
+        "id": "gross-margin-calculator",
+        "name": "毛利計算機",
+        "path": "/tools/finance/gross-margin-calculator",
+        "component": "GrossMarginCalculator",
+        "exportConst": "grossMarginCalculator"
+      },
+      {
+        "id": "home-affordability-calculator",
+        "name": "購屋負擔能力計算機",
+        "path": "/tools/finance/home-affordability-calculator",
+        "component": "HomeAffordabilityCalculator",
+        "exportConst": "homeAffordabilityCalculator"
+      },
+      {
+        "id": "hourly-rate-calculator",
+        "name": "時薪計算機",
+        "path": "/tools/finance/hourly-rate-calculator",
+        "component": "HourlyRateCalculator",
+        "exportConst": "hourlyRateCalculator"
+      },
+      {
+        "id": "inflation-adjuster",
+        "name": "通膨調整計算機",
+        "path": "/tools/finance/inflation-adjuster",
+        "component": "InflationAdjuster",
+        "exportConst": "inflationAdjuster"
+      },
+      {
+        "id": "insurance-premium-calculator",
+        "name": "保費試算計算機",
+        "path": "/tools/finance/insurance-premium-calculator",
+        "component": "InsurancePremiumCalculator",
+        "exportConst": "insurancePremiumCalculator"
+      },
+      {
+        "id": "investment-return-calculator",
+        "name": "投資報酬率計算機",
+        "path": "/tools/finance/investment-return-calculator",
+        "component": "InvestmentReturnCalculator",
+        "exportConst": "investmentReturnCalculator"
+      },
+      {
+        "id": "lease-vs-buy-calculator",
+        "name": "租賃 vs 購買計算機",
+        "path": "/tools/finance/lease-vs-buy-calculator",
+        "component": "LeaseVsBuyCalculator",
+        "exportConst": "leaseVsBuyCalculator"
+      },
+      {
+        "id": "loan-calculator",
+        "name": "貸款試算機",
+        "path": "/tools/finance/loan-calculator",
+        "component": "LoanCalculator",
+        "exportConst": "loanCalculator"
+      },
+      {
+        "id": "markup-calculator",
+        "name": "加成計算機",
+        "path": "/tools/finance/markup-calculator",
+        "component": "MarkupCalculator",
+        "exportConst": "markupCalculator"
+      },
+      {
+        "id": "meeting-cost-calculator",
+        "name": "會議成本計算機",
+        "path": "/tools/finance/meeting-cost-calculator",
+        "component": "MeetingCostCalculator",
+        "exportConst": "meetingCostCalculator"
+      },
+      {
+        "id": "mortgage-calculator",
+        "name": "房貸試算機",
+        "path": "/tools/finance/mortgage-calculator",
+        "component": "MortgageCalculator",
+        "exportConst": "mortgageCalculator"
+      },
+      {
+        "id": "net-present-value-calculator",
+        "name": "淨現值計算機",
+        "path": "/tools/finance/net-present-value-calculator",
+        "component": "NetPresentValueCalculator",
+        "exportConst": "netPresentValueCalculator"
+      },
+      {
+        "id": "net-worth-calculator",
+        "name": "淨資產計算機",
+        "path": "/tools/finance/net-worth-calculator",
+        "component": "NetWorthCalculator",
+        "exportConst": "netWorthCalculator"
+      },
+      {
+        "id": "options-profit-calculator",
+        "name": "選擇權損益計算機",
+        "path": "/tools/finance/options-profit-calculator",
+        "component": "OptionsProfitCalculator",
+        "exportConst": "optionsProfitCalculator"
+      },
+      {
+        "id": "payback-period-calculator",
+        "name": "回收期計算機",
+        "path": "/tools/finance/payback-period-calculator",
+        "component": "PaybackPeriodCalculator",
+        "exportConst": "paybackPeriodCalculator"
+      },
+      {
+        "id": "pension-calculator",
+        "name": "退休金試算計算機",
+        "path": "/tools/finance/pension-calculator",
+        "component": "PensionCalculator",
+        "exportConst": "pensionCalculator"
+      },
+      {
+        "id": "pomodoro-calculator",
+        "name": "番茄鐘計算機",
+        "path": "/tools/finance/pomodoro-calculator",
+        "component": "PomodoroCalculator",
+        "exportConst": "pomodoroCalculator"
+      },
+      {
+        "id": "present-value-calculator",
+        "name": "現值計算機",
+        "path": "/tools/finance/present-value-calculator",
+        "component": "PresentValueCalculator",
+        "exportConst": "presentValueCalculator"
+      },
+      {
+        "id": "profit-margin-calculator",
+        "name": "利潤率計算機",
+        "path": "/tools/finance/profit-margin-calculator",
+        "component": "ProfitMarginCalculator",
+        "exportConst": "profitMarginCalculator"
+      },
+      {
+        "id": "quick-ratio-calculator",
+        "name": "速動比率計算機",
+        "path": "/tools/finance/quick-ratio-calculator",
+        "component": "QuickRatioCalculator",
+        "exportConst": "quickRatioCalculator"
+      },
+      {
+        "id": "refinance-calculator",
+        "name": "再融資計算機",
+        "path": "/tools/finance/refinance-calculator",
+        "component": "RefinanceCalculator",
+        "exportConst": "refinanceCalculator"
+      },
+      {
+        "id": "rental-yield-calculator",
+        "name": "租金報酬率計算機",
+        "path": "/tools/finance/rental-yield-calculator",
+        "component": "RentalYieldCalculator",
+        "exportConst": "rentalYieldCalculator"
+      },
+      {
+        "id": "retirement-401k-calculator",
+        "name": "401k 退休帳戶計算機",
+        "path": "/tools/finance/retirement-401k-calculator",
+        "component": "Retirement401kCalculator",
+        "exportConst": "retirement401kCalculator"
+      },
+      {
+        "id": "retirement-calculator",
+        "name": "退休金試算機",
+        "path": "/tools/finance/retirement-calculator",
+        "component": "RetirementCalculator",
+        "exportConst": "retirementCalculator"
+      },
+      {
+        "id": "roas-calculator",
+        "name": "廣告投報率計算機",
+        "path": "/tools/finance/roas-calculator",
+        "component": "RoasCalculator",
+        "exportConst": "roasCalculator"
+      },
+      {
+        "id": "roi-payback-calculator",
+        "name": "ROI 回本計算機",
+        "path": "/tools/finance/roi-payback-calculator",
+        "component": "RoiPaybackCalculator",
+        "exportConst": "roiPaybackCalculator"
+      },
+      {
+        "id": "roth-ira-calculator",
+        "name": "Roth IRA 計算機",
+        "path": "/tools/finance/roth-ira-calculator",
+        "component": "RothIraCalculator",
+        "exportConst": "rothIraCalculator"
+      },
+      {
+        "id": "salary-after-tax-calculator",
+        "name": "稅後薪資計算機",
+        "path": "/tools/finance/salary-after-tax-calculator",
+        "component": "SalaryAfterTaxCalculator",
+        "exportConst": "salaryAfterTaxCalculator"
+      },
+      {
+        "id": "sales-tax-calculator",
+        "name": "銷售稅計算機",
+        "path": "/tools/finance/sales-tax-calculator",
+        "component": "SalesTaxCalculator",
+        "exportConst": "salesTaxCalculator"
+      },
+      {
+        "id": "savings-goal-calculator",
+        "name": "存錢目標反推試算",
+        "path": "/tools/finance/savings-goal-calculator",
+        "component": "SavingsGoalCalculator",
+        "exportConst": "savingsGoalCalculator"
+      },
+      {
+        "id": "simple-interest-calculator",
+        "name": "簡單利息計算機",
+        "path": "/tools/finance/simple-interest-calculator",
+        "component": "SimpleInterestCalculator",
+        "exportConst": "simpleInterestCalculator"
+      },
+      {
+        "id": "sip-calculator",
+        "name": "定期定額計算機",
+        "path": "/tools/finance/sip-calculator",
+        "component": "SipCalculator",
+        "exportConst": "sipCalculator"
+      },
+      {
+        "id": "stock-profit-calculator",
+        "name": "股票損益計算機",
+        "path": "/tools/finance/stock-profit-calculator",
+        "component": "StockProfitCalculator",
+        "exportConst": "stockProfitCalculator"
+      },
+      {
+        "id": "student-loan-calculator",
+        "name": "學生貸款計算機",
+        "path": "/tools/finance/student-loan-calculator",
+        "component": "StudentLoanCalculator",
+        "exportConst": "studentLoanCalculator"
+      },
+      {
+        "id": "tax-bracket-calculator",
+        "name": "稅率級距計算機",
+        "path": "/tools/finance/tax-bracket-calculator",
+        "component": "TaxBracketCalculator",
+        "exportConst": "taxBracketCalculator"
+      },
+      {
+        "id": "tip-calculator",
+        "name": "小費計算機",
+        "path": "/tools/finance/tip-calculator",
+        "component": "TipCalculator",
+        "exportConst": "tipCalculator"
+      },
+      {
+        "id": "vat-calculator",
+        "name": "加值稅 VAT 計算機",
+        "path": "/tools/finance/vat-calculator",
+        "component": "VatCalculator",
+        "exportConst": "vatCalculator"
+      },
+      {
+        "id": "working-capital-calculator",
+        "name": "營運資金計算機",
+        "path": "/tools/finance/working-capital-calculator",
+        "component": "WorkingCapitalCalculator",
+        "exportConst": "workingCapitalCalculator"
+      }
+    ],
+    "health": [
+      {
+        "id": "bmi-calculator",
+        "name": "BMI 計算機",
+        "path": "/tools/health/bmi-calculator",
+        "component": "BmiCalculator",
+        "exportConst": "bmiCalculator"
+      },
+      {
+        "id": "bmr-calculator",
+        "name": "BMR 計算機",
+        "path": "/tools/health/bmr-calculator",
+        "component": "BmrCalculator",
+        "exportConst": "bmrCalculator"
+      },
+      {
+        "id": "body-fat-calculator",
+        "name": "體脂率計算機",
+        "path": "/tools/health/body-fat-calculator",
+        "component": "BodyFatCalculator",
+        "exportConst": "bodyFatCalculator"
+      },
+      {
+        "id": "calorie-deficit-calculator",
+        "name": "熱量赤字計算機",
+        "path": "/tools/health/calorie-deficit-calculator",
+        "component": "CalorieDeficitCalculator",
+        "exportConst": "calorieDeficitCalculator"
+      },
+      {
+        "id": "ideal-weight-calculator",
+        "name": "理想體重計算機",
+        "path": "/tools/health/ideal-weight-calculator",
+        "component": "IdealWeightCalculator",
+        "exportConst": "idealWeightCalculator"
+      },
+      {
+        "id": "macro-calculator",
+        "name": "巨量營養素計算機",
+        "path": "/tools/health/macro-calculator",
+        "component": "MacroCalculator",
+        "exportConst": "macroCalculator"
+      },
+      {
+        "id": "tdee-calculator",
+        "name": "TDEE 每日總消耗熱量",
+        "path": "/tools/health/tdee-calculator",
+        "component": "TdeeCalculator",
+        "exportConst": "tdeeCalculator"
+      },
+      {
+        "id": "water-intake-calculator",
+        "name": "飲水量計算機",
+        "path": "/tools/health/water-intake-calculator",
+        "component": "WaterIntakeCalculator",
+        "exportConst": "waterIntakeCalculator"
+      }
+    ],
+    "productivity": [
+      {
+        "id": "age-calculator",
+        "name": "年齡計算機",
+        "path": "/tools/productivity/age-calculator",
+        "component": "AgeCalculator",
+        "exportConst": "ageCalculator"
+      },
+      {
+        "id": "date-duration-calculator",
+        "name": "日期天數計算機",
+        "path": "/tools/productivity/date-duration-calculator",
+        "component": "DateDurationCalculator",
+        "exportConst": "dateDurationCalculator"
+      },
+      {
+        "id": "pomodoro-planner",
+        "name": "番茄鐘日程規劃器",
+        "path": "/tools/productivity/pomodoro-planner",
+        "component": "PomodoroPlanner",
+        "exportConst": "pomodoroPlanner"
+      },
+      {
+        "id": "time-zone-converter",
+        "name": "時區轉換器",
+        "path": "/tools/productivity/time-zone-converter",
+        "component": "TimeZoneConverter",
+        "exportConst": "timeZoneConverter"
+      },
+      {
+        "id": "word-counter",
+        "name": "字數統計工具",
+        "path": "/tools/productivity/word-counter",
+        "component": "WordCounter",
+        "exportConst": "wordCounter"
+      }
+    ]
+  }
+}
