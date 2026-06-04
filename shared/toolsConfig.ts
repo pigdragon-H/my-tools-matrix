@@ -958,6 +958,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "rental-yield-calculator",
+    name: "租金報酬率計算機",
+    category: "finance",
+    path: "/tools/finance/rental-yield-calculator",
+    icon: "Calculator",
+    description: "輸入房屋總價、月租金與年費用，立即算出毛淨租金報酬率與現金流",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1052,3 +1067,4 @@ export const investmentReturnCalculator = { id: "investment-return-calculator", 
 export const breakEvenCalculator = { id: "break-even-calculator", category: "finance", name: "Break-Even Calculator", path: "/tools/finance/break-even-calculator" };
 export const currencyConverter = { id: "currency-converter", category: "finance", name: "Currency Converter", path: "/tools/finance/currency-converter" };
 export const stockProfitCalculator = { id: "stock-profit-calculator", category: "finance", name: "Stock Profit Calculator", path: "/tools/finance/stock-profit-calculator" };
+export const rentalYieldCalculator = { id: "rental-yield-calculator", category: "finance", name: "Rental Yield Calculator", path: "/tools/finance/rental-yield-calculator" };

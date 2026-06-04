@@ -1,0 +1,73 @@
+{
+  "id": "rental-yield-calculator",
+  "nameZh": "租金報酬率計算機",
+  "nameEn": "Rental Yield Calculator",
+  "color": "teal",
+  "inputs": ["房屋總價", "月租金", "年管理費用", "年空置月數"],
+  "inputsEn": ["Property Price", "Monthly Rent", "Annual Expenses", "Vacancy Months"],
+  "defaults": ["10000000", "30000", "60000", "1"],
+  "steps": ["100000", "1000", "1000", "0.5"],
+  "accentIdx": 1,
+
+  "compute": "依房屋總價、月租金、年費用、空置月數計算總租金報酬率、淨租金報酬率、現金流與本益比",
+  "computeFn": "    const price = Number(propertyPrice) || 1;\n    const rent = Number(monthlyRent) || 0;\n    const exp = Number(annualExpenses) || 0;\n    const vac = Number(vacancyMonths) || 0;\n    const grossAnnualRent = rent * 12;\n    const netAnnualRent = rent * (12 - vac) - exp;\n    const grossYield = (grossAnnualRent / price) * 100;\n    const netYield = (netAnnualRent / price) * 100;\n    const monthlyCashflow = netAnnualRent / 12;\n    const peRatio = netAnnualRent > 0 ? price / netAnnualRent : 0;\n    return { netYield, grossYield, monthlyCashflow, peRatio };",
+
+  "primaryKey": "netYield",        "primaryDecimals": 2, "primaryUnit": "%",
+  "secondaryKey": "grossYield",    "secondaryDecimals": 2, "secondaryUnit": "%",
+  "tertiaryKey": "monthlyCashflow","tertiaryDecimals": 0, "tertiaryUnit": "$",
+  "quaternaryKey": "peRatio",      "quaternaryDecimals": 1, "quaternaryUnit": "倍",
+
+  "primaryLabelZh": "淨租金報酬率", "primaryLabelEn": "Net Rental Yield",
+  "secondaryLabelZh": "毛租金報酬率", "secondaryLabelEn": "Gross Rental Yield",
+  "tertiaryLabelZh": "月現金流", "tertiaryLabelEn": "Monthly Cashflow",
+  "quaternaryLabelZh": "回本年數", "quaternaryLabelEn": "Payback Years",
+
+  "bands": ["極低", "偏低", "一般", "良好", "高", "極高"],
+  "bandThresholds": [1.5, 2.5, 4, 6, 8],
+  "bandHints": [
+    "淨報酬率 < 1.5%,屬大都會核心區常見水準,主要靠房價增值,租金幾乎只夠覆蓋持有成本。",
+    "1.5-2.5%,精華地段一般水準,屬保值型投資,需要房價上漲才有意義。",
+    "2.5-4%,屬合理區間,房價與租金平衡;台北市以外不少標的落在此區。",
+    "4-6%,良好的純收租型物件,扣除空置與維修後仍有正現金流。",
+    "6-8%,屬高報酬區,可能是郊區或老屋,需注意維修成本與管理難度。",
+    "> 8% 屬極高報酬,通常伴隨高風險(地段差、產權瑕疵、維修黑洞),需仔細盡調。"
+  ],
+
+  "faqTitles": [
+    "毛租金報酬率和淨租金報酬率差在哪?",
+    "多少報酬率才算合理?",
+    "為什麼台北市租金報酬率這麼低?",
+    "貸款利息要算在費用裡嗎?",
+    "結果會上傳到伺服器嗎?",
+    "這個報酬率有考慮房價增值嗎?"
+  ],
+  "faqAnswers": [
+    "**毛租金報酬率** = 年租金總額 / 房價 × 100%,完全不扣費用,易高估。**淨租金報酬率** = (年租金 − 管理費 − 修繕 − 房屋稅 − 地價稅 − 火險 − 空置損失) / 房價 × 100%,是真正落袋的報酬。長期投資應以淨報酬率為決策依據,毛報酬率僅供初步篩選。",
+    "視市場與目的而定:**保值型(精華地段)** 1.5-2.5%、**收租型(一般地段)** 3-5%、**老屋翻新或商辦** 5-7%、**Cap rate(美國商業地產)** 6-10%。低於 1.5% 等於完全靠房價增值賭博;超過 8% 通常隱含風險。建議與當地 5 年期定存利率 + 2-3% 風險溢酬比較。",
+    "因為房價漲幅長期高於租金漲幅,造成**租金跟不上房價**。台北精華地段毛報酬率常見 1.5-2%,扣費用後淨報酬可能低於通膨,實質負報酬。買台北房子主要是賭增值與保值,不是賭收租。若你預期台北房價未來十年漲幅低於 30%,純收租型物件報酬率可能不如指數 ETF。",
+    "**不算**。本工具的「年管理費用」應只包含「持有成本」(房屋稅、地價稅、修繕、保險、社區管理費、仲介出租手續費),不含貸款利息。原因:利息屬「資金成本」,不同人有不同貸款條件,放在報酬率裡會讓比較失真。要做完整投資報酬率(含槓桿)請用「ROI 計算機」或自行計算。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,房價、租金、費用等敏感不動產資料不會傳送到任何伺服器,也不會記錄到日誌或資料庫。",
+    "**沒有**。本工具只計算「租金現金流報酬率」(rental yield),不含房價增值(capital appreciation)。完整的不動產投資報酬率(Total Return) = 租金報酬率 + 房價年化漲幅。建議搭配當地過去 10-20 年房價漲幅資料一起評估。"
+  ],
+
+  "affiliates": [
+    { "label_zh": "房貸計算機", "label_en": "Mortgage Calculator", "href": "/tools/finance/mortgage-calculator" },
+    { "label_zh": "投資報酬率計算機", "label_en": "Investment Return Calculator", "href": "/tools/finance/investment-return-calculator" },
+    { "label_zh": "現金流計算機", "label_en": "Cash Flow Calculator", "href": "/tools/finance/cash-flow-calculator" },
+    { "label_zh": "通膨調整計算機", "label_en": "Inflation Adjuster", "href": "/tools/finance/inflation-adjuster" }
+  ],
+
+  "exampleSolid": ["10000000", "30000", "60000", "1"],
+  "exampleHigh": ["3500000", "18000", "30000", "0.5"],
+  "solidLabelZh": "$1000 萬 · 月租 $30k · 年費 $60k",
+  "solidLabelEn": "NT$10M · $30k/mo rent · $60k/yr exp",
+  "highLabelZh": "$350 萬 · 月租 $18k · 年費 $30k",
+  "highLabelEn": "NT$3.5M · $18k/mo · $30k/yr",
+
+  "subtitleZh": "輸入房屋總價、月租金與年費用，立即算出毛淨租金報酬率與現金流",
+  "subtitleEn": "Enter property price, monthly rent, and annual expenses to compute gross & net rental yield and cashflow",
+  "definitionZh": "租金報酬率(Rental Yield)是不動產投資的基本指標,表示「每年租金扣除費用後佔房價的百分比」,用於比較不同物件的純收益效率與市場合理性。",
+  "formulaZh": "Net Yield = (年租金 − 年費用 − 空置損失) / 房屋總價 × 100%",
+  "limitationsZh": "本工具未含貸款利息(屬資金成本)、房價增值、稅務、租客風險與重大維修;僅供現金流估算,實務決策請搭配完整 DCF 與市場比較。",
+  "interpretationZh": "淨報酬率與當地 5 年定存 + 風險溢酬比較,才能判斷是否合理 —— 同樣 3% 在低利率時期是好標的,在高利率時期可能反不如國債。"
+}
