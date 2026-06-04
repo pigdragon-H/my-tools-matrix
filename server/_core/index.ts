@@ -1,3 +1,4 @@
+import "./ws-polyfill"; // MUST be first: polyfills globalThis.WebSocket for Node 20 before supabase init
 import "dotenv/config";
 import express from "express";
 import path from "node:path";
