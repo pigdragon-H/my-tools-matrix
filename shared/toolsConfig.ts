@@ -1978,6 +1978,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "saas-metrics-calculator",
+    name: "SaaS 指標計算機",
+    category: "finance",
+    path: "/tools/finance/saas-metrics-calculator",
+    icon: "Calculator",
+    description: "由客戶數、月收入與成長率計算 MRR、ARR 與淨成長率。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2140,3 +2155,4 @@ export const portfolioRebalanceCalculator = { id: "portfolio-rebalance-calculato
 export const dollarCostAveraging = { id: "dollar-cost-averaging", category: "finance", name: "Dollar-Cost Averaging Calculator", path: "/tools/finance/dollar-cost-averaging" };
 export const ruleOf72Calculator = { id: "rule-of-72-calculator", category: "finance", name: "Rule of 72 Calculator", path: "/tools/finance/rule-of-72-calculator" };
 export const ltvCacRatioCalculator = { id: "ltv-cac-ratio-calculator", category: "finance", name: "LTV/CAC Ratio Calculator", path: "/tools/finance/ltv-cac-ratio-calculator" };
+export const saasMetricsCalculator = { id: "saas-metrics-calculator", category: "finance", name: "SaaS Metrics Calculator", path: "/tools/finance/saas-metrics-calculator" };
