@@ -803,6 +803,22 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "color-palette-generator",
+    name: "Color Palette Generator",
+    nameZh: "色彩調色板生成器",
+    category: "developer",
+    path: "/tools/developer/color-palette-generator",
+    icon: "Palette",
+    description: "Browser-side color palette generator deriving complementary, analogous, triadic, tetradic, and monochromatic schemes from a single hex/HSL seed, grounded in HSL color theory and WCAG 2.2 contrast ratio (AA / AAA). A six-band luminance matrix categorises palette brightness from near-black to near-white. Inputs never leave the browser.",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -887,3 +903,4 @@ export const studyTimeCalculator = { id: "study-time-calculator", category: "edu
 export const mathPercentageCalculator = { id: "math-percentage-calculator", category: "education", name: "Math Percentage Calculator", path: "/tools/education/math-percentage-calculator" };
 export const cronExpression = { id: "cron-expression", category: "developer", name: "Cron Expression Parser", path: "/tools/developer/cron-expression" };
 export const ipCalculator = { id: "ip-calculator", category: "developer", name: "IP / CIDR Calculator", path: "/tools/developer/ip-calculator" };
+export const colorPaletteGenerator = { id: "color-palette-generator", category: "developer", name: "Color Palette Generator", path: "/tools/developer/color-palette-generator" };

@@ -64,6 +64,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "education/math-percentage-calculator": lazy(() => import("@/tools/education/MathPercentageCalculator")),
   "developer/cron-expression": lazy(() => import("@/tools/developer/CronExpression")),
   "developer/ip-calculator": lazy(() => import("@/tools/developer/IpCalculator")),
+  "developer/color-palette-generator": lazy(() => import("@/tools/developer/ColorPaletteGenerator")),
 };
 
 function ToolSkeleton() {
