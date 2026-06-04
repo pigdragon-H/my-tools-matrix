@@ -1,0 +1,74 @@
+{
+  "id": "net-present-value-calculator",
+  "nameZh": "淨現值計算機",
+  "nameEn": "Net Present Value Calculator",
+  "color": "cyan",
+  "inputs": ["初始投資", "年現金流", "投資年限", "折現率%"],
+  "inputsEn": ["Initial Investment", "Annual Cashflow", "Investment Years", "Discount Rate Pct"],
+  "defaults": ["100000", "25000", "5", "8"],
+  "steps": ["1000", "1000", "1", "0.5"],
+  "accentIdx": 3,
+
+  "compute": "依初始投資、年現金流、年限、折現率計算 NPV、IRR 近似、累計回收年數與獲利倍數",
+  "computeFn": "    const init = Number(initialInvestment) || 0;\n    const cf = Number(annualCashflow) || 0;\n    const n = Number(investmentYears) || 0;\n    const r = (Number(discountRatePct) || 0) / 100;\n    let npv = -init;\n    for (let t = 1; t <= n; t++) npv += cf / Math.pow(1 + r, t);\n    const totalUndiscounted = cf * n;\n    const profitMultiple = init > 0 ? totalUndiscounted / init : 0;\n    const paybackYears = cf > 0 ? init / cf : 0;\n    const irrApprox = init > 0 ? (Math.pow(totalUndiscounted / init, 1 / n) - 1) * 100 : 0;\n    return { npv, irrApprox, paybackYears, profitMultiple };",
+
+  "primaryKey": "npv",         "primaryDecimals": 0, "primaryUnit": "$",
+  "secondaryKey": "irrApprox", "secondaryDecimals": 2, "secondaryUnit": "%",
+  "tertiaryKey": "paybackYears","tertiaryDecimals": 1, "tertiaryUnit": "年",
+  "quaternaryKey": "profitMultiple","quaternaryDecimals": 2, "quaternaryUnit": "倍",
+
+  "primaryLabelZh": "淨現值 (NPV)", "primaryLabelEn": "Net Present Value",
+  "secondaryLabelZh": "IRR 近似", "secondaryLabelEn": "Approx IRR",
+  "tertiaryLabelZh": "回收年數", "tertiaryLabelEn": "Payback Period",
+  "quaternaryLabelZh": "未折現獲利倍數", "quaternaryLabelEn": "Profit Multiple",
+
+  "bands": ["明顯虧損", "略虧", "持平", "可投資", "明顯獲利", "極佳"],
+  "bandThresholds": [-50000, -1000, 1000, 50000, 200000],
+  "bandThresholdNote": "primary = NPV (USD)",
+  "bandHints": [
+    "NPV < -$50k,計畫明顯虧損,折現後現金流不足以覆蓋投資,應放棄。",
+    "-$50k 至 -$1k,輕微虧損,可考慮提高效率或降低成本後重新評估。",
+    "-$1k 至 +$1k,接近平手,需檢視非財務因素(策略、品牌、人才)決定。",
+    "$1k 至 $50k,可投資區,代表計畫能創造正向折現價值,應通過評估。",
+    "$50k 至 $200k,明顯獲利,屬高優先投資,應加快執行。",
+    "> $200k,極佳投資機會,但需檢查現金流預測是否過於樂觀(Sanity Check)。"
+  ],
+
+  "faqTitles": [
+    "NPV、IRR、Payback 三個指標有什麼差?",
+    "折現率該用多少?",
+    "為什麼 NPV > 0 就應該投資?",
+    "本工具的 IRR 是怎麼算的?",
+    "資料會上傳到伺服器嗎?",
+    "可以拿來評估房產投資嗎?"
+  ],
+  "faqAnswers": [
+    "**NPV(淨現值)**: 把所有未來現金流折現到今天的總值,衡量「絕對獲利金額」,> 0 應投資。**IRR(內部報酬率)**: 使 NPV = 0 的折現率,衡量「年化報酬率%」,> 折現率應投資。**Payback(回收期)**: 多少年回本,衡量「速度」,但忽略折現與後期現金流。實務上**三者並用**: NPV 看絕對獲利、IRR 看效率、Payback 看流動性風險。",
+    "**個人投資**: 以「機會成本」為準,通常用 S&P 500 長期年化(7-10%)或 5 年期定存(2-3%)。**企業專案**: 用 WACC(加權平均資金成本),通常 8-12%。**高風險新創**: 15-25%。**保守保本**: 4-6%。折現率越高,未來現金流被打折越重,NPV 越低,項目越難通過。",
+    "因為 NPV > 0 代表「該投資能產生超過你機會成本(折現率)的價值」。例如折現率 8%,NPV = $10k 表示這個計畫除了賺到 8% 報酬外,還額外創造 $10k 現值的價值。NPV = 0 表示剛好等同 8% 報酬,沒額外加值;NPV < 0 表示連 8% 都達不到,你應該把錢拿去買 ETF 而非做這個計畫。",
+    "本工具用「幾何平均近似法」: IRR ≈ (總現金流 / 初始投資)^(1/年數) − 1。**真正的 IRR** 需用 Newton-Raphson 迭代求 NPV = 0 的折現率,精確值請用 Excel `=IRR(values)` 或財務計算機。本近似公式對「均勻現金流」誤差約 ±1-2%,對不均勻現金流誤差較大。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,投資金額、現金流、折現率等資料不會傳送到任何伺服器,也不會記錄到日誌或資料庫。",
+    "**可以**,但需把租金當「年現金流」、頭期款當「初始投資」、保留處置價值另計。**進階做法**: 用「房貸計算機 + 租金報酬率計算機」算出年淨現金流,輸入本工具的「年現金流」;5-10 年後預期售價(扣稅後淨值)需另外加在最後一年。NPV > 0 表示房產投資優於折現率,但要把房價假設保守設(Stress Test)。"
+  ],
+
+  "affiliates": [
+    { "label_zh": "投資報酬率計算機", "label_en": "Investment Return Calculator", "href": "/tools/finance/investment-return-calculator" },
+    { "label_zh": "回收期計算機", "label_en": "Payback Period Calculator", "href": "/tools/finance/payback-period-calculator" },
+    { "label_zh": "現金流計算機", "label_en": "Cash Flow Calculator", "href": "/tools/finance/cash-flow-calculator" },
+    { "label_zh": "通膨調整計算機", "label_en": "Inflation Adjuster", "href": "/tools/finance/inflation-adjuster" }
+  ],
+
+  "exampleSolid": ["100000", "25000", "5", "8"],
+  "exampleHigh": ["500000", "120000", "10", "10"],
+  "solidLabelZh": "投 $100k · 年現金 $25k · 5 年 · 8%",
+  "solidLabelEn": "$100k · $25k/yr · 5y · 8%",
+  "highLabelZh": "投 $500k · 年現金 $120k · 10 年 · 10%",
+  "highLabelEn": "$500k · $120k/yr · 10y · 10%",
+
+  "subtitleZh": "輸入初始投資、年現金流、年限與折現率，立即計算 NPV、近似 IRR 與回收期",
+  "subtitleEn": "Enter initial investment, annual cashflow, years, and discount rate to compute NPV, approx IRR, and payback period",
+  "definitionZh": "淨現值(NPV)= -初始投資 + Σ(年現金流 / (1+折現率)^t),衡量投資計畫經折現後是否創造正向價值,廣泛用於資本預算決策、併購、地產投資。",
+  "formulaZh": "NPV = -C₀ + Σₜ₌₁ⁿ CFₜ / (1 + r)ᵗ",
+  "limitationsZh": "本工具假設現金流均勻、折現率不變;未含通膨修正、稅務、退場價值、機會成本變化;僅供初步篩選,實務應用 Excel NPV/IRR 或專業財務模型。",
+  "interpretationZh": "NPV > 0 → 應投資;NPV = 0 → 與折現率機會等價;NPV < 0 → 應拒絕。同時參考 IRR > 折現率 與 Payback < 投資年限 一起判斷。"
+}

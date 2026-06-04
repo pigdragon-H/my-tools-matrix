@@ -1048,6 +1048,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "net-present-value-calculator",
+    name: "淨現值計算機",
+    category: "finance",
+    path: "/tools/finance/net-present-value-calculator",
+    icon: "Calculator",
+    description: "輸入初始投資、年現金流、年限與折現率，立即計算 NPV、近似 IRR 與回收期",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1148,3 +1163,4 @@ export const pensionCalculator = { id: "pension-calculator", category: "finance"
 export const bondYieldCalculator = { id: "bond-yield-calculator", category: "finance", name: "Bond Yield Calculator", path: "/tools/finance/bond-yield-calculator" };
 export const optionsProfitCalculator = { id: "options-profit-calculator", category: "finance", name: "Options Profit Calculator", path: "/tools/finance/options-profit-calculator" };
 export const dividendYieldCalculator = { id: "dividend-yield-calculator", category: "finance", name: "Dividend Yield Calculator", path: "/tools/finance/dividend-yield-calculator" };
+export const netPresentValueCalculator = { id: "net-present-value-calculator", category: "finance", name: "Net Present Value Calculator", path: "/tools/finance/net-present-value-calculator" };
