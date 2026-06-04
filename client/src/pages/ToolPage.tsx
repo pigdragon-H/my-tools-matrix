@@ -143,6 +143,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/rule-of-72-calculator": lazy(() => import("@/tools/finance/RuleOf72Calculator")),
   "finance/ltv-cac-ratio-calculator": lazy(() => import("@/tools/finance/LtvCacRatioCalculator")),
   "finance/saas-metrics-calculator": lazy(() => import("@/tools/finance/SaasMetricsCalculator")),
+  "finance/startup-runway-calculator": lazy(() => import("@/tools/finance/StartupRunwayCalculator")),
 };
 
 function ToolSkeleton() {

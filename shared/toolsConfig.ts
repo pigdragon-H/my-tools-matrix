@@ -1993,6 +1993,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "startup-runway-calculator",
+    name: "新創燒錢跑道計算機",
+    category: "finance",
+    path: "/tools/finance/startup-runway-calculator",
+    icon: "Calculator",
+    description: "由現金、每月支出與營收計算現金跑道、淨燒錢與燒錢倍數。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2156,3 +2171,4 @@ export const dollarCostAveraging = { id: "dollar-cost-averaging", category: "fin
 export const ruleOf72Calculator = { id: "rule-of-72-calculator", category: "finance", name: "Rule of 72 Calculator", path: "/tools/finance/rule-of-72-calculator" };
 export const ltvCacRatioCalculator = { id: "ltv-cac-ratio-calculator", category: "finance", name: "LTV/CAC Ratio Calculator", path: "/tools/finance/ltv-cac-ratio-calculator" };
 export const saasMetricsCalculator = { id: "saas-metrics-calculator", category: "finance", name: "SaaS Metrics Calculator", path: "/tools/finance/saas-metrics-calculator" };
+export const startupRunwayCalculator = { id: "startup-runway-calculator", category: "finance", name: "Startup Runway Calculator", path: "/tools/finance/startup-runway-calculator" };
