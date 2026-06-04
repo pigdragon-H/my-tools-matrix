@@ -1903,6 +1903,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "real-return-calculator",
+    name: "實質報酬率計算機",
+    category: "finance",
+    path: "/tools/finance/real-return-calculator",
+    icon: "Calculator",
+    description: "由名目報酬、通膨率與稅率計算扣除通膨後的真實購買力成長。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2060,3 +2075,4 @@ export const capmCalculator = { id: "capm-calculator", category: "finance", name
 export const priceToBookCalculator = { id: "price-to-book-calculator", category: "finance", name: "Price-to-Book Ratio Calculator", path: "/tools/finance/price-to-book-calculator" };
 export const bookValueCalculator = { id: "book-value-calculator", category: "finance", name: "Book Value Calculator", path: "/tools/finance/book-value-calculator" };
 export const riskToleranceCalculator = { id: "risk-tolerance-calculator", category: "finance", name: "Risk Tolerance Calculator", path: "/tools/finance/risk-tolerance-calculator" };
+export const realReturnCalculator = { id: "real-return-calculator", category: "finance", name: "Real Return Calculator", path: "/tools/finance/real-return-calculator" };
