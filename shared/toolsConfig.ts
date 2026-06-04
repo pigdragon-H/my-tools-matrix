@@ -1033,6 +1033,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "dividend-yield-calculator",
+    name: "股息殖利率計算機",
+    category: "finance",
+    path: "/tools/finance/dividend-yield-calculator",
+    icon: "Calculator",
+    description: "輸入股價、年度配息、持股數與配息成長率，立即估算殖利率、年領股息與 5 年 YOC",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1132,3 +1147,4 @@ export const insurancePremiumCalculator = { id: "insurance-premium-calculator", 
 export const pensionCalculator = { id: "pension-calculator", category: "finance", name: "Pension Calculator", path: "/tools/finance/pension-calculator" };
 export const bondYieldCalculator = { id: "bond-yield-calculator", category: "finance", name: "Bond Yield Calculator", path: "/tools/finance/bond-yield-calculator" };
 export const optionsProfitCalculator = { id: "options-profit-calculator", category: "finance", name: "Options Profit Calculator", path: "/tools/finance/options-profit-calculator" };
+export const dividendYieldCalculator = { id: "dividend-yield-calculator", category: "finance", name: "Dividend Yield Calculator", path: "/tools/finance/dividend-yield-calculator" };

@@ -1,0 +1,73 @@
+{
+  "id": "dividend-yield-calculator",
+  "nameZh": "股息殖利率計算機",
+  "nameEn": "Dividend Yield Calculator",
+  "color": "lime",
+  "inputs": ["股價", "年度配息", "持股股數", "預期配息成長率%"],
+  "inputsEn": ["Share Price", "Annual Dividend", "Shares Held", "Dividend Growth Rate Pct"],
+  "defaults": ["50", "2", "200", "5"],
+  "steps": ["1", "0.1", "10", "0.5"],
+  "accentIdx": 1,
+
+  "compute": "依股價、年度配息、持股股數、配息成長率計算現值殖利率、年領股息、五年後預期殖利率與五年累計股息",
+  "computeFn": "    const P = Number(sharePrice) || 1;\n    const D = Number(annualDividend) || 0;\n    const sh = Number(sharesHeld) || 0;\n    const g = (Number(dividendGrowthRatePct) || 0) / 100;\n    const dividendYield = P > 0 ? (D / P) * 100 : 0;\n    const annualIncome = D * sh;\n    const futureD = D * Math.pow(1 + g, 5);\n    const futureYield = P > 0 ? (futureD / P) * 100 : 0;\n    let cumulative = 0;\n    for (let i = 0; i < 5; i++) cumulative += D * Math.pow(1 + g, i);\n    const fiveYearIncome = cumulative * sh;\n    return { dividendYield, annualIncome, futureYield, fiveYearIncome };",
+
+  "primaryKey": "dividendYield",  "primaryDecimals": 2, "primaryUnit": "%",
+  "secondaryKey": "annualIncome", "secondaryDecimals": 0, "secondaryUnit": "$",
+  "tertiaryKey": "futureYield",   "tertiaryDecimals": 2, "tertiaryUnit": "%",
+  "quaternaryKey": "fiveYearIncome","quaternaryDecimals": 0, "quaternaryUnit": "$",
+
+  "primaryLabelZh": "現值殖利率", "primaryLabelEn": "Current Yield",
+  "secondaryLabelZh": "年領股息", "secondaryLabelEn": "Annual Income",
+  "tertiaryLabelZh": "5 年後殖利率(YOC)", "tertiaryLabelEn": "5Y Yield on Cost",
+  "quaternaryLabelZh": "5 年累計股息", "quaternaryLabelEn": "5Y Cumulative",
+
+  "bands": ["極低", "偏低", "一般", "良好", "高", "極高"],
+  "bandThresholds": [1, 2, 3.5, 5, 7],
+  "bandHints": [
+    "殖利率 < 1%,屬成長型公司,主要靠股價增值,股息只是點綴。",
+    "1-2%,屬科技或成長股,留存盈餘做研發與併購,長期報酬看股價。",
+    "2-3.5%,屬大盤一般水準(S&P 500 約 1.5-2.0%、台股大盤約 3-4%)。",
+    "3.5-5%,屬於收息族常見區間,景氣好時的金融、電信、公用事業。",
+    "5-7%,進入高股息區,可能是 REITs、特別股、景氣循環股,需檢視配息可持續性。",
+    "> 7%,屬殖利率陷阱警示區,配息可能不可持續(payout ratio > 100%、產業衰退、債務危機)。"
+  ],
+
+  "faqTitles": [
+    "殖利率高就是好的嗎?什麼是「殖利率陷阱」?",
+    "YOC(殖利率對成本)是什麼?",
+    "領股息要繳稅嗎?",
+    "為什麼要看配息成長率?",
+    "資料會上傳到伺服器嗎?",
+    "高股息 ETF(0056、SCHD)值得買嗎?"
+  ],
+  "faqAnswers": [
+    "**不一定**。殖利率高有兩種可能:**(1) 公司穩定獲利且願意分配**(好殖利率)、**(2) 股價暴跌使殖利率被動拉高**(殖利率陷阱)。後者通常配息來源已枯竭,下次很可能砍息或停發。判斷方法:看「**配息率(payout ratio)= 配息/EPS**」,健康公司應 < 70%;> 100% 表示配息超過獲利,不可持續。",
+    "**YOC(Yield on Cost)** = 現在的年配息 / 當初買進價格 × 100%。它衡量「持股越久,配息成長越多,你的『成本殖利率』也越高」的長期效益。例如 10 年前以 $50 買進、當時殖利率 4%,若公司每年配息成長 5%,10 年後 YOC ≈ 6.5%。長期持有股息成長股的核心優勢就是 YOC 不斷攀升。",
+    "**台股**: 股息納入綜合所得稅,分兩制可選 — 「合併計稅」適用 8.5% 抵減稅額(上限 8 萬);「分離課稅」固定 28%。多數人選合併。**美股**: 預扣 30% 股息稅(部分 ETF 可申請退稅),長期持有 ETF 享 Qualified Dividend 稅率(0/15/20%),建議搭配 Roth IRA 或 401(k) 享稅優帳戶。",
+    "因為**今天的高殖利率股不一定是未來的高股息股**。配息成長率(Dividend Growth Rate)代表公司是否持續強化股東回饋。標普 500 股息貴族(連 25 年增息)平均年化股息成長 6-8%,長期下來 YOC 可達兩位數。本工具讓你輸入預期成長率,看 5 年後的 YOC,是長期持股決策的核心。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,股價、股息、持股數等資料不會傳送到任何伺服器,也不會記錄到日誌或資料庫。",
+    "**0056(元大高股息)** 殖利率約 5-6%,但歷史總報酬輸給 0050 約 1-2%/年,因為高息犧牲成長性。**SCHD(美股股息成長 ETF)** 殖利率約 3.5%、長期股息成長 11%,績效接近 S&P 500 但波動更小。建議:**若需現金流**選 0056/SCHD;**若追求總報酬**選 0050/VTI;**最佳配置**:80% 大盤指數 + 20% 股息 ETF。"
+  ],
+
+  "affiliates": [
+    { "label_zh": "投資報酬率計算機", "label_en": "Investment Return Calculator", "href": "/tools/finance/investment-return-calculator" },
+    { "label_zh": "股票損益計算機", "label_en": "Stock Profit Calculator", "href": "/tools/finance/stock-profit-calculator" },
+    { "label_zh": "稅率級距計算機", "label_en": "Tax Bracket Calculator", "href": "/tools/finance/tax-bracket-calculator" },
+    { "label_zh": "退休計算機", "label_en": "Retirement Calculator", "href": "/tools/finance/retirement-calculator" }
+  ],
+
+  "exampleSolid": ["50", "2", "200", "5"],
+  "exampleHigh": ["80", "4", "500", "8"],
+  "solidLabelZh": "$50 · 配 $2 · 200 股 · 5% 成長",
+  "solidLabelEn": "$50 · $2 div · 200 sh · 5% growth",
+  "highLabelZh": "$80 · 配 $4 · 500 股 · 8% 成長",
+  "highLabelEn": "$80 · $4 · 500 sh · 8%",
+
+  "subtitleZh": "輸入股價、年度配息、持股數與配息成長率，立即估算殖利率、年領股息與 5 年 YOC",
+  "subtitleEn": "Enter share price, annual dividend, shares, and growth rate to compute current yield, income, and 5-year YOC",
+  "definitionZh": "股息殖利率(Dividend Yield)= 年度配息 / 股價 × 100%,衡量持股每年現金回饋率;搭配配息成長率(Dividend Growth)可預估長期 YOC,是被動收入規劃的核心指標。",
+  "formulaZh": "Dividend Yield = 年配息 / 股價 × 100%;5Y YOC = 配息 × (1+g)^5 / 股價 × 100%",
+  "limitationsZh": "本工具未含資本利得、配息稅後折算、特別股調整、股票分割影響;假設配息成長率為固定,實務上會受景氣與股利政策變動影響。",
+  "interpretationZh": "高殖利率不代表高總報酬,長期應以「殖利率 + 配息成長率 + 股價漲幅」三項合計評估持股。"
+}
