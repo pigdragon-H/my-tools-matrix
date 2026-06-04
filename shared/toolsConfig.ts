@@ -1063,6 +1063,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "payback-period-calculator",
+    name: "回收期計算機",
+    category: "finance",
+    path: "/tools/finance/payback-period-calculator",
+    icon: "Calculator",
+    description: "輸入初始投資、月現金流與成長率，立即計算簡單回收期與折現後回收期",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1164,3 +1179,4 @@ export const bondYieldCalculator = { id: "bond-yield-calculator", category: "fin
 export const optionsProfitCalculator = { id: "options-profit-calculator", category: "finance", name: "Options Profit Calculator", path: "/tools/finance/options-profit-calculator" };
 export const dividendYieldCalculator = { id: "dividend-yield-calculator", category: "finance", name: "Dividend Yield Calculator", path: "/tools/finance/dividend-yield-calculator" };
 export const netPresentValueCalculator = { id: "net-present-value-calculator", category: "finance", name: "Net Present Value Calculator", path: "/tools/finance/net-present-value-calculator" };
+export const paybackPeriodCalculator = { id: "payback-period-calculator", category: "finance", name: "Payback Period Calculator", path: "/tools/finance/payback-period-calculator" };
