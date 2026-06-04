@@ -1813,6 +1813,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "sharpe-ratio-calculator",
+    name: "夏普比率計算機",
+    category: "finance",
+    path: "/tools/finance/sharpe-ratio-calculator",
+    icon: "Calculator",
+    description: "由報酬率、無風險利率與波動度計算風險調整後的夏普比率。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1964,3 +1979,4 @@ export const taxLossHarvesting = { id: "tax-loss-harvesting", category: "finance
 export const purchasingPowerCalculator = { id: "purchasing-power-calculator", category: "finance", name: "Purchasing Power Calculator", path: "/tools/finance/purchasing-power-calculator" };
 export const peRatioCalculator = { id: "pe-ratio-calculator", category: "finance", name: "P/E Ratio Calculator", path: "/tools/finance/pe-ratio-calculator" };
 export const epsCalculator = { id: "eps-calculator", category: "finance", name: "EPS Calculator", path: "/tools/finance/eps-calculator" };
+export const sharpeRatioCalculator = { id: "sharpe-ratio-calculator", category: "finance", name: "Sharpe Ratio Calculator", path: "/tools/finance/sharpe-ratio-calculator" };
