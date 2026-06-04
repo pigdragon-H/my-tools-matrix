@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 5", label: { zh: "極低 (< 5)", en: "Band 1 (< 5)" }, desc: { zh: "落在「極低」級距< 5。總成長 < 5%,屬於短期或低利,利息貢獻有限。", en: "Falls in the \"極低\" band < 5. This is the 極低 range for Simple Interest Calculator." } },
-  { key: "normal", range: "5–15", label: { zh: "低 (5–15)", en: "Band 2 (5–15)" }, desc: { zh: "落在「低」級距5–15。5-15%,溫和成長,常見於 1-3 年定存或穩健票券。", en: "Falls in the \"低\" band 5–15. This is the 低 range for Simple Interest Calculator." } },
-  { key: "notable", range: "15–30", label: { zh: "中等 (15–30)", en: "Band 3 (15–30)" }, desc: { zh: "落在「中等」級距15–30。15-30%,中等,常見於中天期或中利率單利商品。", en: "Falls in the \"中等\" band 15–30. This is the 中等 range for Simple Interest Calculator." } },
-  { key: "high", range: "30–50", label: { zh: "偏高 (30–50)", en: "Band 4 (30–50)" }, desc: { zh: "落在「偏高」級距30–50。30-50%,偏高,反映較長年限或較高利率的累積。", en: "Falls in the \"偏高\" band 30–50. This is the 偏高 range for Simple Interest Calculator." } },
-  { key: "major", range: "50–100", label: { zh: "高 (50–100)", en: "Band 5 (50–100)" }, desc: { zh: "落在「高」級距50–100。50-100%,高,單利下需長年限或高利率才能達到。", en: "Falls in the \"高\" band 50–100. This is the 高 range for Simple Interest Calculator." } },
-  { key: "executive", range: "≥ 100", label: { zh: "極高 (≥ 100)", en: "Band 6 (≥ 100)" }, desc: { zh: "落在「極高」級距≥ 100。> 100%,利息超過本金,通常為極長年限或極高利率,務必確認計息方式。", en: "Falls in the \"極高\" band ≥ 100. This is the 極高 range for Simple Interest Calculator." } },
+  { key: "tiny", range: "< 5", label: { zh: "極低 (< 5)", en: "Very low (< 5)" }, desc: { zh: "落在「極低」級距< 5。總成長 < 5%,屬於短期或低利,利息貢獻有限。", en: "Falls in the \"Very low\" band (< 5). This is the very low range for Simple Interest Calculator." } },
+  { key: "normal", range: "5–15", label: { zh: "低 (5–15)", en: "Low (5–15)" }, desc: { zh: "落在「低」級距5–15。5-15%,溫和成長,常見於 1-3 年定存或穩健票券。", en: "Falls in the \"Low\" band (5–15). This is the low range for Simple Interest Calculator." } },
+  { key: "notable", range: "15–30", label: { zh: "中等 (15–30)", en: "Moderate (15–30)" }, desc: { zh: "落在「中等」級距15–30。15-30%,中等,常見於中天期或中利率單利商品。", en: "Falls in the \"Moderate\" band (15–30). This is the moderate range for Simple Interest Calculator." } },
+  { key: "high", range: "30–50", label: { zh: "偏高 (30–50)", en: "High (30–50)" }, desc: { zh: "落在「偏高」級距30–50。30-50%,偏高,反映較長年限或較高利率的累積。", en: "Falls in the \"High\" band (30–50). This is the high range for Simple Interest Calculator." } },
+  { key: "major", range: "50–100", label: { zh: "高 (50–100)", en: "Very high (50–100)" }, desc: { zh: "落在「高」級距50–100。50-100%,高,單利下需長年限或高利率才能達到。", en: "Falls in the \"Very high\" band (50–100). This is the very high range for Simple Interest Calculator." } },
+  { key: "executive", range: "≥ 100", label: { zh: "極高 (≥ 100)", en: "Extreme (≥ 100)" }, desc: { zh: "落在「極高」級距≥ 100。> 100%,利息超過本金,通常為極長年限或極高利率,務必確認計息方式。", en: "Falls in the \"Extreme\" band (≥ 100). This is the extreme range for Simple Interest Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

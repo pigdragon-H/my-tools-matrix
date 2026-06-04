@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 1", label: { zh: "無折扣 (< 1)", en: "Band 1 (< 1)" }, desc: { zh: "落在「無折扣」級距< 1。0% 折扣,原價購買,可考慮搭配優惠券或會員價。", en: "Falls in the \"無折扣\" band < 1. This is the 無折扣 range for Discount Calculator." } },
-  { key: "normal", range: "1–15", label: { zh: "小折 (1–15)", en: "Band 2 (1–15)" }, desc: { zh: "落在「小折」級距1–15。< 15%,小幅折扣,常見於一般促銷或會員小折。", en: "Falls in the \"小折\" band 1–15. This is the 小折 range for Discount Calculator." } },
-  { key: "notable", range: "15–30", label: { zh: "中折 (15–30)", en: "Band 3 (15–30)" }, desc: { zh: "落在「中折」級距15–30。15-30%,中等折扣,季節性促銷的常見幅度。", en: "Falls in the \"中折\" band 15–30. This is the 中折 range for Discount Calculator." } },
-  { key: "high", range: "30–50", label: { zh: "大折 (30–50)", en: "Band 4 (30–50)" }, desc: { zh: "落在「大折」級距30–50。30-50%,大折扣,換季出清或週年慶的吸引力區間。", en: "Falls in the \"大折\" band 30–50. This is the 大折 range for Discount Calculator." } },
-  { key: "major", range: "50–70", label: { zh: "超殺 (50–70)", en: "Band 5 (50–70)" }, desc: { zh: "落在「超殺」級距50–70。50-70%,超殺價,通常為清庫存或限時搶購。", en: "Falls in the \"超殺\" band 50–70. This is the 超殺 range for Discount Calculator." } },
-  { key: "executive", range: "≥ 70", label: { zh: "出清 (≥ 70)", en: "Band 6 (≥ 70)" }, desc: { zh: "落在「出清」級距≥ 70。> 70%,出清等級,務必確認是否為原價灌水後的假折扣。", en: "Falls in the \"出清\" band ≥ 70. This is the 出清 range for Discount Calculator." } },
+  { key: "tiny", range: "< 1", label: { zh: "無折扣 (< 1)", en: "Very low (< 1)" }, desc: { zh: "落在「無折扣」級距< 1。0% 折扣,原價購買,可考慮搭配優惠券或會員價。", en: "Falls in the \"Very low\" band (< 1). This is the very low range for Discount Calculator." } },
+  { key: "normal", range: "1–15", label: { zh: "小折 (1–15)", en: "Low (1–15)" }, desc: { zh: "落在「小折」級距1–15。< 15%,小幅折扣,常見於一般促銷或會員小折。", en: "Falls in the \"Low\" band (1–15). This is the low range for Discount Calculator." } },
+  { key: "notable", range: "15–30", label: { zh: "中折 (15–30)", en: "Moderate (15–30)" }, desc: { zh: "落在「中折」級距15–30。15-30%,中等折扣,季節性促銷的常見幅度。", en: "Falls in the \"Moderate\" band (15–30). This is the moderate range for Discount Calculator." } },
+  { key: "high", range: "30–50", label: { zh: "大折 (30–50)", en: "High (30–50)" }, desc: { zh: "落在「大折」級距30–50。30-50%,大折扣,換季出清或週年慶的吸引力區間。", en: "Falls in the \"High\" band (30–50). This is the high range for Discount Calculator." } },
+  { key: "major", range: "50–70", label: { zh: "超殺 (50–70)", en: "Very high (50–70)" }, desc: { zh: "落在「超殺」級距50–70。50-70%,超殺價,通常為清庫存或限時搶購。", en: "Falls in the \"Very high\" band (50–70). This is the very high range for Discount Calculator." } },
+  { key: "executive", range: "≥ 70", label: { zh: "出清 (≥ 70)", en: "Extreme (≥ 70)" }, desc: { zh: "落在「出清」級距≥ 70。> 70%,出清等級,務必確認是否為原價灌水後的假折扣。", en: "Falls in the \"Extreme\" band (≥ 70). This is the extreme range for Discount Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

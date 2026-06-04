@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 3", label: { zh: "保守 (< 3)", en: "Band 1 (< 3)" }, desc: { zh: "落在「保守」級距< 3。房價約年收入 < 3 倍,非常保守,財務彈性充裕,易核貸。", en: "Falls in the \"保守\" band < 3. This is the 保守 range for Home Affordability Calculator." } },
-  { key: "normal", range: "3–5", label: { zh: "穩健 (3–5)", en: "Band 2 (3–5)" }, desc: { zh: "落在「穩健」級距3–5。3-5 倍,穩健,符合傳統可負擔範圍,壓力可控。", en: "Falls in the \"穩健\" band 3–5. This is the 穩健 range for Home Affordability Calculator." } },
-  { key: "notable", range: "5–7", label: { zh: "標準 (5–7)", en: "Band 3 (5–7)" }, desc: { zh: "落在「標準」級距5–7。5-7 倍,標準上限,常見於大城市,需穩定收入支撐。", en: "Falls in the \"標準\" band 5–7. This is the 標準 range for Home Affordability Calculator." } },
-  { key: "high", range: "7–9", label: { zh: "偏緊 (7–9)", en: "Band 4 (7–9)" }, desc: { zh: "落在「偏緊」級距7–9。7-9 倍,偏緊,房貸佔比高,對利率與收入變動敏感。", en: "Falls in the \"偏緊\" band 7–9. This is the 偏緊 range for Home Affordability Calculator." } },
-  { key: "major", range: "9–12", label: { zh: "吃緊 (9–12)", en: "Band 5 (9–12)" }, desc: { zh: "落在「吃緊」級距9–12。9-12 倍,吃緊,接近放款極限,風險顯著上升。", en: "Falls in the \"吃緊\" band 9–12. This is the 吃緊 range for Home Affordability Calculator." } },
-  { key: "executive", range: "≥ 12", label: { zh: "超貸 (≥ 12)", en: "Band 6 (≥ 12)" }, desc: { zh: "落在「超貸」級距≥ 12。> 12 倍,超貸,房價遠超合理負擔,極可能被拒貸或陷入困境。", en: "Falls in the \"超貸\" band ≥ 12. This is the 超貸 range for Home Affordability Calculator." } },
+  { key: "tiny", range: "< 3", label: { zh: "保守 (< 3)", en: "Very low (< 3)" }, desc: { zh: "落在「保守」級距< 3。房價約年收入 < 3 倍,非常保守,財務彈性充裕,易核貸。", en: "Falls in the \"Very low\" band (< 3). This is the very low range for Home Affordability Calculator." } },
+  { key: "normal", range: "3–5", label: { zh: "穩健 (3–5)", en: "Low (3–5)" }, desc: { zh: "落在「穩健」級距3–5。3-5 倍,穩健,符合傳統可負擔範圍,壓力可控。", en: "Falls in the \"Low\" band (3–5). This is the low range for Home Affordability Calculator." } },
+  { key: "notable", range: "5–7", label: { zh: "標準 (5–7)", en: "Moderate (5–7)" }, desc: { zh: "落在「標準」級距5–7。5-7 倍,標準上限,常見於大城市,需穩定收入支撐。", en: "Falls in the \"Moderate\" band (5–7). This is the moderate range for Home Affordability Calculator." } },
+  { key: "high", range: "7–9", label: { zh: "偏緊 (7–9)", en: "High (7–9)" }, desc: { zh: "落在「偏緊」級距7–9。7-9 倍,偏緊,房貸佔比高,對利率與收入變動敏感。", en: "Falls in the \"High\" band (7–9). This is the high range for Home Affordability Calculator." } },
+  { key: "major", range: "9–12", label: { zh: "吃緊 (9–12)", en: "Very high (9–12)" }, desc: { zh: "落在「吃緊」級距9–12。9-12 倍,吃緊,接近放款極限,風險顯著上升。", en: "Falls in the \"Very high\" band (9–12). This is the very high range for Home Affordability Calculator." } },
+  { key: "executive", range: "≥ 12", label: { zh: "超貸 (≥ 12)", en: "Extreme (≥ 12)" }, desc: { zh: "落在「超貸」級距≥ 12。> 12 倍,超貸,房價遠超合理負擔,極可能被拒貸或陷入困境。", en: "Falls in the \"Extreme\" band (≥ 12). This is the extreme range for Home Affordability Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

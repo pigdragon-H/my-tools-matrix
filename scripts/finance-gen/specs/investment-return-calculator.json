@@ -34,7 +34,7 @@
   "primaryKey": "futureValue",
   "primaryDecimals": 0,
   "primaryPrefix": "$",
-  "primarySuffix": "$",
+  "primarySuffix": "",
   "secondaryKey": "totalContributed",
   "secondaryDecimals": 0,
   "tertiaryKey": "gainRatio",
@@ -47,49 +47,49 @@
       "key": "tiny",
       "range": "< 50000",
       "label_zh": "保守 (< 50000)",
-      "label_en": "Band 1 (< 50000)",
+      "label_en": "Very low (< 50000)",
       "desc_zh": "落在「保守」級距< 50000。短期目標或退休前 5 年的緊急資金,優先考量本金安全。",
-      "desc_en": "Falls in the \"保守\" band < 50000. This is the 保守 range for Investment Return Calculator."
+      "desc_en": "Falls in the \"Very low\" band (< 50000). This is the very low range for Investment Return Calculator."
     },
     {
       "key": "normal",
       "range": "50000–150000",
       "label_zh": "穩健 (50000–150000)",
-      "label_en": "Band 2 (50000–150000)",
+      "label_en": "Low (50000–150000)",
       "desc_zh": "落在「穩健」級距50000–150000。20–30 年穩定累積區間,核心配置為大盤指數 ETF。",
-      "desc_en": "Falls in the \"穩健\" band 50000–150000. This is the 穩健 range for Investment Return Calculator."
+      "desc_en": "Falls in the \"Low\" band (50000–150000). This is the low range for Investment Return Calculator."
     },
     {
       "key": "notable",
       "range": "150000–300000",
       "label_zh": "平衡 (150000–300000)",
-      "label_en": "Band 3 (150000–300000)",
+      "label_en": "Moderate (150000–300000)",
       "desc_zh": "落在「平衡」級距150000–300000。屬於中階累積,可考慮加入區域型或主題型指數提高分散。",
-      "desc_en": "Falls in the \"平衡\" band 150000–300000. This is the 平衡 range for Investment Return Calculator."
+      "desc_en": "Falls in the \"Moderate\" band (150000–300000). This is the moderate range for Investment Return Calculator."
     },
     {
       "key": "high",
       "range": "300000–600000",
       "label_zh": "成長 (300000–600000)",
-      "label_en": "Band 4 (300000–600000)",
+      "label_en": "High (300000–600000)",
       "desc_zh": "落在「成長」級距300000–600000。長期累積到位,需要開始討論再平衡與資產配置調整。",
-      "desc_en": "Falls in the \"成長\" band 300000–600000. This is the 成長 range for Investment Return Calculator."
+      "desc_en": "Falls in the \"High\" band (300000–600000). This is the high range for Investment Return Calculator."
     },
     {
       "key": "major",
       "range": "600000–1000000",
       "label_zh": "積極 (600000–1000000)",
-      "label_en": "Band 5 (600000–1000000)",
+      "label_en": "Very high (600000–1000000)",
       "desc_zh": "落在「積極」級距600000–1000000。可進一步討論稅務優化(401k/IRA/ROTH)與遺產規劃。",
-      "desc_en": "Falls in the \"積極\" band 600000–1000000. This is the 積極 range for Investment Return Calculator."
+      "desc_en": "Falls in the \"Very high\" band (600000–1000000). This is the very high range for Investment Return Calculator."
     },
     {
       "key": "executive",
       "range": "≥ 1000000",
       "label_zh": "極積極 (≥ 1000000)",
-      "label_en": "Band 6 (≥ 1000000)",
+      "label_en": "Extreme (≥ 1000000)",
       "desc_zh": "落在「極積極」級距≥ 1000000。百萬美元級資產,建議搭配理財顧問做整體財富管理。",
-      "desc_en": "Falls in the \"極積極\" band ≥ 1000000. This is the 極積極 range for Investment Return Calculator."
+      "desc_en": "Falls in the \"Extreme\" band (≥ 1000000). This is the extreme range for Investment Return Calculator."
     }
   ],
   "affiliateItems": [
@@ -268,7 +268,7 @@
       "switchToChinese": "切換到中文",
       "chineseShort": "中",
       "englishShort": "EN",
-      "title": "Investment Return Calculator · 投資報酬率計算機",
+      "title": "Investment Return Calculator",
       "subtitle": "Enter initial principal, monthly contribution, annual return, and years to see the compounded future value",
       "intro": "Investment Return Calculator runs the standard formula in your browser. Enter initial investment, monthly contribution, annual return rate, years to see the primary result and three supporting metrics. Nothing is uploaded.",
       "trustNoteLabel": "Notes:",
@@ -342,7 +342,7 @@
       "bmrStep": "Step 1 · Gather inputs",
       "bmrNote": "Fill initial investment, monthly contribution, annual return rate, years.",
       "deficitStep": "Step 2 · Apply formula",
-      "deficitNote": "依複利公式計算未來價值、總投入、累計獲利與年化報酬率.",
+      "deficitNote": "Investment Return Calculator standard formula.",
       "trendStep": "Step 3 · Read bands",
       "trendNote": "Locate your primary result on the six-band matrix.",
       "mealStep": "Step 4 · Act",
@@ -352,7 +352,7 @@
       "definition": "Definition",
       "definitionText": "Investment Return Calculator converts inputs (initial investment, monthly contribution, annual return rate, years) into Future Value. It is widely used in personal finance and investment planning.",
       "formula": "Formula",
-      "formulaText": "FV = P × (1+r/n)^(nt) + M × [((1+r/n)^(nt) - 1) / (r/n)]",
+      "formulaText": "result = f(initial investment, monthly contribution, annual return rate, years)",
       "limitations": "Limitations",
       "limitationsText": "Does not include tax variations, market shocks, special clauses, or regional differences. Results are general estimates only.",
       "interpretation": "Interpretation",

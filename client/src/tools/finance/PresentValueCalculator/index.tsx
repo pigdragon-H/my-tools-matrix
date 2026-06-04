@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 10", label: { zh: "極小 (< 10)", en: "Band 1 (< 10)" }, desc: { zh: "落在「極小」級距< 10。折現損失 < 10%,折現率低或時間短,現值幾乎等於名目。", en: "Falls in the \"極小\" band < 10. This is the 極小 range for Present Value Calculator." } },
-  { key: "normal", range: "10–25", label: { zh: "小 (10–25)", en: "Band 2 (10–25)" }, desc: { zh: "落在「小」級距10–25。10-25%,小幅,常見於中低折現率或中天期。", en: "Falls in the \"小\" band 10–25. This is the 小 range for Present Value Calculator." } },
-  { key: "notable", range: "25–40", label: { zh: "中等 (25–40)", en: "Band 3 (25–40)" }, desc: { zh: "落在「中等」級距25–40。25-40%,中等,反映一般企業折現率與中長天期。", en: "Falls in the \"中等\" band 25–40. This is the 中等 range for Present Value Calculator." } },
-  { key: "high", range: "40–55", label: { zh: "偏大 (40–55)", en: "Band 4 (40–55)" }, desc: { zh: "落在「偏大」級距40–55。40-55%,偏大,折現率高或時間長,現值明顯縮水。", en: "Falls in the \"偏大\" band 40–55. This is the 偏大 range for Present Value Calculator." } },
-  { key: "major", range: "55–70", label: { zh: "大 (55–70)", en: "Band 5 (55–70)" }, desc: { zh: "落在「大」級距55–70。55-70%,大,高風險或超長天期,未來金額大打折扣。", en: "Falls in the \"大\" band 55–70. This is the 大 range for Present Value Calculator." } },
-  { key: "executive", range: "≥ 70", label: { zh: "極大 (≥ 70)", en: "Band 6 (≥ 70)" }, desc: { zh: "落在「極大」級距≥ 70。> 70%,極大,折現率極高或時間極長,現值僅剩零頭。", en: "Falls in the \"極大\" band ≥ 70. This is the 極大 range for Present Value Calculator." } },
+  { key: "tiny", range: "< 10", label: { zh: "極小 (< 10)", en: "Very low (< 10)" }, desc: { zh: "落在「極小」級距< 10。折現損失 < 10%,折現率低或時間短,現值幾乎等於名目。", en: "Falls in the \"Very low\" band (< 10). This is the very low range for Present Value Calculator." } },
+  { key: "normal", range: "10–25", label: { zh: "小 (10–25)", en: "Low (10–25)" }, desc: { zh: "落在「小」級距10–25。10-25%,小幅,常見於中低折現率或中天期。", en: "Falls in the \"Low\" band (10–25). This is the low range for Present Value Calculator." } },
+  { key: "notable", range: "25–40", label: { zh: "中等 (25–40)", en: "Moderate (25–40)" }, desc: { zh: "落在「中等」級距25–40。25-40%,中等,反映一般企業折現率與中長天期。", en: "Falls in the \"Moderate\" band (25–40). This is the moderate range for Present Value Calculator." } },
+  { key: "high", range: "40–55", label: { zh: "偏大 (40–55)", en: "High (40–55)" }, desc: { zh: "落在「偏大」級距40–55。40-55%,偏大,折現率高或時間長,現值明顯縮水。", en: "Falls in the \"High\" band (40–55). This is the high range for Present Value Calculator." } },
+  { key: "major", range: "55–70", label: { zh: "大 (55–70)", en: "Very high (55–70)" }, desc: { zh: "落在「大」級距55–70。55-70%,大,高風險或超長天期,未來金額大打折扣。", en: "Falls in the \"Very high\" band (55–70). This is the very high range for Present Value Calculator." } },
+  { key: "executive", range: "≥ 70", label: { zh: "極大 (≥ 70)", en: "Extreme (≥ 70)" }, desc: { zh: "落在「極大」級距≥ 70。> 70%,極大,折現率極高或時間極長,現值僅剩零頭。", en: "Falls in the \"Extreme\" band (≥ 70). This is the extreme range for Present Value Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

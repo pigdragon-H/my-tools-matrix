@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 0.01", label: { zh: "免稅 (< 0.01)", en: "Band 1 (< 0.01)" }, desc: { zh: "落在「免稅」級距< 0.01。有效稅率 ≈ 0%,代表無利得或適用免稅(如長期持有優惠或虧損)。", en: "Falls in the \"免稅\" band < 0.01. This is the 免稅 range for Capital Gains Tax Calculator." } },
-  { key: "normal", range: "0.01–10", label: { zh: "極低 (0.01–10)", en: "Band 2 (0.01–10)" }, desc: { zh: "落在「極低」級距0.01–10。< 10%,屬於低稅率區,常見於長期持有優惠或低所得級距。", en: "Falls in the \"極低\" band 0.01–10. This is the 極低 range for Capital Gains Tax Calculator." } },
-  { key: "notable", range: "10–15", label: { zh: "低 (10–15)", en: "Band 3 (10–15)" }, desc: { zh: "落在「低」級距10–15。10-15%,美國長期資本利得常見區間,稅負相對輕。", en: "Falls in the \"低\" band 10–15. This is the 低 range for Capital Gains Tax Calculator." } },
-  { key: "high", range: "15–25", label: { zh: "中等 (15–25)", en: "Band 4 (15–25)" }, desc: { zh: "落在「中等」級距15–25。15-25%,屬於中等稅負,常見於短期持有或中高所得。", en: "Falls in the \"中等\" band 15–25. This is the 中等 range for Capital Gains Tax Calculator." } },
-  { key: "major", range: "25–35", label: { zh: "高 (25–35)", en: "Band 5 (25–35)" }, desc: { zh: "落在「高」級距25–35。25-35%,偏高,接近短期資本利得併入一般所得稅率。", en: "Falls in the \"高\" band 25–35. This is the 高 range for Capital Gains Tax Calculator." } },
-  { key: "executive", range: "≥ 35", label: { zh: "極高 (≥ 35)", en: "Band 6 (≥ 35)" }, desc: { zh: "落在「極高」級距≥ 35。> 35%,極高稅負,務必檢視持有期間與節稅策略。", en: "Falls in the \"極高\" band ≥ 35. This is the 極高 range for Capital Gains Tax Calculator." } },
+  { key: "tiny", range: "< 0.01", label: { zh: "免稅 (< 0.01)", en: "Very low (< 0.01)" }, desc: { zh: "落在「免稅」級距< 0.01。有效稅率 ≈ 0%,代表無利得或適用免稅(如長期持有優惠或虧損)。", en: "Falls in the \"Very low\" band (< 0.01). This is the very low range for Capital Gains Tax Calculator." } },
+  { key: "normal", range: "0.01–10", label: { zh: "極低 (0.01–10)", en: "Low (0.01–10)" }, desc: { zh: "落在「極低」級距0.01–10。< 10%,屬於低稅率區,常見於長期持有優惠或低所得級距。", en: "Falls in the \"Low\" band (0.01–10). This is the low range for Capital Gains Tax Calculator." } },
+  { key: "notable", range: "10–15", label: { zh: "低 (10–15)", en: "Moderate (10–15)" }, desc: { zh: "落在「低」級距10–15。10-15%,美國長期資本利得常見區間,稅負相對輕。", en: "Falls in the \"Moderate\" band (10–15). This is the moderate range for Capital Gains Tax Calculator." } },
+  { key: "high", range: "15–25", label: { zh: "中等 (15–25)", en: "High (15–25)" }, desc: { zh: "落在「中等」級距15–25。15-25%,屬於中等稅負,常見於短期持有或中高所得。", en: "Falls in the \"High\" band (15–25). This is the high range for Capital Gains Tax Calculator." } },
+  { key: "major", range: "25–35", label: { zh: "高 (25–35)", en: "Very high (25–35)" }, desc: { zh: "落在「高」級距25–35。25-35%,偏高,接近短期資本利得併入一般所得稅率。", en: "Falls in the \"Very high\" band (25–35). This is the very high range for Capital Gains Tax Calculator." } },
+  { key: "executive", range: "≥ 35", label: { zh: "極高 (≥ 35)", en: "Extreme (≥ 35)" }, desc: { zh: "落在「極高」級距≥ 35。> 35%,極高稅負,務必檢視持有期間與節稅策略。", en: "Falls in the \"Extreme\" band (≥ 35). This is the extreme range for Capital Gains Tax Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

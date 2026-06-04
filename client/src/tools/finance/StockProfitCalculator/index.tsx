@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< -20", label: { zh: "大幅虧損 (< -20)", en: "Band 1 (< -20)" }, desc: { zh: "落在「大幅虧損」級距< -20。報酬率低於 -20%,屬重大虧損,需檢視持股邏輯,考慮停損或攤平。", en: "Falls in the \"大幅虧損\" band < -20. This is the 大幅虧損 range for Stock Profit Calculator." } },
-  { key: "normal", range: "-20–-5", label: { zh: "小虧 (-20–-5)", en: "Band 2 (-20–-5)" }, desc: { zh: "落在「小虧」級距-20–-5。-20% 至 -5%,輕微虧損,若基本面未變可續抱觀察,變了則停損。", en: "Falls in the \"小虧\" band -20–-5. This is the 小虧 range for Stock Profit Calculator." } },
-  { key: "notable", range: "-5–5", label: { zh: "持平 (-5–5)", en: "Band 3 (-5–5)" }, desc: { zh: "落在「持平」級距-5–5。-5% 至 5%,接近持平,可能尚未到反映期,評估再給時間或調倉。", en: "Falls in the \"持平\" band -5–5. This is the 持平 range for Stock Profit Calculator." } },
-  { key: "high", range: "5–20", label: { zh: "小賺 (5–20)", en: "Band 4 (5–20)" }, desc: { zh: "落在「小賺」級距5–20。5% 至 20%,健康獲利區間,可考慮設停利或部分獲利了結。", en: "Falls in the \"小賺\" band 5–20. This is the 小賺 range for Stock Profit Calculator." } },
-  { key: "major", range: "20–100", label: { zh: "大賺 (20–100)", en: "Band 5 (20–100)" }, desc: { zh: "落在「大賺」級距20–100。20% 至 100%,顯著獲利,建議分批調節或設追蹤停利保住成果。", en: "Falls in the \"大賺\" band 20–100. This is the 大賺 range for Stock Profit Calculator." } },
-  { key: "executive", range: "≥ 100", label: { zh: "翻倍以上 (≥ 100)", en: "Band 6 (≥ 100)" }, desc: { zh: "落在「翻倍以上」級距≥ 100。100% 以上翻倍級,屬罕見大行情,務必落袋為安一部分,避免回吐。", en: "Falls in the \"翻倍以上\" band ≥ 100. This is the 翻倍以上 range for Stock Profit Calculator." } },
+  { key: "tiny", range: "< -20", label: { zh: "大幅虧損 (< -20)", en: "Very low (< -20)" }, desc: { zh: "落在「大幅虧損」級距< -20。報酬率低於 -20%,屬重大虧損,需檢視持股邏輯,考慮停損或攤平。", en: "Falls in the \"Very low\" band (< -20). This is the very low range for Stock Profit Calculator." } },
+  { key: "normal", range: "-20–-5", label: { zh: "小虧 (-20–-5)", en: "Low (-20–-5)" }, desc: { zh: "落在「小虧」級距-20–-5。-20% 至 -5%,輕微虧損,若基本面未變可續抱觀察,變了則停損。", en: "Falls in the \"Low\" band (-20–-5). This is the low range for Stock Profit Calculator." } },
+  { key: "notable", range: "-5–5", label: { zh: "持平 (-5–5)", en: "Moderate (-5–5)" }, desc: { zh: "落在「持平」級距-5–5。-5% 至 5%,接近持平,可能尚未到反映期,評估再給時間或調倉。", en: "Falls in the \"Moderate\" band (-5–5). This is the moderate range for Stock Profit Calculator." } },
+  { key: "high", range: "5–20", label: { zh: "小賺 (5–20)", en: "High (5–20)" }, desc: { zh: "落在「小賺」級距5–20。5% 至 20%,健康獲利區間,可考慮設停利或部分獲利了結。", en: "Falls in the \"High\" band (5–20). This is the high range for Stock Profit Calculator." } },
+  { key: "major", range: "20–100", label: { zh: "大賺 (20–100)", en: "Very high (20–100)" }, desc: { zh: "落在「大賺」級距20–100。20% 至 100%,顯著獲利,建議分批調節或設追蹤停利保住成果。", en: "Falls in the \"Very high\" band (20–100). This is the very high range for Stock Profit Calculator." } },
+  { key: "executive", range: "≥ 100", label: { zh: "翻倍以上 (≥ 100)", en: "Extreme (≥ 100)" }, desc: { zh: "落在「翻倍以上」級距≥ 100。100% 以上翻倍級,屬罕見大行情,務必落袋為安一部分,避免回吐。", en: "Falls in the \"Extreme\" band (≥ 100). This is the extreme range for Stock Profit Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

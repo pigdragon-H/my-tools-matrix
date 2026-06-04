@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 0.01", label: { zh: "免稅 (< 0.01)", en: "Band 1 (< 0.01)" }, desc: { zh: "落在「免稅」級距< 0.01。稅率 0%,免銷售稅地區(如美國 Oregon、Delaware)。", en: "Falls in the \"免稅\" band < 0.01. This is the 免稅 range for Sales Tax Calculator." } },
-  { key: "normal", range: "0.01–5", label: { zh: "極低 (0.01–5)", en: "Band 2 (0.01–5)" }, desc: { zh: "落在「極低」級距0.01–5。< 5%,屬於低銷售稅區,常見於部分美國州。", en: "Falls in the \"極低\" band 0.01–5. This is the 極低 range for Sales Tax Calculator." } },
-  { key: "notable", range: "5–8", label: { zh: "低 (5–8)", en: "Band 3 (5–8)" }, desc: { zh: "落在「低」級距5–8。5-8%,美國多數州的綜合銷售稅常見區間。", en: "Falls in the \"低\" band 5–8. This is the 低 range for Sales Tax Calculator." } },
-  { key: "high", range: "8–12", label: { zh: "中等 (8–12)", en: "Band 4 (8–12)" }, desc: { zh: "落在「中等」級距8–12。8-12%,屬於中高稅率,含地方加徵的大城市常見。", en: "Falls in the \"中等\" band 8–12. This is the 中等 range for Sales Tax Calculator." } },
-  { key: "major", range: "12–20", label: { zh: "高 (12–20)", en: "Band 5 (12–20)" }, desc: { zh: "落在「高」級距12–20。12-20%,偏高,接近部分國家的標準消費稅/VAT。", en: "Falls in the \"高\" band 12–20. This is the 高 range for Sales Tax Calculator." } },
-  { key: "executive", range: "≥ 20", label: { zh: "極高 (≥ 20)", en: "Band 6 (≥ 20)" }, desc: { zh: "落在「極高」級距≥ 20。> 20%,極高,常見於北歐等高福利國家的 VAT。", en: "Falls in the \"極高\" band ≥ 20. This is the 極高 range for Sales Tax Calculator." } },
+  { key: "tiny", range: "< 0.01", label: { zh: "免稅 (< 0.01)", en: "Very low (< 0.01)" }, desc: { zh: "落在「免稅」級距< 0.01。稅率 0%,免銷售稅地區(如美國 Oregon、Delaware)。", en: "Falls in the \"Very low\" band (< 0.01). This is the very low range for Sales Tax Calculator." } },
+  { key: "normal", range: "0.01–5", label: { zh: "極低 (0.01–5)", en: "Low (0.01–5)" }, desc: { zh: "落在「極低」級距0.01–5。< 5%,屬於低銷售稅區,常見於部分美國州。", en: "Falls in the \"Low\" band (0.01–5). This is the low range for Sales Tax Calculator." } },
+  { key: "notable", range: "5–8", label: { zh: "低 (5–8)", en: "Moderate (5–8)" }, desc: { zh: "落在「低」級距5–8。5-8%,美國多數州的綜合銷售稅常見區間。", en: "Falls in the \"Moderate\" band (5–8). This is the moderate range for Sales Tax Calculator." } },
+  { key: "high", range: "8–12", label: { zh: "中等 (8–12)", en: "High (8–12)" }, desc: { zh: "落在「中等」級距8–12。8-12%,屬於中高稅率,含地方加徵的大城市常見。", en: "Falls in the \"High\" band (8–12). This is the high range for Sales Tax Calculator." } },
+  { key: "major", range: "12–20", label: { zh: "高 (12–20)", en: "Very high (12–20)" }, desc: { zh: "落在「高」級距12–20。12-20%,偏高,接近部分國家的標準消費稅/VAT。", en: "Falls in the \"Very high\" band (12–20). This is the very high range for Sales Tax Calculator." } },
+  { key: "executive", range: "≥ 20", label: { zh: "極高 (≥ 20)", en: "Extreme (≥ 20)" }, desc: { zh: "落在「極高」級距≥ 20。> 20%,極高,常見於北歐等高福利國家的 VAT。", en: "Falls in the \"Extreme\" band (≥ 20). This is the extreme range for Sales Tax Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

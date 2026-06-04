@@ -47,49 +47,49 @@
       "key": "tiny",
       "range": "< -100000",
       "label_zh": "租賃大省 (< -100000)",
-      "label_en": "Band 1 (< -100000)",
+      "label_en": "Very low (< -100000)",
       "desc_zh": "落在「租賃大省」級距< -100000。租賃總成本遠低於購買淨成本,且省去殘值風險與維護,租賃明顯划算。",
-      "desc_en": "Falls in the \"租賃大省\" band < -100000. This is the 租賃大省 range for Lease vs Buy Calculator."
+      "desc_en": "Falls in the \"Very low\" band (< -100000). This is the very low range for Lease vs Buy Calculator."
     },
     {
       "key": "normal",
       "range": "-100000–-10000",
       "label_zh": "租賃略省 (-100000–-10000)",
-      "label_en": "Band 2 (-100000–-10000)",
+      "label_en": "Low (-100000–-10000)",
       "desc_zh": "落在「租賃略省」級距-100000–-10000。租賃略省,加上彈性與免維護,短期或不確定需求時租賃較佳。",
-      "desc_en": "Falls in the \"租賃略省\" band -100000–-10000. This is the 租賃略省 range for Lease vs Buy Calculator."
+      "desc_en": "Falls in the \"Low\" band (-100000–-10000). This is the low range for Lease vs Buy Calculator."
     },
     {
       "key": "notable",
       "range": "-10000–10000",
       "label_zh": "接近 (-10000–10000)",
-      "label_en": "Band 3 (-10000–10000)",
+      "label_en": "Moderate (-10000–10000)",
       "desc_zh": "落在「接近」級距-10000–10000。兩者接近,決策應看彈性、現金流、稅務與使用習慣等非價格因素。",
-      "desc_en": "Falls in the \"接近\" band -10000–10000. This is the 接近 range for Lease vs Buy Calculator."
+      "desc_en": "Falls in the \"Moderate\" band (-10000–10000). This is the moderate range for Lease vs Buy Calculator."
     },
     {
       "key": "high",
       "range": "10000–100000",
       "label_zh": "購買略省 (10000–100000)",
-      "label_en": "Band 4 (10000–100000)",
+      "label_en": "High (10000–100000)",
       "desc_zh": "落在「購買略省」級距10000–100000。購買略省,若長期使用且殘值穩定,購買開始占優。",
-      "desc_en": "Falls in the \"購買略省\" band 10000–100000. This is the 購買略省 range for Lease vs Buy Calculator."
+      "desc_en": "Falls in the \"High\" band (10000–100000). This is the high range for Lease vs Buy Calculator."
     },
     {
       "key": "major",
       "range": "100000–300000",
       "label_zh": "購買大省 (100000–300000)",
-      "label_en": "Band 5 (100000–300000)",
+      "label_en": "Very high (100000–300000)",
       "desc_zh": "落在「購買大省」級距100000–300000。購買大幅省,長期持有下擁有資產並回收殘值,購買明顯划算。",
-      "desc_en": "Falls in the \"購買大省\" band 100000–300000. This is the 購買大省 range for Lease vs Buy Calculator."
+      "desc_en": "Falls in the \"Very high\" band (100000–300000). This is the very high range for Lease vs Buy Calculator."
     },
     {
       "key": "executive",
       "range": "≥ 300000",
       "label_zh": "購買壓倒 (≥ 300000)",
-      "label_en": "Band 6 (≥ 300000)",
+      "label_en": "Extreme (≥ 300000)",
       "desc_zh": "落在「購買壓倒」級距≥ 300000。購買壓倒性勝出,租賃成本遠超購買淨成本,除非極度需要彈性否則應購買。",
-      "desc_en": "Falls in the \"購買壓倒\" band ≥ 300000. This is the 購買壓倒 range for Lease vs Buy Calculator."
+      "desc_en": "Falls in the \"Extreme\" band (≥ 300000). This is the extreme range for Lease vs Buy Calculator."
     }
   ],
   "affiliateItems": [

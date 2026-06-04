@@ -21,7 +21,7 @@ const bands = [
   { key: "moderate",    range: "2–5%",       label: { zh: "中度通膨",   en: "Moderate inflation" },   desc: { zh: "物價明顯上漲，需關注但不至於失控。",                                 en: "Prices rise noticeably; warrants attention but is not yet out of control." } },
   { key: "high",        range: "5–10%",      label: { zh: "高通膨",     en: "High inflation" },       desc: { zh: "侵蝕購買力，薪資與儲蓄實質價值下降。",                               en: "Erodes purchasing power; wages and savings lose real value quickly." } },
   { key: "hyper",       range: "10–50%+",    label: { zh: "惡性通膨",   en: "Hyperinflation" },       desc: { zh: "貨幣幾乎失去功能，需緊急資產重配置。",                               en: "Currency loses utility; emergency asset reallocation is required." } },
-  { key: "stagflation", range: "停滯+通膨", label: { zh: "停滯性通膨", en: "Stagflation" },          desc: { zh: "經濟停滯與物價上漲並存，最難應對的總體環境。",                       en: "Stagnant growth coexists with rising prices — the toughest macro regime." } },
+  { key: "stagflation", range: "Stagflation", label: { zh: "停滯性通膨", en: "Stagflation" },          desc: { zh: "經濟停滯與物價上漲並存，最難應對的總體環境。",                       en: "Stagnant growth coexists with rising prices — the toughest macro regime." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 0.01", label: { zh: "免稅 (< 0.01)", en: "Band 1 (< 0.01)" }, desc: { zh: "落在「免稅」級距< 0.01。0% VAT,零稅率或免稅商品(如出口、特定民生品)。", en: "Falls in the \"免稅\" band < 0.01. This is the 免稅 range for VAT Calculator." } },
-  { key: "normal", range: "0.01–8", label: { zh: "極低 (0.01–8)", en: "Band 2 (0.01–8)" }, desc: { zh: "落在「極低」級距0.01–8。< 8%,低稅率,常見於部分國家的優惠稅率品項。", en: "Falls in the \"極低\" band 0.01–8. This is the 極低 range for VAT Calculator." } },
-  { key: "notable", range: "8–15", label: { zh: "低 (8–15)", en: "Band 3 (8–15)" }, desc: { zh: "落在「低」級距8–15。8-15%,中低稅率,部分亞洲國家標準 VAT 區間。", en: "Falls in the \"低\" band 8–15. This is the 低 range for VAT Calculator." } },
-  { key: "high", range: "15–21", label: { zh: "標準 (15–21)", en: "Band 4 (15–21)" }, desc: { zh: "落在「標準」級距15–21。15-21%,標準 VAT 區間,多數歐盟國家的標準稅率。", en: "Falls in the \"標準\" band 15–21. This is the 標準 range for VAT Calculator." } },
-  { key: "major", range: "21–25", label: { zh: "高 (21–25)", en: "Band 5 (21–25)" }, desc: { zh: "落在「高」級距21–25。21-25%,偏高,北歐與部分歐洲國家的標準稅率。", en: "Falls in the \"高\" band 21–25. This is the 高 range for VAT Calculator." } },
-  { key: "executive", range: "≥ 25", label: { zh: "極高 (≥ 25)", en: "Band 6 (≥ 25)" }, desc: { zh: "落在「極高」級距≥ 25。> 25%,極高,匈牙利等少數國家的標準稅率。", en: "Falls in the \"極高\" band ≥ 25. This is the 極高 range for VAT Calculator." } },
+  { key: "tiny", range: "< 0.01", label: { zh: "免稅 (< 0.01)", en: "Very low (< 0.01)" }, desc: { zh: "落在「免稅」級距< 0.01。0% VAT,零稅率或免稅商品(如出口、特定民生品)。", en: "Falls in the \"Very low\" band (< 0.01). This is the very low range for VAT Calculator." } },
+  { key: "normal", range: "0.01–8", label: { zh: "極低 (0.01–8)", en: "Low (0.01–8)" }, desc: { zh: "落在「極低」級距0.01–8。< 8%,低稅率,常見於部分國家的優惠稅率品項。", en: "Falls in the \"Low\" band (0.01–8). This is the low range for VAT Calculator." } },
+  { key: "notable", range: "8–15", label: { zh: "低 (8–15)", en: "Moderate (8–15)" }, desc: { zh: "落在「低」級距8–15。8-15%,中低稅率,部分亞洲國家標準 VAT 區間。", en: "Falls in the \"Moderate\" band (8–15). This is the moderate range for VAT Calculator." } },
+  { key: "high", range: "15–21", label: { zh: "標準 (15–21)", en: "High (15–21)" }, desc: { zh: "落在「標準」級距15–21。15-21%,標準 VAT 區間,多數歐盟國家的標準稅率。", en: "Falls in the \"High\" band (15–21). This is the high range for VAT Calculator." } },
+  { key: "major", range: "21–25", label: { zh: "高 (21–25)", en: "Very high (21–25)" }, desc: { zh: "落在「高」級距21–25。21-25%,偏高,北歐與部分歐洲國家的標準稅率。", en: "Falls in the \"Very high\" band (21–25). This is the very high range for VAT Calculator." } },
+  { key: "executive", range: "≥ 25", label: { zh: "極高 (≥ 25)", en: "Extreme (≥ 25)" }, desc: { zh: "落在「極高」級距≥ 25。> 25%,極高,匈牙利等少數國家的標準稅率。", en: "Falls in the \"Extreme\" band (≥ 25). This is the extreme range for VAT Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

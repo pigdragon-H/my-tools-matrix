@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 0.01", label: { zh: "反而貴 (< 0.01)", en: "Band 1 (< 0.01)" }, desc: { zh: "落在「反而貴」級距< 0.01。每月省 ≤ 0,新方案反而更貴,通常因延長年限抵銷利率優勢,不建議。", en: "Falls in the \"反而貴\" band < 0.01. This is the 反而貴 range for Refinance Calculator." } },
-  { key: "normal", range: "0.01–100", label: { zh: "持平 (0.01–100)", en: "Band 2 (0.01–100)" }, desc: { zh: "落在「持平」級距0.01–100。0-100,月省微薄,需確認手續費與閉鎖成本是否值得。", en: "Falls in the \"持平\" band 0.01–100. This is the 持平 range for Refinance Calculator." } },
-  { key: "notable", range: "100–300", label: { zh: "小省 (100–300)", en: "Band 3 (100–300)" }, desc: { zh: "落在「小省」級距100–300。100-300,小幅節省,計算回本期後再決定。", en: "Falls in the \"小省\" band 100–300. This is the 小省 range for Refinance Calculator." } },
-  { key: "high", range: "300–600", label: { zh: "中省 (300–600)", en: "Band 4 (300–600)" }, desc: { zh: "落在「中省」級距300–600。300-600,中等節省,通常值得,留意一次性費用攤回。", en: "Falls in the \"中省\" band 300–600. This is the 中省 range for Refinance Calculator." } },
-  { key: "major", range: "600–1000", label: { zh: "大省 (600–1000)", en: "Band 5 (600–1000)" }, desc: { zh: "落在「大省」級距600–1000。600-1000,大幅節省,再融資吸引力高。", en: "Falls in the \"大省\" band 600–1000. This is the 大省 range for Refinance Calculator." } },
-  { key: "executive", range: "≥ 1000", label: { zh: "超省 (≥ 1000)", en: "Band 6 (≥ 1000)" }, desc: { zh: "落在「超省」級距≥ 1000。> 1000,超大節省,強烈建議評估再融資(確認費用後)。", en: "Falls in the \"超省\" band ≥ 1000. This is the 超省 range for Refinance Calculator." } },
+  { key: "tiny", range: "< 0.01", label: { zh: "反而貴 (< 0.01)", en: "Very low (< 0.01)" }, desc: { zh: "落在「反而貴」級距< 0.01。每月省 ≤ 0,新方案反而更貴,通常因延長年限抵銷利率優勢,不建議。", en: "Falls in the \"Very low\" band (< 0.01). This is the very low range for Refinance Calculator." } },
+  { key: "normal", range: "0.01–100", label: { zh: "持平 (0.01–100)", en: "Low (0.01–100)" }, desc: { zh: "落在「持平」級距0.01–100。0-100,月省微薄,需確認手續費與閉鎖成本是否值得。", en: "Falls in the \"Low\" band (0.01–100). This is the low range for Refinance Calculator." } },
+  { key: "notable", range: "100–300", label: { zh: "小省 (100–300)", en: "Moderate (100–300)" }, desc: { zh: "落在「小省」級距100–300。100-300,小幅節省,計算回本期後再決定。", en: "Falls in the \"Moderate\" band (100–300). This is the moderate range for Refinance Calculator." } },
+  { key: "high", range: "300–600", label: { zh: "中省 (300–600)", en: "High (300–600)" }, desc: { zh: "落在「中省」級距300–600。300-600,中等節省,通常值得,留意一次性費用攤回。", en: "Falls in the \"High\" band (300–600). This is the high range for Refinance Calculator." } },
+  { key: "major", range: "600–1000", label: { zh: "大省 (600–1000)", en: "Very high (600–1000)" }, desc: { zh: "落在「大省」級距600–1000。600-1000,大幅節省,再融資吸引力高。", en: "Falls in the \"Very high\" band (600–1000). This is the very high range for Refinance Calculator." } },
+  { key: "executive", range: "≥ 1000", label: { zh: "超省 (≥ 1000)", en: "Extreme (≥ 1000)" }, desc: { zh: "落在「超省」級距≥ 1000。> 1000,超大節省,強烈建議評估再融資(確認費用後)。", en: "Falls in the \"Extreme\" band (≥ 1000). This is the extreme range for Refinance Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

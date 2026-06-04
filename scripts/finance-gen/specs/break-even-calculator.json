@@ -47,49 +47,49 @@
       "key": "tiny",
       "range": "< 100",
       "label_zh": "極輕鬆 (< 100)",
-      "label_en": "Band 1 (< 100)",
+      "label_en": "Very low (< 100)",
       "desc_zh": "落在「極輕鬆」級距< 100。不到 100 件即可損益兩平,毛利結構非常健康,可考慮降價搶市佔。",
-      "desc_en": "Falls in the \"極輕鬆\" band < 100. This is the 極輕鬆 range for Break-Even Calculator."
+      "desc_en": "Falls in the \"Very low\" band (< 100). This is the very low range for Break-Even Calculator."
     },
     {
       "key": "normal",
       "range": "100–500",
       "label_zh": "輕鬆 (100–500)",
-      "label_en": "Band 2 (100–500)",
+      "label_en": "Low (100–500)",
       "desc_zh": "落在「輕鬆」級距100–500。100-500 件達標,屬常見小型零售或 SaaS 月訂閱規模,行銷預算彈性大。",
-      "desc_en": "Falls in the \"輕鬆\" band 100–500. This is the 輕鬆 range for Break-Even Calculator."
+      "desc_en": "Falls in the \"Low\" band (100–500). This is the low range for Break-Even Calculator."
     },
     {
       "key": "notable",
       "range": "500–2000",
       "label_zh": "可達 (500–2000)",
-      "label_en": "Band 3 (500–2000)",
+      "label_en": "Moderate (500–2000)",
       "desc_zh": "落在「可達」級距500–2000。500-2000 件,需穩定銷售管道,建議搭配自動化行銷與訂閱模型。",
-      "desc_en": "Falls in the \"可達\" band 500–2000. This is the 可達 range for Break-Even Calculator."
+      "desc_en": "Falls in the \"Moderate\" band (500–2000). This is the moderate range for Break-Even Calculator."
     },
     {
       "key": "high",
       "range": "2000–5000",
       "label_zh": "吃力 (2000–5000)",
-      "label_en": "Band 4 (2000–5000)",
+      "label_en": "High (2000–5000)",
       "desc_zh": "落在「吃力」級距2000–5000。2000-5000 件門檻偏高,要重新檢視定價、變動成本或提高客單價。",
-      "desc_en": "Falls in the \"吃力\" band 2000–5000. This is the 吃力 range for Break-Even Calculator."
+      "desc_en": "Falls in the \"High\" band (2000–5000). This is the high range for Break-Even Calculator."
     },
     {
       "key": "major",
       "range": "5000–10000",
       "label_zh": "困難 (5000–10000)",
-      "label_en": "Band 5 (5000–10000)",
+      "label_en": "Very high (5000–10000)",
       "desc_zh": "落在「困難」級距5000–10000。5000-10000 件,單靠線下難達標,需要規模化通路或數位轉型。",
-      "desc_en": "Falls in the \"困難\" band 5000–10000. This is the 困難 range for Break-Even Calculator."
+      "desc_en": "Falls in the \"Very high\" band (5000–10000). This is the very high range for Break-Even Calculator."
     },
     {
       "key": "executive",
       "range": "≥ 10000",
       "label_zh": "不可行 (≥ 10000)",
-      "label_en": "Band 6 (≥ 10000)",
+      "label_en": "Extreme (≥ 10000)",
       "desc_zh": "落在「不可行」級距≥ 10000。超過 10000 件才回本,商業模式可能需要重新設計,或固定成本過高。",
-      "desc_en": "Falls in the \"不可行\" band ≥ 10000. This is the 不可行 range for Break-Even Calculator."
+      "desc_en": "Falls in the \"Extreme\" band (≥ 10000). This is the extreme range for Break-Even Calculator."
     }
   ],
   "affiliateItems": [

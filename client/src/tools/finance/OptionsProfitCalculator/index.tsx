@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< -500", label: { zh: "大幅虧損 (< -500)", en: "Band 1 (< -500)" }, desc: { zh: "落在「大幅虧損」級距< -500。Call 損益 < -$500,通常為 OTM 到期失效,權利金歸零,需檢視策略合理性。", en: "Falls in the \"大幅虧損\" band < -500. This is the 大幅虧損 range for Options Profit Calculator." } },
-  { key: "normal", range: "-500–-100", label: { zh: "小虧 (-500–-100)", en: "Band 2 (-500–-100)" }, desc: { zh: "落在「小虧」級距-500–-100。-$500 至 -$100,小幅虧損,可能因標的小幅未觸及履約價,屬正常波動。", en: "Falls in the \"小虧\" band -500–-100. This is the 小虧 range for Options Profit Calculator." } },
-  { key: "notable", range: "-100–100", label: { zh: "持平 (-100–100)", en: "Band 3 (-100–100)" }, desc: { zh: "落在「持平」級距-100–100。-$100 至 $100,接近損益兩平,表示行情未明顯偏向,適合觀望或調整。", en: "Falls in the \"持平\" band -100–100. This is the 持平 range for Options Profit Calculator." } },
-  { key: "high", range: "100–500", label: { zh: "小賺 (100–500)", en: "Band 4 (100–500)" }, desc: { zh: "落在「小賺」級距100–500。$100-$500,小幅獲利,屬常見短線收割區,可考慮分批了結。", en: "Falls in the \"小賺\" band 100–500. This is the 小賺 range for Options Profit Calculator." } },
-  { key: "major", range: "500–2000", label: { zh: "大賺 (500–2000)", en: "Band 5 (500–2000)" }, desc: { zh: "落在「大賺」級距500–2000。$500-$2000,顯著獲利,行情明顯方向確立,建議設追蹤停利。", en: "Falls in the \"大賺\" band 500–2000. This is the 大賺 range for Options Profit Calculator." } },
-  { key: "executive", range: "≥ 2000", label: { zh: "翻倍以上 (≥ 2000)", en: "Band 6 (≥ 2000)" }, desc: { zh: "落在「翻倍以上」級距≥ 2000。> $2000,屬大行情,務必落袋為安,選擇權獲利波動劇烈,容易回吐。", en: "Falls in the \"翻倍以上\" band ≥ 2000. This is the 翻倍以上 range for Options Profit Calculator." } },
+  { key: "tiny", range: "< -500", label: { zh: "大幅虧損 (< -500)", en: "Very low (< -500)" }, desc: { zh: "落在「大幅虧損」級距< -500。Call 損益 < -$500,通常為 OTM 到期失效,權利金歸零,需檢視策略合理性。", en: "Falls in the \"Very low\" band (< -500). This is the very low range for Options Profit Calculator." } },
+  { key: "normal", range: "-500–-100", label: { zh: "小虧 (-500–-100)", en: "Low (-500–-100)" }, desc: { zh: "落在「小虧」級距-500–-100。-$500 至 -$100,小幅虧損,可能因標的小幅未觸及履約價,屬正常波動。", en: "Falls in the \"Low\" band (-500–-100). This is the low range for Options Profit Calculator." } },
+  { key: "notable", range: "-100–100", label: { zh: "持平 (-100–100)", en: "Moderate (-100–100)" }, desc: { zh: "落在「持平」級距-100–100。-$100 至 $100,接近損益兩平,表示行情未明顯偏向,適合觀望或調整。", en: "Falls in the \"Moderate\" band (-100–100). This is the moderate range for Options Profit Calculator." } },
+  { key: "high", range: "100–500", label: { zh: "小賺 (100–500)", en: "High (100–500)" }, desc: { zh: "落在「小賺」級距100–500。$100-$500,小幅獲利,屬常見短線收割區,可考慮分批了結。", en: "Falls in the \"High\" band (100–500). This is the high range for Options Profit Calculator." } },
+  { key: "major", range: "500–2000", label: { zh: "大賺 (500–2000)", en: "Very high (500–2000)" }, desc: { zh: "落在「大賺」級距500–2000。$500-$2000,顯著獲利,行情明顯方向確立,建議設追蹤停利。", en: "Falls in the \"Very high\" band (500–2000). This is the very high range for Options Profit Calculator." } },
+  { key: "executive", range: "≥ 2000", label: { zh: "翻倍以上 (≥ 2000)", en: "Extreme (≥ 2000)" }, desc: { zh: "落在「翻倍以上」級距≥ 2000。> $2000,屬大行情,務必落袋為安,選擇權獲利波動劇烈,容易回吐。", en: "Falls in the \"Extreme\" band (≥ 2000). This is the extreme range for Options Profit Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

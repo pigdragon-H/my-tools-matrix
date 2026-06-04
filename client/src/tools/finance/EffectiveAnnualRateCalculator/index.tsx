@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 2", label: { zh: "極低 (< 2)", en: "Band 1 (< 2)" }, desc: { zh: "落在「極低」級距< 2。EAR < 2%,屬於低利環境,常見於定存或高評級債。", en: "Falls in the \"極低\" band < 2. This is the 極低 range for Effective Annual Rate Calculator." } },
-  { key: "normal", range: "2–5", label: { zh: "低 (2–5)", en: "Band 2 (2–5)" }, desc: { zh: "落在「低」級距2–5。2-5%,溫和利率,常見於穩健投資或優質債券。", en: "Falls in the \"低\" band 2–5. This is the 低 range for Effective Annual Rate Calculator." } },
-  { key: "notable", range: "5–10", label: { zh: "中等 (5–10)", en: "Band 3 (5–10)" }, desc: { zh: "落在「中等」級距5–10。5-10%,中等,常見於股市長期平均報酬或信貸利率。", en: "Falls in the \"中等\" band 5–10. This is the 中等 range for Effective Annual Rate Calculator." } },
-  { key: "high", range: "10–20", label: { zh: "偏高 (10–20)", en: "Band 4 (10–20)" }, desc: { zh: "落在「偏高」級距10–20。10-20%,偏高,常見於信用卡循環或高息信貸。", en: "Falls in the \"偏高\" band 10–20. This is the 偏高 range for Effective Annual Rate Calculator." } },
-  { key: "major", range: "20–36", label: { zh: "高 (20–36)", en: "Band 5 (20–36)" }, desc: { zh: "落在「高」級距20–36。20-36%,高,接近信用卡循環利率上限,負擔沉重。", en: "Falls in the \"高\" band 20–36. This is the 高 range for Effective Annual Rate Calculator." } },
-  { key: "executive", range: "≥ 36", label: { zh: "極高 (≥ 36)", en: "Band 6 (≥ 36)" }, desc: { zh: "落在「極高」級距≥ 36。> 36%,極高,常見於發薪日貸款或高利貸,務必避免。", en: "Falls in the \"極高\" band ≥ 36. This is the 極高 range for Effective Annual Rate Calculator." } },
+  { key: "tiny", range: "< 2", label: { zh: "極低 (< 2)", en: "Very low (< 2)" }, desc: { zh: "落在「極低」級距< 2。EAR < 2%,屬於低利環境,常見於定存或高評級債。", en: "Falls in the \"Very low\" band (< 2). This is the very low range for Effective Annual Rate Calculator." } },
+  { key: "normal", range: "2–5", label: { zh: "低 (2–5)", en: "Low (2–5)" }, desc: { zh: "落在「低」級距2–5。2-5%,溫和利率,常見於穩健投資或優質債券。", en: "Falls in the \"Low\" band (2–5). This is the low range for Effective Annual Rate Calculator." } },
+  { key: "notable", range: "5–10", label: { zh: "中等 (5–10)", en: "Moderate (5–10)" }, desc: { zh: "落在「中等」級距5–10。5-10%,中等,常見於股市長期平均報酬或信貸利率。", en: "Falls in the \"Moderate\" band (5–10). This is the moderate range for Effective Annual Rate Calculator." } },
+  { key: "high", range: "10–20", label: { zh: "偏高 (10–20)", en: "High (10–20)" }, desc: { zh: "落在「偏高」級距10–20。10-20%,偏高,常見於信用卡循環或高息信貸。", en: "Falls in the \"High\" band (10–20). This is the high range for Effective Annual Rate Calculator." } },
+  { key: "major", range: "20–36", label: { zh: "高 (20–36)", en: "Very high (20–36)" }, desc: { zh: "落在「高」級距20–36。20-36%,高,接近信用卡循環利率上限,負擔沉重。", en: "Falls in the \"Very high\" band (20–36). This is the very high range for Effective Annual Rate Calculator." } },
+  { key: "executive", range: "≥ 36", label: { zh: "極高 (≥ 36)", en: "Extreme (≥ 36)" }, desc: { zh: "落在「極高」級距≥ 36。> 36%,極高,常見於發薪日貸款或高利貸,務必避免。", en: "Falls in the \"Extreme\" band (≥ 36). This is the extreme range for Effective Annual Rate Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

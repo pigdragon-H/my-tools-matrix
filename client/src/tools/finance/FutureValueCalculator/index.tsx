@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 25", label: { zh: "保守 (< 25)", en: "Band 1 (< 25)" }, desc: { zh: "落在「保守」級距< 25。總成長 < 25%,屬於短期或低報酬,複利尚未顯威。", en: "Falls in the \"保守\" band < 25. This is the 保守 range for Future Value Calculator." } },
-  { key: "normal", range: "25–60", label: { zh: "溫和 (25–60)", en: "Band 2 (25–60)" }, desc: { zh: "落在「溫和」級距25–60。25-60%,溫和成長,常見於 5-10 年期穩健配置。", en: "Falls in the \"溫和\" band 25–60. This is the 溫和 range for Future Value Calculator." } },
-  { key: "notable", range: "60–120", label: { zh: "穩健 (60–120)", en: "Band 3 (60–120)" }, desc: { zh: "落在「穩健」級距60–120。60-120%,穩健,複利開始發揮,資產接近翻倍。", en: "Falls in the \"穩健\" band 60–120. This is the 穩健 range for Future Value Calculator." } },
-  { key: "high", range: "120–250", label: { zh: "成長 (120–250)", en: "Band 4 (120–250)" }, desc: { zh: "落在「成長」級距120–250。120-250%,成長,長年限複利成果,資產數倍成長。", en: "Falls in the \"成長\" band 120–250. This is the 成長 range for Future Value Calculator." } },
-  { key: "major", range: "250–500", label: { zh: "強勁 (250–500)", en: "Band 5 (250–500)" }, desc: { zh: "落在「強勁」級距250–500。250-500%,強勁,長期高報酬累積的可觀成果。", en: "Falls in the \"強勁\" band 250–500. This is the 強勁 range for Future Value Calculator." } },
-  { key: "executive", range: "≥ 500", label: { zh: "驚人 (≥ 500)", en: "Band 6 (≥ 500)" }, desc: { zh: "落在「驚人」級距≥ 500。> 500%,驚人,超長年限或高報酬,複利威力充分展現。", en: "Falls in the \"驚人\" band ≥ 500. This is the 驚人 range for Future Value Calculator." } },
+  { key: "tiny", range: "< 25", label: { zh: "保守 (< 25)", en: "Very low (< 25)" }, desc: { zh: "落在「保守」級距< 25。總成長 < 25%,屬於短期或低報酬,複利尚未顯威。", en: "Falls in the \"Very low\" band (< 25). This is the very low range for Future Value Calculator." } },
+  { key: "normal", range: "25–60", label: { zh: "溫和 (25–60)", en: "Low (25–60)" }, desc: { zh: "落在「溫和」級距25–60。25-60%,溫和成長,常見於 5-10 年期穩健配置。", en: "Falls in the \"Low\" band (25–60). This is the low range for Future Value Calculator." } },
+  { key: "notable", range: "60–120", label: { zh: "穩健 (60–120)", en: "Moderate (60–120)" }, desc: { zh: "落在「穩健」級距60–120。60-120%,穩健,複利開始發揮,資產接近翻倍。", en: "Falls in the \"Moderate\" band (60–120). This is the moderate range for Future Value Calculator." } },
+  { key: "high", range: "120–250", label: { zh: "成長 (120–250)", en: "High (120–250)" }, desc: { zh: "落在「成長」級距120–250。120-250%,成長,長年限複利成果,資產數倍成長。", en: "Falls in the \"High\" band (120–250). This is the high range for Future Value Calculator." } },
+  { key: "major", range: "250–500", label: { zh: "強勁 (250–500)", en: "Very high (250–500)" }, desc: { zh: "落在「強勁」級距250–500。250-500%,強勁,長期高報酬累積的可觀成果。", en: "Falls in the \"Very high\" band (250–500). This is the very high range for Future Value Calculator." } },
+  { key: "executive", range: "≥ 500", label: { zh: "驚人 (≥ 500)", en: "Extreme (≥ 500)" }, desc: { zh: "落在「驚人」級距≥ 500。> 500%,驚人,超長年限或高報酬,複利威力充分展現。", en: "Falls in the \"Extreme\" band (≥ 500). This is the extreme range for Future Value Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

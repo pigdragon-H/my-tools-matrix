@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 1", label: { zh: "極低 (< 1)", en: "Band 1 (< 1)" }, desc: { zh: "落在「極低」級距< 1。殖利率 < 1%,屬成長型公司,主要靠股價增值,股息只是點綴。", en: "Falls in the \"極低\" band < 1. This is the 極低 range for Dividend Yield Calculator." } },
-  { key: "normal", range: "1–2", label: { zh: "偏低 (1–2)", en: "Band 2 (1–2)" }, desc: { zh: "落在「偏低」級距1–2。1-2%,屬科技或成長股,留存盈餘做研發與併購,長期報酬看股價。", en: "Falls in the \"偏低\" band 1–2. This is the 偏低 range for Dividend Yield Calculator." } },
-  { key: "notable", range: "2–3.5", label: { zh: "一般 (2–3.5)", en: "Band 3 (2–3.5)" }, desc: { zh: "落在「一般」級距2–3.5。2-3.5%,屬大盤一般水準(S&P 500 約 1.5-2.0%、台股大盤約 3-4%)。", en: "Falls in the \"一般\" band 2–3.5. This is the 一般 range for Dividend Yield Calculator." } },
-  { key: "high", range: "3.5–5", label: { zh: "良好 (3.5–5)", en: "Band 4 (3.5–5)" }, desc: { zh: "落在「良好」級距3.5–5。3.5-5%,屬於收息族常見區間,景氣好時的金融、電信、公用事業。", en: "Falls in the \"良好\" band 3.5–5. This is the 良好 range for Dividend Yield Calculator." } },
-  { key: "major", range: "5–7", label: { zh: "高 (5–7)", en: "Band 5 (5–7)" }, desc: { zh: "落在「高」級距5–7。5-7%,進入高股息區,可能是 REITs、特別股、景氣循環股,需檢視配息可持續性。", en: "Falls in the \"高\" band 5–7. This is the 高 range for Dividend Yield Calculator." } },
-  { key: "executive", range: "≥ 7", label: { zh: "極高 (≥ 7)", en: "Band 6 (≥ 7)" }, desc: { zh: "落在「極高」級距≥ 7。> 7%,屬殖利率陷阱警示區,配息可能不可持續(payout ratio > 100%、產業衰退、債務危機)。", en: "Falls in the \"極高\" band ≥ 7. This is the 極高 range for Dividend Yield Calculator." } },
+  { key: "tiny", range: "< 1", label: { zh: "極低 (< 1)", en: "Very low (< 1)" }, desc: { zh: "落在「極低」級距< 1。殖利率 < 1%,屬成長型公司,主要靠股價增值,股息只是點綴。", en: "Falls in the \"Very low\" band (< 1). This is the very low range for Dividend Yield Calculator." } },
+  { key: "normal", range: "1–2", label: { zh: "偏低 (1–2)", en: "Low (1–2)" }, desc: { zh: "落在「偏低」級距1–2。1-2%,屬科技或成長股,留存盈餘做研發與併購,長期報酬看股價。", en: "Falls in the \"Low\" band (1–2). This is the low range for Dividend Yield Calculator." } },
+  { key: "notable", range: "2–3.5", label: { zh: "一般 (2–3.5)", en: "Moderate (2–3.5)" }, desc: { zh: "落在「一般」級距2–3.5。2-3.5%,屬大盤一般水準(S&P 500 約 1.5-2.0%、台股大盤約 3-4%)。", en: "Falls in the \"Moderate\" band (2–3.5). This is the moderate range for Dividend Yield Calculator." } },
+  { key: "high", range: "3.5–5", label: { zh: "良好 (3.5–5)", en: "High (3.5–5)" }, desc: { zh: "落在「良好」級距3.5–5。3.5-5%,屬於收息族常見區間,景氣好時的金融、電信、公用事業。", en: "Falls in the \"High\" band (3.5–5). This is the high range for Dividend Yield Calculator." } },
+  { key: "major", range: "5–7", label: { zh: "高 (5–7)", en: "Very high (5–7)" }, desc: { zh: "落在「高」級距5–7。5-7%,進入高股息區,可能是 REITs、特別股、景氣循環股,需檢視配息可持續性。", en: "Falls in the \"Very high\" band (5–7). This is the very high range for Dividend Yield Calculator." } },
+  { key: "executive", range: "≥ 7", label: { zh: "極高 (≥ 7)", en: "Extreme (≥ 7)" }, desc: { zh: "落在「極高」級距≥ 7。> 7%,屬殖利率陷阱警示區,配息可能不可持續(payout ratio > 100%、產業衰退、債務危機)。", en: "Falls in the \"Extreme\" band (≥ 7). This is the extreme range for Dividend Yield Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

@@ -47,49 +47,49 @@
       "key": "tiny",
       "range": "< 0.8",
       "label_zh": "極弱 (< 0.8)",
-      "label_en": "Band 1 (< 0.8)",
+      "label_en": "Very low (< 0.8)",
       "desc_zh": "落在「極弱」級距< 0.8。流動比率 < 0.8,流動性嚴重不足,短期內可能無法償還即將到期的負債,需立即處理。",
-      "desc_en": "Falls in the \"極弱\" band < 0.8. This is the 極弱 range for Financial Ratio Calculator."
+      "desc_en": "Falls in the \"Very low\" band (< 0.8). This is the very low range for Financial Ratio Calculator."
     },
     {
       "key": "normal",
       "range": "0.8–1.2",
       "label_zh": "偏弱 (0.8–1.2)",
-      "label_en": "Band 2 (0.8–1.2)",
+      "label_en": "Low (0.8–1.2)",
       "desc_zh": "落在「偏弱」級距0.8–1.2。0.8-1.2,屬偏弱區,接近短期償債警戒線,需加強現金管理或緊縮負債。",
-      "desc_en": "Falls in the \"偏弱\" band 0.8–1.2. This is the 偏弱 range for Financial Ratio Calculator."
+      "desc_en": "Falls in the \"Low\" band (0.8–1.2). This is the low range for Financial Ratio Calculator."
     },
     {
       "key": "notable",
       "range": "1.2–1.8",
       "label_zh": "尚可 (1.2–1.8)",
-      "label_en": "Band 3 (1.2–1.8)",
+      "label_en": "Moderate (1.2–1.8)",
       "desc_zh": "落在「尚可」級距1.2–1.8。1.2-1.8,尚可,屬一般中小型企業常見水準,需注意季節性現金壓力。",
-      "desc_en": "Falls in the \"尚可\" band 1.2–1.8. This is the 尚可 range for Financial Ratio Calculator."
+      "desc_en": "Falls in the \"Moderate\" band (1.2–1.8). This is the moderate range for Financial Ratio Calculator."
     },
     {
       "key": "high",
       "range": "1.8–2.5",
       "label_zh": "穩健 (1.8–2.5)",
-      "label_en": "Band 4 (1.8–2.5)",
+      "label_en": "High (1.8–2.5)",
       "desc_zh": "落在「穩健」級距1.8–2.5。1.8-2.5,穩健,流動資產足以覆蓋短債,屬健康財務結構。",
-      "desc_en": "Falls in the \"穩健\" band 1.8–2.5. This is the 穩健 range for Financial Ratio Calculator."
+      "desc_en": "Falls in the \"High\" band (1.8–2.5). This is the high range for Financial Ratio Calculator."
     },
     {
       "key": "major",
       "range": "2.5–4",
       "label_zh": "強健 (2.5–4)",
-      "label_en": "Band 5 (2.5–4)",
+      "label_en": "Very high (2.5–4)",
       "desc_zh": "落在「強健」級距2.5–4。2.5-4,強健,但若過高(> 3)可能代表資金運用效率不佳,有閒置資產。",
-      "desc_en": "Falls in the \"強健\" band 2.5–4. This is the 強健 range for Financial Ratio Calculator."
+      "desc_en": "Falls in the \"Very high\" band (2.5–4). This is the very high range for Financial Ratio Calculator."
     },
     {
       "key": "executive",
       "range": "≥ 4",
       "label_zh": "極強 (≥ 4)",
-      "label_en": "Band 6 (≥ 4)",
+      "label_en": "Extreme (≥ 4)",
       "desc_zh": "落在「極強」級距≥ 4。> 4,極強,流動性過剩,投資者可能要求發放股息或回購股票釋放股東價值。",
-      "desc_en": "Falls in the \"極強\" band ≥ 4. This is the 極強 range for Financial Ratio Calculator."
+      "desc_en": "Falls in the \"Extreme\" band (≥ 4). This is the extreme range for Financial Ratio Calculator."
     }
   ],
   "affiliateItems": [

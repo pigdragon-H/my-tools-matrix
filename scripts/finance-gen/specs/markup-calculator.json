@@ -47,49 +47,49 @@
       "key": "tiny",
       "range": "< 1",
       "label_zh": "虧損 (< 1)",
-      "label_en": "Band 1 (< 1)",
+      "label_en": "Very low (< 1)",
       "desc_zh": "落在「虧損」級距< 1。毛利率 ≤ 0%,售價低於成本,賠本銷售,務必檢視定價。",
-      "desc_en": "Falls in the \"虧損\" band < 1. This is the 虧損 range for Markup Calculator."
+      "desc_en": "Falls in the \"Very low\" band (< 1). This is the very low range for Markup Calculator."
     },
     {
       "key": "normal",
       "range": "1–20",
       "label_zh": "微利 (1–20)",
-      "label_en": "Band 2 (1–20)",
+      "label_en": "Low (1–20)",
       "desc_zh": "落在「微利」級距1–20。< 20%,微利,常見於量大薄利的零售或大宗商品。",
-      "desc_en": "Falls in the \"微利\" band 1–20. This is the 微利 range for Markup Calculator."
+      "desc_en": "Falls in the \"Low\" band (1–20). This is the low range for Markup Calculator."
     },
     {
       "key": "notable",
       "range": "20–35",
       "label_zh": "普通 (20–35)",
-      "label_en": "Band 3 (20–35)",
+      "label_en": "Moderate (20–35)",
       "desc_zh": "落在「普通」級距20–35。20-35%,普通毛利,多數實體零售的常見區間。",
-      "desc_en": "Falls in the \"普通\" band 20–35. This is the 普通 range for Markup Calculator."
+      "desc_en": "Falls in the \"Moderate\" band (20–35). This is the moderate range for Markup Calculator."
     },
     {
       "key": "high",
       "range": "35–50",
       "label_zh": "健康 (35–50)",
-      "label_en": "Band 4 (35–50)",
+      "label_en": "High (35–50)",
       "desc_zh": "落在「健康」級距35–50。35-50%,健康毛利,品牌商品或差異化產品常見。",
-      "desc_en": "Falls in the \"健康\" band 35–50. This is the 健康 range for Markup Calculator."
+      "desc_en": "Falls in the \"High\" band (35–50). This is the high range for Markup Calculator."
     },
     {
       "key": "major",
       "range": "50–65",
       "label_zh": "高利 (50–65)",
-      "label_en": "Band 5 (50–65)",
+      "label_en": "Very high (50–65)",
       "desc_zh": "落在「高利」級距50–65。50-65%,高毛利,常見於軟體、服務或精品。",
-      "desc_en": "Falls in the \"高利\" band 50–65. This is the 高利 range for Markup Calculator."
+      "desc_en": "Falls in the \"Very high\" band (50–65). This is the very high range for Markup Calculator."
     },
     {
       "key": "executive",
       "range": "≥ 65",
       "label_zh": "超高 (≥ 65)",
-      "label_en": "Band 6 (≥ 65)",
+      "label_en": "Extreme (≥ 65)",
       "desc_zh": "落在「超高」級距≥ 65。> 65%,超高毛利,常見於數位產品、奢侈品或專利商品。",
-      "desc_en": "Falls in the \"超高\" band ≥ 65. This is the 超高 range for Markup Calculator."
+      "desc_en": "Falls in the \"Extreme\" band (≥ 65). This is the extreme range for Markup Calculator."
     }
   ],
   "affiliateItems": [

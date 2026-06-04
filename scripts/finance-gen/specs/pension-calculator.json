@@ -47,49 +47,49 @@
       "key": "tiny",
       "range": "< 3000000",
       "label_zh": "不足 (< 3000000)",
-      "label_en": "Band 1 (< 3000000)",
+      "label_en": "Very low (< 3000000)",
       "desc_zh": "落在「不足」級距< 3000000。累積 < 300 萬,僅夠基本生活,需積極補充自願提撥或個人投資。",
-      "desc_en": "Falls in the \"不足\" band < 3000000. This is the 不足 range for Pension Calculator."
+      "desc_en": "Falls in the \"Very low\" band (< 3000000). This is the very low range for Pension Calculator."
     },
     {
       "key": "normal",
       "range": "3000000–8000000",
       "label_zh": "緊縮 (3000000–8000000)",
-      "label_en": "Band 2 (3000000–8000000)",
+      "label_en": "Low (3000000–8000000)",
       "desc_zh": "落在「緊縮」級距3000000–8000000。300-800 萬,屬緊縮區,維持基本生活但無餘力旅遊或醫療緩衝。",
-      "desc_en": "Falls in the \"緊縮\" band 3000000–8000000. This is the 緊縮 range for Pension Calculator."
+      "desc_en": "Falls in the \"Low\" band (3000000–8000000). This is the low range for Pension Calculator."
     },
     {
       "key": "notable",
       "range": "8000000–15000000",
       "label_zh": "尚可 (8000000–15000000)",
-      "label_en": "Band 3 (8000000–15000000)",
+      "label_en": "Moderate (8000000–15000000)",
       "desc_zh": "落在「尚可」級距8000000–15000000。800-1500 萬,合理水準,搭配勞保年金可維持中等生活品質。",
-      "desc_en": "Falls in the \"尚可\" band 8000000–15000000. This is the 尚可 range for Pension Calculator."
+      "desc_en": "Falls in the \"Moderate\" band (8000000–15000000). This is the moderate range for Pension Calculator."
     },
     {
       "key": "high",
       "range": "15000000–25000000",
       "label_zh": "穩定 (15000000–25000000)",
-      "label_en": "Band 4 (15000000–25000000)",
+      "label_en": "High (15000000–25000000)",
       "desc_zh": "落在「穩定」級距15000000–25000000。1500-2500 萬,穩定區,可享有舒適退休生活並保留醫療緩衝。",
-      "desc_en": "Falls in the \"穩定\" band 15000000–25000000. This is the 穩定 range for Pension Calculator."
+      "desc_en": "Falls in the \"High\" band (15000000–25000000). This is the high range for Pension Calculator."
     },
     {
       "key": "major",
       "range": "25000000–40000000",
       "label_zh": "充裕 (25000000–40000000)",
-      "label_en": "Band 5 (25000000–40000000)",
+      "label_en": "Very high (25000000–40000000)",
       "desc_zh": "落在「充裕」級距25000000–40000000。2500-4000 萬,充裕區,可規劃旅遊、興趣、子女傳承,財務自由。",
-      "desc_en": "Falls in the \"充裕\" band 25000000–40000000. This is the 充裕 range for Pension Calculator."
+      "desc_en": "Falls in the \"Very high\" band (25000000–40000000). This is the very high range for Pension Calculator."
     },
     {
       "key": "executive",
       "range": "≥ 40000000",
       "label_zh": "豐厚 (≥ 40000000)",
-      "label_en": "Band 6 (≥ 40000000)",
+      "label_en": "Extreme (≥ 40000000)",
       "desc_zh": "落在「豐厚」級距≥ 40000000。> 4000 萬,屬高資產退休,可考慮信託、慈善、家族傳承等進階規劃。",
-      "desc_en": "Falls in the \"豐厚\" band ≥ 40000000. This is the 豐厚 range for Pension Calculator."
+      "desc_en": "Falls in the \"Extreme\" band (≥ 40000000). This is the extreme range for Pension Calculator."
     }
   ],
   "affiliateItems": [

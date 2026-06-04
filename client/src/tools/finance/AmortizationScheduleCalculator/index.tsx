@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 20", label: { zh: "極低 (< 20)", en: "Band 1 (< 20)" }, desc: { zh: "落在「極低」級距< 20。利息佔本金 < 20%,屬於短年限或低利率,還款壓力極小。", en: "Falls in the \"極低\" band < 20. This is the 極低 range for Amortization Schedule Calculator." } },
-  { key: "normal", range: "20–40", label: { zh: "低 (20–40)", en: "Band 2 (20–40)" }, desc: { zh: "落在「低」級距20–40。20-40%,利息合理,常見於 10-15 年期中利率貸款。", en: "Falls in the \"低\" band 20–40. This is the 低 range for Amortization Schedule Calculator." } },
-  { key: "notable", range: "40–60", label: { zh: "中等 (40–60)", en: "Band 3 (40–60)" }, desc: { zh: "落在「中等」級距40–60。40-60%,屬於 20-30 年期典型房貸區間,可考慮提前還款。", en: "Falls in the \"中等\" band 40–60. This is the 中等 range for Amortization Schedule Calculator." } },
-  { key: "high", range: "60–80", label: { zh: "偏高 (60–80)", en: "Band 4 (60–80)" }, desc: { zh: "落在「偏高」級距60–80。60-80%,利息負擔偏高,建議評估再融資或縮短年限。", en: "Falls in the \"偏高\" band 60–80. This is the 偏高 range for Amortization Schedule Calculator." } },
-  { key: "major", range: "80–100", label: { zh: "高 (80–100)", en: "Band 5 (80–100)" }, desc: { zh: "落在「高」級距80–100。80-100%,利息接近本金,長年限高利率,務必比較其他方案。", en: "Falls in the \"高\" band 80–100. This is the 高 range for Amortization Schedule Calculator." } },
-  { key: "executive", range: "≥ 100", label: { zh: "極高 (≥ 100)", en: "Band 6 (≥ 100)" }, desc: { zh: "落在「極高」級距≥ 100。> 100%,利息超過本金,通常為超長年限或高利率,強烈建議重新規劃。", en: "Falls in the \"極高\" band ≥ 100. This is the 極高 range for Amortization Schedule Calculator." } },
+  { key: "tiny", range: "< 20", label: { zh: "極低 (< 20)", en: "Very low (< 20)" }, desc: { zh: "落在「極低」級距< 20。利息佔本金 < 20%,屬於短年限或低利率,還款壓力極小。", en: "Falls in the \"Very low\" band (< 20). This is the very low range for Amortization Schedule Calculator." } },
+  { key: "normal", range: "20–40", label: { zh: "低 (20–40)", en: "Low (20–40)" }, desc: { zh: "落在「低」級距20–40。20-40%,利息合理,常見於 10-15 年期中利率貸款。", en: "Falls in the \"Low\" band (20–40). This is the low range for Amortization Schedule Calculator." } },
+  { key: "notable", range: "40–60", label: { zh: "中等 (40–60)", en: "Moderate (40–60)" }, desc: { zh: "落在「中等」級距40–60。40-60%,屬於 20-30 年期典型房貸區間,可考慮提前還款。", en: "Falls in the \"Moderate\" band (40–60). This is the moderate range for Amortization Schedule Calculator." } },
+  { key: "high", range: "60–80", label: { zh: "偏高 (60–80)", en: "High (60–80)" }, desc: { zh: "落在「偏高」級距60–80。60-80%,利息負擔偏高,建議評估再融資或縮短年限。", en: "Falls in the \"High\" band (60–80). This is the high range for Amortization Schedule Calculator." } },
+  { key: "major", range: "80–100", label: { zh: "高 (80–100)", en: "Very high (80–100)" }, desc: { zh: "落在「高」級距80–100。80-100%,利息接近本金,長年限高利率,務必比較其他方案。", en: "Falls in the \"Very high\" band (80–100). This is the very high range for Amortization Schedule Calculator." } },
+  { key: "executive", range: "≥ 100", label: { zh: "極高 (≥ 100)", en: "Extreme (≥ 100)" }, desc: { zh: "落在「極高」級距≥ 100。> 100%,利息超過本金,通常為超長年限或高利率,強烈建議重新規劃。", en: "Falls in the \"Extreme\" band (≥ 100). This is the extreme range for Amortization Schedule Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

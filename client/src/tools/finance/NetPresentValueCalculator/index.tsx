@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< -50000", label: { zh: "明顯虧損 (< -50000)", en: "Band 1 (< -50000)" }, desc: { zh: "落在「明顯虧損」級距< -50000。NPV < -$50k,計畫明顯虧損,折現後現金流不足以覆蓋投資,應放棄。", en: "Falls in the \"明顯虧損\" band < -50000. This is the 明顯虧損 range for Net Present Value Calculator." } },
-  { key: "normal", range: "-50000–-1000", label: { zh: "略虧 (-50000–-1000)", en: "Band 2 (-50000–-1000)" }, desc: { zh: "落在「略虧」級距-50000–-1000。-$50k 至 -$1k,輕微虧損,可考慮提高效率或降低成本後重新評估。", en: "Falls in the \"略虧\" band -50000–-1000. This is the 略虧 range for Net Present Value Calculator." } },
-  { key: "notable", range: "-1000–1000", label: { zh: "持平 (-1000–1000)", en: "Band 3 (-1000–1000)" }, desc: { zh: "落在「持平」級距-1000–1000。-$1k 至 +$1k,接近平手,需檢視非財務因素(策略、品牌、人才)決定。", en: "Falls in the \"持平\" band -1000–1000. This is the 持平 range for Net Present Value Calculator." } },
-  { key: "high", range: "1000–50000", label: { zh: "可投資 (1000–50000)", en: "Band 4 (1000–50000)" }, desc: { zh: "落在「可投資」級距1000–50000。$1k 至 $50k,可投資區,代表計畫能創造正向折現價值,應通過評估。", en: "Falls in the \"可投資\" band 1000–50000. This is the 可投資 range for Net Present Value Calculator." } },
-  { key: "major", range: "50000–200000", label: { zh: "明顯獲利 (50000–200000)", en: "Band 5 (50000–200000)" }, desc: { zh: "落在「明顯獲利」級距50000–200000。$50k 至 $200k,明顯獲利,屬高優先投資,應加快執行。", en: "Falls in the \"明顯獲利\" band 50000–200000. This is the 明顯獲利 range for Net Present Value Calculator." } },
-  { key: "executive", range: "≥ 200000", label: { zh: "極佳 (≥ 200000)", en: "Band 6 (≥ 200000)" }, desc: { zh: "落在「極佳」級距≥ 200000。> $200k,極佳投資機會,但需檢查現金流預測是否過於樂觀(Sanity Check)。", en: "Falls in the \"極佳\" band ≥ 200000. This is the 極佳 range for Net Present Value Calculator." } },
+  { key: "tiny", range: "< -50000", label: { zh: "明顯虧損 (< -50000)", en: "Very low (< -50000)" }, desc: { zh: "落在「明顯虧損」級距< -50000。NPV < -$50k,計畫明顯虧損,折現後現金流不足以覆蓋投資,應放棄。", en: "Falls in the \"Very low\" band (< -50000). This is the very low range for Net Present Value Calculator." } },
+  { key: "normal", range: "-50000–-1000", label: { zh: "略虧 (-50000–-1000)", en: "Low (-50000–-1000)" }, desc: { zh: "落在「略虧」級距-50000–-1000。-$50k 至 -$1k,輕微虧損,可考慮提高效率或降低成本後重新評估。", en: "Falls in the \"Low\" band (-50000–-1000). This is the low range for Net Present Value Calculator." } },
+  { key: "notable", range: "-1000–1000", label: { zh: "持平 (-1000–1000)", en: "Moderate (-1000–1000)" }, desc: { zh: "落在「持平」級距-1000–1000。-$1k 至 +$1k,接近平手,需檢視非財務因素(策略、品牌、人才)決定。", en: "Falls in the \"Moderate\" band (-1000–1000). This is the moderate range for Net Present Value Calculator." } },
+  { key: "high", range: "1000–50000", label: { zh: "可投資 (1000–50000)", en: "High (1000–50000)" }, desc: { zh: "落在「可投資」級距1000–50000。$1k 至 $50k,可投資區,代表計畫能創造正向折現價值,應通過評估。", en: "Falls in the \"High\" band (1000–50000). This is the high range for Net Present Value Calculator." } },
+  { key: "major", range: "50000–200000", label: { zh: "明顯獲利 (50000–200000)", en: "Very high (50000–200000)" }, desc: { zh: "落在「明顯獲利」級距50000–200000。$50k 至 $200k,明顯獲利,屬高優先投資,應加快執行。", en: "Falls in the \"Very high\" band (50000–200000). This is the very high range for Net Present Value Calculator." } },
+  { key: "executive", range: "≥ 200000", label: { zh: "極佳 (≥ 200000)", en: "Extreme (≥ 200000)" }, desc: { zh: "落在「極佳」級距≥ 200000。> $200k,極佳投資機會,但需檢查現金流預測是否過於樂觀(Sanity Check)。", en: "Falls in the \"Extreme\" band (≥ 200000). This is the extreme range for Net Present Value Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

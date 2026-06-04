@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 15", label: { zh: "極低 (< 15)", en: "Band 1 (< 15)" }, desc: { zh: "落在「極低」級距< 15。成長 < 15%,屬於短年限或低利率,複利效果尚未顯現。", en: "Falls in the \"極低\" band < 15. This is the 極低 range for Annuity Calculator." } },
-  { key: "normal", range: "15–40", label: { zh: "低 (15–40)", en: "Band 2 (15–40)" }, desc: { zh: "落在「低」級距15–40。15-40%,溫和,常見於 5-10 年期穩健年金累積。", en: "Falls in the \"低\" band 15–40. This is the 低 range for Annuity Calculator." } },
-  { key: "notable", range: "40–80", label: { zh: "中等 (40–80)", en: "Band 3 (40–80)" }, desc: { zh: "落在「中等」級距40–80。40-80%,中等,複利開始發揮,常見於 10-20 年期。", en: "Falls in the \"中等\" band 40–80. This is the 中等 range for Annuity Calculator." } },
-  { key: "high", range: "80–150", label: { zh: "偏高 (80–150)", en: "Band 4 (80–150)" }, desc: { zh: "落在「偏高」級距80–150。80-150%,偏高,長年限複利成果,利息接近本金。", en: "Falls in the \"偏高\" band 80–150. This is the 偏高 range for Annuity Calculator." } },
-  { key: "major", range: "150–300", label: { zh: "高 (150–300)", en: "Band 5 (150–300)" }, desc: { zh: "落在「高」級距150–300。150-300%,高,長期高報酬累積,利息遠超投入。", en: "Falls in the \"高\" band 150–300. This is the 高 range for Annuity Calculator." } },
-  { key: "executive", range: "≥ 300", label: { zh: "極高 (≥ 300)", en: "Band 6 (≥ 300)" }, desc: { zh: "落在「極高」級距≥ 300。> 300%,極高,超長年限或高報酬,複利威力充分展現。", en: "Falls in the \"極高\" band ≥ 300. This is the 極高 range for Annuity Calculator." } },
+  { key: "tiny", range: "< 15", label: { zh: "極低 (< 15)", en: "Very low (< 15)" }, desc: { zh: "落在「極低」級距< 15。成長 < 15%,屬於短年限或低利率,複利效果尚未顯現。", en: "Falls in the \"Very low\" band (< 15). This is the very low range for Annuity Calculator." } },
+  { key: "normal", range: "15–40", label: { zh: "低 (15–40)", en: "Low (15–40)" }, desc: { zh: "落在「低」級距15–40。15-40%,溫和,常見於 5-10 年期穩健年金累積。", en: "Falls in the \"Low\" band (15–40). This is the low range for Annuity Calculator." } },
+  { key: "notable", range: "40–80", label: { zh: "中等 (40–80)", en: "Moderate (40–80)" }, desc: { zh: "落在「中等」級距40–80。40-80%,中等,複利開始發揮,常見於 10-20 年期。", en: "Falls in the \"Moderate\" band (40–80). This is the moderate range for Annuity Calculator." } },
+  { key: "high", range: "80–150", label: { zh: "偏高 (80–150)", en: "High (80–150)" }, desc: { zh: "落在「偏高」級距80–150。80-150%,偏高,長年限複利成果,利息接近本金。", en: "Falls in the \"High\" band (80–150). This is the high range for Annuity Calculator." } },
+  { key: "major", range: "150–300", label: { zh: "高 (150–300)", en: "Very high (150–300)" }, desc: { zh: "落在「高」級距150–300。150-300%,高,長期高報酬累積,利息遠超投入。", en: "Falls in the \"Very high\" band (150–300). This is the very high range for Annuity Calculator." } },
+  { key: "executive", range: "≥ 300", label: { zh: "極高 (≥ 300)", en: "Extreme (≥ 300)" }, desc: { zh: "落在「極高」級距≥ 300。> 300%,極高,超長年限或高報酬,複利威力充分展現。", en: "Falls in the \"Extreme\" band (≥ 300). This is the extreme range for Annuity Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

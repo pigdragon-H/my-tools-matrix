@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< -1", label: { zh: "赤字 (< -1)", en: "Band 1 (< -1)" }, desc: { zh: "落在「赤字」級距< -1。月淨現金流 < 0,屬赤字狀態,需立即縮減固定支出或增加收入,否則債務累積。", en: "Falls in the \"赤字\" band < -1. This is the 赤字 range for Cash Flow Calculator." } },
-  { key: "normal", range: "-1–5000", label: { zh: "緊縮 (-1–5000)", en: "Band 2 (-1–5000)" }, desc: { zh: "落在「緊縮」級距-1–5000。$0-5k,僅勉強打平,無投資或意外緩衝,屬高風險財務狀態。", en: "Falls in the \"緊縮\" band -1–5000. This is the 緊縮 range for Cash Flow Calculator." } },
-  { key: "notable", range: "5000–15000", label: { zh: "持平 (5000–15000)", en: "Band 3 (5000–15000)" }, desc: { zh: "落在「持平」級距5000–15000。$5k-15k,持平略有結餘,可開始建立緊急預備金 6 個月支出。", en: "Falls in the \"持平\" band 5000–15000. This is the 持平 range for Cash Flow Calculator." } },
-  { key: "high", range: "15000–30000", label: { zh: "穩健 (15000–30000)", en: "Band 4 (15000–30000)" }, desc: { zh: "落在「穩健」級距15000–30000。$15k-30k,穩健區,儲蓄率 20-30%,可同時投資與還貸。", en: "Falls in the \"穩健\" band 15000–30000. This is the 穩健 range for Cash Flow Calculator." } },
-  { key: "major", range: "30000–60000", label: { zh: "充裕 (30000–60000)", en: "Band 5 (30000–60000)" }, desc: { zh: "落在「充裕」級距30000–60000。$30k-60k,充裕,可加速還貸、退休儲蓄與被動投資並進。", en: "Falls in the \"充裕\" band 30000–60000. This is the 充裕 range for Cash Flow Calculator." } },
-  { key: "executive", range: "≥ 60000", label: { zh: "豐厚 (≥ 60000)", en: "Band 6 (≥ 60000)" }, desc: { zh: "落在「豐厚」級距≥ 60000。> $60k,豐厚現金流,可規劃進階稅務優化、不動產投資與多元配置。", en: "Falls in the \"豐厚\" band ≥ 60000. This is the 豐厚 range for Cash Flow Calculator." } },
+  { key: "tiny", range: "< -1", label: { zh: "赤字 (< -1)", en: "Very low (< -1)" }, desc: { zh: "落在「赤字」級距< -1。月淨現金流 < 0,屬赤字狀態,需立即縮減固定支出或增加收入,否則債務累積。", en: "Falls in the \"Very low\" band (< -1). This is the very low range for Cash Flow Calculator." } },
+  { key: "normal", range: "-1–5000", label: { zh: "緊縮 (-1–5000)", en: "Low (-1–5000)" }, desc: { zh: "落在「緊縮」級距-1–5000。$0-5k,僅勉強打平,無投資或意外緩衝,屬高風險財務狀態。", en: "Falls in the \"Low\" band (-1–5000). This is the low range for Cash Flow Calculator." } },
+  { key: "notable", range: "5000–15000", label: { zh: "持平 (5000–15000)", en: "Moderate (5000–15000)" }, desc: { zh: "落在「持平」級距5000–15000。$5k-15k,持平略有結餘,可開始建立緊急預備金 6 個月支出。", en: "Falls in the \"Moderate\" band (5000–15000). This is the moderate range for Cash Flow Calculator." } },
+  { key: "high", range: "15000–30000", label: { zh: "穩健 (15000–30000)", en: "High (15000–30000)" }, desc: { zh: "落在「穩健」級距15000–30000。$15k-30k,穩健區,儲蓄率 20-30%,可同時投資與還貸。", en: "Falls in the \"High\" band (15000–30000). This is the high range for Cash Flow Calculator." } },
+  { key: "major", range: "30000–60000", label: { zh: "充裕 (30000–60000)", en: "Very high (30000–60000)" }, desc: { zh: "落在「充裕」級距30000–60000。$30k-60k,充裕,可加速還貸、退休儲蓄與被動投資並進。", en: "Falls in the \"Very high\" band (30000–60000). This is the very high range for Cash Flow Calculator." } },
+  { key: "executive", range: "≥ 60000", label: { zh: "豐厚 (≥ 60000)", en: "Extreme (≥ 60000)" }, desc: { zh: "落在「豐厚」級距≥ 60000。> $60k,豐厚現金流,可規劃進階稅務優化、不動產投資與多元配置。", en: "Falls in the \"Extreme\" band (≥ 60000). This is the extreme range for Cash Flow Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

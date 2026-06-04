@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 1", label: { zh: "極低 (< 1)", en: "Band 1 (< 1)" }, desc: { zh: "落在「極低」級距< 1。YTM < 1%,屬於負實質報酬區(扣通膨後),僅適合避險或現金管理。", en: "Falls in the \"極低\" band < 1. This is the 極低 range for Bond Yield Calculator." } },
-  { key: "normal", range: "1–2.5", label: { zh: "低 (1–2.5)", en: "Band 2 (1–2.5)" }, desc: { zh: "落在「低」級距1–2.5。1-2.5%,類似定存利率,適合短期資金停泊與保本配置。", en: "Falls in the \"低\" band 1–2.5. This is the 低 range for Bond Yield Calculator." } },
-  { key: "notable", range: "2.5–4", label: { zh: "中等 (2.5–4)", en: "Band 3 (2.5–4)" }, desc: { zh: "落在「中等」級距2.5–4。2.5-4%,屬投資級債券常見區間,可作為平衡型組合的固定收益核心。", en: "Falls in the \"中等\" band 2.5–4. This is the 中等 range for Bond Yield Calculator." } },
-  { key: "high", range: "4–6", label: { zh: "良好 (4–6)", en: "Band 4 (4–6)" }, desc: { zh: "落在「良好」級距4–6。4-6%,屬中高評級或長天期公司債常見區間,風險與報酬比合理。", en: "Falls in the \"良好\" band 4–6. This is the 良好 range for Bond Yield Calculator." } },
-  { key: "major", range: "6–8", label: { zh: "高 (6–8)", en: "Band 5 (6–8)" }, desc: { zh: "落在「高」級距6–8。6-8%,進入高收益債(垃圾債)或新興市場債區,違約風險上升。", en: "Falls in the \"高\" band 6–8. This is the 高 range for Bond Yield Calculator." } },
-  { key: "executive", range: "≥ 8", label: { zh: "極高 (≥ 8)", en: "Band 6 (≥ 8)" }, desc: { zh: "落在「極高」級距≥ 8。> 8%,屬高風險區,可能含信用評級 BB-以下、新興市場、可贖回條款,需仔細評估違約機率。", en: "Falls in the \"極高\" band ≥ 8. This is the 極高 range for Bond Yield Calculator." } },
+  { key: "tiny", range: "< 1", label: { zh: "極低 (< 1)", en: "Very low (< 1)" }, desc: { zh: "落在「極低」級距< 1。YTM < 1%,屬於負實質報酬區(扣通膨後),僅適合避險或現金管理。", en: "Falls in the \"Very low\" band (< 1). This is the very low range for Bond Yield Calculator." } },
+  { key: "normal", range: "1–2.5", label: { zh: "低 (1–2.5)", en: "Low (1–2.5)" }, desc: { zh: "落在「低」級距1–2.5。1-2.5%,類似定存利率,適合短期資金停泊與保本配置。", en: "Falls in the \"Low\" band (1–2.5). This is the low range for Bond Yield Calculator." } },
+  { key: "notable", range: "2.5–4", label: { zh: "中等 (2.5–4)", en: "Moderate (2.5–4)" }, desc: { zh: "落在「中等」級距2.5–4。2.5-4%,屬投資級債券常見區間,可作為平衡型組合的固定收益核心。", en: "Falls in the \"Moderate\" band (2.5–4). This is the moderate range for Bond Yield Calculator." } },
+  { key: "high", range: "4–6", label: { zh: "良好 (4–6)", en: "High (4–6)" }, desc: { zh: "落在「良好」級距4–6。4-6%,屬中高評級或長天期公司債常見區間,風險與報酬比合理。", en: "Falls in the \"High\" band (4–6). This is the high range for Bond Yield Calculator." } },
+  { key: "major", range: "6–8", label: { zh: "高 (6–8)", en: "Very high (6–8)" }, desc: { zh: "落在「高」級距6–8。6-8%,進入高收益債(垃圾債)或新興市場債區,違約風險上升。", en: "Falls in the \"Very high\" band (6–8). This is the very high range for Bond Yield Calculator." } },
+  { key: "executive", range: "≥ 8", label: { zh: "極高 (≥ 8)", en: "Extreme (≥ 8)" }, desc: { zh: "落在「極高」級距≥ 8。> 8%,屬高風險區,可能含信用評級 BB-以下、新興市場、可贖回條款,需仔細評估違約機率。", en: "Falls in the \"Extreme\" band (≥ 8). This is the extreme range for Bond Yield Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

@@ -47,49 +47,49 @@
       "key": "tiny",
       "range": "< 25",
       "label_zh": "保守 (< 25)",
-      "label_en": "Band 1 (< 25)",
+      "label_en": "Very low (< 25)",
       "desc_zh": "落在「保守」級距< 25。總成長 < 25%,屬於短期或低報酬,複利尚未顯威。",
-      "desc_en": "Falls in the \"保守\" band < 25. This is the 保守 range for Future Value Calculator."
+      "desc_en": "Falls in the \"Very low\" band (< 25). This is the very low range for Future Value Calculator."
     },
     {
       "key": "normal",
       "range": "25–60",
       "label_zh": "溫和 (25–60)",
-      "label_en": "Band 2 (25–60)",
+      "label_en": "Low (25–60)",
       "desc_zh": "落在「溫和」級距25–60。25-60%,溫和成長,常見於 5-10 年期穩健配置。",
-      "desc_en": "Falls in the \"溫和\" band 25–60. This is the 溫和 range for Future Value Calculator."
+      "desc_en": "Falls in the \"Low\" band (25–60). This is the low range for Future Value Calculator."
     },
     {
       "key": "notable",
       "range": "60–120",
       "label_zh": "穩健 (60–120)",
-      "label_en": "Band 3 (60–120)",
+      "label_en": "Moderate (60–120)",
       "desc_zh": "落在「穩健」級距60–120。60-120%,穩健,複利開始發揮,資產接近翻倍。",
-      "desc_en": "Falls in the \"穩健\" band 60–120. This is the 穩健 range for Future Value Calculator."
+      "desc_en": "Falls in the \"Moderate\" band (60–120). This is the moderate range for Future Value Calculator."
     },
     {
       "key": "high",
       "range": "120–250",
       "label_zh": "成長 (120–250)",
-      "label_en": "Band 4 (120–250)",
+      "label_en": "High (120–250)",
       "desc_zh": "落在「成長」級距120–250。120-250%,成長,長年限複利成果,資產數倍成長。",
-      "desc_en": "Falls in the \"成長\" band 120–250. This is the 成長 range for Future Value Calculator."
+      "desc_en": "Falls in the \"High\" band (120–250). This is the high range for Future Value Calculator."
     },
     {
       "key": "major",
       "range": "250–500",
       "label_zh": "強勁 (250–500)",
-      "label_en": "Band 5 (250–500)",
+      "label_en": "Very high (250–500)",
       "desc_zh": "落在「強勁」級距250–500。250-500%,強勁,長期高報酬累積的可觀成果。",
-      "desc_en": "Falls in the \"強勁\" band 250–500. This is the 強勁 range for Future Value Calculator."
+      "desc_en": "Falls in the \"Very high\" band (250–500). This is the very high range for Future Value Calculator."
     },
     {
       "key": "executive",
       "range": "≥ 500",
       "label_zh": "驚人 (≥ 500)",
-      "label_en": "Band 6 (≥ 500)",
+      "label_en": "Extreme (≥ 500)",
       "desc_zh": "落在「驚人」級距≥ 500。> 500%,驚人,超長年限或高報酬,複利威力充分展現。",
-      "desc_en": "Falls in the \"驚人\" band ≥ 500. This is the 驚人 range for Future Value Calculator."
+      "desc_en": "Falls in the \"Extreme\" band (≥ 500). This is the extreme range for Future Value Calculator."
     }
   ],
   "affiliateItems": [

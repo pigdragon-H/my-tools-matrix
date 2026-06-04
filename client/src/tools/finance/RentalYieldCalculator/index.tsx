@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 1.5", label: { zh: "極低 (< 1.5)", en: "Band 1 (< 1.5)" }, desc: { zh: "落在「極低」級距< 1.5。淨報酬率 < 1.5%,屬大都會核心區常見水準,主要靠房價增值,租金幾乎只夠覆蓋持有成本。", en: "Falls in the \"極低\" band < 1.5. This is the 極低 range for Rental Yield Calculator." } },
-  { key: "normal", range: "1.5–2.5", label: { zh: "偏低 (1.5–2.5)", en: "Band 2 (1.5–2.5)" }, desc: { zh: "落在「偏低」級距1.5–2.5。1.5-2.5%,精華地段一般水準,屬保值型投資,需要房價上漲才有意義。", en: "Falls in the \"偏低\" band 1.5–2.5. This is the 偏低 range for Rental Yield Calculator." } },
-  { key: "notable", range: "2.5–4", label: { zh: "一般 (2.5–4)", en: "Band 3 (2.5–4)" }, desc: { zh: "落在「一般」級距2.5–4。2.5-4%,屬合理區間,房價與租金平衡;台北市以外不少標的落在此區。", en: "Falls in the \"一般\" band 2.5–4. This is the 一般 range for Rental Yield Calculator." } },
-  { key: "high", range: "4–6", label: { zh: "良好 (4–6)", en: "Band 4 (4–6)" }, desc: { zh: "落在「良好」級距4–6。4-6%,良好的純收租型物件,扣除空置與維修後仍有正現金流。", en: "Falls in the \"良好\" band 4–6. This is the 良好 range for Rental Yield Calculator." } },
-  { key: "major", range: "6–8", label: { zh: "高 (6–8)", en: "Band 5 (6–8)" }, desc: { zh: "落在「高」級距6–8。6-8%,屬高報酬區,可能是郊區或老屋,需注意維修成本與管理難度。", en: "Falls in the \"高\" band 6–8. This is the 高 range for Rental Yield Calculator." } },
-  { key: "executive", range: "≥ 8", label: { zh: "極高 (≥ 8)", en: "Band 6 (≥ 8)" }, desc: { zh: "落在「極高」級距≥ 8。> 8% 屬極高報酬,通常伴隨高風險(地段差、產權瑕疵、維修黑洞),需仔細盡調。", en: "Falls in the \"極高\" band ≥ 8. This is the 極高 range for Rental Yield Calculator." } },
+  { key: "tiny", range: "< 1.5", label: { zh: "極低 (< 1.5)", en: "Very low (< 1.5)" }, desc: { zh: "落在「極低」級距< 1.5。淨報酬率 < 1.5%,屬大都會核心區常見水準,主要靠房價增值,租金幾乎只夠覆蓋持有成本。", en: "Falls in the \"Very low\" band (< 1.5). This is the very low range for Rental Yield Calculator." } },
+  { key: "normal", range: "1.5–2.5", label: { zh: "偏低 (1.5–2.5)", en: "Low (1.5–2.5)" }, desc: { zh: "落在「偏低」級距1.5–2.5。1.5-2.5%,精華地段一般水準,屬保值型投資,需要房價上漲才有意義。", en: "Falls in the \"Low\" band (1.5–2.5). This is the low range for Rental Yield Calculator." } },
+  { key: "notable", range: "2.5–4", label: { zh: "一般 (2.5–4)", en: "Moderate (2.5–4)" }, desc: { zh: "落在「一般」級距2.5–4。2.5-4%,屬合理區間,房價與租金平衡;台北市以外不少標的落在此區。", en: "Falls in the \"Moderate\" band (2.5–4). This is the moderate range for Rental Yield Calculator." } },
+  { key: "high", range: "4–6", label: { zh: "良好 (4–6)", en: "High (4–6)" }, desc: { zh: "落在「良好」級距4–6。4-6%,良好的純收租型物件,扣除空置與維修後仍有正現金流。", en: "Falls in the \"High\" band (4–6). This is the high range for Rental Yield Calculator." } },
+  { key: "major", range: "6–8", label: { zh: "高 (6–8)", en: "Very high (6–8)" }, desc: { zh: "落在「高」級距6–8。6-8%,屬高報酬區,可能是郊區或老屋,需注意維修成本與管理難度。", en: "Falls in the \"Very high\" band (6–8). This is the very high range for Rental Yield Calculator." } },
+  { key: "executive", range: "≥ 8", label: { zh: "極高 (≥ 8)", en: "Extreme (≥ 8)" }, desc: { zh: "落在「極高」級距≥ 8。> 8% 屬極高報酬,通常伴隨高風險(地段差、產權瑕疵、維修黑洞),需仔細盡調。", en: "Falls in the \"Extreme\" band (≥ 8). This is the extreme range for Rental Yield Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

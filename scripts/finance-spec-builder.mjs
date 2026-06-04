@@ -85,6 +85,11 @@ function buildBands(brief) {
   if (!labels || labels.length !== 6) throw new Error("brief.bands must have 6 entries");
   if (!thr || thr.length !== 5) throw new Error("brief.bandThresholds must have 5 entries");
   const keys = ["tiny","normal","notable","high","major","executive"];
+  // Canonical ENGLISH band-tier labels (match MeetingCostCalculator gold template).
+  // NEVER reuse the zh `labels[]` inside English strings — that was the EN-pollution root cause.
+  const enLabels = brief.bandsEn && brief.bandsEn.length === 6
+    ? brief.bandsEn
+    : ["Very low","Low","Moderate","High","Very high","Extreme"];
   const ranges = [
     `< ${thr[0]}`, `${thr[0]}–${thr[1]}`, `${thr[1]}–${thr[2]}`,
     `${thr[2]}–${thr[3]}`, `${thr[3]}–${thr[4]}`, `≥ ${thr[4]}`,
@@ -93,9 +98,9 @@ function buildBands(brief) {
     key: k,
     range: ranges[i],
     label_zh: `${labels[i]} (${ranges[i]})`,
-    label_en: `Band ${i+1} (${ranges[i]})`,
+    label_en: `${enLabels[i]} (${ranges[i]})`,
     desc_zh: `落在「${labels[i]}」級距${ranges[i]}。${brief.bandHints?.[i] || `對應 ${brief.nameZh} 的 ${labels[i]} 區間,屬於常見配置。`}`,
-    desc_en: `Falls in the "${labels[i]}" band ${ranges[i]}. ${brief.bandHintsEn?.[i] || `This is the ${labels[i]} range for ${brief.nameEn}.`}`,
+    desc_en: `Falls in the "${enLabels[i]}" band (${ranges[i]}). ${brief.bandHintsEn?.[i] || `This is the ${enLabels[i].toLowerCase()} range for ${brief.nameEn}.`}`,
   }));
 }
 

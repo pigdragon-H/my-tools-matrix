@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 10000", label: { zh: "極低 (< 10000)", en: "Band 1 (< 10000)" }, desc: { zh: "落在「極低」級距< 10000。年保費 < 1 萬元,屬入門級定期壽險或意外險,可作為基礎保障。", en: "Falls in the \"極低\" band < 10000. This is the 極低 range for Insurance Premium Calculator." } },
-  { key: "normal", range: "10000–30000", label: { zh: "低 (10000–30000)", en: "Band 2 (10000–30000)" }, desc: { zh: "落在「低」級距10000–30000。1-3 萬元,涵蓋基本壽險、醫療、意外,適合社會新鮮人到三口之家。", en: "Falls in the \"低\" band 10000–30000. This is the 低 range for Insurance Premium Calculator." } },
-  { key: "notable", range: "30000–60000", label: { zh: "合理 (30000–60000)", en: "Band 3 (30000–60000)" }, desc: { zh: "落在「合理」級距30000–60000。3-6 萬元,屬常見保障規劃,涵蓋壽險 + 醫療 + 重大疾病 + 意外。", en: "Falls in the \"合理\" band 30000–60000. This is the 合理 range for Insurance Premium Calculator." } },
-  { key: "high", range: "60000–100000", label: { zh: "略高 (60000–100000)", en: "Band 4 (60000–100000)" }, desc: { zh: "落在「略高」級距60000–100000。6-10 萬元,中產家庭完整保障,可能含投資型保單或長期照顧險。", en: "Falls in the \"略高\" band 60000–100000. This is the 略高 range for Insurance Premium Calculator." } },
-  { key: "major", range: "100000–200000", label: { zh: "偏貴 (100000–200000)", en: "Band 5 (100000–200000)" }, desc: { zh: "落在「偏貴」級距100000–200000。10-20 萬元,屬高保費區,需檢視是否有過多儲蓄險或投資型保單。", en: "Falls in the \"偏貴\" band 100000–200000. This is the 偏貴 range for Insurance Premium Calculator." } },
-  { key: "executive", range: "≥ 200000", label: { zh: "明顯偏貴 (≥ 200000)", en: "Band 6 (≥ 200000)" }, desc: { zh: "落在「明顯偏貴」級距≥ 200000。> 20 萬元,通常含大量儲蓄險、終身壽險與年金險,建議重新檢視保障 vs 儲蓄比例。", en: "Falls in the \"明顯偏貴\" band ≥ 200000. This is the 明顯偏貴 range for Insurance Premium Calculator." } },
+  { key: "tiny", range: "< 10000", label: { zh: "極低 (< 10000)", en: "Very low (< 10000)" }, desc: { zh: "落在「極低」級距< 10000。年保費 < 1 萬元,屬入門級定期壽險或意外險,可作為基礎保障。", en: "Falls in the \"Very low\" band (< 10000). This is the very low range for Insurance Premium Calculator." } },
+  { key: "normal", range: "10000–30000", label: { zh: "低 (10000–30000)", en: "Low (10000–30000)" }, desc: { zh: "落在「低」級距10000–30000。1-3 萬元,涵蓋基本壽險、醫療、意外,適合社會新鮮人到三口之家。", en: "Falls in the \"Low\" band (10000–30000). This is the low range for Insurance Premium Calculator." } },
+  { key: "notable", range: "30000–60000", label: { zh: "合理 (30000–60000)", en: "Moderate (30000–60000)" }, desc: { zh: "落在「合理」級距30000–60000。3-6 萬元,屬常見保障規劃,涵蓋壽險 + 醫療 + 重大疾病 + 意外。", en: "Falls in the \"Moderate\" band (30000–60000). This is the moderate range for Insurance Premium Calculator." } },
+  { key: "high", range: "60000–100000", label: { zh: "略高 (60000–100000)", en: "High (60000–100000)" }, desc: { zh: "落在「略高」級距60000–100000。6-10 萬元,中產家庭完整保障,可能含投資型保單或長期照顧險。", en: "Falls in the \"High\" band (60000–100000). This is the high range for Insurance Premium Calculator." } },
+  { key: "major", range: "100000–200000", label: { zh: "偏貴 (100000–200000)", en: "Very high (100000–200000)" }, desc: { zh: "落在「偏貴」級距100000–200000。10-20 萬元,屬高保費區,需檢視是否有過多儲蓄險或投資型保單。", en: "Falls in the \"Very high\" band (100000–200000). This is the very high range for Insurance Premium Calculator." } },
+  { key: "executive", range: "≥ 200000", label: { zh: "明顯偏貴 (≥ 200000)", en: "Extreme (≥ 200000)" }, desc: { zh: "落在「明顯偏貴」級距≥ 200000。> 20 萬元,通常含大量儲蓄險、終身壽險與年金險,建議重新檢視保障 vs 儲蓄比例。", en: "Falls in the \"Extreme\" band (≥ 200000). This is the extreme range for Insurance Premium Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

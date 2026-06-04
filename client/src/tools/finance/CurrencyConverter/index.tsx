@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 100", label: { zh: "小額 (< 100)", en: "Band 1 (< 100)" }, desc: { zh: "落在「小額」級距< 100。小於 100 USD 的零碎換匯,銀行匯差通常已蓋過便利性,可直接用信用卡刷卡。", en: "Falls in the \"小額\" band < 100. This is the 小額 range for Currency Converter." } },
-  { key: "normal", range: "100–1000", label: { zh: "一般 (100–1000)", en: "Band 2 (100–1000)" }, desc: { zh: "落在「一般」級距100–1000。100-1000 USD 屬旅遊或日常網購規模,Wise/Revolut 比銀行省 0.5-2%。", en: "Falls in the \"一般\" band 100–1000. This is the 一般 range for Currency Converter." } },
-  { key: "notable", range: "1000–10000", label: { zh: "中額 (1000–10000)", en: "Band 3 (1000–10000)" }, desc: { zh: "落在「中額」級距1000–10000。1000-10000 USD,務必比較三家以上的中間匯率與手續費,單筆價差可達 $50-150。", en: "Falls in the \"中額\" band 1000–10000. This is the 中額 range for Currency Converter." } },
-  { key: "high", range: "10000–50000", label: { zh: "中大 (10000–50000)", en: "Band 4 (10000–50000)" }, desc: { zh: "落在「中大」級距10000–50000。10000-50000 USD,屬留學費、海外房貸、外幣定存規模,需注意當地申報門檻。", en: "Falls in the \"中大\" band 10000–50000. This is the 中大 range for Currency Converter." } },
-  { key: "major", range: "50000–200000", label: { zh: "大額 (50000–200000)", en: "Band 5 (50000–200000)" }, desc: { zh: "落在「大額」級距50000–200000。5 萬至 20 萬 USD,涉及反洗錢申報、可能要求資金來源證明,建議分批或事前諮詢。", en: "Falls in the \"大額\" band 50000–200000. This is the 大額 range for Currency Converter." } },
-  { key: "executive", range: "≥ 200000", label: { zh: "巨額 (≥ 200000)", en: "Band 6 (≥ 200000)" }, desc: { zh: "落在「巨額」級距≥ 200000。20 萬 USD 以上屬大額外匯,銀行多會主動聯繫,匯率可協商,務必比較電匯費與中間行費用。", en: "Falls in the \"巨額\" band ≥ 200000. This is the 巨額 range for Currency Converter." } },
+  { key: "tiny", range: "< 100", label: { zh: "小額 (< 100)", en: "Very low (< 100)" }, desc: { zh: "落在「小額」級距< 100。小於 100 USD 的零碎換匯,銀行匯差通常已蓋過便利性,可直接用信用卡刷卡。", en: "Falls in the \"Very low\" band (< 100). This is the very low range for Currency Converter." } },
+  { key: "normal", range: "100–1000", label: { zh: "一般 (100–1000)", en: "Low (100–1000)" }, desc: { zh: "落在「一般」級距100–1000。100-1000 USD 屬旅遊或日常網購規模,Wise/Revolut 比銀行省 0.5-2%。", en: "Falls in the \"Low\" band (100–1000). This is the low range for Currency Converter." } },
+  { key: "notable", range: "1000–10000", label: { zh: "中額 (1000–10000)", en: "Moderate (1000–10000)" }, desc: { zh: "落在「中額」級距1000–10000。1000-10000 USD,務必比較三家以上的中間匯率與手續費,單筆價差可達 $50-150。", en: "Falls in the \"Moderate\" band (1000–10000). This is the moderate range for Currency Converter." } },
+  { key: "high", range: "10000–50000", label: { zh: "中大 (10000–50000)", en: "High (10000–50000)" }, desc: { zh: "落在「中大」級距10000–50000。10000-50000 USD,屬留學費、海外房貸、外幣定存規模,需注意當地申報門檻。", en: "Falls in the \"High\" band (10000–50000). This is the high range for Currency Converter." } },
+  { key: "major", range: "50000–200000", label: { zh: "大額 (50000–200000)", en: "Very high (50000–200000)" }, desc: { zh: "落在「大額」級距50000–200000。5 萬至 20 萬 USD,涉及反洗錢申報、可能要求資金來源證明,建議分批或事前諮詢。", en: "Falls in the \"Very high\" band (50000–200000). This is the very high range for Currency Converter." } },
+  { key: "executive", range: "≥ 200000", label: { zh: "巨額 (≥ 200000)", en: "Extreme (≥ 200000)" }, desc: { zh: "落在「巨額」級距≥ 200000。20 萬 USD 以上屬大額外匯,銀行多會主動聯繫,匯率可協商,務必比較電匯費與中間行費用。", en: "Falls in the \"Extreme\" band (≥ 200000). This is the extreme range for Currency Converter." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

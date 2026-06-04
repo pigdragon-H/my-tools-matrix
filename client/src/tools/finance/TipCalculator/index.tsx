@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 1", label: { zh: "無小費 (< 1)", en: "Band 1 (< 1)" }, desc: { zh: "落在「無小費」級距< 1。0% 小費,部分國家(如日本、台灣多數場合)不收小費。", en: "Falls in the \"無小費\" band < 1. This is the 無小費 range for Tip Calculator." } },
-  { key: "normal", range: "1–12", label: { zh: "偏低 (1–12)", en: "Band 2 (1–12)" }, desc: { zh: "落在「偏低」級距1–12。< 12%,偏低,在美國通常代表服務不滿意或快餐。", en: "Falls in the \"偏低\" band 1–12. This is the 偏低 range for Tip Calculator." } },
-  { key: "notable", range: "12–18", label: { zh: "標準 (12–18)", en: "Band 3 (12–18)" }, desc: { zh: "落在「標準」級距12–18。12-18%,標準範圍,一般餐廳服務的常見比例。", en: "Falls in the \"標準\" band 12–18. This is the 標準 range for Tip Calculator." } },
-  { key: "high", range: "18–22", label: { zh: "良好 (18–22)", en: "Band 4 (18–22)" }, desc: { zh: "落在「良好」級距18–22。18-22%,良好服務的合理回報,美國正餐常見。", en: "Falls in the \"良好\" band 18–22. This is the 良好 range for Tip Calculator." } },
-  { key: "major", range: "22–25", label: { zh: "慷慨 (22–25)", en: "Band 5 (22–25)" }, desc: { zh: "落在「慷慨」級距22–25。22-25%,慷慨,適合優質服務或特殊場合。", en: "Falls in the \"慷慨\" band 22–25. This is the 慷慨 range for Tip Calculator." } },
-  { key: "executive", range: "≥ 25", label: { zh: "極慷慨 (≥ 25)", en: "Band 6 (≥ 25)" }, desc: { zh: "落在「極慷慨」級距≥ 25。> 25%,極慷慨,通常保留給卓越服務或大型團體。", en: "Falls in the \"極慷慨\" band ≥ 25. This is the 極慷慨 range for Tip Calculator." } },
+  { key: "tiny", range: "< 1", label: { zh: "無小費 (< 1)", en: "Very low (< 1)" }, desc: { zh: "落在「無小費」級距< 1。0% 小費,部分國家(如日本、台灣多數場合)不收小費。", en: "Falls in the \"Very low\" band (< 1). This is the very low range for Tip Calculator." } },
+  { key: "normal", range: "1–12", label: { zh: "偏低 (1–12)", en: "Low (1–12)" }, desc: { zh: "落在「偏低」級距1–12。< 12%,偏低,在美國通常代表服務不滿意或快餐。", en: "Falls in the \"Low\" band (1–12). This is the low range for Tip Calculator." } },
+  { key: "notable", range: "12–18", label: { zh: "標準 (12–18)", en: "Moderate (12–18)" }, desc: { zh: "落在「標準」級距12–18。12-18%,標準範圍,一般餐廳服務的常見比例。", en: "Falls in the \"Moderate\" band (12–18). This is the moderate range for Tip Calculator." } },
+  { key: "high", range: "18–22", label: { zh: "良好 (18–22)", en: "High (18–22)" }, desc: { zh: "落在「良好」級距18–22。18-22%,良好服務的合理回報,美國正餐常見。", en: "Falls in the \"High\" band (18–22). This is the high range for Tip Calculator." } },
+  { key: "major", range: "22–25", label: { zh: "慷慨 (22–25)", en: "Very high (22–25)" }, desc: { zh: "落在「慷慨」級距22–25。22-25%,慷慨,適合優質服務或特殊場合。", en: "Falls in the \"Very high\" band (22–25). This is the very high range for Tip Calculator." } },
+  { key: "executive", range: "≥ 25", label: { zh: "極慷慨 (≥ 25)", en: "Extreme (≥ 25)" }, desc: { zh: "落在「極慷慨」級距≥ 25。> 25%,極慷慨,通常保留給卓越服務或大型團體。", en: "Falls in the \"Extreme\" band (≥ 25). This is the extreme range for Tip Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [

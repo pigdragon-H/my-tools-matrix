@@ -14,12 +14,12 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "< 12", label: { zh: "極快 (< 12)", en: "Band 1 (< 12)" }, desc: { zh: "落在「極快」級距< 12。回收 < 12 個月,屬極佳,常見於高效率自動化或軟體訂閱模型。", en: "Falls in the \"極快\" band < 12. This is the 極快 range for Payback Period Calculator." } },
-  { key: "normal", range: "12–24", label: { zh: "快 (12–24)", en: "Band 2 (12–24)" }, desc: { zh: "落在「快」級距12–24。12-24 個月,屬快速回收,商業模式經過驗證,適合擴張。", en: "Falls in the \"快\" band 12–24. This is the 快 range for Payback Period Calculator." } },
-  { key: "notable", range: "24–48", label: { zh: "合理 (24–48)", en: "Band 3 (24–48)" }, desc: { zh: "落在「合理」級距24–48。24-48 個月(2-4 年),屬合理區,中小型實體店面或設備投資常見。", en: "Falls in the \"合理\" band 24–48. This is the 合理 range for Payback Period Calculator." } },
-  { key: "high", range: "48–84", label: { zh: "略長 (48–84)", en: "Band 4 (48–84)" }, desc: { zh: "落在「略長」級距48–84。48-84 個月(4-7 年),略長但可接受,需關注競爭環境變化。", en: "Falls in the \"略長\" band 48–84. This is the 略長 range for Payback Period Calculator." } },
-  { key: "major", range: "84–120", label: { zh: "偏長 (84–120)", en: "Band 5 (84–120)" }, desc: { zh: "落在「偏長」級距84–120。84-120 個月(7-10 年),偏長,需評估技術過時、市場結構變化風險。", en: "Falls in the \"偏長\" band 84–120. This is the 偏長 range for Payback Period Calculator." } },
-  { key: "executive", range: "≥ 120", label: { zh: "過長 (≥ 120)", en: "Band 6 (≥ 120)" }, desc: { zh: "落在「過長」級距≥ 120。> 120 個月(10 年以上),屬超長回收,通常為大型基建或不動產;需嚴謹折現分析。", en: "Falls in the \"過長\" band ≥ 120. This is the 過長 range for Payback Period Calculator." } },
+  { key: "tiny", range: "< 12", label: { zh: "極快 (< 12)", en: "Very low (< 12)" }, desc: { zh: "落在「極快」級距< 12。回收 < 12 個月,屬極佳,常見於高效率自動化或軟體訂閱模型。", en: "Falls in the \"Very low\" band (< 12). This is the very low range for Payback Period Calculator." } },
+  { key: "normal", range: "12–24", label: { zh: "快 (12–24)", en: "Low (12–24)" }, desc: { zh: "落在「快」級距12–24。12-24 個月,屬快速回收,商業模式經過驗證,適合擴張。", en: "Falls in the \"Low\" band (12–24). This is the low range for Payback Period Calculator." } },
+  { key: "notable", range: "24–48", label: { zh: "合理 (24–48)", en: "Moderate (24–48)" }, desc: { zh: "落在「合理」級距24–48。24-48 個月(2-4 年),屬合理區,中小型實體店面或設備投資常見。", en: "Falls in the \"Moderate\" band (24–48). This is the moderate range for Payback Period Calculator." } },
+  { key: "high", range: "48–84", label: { zh: "略長 (48–84)", en: "High (48–84)" }, desc: { zh: "落在「略長」級距48–84。48-84 個月(4-7 年),略長但可接受,需關注競爭環境變化。", en: "Falls in the \"High\" band (48–84). This is the high range for Payback Period Calculator." } },
+  { key: "major", range: "84–120", label: { zh: "偏長 (84–120)", en: "Very high (84–120)" }, desc: { zh: "落在「偏長」級距84–120。84-120 個月(7-10 年),偏長,需評估技術過時、市場結構變化風險。", en: "Falls in the \"Very high\" band (84–120). This is the very high range for Payback Period Calculator." } },
+  { key: "executive", range: "≥ 120", label: { zh: "過長 (≥ 120)", en: "Extreme (≥ 120)" }, desc: { zh: "落在「過長」級距≥ 120。> 120 個月(10 年以上),屬超長回收,通常為大型基建或不動產;需嚴謹折現分析。", en: "Falls in the \"Extreme\" band (≥ 120). This is the extreme range for Payback Period Calculator." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [
