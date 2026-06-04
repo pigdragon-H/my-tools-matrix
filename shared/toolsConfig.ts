@@ -973,6 +973,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "insurance-premium-calculator",
+    name: "保費試算計算機",
+    category: "finance",
+    path: "/tools/finance/insurance-premium-calculator",
+    icon: "Calculator",
+    description: "輸入保額、年齡、年期與費率，立即估算年保費、月保費與總繳保費",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1068,3 +1083,4 @@ export const breakEvenCalculator = { id: "break-even-calculator", category: "fin
 export const currencyConverter = { id: "currency-converter", category: "finance", name: "Currency Converter", path: "/tools/finance/currency-converter" };
 export const stockProfitCalculator = { id: "stock-profit-calculator", category: "finance", name: "Stock Profit Calculator", path: "/tools/finance/stock-profit-calculator" };
 export const rentalYieldCalculator = { id: "rental-yield-calculator", category: "finance", name: "Rental Yield Calculator", path: "/tools/finance/rental-yield-calculator" };
+export const insurancePremiumCalculator = { id: "insurance-premium-calculator", category: "finance", name: "Insurance Premium Calculator", path: "/tools/finance/insurance-premium-calculator" };
