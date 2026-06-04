@@ -1933,6 +1933,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "dollar-cost-averaging",
+    name: "定期定額投資計算機",
+    category: "finance",
+    path: "/tools/finance/dollar-cost-averaging",
+    icon: "Calculator",
+    description: "由每月投入、期間與報酬率計算定期定額的期末總資產與獲利。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2092,3 +2107,4 @@ export const bookValueCalculator = { id: "book-value-calculator", category: "fin
 export const riskToleranceCalculator = { id: "risk-tolerance-calculator", category: "finance", name: "Risk Tolerance Calculator", path: "/tools/finance/risk-tolerance-calculator" };
 export const realReturnCalculator = { id: "real-return-calculator", category: "finance", name: "Real Return Calculator", path: "/tools/finance/real-return-calculator" };
 export const portfolioRebalanceCalculator = { id: "portfolio-rebalance-calculator", category: "finance", name: "Portfolio Rebalance Calculator", path: "/tools/finance/portfolio-rebalance-calculator" };
+export const dollarCostAveraging = { id: "dollar-cost-averaging", category: "finance", name: "Dollar-Cost Averaging Calculator", path: "/tools/finance/dollar-cost-averaging" };
