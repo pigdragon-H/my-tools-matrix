@@ -68,6 +68,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "developer/password-generator": lazy(() => import("@/tools/developer/PasswordGenerator")),
   "developer/qr-code-generator": lazy(() => import("@/tools/developer/QrCodeGenerator")),
   "developer/markdown-to-html": lazy(() => import("@/tools/developer/MarkdownToHtml")),
+  "developer/number-base-converter": lazy(() => import("@/tools/developer/NumberBaseConverter")),
 };
 
 function ToolSkeleton() {

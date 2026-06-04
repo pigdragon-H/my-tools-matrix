@@ -867,6 +867,22 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "number-base-converter",
+    name: "Number Base Converter",
+    nameZh: "進位制轉換器",
+    description: "Convert numbers between binary, octal, decimal, and hexadecimal in your browser. 17-layer JsonFormatter gold template, Profile B (violet/purple).",
+    category: "developer",
+    icon: "Hash",
+    path: "/tools/developer/number-base-converter",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isFeatured: true,
+    isNew: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -955,3 +971,4 @@ export const colorPaletteGenerator = { id: "color-palette-generator", category: 
 export const passwordGenerator = { id: "password-generator", category: "developer", name: "Password Generator", path: "/tools/developer/password-generator" };
 export const qrCodeGenerator = { id: "qr-code-generator", category: "developer", name: "QR Code Generator", path: "/tools/developer/qr-code-generator" };
 export const markdownToHtml = { id: "markdown-to-html", category: "developer", name: "Markdown to HTML", path: "/tools/developer/markdown-to-html" };
+export const numberBaseConverter = { id: "number-base-converter", category: "developer", name: "Number Base Converter", path: "/tools/developer/number-base-converter" };
