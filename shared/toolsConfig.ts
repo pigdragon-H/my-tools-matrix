@@ -913,6 +913,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "break-even-calculator",
+    name: "損益兩平計算機",
+    category: "finance",
+    path: "/tools/finance/break-even-calculator",
+    icon: "Calculator",
+    description: "輸入固定成本、單位售價、單位變動成本，立即算出回本所需銷量與營收門檻",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1004,3 +1019,4 @@ export const markdownToHtml = { id: "markdown-to-html", category: "developer", n
 export const numberBaseConverter = { id: "number-base-converter", category: "developer", name: "Number Base Converter", path: "/tools/developer/number-base-converter" };
 export const taxBracketCalculator = { id: "tax-bracket-calculator", category: "finance", name: "Tax Bracket Calculator", path: "/tools/finance/tax-bracket-calculator" };
 export const investmentReturnCalculator = { id: "investment-return-calculator", category: "finance", name: "Investment Return Calculator", path: "/tools/finance/investment-return-calculator" };
+export const breakEvenCalculator = { id: "break-even-calculator", category: "finance", name: "Break-Even Calculator", path: "/tools/finance/break-even-calculator" };
