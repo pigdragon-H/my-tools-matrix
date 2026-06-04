@@ -1,0 +1,73 @@
+{
+  "id": "pension-calculator",
+  "nameZh": "退休金試算計算機",
+  "nameEn": "Pension Calculator",
+  "color": "indigo",
+  "inputs": ["當前年齡", "退休年齡", "月薪", "雇主提撥率"],
+  "inputsEn": ["Current Age", "Retire Age", "Monthly Salary", "Employer Contribution Rate"],
+  "defaults": ["30", "65", "60000", "6"],
+  "steps": ["1", "1", "1000", "0.5"],
+  "accentIdx": 3,
+
+  "compute": "依年齡、退休年齡、月薪、雇主提撥率計算累積退休金、月退金、薪資替代率與工作年數",
+  "computeFn": "    const cur = Number(currentAge) || 30;\n    const ret = Number(retireAge) || 65;\n    const sal = Number(monthlySalary) || 0;\n    const ercR = (Number(employerContributionRate) || 0) / 100;\n    const yrs = Math.max(0, ret - cur);\n    const months = yrs * 12;\n    const monthlyContrib = sal * (ercR + 0.06);\n    const r = 0.04 / 12;\n    const accumulated = r > 0 ? monthlyContrib * ((Math.pow(1 + r, months) - 1) / r) : monthlyContrib * months;\n    const monthlyPension = accumulated / 240;\n    const replacementRatio = sal > 0 ? (monthlyPension / sal) * 100 : 0;\n    return { accumulated, monthlyPension, replacementRatio, yrs };",
+
+  "primaryKey": "accumulated",     "primaryDecimals": 0, "primaryUnit": "$",
+  "secondaryKey": "monthlyPension","secondaryDecimals": 0, "secondaryUnit": "$",
+  "tertiaryKey": "replacementRatio","tertiaryDecimals": 1, "tertiaryUnit": "%",
+  "quaternaryKey": "yrs",          "quaternaryDecimals": 0, "quaternaryUnit": "年",
+
+  "primaryLabelZh": "累積退休金", "primaryLabelEn": "Total Accumulated",
+  "secondaryLabelZh": "月退休金", "secondaryLabelEn": "Monthly Pension",
+  "tertiaryLabelZh": "薪資替代率", "tertiaryLabelEn": "Replacement Ratio",
+  "quaternaryLabelZh": "工作年數", "quaternaryLabelEn": "Work Years",
+
+  "bands": ["不足", "緊縮", "尚可", "穩定", "充裕", "豐厚"],
+  "bandThresholds": [3000000, 8000000, 15000000, 25000000, 40000000],
+  "bandHints": [
+    "累積 < 300 萬,僅夠基本生活,需積極補充自願提撥或個人投資。",
+    "300-800 萬,屬緊縮區,維持基本生活但無餘力旅遊或醫療緩衝。",
+    "800-1500 萬,合理水準,搭配勞保年金可維持中等生活品質。",
+    "1500-2500 萬,穩定區,可享有舒適退休生活並保留醫療緩衝。",
+    "2500-4000 萬,充裕區,可規劃旅遊、興趣、子女傳承,財務自由。",
+    "> 4000 萬,屬高資產退休,可考慮信託、慈善、家族傳承等進階規劃。"
+  ],
+
+  "faqTitles": [
+    "勞退新制和勞保年金有什麼不同?",
+    "薪資替代率多少才算夠?",
+    "雇主提撥 6% 是天花板嗎?",
+    "退休金需要自己提撥嗎?",
+    "薪資資料會上傳到伺服器嗎?",
+    "退休後可以一次領嗎?還是只能月領?"
+  ],
+  "faqAnswers": [
+    "**勞退新制(個人專戶)**: 雇主每月提撥 6% 薪資進你的個人帳戶,退休後依累積金額月領或一次領,屬於「確定提撥」。**勞保年金(老年年金)**: 由勞保局以「(平均月投保薪資 × 1.55% × 年資)」計算月退,屬於「確定給付」,但勞保財務有破產風險。兩者**可同時領**,但勞退是你的私產、勞保是社會保險。",
+    "國際標準建議 **70-80%** 薪資替代率(退休前 vs 退休後);若房貸已還清、子女已獨立,**60-70%** 也夠。本工具以「累積金額 / 240 個月(20 年)」概估月退,實際應結合勞保年金、自願提撥、個人投資三層退休金計算。",
+    "**6% 是雇主強制提撥的法定上限**,但你自己可以再「自願提撥」最高 6%(共 12%)。自願提撥的好處:**(1) 享所得稅扣除額**(每年最高 12% 不計入綜合所得)、**(2) 帳戶享 2 年期定存最低保證收益率**、**(3) 強制儲蓄**。對 30 歲月薪 6 萬族群,自願提撥 6% 可省稅約 5-15%。",
+    "**法定 6% 不需要自己提**(雇主負擔),但**強烈建議再自提 6%**。理由:本工具假設僅雇主 6% 與假設 4% 報酬率,30 歲到 65 歲約累積 1500 萬;若再自提 6%(共 12%),累積可達 3000 萬,差距巨大。自提還可省所得稅,雙重利益。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,薪資、年齡、提撥率等資料不會傳送到任何伺服器,也不會記錄到日誌或資料庫。",
+    "**勞退新制可選一次領或月領**,60 歲滿足以下條件二選一:**(1) 工作年資 ≥ 15 年 → 月領**(終身)、**(2) 工作年資 < 15 年 → 一次領**。**勞保年金**只能月領(年資滿 15 年或 60 歲後)。一次領 vs 月領的選擇:看你健康狀況、其他資產配置、是否擔心通膨;一次領適合有高效投資能力者,月領適合追求穩定。"
+  ],
+
+  "affiliates": [
+    { "label_zh": "退休計算機", "label_en": "Retirement Calculator", "href": "/tools/finance/retirement-calculator" },
+    { "label_zh": "投資報酬率計算機", "label_en": "Investment Return Calculator", "href": "/tools/finance/investment-return-calculator" },
+    { "label_zh": "通膨調整計算機", "label_en": "Inflation Adjuster", "href": "/tools/finance/inflation-adjuster" },
+    { "label_zh": "稅率級距計算機", "label_en": "Tax Bracket Calculator", "href": "/tools/finance/tax-bracket-calculator" }
+  ],
+
+  "exampleSolid": ["30", "65", "60000", "6"],
+  "exampleHigh": ["25", "65", "80000", "12"],
+  "solidLabelZh": "30→65 · 月薪 6 萬 · 雇主 6%",
+  "solidLabelEn": "30→65 · NT$60k/mo · ER 6%",
+  "highLabelZh": "25→65 · 月薪 8 萬 · 自提 12%",
+  "highLabelEn": "25→65 · NT$80k/mo · 12%",
+
+  "subtitleZh": "輸入年齡、月薪與提撥率，立即試算退休時累積金額、月退金與薪資替代率",
+  "subtitleEn": "Enter age, salary, and contribution rate to estimate retirement accumulation, monthly pension, and replacement ratio",
+  "definitionZh": "退休金試算工具以勞退新制為基礎,結合工作年資、月薪、雇主提撥率(可加自願提撥),以年化 4% 假設報酬率累積至退休,並換算為月退金與薪資替代率。",
+  "formulaZh": "累積金額 = 月提撥 × ((1+r)^n − 1) / r;月退金 = 累積 / 240 個月",
+  "limitationsZh": "本工具未含勞保年金、政府輔助、薪資調漲、通膨、提早退休罰則、特殊行業勞退舊制;僅供概念性試算,實際請以勞工保險局與雇主提撥紀錄為準。",
+  "interpretationZh": "薪資替代率 60-80% 屬合理,< 50% 退休後生活品質會明顯下降,> 100% 多半假設過於樂觀,實務上應同時用勞保年金 + 自願提撥 + 個人投資三層補強。"
+}

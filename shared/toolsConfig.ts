@@ -988,6 +988,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "pension-calculator",
+    name: "退休金試算計算機",
+    category: "finance",
+    path: "/tools/finance/pension-calculator",
+    icon: "Calculator",
+    description: "輸入年齡、月薪與提撥率，立即試算退休時累積金額、月退金與薪資替代率",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1084,3 +1099,4 @@ export const currencyConverter = { id: "currency-converter", category: "finance"
 export const stockProfitCalculator = { id: "stock-profit-calculator", category: "finance", name: "Stock Profit Calculator", path: "/tools/finance/stock-profit-calculator" };
 export const rentalYieldCalculator = { id: "rental-yield-calculator", category: "finance", name: "Rental Yield Calculator", path: "/tools/finance/rental-yield-calculator" };
 export const insurancePremiumCalculator = { id: "insurance-premium-calculator", category: "finance", name: "Insurance Premium Calculator", path: "/tools/finance/insurance-premium-calculator" };
+export const pensionCalculator = { id: "pension-calculator", category: "finance", name: "Pension Calculator", path: "/tools/finance/pension-calculator" };
