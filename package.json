@@ -25,7 +25,7 @@
     "preflight": "node scripts/preflight.mjs",
     "safe-push": "node scripts/safe-push.mjs",
     "scaffold:tool": "node scripts/scaffold-tool.mjs",
-    "prebuild": "node scripts/validate-registry.mjs"
+    "prebuild": "npx tsx scripts/generate-sitemap.ts && node scripts/validate-registry.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",
