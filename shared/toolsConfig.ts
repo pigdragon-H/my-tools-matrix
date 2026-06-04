@@ -2158,6 +2158,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "intermittent-fasting-calculator",
+    name: "間歇性斷食計算機",
+    category: "health",
+    path: "/tools/health/intermittent-fasting-calculator",
+    icon: "Clock",
+    description: "間歇性斷食計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2332,3 +2347,4 @@ export const runningPaceCalculator = { id: "running-pace-calculator", category: 
 export const swimmingCaloriesCalculator = { id: "swimming-calories-calculator", category: "health", name: "Swimming Calories Calculator", path: "/tools/health/swimming-calories-calculator" };
 export const workoutPlanCalculator = { id: "workout-plan-calculator", category: "health", name: "Workout Plan Calculator", path: "/tools/health/workout-plan-calculator" };
 export const proteinCalculator = { id: "protein-calculator", category: "health", name: "Protein Calculator", path: "/tools/health/protein-calculator" };
+export const intermittentFastingCalculator = { id: "intermittent-fasting-calculator", category: "health", name: "Intermittent Fasting Calculator", path: "/tools/health/intermittent-fasting-calculator" };
