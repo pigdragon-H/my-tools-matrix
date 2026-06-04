@@ -1618,6 +1618,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "roth-conversion-calculator",
+    name: "Roth 轉換稅務試算機",
+    category: "finance",
+    path: "/tools/finance/roth-conversion-calculator",
+    icon: "Calculator",
+    description: "估算 Roth 轉換的當年稅負、免稅成長價值與長期稅務節省。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1756,3 +1771,4 @@ export const withdrawalRateCalculator = { id: "withdrawal-rate-calculator", cate
 export const coastFireCalculator = { id: "coast-fire-calculator", category: "finance", name: "Coast FIRE Calculator", path: "/tools/finance/coast-fire-calculator" };
 export const fireNumberCalculator = { id: "fire-number-calculator", category: "finance", name: "FIRE Number Calculator", path: "/tools/finance/fire-number-calculator" };
 export const socialSecurityCalculator = { id: "social-security-calculator", category: "finance", name: "Social Security Calculator", path: "/tools/finance/social-security-calculator" };
+export const rothConversionCalculator = { id: "roth-conversion-calculator", category: "finance", name: "Roth Conversion Calculator", path: "/tools/finance/roth-conversion-calculator" };
