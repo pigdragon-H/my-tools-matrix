@@ -1948,6 +1948,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "rule-of-72-calculator",
+    name: "72 法則計算機",
+    category: "finance",
+    path: "/tools/finance/rule-of-72-calculator",
+    icon: "Calculator",
+    description: "由年報酬率快速估算投資翻倍與達標所需的年數。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2108,3 +2123,4 @@ export const riskToleranceCalculator = { id: "risk-tolerance-calculator", catego
 export const realReturnCalculator = { id: "real-return-calculator", category: "finance", name: "Real Return Calculator", path: "/tools/finance/real-return-calculator" };
 export const portfolioRebalanceCalculator = { id: "portfolio-rebalance-calculator", category: "finance", name: "Portfolio Rebalance Calculator", path: "/tools/finance/portfolio-rebalance-calculator" };
 export const dollarCostAveraging = { id: "dollar-cost-averaging", category: "finance", name: "Dollar-Cost Averaging Calculator", path: "/tools/finance/dollar-cost-averaging" };
+export const ruleOf72Calculator = { id: "rule-of-72-calculator", category: "finance", name: "Rule of 72 Calculator", path: "/tools/finance/rule-of-72-calculator" };
