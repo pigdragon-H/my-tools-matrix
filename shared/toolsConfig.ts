@@ -1678,6 +1678,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "closing-cost-calculator",
+    name: "成交費用計算機",
+    category: "finance",
+    path: "/tools/finance/closing-cost-calculator",
+    icon: "Calculator",
+    description: "估算房屋交割的總成交費用與成交所需準備現金。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1820,3 +1835,4 @@ export const rothConversionCalculator = { id: "roth-conversion-calculator", cate
 export const ltvRatioCalculator = { id: "ltv-ratio-calculator", category: "finance", name: "LTV Ratio Calculator", path: "/tools/finance/ltv-ratio-calculator" };
 export const homeEquityCalculator = { id: "home-equity-calculator", category: "finance", name: "Home Equity Calculator", path: "/tools/finance/home-equity-calculator" };
 export const rentVsBuyCalculator = { id: "rent-vs-buy-calculator", category: "finance", name: "Rent vs Buy Calculator", path: "/tools/finance/rent-vs-buy-calculator" };
+export const closingCostCalculator = { id: "closing-cost-calculator", category: "finance", name: "Closing Cost Calculator", path: "/tools/finance/closing-cost-calculator" };
