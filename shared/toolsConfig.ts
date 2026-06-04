@@ -1753,6 +1753,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "tax-loss-harvesting",
+    name: "稅損收割計算機",
+    category: "finance",
+    path: "/tools/finance/tax-loss-harvesting",
+    icon: "Calculator",
+    description: "估算以資本虧損抵減利得與一般所得後的節稅金額與結轉。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1900,3 +1915,4 @@ export const propertyTaxCalculator = { id: "property-tax-calculator", category: 
 export const capitalGainsCalculator = { id: "capital-gains-calculator", category: "finance", name: "Capital Gains Calculator", path: "/tools/finance/capital-gains-calculator" };
 export const estateTaxCalculator = { id: "estate-tax-calculator", category: "finance", name: "Estate Tax Calculator", path: "/tools/finance/estate-tax-calculator" };
 export const taxWithholdingCalculator = { id: "tax-withholding-calculator", category: "finance", name: "Tax Withholding Calculator", path: "/tools/finance/tax-withholding-calculator" };
+export const taxLossHarvesting = { id: "tax-loss-harvesting", category: "finance", name: "Tax Loss Harvesting Calculator", path: "/tools/finance/tax-loss-harvesting" };
