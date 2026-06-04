@@ -1768,6 +1768,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "purchasing-power-calculator",
+    name: "購買力計算機",
+    category: "finance",
+    path: "/tools/finance/purchasing-power-calculator",
+    icon: "Calculator",
+    description: "計算通膨侵蝕後的未來實質購買力與流失比例。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1916,3 +1931,4 @@ export const capitalGainsCalculator = { id: "capital-gains-calculator", category
 export const estateTaxCalculator = { id: "estate-tax-calculator", category: "finance", name: "Estate Tax Calculator", path: "/tools/finance/estate-tax-calculator" };
 export const taxWithholdingCalculator = { id: "tax-withholding-calculator", category: "finance", name: "Tax Withholding Calculator", path: "/tools/finance/tax-withholding-calculator" };
 export const taxLossHarvesting = { id: "tax-loss-harvesting", category: "finance", name: "Tax Loss Harvesting Calculator", path: "/tools/finance/tax-loss-harvesting" };
+export const purchasingPowerCalculator = { id: "purchasing-power-calculator", category: "finance", name: "Purchasing Power Calculator", path: "/tools/finance/purchasing-power-calculator" };
