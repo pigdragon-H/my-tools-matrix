@@ -1,0 +1,142 @@
+{
+  "id": "home-affordability-calculator",
+  "nameZh": "購屋負擔能力計算機",
+  "nameEn": "Home Affordability Calculator",
+  "color": "stone",
+  "inputs": [
+    "年收入",
+    "頭期款",
+    "房貸利率%",
+    "每月債務"
+  ],
+  "inputsEn": [
+    "Annual Income",
+    "Down Payment",
+    "Mortgage Rate Pct",
+    "Monthly Debt"
+  ],
+  "defaults": [
+    "1200000",
+    "2000000",
+    "4",
+    "10000"
+  ],
+  "steps": [
+    "50000",
+    "100000",
+    "0.1",
+    "1000"
+  ],
+  "accentIdx": 0,
+  "compute": "依年收入、頭期、利率與既有債務，估算可負擔房價與每月房貸上限",
+  "computeFn": "    const income = Number(annualIncome) || 0;\n    const down = Number(downPayment) || 0;\n    const r = (Number(mortgageRatePct) || 0) / 100 / 12;\n    const debt = Number(monthlyDebt) || 0;\n    const monthlyIncome = income / 12;\n    const maxHousing = monthlyIncome * 0.28;\n    const maxTotal = monthlyIncome * 0.36 - debt;\n    const maxPayment = Math.max(0, Math.min(maxHousing, maxTotal));\n    const n = 360;\n    const maxLoan = r > 0 ? maxPayment * (1 - Math.pow(1 + r, -n)) / r : maxPayment * n;\n    const maxHomePrice = maxLoan + down;\n    const priceToIncome = income > 0 ? maxHomePrice / income : 0;\n    return { priceToIncome, maxHomePrice, maxPayment, maxLoan };",
+  "primaryKey": "priceToIncome",
+  "primaryDecimals": 1,
+  "primaryUnit": "x",
+  "secondaryKey": "maxHomePrice",
+  "secondaryDecimals": 0,
+  "secondaryUnit": "$",
+  "tertiaryKey": "maxPayment",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "maxLoan",
+  "quaternaryDecimals": 0,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "房價所得倍數",
+  "primaryLabelEn": "Price-to-Income",
+  "secondaryLabelZh": "可負擔房價",
+  "secondaryLabelEn": "Affordable Price",
+  "tertiaryLabelZh": "每月房貸上限",
+  "tertiaryLabelEn": "Max Payment",
+  "quaternaryLabelZh": "可貸金額",
+  "quaternaryLabelEn": "Max Loan",
+  "bands": [
+    "保守",
+    "穩健",
+    "標準",
+    "偏緊",
+    "吃緊",
+    "超貸"
+  ],
+  "bandThresholds": [
+    3,
+    5,
+    7,
+    9,
+    12
+  ],
+  "bandHints": [
+    "房價約年收入 < 3 倍,非常保守,財務彈性充裕,易核貸。",
+    "3-5 倍,穩健,符合傳統可負擔範圍,壓力可控。",
+    "5-7 倍,標準上限,常見於大城市,需穩定收入支撐。",
+    "7-9 倍,偏緊,房貸佔比高,對利率與收入變動敏感。",
+    "9-12 倍,吃緊,接近放款極限,風險顯著上升。",
+    "> 12 倍,超貸,房價遠超合理負擔,極可能被拒貸或陷入困境。"
+  ],
+  "faqTitles": [
+    "28/36 法則是什麼?",
+    "頭期款要準備多少?",
+    "我能借多少房貸?",
+    "除了房貸還要算哪些成本?",
+    "資料會上傳嗎?",
+    "可以含房屋稅與保險嗎?"
+  ],
+  "faqAnswers": [
+    "**28/36 法則**是傳統放款基準:**前端比(28%)**——每月房貸(本息+稅+保險)不超過月毛收入的 28%;**後端比(36%)**——房貸加上所有債務(車貸、卡債、學貸)不超過月毛收入的 36%。本工具取兩者較嚴格者算出可負擔上限。",
+    "傳統建議頭期款 **20%**(可免額外貸款保險 PMI),但首購方案可低至 3-5%(需付 PMI)。頭期越高:月付越低、總利息越少、核貸越易。除頭期外還需預留**過戶費(2-5%)+ 緊急預備金(3-6 個月支出)**。",
+    "可貸金額取決於:**收入、既有債務、利率、年限、信用評分**。本工具用 28/36 法則反推可負擔月付,再依利率與 30 年期反推可貸本金。實際核貸還看信用、工作穩定性與銀行政策,建議多家比較。",
+    "購屋總成本遠不只房貸:**(1) 房屋稅、(2) 房屋保險、(3) 管理費/HOA、(4) 維護修繕(年約房價 1%)、(5) 過戶與代書費、(6) 搬遷與裝潢**。買房前務必把這些算進每月與年度預算,別只看月付。",
+    "完全不會。所有計算都在你的瀏覽器內完成,收入與債務資料不會傳送到任何伺服器。",
+    "房屋稅、保險、HOA、PMI 的完整 PITI 計算、多情境壓力測試與利率變動分析屬於專業版功能。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "房貸計算機",
+      "label_en": "Mortgage Calculator",
+      "href": "/tools/finance/mortgage-calculator"
+    },
+    {
+      "label_zh": "負債收入比計算機",
+      "label_en": "Debt-to-Income Calculator",
+      "href": "/tools/finance/debt-to-income-calculator"
+    },
+    {
+      "label_zh": "攤還排程計算機",
+      "label_en": "Amortization Schedule Calculator",
+      "href": "/tools/finance/amortization-schedule-calculator"
+    },
+    {
+      "label_zh": "緊急預備金計算機",
+      "label_en": "Emergency Fund Calculator",
+      "href": "/tools/finance/emergency-fund-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "1200000",
+    "2000000",
+    "4",
+    "10000"
+  ],
+  "exampleHigh": [
+    "2400000",
+    "5000000",
+    "3.5",
+    "5000"
+  ],
+  "solidLabelZh": "年收 120 萬 · 頭期 200 萬 · 4%",
+  "solidLabelEn": "Inc 1.2M · Down 2M · 4%",
+  "highLabelZh": "年收 240 萬 · 頭期 500 萬 · 3.5%",
+  "highLabelEn": "Inc 2.4M · Down 5M · 3.5%",
+  "subtitleZh": "輸入年收入、頭期款、房貸利率與既有債務，立即估算可負擔房價與每月房貸上限",
+  "subtitleEn": "Enter annual income, down payment, mortgage rate, and debts to estimate affordable home price and max payment",
+  "definitionZh": "購屋負擔能力計算機依年收入、頭期款、房貸利率與既有每月債務,套用 28/36 黃金法則,估算可負擔的房價、每月房貸上限與可貸金額,協助購屋前的預算規劃。",
+  "formulaZh": "每月房貸上限 = min(月收入 × 28%, 月收入 × 36% − 既有債務);可貸金額 = 月付上限 × (1 − (1+r)^−360) / r;可負擔房價 = 可貸金額 + 頭期款",
+  "limitationsZh": "本工具採 28/36 法則與 30 年期假設,未含房屋稅、保險、HOA、PMI 與信用評分影響;實際核貸金額請以銀行評估為準。",
+  "interpretationZh": "可負擔房價為上限參考,實務上建議保守抓 8 成以保留彈性;房貸佔比越低財務越穩健,越高則對利率與收入變動越敏感。",
+  "premiumTitleZh": "專業版 購屋規劃工具組",
+  "premiumTextZh": "解鎖含房屋稅、保險、HOA、PMI 的完整 PITI 計算、收入/利率壓力測試與多情境購屋預算比較。",
+  "premiumChipsZh": "PITI計算|壓力測試|多情境|稅險HOA",
+  "premiumTitleEn": "Pro Home Buying Suite",
+  "premiumTextEn": "Unlock full PITI with tax/insurance/HOA/PMI, income/rate stress tests, and multi-scenario budget comparison.",
+  "premiumChipsEn": "PITI|Stress Test|Scenarios|Tax/Ins"
+}

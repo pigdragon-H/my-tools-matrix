@@ -84,6 +84,21 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/payback-period-calculator": lazy(() => import("@/tools/finance/PaybackPeriodCalculator")),
   "finance/cash-flow-calculator": lazy(() => import("@/tools/finance/CashFlowCalculator")),
   "finance/financial-ratio-calculator": lazy(() => import("@/tools/finance/FinancialRatioCalculator")),
+  "finance/amortization-schedule-calculator": lazy(() => import("@/tools/finance/AmortizationScheduleCalculator")),
+  "finance/capital-gains-tax-calculator": lazy(() => import("@/tools/finance/CapitalGainsTaxCalculator")),
+  "finance/sales-tax-calculator": lazy(() => import("@/tools/finance/SalesTaxCalculator")),
+  "finance/tip-calculator": lazy(() => import("@/tools/finance/TipCalculator")),
+  "finance/discount-calculator": lazy(() => import("@/tools/finance/DiscountCalculator")),
+  "finance/markup-calculator": lazy(() => import("@/tools/finance/MarkupCalculator")),
+  "finance/vat-calculator": lazy(() => import("@/tools/finance/VatCalculator")),
+  "finance/effective-annual-rate-calculator": lazy(() => import("@/tools/finance/EffectiveAnnualRateCalculator")),
+  "finance/simple-interest-calculator": lazy(() => import("@/tools/finance/SimpleInterestCalculator")),
+  "finance/future-value-calculator": lazy(() => import("@/tools/finance/FutureValueCalculator")),
+  "finance/present-value-calculator": lazy(() => import("@/tools/finance/PresentValueCalculator")),
+  "finance/annuity-calculator": lazy(() => import("@/tools/finance/AnnuityCalculator")),
+  "finance/lease-vs-buy-calculator": lazy(() => import("@/tools/finance/LeaseVsBuyCalculator")),
+  "finance/refinance-calculator": lazy(() => import("@/tools/finance/RefinanceCalculator")),
+  "finance/home-affordability-calculator": lazy(() => import("@/tools/finance/HomeAffordabilityCalculator")),
 };
 
 function ToolSkeleton() {

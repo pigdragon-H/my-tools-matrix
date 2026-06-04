@@ -1,0 +1,142 @@
+{
+  "id": "lease-vs-buy-calculator",
+  "nameZh": "租賃 vs 購買計算機",
+  "nameEn": "Lease vs Buy Calculator",
+  "color": "blue",
+  "inputs": [
+    "購買總價",
+    "每月租金",
+    "持有年數",
+    "殘值"
+  ],
+  "inputsEn": [
+    "Purchase Price",
+    "Monthly Lease",
+    "Hold Years",
+    "Resale Value"
+  ],
+  "defaults": [
+    "1000000",
+    "20000",
+    "5",
+    "400000"
+  ],
+  "steps": [
+    "10000",
+    "1000",
+    "1",
+    "10000"
+  ],
+  "accentIdx": 0,
+  "compute": "比較購買淨成本與租賃總成本，計算差額與每月等值成本",
+  "computeFn": "    const price = Number(purchasePrice) || 0;\n    const lease = Number(monthlyLease) || 0;\n    const yrs = Number(holdYears) || 1;\n    const resale = Number(resaleValue) || 0;\n    const months = yrs * 12;\n    const buyCost = price - resale;\n    const leaseCost = lease * months;\n    const diff = leaseCost - buyCost;\n    const buyMonthly = months > 0 ? buyCost / months : 0;\n    return { buyCost, leaseCost, diff, buyMonthly };",
+  "primaryKey": "diff",
+  "primaryDecimals": 2,
+  "primaryUnit": "$",
+  "secondaryKey": "buyCost",
+  "secondaryDecimals": 2,
+  "secondaryUnit": "$",
+  "tertiaryKey": "leaseCost",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "buyMonthly",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "租賃多付",
+  "primaryLabelEn": "Lease Premium",
+  "secondaryLabelZh": "購買淨成本",
+  "secondaryLabelEn": "Buy Net Cost",
+  "tertiaryLabelZh": "租賃總成本",
+  "tertiaryLabelEn": "Lease Total Cost",
+  "quaternaryLabelZh": "購買每月等值",
+  "quaternaryLabelEn": "Buy Monthly",
+  "bands": [
+    "租賃大省",
+    "租賃略省",
+    "接近",
+    "購買略省",
+    "購買大省",
+    "購買壓倒"
+  ],
+  "bandThresholds": [
+    -100000,
+    -10000,
+    10000,
+    100000,
+    300000
+  ],
+  "bandHints": [
+    "租賃總成本遠低於購買淨成本,且省去殘值風險與維護,租賃明顯划算。",
+    "租賃略省,加上彈性與免維護,短期或不確定需求時租賃較佳。",
+    "兩者接近,決策應看彈性、現金流、稅務與使用習慣等非價格因素。",
+    "購買略省,若長期使用且殘值穩定,購買開始占優。",
+    "購買大幅省,長期持有下擁有資產並回收殘值,購買明顯划算。",
+    "購買壓倒性勝出,租賃成本遠超購買淨成本,除非極度需要彈性否則應購買。"
+  ],
+  "faqTitles": [
+    "租好還是買好?關鍵看什麼?",
+    "為什麼要算殘值?",
+    "租賃的隱藏成本有哪些?",
+    "這個工具適用車、房、設備嗎?",
+    "資料會上傳嗎?",
+    "可以加上利息與稅務嗎?"
+  ],
+  "faqAnswers": [
+    "關鍵看**持有期間與使用確定性**:長期、確定使用→購買(回收殘值、長期攤提便宜);短期、需求不確定、技術快速汰換→租賃(彈性、免處分風險)。本工具用「購買淨成本(售價−殘值)vs 租賃總成本」做直觀比較。",
+    "因為購買後資產仍有價值,結束使用時可賣出回收。**購買淨成本 = 購買價 − 殘值**,才是真正的「擁有成本」。忽略殘值會嚴重高估購買成本——例如百萬車 5 年後殘值 40 萬,實際成本只有 60 萬。",
+    "租賃常見隱藏成本:**(1) 超里程/超用量費**、(2) 還車時的耗損賠償、(3) 提前解約違約金、(4) 保險與保證金要求、(5) 合約綁定期間的彈性限制。簽約前務必看清條款,別只比月租金。",
+    "適用任何「可租可買」的資產:汽車、房產(租 vs 買房)、辦公設備、機器、伺服器、軟體授權等。只要能填入購買價、月租、持有期與殘值即可比較。房產比較建議另計增值與機會成本。",
+    "完全不會。所有計算都在你的瀏覽器內完成,價格與租金資料不會傳送到任何伺服器。",
+    "貸款利息、稅務折抵、機會成本(自有資金投資報酬)與通膨折現的完整 TCO 分析屬於專業版功能。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "貸款計算機",
+      "label_en": "Loan Calculator",
+      "href": "/tools/finance/loan-calculator"
+    },
+    {
+      "label_zh": "房貸計算機",
+      "label_en": "Mortgage Calculator",
+      "href": "/tools/finance/mortgage-calculator"
+    },
+    {
+      "label_zh": "淨現值計算機",
+      "label_en": "Net Present Value Calculator",
+      "href": "/tools/finance/net-present-value-calculator"
+    },
+    {
+      "label_zh": "攤還排程計算機",
+      "label_en": "Amortization Schedule Calculator",
+      "href": "/tools/finance/amortization-schedule-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "1000000",
+    "20000",
+    "5",
+    "400000"
+  ],
+  "exampleHigh": [
+    "1500000",
+    "18000",
+    "8",
+    "300000"
+  ],
+  "solidLabelZh": "買 100 萬 · 租 2 萬/月 · 5 年",
+  "solidLabelEn": "Buy 1M · 20k/mo · 5y",
+  "highLabelZh": "買 150 萬 · 租 1.8 萬/月 · 8 年",
+  "highLabelEn": "Buy 1.5M · 18k/mo · 8y",
+  "subtitleZh": "輸入購買總價、月租金、持有年數與殘值，立即比較租賃與購買的真實成本",
+  "subtitleEn": "Enter purchase price, monthly lease, hold years, and resale value to compare lease vs buy total cost",
+  "definitionZh": "租賃 vs 購買計算機以購買總價、每月租金、持有年數與殘值,計算購買淨成本與租賃總成本的差額,協助判斷汽車、房產、設備等資產該租還是該買。",
+  "formulaZh": "購買淨成本 = 購買價 − 殘值;租賃總成本 = 每月租金 × 持有月數;租賃多付 = 租賃總成本 − 購買淨成本",
+  "limitationsZh": "本工具為簡化比較,不計貸款利息、稅務折抵、保險、維護、機會成本與通膨折現;完整 TCO 與含財務成本分析請用專業版。",
+  "interpretationZh": "「租賃多付」為正表示購買較省、為負表示租賃較省;但決策還需納入彈性、現金流與風險偏好等非價格因素。",
+  "premiumTitleZh": "專業版 租買決策工具組",
+  "premiumTextZh": "解鎖貸款利息、稅務折抵、機會成本、通膨折現的完整 TCO 分析與多情境敏感度比較。",
+  "premiumChipsZh": "貸款利息|稅務折抵|機會成本|TCO分析",
+  "premiumTitleEn": "Pro Lease/Buy Decision Suite",
+  "premiumTextEn": "Unlock loan interest, tax deductions, opportunity cost, inflation-discounted full TCO, and scenario sensitivity.",
+  "premiumChipsEn": "Interest|Tax|Opp Cost|TCO"
+}

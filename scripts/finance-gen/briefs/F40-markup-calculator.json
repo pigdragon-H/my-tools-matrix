@@ -1,0 +1,142 @@
+{
+  "id": "markup-calculator",
+  "nameZh": "加成計算機",
+  "nameEn": "Markup Calculator",
+  "color": "lime",
+  "inputs": [
+    "商品成本",
+    "加成百分比%",
+    "目標毛利%",
+    "數量"
+  ],
+  "inputsEn": [
+    "Item Cost",
+    "Markup Percent",
+    "Target Margin Pct",
+    "Quantity"
+  ],
+  "defaults": [
+    "100",
+    "50",
+    "0",
+    "1"
+  ],
+  "steps": [
+    "1",
+    "1",
+    "1",
+    "1"
+  ],
+  "accentIdx": 1,
+  "compute": "依成本與加成百分比計算售價、單位毛利、毛利率與總毛利",
+  "computeFn": "    const cost = Number(itemCost) || 0;\n    const mk = (Number(markupPercent) || 0) / 100;\n    const qty = Number(quantity) || 1;\n    const price = cost * (1 + mk);\n    const unitProfit = price - cost;\n    const margin = price > 0 ? (unitProfit / price) * 100 : 0;\n    const totalProfit = unitProfit * qty;\n    return { margin, price, unitProfit, totalProfit };",
+  "primaryKey": "margin",
+  "primaryDecimals": 2,
+  "primaryUnit": "%",
+  "secondaryKey": "price",
+  "secondaryDecimals": 2,
+  "secondaryUnit": "$",
+  "tertiaryKey": "unitProfit",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "totalProfit",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "毛利率",
+  "primaryLabelEn": "Margin",
+  "secondaryLabelZh": "建議售價",
+  "secondaryLabelEn": "Selling Price",
+  "tertiaryLabelZh": "單位毛利",
+  "tertiaryLabelEn": "Unit Profit",
+  "quaternaryLabelZh": "總毛利",
+  "quaternaryLabelEn": "Total Profit",
+  "bands": [
+    "虧損",
+    "微利",
+    "普通",
+    "健康",
+    "高利",
+    "超高"
+  ],
+  "bandThresholds": [
+    1,
+    20,
+    35,
+    50,
+    65
+  ],
+  "bandHints": [
+    "毛利率 ≤ 0%,售價低於成本,賠本銷售,務必檢視定價。",
+    "< 20%,微利,常見於量大薄利的零售或大宗商品。",
+    "20-35%,普通毛利,多數實體零售的常見區間。",
+    "35-50%,健康毛利,品牌商品或差異化產品常見。",
+    "50-65%,高毛利,常見於軟體、服務或精品。",
+    "> 65%,超高毛利,常見於數位產品、奢侈品或專利商品。"
+  ],
+  "faqTitles": [
+    "加成和毛利率差在哪?",
+    "成本加 100% 等於毛利率多少?",
+    "怎麼定價才合理?",
+    "毛利率多少算健康?",
+    "資料會上傳嗎?",
+    "可以反推目標毛利的售價嗎?"
+  ],
+  "faqAnswers": [
+    "**加成(Markup)**以成本為基準:加成% = (售價 − 成本) / 成本;**毛利率(Margin)**以售價為基準:毛利率% = (售價 − 成本) / 售價。兩者常被混淆但數字不同。例如成本 100、售價 150,加成 50% 但毛利率只有 33%。",
+    "成本加成 100%(售價 = 成本 × 2)等於毛利率 50%。換算公式:毛利率 = 加成 / (1 + 加成)。常見對照:加成 25%→毛利 20%、加成 50%→毛利 33%、加成 100%→毛利 50%、加成 200%→毛利 67%。",
+    "合理定價需考量:**(1) 成本**(含進貨、運費、人工、攤提)、**(2) 市場行情**(競品價格)、**(3) 目標毛利**(覆蓋營運費用後仍獲利)、**(4) 顧客願付價格**。本工具幫你從成本快速算出不同加成下的售價與毛利。",
+    "因產業而異:超市生鮮 5-15%、一般零售 30-50%、服飾 50-60%、餐飲 60-70%(食材成本佔比反推)、軟體/數位 80%+。健康毛利需能覆蓋固定成本並留淨利,建議對照同業基準。",
+    "完全不會。所有計算都在你的瀏覽器內完成,成本與售價資料不會傳送到任何伺服器。",
+    "由目標毛利率反推售價、批量定價、含稅含運加成與多階定價(批發/零售)屬於專業版功能。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "利潤率計算機",
+      "label_en": "Profit Margin Calculator",
+      "href": "/tools/finance/profit-margin-calculator"
+    },
+    {
+      "label_zh": "折扣計算機",
+      "label_en": "Discount Calculator",
+      "href": "/tools/finance/discount-calculator"
+    },
+    {
+      "label_zh": "損益兩平計算機",
+      "label_en": "Break-Even Calculator",
+      "href": "/tools/finance/break-even-calculator"
+    },
+    {
+      "label_zh": "ROAS 計算機",
+      "label_en": "ROAS Calculator",
+      "href": "/tools/finance/roas-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "100",
+    "50",
+    "0",
+    "1"
+  ],
+  "exampleHigh": [
+    "40",
+    "150",
+    "0",
+    "100"
+  ],
+  "solidLabelZh": "成本 100 · 加成 50%",
+  "solidLabelEn": "Cost 100 · 50% markup",
+  "highLabelZh": "成本 40 · 加成 150% · 100 件",
+  "highLabelEn": "Cost 40 · 150% · 100",
+  "subtitleZh": "輸入成本與加成百分比，立即算出建議售價、單位毛利與毛利率",
+  "subtitleEn": "Enter cost and markup percent to compute selling price, unit profit, and margin",
+  "definitionZh": "加成計算機以成本與加成百分比,計算建議售價、單位毛利、毛利率與總毛利,並釐清加成與毛利率的差異,適用零售、批發與電商定價。",
+  "formulaZh": "售價 = 成本 × (1 + 加成%);單位毛利 = 售價 − 成本;毛利率% = 單位毛利 / 售價",
+  "limitationsZh": "本工具僅算單一成本加成,不含稅、運費、平台抽成、退貨損耗與分階定價;實際定價請納入完整營運成本與市場因素。",
+  "interpretationZh": "毛利率反映每元銷售的獲利空間;加成% 是定價工具,毛利率是獲利指標,兩者需搭配市場行情判斷。",
+  "premiumTitleZh": "專業版 定價策略工具組",
+  "premiumTextZh": "解鎖目標毛利反推售價、含稅含運加成、批發/零售多階定價、平台抽成試算與競品比價。",
+  "premiumChipsZh": "毛利反推|含稅含運|多階定價|抽成試算",
+  "premiumTitleEn": "Pro Pricing Strategy Suite",
+  "premiumTextEn": "Unlock target-margin reverse pricing, tax/shipping markup, wholesale/retail tiers, platform fees, and competitor compare.",
+  "premiumChipsEn": "Reverse|Tax/Ship|Tiers|Fees"
+}

@@ -1,0 +1,142 @@
+{
+  "id": "simple-interest-calculator",
+  "nameZh": "簡單利息計算機",
+  "nameEn": "Simple Interest Calculator",
+  "color": "indigo",
+  "inputs": [
+    "本金",
+    "年利率%",
+    "年數",
+    "額外提存"
+  ],
+  "inputsEn": [
+    "Principal",
+    "Annual Rate Pct",
+    "Years",
+    "Extra Deposit"
+  ],
+  "defaults": [
+    "10000",
+    "5",
+    "3",
+    "0"
+  ],
+  "steps": [
+    "1000",
+    "0.1",
+    "1",
+    "100"
+  ],
+  "accentIdx": 1,
+  "compute": "依本金、年利率與年數計算單利利息、本利和與年化利息",
+  "computeFn": "    const P = Number(principal) || 0;\n    const r = (Number(annualRatePct) || 0) / 100;\n    const t = Number(years) || 0;\n    const extra = Number(extraDeposit) || 0;\n    const base = P + extra;\n    const interest = base * r * t;\n    const total = base + interest;\n    const growthPct = base > 0 ? (interest / base) * 100 : 0;\n    return { growthPct, total, interest, base };",
+  "primaryKey": "growthPct",
+  "primaryDecimals": 2,
+  "primaryUnit": "%",
+  "secondaryKey": "total",
+  "secondaryDecimals": 2,
+  "secondaryUnit": "$",
+  "tertiaryKey": "interest",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "base",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "總成長率",
+  "primaryLabelEn": "Total Growth",
+  "secondaryLabelZh": "本利和",
+  "secondaryLabelEn": "Total Amount",
+  "tertiaryLabelZh": "總利息",
+  "tertiaryLabelEn": "Total Interest",
+  "quaternaryLabelZh": "計息本金",
+  "quaternaryLabelEn": "Base Principal",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandThresholds": [
+    5,
+    15,
+    30,
+    50,
+    100
+  ],
+  "bandHints": [
+    "總成長 < 5%,屬於短期或低利,利息貢獻有限。",
+    "5-15%,溫和成長,常見於 1-3 年定存或穩健票券。",
+    "15-30%,中等,常見於中天期或中利率單利商品。",
+    "30-50%,偏高,反映較長年限或較高利率的累積。",
+    "50-100%,高,單利下需長年限或高利率才能達到。",
+    "> 100%,利息超過本金,通常為極長年限或極高利率,務必確認計息方式。"
+  ],
+  "faqTitles": [
+    "單利和複利差多少?",
+    "什麼情況用單利?",
+    "短期借貸算單利划算嗎?",
+    "怎麼從單利反推年利率?",
+    "資料會上傳嗎?",
+    "可以加上定期提存嗎?"
+  ],
+  "faqAnswers": [
+    "**單利**只對原始本金計息,利息不再生息:利息 = 本金 × 利率 × 年數;**複利**利息會滾入本金再生息,長期下複利遠超單利。例如 10000 元、5%、10 年:單利 = 5000,複利 ≈ 6289,差距隨時間擴大。",
+    "單利常見於:**(1) 短期票券、國庫券**、(2) 部分**汽車貸款、消費貸款**、(3) **公債、定存單**的計息、(4) 法律上的遲延利息計算。長期投資與儲蓄則多用複利,效果更佳。",
+    "短期(< 1 年)時單利與複利差異極小,選擇影響不大;但若是借款,單利通常對借款人較有利(總利息較低)。關鍵看合約寫的是單利還是複利,以及計息頻率。",
+    "由單利反推年利率:利率 = 利息 / (本金 × 年數)。例如本金 10000、3 年共得利息 1500,年利率 = 1500 / (10000 × 3) = 5%。本工具可正算利息,反推請用專業版。",
+    "完全不會。所有計算都在你的瀏覽器內完成,本金與利率資料不會傳送到任何伺服器。",
+    "定期提存、單利vs複利對照、利率反推與分期付款的單利攤還屬於專業版功能。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "複利計算機",
+      "label_en": "Compound Interest Calculator",
+      "href": "/tools/finance/compound-interest-calculator"
+    },
+    {
+      "label_zh": "有效年利率計算機",
+      "label_en": "Effective Annual Rate Calculator",
+      "href": "/tools/finance/effective-annual-rate-calculator"
+    },
+    {
+      "label_zh": "貸款計算機",
+      "label_en": "Loan Calculator",
+      "href": "/tools/finance/loan-calculator"
+    },
+    {
+      "label_zh": "儲蓄目標計算機",
+      "label_en": "Savings Goal Calculator",
+      "href": "/tools/finance/savings-goal-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "10000",
+    "5",
+    "3",
+    "0"
+  ],
+  "exampleHigh": [
+    "50000",
+    "8",
+    "5",
+    "0"
+  ],
+  "solidLabelZh": "本金 1 萬 · 5% · 3 年",
+  "solidLabelEn": "P 10k · 5% · 3y",
+  "highLabelZh": "本金 5 萬 · 8% · 5 年",
+  "highLabelEn": "P 50k · 8% · 5y",
+  "subtitleZh": "輸入本金、年利率與年數，立即算出單利利息與本利和",
+  "subtitleEn": "Enter principal, annual rate, and years to compute simple interest and total amount",
+  "definitionZh": "簡單利息計算機以本金、年利率與年數,依單利公式計算總利息、本利和與每年利息,適用短期票券、部分車貸消費貸與遲延利息的計算。",
+  "formulaZh": "利息 = 本金 × 年利率 × 年數;本利和 = 本金 + 利息;每年利息 = 本金 × 年利率",
+  "limitationsZh": "本工具採單利(利息不複利),不適用會複利的儲蓄或信用卡;若實際為複利計息,請改用複利計算機以免低估。",
+  "interpretationZh": "單利下利息與時間成正比,適合短期;長期儲蓄複利效果遠優於單利,選擇產品時請確認計息方式。",
+  "premiumTitleZh": "專業版 利息對照工具組",
+  "premiumTextZh": "解鎖單利 vs 複利對照、定期提存、利率反推、分期單利攤還與多情境利息比較。",
+  "premiumChipsZh": "單複利對照|定期提存|利率反推|分期攤還",
+  "premiumTitleEn": "Pro Interest Compare Suite",
+  "premiumTextEn": "Unlock simple vs compound compare, recurring deposits, rate reverse-solve, installment schedule, and scenarios.",
+  "premiumChipsEn": "Compare|Deposits|Reverse|Schedule"
+}

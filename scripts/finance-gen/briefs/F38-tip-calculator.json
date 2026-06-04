@@ -1,0 +1,142 @@
+{
+  "id": "tip-calculator",
+  "nameZh": "小費計算機",
+  "nameEn": "Tip Calculator",
+  "color": "violet",
+  "inputs": [
+    "帳單金額",
+    "小費比例%",
+    "分攤人數",
+    "稅率%"
+  ],
+  "inputsEn": [
+    "Bill Amount",
+    "Tip Percent",
+    "Split People",
+    "Tax Rate Pct"
+  ],
+  "defaults": [
+    "100",
+    "18",
+    "2",
+    "0"
+  ],
+  "steps": [
+    "1",
+    "1",
+    "1",
+    "0.1"
+  ],
+  "accentIdx": 1,
+  "compute": "依帳單、小費比例、人數與稅率計算小費、含稅含小費總額與每人應付",
+  "computeFn": "    const bill = Number(billAmount) || 0;\n    const tipPct = (Number(tipPercent) || 0) / 100;\n    const people = Number(splitPeople) || 1;\n    const taxPct = (Number(taxRatePct) || 0) / 100;\n    const tax = bill * taxPct;\n    const tip = bill * tipPct;\n    const total = bill + tax + tip;\n    const perPerson = people > 0 ? total / people : total;\n    const tipRate = tipPct * 100;\n    return { tipRate, perPerson, total, tip };",
+  "primaryKey": "tipRate",
+  "primaryDecimals": 1,
+  "primaryUnit": "%",
+  "secondaryKey": "perPerson",
+  "secondaryDecimals": 2,
+  "secondaryUnit": "$",
+  "tertiaryKey": "total",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "tip",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "小費比例",
+  "primaryLabelEn": "Tip Rate",
+  "secondaryLabelZh": "每人應付",
+  "secondaryLabelEn": "Per Person",
+  "tertiaryLabelZh": "總計",
+  "tertiaryLabelEn": "Total",
+  "quaternaryLabelZh": "小費",
+  "quaternaryLabelEn": "Tip",
+  "bands": [
+    "無小費",
+    "偏低",
+    "標準",
+    "良好",
+    "慷慨",
+    "極慷慨"
+  ],
+  "bandThresholds": [
+    1,
+    12,
+    18,
+    22,
+    25
+  ],
+  "bandHints": [
+    "0% 小費,部分國家(如日本、台灣多數場合)不收小費。",
+    "< 12%,偏低,在美國通常代表服務不滿意或快餐。",
+    "12-18%,標準範圍,一般餐廳服務的常見比例。",
+    "18-22%,良好服務的合理回報,美國正餐常見。",
+    "22-25%,慷慨,適合優質服務或特殊場合。",
+    "> 25%,極慷慨,通常保留給卓越服務或大型團體。"
+  ],
+  "faqTitles": [
+    "美國小費一般給多少?",
+    "小費要不要含稅計算?",
+    "外送、外帶也要給小費嗎?",
+    "分帳怎麼算最公平?",
+    "資料會上傳嗎?",
+    "可以記錄常用比例嗎?"
+  ],
+  "faqAnswers": [
+    "美國餐廳正餐通常 **15-20%**,18% 是常見標準;吧檯每杯 1-2 美元;外送約 10-15%;計程車/Uber 約 10-20%。服務特別好可給 25%+。歐洲、亞洲多數國家小費文化較淡或已含服務費。",
+    "兩派做法都有:**算稅前**(只對食物服務給小費,較常見且合理)或**算稅後**(對含稅總額給,較大方)。本工具預設對帳單金額計算小費、稅另計,你可調整稅率欄位觀察差異。",
+    "美國外送通常給 10-15% 或至少 3-5 美元,惡劣天氣可加給;外帶傳統上不強制,但若店家有特別包裝服務,給 10% 是禮貌。各地文化不同,本工具讓你自由設定比例。",
+    "最公平是**含小費含稅的總額平分**(本工具預設),適合大家點得差不多時;若有人點很貴,則建議按各自消費比例分攤,專業版支援逐人項目分帳。",
+    "完全不會。所有計算都在你的瀏覽器內完成,帳單金額不會傳送到任何伺服器。",
+    "逐人項目分帳、常用比例記憶、四捨五入到整數與多幣別屬於專業版功能。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "銷售稅計算機",
+      "label_en": "Sales Tax Calculator",
+      "href": "/tools/finance/sales-tax-calculator"
+    },
+    {
+      "label_zh": "折扣計算機",
+      "label_en": "Discount Calculator",
+      "href": "/tools/finance/discount-calculator"
+    },
+    {
+      "label_zh": "貨幣轉換器",
+      "label_en": "Currency Converter",
+      "href": "/tools/finance/currency-converter"
+    },
+    {
+      "label_zh": "預算比例計算機",
+      "label_en": "Budget Ratio Calculator",
+      "href": "/tools/finance/budget-ratio-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "100",
+    "18",
+    "2",
+    "0"
+  ],
+  "exampleHigh": [
+    "240",
+    "20",
+    "4",
+    "8"
+  ],
+  "solidLabelZh": "帳單 100 · 18% · 2 人",
+  "solidLabelEn": "Bill 100 · 18% · 2",
+  "highLabelZh": "帳單 240 · 20% · 4 人 · 稅 8%",
+  "highLabelEn": "Bill 240 · 20% · 4 · tax 8%",
+  "subtitleZh": "輸入帳單金額、小費比例與分攤人數，立即算出小費、總計與每人應付",
+  "subtitleEn": "Enter bill amount, tip percent, and number of people to compute tip, total, and per-person",
+  "definitionZh": "小費計算機以帳單金額、小費比例、分攤人數與稅率,計算應給小費、含稅含小費總額與每人應付金額,適用餐廳、外送、聚餐分帳。",
+  "formulaZh": "小費 = 帳單 × 小費比例;總計 = 帳單 + 稅 + 小費;每人應付 = 總計 ÷ 人數",
+  "limitationsZh": "本工具平均分攤總額,不處理逐人不同消費、自動服務費(gratuity)重複計算與多幣別;特殊分帳請依實際協議。",
+  "interpretationZh": "小費比例反映服務滿意度與地區文化;每人應付為快速分帳依據,人數越多單人負擔越低。",
+  "premiumTitleZh": "專業版 聚餐分帳工具組",
+  "premiumTextZh": "解鎖逐人項目分帳、按消費比例分攤、常用比例記憶、整數進位與多幣別即時換算。",
+  "premiumChipsZh": "逐人分帳|比例分攤|比例記憶|多幣別",
+  "premiumTitleEn": "Pro Bill Split Suite",
+  "premiumTextEn": "Unlock per-item splitting, proportional split, saved tip presets, rounding, and multi-currency.",
+  "premiumChipsEn": "Per-item|Proportional|Presets|Multi-FX"
+}

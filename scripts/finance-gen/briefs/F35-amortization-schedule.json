@@ -1,0 +1,142 @@
+{
+  "id": "amortization-schedule-calculator",
+  "nameZh": "攤還排程計算機",
+  "nameEn": "Amortization Schedule Calculator",
+  "color": "sky",
+  "inputs": [
+    "貸款本金",
+    "年利率%",
+    "貸款年限",
+    "已繳期數"
+  ],
+  "inputsEn": [
+    "Loan Principal",
+    "Annual Rate Pct",
+    "Loan Years",
+    "Months Paid"
+  ],
+  "defaults": [
+    "500000",
+    "5",
+    "30",
+    "12"
+  ],
+  "steps": [
+    "10000",
+    "0.1",
+    "1",
+    "1"
+  ],
+  "accentIdx": 1,
+  "compute": "依本金、年利率、年限計算每月還款、總利息與目前剩餘本金",
+  "computeFn": "    const P = Number(loanPrincipal) || 0;\n    const r = (Number(annualRatePct) || 0) / 100 / 12;\n    const n = (Number(loanYears) || 1) * 12;\n    const paid = Number(monthsPaid) || 0;\n    const monthly = r > 0 ? (P * r) / (1 - Math.pow(1 + r, -n)) : P / n;\n    const totalPaid = monthly * n;\n    const totalInterest = totalPaid - P;\n    const interestRatio = P > 0 ? (totalInterest / P) * 100 : 0;\n    const balance = r > 0 ? (P * Math.pow(1 + r, paid) - monthly * (Math.pow(1 + r, paid) - 1) / r) : P - monthly * paid;\n    return { interestRatio, monthly, totalInterest, balance: Math.max(0, balance) };",
+  "primaryKey": "interestRatio",
+  "primaryDecimals": 1,
+  "primaryUnit": "%",
+  "secondaryKey": "monthly",
+  "secondaryDecimals": 2,
+  "secondaryUnit": "$",
+  "tertiaryKey": "totalInterest",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "balance",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "利息佔本金比",
+  "primaryLabelEn": "Interest-to-Principal",
+  "secondaryLabelZh": "每月還款",
+  "secondaryLabelEn": "Monthly Payment",
+  "tertiaryLabelZh": "總利息",
+  "tertiaryLabelEn": "Total Interest",
+  "quaternaryLabelZh": "剩餘本金",
+  "quaternaryLabelEn": "Remaining Balance",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandThresholds": [
+    20,
+    40,
+    60,
+    80,
+    100
+  ],
+  "bandHints": [
+    "利息佔本金 < 20%,屬於短年限或低利率,還款壓力極小。",
+    "20-40%,利息合理,常見於 10-15 年期中利率貸款。",
+    "40-60%,屬於 20-30 年期典型房貸區間,可考慮提前還款。",
+    "60-80%,利息負擔偏高,建議評估再融資或縮短年限。",
+    "80-100%,利息接近本金,長年限高利率,務必比較其他方案。",
+    "> 100%,利息超過本金,通常為超長年限或高利率,強烈建議重新規劃。"
+  ],
+  "faqTitles": [
+    "攤還表怎麼看?",
+    "前幾年為什麼幾乎都在還利息?",
+    "提前還款能省多少?",
+    "本息均攤和本金均攤差在哪?",
+    "資料會上傳嗎?",
+    "可以匯出完整每期攤還表嗎?"
+  ],
+  "faqAnswers": [
+    "攤還表列出每一期的還款金額、其中多少還利息、多少還本金,以及剩餘本金。本工具計算總覽指標:每月還款、總利息、目前剩餘本金,讓你快速掌握還款結構。",
+    "本息均攤(等額本息)在前期剩餘本金最大,因此利息佔比最高。以 30 年期 5% 房貸為例,第一年約 80% 的還款都在繳利息,本金減少緩慢,這是複利的數學結果,並非銀行多收。",
+    "提前還款直接減少剩餘本金,後續利息按新本金重算。越早還、省越多。一般在貸款前 1/3 期間提前還款的省息效果最大。建議搭配再融資計算機比較。",
+    "**本息均攤**每月還款固定,前期利息多、後期本金多;**本金均攤**每月還相同本金,利息隨剩餘本金遞減,初期還款最高、之後遞減,總利息較低但前期壓力大。",
+    "完全不會。所有計算都在你的瀏覽器內以 JavaScript 完成,本金、利率等資料不會傳送到任何伺服器。",
+    "完整逐期攤還表(每期本金/利息/餘額)、提前還款情境模擬與 PDF 匯出屬於專業版功能,免費版提供總覽指標。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "貸款計算機",
+      "label_en": "Loan Calculator",
+      "href": "/tools/finance/loan-calculator"
+    },
+    {
+      "label_zh": "房貸計算機",
+      "label_en": "Mortgage Calculator",
+      "href": "/tools/finance/mortgage-calculator"
+    },
+    {
+      "label_zh": "再融資計算機",
+      "label_en": "Refinance Calculator",
+      "href": "/tools/finance/refinance-calculator"
+    },
+    {
+      "label_zh": "複利計算機",
+      "label_en": "Compound Interest Calculator",
+      "href": "/tools/finance/compound-interest-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "500000",
+    "5",
+    "30",
+    "12"
+  ],
+  "exampleHigh": [
+    "300000",
+    "3",
+    "15",
+    "24"
+  ],
+  "solidLabelZh": "本金 50 萬 · 5% · 30 年",
+  "solidLabelEn": "P 500k · 5% · 30y",
+  "highLabelZh": "本金 30 萬 · 3% · 15 年",
+  "highLabelEn": "P 300k · 3% · 15y",
+  "subtitleZh": "輸入貸款本金、利率與年限，立即估算每月還款、總利息與剩餘本金",
+  "subtitleEn": "Enter loan principal, rate, and term to estimate monthly payment, total interest, and remaining balance",
+  "definitionZh": "攤還排程計算機以貸款本金、年利率、年限計算本息均攤下的每月還款、總利息與目前剩餘本金,適用房貸、車貸、信貸等等額還款貸款。",
+  "formulaZh": "每月還款 = P × r / (1 − (1+r)^−n);剩餘本金 = P × (1+r)^k − 每月還款 × ((1+r)^k − 1) / r",
+  "limitationsZh": "本工具假設固定利率與本息均攤,不計寬限期、浮動利率、提前還款違約金與手續費;實際請以銀行攤還表為準。",
+  "interpretationZh": "總利息越高代表年限越長或利率越高,可考慮縮短年限或提前還款;剩餘本金為再融資與提前清償的計算基礎。",
+  "premiumTitleZh": "專業版 攤還與再融資工具組",
+  "premiumTextZh": "解鎖逐期攤還明細、提前還款情境模擬、本金均攤 vs 本息均攤比較、再融資省息分析與 PDF 匯出。",
+  "premiumChipsZh": "逐期明細|提前還款|攤還比較|PDF匯出",
+  "premiumTitleEn": "Pro Amortization Suite",
+  "premiumTextEn": "Unlock per-period schedule, prepayment scenarios, equal-principal vs equal-payment comparison, refinance savings, and PDF export.",
+  "premiumChipsEn": "Schedule|Prepayment|Compare|PDF"
+}

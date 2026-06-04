@@ -1,0 +1,142 @@
+{
+  "id": "sales-tax-calculator",
+  "nameZh": "銷售稅計算機",
+  "nameEn": "Sales Tax Calculator",
+  "color": "rose",
+  "inputs": [
+    "稅前金額",
+    "銷售稅率%",
+    "數量",
+    "額外費用"
+  ],
+  "inputsEn": [
+    "Pre Tax Amount",
+    "Sales Tax Rate Pct",
+    "Quantity",
+    "Extra Fee"
+  ],
+  "defaults": [
+    "100",
+    "8",
+    "1",
+    "0"
+  ],
+  "steps": [
+    "1",
+    "0.1",
+    "1",
+    "1"
+  ],
+  "accentIdx": 1,
+  "compute": "依稅前金額、稅率、數量與額外費用計算銷售稅、含稅總額與每件含稅單價",
+  "computeFn": "    const amt = Number(preTaxAmount) || 0;\n    const rate = (Number(salesTaxRatePct) || 0) / 100;\n    const qty = Number(quantity) || 1;\n    const fee = Number(extraFee) || 0;\n    const subtotal = amt * qty;\n    const tax = subtotal * rate;\n    const total = subtotal + tax + fee;\n    const ratePct = rate * 100;\n    return { ratePct, total, tax, subtotal };",
+  "primaryKey": "ratePct",
+  "primaryDecimals": 2,
+  "primaryUnit": "%",
+  "secondaryKey": "total",
+  "secondaryDecimals": 2,
+  "secondaryUnit": "$",
+  "tertiaryKey": "tax",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "subtotal",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "適用稅率",
+  "primaryLabelEn": "Applied Rate",
+  "secondaryLabelZh": "含稅總額",
+  "secondaryLabelEn": "Total With Tax",
+  "tertiaryLabelZh": "銷售稅",
+  "tertiaryLabelEn": "Sales Tax",
+  "quaternaryLabelZh": "稅前小計",
+  "quaternaryLabelEn": "Subtotal",
+  "bands": [
+    "免稅",
+    "極低",
+    "低",
+    "中等",
+    "高",
+    "極高"
+  ],
+  "bandThresholds": [
+    0.01,
+    5,
+    8,
+    12,
+    20
+  ],
+  "bandHints": [
+    "稅率 0%,免銷售稅地區(如美國 Oregon、Delaware)。",
+    "< 5%,屬於低銷售稅區,常見於部分美國州。",
+    "5-8%,美國多數州的綜合銷售稅常見區間。",
+    "8-12%,屬於中高稅率,含地方加徵的大城市常見。",
+    "12-20%,偏高,接近部分國家的標準消費稅/VAT。",
+    "> 20%,極高,常見於北歐等高福利國家的 VAT。"
+  ],
+  "faqTitles": [
+    "銷售稅和 VAT 差在哪?",
+    "美國各州銷售稅率一樣嗎?",
+    "含稅價怎麼反推稅前價?",
+    "服務也要課銷售稅嗎?",
+    "資料會上傳嗎?",
+    "可以一次算多種稅率嗎?"
+  ],
+  "faqAnswers": [
+    "**銷售稅(Sales Tax)**只在最終零售環節對消費者課徵,常見於美國;**VAT(加值稅)**在生產到零售每一環節對加值部分課徵,可進項抵扣,常見於歐洲、亞洲多國。對最終消費者而言金額類似,但機制不同。",
+    "不一樣。美國沒有全國統一銷售稅,各州+郡+市各自加徵,綜合稅率從 0%(Oregon)到超過 10%(部分加州、伊利諾城市)。同一州不同城市稅率也可能不同,網購則依收貨地課稅。",
+    "稅前價 = 含稅價 ÷ (1 + 稅率)。例如含稅 108 元、稅率 8%,稅前價 = 108 ÷ 1.08 = 100 元,稅額 8 元。本工具預設由稅前推含稅,反推功能在專業版。",
+    "視地區而定。美國多數州對「有形商品」課銷售稅,但部分服務(如理髮、顧問)在某些州免稅或另有規定;數位商品、SaaS 的課稅規則各州差異很大。請查當地稅務局公告。",
+    "完全不會。所有計算都在你的瀏覽器內完成,金額與稅率資料不會傳送到任何伺服器。",
+    "多稅率比較、含稅反推稅前、發票批次計算與多州/多國稅率資料庫屬於專業版功能。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "VAT 加值稅計算機",
+      "label_en": "VAT Calculator",
+      "href": "/tools/finance/vat-calculator"
+    },
+    {
+      "label_zh": "折扣計算機",
+      "label_en": "Discount Calculator",
+      "href": "/tools/finance/discount-calculator"
+    },
+    {
+      "label_zh": "小費計算機",
+      "label_en": "Tip Calculator",
+      "href": "/tools/finance/tip-calculator"
+    },
+    {
+      "label_zh": "利潤率計算機",
+      "label_en": "Profit Margin Calculator",
+      "href": "/tools/finance/profit-margin-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "100",
+    "8",
+    "1",
+    "0"
+  ],
+  "exampleHigh": [
+    "250",
+    "20",
+    "3",
+    "15"
+  ],
+  "solidLabelZh": "100 元 · 8% · 1 件",
+  "solidLabelEn": "$100 · 8% · 1",
+  "highLabelZh": "250 元 · 20% · 3 件 · 費 15",
+  "highLabelEn": "$250 · 20% · 3 · fee 15",
+  "subtitleZh": "輸入稅前金額、稅率與數量，立即算出銷售稅、含稅總額與每件含稅單價",
+  "subtitleEn": "Enter pre-tax amount, tax rate, and quantity to compute sales tax, total, and per-unit price",
+  "definitionZh": "銷售稅計算機以稅前金額、銷售稅率、數量與額外費用,計算應繳銷售稅、含稅總額與每件含稅單價,適用零售、報價、發票試算。",
+  "formulaZh": "稅前小計 = 金額 × 數量;銷售稅 = 小計 × 稅率;含稅總額 = 小計 + 稅 + 額外費用",
+  "limitationsZh": "本工具採單一稅率,不處理多級稅率、免稅品項、進項抵扣與跨區課稅規則;實際稅額請以當地稅法與收銀系統為準。",
+  "interpretationZh": "稅率越高含稅總額越高;每件含稅單價可用於比較不同數量或包裝的實際成本。",
+  "premiumTitleZh": "專業版 稅務試算工具組",
+  "premiumTextZh": "解鎖含稅反推稅前、多稅率比較、發票批次計算、多州/多國稅率資料庫與報表匯出。",
+  "premiumChipsZh": "含稅反推|多稅率|批次發票|稅率庫",
+  "premiumTitleEn": "Pro Sales Tax Suite",
+  "premiumTextEn": "Unlock reverse tax extraction, multi-rate compare, batch invoicing, multi-jurisdiction rate database, and export.",
+  "premiumChipsEn": "Reverse|Multi-rate|Batch|Rate DB"
+}

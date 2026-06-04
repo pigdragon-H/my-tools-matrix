@@ -1,0 +1,142 @@
+{
+  "id": "present-value-calculator",
+  "nameZh": "現值計算機",
+  "nameEn": "Present Value Calculator",
+  "color": "yellow",
+  "inputs": [
+    "未來金額",
+    "折現率%",
+    "年數",
+    "每年現金流"
+  ],
+  "inputsEn": [
+    "Future Amount",
+    "Discount Rate Pct",
+    "Years",
+    "Annual Cash Flow"
+  ],
+  "defaults": [
+    "100000",
+    "6",
+    "10",
+    "0"
+  ],
+  "steps": [
+    "1000",
+    "0.1",
+    "1",
+    "1000"
+  ],
+  "accentIdx": 1,
+  "compute": "依未來金額、折現率與年數計算現值、折現總額與折現損失",
+  "computeFn": "    const FV = Number(futureAmount) || 0;\n    const r = (Number(discountRatePct) || 0) / 100;\n    const n = Number(years) || 0;\n    const cf = Number(annualCashFlow) || 0;\n    const pvLump = FV / Math.pow(1 + r, n);\n    const pvAnnuity = r > 0 ? cf * ((1 - Math.pow(1 + r, -n)) / r) : cf * n;\n    const pv = pvLump + pvAnnuity;\n    const nominalTotal = FV + cf * n;\n    const discountLoss = nominalTotal - pv;\n    const lossPct = nominalTotal > 0 ? (discountLoss / nominalTotal) * 100 : 0;\n    return { lossPct, pv, discountLoss, nominalTotal };",
+  "primaryKey": "lossPct",
+  "primaryDecimals": 2,
+  "primaryUnit": "%",
+  "secondaryKey": "pv",
+  "secondaryDecimals": 2,
+  "secondaryUnit": "$",
+  "tertiaryKey": "discountLoss",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "nominalTotal",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "折現損失比",
+  "primaryLabelEn": "Discount Loss",
+  "secondaryLabelZh": "現值",
+  "secondaryLabelEn": "Present Value",
+  "tertiaryLabelZh": "折現損失",
+  "tertiaryLabelEn": "Discount Loss $",
+  "quaternaryLabelZh": "名目總額",
+  "quaternaryLabelEn": "Nominal Total",
+  "bands": [
+    "極小",
+    "小",
+    "中等",
+    "偏大",
+    "大",
+    "極大"
+  ],
+  "bandThresholds": [
+    10,
+    25,
+    40,
+    55,
+    70
+  ],
+  "bandHints": [
+    "折現損失 < 10%,折現率低或時間短,現值幾乎等於名目。",
+    "10-25%,小幅,常見於中低折現率或中天期。",
+    "25-40%,中等,反映一般企業折現率與中長天期。",
+    "40-55%,偏大,折現率高或時間長,現值明顯縮水。",
+    "55-70%,大,高風險或超長天期,未來金額大打折扣。",
+    "> 70%,極大,折現率極高或時間極長,現值僅剩零頭。"
+  ],
+  "faqTitles": [
+    "現值是什麼?為什麼錢會變薄?",
+    "折現率怎麼選?",
+    "現值在投資決策怎麼用?",
+    "樂透分期 vs 一次領哪個划算?",
+    "資料會上傳嗎?",
+    "可以做不規則現金流嗎?"
+  ],
+  "faqAnswers": [
+    "**現值(Present Value)**是未來一筆錢「換算到今天」的價值。因為錢有時間價值(可投資生息、有通膨),未來的 100 元不如現在的 100 元值錢。折現率越高、時間越長,現值縮水越多。這是金融估值的基石。",
+    "折現率反映「機會成本與風險」:無風險可用公債利率(2-4%);企業評估專案常用加權平均資本成本 WACC(8-12%);高風險新創可達 15-30%。折現率越高代表你要求越高的報酬補償風險,現值越低。",
+    "投資決策用現值比較「未來收益的今天價值」與「現在投入成本」:若未來現金流的現值 > 投入成本(即 NPV > 0),專案值得做。本工具算單筆與年金現值,完整 NPV 請用 NPV 計算機。",
+    "要比現值。樂透常給「一次領(打折)」或「30 年分期(名目較高)」。把分期年金按合理折現率算現值,再與一次領金額比。通常一次領+自行投資,長期可能優於分期,但需紀律與稅務考量。",
+    "完全不會。所有計算都在你的瀏覽器內完成,金額與折現率資料不會傳送到任何伺服器。",
+    "不規則現金流現值、NPV/IRR、敏感度分析與多情境折現比較屬於專業版功能。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "終值計算機",
+      "label_en": "Future Value Calculator",
+      "href": "/tools/finance/future-value-calculator"
+    },
+    {
+      "label_zh": "淨現值計算機",
+      "label_en": "Net Present Value Calculator",
+      "href": "/tools/finance/net-present-value-calculator"
+    },
+    {
+      "label_zh": "年金計算機",
+      "label_en": "Annuity Calculator",
+      "href": "/tools/finance/annuity-calculator"
+    },
+    {
+      "label_zh": "通膨調整計算機",
+      "label_en": "Inflation Adjuster",
+      "href": "/tools/finance/inflation-adjuster"
+    }
+  ],
+  "exampleSolid": [
+    "100000",
+    "6",
+    "10",
+    "0"
+  ],
+  "exampleHigh": [
+    "0",
+    "8",
+    "20",
+    "12000"
+  ],
+  "solidLabelZh": "未來 10 萬 · 6% · 10 年",
+  "solidLabelEn": "FV 100k · 6% · 10y",
+  "highLabelZh": "年金 1.2 萬 · 8% · 20 年",
+  "highLabelEn": "CF 12k · 8% · 20y",
+  "subtitleZh": "輸入未來金額、折現率與年數，立即算出今天的現值與折現損失",
+  "subtitleEn": "Enter future amount, discount rate, and years to compute today's present value and discount loss",
+  "definitionZh": "現值計算機以未來金額、折現率、年數與每年現金流,計算今天的現值、折現損失與名目總額,適用投資估值、年金折現與一次領 vs 分期的比較。",
+  "formulaZh": "現值 = 未來金額 ÷ (1 + r)^n + 每年現金流 × (1 − (1 + r)^−n) / r;其中 r 為折現率、n 為年數",
+  "limitationsZh": "本工具假設固定折現率與規律現金流,不處理不規則現金流、通膨變動與稅負;不規則現金流請用 NPV 計算機。",
+  "interpretationZh": "現值越低代表未來金額在今天越不值錢(折現率高或時間長);折現損失反映時間價值的侵蝕程度。",
+  "premiumTitleZh": "專業版 估值折現工具組",
+  "premiumTextZh": "解鎖不規則現金流現值、NPV/IRR、折現率敏感度分析、多情境比較與一次領 vs 分期決策。",
+  "premiumChipsZh": "不規則現金流|NPV/IRR|敏感度|分期決策",
+  "premiumTitleEn": "Pro Valuation Suite",
+  "premiumTextEn": "Unlock irregular cash flow PV, NPV/IRR, discount-rate sensitivity, scenario compare, and lump-vs-annuity decision.",
+  "premiumChipsEn": "Irregular CF|NPV/IRR|Sensitivity|Decision"
+}

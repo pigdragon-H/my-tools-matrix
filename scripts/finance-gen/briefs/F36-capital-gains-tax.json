@@ -1,0 +1,142 @@
+{
+  "id": "capital-gains-tax-calculator",
+  "nameZh": "資本利得稅計算機",
+  "nameEn": "Capital Gains Tax Calculator",
+  "color": "emerald",
+  "inputs": [
+    "買入價",
+    "賣出價",
+    "持有股數",
+    "稅率%"
+  ],
+  "inputsEn": [
+    "Buy Price",
+    "Sell Price",
+    "Shares Held",
+    "Tax Rate Pct"
+  ],
+  "defaults": [
+    "100",
+    "150",
+    "100",
+    "15"
+  ],
+  "steps": [
+    "1",
+    "1",
+    "10",
+    "1"
+  ],
+  "accentIdx": 3,
+  "compute": "依買入、賣出價、股數與稅率計算資本利得、應繳稅額與稅後淨利",
+  "computeFn": "    const buy = Number(buyPrice) || 0;\n    const sell = Number(sellPrice) || 0;\n    const sh = Number(sharesHeld) || 0;\n    const rate = (Number(taxRatePct) || 0) / 100;\n    const gain = (sell - buy) * sh;\n    const tax = gain > 0 ? gain * rate : 0;\n    const netProfit = gain - tax;\n    const effRate = gain > 0 ? (tax / gain) * 100 : 0;\n    return { gain, tax, netProfit, effRate };",
+  "primaryKey": "effRate",
+  "primaryDecimals": 2,
+  "primaryUnit": "%",
+  "secondaryKey": "tax",
+  "secondaryDecimals": 2,
+  "secondaryUnit": "$",
+  "tertiaryKey": "gain",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "netProfit",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "有效稅率",
+  "primaryLabelEn": "Effective Rate",
+  "secondaryLabelZh": "應繳資本利得稅",
+  "secondaryLabelEn": "Capital Gains Tax",
+  "tertiaryLabelZh": "資本利得",
+  "tertiaryLabelEn": "Capital Gain",
+  "quaternaryLabelZh": "稅後淨利",
+  "quaternaryLabelEn": "Net Profit",
+  "bands": [
+    "免稅",
+    "極低",
+    "低",
+    "中等",
+    "高",
+    "極高"
+  ],
+  "bandThresholds": [
+    0.01,
+    10,
+    15,
+    25,
+    35
+  ],
+  "bandHints": [
+    "有效稅率 ≈ 0%,代表無利得或適用免稅(如長期持有優惠或虧損)。",
+    "< 10%,屬於低稅率區,常見於長期持有優惠或低所得級距。",
+    "10-15%,美國長期資本利得常見區間,稅負相對輕。",
+    "15-25%,屬於中等稅負,常見於短期持有或中高所得。",
+    "25-35%,偏高,接近短期資本利得併入一般所得稅率。",
+    "> 35%,極高稅負,務必檢視持有期間與節稅策略。"
+  ],
+  "faqTitles": [
+    "短期和長期資本利得稅差多少?",
+    "虧損可以抵稅嗎?",
+    "台灣股票要繳資本利得稅嗎?",
+    "怎麼合法節省資本利得稅?",
+    "資料會上傳嗎?",
+    "可以一次算多筆交易嗎?"
+  ],
+  "faqAnswers": [
+    "在美國,**短期(持有 ≤ 1 年)**資本利得併入一般所得,稅率最高 37%;**長期(持有 > 1 年)**享優惠稅率 0%/15%/20%。光是多持有幾天跨過一年門檻,稅率可能從 37% 降到 15%,差距巨大。",
+    "可以。資本損失可先抵銷資本利得,若損失大於利得,美國每年最多可用 3000 美元抵一般所得,剩餘部分結轉至未來年度(tax-loss harvesting)。本工具僅算單筆利得稅,虧損抵稅請用專業版情境模擬。",
+    "台灣現行**證券交易所得停徵**,個人買賣上市櫃股票不課資本利得稅,僅課 0.3% 證交稅(賣出時)。但未上市股票、海外所得、ETF 配息等另有規定,本工具以通用稅率模型計算,請依當地法規調整。",
+    "常見策略:**(1) 長期持有**跨過一年門檻享優惠稅率、**(2) tax-loss harvesting** 用虧損抵利得、**(3) 善用免稅帳戶**(如美國 Roth IRA、401k)、**(4) 分年實現利得**控制級距。建議諮詢稅務專業人士。",
+    "完全不會。所有計算都在你的瀏覽器內完成,買入價、賣出價等資料不會傳送到任何伺服器。",
+    "批次計算多筆交易、自動分類短期/長期、tax-loss harvesting 模擬與年度稅務彙總屬於專業版功能。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "稅率級距計算機",
+      "label_en": "Tax Bracket Calculator",
+      "href": "/tools/finance/tax-bracket-calculator"
+    },
+    {
+      "label_zh": "股票獲利計算機",
+      "label_en": "Stock Profit Calculator",
+      "href": "/tools/finance/stock-profit-calculator"
+    },
+    {
+      "label_zh": "投資報酬率計算機",
+      "label_en": "Investment Return Calculator",
+      "href": "/tools/finance/investment-return-calculator"
+    },
+    {
+      "label_zh": "稅後薪資計算機",
+      "label_en": "Salary After Tax Calculator",
+      "href": "/tools/finance/salary-after-tax-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "100",
+    "150",
+    "100",
+    "15"
+  ],
+  "exampleHigh": [
+    "50",
+    "120",
+    "200",
+    "32"
+  ],
+  "solidLabelZh": "買 100 · 賣 150 · 100 股 · 15%",
+  "solidLabelEn": "Buy 100 · Sell 150 · 100sh · 15%",
+  "highLabelZh": "買 50 · 賣 120 · 200 股 · 32%",
+  "highLabelEn": "Buy 50 · Sell 120 · 200sh · 32%",
+  "subtitleZh": "輸入買入價、賣出價、股數與稅率，立即估算資本利得稅與稅後淨利",
+  "subtitleEn": "Enter buy price, sell price, shares, and tax rate to estimate capital gains tax and net profit",
+  "definitionZh": "資本利得稅計算機以買入價、賣出價、股數與稅率,計算資本利得、應繳稅額與稅後淨利,適用股票、ETF、基金等投資出售的稅負估算。",
+  "formulaZh": "資本利得 = (賣出價 − 買入價) × 股數;稅額 = 利得 × 稅率(利得為正才課稅);稅後淨利 = 利得 − 稅額",
+  "limitationsZh": "本工具採單一稅率模型,不分短期/長期、不計手續費、證交稅、虧損抵減與分級稅率;各國法規差異大,請以當地稅法與會計師意見為準。",
+  "interpretationZh": "有效稅率越高代表稅負越重,可透過長期持有、虧損抵減與免稅帳戶降低;稅後淨利為實際入袋金額。",
+  "premiumTitleZh": "專業版 資本利得稅務工具組",
+  "premiumTextZh": "解鎖短期/長期分類、tax-loss harvesting 模擬、多筆交易批次計算、分級稅率與年度稅務彙總報表。",
+  "premiumChipsZh": "長短期分類|虧損抵稅|批次計算|年度彙總",
+  "premiumTitleEn": "Pro Capital Gains Suite",
+  "premiumTextEn": "Unlock short/long-term classification, tax-loss harvesting, batch trades, tiered rates, and annual tax summary.",
+  "premiumChipsEn": "ST/LT|Loss Harvest|Batch|Summary"
+}

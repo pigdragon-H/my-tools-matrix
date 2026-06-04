@@ -1,0 +1,142 @@
+{
+  "id": "effective-annual-rate-calculator",
+  "nameZh": "有效年利率計算機",
+  "nameEn": "Effective Annual Rate Calculator",
+  "color": "fuchsia",
+  "inputs": [
+    "名目年利率%",
+    "每年複利次數",
+    "本金",
+    "年數"
+  ],
+  "inputsEn": [
+    "Nominal Rate Pct",
+    "Compounds Per Year",
+    "Principal",
+    "Years"
+  ],
+  "defaults": [
+    "12",
+    "12",
+    "10000",
+    "1"
+  ],
+  "steps": [
+    "0.1",
+    "1",
+    "1000",
+    "1"
+  ],
+  "accentIdx": 0,
+  "compute": "依名目年利率與複利次數計算有效年利率(EAR)、期利率與終值",
+  "computeFn": "    const nominal = (Number(nominalRatePct) || 0) / 100;\n    const m = Number(compoundsPerYear) || 1;\n    const P = Number(principal) || 0;\n    const yrs = Number(years) || 1;\n    const periodRate = (nominal / m) * 100;\n    const ear = (Math.pow(1 + nominal / m, m) - 1) * 100;\n    const fv = P * Math.pow(1 + nominal / m, m * yrs);\n    const interest = fv - P;\n    return { ear, periodRate, fv, interest };",
+  "primaryKey": "ear",
+  "primaryDecimals": 4,
+  "primaryUnit": "%",
+  "secondaryKey": "periodRate",
+  "secondaryDecimals": 4,
+  "secondaryUnit": "%",
+  "tertiaryKey": "fv",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "interest",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "有效年利率 (EAR)",
+  "primaryLabelEn": "Effective Annual Rate",
+  "secondaryLabelZh": "每期利率",
+  "secondaryLabelEn": "Period Rate",
+  "tertiaryLabelZh": "終值",
+  "tertiaryLabelEn": "Future Value",
+  "quaternaryLabelZh": "利息",
+  "quaternaryLabelEn": "Interest",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandThresholds": [
+    2,
+    5,
+    10,
+    20,
+    36
+  ],
+  "bandHints": [
+    "EAR < 2%,屬於低利環境,常見於定存或高評級債。",
+    "2-5%,溫和利率,常見於穩健投資或優質債券。",
+    "5-10%,中等,常見於股市長期平均報酬或信貸利率。",
+    "10-20%,偏高,常見於信用卡循環或高息信貸。",
+    "20-36%,高,接近信用卡循環利率上限,負擔沉重。",
+    "> 36%,極高,常見於發薪日貸款或高利貸,務必避免。"
+  ],
+  "faqTitles": [
+    "EAR 和 APR 差在哪?",
+    "為什麼複利越頻繁 EAR 越高?",
+    "信用卡實際利率是多少?",
+    "怎麼用 EAR 比較不同貸款?",
+    "資料會上傳嗎?",
+    "可以連續複利嗎?"
+  ],
+  "faqAnswers": [
+    "**APR(名目年利率)**是把期利率簡單乘以期數,不計複利;**EAR(有效年利率)**把複利效果算進去,反映實際成本。例如月息 1%、APR 12%,但 EAR = (1.01)^12 − 1 = 12.68%。借貸要看 EAR 才知真實成本。",
+    "因為利息會「利滾利」。複利越頻繁,每次計息後的本金越快變大,後續利息也越多。同樣名目 12%:年複利 EAR=12%、月複利 EAR=12.68%、日複利 EAR≈12.75%、連續複利 EAR≈12.75%。次數越多越逼近上限。",
+    "信用卡常標示「月息」或「日息」誤導消費者。以日息 0.04%(年化看似 14.6%)為例,因每日複利,EAR 可能達 15-16%;若標 APR 18% 按日複利,EAR 接近 19.7%。本工具幫你算出真實的 EAR。",
+    "把不同貸款的名目利率與複利次數都換算成 EAR,再比較。EAR 把複利頻率統一,是唯一能公平比較的指標。月複利 12% 比季複利 12% 實際更貴,只看名目會誤判。",
+    "完全不會。所有計算都在你的瀏覽器內完成,利率與本金資料不會傳送到任何伺服器。",
+    "連續複利(e^r − 1)、APR↔EAR 雙向換算、含手續費的真實年利率(APRC)與多貸款比較屬於專業版功能。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "複利計算機",
+      "label_en": "Compound Interest Calculator",
+      "href": "/tools/finance/compound-interest-calculator"
+    },
+    {
+      "label_zh": "簡單利息計算機",
+      "label_en": "Simple Interest Calculator",
+      "href": "/tools/finance/simple-interest-calculator"
+    },
+    {
+      "label_zh": "貸款計算機",
+      "label_en": "Loan Calculator",
+      "href": "/tools/finance/loan-calculator"
+    },
+    {
+      "label_zh": "信用卡還款計算機",
+      "label_en": "Credit Card Payoff Calculator",
+      "href": "/tools/finance/credit-card-payoff-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "12",
+    "12",
+    "10000",
+    "1"
+  ],
+  "exampleHigh": [
+    "18",
+    "365",
+    "5000",
+    "2"
+  ],
+  "solidLabelZh": "名目 12% · 月複利",
+  "solidLabelEn": "Nom 12% · monthly",
+  "highLabelZh": "名目 18% · 日複利 · 2 年",
+  "highLabelEn": "Nom 18% · daily · 2y",
+  "subtitleZh": "輸入名目年利率與複利次數，立即算出有效年利率(EAR)與終值",
+  "subtitleEn": "Enter nominal rate and compounding frequency to compute the effective annual rate and future value",
+  "definitionZh": "有效年利率計算機以名目年利率與每年複利次數,計算有效年利率(EAR)、每期利率與終值,用於公平比較不同複利頻率的存款與貸款真實成本。",
+  "formulaZh": "EAR = (1 + 名目利率 / m)^m − 1;終值 = 本金 × (1 + 名目利率 / m)^(m × 年數);其中 m 為每年複利次數",
+  "limitationsZh": "本工具不含手續費、開辦費與保險,因此非完整 APRC(實質年利率);連續複利需用 e^r 公式,屬專業版。",
+  "interpretationZh": "EAR 越高代表存款收益越好或貸款成本越高;比較不同產品時,務必統一看 EAR 而非名目利率。",
+  "premiumTitleZh": "專業版 利率分析工具組",
+  "premiumTextZh": "解鎖連續複利、APR↔EAR 雙向換算、含手續費的實質年利率(APRC)、多貸款比較與利率敏感度分析。",
+  "premiumChipsZh": "連續複利|APR換算|APRC|多貸比較",
+  "premiumTitleEn": "Pro Rate Analysis Suite",
+  "premiumTextEn": "Unlock continuous compounding, APR↔EAR conversion, fee-inclusive APRC, multi-loan compare, and rate sensitivity.",
+  "premiumChipsEn": "Continuous|APR↔EAR|APRC|Compare"
+}

@@ -1,0 +1,142 @@
+{
+  "id": "refinance-calculator",
+  "nameZh": "再融資計算機",
+  "nameEn": "Refinance Calculator",
+  "color": "pink",
+  "inputs": [
+    "剩餘本金",
+    "原月付",
+    "新年利率%",
+    "新年限"
+  ],
+  "inputsEn": [
+    "Remaining Balance",
+    "Current Payment",
+    "New Rate Pct",
+    "New Years"
+  ],
+  "defaults": [
+    "400000",
+    "2500",
+    "4",
+    "20"
+  ],
+  "steps": [
+    "10000",
+    "100",
+    "0.1",
+    "1"
+  ],
+  "accentIdx": 2,
+  "compute": "依剩餘本金、新利率與新年限計算新月付、月省金額與總利息節省",
+  "computeFn": "    const bal = Number(remainingBalance) || 0;\n    const oldPay = Number(currentPayment) || 0;\n    const r = (Number(newRatePct) || 0) / 100 / 12;\n    const n = (Number(newYears) || 1) * 12;\n    const newPay = r > 0 ? (bal * r) / (1 - Math.pow(1 + r, -n)) : bal / n;\n    const monthlySave = oldPay - newPay;\n    const newTotalInterest = newPay * n - bal;\n    const lifetimeSave = monthlySave * n;\n    return { newPay, monthlySave, newTotalInterest, lifetimeSave };",
+  "primaryKey": "monthlySave",
+  "primaryDecimals": 2,
+  "primaryUnit": "$",
+  "secondaryKey": "newPay",
+  "secondaryDecimals": 2,
+  "secondaryUnit": "$",
+  "tertiaryKey": "newTotalInterest",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "lifetimeSave",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "每月省",
+  "primaryLabelEn": "Monthly Savings",
+  "secondaryLabelZh": "新月付",
+  "secondaryLabelEn": "New Payment",
+  "tertiaryLabelZh": "新總利息",
+  "tertiaryLabelEn": "New Total Interest",
+  "quaternaryLabelZh": "全期省",
+  "quaternaryLabelEn": "Lifetime Savings",
+  "bands": [
+    "反而貴",
+    "持平",
+    "小省",
+    "中省",
+    "大省",
+    "超省"
+  ],
+  "bandThresholds": [
+    0.01,
+    100,
+    300,
+    600,
+    1000
+  ],
+  "bandHints": [
+    "每月省 ≤ 0,新方案反而更貴,通常因延長年限抵銷利率優勢,不建議。",
+    "0-100,月省微薄,需確認手續費與閉鎖成本是否值得。",
+    "100-300,小幅節省,計算回本期後再決定。",
+    "300-600,中等節省,通常值得,留意一次性費用攤回。",
+    "600-1000,大幅節省,再融資吸引力高。",
+    "> 1000,超大節省,強烈建議評估再融資(確認費用後)。"
+  ],
+  "faqTitles": [
+    "什麼時候該再融資?",
+    "再融資的成本有哪些?",
+    "降月付 vs 省總利息怎麼選?",
+    "延長年限是陷阱嗎?",
+    "資料會上傳嗎?",
+    "可以算回本期嗎?"
+  ],
+  "faqAnswers": [
+    "常見再融資時機:**(1) 市場利率明顯下降**(一般降 0.75-1% 以上才划算)、**(2) 信用評分提升**可拿到更好利率、**(3) 想縮短年限**加速還清、**(4) 浮動轉固定**鎖定利率。關鍵是「省下的利息 > 再融資成本」且能在持有期內回本。",
+    "再融資成本包含:**(1) 開辦費/手續費**(常見本金 0.5-2%)、**(2) estimation/鑑價費**、**(3) 代書/過戶費**、**(4) 原貸款提前清償違約金**。把這些一次性成本除以每月省的金額,就是回本月數,超過持有期就不划算。",
+    "**降月付**改善現金流(適合手頭緊、想增加投資),但若靠延長年限換來,總利息可能反增;**省總利息**靠降利率或縮年限達成,長期更省但月付可能不降甚至上升。看你重視現金流還是總成本。",
+    "不一定是陷阱,但要警覺。延長年限(如剩 20 年再融資成 30 年)能大幅降月付,但總利息可能不減反增。聰明做法:**再融資成更低利率,但維持或縮短年限**,才能同時降月付與省總息。本工具讓你試不同年限觀察。",
+    "完全不會。所有計算都在你的瀏覽器內完成,本金與利率資料不會傳送到任何伺服器。",
+    "含手續費的回本期、降月付 vs 縮年限情境比較、剩餘利息精算與最佳再融資時機屬於專業版功能。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "房貸計算機",
+      "label_en": "Mortgage Calculator",
+      "href": "/tools/finance/mortgage-calculator"
+    },
+    {
+      "label_zh": "攤還排程計算機",
+      "label_en": "Amortization Schedule Calculator",
+      "href": "/tools/finance/amortization-schedule-calculator"
+    },
+    {
+      "label_zh": "貸款計算機",
+      "label_en": "Loan Calculator",
+      "href": "/tools/finance/loan-calculator"
+    },
+    {
+      "label_zh": "有效年利率計算機",
+      "label_en": "Effective Annual Rate Calculator",
+      "href": "/tools/finance/effective-annual-rate-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "400000",
+    "2500",
+    "4",
+    "20"
+  ],
+  "exampleHigh": [
+    "600000",
+    "3800",
+    "3.5",
+    "25"
+  ],
+  "solidLabelZh": "餘額 40 萬 · 舊月付 2500 · 4% · 20 年",
+  "solidLabelEn": "Bal 400k · old 2500 · 4% · 20y",
+  "highLabelZh": "餘額 60 萬 · 舊月付 3800 · 3.5% · 25 年",
+  "highLabelEn": "Bal 600k · old 3800 · 3.5% · 25y",
+  "subtitleZh": "輸入剩餘本金、原月付與新方案，立即算出新月付、每月省與全期節省",
+  "subtitleEn": "Enter remaining balance, current payment, and new terms to compute new payment and total savings",
+  "definitionZh": "再融資計算機以剩餘本金、原月付、新利率與新年限,計算再融資後的新月付、每月節省、新總利息與全期節省,協助判斷房貸或貸款是否值得再融資。",
+  "formulaZh": "新月付 = 餘額 × r / (1 − (1+r)^−n);每月省 = 原月付 − 新月付;全期省 = 每月省 × 新期數(未扣手續費)",
+  "limitationsZh": "本工具未計再融資手續費、開辦費與提前清償違約金,因此「全期省」為毛節省;務必扣除一次性成本並計算回本期再決定。",
+  "interpretationZh": "每月省為正且能在持有期內回本(一次性成本÷每月省)才值得;留意延長年限可能使總利息不減反增。",
+  "premiumTitleZh": "專業版 再融資決策工具組",
+  "premiumTextZh": "解鎖含手續費的回本期、降月付 vs 縮年限情境比較、剩餘利息精算與最佳再融資時機分析。",
+  "premiumChipsZh": "回本期|情境比較|利息精算|最佳時機",
+  "premiumTitleEn": "Pro Refinance Decision Suite",
+  "premiumTextEn": "Unlock fee-inclusive break-even, lower-payment vs shorter-term scenarios, exact interest, and optimal timing.",
+  "premiumChipsEn": "Break-even|Scenarios|Exact|Timing"
+}

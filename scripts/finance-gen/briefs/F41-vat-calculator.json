@@ -1,0 +1,142 @@
+{
+  "id": "vat-calculator",
+  "nameZh": "加值稅 VAT 計算機",
+  "nameEn": "VAT Calculator",
+  "color": "cyan",
+  "inputs": [
+    "淨額",
+    "VAT 稅率%",
+    "數量",
+    "是否含稅金額"
+  ],
+  "inputsEn": [
+    "Net Amount",
+    "VAT Rate Pct",
+    "Quantity",
+    "Gross Amount"
+  ],
+  "defaults": [
+    "100",
+    "20",
+    "1",
+    "0"
+  ],
+  "steps": [
+    "1",
+    "0.5",
+    "1",
+    "1"
+  ],
+  "accentIdx": 1,
+  "compute": "依淨額或含稅金額與 VAT 稅率，計算 VAT 稅額、含稅總額與淨額",
+  "computeFn": "    const net = Number(netAmount) || 0;\n    const rate = (Number(vatRatePct) || 0) / 100;\n    const qty = Number(quantity) || 1;\n    const gross = Number(grossAmount) || 0;\n    let baseNet, vat, grossTotal;\n    if (gross > 0) {\n      baseNet = gross / (1 + rate);\n      vat = gross - baseNet;\n      grossTotal = gross * qty;\n    } else {\n      baseNet = net;\n      vat = net * rate;\n      grossTotal = (net + vat) * qty;\n    }\n    const vatTotal = vat * qty;\n    const netTotal = baseNet * qty;\n    const ratePct = rate * 100;\n    return { ratePct, grossTotal, vatTotal, netTotal };",
+  "primaryKey": "ratePct",
+  "primaryDecimals": 2,
+  "primaryUnit": "%",
+  "secondaryKey": "grossTotal",
+  "secondaryDecimals": 2,
+  "secondaryUnit": "$",
+  "tertiaryKey": "vatTotal",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "netTotal",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "適用稅率",
+  "primaryLabelEn": "Applied Rate",
+  "secondaryLabelZh": "含稅總額",
+  "secondaryLabelEn": "Gross Total",
+  "tertiaryLabelZh": "VAT 稅額",
+  "tertiaryLabelEn": "VAT Amount",
+  "quaternaryLabelZh": "淨額合計",
+  "quaternaryLabelEn": "Net Total",
+  "bands": [
+    "免稅",
+    "極低",
+    "低",
+    "標準",
+    "高",
+    "極高"
+  ],
+  "bandThresholds": [
+    0.01,
+    8,
+    15,
+    21,
+    25
+  ],
+  "bandHints": [
+    "0% VAT,零稅率或免稅商品(如出口、特定民生品)。",
+    "< 8%,低稅率,常見於部分國家的優惠稅率品項。",
+    "8-15%,中低稅率,部分亞洲國家標準 VAT 區間。",
+    "15-21%,標準 VAT 區間,多數歐盟國家的標準稅率。",
+    "21-25%,偏高,北歐與部分歐洲國家的標準稅率。",
+    "> 25%,極高,匈牙利等少數國家的標準稅率。"
+  ],
+  "faqTitles": [
+    "VAT 和銷售稅差在哪?",
+    "含稅價怎麼算出 VAT?",
+    "台灣營業稅是 VAT 嗎?",
+    "出口為什麼是零稅率?",
+    "資料會上傳嗎?",
+    "可以含稅反推淨額嗎?"
+  ],
+  "faqAnswers": [
+    "**VAT(加值稅)**在生產到銷售每一環節對「加值部分」課徵,企業可進項抵扣,最終由消費者負擔;**銷售稅(Sales Tax)**只在零售端一次性課徵,無進項抵扣。VAT 常見於歐洲、亞洲,Sales Tax 常見於美國。",
+    "含稅價反推:淨額 = 含稅價 ÷ (1 + 稅率),VAT = 含稅價 − 淨額。例如含稅 120、稅率 20%,淨額 = 120 ÷ 1.2 = 100,VAT = 20。本工具填入「含稅金額」欄位即自動反推,留空則由淨額正推。",
+    "台灣的**營業稅**本質上就是 VAT(加值型營業稅),標準稅率 5%,企業可扣抵進項稅額,最終由消費者承擔。少數行業適用非加值型(總額型)營業稅。本工具可設定 5% 計算台灣情境。",
+    "出口適用**零稅率(zero-rated)**是為避免重複課稅與維持出口競爭力——商品在他國消費,由進口國課稅。零稅率仍可退還進項 VAT,與「免稅(exempt,不可退進項)」不同,這是 VAT 制度的關鍵設計。",
+    "完全不會。所有計算都在你的瀏覽器內完成,金額與稅率資料不會傳送到任何伺服器。",
+    "含稅反推淨額(本工具已支援)、進項/銷項抵扣試算、多國 VAT 稅率庫與發票批次計算屬於專業版功能。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "銷售稅計算機",
+      "label_en": "Sales Tax Calculator",
+      "href": "/tools/finance/sales-tax-calculator"
+    },
+    {
+      "label_zh": "利潤率計算機",
+      "label_en": "Profit Margin Calculator",
+      "href": "/tools/finance/profit-margin-calculator"
+    },
+    {
+      "label_zh": "加成計算機",
+      "label_en": "Markup Calculator",
+      "href": "/tools/finance/markup-calculator"
+    },
+    {
+      "label_zh": "貨幣轉換器",
+      "label_en": "Currency Converter",
+      "href": "/tools/finance/currency-converter"
+    }
+  ],
+  "exampleSolid": [
+    "100",
+    "20",
+    "1",
+    "0"
+  ],
+  "exampleHigh": [
+    "0",
+    "20",
+    "1",
+    "120"
+  ],
+  "solidLabelZh": "淨額 100 · 20%",
+  "solidLabelEn": "Net 100 · 20%",
+  "highLabelZh": "含稅 120 · 20% 反推",
+  "highLabelEn": "Gross 120 · 20% reverse",
+  "subtitleZh": "輸入淨額或含稅金額與 VAT 稅率，立即算出稅額、含稅總額與淨額",
+  "subtitleEn": "Enter net or gross amount with VAT rate to compute VAT, gross total, and net total",
+  "definitionZh": "加值稅 VAT 計算機支援由淨額正推或由含稅金額反推,計算 VAT 稅額、含稅總額與淨額合計,適用歐盟、英國、台灣營業稅等加值稅情境的報價與發票。",
+  "formulaZh": "正推:VAT = 淨額 × 稅率,含稅 = 淨額 + VAT;反推:淨額 = 含稅 ÷ (1 + 稅率),VAT = 含稅 − 淨額",
+  "limitationsZh": "本工具採單一稅率,不處理多級稅率、進項抵扣、免稅/零稅率混合與跨境逆向課稅;申報請以當地稅法與會計系統為準。",
+  "interpretationZh": "填入含稅金額時自動反推淨額,適合驗證收據;留空則由淨額正推,適合報價;VAT 稅額為應申報金額參考。",
+  "premiumTitleZh": "專業版 VAT 申報工具組",
+  "premiumTextZh": "解鎖進項/銷項抵扣試算、多國 VAT 稅率庫、發票批次計算、跨境逆向課稅與申報報表匯出。",
+  "premiumChipsZh": "進銷抵扣|多國稅率|批次發票|申報報表",
+  "premiumTitleEn": "Pro VAT Filing Suite",
+  "premiumTextEn": "Unlock input/output VAT, multi-country rate database, batch invoicing, reverse-charge, and filing reports.",
+  "premiumChipsEn": "Input/Output|Rate DB|Batch|Reports"
+}

@@ -1,0 +1,142 @@
+{
+  "id": "annuity-calculator",
+  "nameZh": "年金計算機",
+  "nameEn": "Annuity Calculator",
+  "color": "green",
+  "inputs": [
+    "每期投入",
+    "年利率%",
+    "年數",
+    "每年期數"
+  ],
+  "inputsEn": [
+    "Payment Per Period",
+    "Annual Rate Pct",
+    "Years",
+    "Periods Per Year"
+  ],
+  "defaults": [
+    "1000",
+    "6",
+    "20",
+    "12"
+  ],
+  "steps": [
+    "100",
+    "0.1",
+    "1",
+    "1"
+  ],
+  "accentIdx": 1,
+  "compute": "依每期投入、利率、年數與期數計算年金終值、總投入與利息收益",
+  "computeFn": "    const pmt = Number(paymentPerPeriod) || 0;\n    const annual = (Number(annualRatePct) || 0) / 100;\n    const yrs = Number(years) || 0;\n    const m = Number(periodsPerYear) || 1;\n    const i = annual / m;\n    const N = yrs * m;\n    const fv = i > 0 ? pmt * ((Math.pow(1 + i, N) - 1) / i) : pmt * N;\n    const contributed = pmt * N;\n    const interest = fv - contributed;\n    const growthPct = contributed > 0 ? (interest / contributed) * 100 : 0;\n    return { growthPct, fv, interest, contributed };",
+  "primaryKey": "growthPct",
+  "primaryDecimals": 2,
+  "primaryUnit": "%",
+  "secondaryKey": "fv",
+  "secondaryDecimals": 2,
+  "secondaryUnit": "$",
+  "tertiaryKey": "interest",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "contributed",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "複利成長率",
+  "primaryLabelEn": "Compound Growth",
+  "secondaryLabelZh": "年金終值",
+  "secondaryLabelEn": "Annuity FV",
+  "tertiaryLabelZh": "利息收益",
+  "tertiaryLabelEn": "Interest Earned",
+  "quaternaryLabelZh": "總投入",
+  "quaternaryLabelEn": "Total Contributed",
+  "bands": [
+    "極低",
+    "低",
+    "中等",
+    "偏高",
+    "高",
+    "極高"
+  ],
+  "bandThresholds": [
+    15,
+    40,
+    80,
+    150,
+    300
+  ],
+  "bandHints": [
+    "成長 < 15%,屬於短年限或低利率,複利效果尚未顯現。",
+    "15-40%,溫和,常見於 5-10 年期穩健年金累積。",
+    "40-80%,中等,複利開始發揮,常見於 10-20 年期。",
+    "80-150%,偏高,長年限複利成果,利息接近本金。",
+    "150-300%,高,長期高報酬累積,利息遠超投入。",
+    "> 300%,極高,超長年限或高報酬,複利威力充分展現。"
+  ],
+  "faqTitles": [
+    "年金是什麼?有哪些種類?",
+    "期初年金和期末年金差在哪?",
+    "年金商品費用高嗎?",
+    "定期定額和年金一樣嗎?",
+    "資料會上傳嗎?",
+    "可以算遞延年金嗎?"
+  ],
+  "faqAnswers": [
+    "**年金(Annuity)**是一連串等額、定期的現金流。常見種類:**(1) 累積型**(定期投入、未來領回,如退休儲蓄)、**(2) 給付型**(一次投入、定期領取,如退休年金)、**(3) 固定 vs 變額**(報酬固定或隨投資波動)。本工具計算累積型的終值與現值。",
+    "**期末年金(ordinary annuity)**在每期「期末」付款(如房貸、多數儲蓄),本工具預設此類;**期初年金(annuity due)**在每期「期初」付款(如租金、保費),因每筆早一期生息,終值較高(乘以 1+i)。差異隨利率與期數放大。",
+    "保險公司的年金商品常含**前置費用、管理費、解約費、附約成本**,可能侵蝕 1-3% 年報酬。購買前務必看清費用結構與保證內容。本工具算的是純數學年金,實際商品報酬需扣除費用。",
+    "定期定額投資(如每月買 ETF/基金)本質上就是累積型年金的應用——固定金額、固定頻率投入。差別在年金常指保險商品(有保證但費用高),而定期定額多指自行投資(彈性高但無保證)。計算邏輯相同。",
+    "完全不會。所有計算都在你的瀏覽器內完成,投入金額與利率資料不會傳送到任何伺服器。",
+    "期初/期末年金切換、遞延年金、給付型年金提領與含費用的淨報酬屬於專業版功能。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "退休計算機",
+      "label_en": "Retirement Calculator",
+      "href": "/tools/finance/retirement-calculator"
+    },
+    {
+      "label_zh": "現值計算機",
+      "label_en": "Present Value Calculator",
+      "href": "/tools/finance/present-value-calculator"
+    },
+    {
+      "label_zh": "終值計算機",
+      "label_en": "Future Value Calculator",
+      "href": "/tools/finance/future-value-calculator"
+    },
+    {
+      "label_zh": "退休金計算機",
+      "label_en": "Pension Calculator",
+      "href": "/tools/finance/pension-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "1000",
+    "6",
+    "20",
+    "12"
+  ],
+  "exampleHigh": [
+    "500",
+    "8",
+    "30",
+    "12"
+  ],
+  "solidLabelZh": "每月 1000 · 6% · 20 年",
+  "solidLabelEn": "1000/mo · 6% · 20y",
+  "highLabelZh": "每月 500 · 8% · 30 年",
+  "highLabelEn": "500/mo · 8% · 30y",
+  "subtitleZh": "輸入每期投入、利率與年數，立即算出年金終值、總投入與利息收益",
+  "subtitleEn": "Enter payment per period, rate, and years to compute annuity future value, contributions, and interest",
+  "definitionZh": "年金計算機以每期投入、年利率、年數與每年期數,計算累積型年金的終值、現值、總投入與利息收益,適用退休儲蓄、定期定額與年金商品試算。",
+  "formulaZh": "年金終值 = 每期投入 × ((1 + i)^N − 1) / i;年金現值 = 每期投入 × (1 − (1 + i)^−N) / i;i = 年利率 / 期數,N = 年數 × 期數",
+  "limitationsZh": "本工具採期末年金與固定利率,不含商品費用、解約成本、稅負與期初年金;保險年金請另扣費用,實際請以保單條款為準。",
+  "interpretationZh": "年金終值反映長期定期投入的複利成果;利息收益佔比越高,代表時間與複利貢獻越大,越早開始越有利。",
+  "premiumTitleZh": "專業版 年金規劃工具組",
+  "premiumTextZh": "解鎖期初/期末年金切換、遞延年金、給付型提領模擬、含費用淨報酬與通膨調整。",
+  "premiumChipsZh": "期初期末|遞延年金|提領模擬|淨報酬",
+  "premiumTitleEn": "Pro Annuity Planning Suite",
+  "premiumTextEn": "Unlock annuity-due toggle, deferred annuity, payout simulation, fee-adjusted net return, and inflation adjustment.",
+  "premiumChipsEn": "Due/Ordinary|Deferred|Payout|Net Return"
+}

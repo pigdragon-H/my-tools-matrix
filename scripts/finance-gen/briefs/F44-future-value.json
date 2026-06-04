@@ -1,0 +1,142 @@
+{
+  "id": "future-value-calculator",
+  "nameZh": "終值計算機",
+  "nameEn": "Future Value Calculator",
+  "color": "orange",
+  "inputs": [
+    "現值本金",
+    "年報酬率%",
+    "年數",
+    "每年提存"
+  ],
+  "inputsEn": [
+    "Present Value",
+    "Annual Return Pct",
+    "Years",
+    "Annual Deposit"
+  ],
+  "defaults": [
+    "10000",
+    "7",
+    "20",
+    "0"
+  ],
+  "steps": [
+    "1000",
+    "0.1",
+    "1",
+    "1000"
+  ],
+  "accentIdx": 1,
+  "compute": "依現值、年報酬率、年數與每年提存計算終值、總投入與總獲利",
+  "computeFn": "    const PV = Number(presentValue) || 0;\n    const r = (Number(annualReturnPct) || 0) / 100;\n    const n = Number(years) || 0;\n    const pmt = Number(annualDeposit) || 0;\n    const fvLump = PV * Math.pow(1 + r, n);\n    const fvAnnuity = r > 0 ? pmt * ((Math.pow(1 + r, n) - 1) / r) : pmt * n;\n    const fv = fvLump + fvAnnuity;\n    const contributed = PV + pmt * n;\n    const gain = fv - contributed;\n    const gainPct = contributed > 0 ? (gain / contributed) * 100 : 0;\n    return { gainPct, fv, gain, contributed };",
+  "primaryKey": "gainPct",
+  "primaryDecimals": 2,
+  "primaryUnit": "%",
+  "secondaryKey": "fv",
+  "secondaryDecimals": 2,
+  "secondaryUnit": "$",
+  "tertiaryKey": "gain",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "contributed",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "總成長率",
+  "primaryLabelEn": "Total Growth",
+  "secondaryLabelZh": "終值",
+  "secondaryLabelEn": "Future Value",
+  "tertiaryLabelZh": "總獲利",
+  "tertiaryLabelEn": "Total Gain",
+  "quaternaryLabelZh": "總投入",
+  "quaternaryLabelEn": "Total Contributed",
+  "bands": [
+    "保守",
+    "溫和",
+    "穩健",
+    "成長",
+    "強勁",
+    "驚人"
+  ],
+  "bandThresholds": [
+    25,
+    60,
+    120,
+    250,
+    500
+  ],
+  "bandHints": [
+    "總成長 < 25%,屬於短期或低報酬,複利尚未顯威。",
+    "25-60%,溫和成長,常見於 5-10 年期穩健配置。",
+    "60-120%,穩健,複利開始發揮,資產接近翻倍。",
+    "120-250%,成長,長年限複利成果,資產數倍成長。",
+    "250-500%,強勁,長期高報酬累積的可觀成果。",
+    "> 500%,驚人,超長年限或高報酬,複利威力充分展現。"
+  ],
+  "faqTitles": [
+    "終值是什麼?",
+    "為什麼複利時間越長越驚人?",
+    "7% 報酬率合理嗎?",
+    "終值和現值怎麼互換?",
+    "資料會上傳嗎?",
+    "可以模擬通膨調整後的終值嗎?"
+  ],
+  "faqAnswers": [
+    "**終值(Future Value)**是一筆現有資金或定期投入,在特定報酬率與時間後成長到的金額。它回答「現在投入,未來會變多少」,是退休規劃、儲蓄目標、投資決策的核心概念。本工具同時支援一次性本金與每年提存。",
+    "因為複利是指數成長。72 法則:本金翻倍所需年數 ≈ 72 / 報酬率%。以 7% 為例約 10 年翻倍、20 年變 4 倍、30 年變約 8 倍。時間是複利最大的盟友,越早開始差距越驚人。",
+    "美股長期(扣通膨前)年化約 7-10%,扣通膨後實質約 5-7%。但這是長期平均,單年波動極大(可能 −30% 到 +30%)。規劃時用 6-7% 較保守合理,別用近期牛市的高報酬外推。",
+    "終值 = 現值 × (1 + r)^n;反過來現值 = 終值 ÷ (1 + r)^n。終值算「未來會變多少」,現值算「未來的錢現在值多少」。兩者是同一公式的正反運算,搭配使用可做完整財務規劃。",
+    "完全不會。所有計算都在你的瀏覽器內完成,本金與報酬率資料不會傳送到任何伺服器。",
+    "通膨調整後實質終值、月提存、報酬率區間蒙地卡羅模擬與多情境比較屬於專業版功能。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "現值計算機",
+      "label_en": "Present Value Calculator",
+      "href": "/tools/finance/present-value-calculator"
+    },
+    {
+      "label_zh": "複利計算機",
+      "label_en": "Compound Interest Calculator",
+      "href": "/tools/finance/compound-interest-calculator"
+    },
+    {
+      "label_zh": "退休計算機",
+      "label_en": "Retirement Calculator",
+      "href": "/tools/finance/retirement-calculator"
+    },
+    {
+      "label_zh": "儲蓄目標計算機",
+      "label_en": "Savings Goal Calculator",
+      "href": "/tools/finance/savings-goal-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "10000",
+    "7",
+    "20",
+    "0"
+  ],
+  "exampleHigh": [
+    "10000",
+    "8",
+    "30",
+    "6000"
+  ],
+  "solidLabelZh": "本金 1 萬 · 7% · 20 年",
+  "solidLabelEn": "PV 10k · 7% · 20y",
+  "highLabelZh": "本金 1 萬 · 8% · 30 年 · 年存 6 千",
+  "highLabelEn": "PV 10k · 8% · 30y · +6k/yr",
+  "subtitleZh": "輸入現值、年報酬率與年數，立即算出複利終值、總投入與總獲利",
+  "subtitleEn": "Enter present value, annual return, and years to compute compound future value, contributions, and gain",
+  "definitionZh": "終值計算機以現值本金、年報酬率、年數與每年提存,計算複利成長後的終值、總投入與總獲利,適用退休、儲蓄目標與長期投資的成長預估。",
+  "formulaZh": "終值 = 現值 × (1 + r)^n + 每年提存 × ((1 + r)^n − 1) / r;其中 r 為年報酬率、n 為年數",
+  "limitationsZh": "本工具假設固定年報酬率與年複利,不計通膨、稅負、手續費與報酬波動;實際市場報酬逐年不同,結果僅供長期規劃參考。",
+  "interpretationZh": "總獲利為終值減總投入,反映複利貢獻;報酬率與年數對終值的影響呈指數放大,越早投入效果越強。",
+  "premiumTitleZh": "專業版 財富成長工具組",
+  "premiumTextZh": "解鎖通膨調整實質終值、月提存、報酬率區間蒙地卡羅模擬、多情境比較與目標達成機率。",
+  "premiumChipsZh": "通膨調整|月提存|蒙地卡羅|達成機率",
+  "premiumTitleEn": "Pro Wealth Growth Suite",
+  "premiumTextEn": "Unlock inflation-adjusted FV, monthly deposits, Monte Carlo return ranges, scenario compare, and goal probability.",
+  "premiumChipsEn": "Inflation|Monthly|Monte Carlo|Probability"
+}

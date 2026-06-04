@@ -1,0 +1,142 @@
+{
+  "id": "discount-calculator",
+  "nameZh": "折扣計算機",
+  "nameEn": "Discount Calculator",
+  "color": "teal",
+  "inputs": [
+    "原價",
+    "折扣百分比%",
+    "額外折抵",
+    "數量"
+  ],
+  "inputsEn": [
+    "Original Price",
+    "Discount Percent",
+    "Extra Off",
+    "Quantity"
+  ],
+  "defaults": [
+    "1000",
+    "20",
+    "0",
+    "1"
+  ],
+  "steps": [
+    "10",
+    "1",
+    "10",
+    "1"
+  ],
+  "accentIdx": 1,
+  "compute": "依原價、折扣百分比、額外折抵與數量計算折後單價、總省金額與最終總額",
+  "computeFn": "    const price = Number(originalPrice) || 0;\n    const disc = (Number(discountPercent) || 0) / 100;\n    const extra = Number(extraOff) || 0;\n    const qty = Number(quantity) || 1;\n    const afterPct = price * (1 - disc);\n    const finalUnit = Math.max(0, afterPct - extra);\n    const total = finalUnit * qty;\n    const saved = (price - finalUnit) * qty;\n    const effDisc = price > 0 ? ((price - finalUnit) / price) * 100 : 0;\n    return { finalUnit, total, saved, effDisc };",
+  "primaryKey": "effDisc",
+  "primaryDecimals": 2,
+  "primaryUnit": "%",
+  "secondaryKey": "finalUnit",
+  "secondaryDecimals": 2,
+  "secondaryUnit": "$",
+  "tertiaryKey": "total",
+  "tertiaryDecimals": 2,
+  "tertiaryUnit": "$",
+  "quaternaryKey": "saved",
+  "quaternaryDecimals": 2,
+  "quaternaryUnit": "$",
+  "primaryLabelZh": "實際折扣",
+  "primaryLabelEn": "Effective Discount",
+  "secondaryLabelZh": "折後單價",
+  "secondaryLabelEn": "Final Unit Price",
+  "tertiaryLabelZh": "最終總額",
+  "tertiaryLabelEn": "Final Total",
+  "quaternaryLabelZh": "總共省下",
+  "quaternaryLabelEn": "Total Saved",
+  "bands": [
+    "無折扣",
+    "小折",
+    "中折",
+    "大折",
+    "超殺",
+    "出清"
+  ],
+  "bandThresholds": [
+    1,
+    15,
+    30,
+    50,
+    70
+  ],
+  "bandHints": [
+    "0% 折扣,原價購買,可考慮搭配優惠券或會員價。",
+    "< 15%,小幅折扣,常見於一般促銷或會員小折。",
+    "15-30%,中等折扣,季節性促銷的常見幅度。",
+    "30-50%,大折扣,換季出清或週年慶的吸引力區間。",
+    "50-70%,超殺價,通常為清庫存或限時搶購。",
+    "> 70%,出清等級,務必確認是否為原價灌水後的假折扣。"
+  ],
+  "faqTitles": [
+    "先打折還是先折抵划算?",
+    "買一送一等於幾折?",
+    "怎麼看穿假折扣?",
+    "多重折扣怎麼疊加?",
+    "資料會上傳嗎?",
+    "可以比較多家價格嗎?"
+  ],
+  "faqAnswers": [
+    "通常**先按百分比折扣、再扣固定金額折抵**對消費者較有利(本工具預設此順序)。例如原價 1000、打 8 折後 800、再折 100 = 700。若順序相反(先折 100 = 900、再打 8 折 = 720)反而較貴。結帳前留意系統的折抵順序。",
+    "**買一送一**等於兩件均價 5 折(50% off);**買二送一**等於三件均價約 67 折(33% off);**第二件半價**等於兩件均價 75 折(25% off)。換算成單件實際折扣才能跨檔比較,本工具的「實際折扣」欄位即此用途。",
+    "假折扣手法:**(1) 先抬高原價再打折**、(2) 標示「最高」折扣但僅限少數品項、(3) 加價購門檻。破解方法:查歷史價格(如比價網)、算實際折後單價、比較不同通路同品項,別只看折扣數字。",
+    "多重折扣是**相乘**而非相加。例如「打 8 折再打 9 折」= 0.8 × 0.9 = 0.72,即實際 72 折(28% off),不是 8+1=9 折也不是 7 折。本工具的百分比折扣與額外折抵可組合計算。",
+    "完全不會。所有計算都在你的瀏覽器內完成,價格資料不會傳送到任何伺服器。",
+    "多通路比價、優惠券疊加模擬、歷史價格追蹤與單位價格比較屬於專業版功能。"
+  ],
+  "affiliates": [
+    {
+      "label_zh": "加成計算機",
+      "label_en": "Markup Calculator",
+      "href": "/tools/finance/markup-calculator"
+    },
+    {
+      "label_zh": "銷售稅計算機",
+      "label_en": "Sales Tax Calculator",
+      "href": "/tools/finance/sales-tax-calculator"
+    },
+    {
+      "label_zh": "利潤率計算機",
+      "label_en": "Profit Margin Calculator",
+      "href": "/tools/finance/profit-margin-calculator"
+    },
+    {
+      "label_zh": "小費計算機",
+      "label_en": "Tip Calculator",
+      "href": "/tools/finance/tip-calculator"
+    }
+  ],
+  "exampleSolid": [
+    "1000",
+    "20",
+    "0",
+    "1"
+  ],
+  "exampleHigh": [
+    "2500",
+    "40",
+    "200",
+    "2"
+  ],
+  "solidLabelZh": "原價 1000 · 8 折",
+  "solidLabelEn": "List 1000 · 20% off",
+  "highLabelZh": "原價 2500 · 6 折 · 折 200 · 2 件",
+  "highLabelEn": "List 2500 · 40% off · -200 · 2",
+  "subtitleZh": "輸入原價、折扣與數量，立即算出折後單價、總省金額與實際折扣",
+  "subtitleEn": "Enter original price, discount, and quantity to compute final price, total savings, and effective discount",
+  "definitionZh": "折扣計算機以原價、折扣百分比、額外固定折抵與數量,計算折後單價、最終總額、總省金額與實際折扣率,適用購物、促銷比價與報價。",
+  "formulaZh": "折後單價 = 原價 × (1 − 折扣%) − 額外折抵;最終總額 = 折後單價 × 數量;實際折扣% = (原價 − 折後單價) / 原價",
+  "limitationsZh": "本工具採先百分比後固定折抵的順序,不含稅、運費與多重優惠券疊加規則;實際結帳金額請以商家系統為準。",
+  "interpretationZh": "實際折扣率讓你跨檔比較不同促銷的真實優惠;折後單價可用於與其他通路同品項比價。",
+  "premiumTitleZh": "專業版 購物比價工具組",
+  "premiumTextZh": "解鎖多通路比價、優惠券疊加模擬、買N送M換算、單位價格比較與歷史價格追蹤。",
+  "premiumChipsZh": "多通路比價|優惠疊加|買N送M|單位比價",
+  "premiumTitleEn": "Pro Shopping Compare Suite",
+  "premiumTextEn": "Unlock multi-store compare, coupon stacking, buy-N-get-M conversion, unit pricing, and price history.",
+  "premiumChipsEn": "Compare|Stacking|BOGO|Unit Price"
+}
