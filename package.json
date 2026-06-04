@@ -16,6 +16,8 @@
     "trunk": "node scripts/tool-trunk.mjs",
     "trunk:audit": "node scripts/tool-trunk.mjs --audit",
     "trunk:json": "node scripts/tool-trunk.mjs --json",
+    "check:duplicate": "node scripts/check-duplicate.mjs",
+    "docs:master": "node scripts/gen-master-docs.mjs",
     "generate:sitemap": "npx tsx scripts/generate-sitemap.ts",
     "qc:blackhole": "node scripts/qc_blackhole.mjs",
     "qc:commit": "node scripts/qc_commit_integrity.mjs",
