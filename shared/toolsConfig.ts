@@ -1708,6 +1708,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "capital-gains-calculator",
+    name: "資本利得計算機",
+    category: "finance",
+    path: "/tools/finance/capital-gains-calculator",
+    icon: "Calculator",
+    description: "計算資本利得、長短期分類與稅後淨收金額。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1852,3 +1867,4 @@ export const homeEquityCalculator = { id: "home-equity-calculator", category: "f
 export const rentVsBuyCalculator = { id: "rent-vs-buy-calculator", category: "finance", name: "Rent vs Buy Calculator", path: "/tools/finance/rent-vs-buy-calculator" };
 export const closingCostCalculator = { id: "closing-cost-calculator", category: "finance", name: "Closing Cost Calculator", path: "/tools/finance/closing-cost-calculator" };
 export const propertyTaxCalculator = { id: "property-tax-calculator", category: "finance", name: "Property Tax Calculator", path: "/tools/finance/property-tax-calculator" };
+export const capitalGainsCalculator = { id: "capital-gains-calculator", category: "finance", name: "Capital Gains Calculator", path: "/tools/finance/capital-gains-calculator" };

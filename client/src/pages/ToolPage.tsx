@@ -124,6 +124,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/rent-vs-buy-calculator": lazy(() => import("@/tools/finance/RentVsBuyCalculator")),
   "finance/closing-cost-calculator": lazy(() => import("@/tools/finance/ClosingCostCalculator")),
   "finance/property-tax-calculator": lazy(() => import("@/tools/finance/PropertyTaxCalculator")),
+  "finance/capital-gains-calculator": lazy(() => import("@/tools/finance/CapitalGainsCalculator")),
 };
 
 function ToolSkeleton() {
