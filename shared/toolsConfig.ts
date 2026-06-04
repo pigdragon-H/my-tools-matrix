@@ -1573,6 +1573,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "coast-fire-calculator",
+    name: "Coast FIRE 計算機",
+    category: "finance",
+    path: "/tools/finance/coast-fire-calculator",
+    icon: "Calculator",
+    description: "估算現有本金在不再追加下,複利至退休年齡的資產規模與滑行狀態。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1708,3 +1723,4 @@ export const quickRatioCalculator = { id: "quick-ratio-calculator", category: "f
 export const roiPaybackCalculator = { id: "roi-payback-calculator", category: "finance", name: "ROI Payback Calculator", path: "/tools/finance/roi-payback-calculator" };
 export const burnRateCalculator = { id: "burn-rate-calculator", category: "finance", name: "Burn Rate Calculator", path: "/tools/finance/burn-rate-calculator" };
 export const withdrawalRateCalculator = { id: "withdrawal-rate-calculator", category: "finance", name: "Safe Withdrawal Rate Calculator", path: "/tools/finance/withdrawal-rate-calculator" };
+export const coastFireCalculator = { id: "coast-fire-calculator", category: "finance", name: "Coast FIRE Calculator", path: "/tools/finance/coast-fire-calculator" };
