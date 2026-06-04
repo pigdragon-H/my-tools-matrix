@@ -2053,6 +2053,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "exercise-calories-calculator",
+    name: "運動消耗計算機",
+    category: "health",
+    path: "/tools/health/exercise-calories-calculator",
+    icon: "Dumbbell",
+    description: "運動消耗計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2220,3 +2235,4 @@ export const startupRunwayCalculator = { id: "startup-runway-calculator", catego
 export const waistHipRatioCalculator = { id: "waist-hip-ratio-calculator", category: "health", name: "Waist-Hip Ratio Calculator", path: "/tools/health/waist-hip-ratio-calculator" };
 export const weightTrendCalculator = { id: "weight-trend-calculator", category: "health", name: "Weight Trend Calculator", path: "/tools/health/weight-trend-calculator" };
 export const calorieBurnCalculator = { id: "calorie-burn-calculator", category: "health", name: "Calorie Burn Calculator", path: "/tools/health/calorie-burn-calculator" };
+export const exerciseCaloriesCalculator = { id: "exercise-calories-calculator", category: "health", name: "Exercise Calories Calculator", path: "/tools/health/exercise-calories-calculator" };
