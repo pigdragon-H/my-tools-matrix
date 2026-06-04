@@ -771,6 +771,22 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "cron-expression",
+    name: "Cron Expression Parser",
+    nameZh: "Cron 表達式解析器",
+    category: "developer",
+    path: "/tools/developer/cron-expression",
+    icon: "Clock",
+    description: "Browser-side cron expression parser supporting POSIX 5-field (Vixie / IEEE 1003.1-2017) and Quartz 6/7-field syntax, with next-fire prediction, per-day frequency calculation, and a six-band scheduling-load matrix grounded in RFC-conformant cron semantics. Inputs never leave the browser.",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -853,3 +869,4 @@ export const gpaCalculator = { id: "gpa-calculator", category: "education", name
 export const gradeCalculator = { id: "grade-calculator", category: "education", name: "Grade Calculator", path: "/tools/education/grade-calculator" };
 export const studyTimeCalculator = { id: "study-time-calculator", category: "education", name: "Study Time Calculator", path: "/tools/education/study-time-calculator" };
 export const mathPercentageCalculator = { id: "math-percentage-calculator", category: "education", name: "Math Percentage Calculator", path: "/tools/education/math-percentage-calculator" };
+export const cronExpression = { id: "cron-expression", category: "developer", name: "Cron Expression Parser", path: "/tools/developer/cron-expression" };
