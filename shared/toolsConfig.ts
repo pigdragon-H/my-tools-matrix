@@ -1633,6 +1633,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "ltv-ratio-calculator",
+    name: "貸款成數 LTV 計算機",
+    category: "finance",
+    path: "/tools/finance/ltv-ratio-calculator",
+    icon: "Calculator",
+    description: "計算貸款成數、自有權益與距目標 LTV 的可貸空間。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1772,3 +1787,4 @@ export const coastFireCalculator = { id: "coast-fire-calculator", category: "fin
 export const fireNumberCalculator = { id: "fire-number-calculator", category: "finance", name: "FIRE Number Calculator", path: "/tools/finance/fire-number-calculator" };
 export const socialSecurityCalculator = { id: "social-security-calculator", category: "finance", name: "Social Security Calculator", path: "/tools/finance/social-security-calculator" };
 export const rothConversionCalculator = { id: "roth-conversion-calculator", category: "finance", name: "Roth Conversion Calculator", path: "/tools/finance/roth-conversion-calculator" };
+export const ltvRatioCalculator = { id: "ltv-ratio-calculator", category: "finance", name: "LTV Ratio Calculator", path: "/tools/finance/ltv-ratio-calculator" };
