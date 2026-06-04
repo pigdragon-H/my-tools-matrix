@@ -1783,6 +1783,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "pe-ratio-calculator",
+    name: "本益比計算機",
+    category: "finance",
+    path: "/tools/finance/pe-ratio-calculator",
+    icon: "Calculator",
+    description: "由股價與每股盈餘計算本益比、盈餘殖利率與合理股價。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1932,3 +1947,4 @@ export const estateTaxCalculator = { id: "estate-tax-calculator", category: "fin
 export const taxWithholdingCalculator = { id: "tax-withholding-calculator", category: "finance", name: "Tax Withholding Calculator", path: "/tools/finance/tax-withholding-calculator" };
 export const taxLossHarvesting = { id: "tax-loss-harvesting", category: "finance", name: "Tax Loss Harvesting Calculator", path: "/tools/finance/tax-loss-harvesting" };
 export const purchasingPowerCalculator = { id: "purchasing-power-calculator", category: "finance", name: "Purchasing Power Calculator", path: "/tools/finance/purchasing-power-calculator" };
+export const peRatioCalculator = { id: "pe-ratio-calculator", category: "finance", name: "P/E Ratio Calculator", path: "/tools/finance/pe-ratio-calculator" };

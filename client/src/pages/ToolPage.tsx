@@ -129,6 +129,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/tax-withholding-calculator": lazy(() => import("@/tools/finance/TaxWithholdingCalculator")),
   "finance/tax-loss-harvesting": lazy(() => import("@/tools/finance/TaxLossHarvesting")),
   "finance/purchasing-power-calculator": lazy(() => import("@/tools/finance/PurchasingPowerCalculator")),
+  "finance/pe-ratio-calculator": lazy(() => import("@/tools/finance/PeRatioCalculator")),
 };
 
 function ToolSkeleton() {
