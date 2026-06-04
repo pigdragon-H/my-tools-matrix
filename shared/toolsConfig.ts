@@ -1888,6 +1888,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "risk-tolerance-calculator",
+    name: "風險承受度計算機",
+    category: "finance",
+    path: "/tools/finance/risk-tolerance-calculator",
+    icon: "Calculator",
+    description: "由年齡、年限、可承受跌幅與備用金評估風險承受度與配置建議。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2044,3 +2059,4 @@ export const betaCalculator = { id: "beta-calculator", category: "finance", name
 export const capmCalculator = { id: "capm-calculator", category: "finance", name: "CAPM Calculator", path: "/tools/finance/capm-calculator" };
 export const priceToBookCalculator = { id: "price-to-book-calculator", category: "finance", name: "Price-to-Book Ratio Calculator", path: "/tools/finance/price-to-book-calculator" };
 export const bookValueCalculator = { id: "book-value-calculator", category: "finance", name: "Book Value Calculator", path: "/tools/finance/book-value-calculator" };
+export const riskToleranceCalculator = { id: "risk-tolerance-calculator", category: "finance", name: "Risk Tolerance Calculator", path: "/tools/finance/risk-tolerance-calculator" };
