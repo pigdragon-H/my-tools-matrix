@@ -82,6 +82,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/dividend-yield-calculator": lazy(() => import("@/tools/finance/DividendYieldCalculator")),
   "finance/net-present-value-calculator": lazy(() => import("@/tools/finance/NetPresentValueCalculator")),
   "finance/payback-period-calculator": lazy(() => import("@/tools/finance/PaybackPeriodCalculator")),
+  "finance/cash-flow-calculator": lazy(() => import("@/tools/finance/CashFlowCalculator")),
 };
 
 function ToolSkeleton() {

@@ -1078,6 +1078,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "cash-flow-calculator",
+    name: "現金流計算機",
+    category: "finance",
+    path: "/tools/finance/cash-flow-calculator",
+    icon: "Calculator",
+    description: "輸入月收入與固定/變動支出，立即估算月淨現金流、儲蓄率與年度節餘",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1180,3 +1195,4 @@ export const optionsProfitCalculator = { id: "options-profit-calculator", catego
 export const dividendYieldCalculator = { id: "dividend-yield-calculator", category: "finance", name: "Dividend Yield Calculator", path: "/tools/finance/dividend-yield-calculator" };
 export const netPresentValueCalculator = { id: "net-present-value-calculator", category: "finance", name: "Net Present Value Calculator", path: "/tools/finance/net-present-value-calculator" };
 export const paybackPeriodCalculator = { id: "payback-period-calculator", category: "finance", name: "Payback Period Calculator", path: "/tools/finance/payback-period-calculator" };
+export const cashFlowCalculator = { id: "cash-flow-calculator", category: "finance", name: "Cash Flow Calculator", path: "/tools/finance/cash-flow-calculator" };
