@@ -1693,6 +1693,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "property-tax-calculator",
+    name: "房產稅計算機",
+    category: "finance",
+    path: "/tools/finance/property-tax-calculator",
+    icon: "Calculator",
+    description: "依估值、評估比例與減免,估算年度與每月房產稅。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1836,3 +1851,4 @@ export const ltvRatioCalculator = { id: "ltv-ratio-calculator", category: "finan
 export const homeEquityCalculator = { id: "home-equity-calculator", category: "finance", name: "Home Equity Calculator", path: "/tools/finance/home-equity-calculator" };
 export const rentVsBuyCalculator = { id: "rent-vs-buy-calculator", category: "finance", name: "Rent vs Buy Calculator", path: "/tools/finance/rent-vs-buy-calculator" };
 export const closingCostCalculator = { id: "closing-cost-calculator", category: "finance", name: "Closing Cost Calculator", path: "/tools/finance/closing-cost-calculator" };
+export const propertyTaxCalculator = { id: "property-tax-calculator", category: "finance", name: "Property Tax Calculator", path: "/tools/finance/property-tax-calculator" };
