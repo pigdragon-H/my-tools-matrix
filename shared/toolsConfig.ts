@@ -1603,6 +1603,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "social-security-calculator",
+    name: "社會安全退休金估算機",
+    category: "finance",
+    path: "/tools/finance/social-security-calculator",
+    icon: "Calculator",
+    description: "依提早或延後請領規則,估算社會安全退休金的月給付與長期累計。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -1740,3 +1755,4 @@ export const burnRateCalculator = { id: "burn-rate-calculator", category: "finan
 export const withdrawalRateCalculator = { id: "withdrawal-rate-calculator", category: "finance", name: "Safe Withdrawal Rate Calculator", path: "/tools/finance/withdrawal-rate-calculator" };
 export const coastFireCalculator = { id: "coast-fire-calculator", category: "finance", name: "Coast FIRE Calculator", path: "/tools/finance/coast-fire-calculator" };
 export const fireNumberCalculator = { id: "fire-number-calculator", category: "finance", name: "FIRE Number Calculator", path: "/tools/finance/fire-number-calculator" };
+export const socialSecurityCalculator = { id: "social-security-calculator", category: "finance", name: "Social Security Calculator", path: "/tools/finance/social-security-calculator" };

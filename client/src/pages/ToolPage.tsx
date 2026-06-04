@@ -117,6 +117,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/withdrawal-rate-calculator": lazy(() => import("@/tools/finance/WithdrawalRateCalculator")),
   "finance/coast-fire-calculator": lazy(() => import("@/tools/finance/CoastFireCalculator")),
   "finance/fire-number-calculator": lazy(() => import("@/tools/finance/FireNumberCalculator")),
+  "finance/social-security-calculator": lazy(() => import("@/tools/finance/SocialSecurityCalculator")),
 };
 
 function ToolSkeleton() {
