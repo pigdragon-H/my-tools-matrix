@@ -898,6 +898,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "investment-return-calculator",
+    name: "投資報酬率計算機",
+    category: "finance",
+    path: "/tools/finance/investment-return-calculator",
+    icon: "Calculator",
+    description: "輸入初始本金、月加碼、年化報酬與年限，立即得出複利後的未來價值",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -988,3 +1003,4 @@ export const qrCodeGenerator = { id: "qr-code-generator", category: "developer",
 export const markdownToHtml = { id: "markdown-to-html", category: "developer", name: "Markdown to HTML", path: "/tools/developer/markdown-to-html" };
 export const numberBaseConverter = { id: "number-base-converter", category: "developer", name: "Number Base Converter", path: "/tools/developer/number-base-converter" };
 export const taxBracketCalculator = { id: "tax-bracket-calculator", category: "finance", name: "Tax Bracket Calculator", path: "/tools/finance/tax-bracket-calculator" };
+export const investmentReturnCalculator = { id: "investment-return-calculator", category: "finance", name: "Investment Return Calculator", path: "/tools/finance/investment-return-calculator" };
