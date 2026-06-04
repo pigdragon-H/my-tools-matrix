@@ -2173,6 +2173,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "alcohol-calories-calculator",
+    name: "酒精卡路里計算機",
+    category: "health",
+    path: "/tools/health/alcohol-calories-calculator",
+    icon: "Wine",
+    description: "酒精卡路里計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2348,3 +2363,4 @@ export const swimmingCaloriesCalculator = { id: "swimming-calories-calculator", 
 export const workoutPlanCalculator = { id: "workout-plan-calculator", category: "health", name: "Workout Plan Calculator", path: "/tools/health/workout-plan-calculator" };
 export const proteinCalculator = { id: "protein-calculator", category: "health", name: "Protein Calculator", path: "/tools/health/protein-calculator" };
 export const intermittentFastingCalculator = { id: "intermittent-fasting-calculator", category: "health", name: "Intermittent Fasting Calculator", path: "/tools/health/intermittent-fasting-calculator" };
+export const alcoholCaloriesCalculator = { id: "alcohol-calories-calculator", category: "health", name: "Alcohol Calories Calculator", path: "/tools/health/alcohol-calories-calculator" };
