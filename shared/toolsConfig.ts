@@ -835,6 +835,22 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "qr-code-generator",
+    name: "QR Code Generator",
+    nameZh: "QR碼生成器",
+    category: "developer",
+    path: "/tools/developer/qr-code-generator",
+    icon: "QrCode",
+    description: "Browser-side QR code generator producing scalable SVG QR codes with adjustable error-correction level (L/M/Q/H) and module size, grounded in ISO/IEC 18004:2015 (QR Code 2005). A six-band density matrix grades QR complexity from short URLs to dense vCards, with capacity readouts per Reed-Solomon error level. Inputs never leave the browser.",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -921,3 +937,4 @@ export const cronExpression = { id: "cron-expression", category: "developer", na
 export const ipCalculator = { id: "ip-calculator", category: "developer", name: "IP / CIDR Calculator", path: "/tools/developer/ip-calculator" };
 export const colorPaletteGenerator = { id: "color-palette-generator", category: "developer", name: "Color Palette Generator", path: "/tools/developer/color-palette-generator" };
 export const passwordGenerator = { id: "password-generator", category: "developer", name: "Password Generator", path: "/tools/developer/password-generator" };
+export const qrCodeGenerator = { id: "qr-code-generator", category: "developer", name: "QR Code Generator", path: "/tools/developer/qr-code-generator" };
