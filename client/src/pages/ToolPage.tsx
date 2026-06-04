@@ -141,6 +141,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/portfolio-rebalance-calculator": lazy(() => import("@/tools/finance/PortfolioRebalanceCalculator")),
   "finance/dollar-cost-averaging": lazy(() => import("@/tools/finance/DollarCostAveraging")),
   "finance/rule-of-72-calculator": lazy(() => import("@/tools/finance/RuleOf72Calculator")),
+  "finance/ltv-cac-ratio-calculator": lazy(() => import("@/tools/finance/LtvCacRatioCalculator")),
 };
 
 function ToolSkeleton() {

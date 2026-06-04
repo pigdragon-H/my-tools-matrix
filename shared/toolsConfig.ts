@@ -1963,6 +1963,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "ltv-cac-ratio-calculator",
+    name: "LTV/CAC 比率計算機",
+    category: "finance",
+    path: "/tools/finance/ltv-cac-ratio-calculator",
+    icon: "Calculator",
+    description: "由收入、毛利與流失率計算顧客終身價值與 LTV/CAC 比率。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2124,3 +2139,4 @@ export const realReturnCalculator = { id: "real-return-calculator", category: "f
 export const portfolioRebalanceCalculator = { id: "portfolio-rebalance-calculator", category: "finance", name: "Portfolio Rebalance Calculator", path: "/tools/finance/portfolio-rebalance-calculator" };
 export const dollarCostAveraging = { id: "dollar-cost-averaging", category: "finance", name: "Dollar-Cost Averaging Calculator", path: "/tools/finance/dollar-cost-averaging" };
 export const ruleOf72Calculator = { id: "rule-of-72-calculator", category: "finance", name: "Rule of 72 Calculator", path: "/tools/finance/rule-of-72-calculator" };
+export const ltvCacRatioCalculator = { id: "ltv-cac-ratio-calculator", category: "finance", name: "LTV/CAC Ratio Calculator", path: "/tools/finance/ltv-cac-ratio-calculator" };
