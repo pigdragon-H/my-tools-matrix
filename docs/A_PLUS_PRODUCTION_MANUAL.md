@@ -5,8 +5,8 @@
 > 任何 Superninja 視窗只要完整遵循本手冊,即可以 **A+ 水準**執行工具量產。
 > 違反任一條款 = 黑洞風險 = 供應商扣分。**零容忍。**
 
-**版本**: v2.0(壓縮週期版 — 14min → 7min)
-**生效日**: v1.0 完成 D-10 csv-to-json 後即時生效;v2.0 加入 preflight + safe-push 兩支效率腳本與「跨視窗紅線」紀律
+**版本**: v3.0(Pipeline 量產版 — spec-builder 自動產製 + Gate 6 真實 live 驗證)
+**生效日**: v1.0 完成 D-10 csv-to-json 後即時生效;v2.0 加入 preflight + safe-push 兩支效率腳本與「跨視窗紅線」紀律;v3.0 於 F-80→F-100 Finance 馬拉松完成後 Victor 授權升版,納入 finance-spec-builder pipeline、Gate 6 真實 live 驗證與視窗時延處理、17 層 live 查核校正(MacroCalculator 案例)
 **Repo**: `pigdragon-H/my-tools-matrix`
 **部署**: Railway(從 GitHub `main` branch 自動建構)
 **金樣板基準**: `client/src/tools/developer/JsonFormatter/index.tsx`(243 行,17 層)
@@ -1295,9 +1295,124 @@ cd /workspace/fu/repo && \
 
 ---
 
+# §20. v3.0 升版增補 — Pipeline 量產時代(F-80→F-100 馬拉松內化)
+
+> **本節由完成 Finance F-80→F-100 馬拉松的視窗於 2026-06-04 經 Victor 授權寫入。**
+> **內容來源**:13 支工具連續零返工、零黑洞、零跨視窗事故的實戰經驗。**v2.0 全部仍有效**,本節為「加法」補充,不取代既有任何條文。
+
+## 20.1 v2.0 → v3.0 變更摘要
+
+| 項目 | v2.0 | v3.0 |
+|------|------|------|
+| 工具產製 | 手寫 17 層 tsx,逐層對照金樣板 | **finance-spec-builder.mjs 吃 brief JSON 自動產 372 行 + 自動註冊** |
+| 每支耗時 | ~7 分鐘 | **7~10 分鐘(扣 Railway 等待),純人力步驟更短** |
+| 黑洞驗證 | preflight Gate 1/2 + safe-push Gate 3/4 | **新增 Gate 6(qc_live_deploy)真實 curl Railway live bundle** |
+| Railway 時延 | 假設 <180 秒 | **實測升至 5-6 分鐘,Gate 6 視窗已加寬至 7 分鐘(commit `1385b5d`)** |
+| 17 層查核 | 以原始碼 + dev server 為準 | **新增 live URL 逐層查核法(MacroCalculator 案例,§20.5)** |
+
+## 20.2 Pipeline 武器庫(category 有 spec-builder 時優先用)
+
+Finance 類已有 `scripts/finance-spec-builder.mjs`,**承接者量產 Finance 一律走 pipeline,不再手寫**:
+
+| 腳本 | 作用 | 用於哪步 |
+|------|------|---------|
+| `finance-spec-builder.mjs` | brief JSON → 372 行 17 層 tsx + 自動註冊 toolsConfig/ToolPage + 寫 spec + 跑 sigil verify | Step 2 |
+| `preflight.mjs` | TS + Gate 1(registry) + Gate 2(qc_blackhole @ localhost:5173) | Step 4 |
+| `safe-push.mjs` | 5a-5e commit/push + Gate 3 + Gate 4 + Gate 6 | Step 7 |
+| `qc_live_deploy.mjs` | 真 curl Railway live bundle grep tool-id | 內含於 safe-push;Gate 6 卡住時手動重跑 |
+| `audit-en-pollution.mjs` | 掃中文頁面英文殘留,須 CLEAN | Step 6 |
+| `railway-status.sh` | GraphQL 查 Railway 最近 3 筆 deploy 狀態 + live bundle 名 + /healthz | Gate 6 卡住時診斷 |
+
+> 其他 category(developer/health/education…)若無對應 spec-builder,仍依 v2.0 手寫 SOP。
+
+## 20.3 Pipeline 版 8 步 SOP(Finance 專用,逐步打勾)
+
+```
+Step 0  check-duplicate:grep tool-id @ toolsConfig.ts(>0=已 LIVE→SKIP)
+Step 1  角色鎖宣告(零創造力 QC 工程師,配色自由每支不同)
+Step 2  建 brief JSON(照抄最新可用 brief schema)+ node finance-spec-builder.mjs <brief>
+Step 3  §3.0 V1-V4 驗證,V4 必說「最終檢查報告:全部符合,準備 preflight」
+Step 4  npm run preflight(須 PREFLIGHT PASS)
+Step 5  視覺 QC(localhost:5173,親眼確認配色 + 手算主數字 + 序號徽章)
+Step 6  node audit-en-pollution.mjs <file>(須 CLEAN)
+Step 7  nohup npm run safe-push -- --id=X --category=finance --nn=NN(非阻塞,輪詢 log)
+Step 8  貼 HASH,另 commit brief/spec,立刻接下一支
+```
+
+### 關鍵鐵律(spec-builder 專屬)
+
+1. **brief schema 頂層欄位是 `id` 不是 `slug`**。欄位錯 → spec-builder 在 pascal/camel 函式炸 `TypeError: Cannot read properties of undefined (reading 'replace')`。**永遠先 `cat` 一份最新可用 brief 當模板照抄。**
+2. **computeFn 必須用 spec-builder 印出的 camelCase 變數名**(`[spec-builder] <id> input names: ...`),且**絕不自我遮蔽**:`const cashOnHand = Number(cashOnHand)` 會炸,要用短別名 `const cash = Number(cashOnHand)`。
+3. **brief/spec JSON 不在 safe-push 三件套裡**,6 Gates 全綠後另外 commit `chore: FNN <slug> brief/spec`。
+4. **safe-push 預期工作樹未提交**(它自己在 5a/5b 做 add+commit),**不要預先 commit 三件套**。
+5. **成功標誌**:spec-builder 印 `Sigils: rounded=11/11 fontBlack=18/18 radial=1/1 oddGrid=0/0 layers=19/19 l6Iron=0/0 ✅ SIGILS OK`。
+6. **i18n key 名 ≠ 污染**:spec-builder 產出的 tsx 內 i18n key 名(如 `tdeeMatrix`/`bmrStep`)是樣板固定、所有工具共用,**只查值是否在地化,不查 key 名**。
+
+## 20.4 ⚠️ Gate 6 與 Railway 時延處理(v3.0 重點)
+
+### 真黑洞 vs 假黑洞
+
+**黑洞** = 鏈上失同步(本地 PASS 但 GitHub 沒檔 / Railway 沒上線)。
+**但 2026-06 起 Railway 建構升至 ~5-6 分鐘**,曾超過 Gate 6 舊預設視窗(300s),safe-push 報「🔴 GATE 6 FAIL(黑洞)」其實是**還在 BUILDING、只是慢**——此為「假黑洞」。
+
+### 判別 SOP(Gate 6 報 FAIL 時,先別慌)
+
+```bash
+git log --oneline -3            # ① commit 真的進去了?
+git ls-remote origin main       # ② remote hash = 本地 HEAD?
+bash scripts/railway-status.sh  # ③ Railway 狀態?
+```
+- 看到 `BUILDING` / `DEPLOYING` → **假黑洞**,等它。
+- 看到 `FAILED` → **真問題**,查 build log(多半是 computeFn 變數遮蔽或 brief schema 欄位錯)。
+- 看到 `SUCCESS` 但 live bundle 名還是舊的 → 再等 30~60s 重啟。
+
+**假黑洞處理**:等 `railway-status.sh` 顯示你的 hash = `SUCCESS` 且 live bundle 換新名後,重跑
+```bash
+node scripts/qc_live_deploy.mjs <tool-id> --retries=6 --interval=20
+```
+→ 會 PASS。F-90/F-91/F-98/F-99/F-100 全是這樣處理。
+
+### Gate 6 視窗已加寬(commit `1385b5d`)
+
+經 Victor 授權,`scripts/safe-push.mjs` 內 Gate 6 預設由 `--retries=10`(300s)改為 `--retries=14`(**420s / 7 分鐘**),interval 維持 30s。**自此 safe-push 內建 Gate 6 大多能自動吸收 Railway 時延、直接 PASS**,但上方判別 SOP 仍要會,因連續多支排隊時 Railway 偶爾更慢。
+
+> **金句(v3.0 修訂 §2 鐵律 3)**:「Gate 6 報黑洞,先看 railway-status,別慌。BUILDING ≠ 黑洞,FAILED 才是。」
+
+## 20.5 17 層 live URL 查核法(MacroCalculator 案例)
+
+驗證一支已上線工具的 17 層是否完整,**以 live URL 為準**(非僅 dev / 原始碼):
+
+```bash
+browser-tool navigate "https://<railway-live>/tools/<cat>/<id>"
+browser-tool click "[N]"           # 切到中文模式(語言 toggle 常是單一合併鈕「中EN」)
+browser-tool scroll_down 600       # 每捲一屏截一張,逐層核對
+browser-tool screenshot <name>.png
+# 再以原始碼交叉驗證關鍵 class(配色 / CTA 標籤 / grid 比例)
+```
+
+### 查核校正心得(來自 MacroCalculator)
+
+1. **語言 toggle 多為單一合併鈕**(label "中EN"),用 `browser-tool observe` 找 `[N]` 再 click,別用文字 "中" 直接點。
+2. **情緒與轉換層可能是「單一 section 內 2×2 四象限」**而非多個獨立 section:洞察卡 + 動力卡(4 格工具連結)上排,儲存分享卡 + 下一步行動卡(3 條因果 + 複製/分享)下排。查核時勿因「看不到三個獨立 section」誤判缺層。
+3. **L6 Result 配色基準**:蛋白質 `bg-blue-50/text-blue-700·950`(藍)、脂肪 `bg-emerald-50/text-emerald-700·950`(綠)、碳水 `bg-orange-50/text-orange-700·950`(橙);主結果卡頂部 `emerald-400→blue-600` 漸層條、主數字 `text-7xl font-black`、右側黑底圓角徽章顯示主要數值 + 目標(大寫)。
+4. **L1 CTA 基準**:主按鈕黑底白字「一鍵填入標準範例」、副按鈕淡橙底橙字(orange-50/200/700)「填入減脂範例」。
+5. **L5 計算機可能含「公制/英制」單位切換鈕**(g/kcal | oz/kcal),查核時納入。
+6. **i18n 殘留是常見既有問題**(非新建工具責任):曾見中文模式麵包屑亂譯(如 macro 顯示「巴西坚果配计划」)、L6 三格小標未在地化(CARBS/Carbohydrates)。依 §0 跨視窗紅線,**發現別人工具的污染只回報、不修**,除非 Victor 明確授權當前視窗修。
+
+## 20.6 v3.0 內化的節奏與紀律(複習,不變)
+
+- **每 3 支回讀手冊一次**(久了會肌肉記憶化而漏細節)。
+- **每 15 支等 10 分鐘**(給 Railway 喘息、自己重對焦)。
+- **跨視窗紅線 §0 永遠最高**:腳本抓到別人紅燈 ≠ 修代碼授權,只回報。修 safe-push(`1385b5d`)是因 **Victor 明確授權**,非自作主張。
+- **配色自由,骨架鐵律;HASH 是收據,不是感覺;放棄優化,換來速度。**
+
+> **附:本節對應的對外交接文件** `docs/HANDOFF_A_PLUS_PIPELINE_2026-06-04.md`(commit `0b48807`),內容與本節一致,供新視窗快速上手。
+
+---
+
 # 結語
 
-本手冊是 D-01 到 D-10 共 10 支工具血淚換來的紀律。
+本手冊是 D-01 到 D-10 共 10 支工具血淚換來的紀律,並於 F-80→F-100 Finance 馬拉松(v3.0)以 13 支零返工、零黑洞、零跨視窗事故的成績驗證:**嚴守 SOP + QC 不是拖慢,而是換來驚人效率的唯一途徑**。
 任何視窗只要照走,就是 A+ 級量產。
 
 **金句**:
