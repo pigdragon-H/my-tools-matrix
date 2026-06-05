@@ -2338,6 +2338,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "heart-disease-risk-calculator",
+    name: "心臟病風險評估器",
+    category: "health",
+    path: "/tools/health/heart-disease-risk-calculator",
+    icon: "Heart",
+    description: "心臟病風險評估器：依年齡、血壓、膽固醇、吸菸與糖尿病史估算十年心血管疾病風險分級，提供教育性參考，不取代醫療診斷。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2524,3 +2539,4 @@ export const ovulationCalculator = { id: "ovulation-calculator", category: "heal
 export const visionPrescriptionConverter = { id: "vision-prescription-converter", category: "health", name: "Vision Prescription Converter", path: "/tools/health/vision-prescription-converter" };
 export const biologicalAgeCalculator = { id: "biological-age-calculator", category: "health", name: "Biological Age Calculator", path: "/tools/health/biological-age-calculator" };
 export const diabetesRiskCalculator = { id: "diabetes-risk-calculator", category: "health", name: "Diabetes Risk Calculator", path: "/tools/health/diabetes-risk-calculator" };
+export const heartDiseaseRiskCalculator = { id: "heart-disease-risk-calculator", category: "health", name: "Heart Disease Risk Calculator", path: "/tools/health/heart-disease-risk-calculator" };
