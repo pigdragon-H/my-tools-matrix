@@ -2788,6 +2788,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "churn-rate-calculator",
+    name: "流失率計算機",
+    category: "ecommerce",
+    path: "/tools/ecommerce/churn-rate-calculator",
+    icon: "ShoppingCart",
+    description: "流失率計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3004,3 +3019,4 @@ export const packagingCostCalculator = { id: "packaging-cost-calculator", catego
 export const returnRateCalculator = { id: "return-rate-calculator", category: "ecommerce", name: "Return Rate Calculator", path: "/tools/ecommerce/return-rate-calculator" };
 export const deliveryTimeCalculator = { id: "delivery-time-calculator", category: "ecommerce", name: "Delivery Time Calculator", path: "/tools/ecommerce/delivery-time-calculator" };
 export const mrrCalculator = { id: "mrr-calculator", category: "ecommerce", name: "MRR Calculator", path: "/tools/ecommerce/mrr-calculator" };
+export const churnRateCalculator = { id: "churn-rate-calculator", category: "ecommerce", name: "Churn Rate Calculator", path: "/tools/ecommerce/churn-rate-calculator" };
