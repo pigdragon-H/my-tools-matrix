@@ -2308,6 +2308,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "biological-age-calculator",
+    name: "生物年齡計算機",
+    category: "health",
+    path: "/tools/health/biological-age-calculator",
+    icon: "Activity",
+    description: "生物年齡計算機：依生活習慣、運動、睡眠與飲食等因素估算生理年齡與實際年齡的差距，提供教育性健康參考。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2492,3 +2507,4 @@ export const bloodPressureAnalyzer = { id: "blood-pressure-analyzer", category: 
 export const pregnancyWeekCalculator = { id: "pregnancy-week-calculator", category: "health", name: "Pregnancy Week Calculator", path: "/tools/health/pregnancy-week-calculator" };
 export const ovulationCalculator = { id: "ovulation-calculator", category: "health", name: "Ovulation Calculator", path: "/tools/health/ovulation-calculator" };
 export const visionPrescriptionConverter = { id: "vision-prescription-converter", category: "health", name: "Vision Prescription Converter", path: "/tools/health/vision-prescription-converter" };
+export const biologicalAgeCalculator = { id: "biological-age-calculator", category: "health", name: "Biological Age Calculator", path: "/tools/health/biological-age-calculator" };
