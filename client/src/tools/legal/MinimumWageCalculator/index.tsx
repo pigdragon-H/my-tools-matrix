@@ -60,12 +60,18 @@ export default function MinimumWageCalculator() {
       pathTitle: "下一步建議",
       pathBody: "若試算顯示未達標，可向當地勞工局申訴或要求雇主補足差額。",
       knowTitle: "基本工資小知識",
+      knowDefT: "定義", knowDefB: "基本工資是法律規定雇主給付勞工的最低報酬下限，分為月薪與時薪兩種基準，全時與部分工時皆適用。",
+      knowLawT: "法源", knowLawB: "依《勞動基準法》第21條，工資由勞雇雙方議定，但不得低於基本工資；基本工資由基本工資審議委員會擬訂報行政院核定。",
+      knowCalcT: "如何認定", knowCalcB: "月薪制比對月基本工資 27,470 元；時薪制比對時基本工資 183 元。兩者為各自下限，雇主須同時符合適用標準。",
+      knowOTT: "加班與例假", knowOTB: "基本工資為「正常工時」報酬，加班費須另依勞基法第24條加成計算，不得併入基本工資稀釋。",
+      knowPenaltyT: "未達標罰則", knowPenaltyB: "雇主給付低於基本工資，依勞基法第79條可處 2 萬至 100 萬元罰鍰，並應補足差額。",
+      knowTipT: "實務提醒", knowTipB: "伙食津貼、全勤獎金等是否計入工資，需依其性質判斷；經常性給與多應併計，建議保留薪資明細備查。",
       faqTitle: "常見問題",
       premiumTitle: "進階合規報告（PRO）",
       premiumBody: "解鎖多年度基本工資對照、加班費自動換算與申訴信範本。",
       refTitle: "相關法規與資源",
-      fillMonthly: "範例：月薪 26,000",
-      fillHourly: "範例：時薪 170",
+      fillMonthly: "點此帶入月薪情境，比對 27,470 元門檻並算出差額。",
+      fillHourly: "點此帶入時薪情境，比對 183 元門檻並檢視合規。",
       q1: "基本工資多久調整一次？",
       a1: "通常每年由基本工資審議委員會審議，多在年初生效。",
       q2: "時薪與月薪可以擇低嗎？",
@@ -109,12 +115,18 @@ export default function MinimumWageCalculator() {
       pathTitle: "Next Steps",
       pathBody: "If the result shows non-compliance, you may file a complaint with the local labor bureau or request a top-up.",
       knowTitle: "Minimum Wage Facts",
+      knowDefT: "Definition", knowDefB: "The minimum wage is the legal floor an employer must pay, split into monthly and hourly baselines, applicable to both full-time and part-time workers.",
+      knowLawT: "Legal Basis", knowLawB: "Under Article 21 of the Labor Standards Act, wages are agreed by both parties but may not fall below the minimum wage, which is set by the wage committee and approved by the Executive Yuan.",
+      knowCalcT: "How It's Judged", knowCalcB: "Monthly pay is compared to NT$27,470; hourly pay to NT$183. Each is its own floor, and employers must meet the applicable standard.",
+      knowOTT: "Overtime & Rest Days", knowOTB: "The minimum wage covers normal working hours; overtime must be calculated separately under Article 24 and cannot be diluted into the base wage.",
+      knowPenaltyT: "Penalties", knowPenaltyB: "Paying below the minimum wage carries a fine of NT$20,000–1,000,000 under Article 79, plus the obligation to top up the shortfall.",
+      knowTipT: "Practical Tips", knowTipB: "Whether meal or attendance allowances count as wages depends on their nature; recurring payments usually count. Keep payslips for reference.",
       faqTitle: "FAQ",
       premiumTitle: "Advanced Compliance Report (PRO)",
       premiumBody: "Unlock multi-year minimum wage tables, automatic overtime conversion, and complaint letter templates.",
       refTitle: "Related Laws & Resources",
-      fillMonthly: "Example: Monthly 26,000",
-      fillHourly: "Example: Hourly 170",
+      fillMonthly: "Loads a monthly-pay scenario and compares it to the 27,470 threshold.",
+      fillHourly: "Loads an hourly-pay scenario and checks it against the 183 threshold.",
       q1: "How often is the minimum wage adjusted?",
       a1: "Usually reviewed yearly by the wage committee, typically effective at the start of the year.",
       q2: "Can the employer pick the lower of hourly/monthly?",
@@ -317,10 +329,17 @@ export default function MinimumWageCalculator() {
       <section className="mt-6 rounded-[2rem] bg-slate-50 p-8">
         <h2 className="text-xl font-black text-slate-900">{t.knowTitle}</h2>
         <div className="mt-4 grid gap-3 md:grid-cols-3">
-          {bands.map((b) => (
-            <div key={b.key} className="rounded-[2rem] bg-white p-4 shadow-sm">
-              <p className="text-sm font-black text-slate-800">{l(b.label, lang)}</p>
-              <p className="mt-1 text-xs font-medium text-slate-500">{l(b.desc, lang)}</p>
+          {[
+            [t.knowDefT, t.knowDefB],
+            [t.knowLawT, t.knowLawB],
+            [t.knowCalcT, t.knowCalcB],
+            [t.knowOTT, t.knowOTB],
+            [t.knowPenaltyT, t.knowPenaltyB],
+            [t.knowTipT, t.knowTipB],
+          ].map(([h, b]) => (
+            <div key={h} className="rounded-[2rem] bg-white p-4 shadow-sm">
+              <p className="text-sm font-black text-slate-800">{h}</p>
+              <p className="mt-1 text-xs leading-5 font-medium text-slate-500">{b}</p>
             </div>
           ))}
         </div>
