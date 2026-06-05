@@ -5,8 +5,8 @@
 > 任何 Superninja 視窗只要完整遵循本手冊,即可以 **A+ 水準**執行工具量產。
 > 違反任一條款 = 黑洞風險 = 供應商扣分。**零容忍。**
 
-**版本**: v3.0(Pipeline 量產版 — spec-builder 自動產製 + Gate 6 真實 live 驗證)
-**生效日**: v1.0 完成 D-10 csv-to-json 後即時生效;v2.0 加入 preflight + safe-push 兩支效率腳本與「跨視窗紅線」紀律;v3.0 於 F-80→F-100 Finance 馬拉松完成後 Victor 授權升版,納入 finance-spec-builder pipeline、Gate 6 真實 live 驗證與視窗時延處理、17 層 live 查核校正(MacroCalculator 案例)
+**版本**: v5.0(跨視窗單一權威版 — L8 functional 驗收條款釘死 + 金印量法統一 grep-o + i18n 污染回溯)
+**生效日**: v1.0 完成 D-10 csv-to-json 後即時生效;v2.0 加入 preflight + safe-push 兩支效率腳本與「跨視窗紅線」紀律;v3.0 於 F-80→F-100 Finance 馬拉松完成後 Victor 授權升版,納入 finance-spec-builder pipeline、Gate 6 真實 live 驗證與視窗時延處理、17 層 live 查核校正(MacroCalculator 案例);**v5.0 於 A↔B 跨視窗對準後 Victor 拍板升版** —— 整合 v4.1 已驗證骨幹,並以金模板 JsonFormatter 實證為據,釘死三件真正缺失修補:(1) L8 = functional 驗收條款(非「獨立成段」);(2) 金印量法統一 grep-o;(3) 回溯清單 = i18n 污染。**本版為 A/B/C/D 各視窗的單一權威來源,任何視窗 git pull 後即同步生效。**
 **Repo**: `pigdragon-H/my-tools-matrix`
 **部署**: Railway(從 GitHub `main` branch 自動建構)
 **金樣板基準**: `client/src/tools/developer/JsonFormatter/index.tsx`(243 行,17 層)
@@ -37,6 +37,12 @@
 17. [報告格式 — 如何向 Victor 交付](#17-報告格式--如何向-victor-交付)
 18. [終止協議(ask vs complete)](#18-終止協議ask-vs-complete)
 19. [視窗交接 — 每 5 支工具一輪](#19-視窗交接--每-5-支工具一輪)
+20. [§20. v3.0 升版增補 — Pipeline 量產時代](#20-v30-升版增補--pipeline-量產時代f-80f-100-馬拉松內化)
+21. [§21. v5.0 升版 — 跨視窗單一權威(L8 釘死 + 量法統一 + i18n 回溯)](#21-v50-升版--跨視窗單一權威l8-釘死--量法統一--i18n-回溯)
+    - 21.2 [【釘死】L8 = functional 驗收條款 + Finance canonical 樣板](#212-釘死-l8-scenariocomparison--functional-驗收條款非獨立成段)
+    - 21.3 [【釘死】金印量法統一 grep-o](#213-釘死-金印量法統一-grep-o占用次數終結跨視窗羅生門)
+    - 21.4 [【回溯清單】i18n 污染(非 L8)](#214-回溯清單-真正缺失--i18n-污染非-l8)
+    - 21.6 [跨視窗單一權威條款](#216-跨視窗單一權威條款v50-的存在意義)
 
 ---
 
@@ -1407,6 +1413,153 @@ browser-tool screenshot <name>.png
 - **配色自由,骨架鐵律;HASH 是收據,不是感覺;放棄優化,換來速度。**
 
 > **附:本節對應的對外交接文件** `docs/HANDOFF_A_PLUS_PIPELINE_2026-06-04.md`(commit `0b48807`),內容與本節一致,供新視窗快速上手。
+
+---
+
+# §21. v5.0 升版 — 跨視窗單一權威(L8 釘死 + 量法統一 + i18n 回溯)
+
+> **本章是 v5.0 的核心。** 由 A↔B 兩視窗跨視窗對準、Victor 逐項拍板而成。
+> 解決的根本問題:**過去各視窗手上的「基準快照 + 量法」不同(A 用 grep-c、B 用 grep-o),對同一支工具量出不同數字、彼此誤判「缺層」,形成羅生門。** v5.0 把 L8 定義、量法、回溯標的三者一次釘死,並要求本手冊推上 remote `main`,任何視窗 `git pull` 後即同步生效。
+
+## 21.1 為什麼會有 v5.0(對準經過,留作判例)
+
+B 視窗查核 Macro Planner,依其「v4.0 SOP」(grep-o 量法)回報「body 缺獨立 L8 段、L8 marker 只在註解字串」。A 視窗逐行複查,並回溯查到**金模板 JsonFormatter 本身**,得到決定性實證:
+
+| 檔案 | body 區段標記順序 | 雙情境範例卡位置 | 獨立 `{/* L8 */}` body 段 |
+|---|---|---|---|
+| **JsonFormatter(Victor 核發的 A+ 金模板)** | L1→L5→L6→**L9** | 寄生 L5-Calc 側欄 | ❌ 無 |
+| **SaasMetricsCalculator(Finance 母版)** | L1→L5→L6→**L9** | 寄生 L5-Calc 側欄 | ❌ 無 |
+| **MacroCalculator(Health 早期樣板)** | L5→L6→**L9** | 寄生 L5-Calc 側欄 | ❌ 無 |
+
+**三者結構完全相同。** 結論:「L8 必須獨立成段」這個要求,會讓**包含金模板在內的全 repo** 都不合格 —— 等於否定 Victor 親自核發的 A+ 基準。因此 Victor 拍板:**L8 的正確定義不是「獨立成段」,而是「functional 雙情境範例卡存在」**(下節 21.2 釘死)。
+
+> **判例教訓**:跨視窗收到「缺層」回報時,**先回溯金模板查證原始設計本意**,再判定是「真缺陷」還是「對基準的誤讀」。B 的「事實描述(body 無獨立 L8 段)」正確,但「結論(缺陷)」錯 —— 那是金模板的原始設計。
+
+## 21.2 【釘死】L8-ScenarioComparison = functional 驗收條款(非「獨立成段」)
+
+**定義**:L8-ScenarioComparison 的合格標準 = 工具具備「雙情境範例卡」,即:
+1. **兩個 fill handler**(命名自由:fillSolid/fillHigh、fillStandard/fillCut、fillMale/fillFemale、fillBaseline/fillActive… 皆可),各自 `setX(...)` 一組情境參數。
+2. **L5-Calc 側欄渲染一張範例卡**,內含兩顆按鈕,分別綁 `onClick={fillX}` / `onClick={fillY}`,文字走 i18n `t.baselineExample` / `t.activeExample`(+ 可選 `t.baselineExampleValue` / `t.activeExampleValue` / `t.baselineExampleNote` / `t.activeExampleNote`)。
+
+**位置**:寄生在 L5-Calc 側欄即合格(與金模板/Finance 母版一致),**不要求**獨立成段。
+
+### Finance canonical L8 權威樣板(源:`SaasMetricsCalculator`,F-99)
+
+**i18n prop 欄位(zh / en 各一組,en 同步翻譯,禁止寫死英文):**
+```
+exampleCards: "範例卡",
+baselineExample: "標準範例",
+baselineExampleValue: "成長期 SaaS 情境",
+baselineExampleNote: "付費客戶數 500 · 每客戶月經常性收入 60",
+activeExample: "進階範例",
+activeExampleValue: "高速成長 SaaS 情境",
+activeExampleNote: "付費客戶數 加倍 · 觀察 月經常性收入(MRR) 變化",
+```
+
+**fill handler 簽章:**
+```jsx
+function fillSolid() { setUnit("metric"); setNumberOfPayingCustomers("500"); setMonthlyRevenuePerCustomer("60"); /* …一組基準情境 */ }
+function fillHigh()  { setUnit("imperial"); setNumberOfPayingCustomers("1000"); setMonthlyRevenuePerCustomer("80"); /* …一組進階情境 */ }
+```
+
+**L5 側欄範例卡 JSX(結構釘死,配色隨類別主題色):**
+```jsx
+<div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+  <h3 className="text-lg font-black">{t.exampleCards}</h3>
+  <div className="mt-4 space-y-3">
+    <button onClick={fillSolid} className="w-full rounded-2xl border border-{theme}-200 bg-white p-4 text-left">
+      <div className="flex items-center justify-between gap-3">
+        <span className="font-black">{t.baselineExample}</span>
+        <span className="rounded-full bg-{theme}-100 px-3 py-1 text-xs font-black text-{theme}-700">{t.baselineExampleValue}</span>
+      </div>
+      <p className="mt-2 text-sm text-slate-600">{t.baselineExampleNote}</p>
+    </button>
+    <button onClick={fillHigh} className="w-full rounded-2xl border border-{theme}-200 bg-white p-4 text-left">
+      <div className="flex items-center justify-between gap-3">
+        <span className="font-black">{t.activeExample}</span>
+        <span className="rounded-full bg-{theme}-100 px-3 py-1 text-xs font-black text-{theme}-700">{t.activeExampleValue}</span>
+      </div>
+      <p className="mt-2 text-sm text-slate-600">{t.activeExampleNote}</p>
+    </button>
+  </div>
+</div>
+```
+
+### L8 驗收清單(grep-o 量法,給 B 視窗與所有視窗)
+```bash
+f="client/src/tools/<cat>/<Comp>/index.tsx"
+# (1) 兩個 fill handler 存在(任一命名)
+grep -oE "function fill[A-Za-z]+\(\)" "$f" | wc -l        # 須 ≥ 2
+# (2) 範例卡 i18n key 存在(baseline + active 各 zh/en)
+grep -oc "baselineExample" "$f"; grep -oc "activeExample" "$f"   # 各須 ≥ 2(zh+en)
+# (3) 範例卡 render 綁兩顆 onClick={fill...}
+grep -o "onClick={fill[A-Za-z]*}" "$f" | sort -u | wc -l  # 須 ≥ 2
+# (4) L8 marker 在層級清單註解字串(存在即可,不要求獨立成段)
+grep -c "L8-ScenarioComparison" "$f"                       # 須 ≥ 1
+```
+四項全過 = L8 functional 達標。**MacroCalculator 現役已全部達標**(fillStandard/fillCut + 範例卡 + marker),不需重構 L8。
+
+## 21.3 【釘死】金印量法統一 grep-o(占用次數),終結跨視窗羅生門
+
+**外部查核(任何視窗對任何工具)一律用 grep-o(occurrence,占用次數),不用 grep-c(line,行數)。**
+
+理由:工具是高密度單行 JSX,grep-c(行數)會嚴重低估。MacroCalculator 實測:
+
+| 維度 | grep-o(占用,**採用**) | grep-c(行數,棄用) |
+|---|---|---|
+| font-black | **93** | 18 |
+| rounded- | **60** | 20 |
+| 1fr_auto_1fr | **2** | 1 |
+| L8-ScenarioComparison | **1** | 1 |
+
+**B 視窗「高密度單行 JSX 使 grep-c 低估」的觀察屬實 —— 採納。** 自 v5.0 起,跨視窗報數一律附 grep-o。
+
+### ⚠️ 例外註記:finance-spec-builder 內部自驗 ≠ 外部判定基準
+`scripts/finance-spec-builder.mjs`(L573-606)的 sigil verify 用 `lines.filter(L => /pattern/.test(L)).length`(= grep-c 行數),期望 `rounded===11 && fontBlack===18 && radial===1 && oddGrid===0 && layers===19 && l6Iron===0`。
+
+**這是 pipeline 內部一致性自驗(產出物與產生器同源,行數穩定),屬產製管線專用,合格。** 但**不可拿 finance-spec-builder 的行數門檻去判定其他視窗/手寫工具** —— 外部查核一律改用 grep-o(上表)。兩把尺各管各的,禁止混用判定。這是 A↔B 數字衝突的根因,v5.0 在此一次講清。
+
+## 21.4 【回溯清單】真正缺失 = i18n 污染(非 L8)
+
+L8 既已全 repo 達標,回溯標的縮小為**早期樣板的 i18n 污染**:範例卡 note / 結果卡 label 寫死英文,中文模式也顯示英文。
+
+### 已確認污染(Macro Planner,HEAD `12a55b1`)
+| # | 行號 | 污染原文 | 應改 |
+|---|---|---|---|
+| ④-1 | 147 | 範例卡 note `70 kg · Maintain · 2400 kcal` / `70 kg · Cut · 1900 kcal` | 改走 i18n:新增 `t.baselineExampleNote` / `t.activeExampleNote`,zh/en 各一組 |
+| ④-2 | 152 | L6 碳水欄 label 硬編碼 `CARBS` / `Carbohydrates`(旁邊 Protein 走 `{t.maintenance}`、Fat 走 `{t.fatLossTarget}`) | 新增 `t.carbsLabel` / `t.carbsName`,zh/en 各一組,替換硬編碼 |
+
+### i18n 污染掃描法(回溯盤點用)
+```bash
+f="client/src/tools/<cat>/<Comp>/index.tsx"
+# 範例卡 note / label 區疑似硬編碼英文(排除 className/註解/技術縮寫)
+grep -nE ">[^<{]*[A-Za-z]{3}[^<{]*</(p|div|span|h3)>" "$f" | grep -vE "className|tracking|uppercase|\{t\.|\{lang"
+```
+**範圍界定(守 §0,勿擴大)**:回溯只針對「範例卡 note + 結果卡資料 label」範疇。決策路徑節點名(BMR/TDEE、Macros、Body Fat 等技術縮寫/路徑專名)**不納入** i18n 回溯(屬刻意保留的技術術語),除非 Victor 另行指示。
+
+### 修補歸屬與授權
+- **Macro Planner + 其他早期 Health 樣板的 i18n 回溯修補 → 由 B 視窗執行**(Victor 裁示)。
+- **A 視窗職責 = 提供標準(本章 21.2/21.4 樣板與清單),不替 B 修改檔案**(守 §0:發現別人工具的污染只回報、不修,除非 Victor 明確授權當前視窗修)。
+- 回溯修補仍走 fix-only commit、no-force、衝突 `git pull --rebase`(見 21.5)。
+
+## 21.5 v4.1 已驗證骨幹(納入,沿用)
+
+以下為 v4.1 整合稿中經 A 視窗驗證有效、v5.0 正式採納的條款:
+
+1. **prop 簽章一致**:i18n 採 `{ zh: {...}, en: {...} }` 雙語物件,`const t = lang === "zh" ? zh : en`;**禁止任何使用者可見字串寫死**(L8 範例卡 note 是最常見破口,見 21.4)。
+2. **preflight base**:動工前 `git pull origin main` 同步 remote,確認 HEAD,避免覆寫他視窗 push(本次 v5.0 動筆即先 pull 確認 `12a55b1`)。
+3. **fix-only commit**:回溯修補只改該缺陷,commit message 標明 `fix(<cat>): <tool> — i18n 回溯,範例卡/label 在地化`,不夾帶無關變更。
+4. **no-force 鐵律**:**永不 `git push --force`**;push 被拒一律 `git pull --rebase origin main` → 解衝突 → 重推(見 §0 與 v3.0 經驗)。
+5. **5 程序 / 黑洞防護**:沿用 §20.3 的 8 步 SOP(Finance pipeline)與 §20.4 Gate 6/Railway 時延處理(retries=14 / 420s);BUILDING ≠ 黑洞,FAILED 才是,診斷用 `bash scripts/railway-status.sh`。
+
+## 21.6 跨視窗單一權威條款(v5.0 的存在意義)
+
+1. **本手冊(`docs/A_PLUS_PRODUCTION_MANUAL.md`)是 A/B/C/D 各視窗的唯一權威來源。** 任何 SOP 爭議,以本手冊 remote `main` 最新版為準。
+2. **v5.0 必須 push 進 remote `main`** —— v4.0/v4.1 當初未進 remote,是各視窗「各說各話」的根因(反例教訓)。任何視窗動工前 `git pull origin main` 即取得最新 v5.0。
+3. **量法一致 → 判定一致**:各視窗 pull 同一份手冊、用同一把尺(grep-o)、同一個 L8 定義(functional 雙情境卡),量同一支工具會得到同一個 pass/fail 結論。這才是「跨視窗產拼規格一致」的實質 —— 消除的是「量法歧異 / 判定羅生門」,規格本身(17 層)各視窗本就在做。
+4. **未來新工具(任何視窗)** = 17 層 + L8 functional(21.2)+ 無 i18n 污染(21.4)+ grep-o 自驗(21.3)+ v4.1 骨幹(21.5)。Finance 類別續走 finance-spec-builder pipeline(§20),產出自動含 L8,合規。
+
+> **v5.0 一句話**:L8 不是「補一個不存在的層」,是「釘死一個全 repo 早有、但各視窗量法不一導致誤判的層」;真正要修的是 i18n 污染,且由標準(A)與執行(B)分工完成。
 
 ---
 
