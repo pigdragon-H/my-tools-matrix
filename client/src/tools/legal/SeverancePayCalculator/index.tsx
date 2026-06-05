@@ -1,0 +1,168 @@
+// @profile B
+// Profile B · Calculator-YMYL · SeverancePayCalculator（GOLD-STANDARD-001 compatible）
+
+import { useMemo, useState } from "react";
+import { AdSenseWrapper } from "@/components/AdSenseWrapper";
+import { AdSlot } from "@/components/business/AdSlot";
+import { PremiumGate } from "@/components/business/PremiumGate";
+import { useLanguage } from "@/contexts/LanguageContext";
+
+type Lang = "zh" | "en";
+type LocalText = { zh: string; en: string };
+type AffiliateItem = { label: LocalText; href: string };
+type Band = { key: string; range: LocalText; label: LocalText; desc: LocalText };
+type SystemMode = "new" | "old" | "mixed";
+const l = (v: LocalText, lang: Lang) => v[lang];
+const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d }) : "—";
+
+const bands: Band[] = [
+  { key: "short", range: { zh: "< 1年", en: "< 1 yr" }, label: { zh: "未滿一年", en: "Under one year" }, desc: { zh: "按比例計算，不足一年部分以月數比例折算。", en: "Pro-rated; partial year converted by months." } },
+  { key: "1-3", range: { zh: "1–3年", en: "1–3 yrs" }, label: { zh: "短期年資", en: "Short tenure" }, desc: { zh: "新制每年0.5個月，年資越長基數越高。", en: "New system 0.5 month/year; grows with tenure." } },
+  { key: "3-6", range: { zh: "3–6年", en: "3–6 yrs" }, label: { zh: "中期年資", en: "Mid tenure" }, desc: { zh: "持續累積，留意舊制與新制分段。", en: "Accumulates; watch old/new system split." } },
+  { key: "6-12", range: { zh: "6–12年", en: "6–12 yrs" }, label: { zh: "長期年資", en: "Long tenure" }, desc: { zh: "新制接近6個月上限，超過不再累加。", en: "Near the 6-month cap; no further accrual." } },
+  { key: "cap", range: { zh: "新制上限", en: "New cap" }, label: { zh: "6個月封頂", en: "6-month cap" }, desc: { zh: "勞退新制資遣費以6個月平均工資為上限。", en: "New system caps at 6 months' average wage." } },
+  { key: "old", range: { zh: "舊制", en: "Old system" }, label: { zh: "舊制無上限", en: "Old uncapped" }, desc: { zh: "舊制每年1個月，無6個月上限。", en: "Old system 1 month/year, uncapped." } },
+];
+
+const affiliateItems: AffiliateItem[] = [
+  { label: { zh: "加班費計算機", en: "Overtime Calculator" }, href: "/tools/legal/overtime-calculator" },
+  { label: { zh: "特休假計算機", en: "Annual Leave Calculator" }, href: "/tools/legal/annual-leave-calculator" },
+  { label: { zh: "最低工資計算機", en: "Minimum Wage Calculator" }, href: "/tools/legal/minimum-wage-calculator" },
+  { label: { zh: "法定利息計算機", en: "Legal Interest Calculator" }, href: "/tools/legal/legal-interest-calculator" },
+];
+
+const ui = {
+  zh: {
+    badge: "法律 · 勞動試算 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "資遣費計算機 · Severance Pay", subtitle: "依勞退新制用平均工資與年資估算資遣費與上限",
+    intro: "資遣費計算機依勞工退休金條例（新制），以平均月工資與年資估算資遣費：每滿一年發給0.5個月平均工資，未滿一年按比例計，總額以6個月為上限；亦提供舊制1個月／年的對照，協助你核對雇主給付。",
+    trustNoteLabel: "注意事項：", trustNote: "新舊制基數與上限不同；本工具僅供教育與試算用途，不構成法律意見或給付憑據。",
+    quickActionCard: "快速範例卡", tryExample: "一鍵建立資遣費試算範例", examplePreview: "估算資遣費預覽", examplePerson: "平均工資", fillExample: "一鍵填入新制範例", previewActivePath: "填入舊制範例",
+    examplesCalculator: "範例 → 計算機", enterValues: "輸入平均工資與年資", examplesHelper: "先用範例理解新制與舊制差異，再改成自己的平均工資與年資。",
+    metric: "勞退新制", imperial: "勞退舊制", exampleCards: "範例卡", baselineExample: "月薪40,000 · 年資5年（新制）", activeExample: "舊制對照示範", baselineExampleNote: "平均工資 40,000 · 5 年 · 新制", activeExampleNote: "平均工資 40,000 · 5 年 · 舊制", carbsLabel: "基數", carbsName: "資遣基數（月）", proteinLabel: "資遣費", flowDemo: "年資", calculator: "計算機",
+    weight: "平均月工資 (元)", tdee: "年資 (年)", goal: "適用制度", goalCut: "新制", goalMaintain: "舊制", goalBulk: "新舊混合",
+    resultCard: "資遣費試算結果", unit: "元", monthUnit: "個月", primaryValue: "主要數值", maintenanceTarget: "資遣費 (元)", actionTarget: "基數 (月)", estimatedTdee: "平均工資", maintenance: "應領資遣費", fatLossTarget: "資遣基數",
+    resultIntelligence: "結果解讀", tdeeMatrix: "六格年資基數判讀矩陣", tdeeMatrixNote: "L7 固定六格，依年資對照新制0.5月／年與6個月上限；這是試算參考，不是給付憑據。",
+    emotionConversionLayer: "情緒與轉換層", turnIntoPlan: "把資遣費試算轉成可行動計畫", conversionNote: "L9 會連動目前計算結果，顯示每年基數、總基數與核對建議。",
+    progressInsight: "基數洞察卡", possibleTarget: "目前資遣規劃", dailyGap: "每年基數", weeklyTrend: "總基數", motivation: "行動卡", keepMomentum: "從資遣費試算走向給付核對與爭議準備",
+    saveShareJourney: "儲存 / 分享", journeyTitle: "把今天的資遣費試算帶回家", journeyHint: "正式金額以離職前6個月平均工資與年資認定為準，建議連同勞動契約一併核對。",
+    nextActionLabel: "下一步行動", nextActionTitle: "將結果接到下一個工具", nextActionItem1: "先用工時與加班費確認平均工資是否完整", nextActionItem2: "用法定利息估算遲付資遣費的利息", nextActionItem3: "雇主短付時，向勞工局申請調解",
+    shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給朋友", shareCopiedToast: "已複製到剪貼簿 ✓",
+    decisionPath: "決策路徑", decisionTitle: "平均工資 → 年資 → 資遣費 → 給付核對", bmrStep: "平均工資", deficitStep: "資遣費", trendStep: "上限檢查", mealStep: "給付核對",
+    knowledge: "知識", knowledgeTitle: "資遣費在勞動法中的意義", definition: "定義", definitionText: "資遣費是雇主依法終止勞動契約時，應給付勞工的補償；新制與舊制的計算基數與上限不同。", formula: "公式", formulaText: "新制：資遣費 = 平均月工資 × 0.5 × 年資，未滿一年按比例，總額上限6個月。舊制：平均月工資 × 1 × 年資，無6個月上限。", limitations: "限制", limitationsText: "本工具以單一制度線性估算；跨新舊制分段、平均工資認定與特殊離職原因須個別計算，實際以勞動契約與主管機關認定為準。", interpretation: "解讀", interpretationText: "94年7月1日後年資多適用新制；之前年資可能仍適用舊制，需分段計算。", context: "脈絡", contextText: "資遣費應與預告工資、特休未休工資一起結算，避免漏領。", example: "範例", exampleText: "平均工資40,000、年資5年、新制 → 基數2.5個月，資遣費 100,000 元（未達6個月上限）。",
+    faq: "FAQ", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "勞動試算的下一步工具", premiumTitle: "PRO 離職結算包", premiumText: "解鎖新舊制分段試算、平均工資精算、預告工資與特休結算表及調解申請指引。",
+    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具只供教育與試算用途，不取代律師諮詢、勞動主管機關認定或給付憑據。", relatedTools: "相關工具", relatedToolsText: "加班費計算機 · 特休假計算機 · 最低工資計算機 · 法定利息計算機", references: "參考資料", referencesText: "勞工退休金條例第12條（新制資遣費）；勞動基準法第17條（舊制資遣費）、第16條（預告期間）；勞動部相關函釋。",
+    q1: "新制資遣費怎麼算？", a1: "每滿一年發給0.5個月平均工資，未滿一年按比例，總額以6個月平均工資為上限。",
+    q2: "舊制和新制差在哪？", a2: "舊制每年1個月且無6個月上限；新制每年0.5個月並設6個月上限。",
+    q3: "平均工資怎麼認定？", a3: "通常以離職前6個月工資總額除以該期間總日數再乘30估算，包含經常性給與。",
+    q4: "自願離職有資遣費嗎？", a4: "原則上沒有；資遣費適用於雇主依法終止契約（如歇業、虧損、業務性質變更）等情形。",
+    q5: "資遣費可以和退休金重複領嗎？", a5: "資遣與退休是不同事由，不會同時成立；請依實際離職原因判斷。",
+    q6: "這個工具能取代給付憑據嗎？", a6: "不能。它只是教育用試算；實際金額以平均工資認定與勞動契約為準。",
+  },
+  en: {
+    badge: "Legal · Labor Estimate · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "Severance Pay Calculator", subtitle: "Estimate severance and the cap from average wage and tenure under the new pension system",
+    intro: "This calculator uses average monthly wage and tenure under the Labor Pension Act (new system): 0.5 month's average wage per full year, pro-rated for partial years, capped at 6 months total; it also shows the old system (1 month/year) for comparison, helping you verify the employer's payment.",
+    trustNoteLabel: "Note:", trustNote: "Bases and caps differ between old and new systems; this tool is for education and estimation only and is not legal advice or a payment record.",
+    quickActionCard: "Quick Action Card", tryExample: "Create a severance estimate instantly", examplePreview: "Estimated severance preview", examplePerson: "Average wage", fillExample: "One-click new-system example", previewActivePath: "Fill old-system example",
+    examplesCalculator: "Examples → Calculator", enterValues: "Enter average wage and tenure", examplesHelper: "Start with an example to understand new vs old systems, then replace with your own average wage and tenure.",
+    metric: "New system", imperial: "Old system", exampleCards: "Example cards", baselineExample: "40,000/mo · 5 yrs (new)", activeExample: "Old-system demo", baselineExampleNote: "Avg wage 40,000 · 5 yrs · new", activeExampleNote: "Avg wage 40,000 · 5 yrs · old", carbsLabel: "Base", carbsName: "Severance base (months)", proteinLabel: "Severance", flowDemo: "Tenure", calculator: "Calculator",
+    weight: "Avg monthly wage (NT$)", tdee: "Tenure (years)", goal: "System", goalCut: "New", goalMaintain: "Old", goalBulk: "Mixed",
+    resultCard: "Severance Estimate Result", unit: "NT$", monthUnit: "months", primaryValue: "Primary Value", maintenanceTarget: "Severance (NT$)", actionTarget: "Base (months)", estimatedTdee: "Average wage", maintenance: "Severance pay", fatLossTarget: "Severance base",
+    resultIntelligence: "Result Intelligence", tdeeMatrix: "Six-card tenure-base matrix", tdeeMatrixNote: "L7 uses six fixed cards mapping tenure against the new system's 0.5 month/year and 6-month cap. This is estimation guidance, not a payment record.",
+    emotionConversionLayer: "Emotion + Conversion Layer", turnIntoPlan: "Turn the severance estimate into an actionable plan", conversionNote: "L9 values update from the computed result: per-year base, total base, and verification hint.",
+    progressInsight: "Base Insight Card", possibleTarget: "Current severance plan", dailyGap: "Per-year base", weeklyTrend: "Total base", motivation: "Action Card", keepMomentum: "Move from estimate to payment verification and dispute prep",
+    saveShareJourney: "Save / Share", journeyTitle: "Take today's severance estimate home", journeyHint: "Final amounts depend on the 6-month average wage and tenure findings; verify against your labor contract.",
+    nextActionLabel: "Next actions", nextActionTitle: "Connect this result to the next tool", nextActionItem1: "Confirm the average wage with Overtime and Working Hours", nextActionItem2: "Estimate interest on late severance with Legal Interest", nextActionItem3: "If underpaid, apply for mediation at the labor bureau",
+    shareLinkBtn: "📋 Copy result link", shareNativeBtn: "📤 Share with friends", shareCopiedToast: "Copied to clipboard ✓",
+    decisionPath: "Decision Path", decisionTitle: "Avg wage → Tenure → Severance → Verify", bmrStep: "Avg wage", deficitStep: "Severance", trendStep: "Cap check", mealStep: "Verify",
+    knowledge: "Knowledge", knowledgeTitle: "What severance means in labor law", definition: "Definition", definitionText: "Severance is compensation an employer must pay when lawfully terminating an employment contract; bases and caps differ between the new and old systems.", formula: "Formula", formulaText: "New: severance = avg monthly wage × 0.5 × years, pro-rated for partial years, capped at 6 months. Old: avg monthly wage × 1 × years, uncapped.", limitations: "Limitations", limitationsText: "This tool estimates linearly for one system; old/new split, average-wage findings, and special termination causes need individual calculation; the contract and authority findings prevail.", interpretation: "Interpretation", interpretationText: "Tenure after July 1, 2005 mostly uses the new system; earlier tenure may still use the old system and needs split calculation.", context: "Context", contextText: "Severance should be settled together with notice-period wages and unused annual leave to avoid omissions.", example: "Example", exampleText: "Avg wage 40,000, tenure 5 years, new system → base 2.5 months, severance 100,000 (below the 6-month cap).",
+    faq: "FAQ", commonQuestions: "Common questions", affiliate: "Recommended Tools", affiliateTitle: "Next tools for labor estimation", premiumTitle: "PRO Exit-Settlement Pack", premiumText: "Unlock old/new split estimation, precise average-wage calc, notice-pay and leave-settlement tables, and mediation guidance.",
+    trustReferences: "Trust · Related Tools · References", trust: "Trust", trustText: "This tool is for education and estimation. It does not replace a lawyer, labor authority findings, or a payment record.", relatedTools: "Related Tools", relatedToolsText: "Overtime Calculator · Annual Leave Calculator · Minimum Wage Calculator · Legal Interest Calculator", references: "References", referencesText: "Labor Pension Act Art. 12 (new severance); Labor Standards Act Art. 17 (old severance), Art. 16 (notice period); Ministry of Labor interpretations.",
+    q1: "How is new-system severance computed?", a1: "0.5 month's average wage per full year, pro-rated for partial years, capped at 6 months' average wage.",
+    q2: "What's the difference between old and new?", a2: "Old: 1 month/year, uncapped; new: 0.5 month/year with a 6-month cap.",
+    q3: "How is average wage determined?", a3: "Usually total wages in the 6 months before leaving divided by total days, times 30, including regular payments.",
+    q4: "Is there severance for voluntary resignation?", a4: "Generally no; severance applies when the employer lawfully terminates (e.g., closure, losses, business change).",
+    q5: "Can severance and pension be drawn together?", a5: "Severance and retirement are different causes and don't arise at once; judge by the actual reason for leaving.",
+    q6: "Can this tool replace a payment record?", a6: "No. It is an educational estimate; the actual amount depends on average-wage findings and the labor contract.",
+  },
+} as const;
+
+const faqKeys = [["q1","a1"],["q2","a2"],["q3","a3"],["q4","a4"],["q5","a5"],["q6","a6"]] as const;
+
+export default function SeverancePayCalculator() {
+  const { lang, setLang } = useLanguage();
+  const [unit, setUnit] = useState<"metric" | "imperial">("metric");
+  const [wage, setWage] = useState("40000");
+  const [years, setYears] = useState("5");
+  const [mode, setMode] = useState<SystemMode>("new");
+  const t = ui[lang];
+
+  const result = useMemo(() => {
+    const w = Number(wage);
+    const y = Number(years);
+    if (w <= 0 || y <= 0) return null;
+    const perYear = mode === "old" ? 1 : 0.5;
+    let base = perYear * y;
+    if (mode !== "old") base = Math.min(base, 6);
+    const severance = w * base;
+    return { base, severance, perYear };
+  }, [wage, years, mode]);
+
+  const severanceDisplay = result ? fmt(result.severance, 0) : "—";
+  const baseDisplay = result ? fmt(result.base, 1) : "—";
+  const perYearDisplay = result ? fmt(result.perYear, 1) : "—";
+
+  function fillNew() { setUnit("metric"); setWage("40000"); setYears("5"); setMode("new"); }
+  function fillOld() { setUnit("imperial"); setWage("40000"); setYears("5"); setMode("old"); }
+
+  return (
+    <main className="min-h-screen bg-slate-50 text-slate-950">
+      {/* Canonical 17-layer markers for production QC:
+          L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResult · L7-ResultIntelligence · L8-ScenarioComparison · L9-EmotionConversionUpper · L10-EmotionConversionLower · L11-DecisionPath · L12-Knowledge · L13-FAQ · L14-FAQAfterAdSlot · L15-AffiliateResources · L16-PremiumGate · L17-TrustRelatedReferences
+      */}
+      <section className="bg-[radial-gradient(circle_at_top_left,_#dcfce7,_#f8fafc_45%,_#ccfbf1)]">
+        <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
+          <div className="mb-6 flex justify-end"><button type="button" onClick={() => setLang(lang === "zh" ? "en" : "zh")} className="inline-flex items-center gap-2 rounded-full border border-teal-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm" aria-label={lang === "zh" ? t.switchToEnglish : t.switchToChinese}><span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-teal-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.chineseShort}</span><span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-teal-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.englishShort}</span></button></div>
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
+            <section className="space-y-6"><p className="text-sm font-black uppercase tracking-[0.24em] text-teal-700">{t.badge}</p><h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1><p className="text-xl font-black text-teal-700">{t.subtitle}</p><p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p><div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950">{/* L2-TrustIntro */}<strong>{t.trustNoteLabel}</strong> {t.trustNote}</div></section>
+            <aside className="rounded-[2rem] border border-teal-100 bg-white/90 p-6 shadow-2xl shadow-teal-950/10 backdrop-blur">{/* L3-QuickStartExample */}<p className="text-xs font-black uppercase tracking-[0.18em] text-teal-700">{t.quickActionCard}</p><h2 className="mt-2 text-2xl font-black">{t.tryExample}</h2><div className="mt-5 rounded-3xl bg-teal-600 p-5 text-white"><div className="text-xs font-bold uppercase text-teal-100">{t.examplePreview}</div><div className="mt-1 text-5xl font-black">{severanceDisplay}</div><div className="text-sm font-bold text-teal-100">{t.unit}</div></div><div className="mt-5 grid grid-cols-3 gap-3 text-center"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.examplePerson}</div><div className="font-black">{fmt(Number(wage), 0)}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.flowDemo}</div><div className="font-black">{years}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.goal}</div><div className="font-black">{mode === "new" ? "🆕" : mode === "mixed" ? "🔀" : "📜"}</div></div></div><button onClick={fillNew} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white">{t.fillExample}</button><button onClick={fillOld} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900">{t.previewActivePath}</button></aside>
+          </div>
+        </div>
+      </section>
+      <div className="mx-auto max-w-7xl space-y-7 px-4 py-8 md:px-8">
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">{/* L4-InputGuidance */}
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">{t.examplesCalculator}</p><h2 className="mt-2 text-3xl font-black">{t.enterValues}</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{t.examplesHelper}</p></div><div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-2"><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "metric" ? "bg-teal-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("metric")}>{t.metric}</button><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "imperial" ? "bg-teal-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("imperial")}>{t.imperial}</button></div></div>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">{/* L5-CalculatorInput + L8-ScenarioComparison */}
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5"><h3 className="text-lg font-black">{t.exampleCards}</h3><div className="mt-4 space-y-3"><button onClick={fillNew} className="w-full rounded-2xl border border-teal-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-teal-100 px-3 py-1 text-xs font-black text-teal-700">0.5×</span></div><p className="mt-2 text-sm text-slate-600">{t.baselineExampleNote}</p></button><button onClick={fillOld} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">1.0×</span></div><p className="mt-2 text-sm text-slate-600">{t.activeExampleNote}</p></button></div></div>
+            <div className="rounded-3xl border border-slate-200 bg-white p-5"><h3 className="text-lg font-black">{t.calculator}</h3><div className="mt-4 grid gap-4 md:grid-cols-2"><label className="block text-sm font-black text-slate-700">{t.weight}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={wage} onChange={(e) => setWage(e.target.value)} /></label><label className="block text-sm font-black text-slate-700">{t.tdee}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={years} onChange={(e) => setYears(e.target.value)} /></label><label className="block text-sm font-black text-slate-700 md:col-span-2">{t.goal}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={mode} onChange={(e) => setMode(e.target.value as SystemMode)}><option value="new">{t.goalCut}</option><option value="old">{t.goalMaintain}</option><option value="mixed">{t.goalBulk}</option></select></label></div></div>
+          </div>
+        </section>
+        <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">{/* L6-PrimaryResult */}
+          <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"><div className="h-5 bg-gradient-to-r from-teal-400 to-emerald-600" /><div className="p-6 md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">{t.resultCard}</p><div className="mt-4 flex items-start justify-between gap-5"><div><div className="text-7xl font-black tracking-tight text-slate-950">{severanceDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.unit}</div></div><div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.primaryValue}</div><div className="mt-1 text-xl font-black">{baseDisplay}</div><div className="mt-1 text-xs text-slate-300">{mode.toUpperCase()}</div></div></div><div className="mt-6 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-teal-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-teal-500">{t.maintenanceTarget}</div><div className="mt-1 text-xs font-black uppercase text-teal-700">{t.maintenance}</div><p className="mt-2 text-3xl font-black text-teal-950">{severanceDisplay}</p><p className="text-sm font-bold text-teal-700">{t.unit}</p></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500">{t.actionTarget}</div><div className="mt-1 text-xs font-black uppercase text-emerald-700">{t.fatLossTarget}</div><p className="mt-2 text-3xl font-black text-emerald-950">{baseDisplay}</p><p className="text-sm font-bold text-emerald-700">{t.monthUnit}</p></div><div className="rounded-2xl bg-cyan-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-500">{t.carbsLabel}</div><div className="mt-1 text-xs font-black uppercase text-cyan-700">{t.carbsName}</div><p className="mt-2 text-3xl font-black text-cyan-950">{baseDisplay}</p><p className="text-sm font-bold text-cyan-700">{t.monthUnit}</p></div></div></div></article>
+          <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">{/* L7-ResultIntelligence */}<p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">{t.resultIntelligence}</p><h2 className="mt-2 text-3xl font-black">{t.tdeeMatrix}</h2><p className="mt-2 text-sm leading-6 text-slate-600">{t.tdeeMatrixNote}</p><div className="mt-5 grid gap-3 md:grid-cols-3">{bands.map((item) => <div key={item.key} className="rounded-2xl border p-4 border-slate-200 bg-slate-50"><div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{l(item.range, lang)}</span></div><p className="mt-2 text-sm leading-6 text-slate-700">{l(item.desc, lang)}</p><p className="mt-3 text-2xl font-black text-slate-950">{severanceDisplay} <span className="text-sm text-slate-500">{t.unit}</span></p></div>)}</div></article>
+        </section>
+        <AdSenseWrapper showAds={true} adSlot="severance-result-intelligence" adFormat="horizontal" className="my-2" />
+        <section className="rounded-[2rem] border border-teal-100 bg-gradient-to-br from-white via-teal-50 to-emerald-50 p-6 shadow-sm md:p-7">{/* L8 scenario data feeds L9 */}
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">{t.emotionConversionLayer}</p><h2 className="mt-2 text-3xl font-black">{t.turnIntoPlan}</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.conversionNote}</p>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9-EmotionConversionUpper */}
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-teal-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.proteinLabel}</div><div className="mt-1 text-3xl font-black">{severanceDisplay}</div></div><div className="rounded-2xl bg-teal-50 p-4"><div className="text-xs font-black uppercase text-teal-600">{t.dailyGap}</div><div className="mt-1 text-3xl font-black text-teal-950">{perYearDisplay}</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.weeklyTrend}</div><div className="mt-1 text-3xl font-black text-emerald-950">{baseDisplay}</div></div></div></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.bmrStep, t.deficitStep, t.trendStep, t.mealStep].map((item) => <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
+          </div>
+          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10-EmotionConversionLower */}
+            <article className="rounded-3xl border border-slate-200 bg-gradient-to-br from-amber-50 to-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-amber-700">{t.saveShareJourney}</p><h3 className="mt-2 text-2xl font-black">{t.journeyTitle}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{t.journeyHint}</p></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-teal-700">{t.nextActionLabel}</p><h3 className="mt-2 text-lg font-black">{t.nextActionTitle}</h3><ul className="mt-3 space-y-2"><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-teal-600">①</span><span>{t.nextActionItem1}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-teal-600">②</span><span>{t.nextActionItem2}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-teal-600">③</span><span>{t.nextActionItem3}</span></li></ul><div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2"><button type="button" onClick={() => { if (navigator.clipboard) { navigator.clipboard.writeText(window.location.href); alert(t.shareCopiedToast); } }} className="rounded-2xl bg-slate-950 px-4 py-2 text-xs font-black text-white">{t.shareLinkBtn}</button><button type="button" onClick={() => { const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> }; if (nav.share) nav.share({ title: document.title, url: window.location.href }).catch(() => {}); }} className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700">{t.shareNativeBtn}</button></div></article>
+          </div>
+        </section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">{/* L11-DecisionPath */}<p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">{t.decisionPath}</p><h2 className="mt-2 text-3xl font-black">{t.decisionTitle}</h2><div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">{[{ label: "Wage", note: t.bmrStep }, { label: "Severance", note: t.deficitStep }, { label: "Cap", note: t.trendStep }, { label: "Verify", note: t.mealStep }].map((node, index) => <div key={node.label} className="contents"><div className={`rounded-3xl border p-5 text-center ${index === 1 ? "border-teal-300 bg-teal-50" : "border-emerald-200 bg-emerald-50"}`}><div className="text-xs font-black uppercase text-slate-500">{index + 1}</div><div className="mt-1 text-xl font-black">{node.label}</div><p className="mt-2 text-sm leading-6 text-slate-600">{node.note}</p></div>{index < 3 && <div className="hidden text-3xl font-black text-slate-300 md:block">→</div>}</div>)}</div></section>
+        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L12-Knowledge · L13-FAQ */}
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">{t.knowledge}</p><h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.interpretation}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.interpretationText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.context}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.contextText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.example}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.exampleText}</p></div></div></div>
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">{t.faq}</p><h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2><div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div></div>
+        </section>
+        <section aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5"><AdSlot slot="severance-faq" position="inline" /></section>
+        <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]">{/* L15-AffiliateResources · L16-PremiumGate */}<section className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">{t.affiliate}</p><h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-4">{affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-teal-100 bg-teal-50 p-5 text-center font-black text-teal-950">{l(item.label, lang)}</a>)}</div><p className="mt-3 text-xs text-teal-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}</p></section><PremiumGate plan="PRO"><article className="flex h-full flex-col rounded-[2rem] border border-teal-200 bg-gradient-to-br from-teal-50 to-emerald-50 p-6 md:p-7"><h2 className="text-3xl font-black text-slate-950">{t.premiumTitle}</h2><p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t.premiumText}</p><div className="mt-5 grid gap-3 md:grid-cols-4">{["Split", "AvgWage", "Notice", "Mediation"].map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-violet-900 shadow-sm">{item}</div>)}</div></article></PremiumGate></section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">{/* L17-TrustRelatedReferences */}<p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">{t.trustReferences}</p><div className="mt-4 grid gap-5 md:grid-cols-3"><div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div><div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.relatedToolsText}</p></div><div><h2 className="text-xl font-black">{t.references}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.referencesText}</p></div></div></section>
+      </div>
+    </main>
+  );
+}

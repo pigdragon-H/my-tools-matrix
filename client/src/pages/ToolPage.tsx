@@ -174,6 +174,15 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "ecommerce/safety-stock-calculator": lazy(() => import("@/tools/ecommerce/SafetyStockCalculator")),
   "ecommerce/eoq-calculator": lazy(() => import("@/tools/ecommerce/EoqCalculator")),
   "ecommerce/warehouse-cost-calculator": lazy(() => import("@/tools/ecommerce/WarehouseCostCalculator")),
+  "legal/penalty-calculator": lazy(() => import("@/tools/legal/PenaltyCalculator")),
+  "legal/legal-interest-calculator": lazy(() => import("@/tools/legal/LegalInterestCalculator")),
+  "legal/overtime-calculator": lazy(() => import("@/tools/legal/OvertimeCalculator")),
+  "legal/severance-pay-calculator": lazy(() => import("@/tools/legal/SeverancePayCalculator")),
+  "legal/annual-leave-calculator": lazy(() => import("@/tools/legal/AnnualLeaveCalculator")),
+  "legal/minimum-wage-calculator": lazy(() => import("@/tools/legal/MinimumWageCalculator")),
+  "legal/working-hours-calculator": lazy(() => import("@/tools/legal/WorkingHoursCalculator")),
+  "legal/stamp-duty-calculator": lazy(() => import("@/tools/legal/StampDutyCalculator")),
+  "legal/import-duty-calculator": lazy(() => import("@/tools/legal/ImportDutyCalculator")),
 };
 
 function ToolSkeleton() {
