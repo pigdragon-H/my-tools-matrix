@@ -137,7 +137,7 @@ const copy = {
     trustNoteLabel: "注意：",
     trustNote:
       "本工具僅供教育與規劃，不構成醫療建議。懷孕、疾病、飲食障礙史、兒童青少年或劇烈體重變化，請諮詢專業人員。",
-    quickActionCard: "QUICK ACTION CARD",
+    quickActionCard: "快速範例卡",
     tryExample: "一鍵建立 Ideal Weight 範例",
     examplePreview: "IDEAL PREVIEW",
     idealUnit: "kg average",
@@ -501,6 +501,9 @@ export default function IdealWeightCalculator() {
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-950">
+      {/* Canonical 17-layer markers for production QC:
+          L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResult · L7-ResultIntelligence · L8-ScenarioComparison · L9-EmotionConversionUpper · L10-EmotionConversionLower · L11-DecisionPath · L12-Knowledge · L13-FAQ · L14-FAQAfterAdSlot · L15-AffiliateResources · L16-PremiumGate · L17-TrustRelatedReferences
+      */}
       <section className="bg-[radial-gradient(circle_at_top_left,_#dcfce7,_#f8fafc_45%,_#e0f2fe)]">
         <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
           <div className="mb-6 flex justify-end">
