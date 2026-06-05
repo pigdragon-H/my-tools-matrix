@@ -2263,6 +2263,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "pregnancy-week-calculator",
+    name: "懷孕週數計算機",
+    category: "health",
+    path: "/tools/health/pregnancy-week-calculator",
+    icon: "Baby",
+    description: "懷孕週數計算機：依末次月經或預產期推算目前懷孕週數、孕期階段與預產期，提供教育性參考，不取代產檢。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2444,3 +2459,4 @@ export const vitaminDCalculator = { id: "vitamin-d-calculator", category: "healt
 export const glycemicIndexCalculator = { id: "glycemic-index-calculator", category: "health", name: "Glycemic Index Calculator", path: "/tools/health/glycemic-index-calculator" };
 export const sleepCycleCalculator = { id: "sleep-cycle-calculator", category: "health", name: "Sleep Cycle Calculator", path: "/tools/health/sleep-cycle-calculator" };
 export const bloodPressureAnalyzer = { id: "blood-pressure-analyzer", category: "health", name: "Blood Pressure Analyzer", path: "/tools/health/blood-pressure-analyzer" };
+export const pregnancyWeekCalculator = { id: "pregnancy-week-calculator", category: "health", name: "Pregnancy Week Calculator", path: "/tools/health/pregnancy-week-calculator" };
