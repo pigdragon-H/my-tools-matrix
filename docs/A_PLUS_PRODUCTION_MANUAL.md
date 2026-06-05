@@ -5,7 +5,7 @@
 > 任何 Superninja 視窗只要完整遵循本手冊,即可以 **A+ 水準**執行工具量產。
 > 違反任一條款 = 黑洞風險 = 供應商扣分。**零容忍。**
 
-**版本**: v5.0(跨視窗單一權威版 — L8 functional 驗收條款釘死 + 金印量法統一 grep-o + i18n 污染回溯)
+**版本**: v5.1(跨視窗單一權威版 — L8 functional 驗收釘死 + 金印量法統一 grep-o + i18n 污染回溯;v5.1 修正 L8 驗收為功能性判定,容許命名變體)
 **生效日**: v1.0 完成 D-10 csv-to-json 後即時生效;v2.0 加入 preflight + safe-push 兩支效率腳本與「跨視窗紅線」紀律;v3.0 於 F-80→F-100 Finance 馬拉松完成後 Victor 授權升版,納入 finance-spec-builder pipeline、Gate 6 真實 live 驗證與視窗時延處理、17 層 live 查核校正(MacroCalculator 案例);**v5.0 於 A↔B 跨視窗對準後 Victor 拍板升版** —— 整合 v4.1 已驗證骨幹,並以金模板 JsonFormatter 實證為據,釘死三件真正缺失修補:(1) L8 = functional 驗收條款(非「獨立成段」);(2) 金印量法統一 grep-o;(3) 回溯清單 = i18n 污染。**本版為 A/B/C/D 各視窗的單一權威來源,任何視窗 git pull 後即同步生效。**
 **Repo**: `pigdragon-H/my-tools-matrix`
 **部署**: Railway(從 GitHub `main` branch 自動建構)
@@ -1419,6 +1419,7 @@ browser-tool screenshot <name>.png
 # §21. v5.0 升版 — 跨視窗單一權威(L8 釘死 + 量法統一 + i18n 回溯)
 
 > **本章是 v5.0 的核心。** 由 A↔B 兩視窗跨視窗對準、Victor 逐項拍板而成。
+> **v5.1 修訂(2 處)**:(a) §21.2 L8 驗收清單改為「功能性判定」—— A 視窗用 v5.0 舊 grep 查 34 支 Health 時,BmiCalculator/IdealWeightCalculator 因 handler/key 命名變體被誤判「缺 L8」,人工複查實為功能完整,故 v5.1 容許命名變體、以「範例卡綁 ≥2 onClick + L8 marker」為硬指標;(b) §21.4 i18n 回溯延伸至第二輪(B 視窗 `7c76ba8` 清掉 27/34,殘留 6 處同型 label 由 A 查核指名、交 B 第二輪清理)。
 > 解決的根本問題:**過去各視窗手上的「基準快照 + 量法」不同(A 用 grep-c、B 用 grep-o),對同一支工具量出不同數字、彼此誤判「缺層」,形成羅生門。** v5.0 把 L8 定義、量法、回溯標的三者一次釘死,並要求本手冊推上 remote `main`,任何視窗 `git pull` 後即同步生效。
 
 ## 21.1 為什麼會有 v5.0(對準經過,留作判例)
@@ -1485,19 +1486,30 @@ function fillHigh()  { setUnit("imperial"); setNumberOfPayingCustomers("1000"); 
 </div>
 ```
 
-### L8 驗收清單(grep-o 量法,給 B 視窗與所有視窗)
+### L8 驗收清單(v5.1 功能性判定 — grep-o 量法,給所有視窗)
+
+> **v5.1 修訂(重要)**:v5.0 原驗收 grep 只認 `function fill...()` 與 `baselineExample`/`activeExample` 字面,**會誤判命名變體為缺層**。實例:A 視窗查 Health 時,BmiCalculator(`fillAdultMaleExample` + key `tryCommonAdultExample`)、IdealWeightCalculator(handler 非 `function` 形式)被初判「缺 L8」,人工複查實為**功能完整、僅命名不同**。教訓:**L8 看「functional 雙情境卡存在」,不看字面命名。** 故 v5.1 改用下列功能性判定。
+
 ```bash
 f="client/src/tools/<cat>/<Comp>/index.tsx"
-# (1) 兩個 fill handler 存在(任一命名)
-grep -oE "function fill[A-Za-z]+\(\)" "$f" | wc -l        # 須 ≥ 2
-# (2) 範例卡 i18n key 存在(baseline + active 各 zh/en)
-grep -oc "baselineExample" "$f"; grep -oc "activeExample" "$f"   # 各須 ≥ 2(zh+en)
-# (3) 範例卡 render 綁兩顆 onClick={fill...}
-grep -o "onClick={fill[A-Za-z]*}" "$f" | sort -u | wc -l  # 須 ≥ 2
+
+# (1) 至少兩個「情境填值 handler」—— 容許 function / const / arrow,容許任意命名
+#     抓 setX(...) 群聚的 fill/preset/example/try 類函式;最穩健是直接數「綁在範例卡按鈕上的 handler」
+grep -oE "(function|const)\s+(fill|preset|example|try|load)[A-Za-z]*" "$f" | wc -l    # 參考值,≥2 佳
+
+# (2) 範例卡 render 綁「兩個不同的 onClick handler」(這是 functional 的硬證據,命名不拘)
+grep -oE "onClick=\{[a-zA-Z]+\}" "$f" | sort -u | grep -ciE "fill|preset|example|try|load|standard|cut|male|female|baseline|active|high|low"   # 須 ≥ 2
+
+# (3) 範例卡標題/雙情境語意 key 存在(任一組:baseline/active 或 standard/cut 或同義雙情境)
+grep -ocE "baselineExample|activeExample|exampleCards|tryExample|presetCard|scenarioCard" "$f"   # 須 ≥ 1(代表有範例卡 i18n 區)
+
 # (4) L8 marker 在層級清單註解字串(存在即可,不要求獨立成段)
 grep -c "L8-ScenarioComparison" "$f"                       # 須 ≥ 1
 ```
-四項全過 = L8 functional 達標。**MacroCalculator 現役已全部達標**(fillStandard/fillCut + 範例卡 + marker),不需重構 L8。
+
+**判定原則(v5.1)**:核心硬指標是 **(2) 範例卡綁 ≥2 個不同 onClick handler** + **(4) L8 marker 存在**。(1)(3) 為輔證,命名變體不扣分。**只要範例卡渲染了兩顆各綁不同情境 handler 的按鈕、且 L8 marker 在,即 L8 functional 達標** —— 不論 handler 叫 fillStandard / fillAdultMaleExample / fillMale / 任何名字。
+
+> **MacroCalculator / 全 34 支 Health / 全 Finance 現役皆達標**。v5.0 時代用舊 grep 誤判的 BmiCalculator、IdealWeightCalculator,在 v5.1 功能性判定下正確判為達標。
 
 ## 21.3 【釘死】金印量法統一 grep-o(占用次數),終結跨視窗羅生門
 
