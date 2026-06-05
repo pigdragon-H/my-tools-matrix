@@ -165,6 +165,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "health/ovulation-calculator": lazy(() => import("@/tools/health/OvulationCalculator")),
   "health/vision-prescription-converter": lazy(() => import("@/tools/health/VisionPrescriptionConverter")),
   "health/biological-age-calculator": lazy(() => import("@/tools/health/BiologicalAgeCalculator")),
+  "health/diabetes-risk-calculator": lazy(() => import("@/tools/health/DiabetesRiskCalculator")),
 };
 
 function ToolSkeleton() {

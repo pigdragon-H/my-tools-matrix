@@ -2323,6 +2323,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "diabetes-risk-calculator",
+    name: "糖尿病風險評估器",
+    category: "health",
+    path: "/tools/health/diabetes-risk-calculator",
+    icon: "HeartPulse",
+    description: "糖尿病風險評估器：依年齡、BMI、腰圍、家族史與生活習慣估算第二型糖尿病風險分級，提供教育性參考，不取代醫療診斷。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2508,3 +2523,4 @@ export const pregnancyWeekCalculator = { id: "pregnancy-week-calculator", catego
 export const ovulationCalculator = { id: "ovulation-calculator", category: "health", name: "Ovulation Calculator", path: "/tools/health/ovulation-calculator" };
 export const visionPrescriptionConverter = { id: "vision-prescription-converter", category: "health", name: "Vision Prescription Converter", path: "/tools/health/vision-prescription-converter" };
 export const biologicalAgeCalculator = { id: "biological-age-calculator", category: "health", name: "Biological Age Calculator", path: "/tools/health/biological-age-calculator" };
+export const diabetesRiskCalculator = { id: "diabetes-risk-calculator", category: "health", name: "Diabetes Risk Calculator", path: "/tools/health/diabetes-risk-calculator" };
