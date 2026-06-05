@@ -158,6 +158,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "health/alcohol-calories-calculator": lazy(() => import("@/tools/health/AlcoholCaloriesCalculator")),
   "health/caffeine-intake-calculator": lazy(() => import("@/tools/health/CaffeineIntakeCalculator")),
   "health/vitamin-d-calculator": lazy(() => import("@/tools/health/VitaminDCalculator")),
+  "health/glycemic-index-calculator": lazy(() => import("@/tools/health/GlycemicIndexCalculator")),
 };
 
 function ToolSkeleton() {

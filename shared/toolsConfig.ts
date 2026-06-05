@@ -2218,6 +2218,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "glycemic-index-calculator",
+    name: "升糖指數計算機",
+    category: "health",
+    path: "/tools/health/glycemic-index-calculator",
+    icon: "Activity",
+    description: "升糖指數計算機：依食物GI值與份量估算升糖負荷(GL)，協助規劃血糖友善飲食，提供教育性參考。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2396,3 +2411,4 @@ export const intermittentFastingCalculator = { id: "intermittent-fasting-calcula
 export const alcoholCaloriesCalculator = { id: "alcohol-calories-calculator", category: "health", name: "Alcohol Calories Calculator", path: "/tools/health/alcohol-calories-calculator" };
 export const caffeineIntakeCalculator = { id: "caffeine-intake-calculator", category: "health", name: "Caffeine Intake Calculator", path: "/tools/health/caffeine-intake-calculator" };
 export const vitaminDCalculator = { id: "vitamin-d-calculator", category: "health", name: "Vitamin D Calculator", path: "/tools/health/vitamin-d-calculator" };
+export const glycemicIndexCalculator = { id: "glycemic-index-calculator", category: "health", name: "Glycemic Index Calculator", path: "/tools/health/glycemic-index-calculator" };
