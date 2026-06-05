@@ -2248,6 +2248,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "blood-pressure-analyzer",
+    name: "血壓分析器",
+    category: "health",
+    path: "/tools/health/blood-pressure-analyzer",
+    icon: "HeartPulse",
+    description: "血壓分析器：依收縮壓與舒張壓判讀血壓分級，協助理解高血壓風險區間，提供教育性參考，不取代醫療診斷。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2428,3 +2443,4 @@ export const caffeineIntakeCalculator = { id: "caffeine-intake-calculator", cate
 export const vitaminDCalculator = { id: "vitamin-d-calculator", category: "health", name: "Vitamin D Calculator", path: "/tools/health/vitamin-d-calculator" };
 export const glycemicIndexCalculator = { id: "glycemic-index-calculator", category: "health", name: "Glycemic Index Calculator", path: "/tools/health/glycemic-index-calculator" };
 export const sleepCycleCalculator = { id: "sleep-cycle-calculator", category: "health", name: "Sleep Cycle Calculator", path: "/tools/health/sleep-cycle-calculator" };
+export const bloodPressureAnalyzer = { id: "blood-pressure-analyzer", category: "health", name: "Blood Pressure Analyzer", path: "/tools/health/blood-pressure-analyzer" };
