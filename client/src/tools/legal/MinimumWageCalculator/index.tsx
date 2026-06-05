@@ -52,9 +52,13 @@ export default function MinimumWageCalculator() {
       hourUnit: "元/時",
       intelTitle: "結果解讀",
       intelBody: "未達標時，雇主應補足至法定基本工資；若以時薪計，需確認加班與例假是否另計。",
-      cmpTitle: "情境比較",
-      cmpA: "範例：月薪 26,000",
-      cmpB: "範例：時薪 170",
+      exampleCards: "範例卡",
+      baselineExample: "月薪未達標情境",
+      baselineExampleValue: "26,000 元/月",
+      baselineExampleNote: "比對月基本工資 27,470 元 · 短少 1,470 元待補足",
+      activeExample: "時薪未達標情境",
+      activeExampleValue: "170 元/時",
+      activeExampleNote: "比對時基本工資 183 元 · 每小時短少 13 元",
       emoUpper: "薪資沒給足，可能違反勞基法",
       emoLower: "立即確認，保障你的權益",
       pathTitle: "下一步建議",
@@ -70,8 +74,7 @@ export default function MinimumWageCalculator() {
       premiumTitle: "進階合規報告（PRO）",
       premiumBody: "解鎖多年度基本工資對照、加班費自動換算與申訴信範本。",
       refTitle: "相關法規與資源",
-      fillMonthly: "點此帶入月薪情境，比對 27,470 元門檻並算出差額。",
-      fillHourly: "點此帶入時薪情境，比對 183 元門檻並檢視合規。",
+
       q1: "基本工資多久調整一次？",
       a1: "通常每年由基本工資審議委員會審議，多在年初生效。",
       q2: "時薪與月薪可以擇低嗎？",
@@ -107,9 +110,13 @@ export default function MinimumWageCalculator() {
       hourUnit: "/hour",
       intelTitle: "Result Interpretation",
       intelBody: "If below the threshold, the employer must top up to the statutory minimum; for hourly pay, verify overtime and rest-day pay separately.",
-      cmpTitle: "Scenario Comparison",
-      cmpA: "Example: Monthly 26,000",
-      cmpB: "Example: Hourly 170",
+      exampleCards: "Example cards",
+      baselineExample: "Monthly below threshold",
+      baselineExampleValue: "26,000/month",
+      baselineExampleNote: "vs monthly minimum 27,470 · short by 1,470 to top up",
+      activeExample: "Hourly below threshold",
+      activeExampleValue: "170/hour",
+      activeExampleNote: "vs hourly minimum 183 · short by 13 per hour",
       emoUpper: "Underpaying may violate labor law",
       emoLower: "Check now and protect your rights",
       pathTitle: "Next Steps",
@@ -125,8 +132,7 @@ export default function MinimumWageCalculator() {
       premiumTitle: "Advanced Compliance Report (PRO)",
       premiumBody: "Unlock multi-year minimum wage tables, automatic overtime conversion, and complaint letter templates.",
       refTitle: "Related Laws & Resources",
-      fillMonthly: "Loads a monthly-pay scenario and compares it to the 27,470 threshold.",
-      fillHourly: "Loads an hourly-pay scenario and checks it against the 183 threshold.",
+
       q1: "How often is the minimum wage adjusted?",
       a1: "Usually reviewed yearly by the wage committee, typically effective at the start of the year.",
       q2: "Can the employer pick the lower of hourly/monthly?",
@@ -254,21 +260,29 @@ export default function MinimumWageCalculator() {
 
         {/* L8-ScenarioComparison */}
         <div className="rounded-[2rem] border border-sky-100 bg-sky-50/60 p-8">
-          <h3 className="text-lg font-black text-sky-900">{t.cmpTitle}</h3>
-          <button
-            onClick={fillMonthly}
-            className="mt-4 w-full rounded-[2rem] border border-sky-200 bg-white p-4 text-left transition hover:shadow-md"
-          >
-            <p className="text-sm font-black text-sky-700">{t.cmpA}</p>
-            <p className="mt-1 text-xs font-medium text-slate-500">{t.fillMonthly}</p>
-          </button>
-          <button
-            onClick={fillHourly}
-            className="mt-3 w-full rounded-[2rem] border border-sky-200 bg-white p-4 text-left transition hover:shadow-md"
-          >
-            <p className="text-sm font-black text-sky-700">{t.cmpB}</p>
-            <p className="mt-1 text-xs font-medium text-slate-500">{t.fillHourly}</p>
-          </button>
+          <h3 className="text-lg font-black text-sky-900">{t.exampleCards}</h3>
+          <div className="mt-4 space-y-3">
+            <button
+              onClick={fillMonthly}
+              className="w-full rounded-2xl border border-sky-200 bg-white p-4 text-left transition hover:shadow-md"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <span className="font-black text-sky-900">{t.baselineExample}</span>
+                <span className="rounded-full bg-sky-100 px-3 py-1 text-xs font-black text-sky-700">{t.baselineExampleValue}</span>
+              </div>
+              <p className="mt-2 text-sm text-slate-600">{t.baselineExampleNote}</p>
+            </button>
+            <button
+              onClick={fillHourly}
+              className="w-full rounded-2xl border border-amber-200 bg-white p-4 text-left transition hover:shadow-md"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <span className="font-black text-amber-900">{t.activeExample}</span>
+                <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-black text-amber-700">{t.activeExampleValue}</span>
+              </div>
+              <p className="mt-2 text-sm text-slate-600">{t.activeExampleNote}</p>
+            </button>
+          </div>
         </div>
       </section>
 
