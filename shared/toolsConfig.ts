@@ -2413,6 +2413,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "safety-stock-calculator",
+    name: "安全庫存計算機",
+    category: "ecommerce",
+    path: "/tools/ecommerce/safety-stock-calculator",
+    icon: "ShoppingCart",
+    description: "安全庫存計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2604,3 +2619,4 @@ export const lifeExpectancyCalculator = { id: "life-expectancy-calculator", cate
 export const cancerRiskCalculator = { id: "cancer-risk-calculator", category: "health", name: "Cancer Risk Calculator", path: "/tools/health/cancer-risk-calculator" };
 export const stressIndexCalculator = { id: "stress-index-calculator", category: "health", name: "Stress Index Calculator", path: "/tools/health/stress-index-calculator" };
 export const inventoryTurnoverCalculator = { id: "inventory-turnover-calculator", category: "ecommerce", name: "Inventory Turnover Calculator", path: "/tools/ecommerce/inventory-turnover-calculator" };
+export const safetyStockCalculator = { id: "safety-stock-calculator", category: "ecommerce", name: "Safety Stock Calculator", path: "/tools/ecommerce/safety-stock-calculator" };
