@@ -2353,6 +2353,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "life-expectancy-calculator",
+    name: "預期壽命計算機",
+    category: "health",
+    path: "/tools/health/life-expectancy-calculator",
+    icon: "Hourglass",
+    description: "預期壽命計算機：依年齡、性別與生活習慣估算概念性的預期壽命範圍，提供教育性參考，不取代醫療或精算評估。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2540,3 +2555,4 @@ export const visionPrescriptionConverter = { id: "vision-prescription-converter"
 export const biologicalAgeCalculator = { id: "biological-age-calculator", category: "health", name: "Biological Age Calculator", path: "/tools/health/biological-age-calculator" };
 export const diabetesRiskCalculator = { id: "diabetes-risk-calculator", category: "health", name: "Diabetes Risk Calculator", path: "/tools/health/diabetes-risk-calculator" };
 export const heartDiseaseRiskCalculator = { id: "heart-disease-risk-calculator", category: "health", name: "Heart Disease Risk Calculator", path: "/tools/health/heart-disease-risk-calculator" };
+export const lifeExpectancyCalculator = { id: "life-expectancy-calculator", category: "health", name: "Life Expectancy Calculator", path: "/tools/health/life-expectancy-calculator" };
