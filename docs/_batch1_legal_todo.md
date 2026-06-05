@@ -28,7 +28,12 @@ category = legal · path = client/src/tools/legal/
 - [ ] 每 3 支回讀手冊
 
 ## Gates
-- [ ] npm run validate:registry (5/5 全綠)
-- [ ] preflight
-- [ ] 顯式 git add 三件套 → commit → safe-push
-- [ ] 報 HASH 等 Victor 視覺品鑑
+- [x] npm run validate:registry (Gate 1 PASS · 169=169=169=169 四者一致)
+- [x] preflight (Gate 2 PASS · 9 支 root✓ bundle✓ 0黑洞)
+- [x] 顯式 git add 三件套 → commit → safe-push（已 push origin/main，3次跨視窗 rebase 解衝突，無 force）
+- [x] 報 HASH 等 Victor 視覺品鑑
+
+## 已推送 (origin/main)
+- 3a05586 feat(legal): WO-A Batch1 Legal(9) 量產完成
+- 98a926b fix(scripts): validate-registry blockRe 錨定陣列區段（Victor 授權選項1）
+- 基底：e5ae00f / d553e45 / a935588 / 5856c1d（B視窗 4 支 ecommerce，已 rebase 在底，保留）
