@@ -2293,6 +2293,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "vision-prescription-converter",
+    name: "視力處方換算器",
+    category: "health",
+    path: "/tools/health/vision-prescription-converter",
+    icon: "Eye",
+    description: "視力處方換算器：在屈光度與近視度數之間互轉，協助理解眼鏡或隱形眼鏡處方，提供教育性參考。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2476,3 +2491,4 @@ export const sleepCycleCalculator = { id: "sleep-cycle-calculator", category: "h
 export const bloodPressureAnalyzer = { id: "blood-pressure-analyzer", category: "health", name: "Blood Pressure Analyzer", path: "/tools/health/blood-pressure-analyzer" };
 export const pregnancyWeekCalculator = { id: "pregnancy-week-calculator", category: "health", name: "Pregnancy Week Calculator", path: "/tools/health/pregnancy-week-calculator" };
 export const ovulationCalculator = { id: "ovulation-calculator", category: "health", name: "Ovulation Calculator", path: "/tools/health/ovulation-calculator" };
+export const visionPrescriptionConverter = { id: "vision-prescription-converter", category: "health", name: "Vision Prescription Converter", path: "/tools/health/vision-prescription-converter" };
