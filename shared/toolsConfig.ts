@@ -2743,6 +2743,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "return-rate-calculator",
+    name: "退貨率計算機",
+    category: "ecommerce",
+    path: "/tools/ecommerce/return-rate-calculator",
+    icon: "ShoppingCart",
+    description: "退貨率計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2956,3 +2971,4 @@ export const competitivePricingCalculator = { id: "competitive-pricing-calculato
 export const wholesalePricingCalculator = { id: "wholesale-pricing-calculator", category: "ecommerce", name: "Wholesale Pricing Calculator", path: "/tools/ecommerce/wholesale-pricing-calculator" };
 export const shippingCostCalculator = { id: "shipping-cost-calculator", category: "ecommerce", name: "Shipping Cost Calculator", path: "/tools/ecommerce/shipping-cost-calculator" };
 export const packagingCostCalculator = { id: "packaging-cost-calculator", category: "ecommerce", name: "Packaging Cost Calculator", path: "/tools/ecommerce/packaging-cost-calculator" };
+export const returnRateCalculator = { id: "return-rate-calculator", category: "ecommerce", name: "Return Rate Calculator", path: "/tools/ecommerce/return-rate-calculator" };
