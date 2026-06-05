@@ -2398,6 +2398,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "inventory-turnover-calculator",
+    name: "存貨週轉率計算機",
+    category: "ecommerce",
+    path: "/tools/ecommerce/inventory-turnover-calculator",
+    icon: "ShoppingCart",
+    description: "存貨週轉率計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2588,3 +2603,4 @@ export const heartDiseaseRiskCalculator = { id: "heart-disease-risk-calculator",
 export const lifeExpectancyCalculator = { id: "life-expectancy-calculator", category: "health", name: "Life Expectancy Calculator", path: "/tools/health/life-expectancy-calculator" };
 export const cancerRiskCalculator = { id: "cancer-risk-calculator", category: "health", name: "Cancer Risk Calculator", path: "/tools/health/cancer-risk-calculator" };
 export const stressIndexCalculator = { id: "stress-index-calculator", category: "health", name: "Stress Index Calculator", path: "/tools/health/stress-index-calculator" };
+export const inventoryTurnoverCalculator = { id: "inventory-turnover-calculator", category: "ecommerce", name: "Inventory Turnover Calculator", path: "/tools/ecommerce/inventory-turnover-calculator" };
