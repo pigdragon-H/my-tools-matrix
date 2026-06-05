@@ -75,7 +75,7 @@ const ui = {
     imperial: "英制",
     exampleCards: "範例卡",
     baselineExample: "標準久坐範例",
-    activeExample: "高活動量示範",
+    activeExample: "高活動量示範", baselineExampleNote: "70kg · 175cm · 30 歲", activeExampleNote: "62kg · 168cm · 28 歲",
     flowDemo: "流程示範",
     calculator: "計算機",
     heightCm: "身高（cm）",
@@ -191,7 +191,7 @@ const ui = {
     imperial: "Imperial",
     exampleCards: "Example cards",
     baselineExample: "Sedentary baseline example",
-    activeExample: "High-activity demo",
+    activeExample: "High-activity demo", baselineExampleNote: "70kg · 175cm · 30", activeExampleNote: "62kg · 168cm · 28",
     flowDemo: "Flow demo",
     calculator: "Calculator",
     heightCm: "Height (cm)",
@@ -420,8 +420,8 @@ export default function TdeeCalculator() {
             <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
               <h3 className="text-lg font-black">{t.exampleCards}</h3>
               <div className="mt-4 space-y-3">
-                <button onClick={fillBaselineExample} className="w-full rounded-2xl border border-emerald-200 bg-white p-4 text-left transition hover:border-emerald-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-black text-emerald-700">1,649</span></div><p className="mt-2 text-sm text-slate-600">70kg · 175cm · 30</p></button>
-                <button onClick={fillActiveExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div><p className="mt-2 text-sm text-slate-600">62kg · 168cm · 28</p></button>
+                <button onClick={fillBaselineExample} className="w-full rounded-2xl border border-emerald-200 bg-white p-4 text-left transition hover:border-emerald-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-black text-emerald-700">1,649</span></div><p className="mt-2 text-sm text-slate-600">{t.baselineExampleNote}</p></button>
+                <button onClick={fillActiveExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div><p className="mt-2 text-sm text-slate-600">{t.activeExampleNote}</p></button>
               </div>
             </div>
 
