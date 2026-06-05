@@ -2668,6 +2668,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "pricing-calculator",
+    name: "定價計算機",
+    category: "ecommerce",
+    path: "/tools/ecommerce/pricing-calculator",
+    icon: "ShoppingCart",
+    description: "定價計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2876,3 +2891,4 @@ export const adCostCalculator = { id: "ad-cost-calculator", category: "ecommerce
 export const conversionRateCalculator = { id: "conversion-rate-calculator", category: "ecommerce", name: "Conversion Rate Calculator", path: "/tools/ecommerce/conversion-rate-calculator" };
 export const ltvCalculator = { id: "ltv-calculator", category: "ecommerce", name: "Customer LTV Calculator", path: "/tools/ecommerce/ltv-calculator" };
 export const cacCalculator = { id: "cac-calculator", category: "ecommerce", name: "CAC Calculator", path: "/tools/ecommerce/cac-calculator" };
+export const pricingCalculator = { id: "pricing-calculator", category: "ecommerce", name: "Pricing Calculator", path: "/tools/ecommerce/pricing-calculator" };

@@ -188,6 +188,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "ecommerce/conversion-rate-calculator": lazy(() => import("@/tools/ecommerce/ConversionRateCalculator")),
   "ecommerce/ltv-calculator": lazy(() => import("@/tools/ecommerce/LtvCalculator")),
   "ecommerce/cac-calculator": lazy(() => import("@/tools/ecommerce/CacCalculator")),
+  "ecommerce/pricing-calculator": lazy(() => import("@/tools/ecommerce/PricingCalculator")),
 };
 
 function ToolSkeleton() {
