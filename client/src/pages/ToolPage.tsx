@@ -172,6 +172,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "health/stress-index-calculator": lazy(() => import("@/tools/health/StressIndexCalculator")),
   "ecommerce/inventory-turnover-calculator": lazy(() => import("@/tools/ecommerce/InventoryTurnoverCalculator")),
   "ecommerce/safety-stock-calculator": lazy(() => import("@/tools/ecommerce/SafetyStockCalculator")),
+  "ecommerce/eoq-calculator": lazy(() => import("@/tools/ecommerce/EoqCalculator")),
 };
 
 function ToolSkeleton() {
