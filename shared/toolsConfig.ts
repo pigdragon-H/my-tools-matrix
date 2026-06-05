@@ -2278,6 +2278,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "ovulation-calculator",
+    name: "排卵日計算機",
+    category: "health",
+    path: "/tools/health/ovulation-calculator",
+    icon: "CalendarHeart",
+    description: "排卵日計算機：依末次月經與週期長度推算排卵日與易孕窗口，協助備孕或經期規劃，提供教育性參考。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2460,3 +2475,4 @@ export const glycemicIndexCalculator = { id: "glycemic-index-calculator", catego
 export const sleepCycleCalculator = { id: "sleep-cycle-calculator", category: "health", name: "Sleep Cycle Calculator", path: "/tools/health/sleep-cycle-calculator" };
 export const bloodPressureAnalyzer = { id: "blood-pressure-analyzer", category: "health", name: "Blood Pressure Analyzer", path: "/tools/health/blood-pressure-analyzer" };
 export const pregnancyWeekCalculator = { id: "pregnancy-week-calculator", category: "health", name: "Pregnancy Week Calculator", path: "/tools/health/pregnancy-week-calculator" };
+export const ovulationCalculator = { id: "ovulation-calculator", category: "health", name: "Ovulation Calculator", path: "/tools/health/ovulation-calculator" };
