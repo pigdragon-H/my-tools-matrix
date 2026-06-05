@@ -2209,7 +2209,7 @@ export const tools: Tool[] = [
     category: "health",
     path: "/tools/health/vitamin-d-calculator",
     icon: "Sun",
-    description: "維生素D計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    description: "維生素D計算機：依血中濃度、年齡與日曬程度，估算每日維生素D補充劑量與達標週數，提供教育性參考。",
     isPremium: false,
     showAds: true,
     rateLimit: 30,
