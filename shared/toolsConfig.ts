@@ -2383,6 +2383,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "stress-index-calculator",
+    name: "壓力指數評估器",
+    category: "health",
+    path: "/tools/health/stress-index-calculator",
+    icon: "Activity",
+    description: "壓力指數評估器：依睡眠、工作負荷、放鬆頻率、身體症狀與情緒狀態估算概念性的壓力指數等級，提供教育性自我覺察參考，不取代心理或醫療專業評估。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2572,3 +2587,4 @@ export const diabetesRiskCalculator = { id: "diabetes-risk-calculator", category
 export const heartDiseaseRiskCalculator = { id: "heart-disease-risk-calculator", category: "health", name: "Heart Disease Risk Calculator", path: "/tools/health/heart-disease-risk-calculator" };
 export const lifeExpectancyCalculator = { id: "life-expectancy-calculator", category: "health", name: "Life Expectancy Calculator", path: "/tools/health/life-expectancy-calculator" };
 export const cancerRiskCalculator = { id: "cancer-risk-calculator", category: "health", name: "Cancer Risk Calculator", path: "/tools/health/cancer-risk-calculator" };
+export const stressIndexCalculator = { id: "stress-index-calculator", category: "health", name: "Stress Index Calculator", path: "/tools/health/stress-index-calculator" };
