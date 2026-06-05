@@ -2368,6 +2368,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "cancer-risk-calculator",
+    name: "癌症風險評估器",
+    category: "health",
+    path: "/tools/health/cancer-risk-calculator",
+    icon: "Ribbon",
+    description: "癌症風險評估器：依年齡、吸菸、飲酒、家族史與生活習慣估算概念性的相對癌症風險等級，提供教育性參考，不取代醫療篩檢或診斷。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2556,3 +2571,4 @@ export const biologicalAgeCalculator = { id: "biological-age-calculator", catego
 export const diabetesRiskCalculator = { id: "diabetes-risk-calculator", category: "health", name: "Diabetes Risk Calculator", path: "/tools/health/diabetes-risk-calculator" };
 export const heartDiseaseRiskCalculator = { id: "heart-disease-risk-calculator", category: "health", name: "Heart Disease Risk Calculator", path: "/tools/health/heart-disease-risk-calculator" };
 export const lifeExpectancyCalculator = { id: "life-expectancy-calculator", category: "health", name: "Life Expectancy Calculator", path: "/tools/health/life-expectancy-calculator" };
+export const cancerRiskCalculator = { id: "cancer-risk-calculator", category: "health", name: "Cancer Risk Calculator", path: "/tools/health/cancer-risk-calculator" };
