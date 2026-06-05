@@ -47,10 +47,15 @@ const cfgText = readFileSync(TOOLS_CONFIG, "utf8");
 // 用嚴格的單物件 regex 防止跨物件匹配
 const toolObjRe = /\{\s*id:\s*"([a-z0-9-]+)",[\s\S]*?category:\s*"([a-z]+)",[\s\S]*?path:\s*"(\/tools\/[a-z]+\/[a-z0-9-]+)"/g;
 // 但這個 regex 容易吃過頭，改用「逐行 chunk」法
+// 🔒 錨定：blockRe 只在 tools[] 陣列字面值範圍內掃描，避免吃到檔尾的
+//        export const xxx = { id:"..." }; one-liner（修正 bmi 重複計數誤判）
+const arrStart = cfgText.indexOf("export const tools: Tool[] = [");
+const arrEnd = arrStart >= 0 ? cfgText.indexOf("\n];", arrStart) : -1;
+const arrText = arrStart >= 0 && arrEnd >= 0 ? cfgText.slice(arrStart, arrEnd) : cfgText;
 const tools = [];
 const blockRe = /\{\s*id:\s*"([a-z0-9-]+)",((?:(?!\n\s*\{)[\s\S])*?)\n\s*\},/g;
 let m;
-while ((m = blockRe.exec(cfgText)) !== null) {
+while ((m = blockRe.exec(arrText)) !== null) {
   const id = m[1];
   const body = m[2];
   const catMatch  = body.match(/category:\s*"([a-z]+)"/);
