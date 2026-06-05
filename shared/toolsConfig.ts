@@ -2203,6 +2203,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "vitamin-d-calculator",
+    name: "維生素D計算機",
+    category: "health",
+    path: "/tools/health/vitamin-d-calculator",
+    icon: "Sun",
+    description: "維生素D計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2380,3 +2395,4 @@ export const proteinCalculator = { id: "protein-calculator", category: "health",
 export const intermittentFastingCalculator = { id: "intermittent-fasting-calculator", category: "health", name: "Intermittent Fasting Calculator", path: "/tools/health/intermittent-fasting-calculator" };
 export const alcoholCaloriesCalculator = { id: "alcohol-calories-calculator", category: "health", name: "Alcohol Calories Calculator", path: "/tools/health/alcohol-calories-calculator" };
 export const caffeineIntakeCalculator = { id: "caffeine-intake-calculator", category: "health", name: "Caffeine Intake Calculator", path: "/tools/health/caffeine-intake-calculator" };
+export const vitaminDCalculator = { id: "vitamin-d-calculator", category: "health", name: "Vitamin D Calculator", path: "/tools/health/vitamin-d-calculator" };
