@@ -2623,6 +2623,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "conversion-rate-calculator",
+    name: "轉換率計算機",
+    category: "ecommerce",
+    path: "/tools/ecommerce/conversion-rate-calculator",
+    icon: "ShoppingCart",
+    description: "轉換率計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2828,3 +2843,4 @@ export const stampDutyCalculator = { id: "stamp-duty-calculator", category: "leg
 export const importDutyCalculator = { id: "import-duty-calculator", category: "legal", name: "Import Duty Calculator", path: "/tools/legal/import-duty-calculator" };
 export const reorderPointCalculator = { id: "reorder-point-calculator", category: "ecommerce", name: "Reorder Point Calculator", path: "/tools/ecommerce/reorder-point-calculator" };
 export const adCostCalculator = { id: "ad-cost-calculator", category: "ecommerce", name: "Ad Cost Calculator", path: "/tools/ecommerce/ad-cost-calculator" };
+export const conversionRateCalculator = { id: "conversion-rate-calculator", category: "ecommerce", name: "Conversion Rate Calculator", path: "/tools/ecommerce/conversion-rate-calculator" };

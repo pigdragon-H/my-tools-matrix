@@ -185,6 +185,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "legal/import-duty-calculator": lazy(() => import("@/tools/legal/ImportDutyCalculator")),
   "ecommerce/reorder-point-calculator": lazy(() => import("@/tools/ecommerce/ReorderPointCalculator")),
   "ecommerce/ad-cost-calculator": lazy(() => import("@/tools/ecommerce/AdCostCalculator")),
+  "ecommerce/conversion-rate-calculator": lazy(() => import("@/tools/ecommerce/ConversionRateCalculator")),
 };
 
 function ToolSkeleton() {
