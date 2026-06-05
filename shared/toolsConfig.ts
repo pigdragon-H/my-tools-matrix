@@ -2443,6 +2443,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "warehouse-cost-calculator",
+    name: "倉儲成本計算機",
+    category: "ecommerce",
+    path: "/tools/ecommerce/warehouse-cost-calculator",
+    icon: "ShoppingCart",
+    description: "倉儲成本計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2636,3 +2651,4 @@ export const stressIndexCalculator = { id: "stress-index-calculator", category: 
 export const inventoryTurnoverCalculator = { id: "inventory-turnover-calculator", category: "ecommerce", name: "Inventory Turnover Calculator", path: "/tools/ecommerce/inventory-turnover-calculator" };
 export const safetyStockCalculator = { id: "safety-stock-calculator", category: "ecommerce", name: "Safety Stock Calculator", path: "/tools/ecommerce/safety-stock-calculator" };
 export const eoqCalculator = { id: "eoq-calculator", category: "ecommerce", name: "EOQ Calculator", path: "/tools/ecommerce/eoq-calculator" };
+export const warehouseCostCalculator = { id: "warehouse-cost-calculator", category: "ecommerce", name: "Warehouse Cost Calculator", path: "/tools/ecommerce/warehouse-cost-calculator" };
