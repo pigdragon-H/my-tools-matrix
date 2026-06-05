@@ -2233,6 +2233,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "sleep-cycle-calculator",
+    name: "睡眠週期計算機",
+    category: "health",
+    path: "/tools/health/sleep-cycle-calculator",
+    icon: "Moon",
+    description: "睡眠週期計算機：依90分鐘睡眠週期推算最佳就寢或起床時間，協助減少睡眠中斷與賴床，提供教育性參考。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2412,3 +2427,4 @@ export const alcoholCaloriesCalculator = { id: "alcohol-calories-calculator", ca
 export const caffeineIntakeCalculator = { id: "caffeine-intake-calculator", category: "health", name: "Caffeine Intake Calculator", path: "/tools/health/caffeine-intake-calculator" };
 export const vitaminDCalculator = { id: "vitamin-d-calculator", category: "health", name: "Vitamin D Calculator", path: "/tools/health/vitamin-d-calculator" };
 export const glycemicIndexCalculator = { id: "glycemic-index-calculator", category: "health", name: "Glycemic Index Calculator", path: "/tools/health/glycemic-index-calculator" };
+export const sleepCycleCalculator = { id: "sleep-cycle-calculator", category: "health", name: "Sleep Cycle Calculator", path: "/tools/health/sleep-cycle-calculator" };
