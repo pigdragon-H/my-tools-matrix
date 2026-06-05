@@ -2593,6 +2593,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "reorder-point-calculator",
+    name: "再訂購點計算機",
+    category: "ecommerce",
+    path: "/tools/ecommerce/reorder-point-calculator",
+    icon: "ShoppingCart",
+    description: "再訂購點計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -2787,15 +2802,6 @@ export const inventoryTurnoverCalculator = { id: "inventory-turnover-calculator"
 export const safetyStockCalculator = { id: "safety-stock-calculator", category: "ecommerce", name: "Safety Stock Calculator", path: "/tools/ecommerce/safety-stock-calculator" };
 export const eoqCalculator = { id: "eoq-calculator", category: "ecommerce", name: "EOQ Calculator", path: "/tools/ecommerce/eoq-calculator" };
 export const warehouseCostCalculator = { id: "warehouse-cost-calculator", category: "ecommerce", name: "Warehouse Cost Calculator", path: "/tools/ecommerce/warehouse-cost-calculator" };
-    isPremium: false,
-    showAds: true,
-    rateLimit: 30,
-    isNew: true,
-    isFeatured: true,
-    status: "GOLD",
-    seoArticles: [],
-  },
-  {
 export const penaltyCalculator = { id: "penalty-calculator", category: "legal", name: "Penalty Calculator", path: "/tools/legal/penalty-calculator" };
 export const legalInterestCalculator = { id: "legal-interest-calculator", category: "legal", name: "Legal Interest Calculator", path: "/tools/legal/legal-interest-calculator" };
 export const overtimeCalculator = { id: "overtime-calculator", category: "legal", name: "Overtime Calculator", path: "/tools/legal/overtime-calculator" };
@@ -2805,3 +2811,4 @@ export const minimumWageCalculator = { id: "minimum-wage-calculator", category: 
 export const workingHoursCalculator = { id: "working-hours-calculator", category: "legal", name: "Working Hours Calculator", path: "/tools/legal/working-hours-calculator" };
 export const stampDutyCalculator = { id: "stamp-duty-calculator", category: "legal", name: "Stamp Duty Calculator", path: "/tools/legal/stamp-duty-calculator" };
 export const importDutyCalculator = { id: "import-duty-calculator", category: "legal", name: "Import Duty Calculator", path: "/tools/legal/import-duty-calculator" };
+export const reorderPointCalculator = { id: "reorder-point-calculator", category: "ecommerce", name: "Reorder Point Calculator", path: "/tools/ecommerce/reorder-point-calculator" };

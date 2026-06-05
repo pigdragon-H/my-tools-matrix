@@ -183,6 +183,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "legal/working-hours-calculator": lazy(() => import("@/tools/legal/WorkingHoursCalculator")),
   "legal/stamp-duty-calculator": lazy(() => import("@/tools/legal/StampDutyCalculator")),
   "legal/import-duty-calculator": lazy(() => import("@/tools/legal/ImportDutyCalculator")),
+  "ecommerce/reorder-point-calculator": lazy(() => import("@/tools/ecommerce/ReorderPointCalculator")),
 };
 
 function ToolSkeleton() {
