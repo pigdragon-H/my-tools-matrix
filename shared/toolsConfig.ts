@@ -3613,6 +3613,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "heat-energy-calculator",
+    name: "热能计算器",
+    category: "science",
+    path: "/tools/science/heat-energy-calculator",
+    icon: "FlaskConical",
+    description: "热能计算器 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3884,3 +3899,4 @@ export const powerCalculator = { id: "power-calculator", category: "science", na
 export const wavelengthFrequencyCalculator = { id: "wavelength-frequency-calculator", category: "science", name: "Wavelength Frequency Calculator", path: "/tools/science/wavelength-frequency-calculator" };
 export const idealGasLawCalculator = { id: "ideal-gas-law-calculator", category: "science", name: "Ideal Gas Law Calculator", path: "/tools/science/ideal-gas-law-calculator" };
 export const phCalculator = { id: "ph-calculator", category: "science", name: "pH Calculator", path: "/tools/science/ph-calculator" };
+export const heatEnergyCalculator = { id: "heat-energy-calculator", category: "science", name: "Heat Energy Calculator", path: "/tools/science/heat-energy-calculator" };
