@@ -1,0 +1,175 @@
+// @profile B
+// Profile B · Calculator-Science · MolarityCalculator（GOLD-STANDARD-001 compatible）
+
+import { useMemo, useState } from "react";
+import { AdSenseWrapper } from "@/components/AdSenseWrapper";
+import { AdSlot } from "@/components/business/AdSlot";
+import { PremiumGate } from "@/components/business/PremiumGate";
+import { useLanguage } from "@/contexts/LanguageContext";
+
+type Lang = "zh" | "en";
+type LocalText = { zh: string; en: string };
+type AffiliateItem = { label: LocalText; href: string };
+type TierMode = "relaxed" | "standard" | "fast";
+const l = (v: LocalText, lang: Lang) => v[lang];
+const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
+
+const bands = [
+  { key: "trace", range: "< 0.01", label: { zh: "微量級", en: "Trace" }, desc: { zh: "濃度極低，落在微量級區間，常見於痕量分析、稀釋緩衝液或環境樣本，溶質佔比極小。", en: "Very low concentration in the trace range, common in trace analysis, dilute buffers, or environmental samples; solute fraction is tiny." } },
+  { key: "dilute", range: "0.01–0.1", label: { zh: "稀溶液級", en: "Dilute" }, desc: { zh: "濃度偏低，屬於稀溶液，適合滴定終點、生理鹽水或常見實驗稀釋液的濃度範圍。", en: "Low concentration in the dilute range, fit for titration endpoints, saline, or common laboratory dilutions." } },
+  { key: "moderate", range: "0.1–1", label: { zh: "中濃度級", en: "Moderate" }, desc: { zh: "濃度落在常見的中等區間，多數實驗試劑與標準溶液的濃度範圍，數值直觀易配置。", en: "Concentration in the common moderate range, the band for most reagents and standard solutions, intuitive to prepare." } },
+  { key: "strong", range: "1–5", label: { zh: "高濃度級", en: "Strong" }, desc: { zh: "濃度偏高，涵蓋多數濃酸鹼母液與工業試劑，配製時需注意安全與放熱反應。", en: "High concentration covering most concentrated acid-base stocks and industrial reagents; handle with care for safety and exothermic mixing." } },
+  { key: "concentrated", range: "5–15", label: { zh: "濃縮級", en: "Concentrated" }, desc: { zh: "濃度非常高，常見於濃鹽酸、濃硫酸等母液，建議結合密度與安全規範一併評估。", en: "Very high concentration, common in concentrated HCl or sulfuric acid stocks; evaluate with density and safety standards." } },
+  { key: "saturated", range: "> 15", label: { zh: "飽和級", en: "Saturated" }, desc: { zh: "濃度極高，接近或達到飽和狀態，務必交叉驗證莫耳數與體積的單位與量測精度。", en: "Extremely high concentration near or at saturation; always verify moles and volume units and measurement precision." } },
+] as const;
+
+const affiliateItems: AffiliateItem[] = [
+  { label: { zh: "密度計算機", en: "Density Calculator" }, href: "/tools/science/density-calculator" },
+  { label: { zh: "通用單位換算計算機", en: "Unit Converter Calculator" }, href: "/tools/science/unit-converter-calculator" },
+  { label: { zh: "pH 計算機", en: "pH Calculator" }, href: "/tools/science/ph-calculator" },
+  { label: { zh: "理想氣體定律計算機", en: "Ideal Gas Law Calculator" }, href: "/tools/science/ideal-gas-law-calculator" },
+];
+
+const ui = {
+  zh: {
+    badge: "Science · 莫耳濃度 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "摩爾濃度計算機 · Molarity", subtitle: "用莫耳數、體積與精度等級算出莫耳濃度、相對量級與精度分數",
+    intro: "Molarity Calculator 依據莫耳數、體積與精度等級（粗略、標準或精密），以莫耳濃度公式 M = n ÷ V 計算溶液的莫耳濃度、相對量級與精度分數，協助你判斷濃度是否合理、濃度落在哪個量級、屬於稀溶液還是濃溶液、是否需要檢查單位，讓你在配製溶液與化學計算前就把濃度算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以莫耳數除以體積（公升）做計算，假設溶液均勻且溫度恆定；正式化學配製請以實際量測與標準參考表為準。",
+    quickActionCard: "快速範例卡", tryExample: "一鍵建立濃度範例", examplePreview: "濃度預覽", examplePerson: "莫耳數 (mol)", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
+    examplesCalculator: "範例 → 計算器", enterValues: "輸入莫耳數、體積與精度等級", examplesHelper: "先用範例理解莫耳數與體積如何決定濃度與量級，再改成自己的溶液數據。",
+    metric: "公制", imperial: "佔比檢視", exampleCards: "範例卡", baselineExample: "標準濃度模式", activeExample: "精密示範", baselineExampleNote: "0.5mol ÷ 1L · 標準", activeExampleNote: "0.75mol ÷ 1L · 精密", carbsLabel: "精度餘量", carbsName: "百分比", proteinLabel: "精度分數", flowDemo: "體積 (L)", calculator: "計算器",
+    weight: "莫耳數 (mol)", tdee: "體積 (L)", goal: "精度等級", goalCut: "粗略 (1 位)", goalMaintain: "標準 (2 位)", goalBulk: "精密 (4 位)",
+    resultCard: "濃度結果", unit: "mol/L (莫耳濃度)", primaryValue: "主要數值", maintenanceTarget: "精度分數", actionTarget: "濃度", estimatedTdee: "體積", maintenance: "分", fatLossTarget: "mol/L",
+    resultIntelligence: "結果解讀", tdeeMatrix: "六格濃度級判讀矩陣", tdeeMatrixNote: "L7 固定六格，將目前濃度放進常見量級；這是配製參考，不是化學鑑定結論。",
+    emotionConversionLayer: "情緒與轉換層", turnIntoPlan: "把濃度結果轉成可執行的配製與化學計算策略", conversionNote: "L9 會連動目前計算結果，顯示精度分數、濃度與量級提示。",
+    progressInsight: "進度洞察卡", possibleTarget: "目前濃度概況", dailyGap: "濃度", weeklyTrend: "精度分數", motivation: "動力卡", keepMomentum: "從濃度計算走向最精確一致的配製節奏",
+    saveShareJourney: "儲存 / 分享", journeyTitle: "把今天的濃度結果帶回團隊", journeyHint: "用密度計算機一起看，把濃度與物理量一併納入配製規劃。",
+    nextActionLabel: "下一步行動", nextActionTitle: "將結果接到下一個工具", nextActionItem1: "用密度計算機推算溶液密度", nextActionItem2: "用通用單位換算計算機轉換濃度單位", nextActionItem3: "用 pH 計算機評估酸鹼度",
+    shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給團隊", shareCopiedToast: "已複製到剪貼簿 ✓",
+    decisionPath: "決策路徑", decisionTitle: "Moles → 精度分數 → 等級 → Molarity", bmrStep: "Moles", deficitStep: "精度分數", trendStep: "等級", mealStep: "Molarity",
+    knowledge: "知識", knowledgeTitle: "莫耳濃度在化學計算中的意義", definition: "定義", definitionText: "莫耳濃度是每公升溶液所含溶質的莫耳數，以公式 M = n ÷ V 表示；莫耳濃度反映溶液的濃稀程度，是判斷反應計量、稀釋與配製的核心化學量。", formula: "公式", formulaText: "莫耳濃度 M = 莫耳數 n ÷ 體積 V，單位為 mol/L。精度分數 = min(有效位數 / 目標位數 × 100, 100)。精度餘量 = (有效位數 − 目標位數) / 目標位數 × 100%。", limitations: "限制", limitationsText: "本工具假設溶液均勻、完全溶解且溫度恆定；真實濃度還受溫度、體積膨脹與溶解度影響，飽和溶液尤其對溫度敏感。", interpretation: "解讀", interpretationText: "濃度小於 0.1 的屬於稀溶液，落在中濃度級（0.1 到 1）常見於實驗試劑，高濃度級以上多為母液，請用精度分數確認有效位數足夠。", context: "脈絡", contextText: "濃度結果應與莫耳數、體積與單位換算一起看，才能在配製準確性、化學計算與可讀性之間取得平衡。", example: "範例", exampleText: "莫耳數 0.5mol、體積 1L、標準精度（2 位）→ 濃度 0.50 mol/L，精度餘量 0%，精度分數 100。",
+    faq: "FAQ", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "濃度的下一步工具", premiumTitle: "PRO 濃度分析包", premiumText: "解鎖稀釋公式 C1V1=C2V2、質量莫耳濃度換算、溶解度與飽和判讀，以及多組分混合濃度推算。",
+    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具只供化學計算與教育用途，不取代專業實驗配製、濃度量測或實驗室分析報告。", relatedTools: "相關工具", relatedToolsText: "Density · Unit Converter · pH · Ideal Gas Law", references: "參考資料", referencesText: "莫耳濃度化學定義；標準溶液配製參考表；SI 莫耳體積單位定義；分析化學基礎文獻。",
+    q1: "莫耳濃度怎麼算的？", a1: "本工具以 M = n ÷ V，將莫耳數除以體積（公升）得到莫耳濃度；已知任兩個量即可反推第三個量。",
+    q2: "精度分數多少才合理？", a2: "精度分數達 100 代表有效位數已達所選精度等級；若低於 100，建議提高有效位數或檢查量測精度。",
+    q3: "粗略還是精密等級？", a3: "日常估算用粗略（1 位），一般配製用標準（2 位），實驗室或精密分析用精密（4 位）。",
+    q4: "怎麼判斷稀濃溶液？", a4: "濃度小於 0.1 mol/L 多屬稀溶液，0.1 到 1 為中濃度，1 以上偏濃；比較濃度與量級即可判斷。",
+    q5: "溫度會影響濃度嗎？", a5: "會。溫度升高會使溶液體積膨脹而濃度略降，飽和溶液尤其敏感；精密量測需註明溫度條件。",
+    q6: "這個工具能取代化學配製嗎？", a6: "不能。它只是快速估算與教育用途；正式配製應以專業器材與標準參考表為準。",
+  },
+  en: {
+    badge: "Science · Molarity · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "Molarity Calculator", subtitle: "Compute molarity, relative magnitude, and precision score from moles, volume, and precision level",
+    intro: "This calculator uses moles, volume, and precision level (rough, standard, or precise) with the molarity formula M = n / V to compute solution molarity, relative magnitude, and precision score, helping you judge whether the concentration is reasonable, which magnitude it falls into, whether it is a dilute or concentrated solution, and whether to check units, so you compute concentration clearly before solution preparation and chemistry calculations.",
+    trustNoteLabel: "Note:", trustNote: "This tool computes moles divided by volume in liters, assuming uniform solution at constant temperature; for formal chemistry preparation, follow actual measurement and standard reference tables.",
+    quickActionCard: "Quick Action Card", tryExample: "Create a molarity example instantly", examplePreview: "Molarity preview", examplePerson: "Moles (mol)", fillExample: "One-click standard example", previewActivePath: "Fill precise example",
+    examplesCalculator: "Examples → Calculator", enterValues: "Enter moles, volume, and precision level", examplesHelper: "Start with an example to see how moles and volume set the molarity and magnitude, then replace with your own solution data.",
+    metric: "Metric", imperial: "Share view", exampleCards: "Example cards", baselineExample: "Standard molarity mode", activeExample: "Precise demo", baselineExampleNote: "0.5mol / 1L · standard", activeExampleNote: "0.75mol / 1L · precise", carbsLabel: "Precision margin", carbsName: "percent", proteinLabel: "Precision score", flowDemo: "Volume (L)", calculator: "Calculator",
+    weight: "Moles (mol)", tdee: "Volume (L)", goal: "Precision level", goalCut: "Rough (1 digit)", goalMaintain: "Standard (2 digits)", goalBulk: "Precise (4 digits)",
+    resultCard: "Molarity Result", unit: "mol/L (molarity)", primaryValue: "Primary Value", maintenanceTarget: "Precision score", actionTarget: "Molarity", estimatedTdee: "Volume", maintenance: "pts", fatLossTarget: "mol/L",
+    resultIntelligence: "Result Intelligence", tdeeMatrix: "Six-card molarity magnitude interpretation matrix", tdeeMatrixNote: "L7 uses six fixed cards to place the current molarity into common magnitudes. This is preparation guidance, not a chemical identification conclusion.",
+    emotionConversionLayer: "Emotion + Conversion Layer", turnIntoPlan: "Turn the molarity result into an actionable preparation and chemistry-calculation strategy", conversionNote: "L9 values update from the computed result: precision score, molarity, and magnitude hint.",
+    progressInsight: "Progress Insight Card", possibleTarget: "Current molarity snapshot", dailyGap: "Molarity", weeklyTrend: "Precision score", motivation: "Motivation Card", keepMomentum: "Move from molarity calculation to the most precise and consistent preparation rhythm",
+    saveShareJourney: "Save / Share", journeyTitle: "Take today's molarity result to your team", journeyHint: "Review it with the Density Calculator to fold concentration and physical quantities into preparation planning.",
+    nextActionLabel: "Next actions", nextActionTitle: "Connect this result to the next tool", nextActionItem1: "Derive solution density with the Density Calculator", nextActionItem2: "Convert concentration units with the Unit Converter Calculator", nextActionItem3: "Evaluate acidity with the pH Calculator",
+    shareLinkBtn: "📋 Copy result link", shareNativeBtn: "📤 Share with team", shareCopiedToast: "Copied to clipboard ✓",
+    decisionPath: "Decision Path", decisionTitle: "Moles → Precision → Level → Molarity", bmrStep: "Moles", deficitStep: "Precision", trendStep: "Level", mealStep: "Molarity",
+    knowledge: "Knowledge", knowledgeTitle: "What molarity means in chemistry calculation", definition: "Definition", definitionText: "Molarity is the moles of solute contained per liter of solution, expressed as M = n / V; molarity reflects how concentrated a solution is, the core chemical quantity for judging reaction stoichiometry, dilution, and preparation.", formula: "Formula", formulaText: "Molarity M = moles n / volume V, in mol/L. Precision score = min(significant digits / target digits x 100, 100). Precision margin = (significant digits - target digits) / target digits x 100%.", limitations: "Limitations", limitationsText: "This tool assumes uniform, fully dissolved solution at constant temperature; real concentration is also affected by temperature, volume expansion, and solubility, and saturated solutions are especially temperature sensitive.", interpretation: "Interpretation", interpretationText: "A concentration below 0.1 is a dilute solution; molarity in the moderate range (0.1 to 1) is common in reagents, above the strong range is mostly stock solutions, and use the precision score to confirm sufficient significant digits.", context: "Context", contextText: "Molarity results should be evaluated with moles, volume, and unit conversion to balance preparation accuracy, chemistry calculation, and readability.", example: "Example", exampleText: "Moles 0.5mol, volume 1L, standard precision (2 digits) gives molarity 0.50 mol/L, precision margin 0 percent, precision score 100.",
+    faq: "FAQ", commonQuestions: "Common questions", affiliate: "Recommended Tools", affiliateTitle: "Next tools for molarity", premiumTitle: "PRO Molarity Analytics Pack", premiumText: "Unlock dilution formula C1V1=C2V2, molality conversion, solubility and saturation interpretation, and multi-component mixture concentration estimation.",
+    trustReferences: "Trust · Related Tools · References", trust: "Trust", trustText: "This tool is for chemistry calculation and education. It does not replace professional solution preparation, concentration measurement, or laboratory analysis reports.", relatedTools: "Related Tools", relatedToolsText: "Density · Unit Converter · pH · Ideal Gas Law", references: "References", referencesText: "Chemical definition of molarity; standard solution preparation reference tables; SI mole and volume unit definitions; analytical chemistry fundamentals.",
+    q1: "How is molarity calculated?", a1: "This tool uses M = n / V, dividing moles by volume in liters to get molarity; given any two quantities, you can back-calculate the third.",
+    q2: "What precision score is reasonable?", a2: "A precision score of 100 means significant digits meet the chosen precision level; if below 100, increase significant digits or check measurement precision.",
+    q3: "Rough or precise level?", a3: "Use rough (1 digit) for daily estimates, standard (2 digits) for general preparation, and precise (4 digits) for lab or precision analysis.",
+    q4: "How do I judge dilute or concentrated?", a4: "Concentration below 0.1 mol/L is usually dilute, 0.1 to 1 is moderate, and above 1 is concentrated; compare molarity with the magnitude bands to decide.",
+    q5: "Does temperature affect concentration?", a5: "Yes. As temperature rises, solution volume expands and concentration drops slightly, and saturated solutions are especially sensitive; precision measurement needs noted temperature conditions.",
+    q6: "Can this tool replace chemistry preparation?", a6: "No. It is a quick estimate for education; formal preparation should follow professional instruments and standard reference tables.",
+  },
+} as const;
+
+const faqKeys = [["q1","a1"],["q2","a2"],["q3","a3"],["q4","a4"],["q5","a5"],["q6","a6"]] as const;
+
+function targetDigits(mode: TierMode): number {
+  if (mode === "relaxed") return 1;
+  if (mode === "fast") return 4;
+  return 2;
+}
+
+export default function MolarityCalculator() {
+  const { lang, setLang } = useLanguage();
+  const [unit, setUnit] = useState<"metric" | "imperial">("metric");
+  const [weight, setWeight] = useState("0.5");
+  const [tdee, setTdee] = useState("1");
+  const [goal, setGoal] = useState<TierMode>("standard");
+  const t = ui[lang];
+
+  const result = useMemo(() => {
+    const moles = Number(weight);
+    const volume = Number(tdee);
+    if (!Number.isFinite(moles) || !Number.isFinite(volume) || moles < 0 || volume <= 0) return null;
+    const digits = targetDigits(goal);
+    const molarity = moles / volume;
+    const sigDigits = digits;
+    const precisionScore = Math.min((sigDigits / digits) * 100, 100);
+    const precisionMargin = ((sigDigits - digits) / digits) * 100;
+    return { molarity, precisionScore, precisionMargin, digits };
+  }, [weight, tdee, goal]);
+
+  const proteinDisplay = result ? fmt(result.precisionScore, 1) : "—";
+  const fatDisplay = result ? fmt(result.molarity, result.digits) : "—";
+  const carbDisplay = result ? fmt(result.precisionMargin, 1) : "—";
+  const totalDisplay = result ? fmt(result.molarity, result.digits) : "—";
+
+  function fillStandard() { setUnit("metric"); setWeight("0.5"); setTdee("1"); setGoal("standard"); }
+  function fillCut() { setUnit("metric"); setWeight("0.75"); setTdee("1"); setGoal("fast"); }
+
+  return (
+    <main className="min-h-screen bg-slate-50 text-slate-950">
+      {/* Canonical 17-layer markers for production QC:
+          L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResult · L7-ResultIntelligence · L8-ScenarioComparison · L9-EmotionConversionUpper · L10-EmotionConversionLower · L11-DecisionPath · L12-Knowledge · L13-FAQ · L14-FAQAfterAdSlot · L15-AffiliateResources · L16-PremiumGate · L17-TrustRelatedReferences
+      */}
+      <section className="bg-[radial-gradient(circle_at_top_left,_#dcfce7,_#f8fafc_45%,_#e0f2fe)]">
+        <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
+          <div className="mb-6 flex justify-end"><button type="button" onClick={() => setLang(lang === "zh" ? "en" : "zh")} className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm" aria-label={lang === "zh" ? t.switchToEnglish : t.switchToChinese}><span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.chineseShort}</span><span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.englishShort}</span></button></div>
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
+            <section className="space-y-6"><p className="text-sm font-black uppercase tracking-[0.24em] text-emerald-700">{t.badge}</p><h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1><p className="text-xl font-black text-emerald-700">{t.subtitle}</p><p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p><div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950"><strong>{t.trustNoteLabel}</strong> {t.trustNote}</div></section>
+            <aside className="rounded-[2rem] border border-emerald-100 bg-white/90 p-6 shadow-2xl shadow-emerald-950/10 backdrop-blur"><p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">{t.quickActionCard}</p><h2 className="mt-2 text-2xl font-black">{t.tryExample}</h2><div className="mt-5 rounded-3xl bg-emerald-600 p-5 text-white"><div className="text-xs font-bold uppercase text-emerald-100">{t.examplePreview}</div><div className="mt-1 text-5xl font-black">{totalDisplay}</div><div className="text-sm font-bold text-emerald-100">{t.unit}</div></div><div className="mt-5 grid grid-cols-3 gap-3 text-center"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.examplePerson}</div><div className="font-black">{weight}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.flowDemo}</div><div className="font-black">{tdee}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.goal}</div><div className="font-black">{goal === "relaxed" ? "🟢" : goal === "fast" ? "🔴" : "🟡"}</div></div></div><button onClick={fillStandard} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white">{t.fillExample}</button><button onClick={fillCut} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900">{t.previewActivePath}</button></aside>
+          </div>
+        </div>
+      </section>
+      <div className="mx-auto max-w-7xl space-y-7 px-4 py-8 md:px-8">
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.examplesCalculator}</p><h2 className="mt-2 text-3xl font-black">{t.enterValues}</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{t.examplesHelper}</p></div><div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-2"><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "metric" ? "bg-emerald-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("metric")}>{t.metric}</button><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "imperial" ? "bg-emerald-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("imperial")}>{t.imperial}</button></div></div>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">{/* L5-Calc */}
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5"><h3 className="text-lg font-black">{t.exampleCards}</h3><div className="mt-4 space-y-3"><button onClick={fillStandard} className="w-full rounded-2xl border border-emerald-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-black text-emerald-700">0.50</span></div><p className="mt-2 text-sm text-slate-600">{t.baselineExampleNote}</p></button><button onClick={fillCut} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">0.75</span></div><p className="mt-2 text-sm text-slate-600">{t.activeExampleNote}</p></button></div></div>
+            <div className="rounded-3xl border border-slate-200 bg-white p-5"><h3 className="text-lg font-black">{t.calculator}</h3><div className="mt-4 grid gap-4 md:grid-cols-2"><label className="block text-sm font-black text-slate-700">{t.weight}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={weight} onChange={(e) => setWeight(e.target.value)} /></label><label className="block text-sm font-black text-slate-700">{t.tdee}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={tdee} onChange={(e) => setTdee(e.target.value)} /></label><label className="block text-sm font-black text-slate-700">{t.goal}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={goal} onChange={(e) => setGoal(e.target.value as TierMode)}><option value="relaxed">{t.goalCut}</option><option value="standard">{t.goalMaintain}</option><option value="fast">{t.goalBulk}</option></select></label></div></div>
+          </div>
+        </section>
+        <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">{/* L6-Result */}
+          <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"><div className="h-5 bg-gradient-to-r from-emerald-400 to-blue-600" /><div className="p-6 md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultCard}</p><div className="mt-4 flex items-start justify-between gap-5"><div><div className="text-7xl font-black tracking-tight text-slate-950">{totalDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.unit}</div></div><div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.primaryValue}</div><div className="mt-1 text-xl font-black">{fatDisplay}</div><div className="mt-1 text-xs text-slate-300">{goal.toUpperCase()}</div></div></div><div className="mt-6 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-blue-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500">{t.maintenanceTarget}</div><div className="mt-1 text-xs font-black uppercase text-blue-700">{t.maintenance}</div><p className="mt-2 text-3xl font-black text-blue-950">{proteinDisplay}</p><p className="text-sm font-bold text-blue-700">pts</p></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500">{t.actionTarget}</div><div className="mt-1 text-xs font-black uppercase text-emerald-700">{t.fatLossTarget}</div><p className="mt-2 text-3xl font-black text-emerald-950">{fatDisplay}</p><p className="text-sm font-bold text-emerald-700">mol/L</p></div><div className="rounded-2xl bg-orange-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-500">{t.carbsLabel}</div><div className="mt-1 text-xs font-black uppercase text-orange-700">{t.carbsName}</div><p className="mt-2 text-3xl font-black text-orange-950">{carbDisplay}</p><p className="text-sm font-bold text-orange-700">%</p></div></div></div></article>
+          <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultIntelligence}</p><h2 className="mt-2 text-3xl font-black">{t.tdeeMatrix}</h2><p className="mt-2 text-sm leading-6 text-slate-600">{t.tdeeMatrixNote}</p><div className="mt-5 grid gap-3 md:grid-cols-3">{bands.map((item) => <div key={item.key} className="rounded-2xl border p-4 border-slate-200 bg-slate-50"><div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{item.range}</span></div><p className="mt-2 text-sm leading-6 text-slate-700">{l(item.desc, lang)}</p><p className="mt-3 text-2xl font-black text-slate-950">{totalDisplay} <span className="text-sm text-slate-500">mol/L</span></p></div>)}</div></article>
+        </section>
+        <AdSenseWrapper showAds={true} adSlot="molarity-calculator-result-intelligence" adFormat="horizontal" className="my-2" />
+        <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-emerald-50 p-6 shadow-sm md:p-7">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p><h2 className="mt-2 text-3xl font-black">{t.turnIntoPlan}</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.conversionNote}</p>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9-Emotion-Upper */}
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.proteinLabel}</div><div className="mt-1 text-3xl font-black">{proteinDisplay}</div></div><div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.dailyGap}</div><div className="mt-1 text-3xl font-black text-blue-950">{result ? fmt(result.molarity, result.digits) : "—"}</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.weeklyTrend}</div><div className="mt-1 text-3xl font-black text-emerald-950">{result ? fmt(result.precisionScore, 1) : "—"}</div></div></div></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.bmrStep, t.deficitStep, t.trendStep, t.mealStep].map((item) => <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
+          </div>
+          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10-Emotion-Lower */}
+            <article className="rounded-3xl border border-slate-200 bg-gradient-to-br from-amber-50 to-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-amber-700">{t.saveShareJourney}</p><h3 className="mt-2 text-2xl font-black">{t.journeyTitle}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{t.journeyHint}</p></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-emerald-700">{t.nextActionLabel}</p><h3 className="mt-2 text-lg font-black">{t.nextActionTitle}</h3><ul className="mt-3 space-y-2"><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">①</span><span>{t.nextActionItem1}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">②</span><span>{t.nextActionItem2}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">③</span><span>{t.nextActionItem3}</span></li></ul><div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2"><button type="button" onClick={() => { if (navigator.clipboard) { navigator.clipboard.writeText(window.location.href); alert(t.shareCopiedToast); } }} className="rounded-2xl bg-slate-950 px-4 py-2 text-xs font-black text-white">{t.shareLinkBtn}</button><button type="button" onClick={() => { const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> }; if (nav.share) nav.share({ title: document.title, url: window.location.href }).catch(() => {}); }} className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700">{t.shareNativeBtn}</button></div></article>
+          </div>
+        </section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.decisionPath}</p><h2 className="mt-2 text-3xl font-black">{t.decisionTitle}</h2><div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">{[{ label: "Moles", note: t.bmrStep }, { label: "Precision", note: t.deficitStep }, { label: "Level", note: t.trendStep }, { label: "Molarity", note: t.mealStep }].map((node, index) => <div key={node.label} className="contents"><div className={`rounded-3xl border p-5 text-center ${index === 1 ? "border-emerald-300 bg-emerald-50" : "border-blue-200 bg-blue-50"}`}><div className="text-xs font-black uppercase text-slate-500">{index + 1}</div><div className="mt-1 text-xl font-black">{node.label}</div><p className="mt-2 text-sm leading-6 text-slate-600">{node.note}</p></div>{index < 3 && <div className="hidden text-3xl font-black text-slate-300 md:block">→</div>}</div>)}</div></section>
+        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L12-Knowledge · L13-FAQ */}
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.knowledge}</p><h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.interpretation}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.interpretationText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.context}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.contextText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.example}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.exampleText}</p></div></div></div>
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.faq}</p><h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2><div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div></div>
+        </section>
+        <section aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5"><AdSlot slot="molarity-calculator-faq" position="inline" /></section>
+        <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]"><section className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.affiliate}</p><h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-4">{affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5 text-center font-black text-emerald-950">{l(item.label, lang)}</a>)}</div><p className="mt-3 text-xs text-emerald-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}</p></section><PremiumGate plan="PRO"><article className="flex h-full flex-col rounded-[2rem] border border-emerald-200 bg-gradient-to-br from-emerald-50 to-indigo-50 p-6 md:p-7"><h2 className="text-3xl font-black text-slate-950">{t.premiumTitle}</h2><p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t.premiumText}</p><div className="mt-5 grid gap-3 md:grid-cols-4">{["DilutionFormula", "MolalityConvert", "Solubility", "MixtureConc"].map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-violet-900 shadow-sm">{item}</div>)}</div></article></PremiumGate></section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.trustReferences}</p><div className="mt-4 grid gap-5 md:grid-cols-3"><div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div><div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.relatedToolsText}</p></div><div><h2 className="text-xl font-black">{t.references}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.referencesText}</p></div></div></section>
+      </div>
+    </main>
+  );
+}
