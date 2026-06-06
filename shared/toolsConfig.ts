@@ -3688,6 +3688,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "anagram-solver",
+    name: "字謎重組器",
+    category: "language",
+    path: "/tools/language/anagram-solver",
+    icon: "Languages",
+    description: "輸入一個英文單字或一串字母，立刻用字母指紋演算法重組出所有可能的英文單字，每個結果標註 CEFR 等級、IPA 音標、詞性與中文釋義，並可展開查看英文定義與例句，幫你在玩拼字遊戲、解字謎、Scrabble 與創意命名時快速找出所有同字母異序的單字。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3964,3 +3979,4 @@ export const voltageDropCalculator = { id: "voltage-drop-calculator", category: 
 export const synonymFinder = { id: "synonym-finder", category: "language", name: "Synonym Finder", path: "/tools/language/synonym-finder" };
 export const antonymFinder = { id: "antonym-finder", category: "language", name: "Antonym Finder", path: "/tools/language/antonym-finder" };
 export const rhymeFinder = { id: "rhyme-finder", category: "language", name: "Rhyme Finder", path: "/tools/language/rhyme-finder" };
+export const anagramSolver = { id: "anagram-solver", category: "language", name: "Anagram Solver", path: "/tools/language/anagram-solver" };
