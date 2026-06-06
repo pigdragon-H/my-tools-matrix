@@ -3388,6 +3388,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "grid-layout-calculator",
+    name: "網格版面計算機",
+    category: "design",
+    path: "/tools/design/grid-layout-calculator",
+    icon: "Palette",
+    description: "網格版面計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3644,3 +3659,4 @@ export const goldenRatioCalculator = { id: "golden-ratio-calculator", category: 
 export const aspectRatioCalculator = { id: "aspect-ratio-calculator", category: "design", name: "Aspect Ratio Calculator", path: "/tools/design/aspect-ratio-calculator" };
 export const typeScaleCalculator = { id: "type-scale-calculator", category: "design", name: "Type Scale Calculator", path: "/tools/design/type-scale-calculator" };
 export const pxRemConverter = { id: "px-rem-converter", category: "design", name: "PX REM Converter", path: "/tools/design/px-rem-converter" };
+export const gridLayoutCalculator = { id: "grid-layout-calculator", category: "design", name: "Grid Layout Calculator", path: "/tools/design/grid-layout-calculator" };
