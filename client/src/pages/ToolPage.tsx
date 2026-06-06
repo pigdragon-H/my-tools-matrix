@@ -224,6 +224,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "ai/chatbot-cost-calculator": lazy(() => import("@/tools/ai/ChatbotCostCalculator")),
   "ai/ai-model-comparison": lazy(() => import("@/tools/ai/AiModelComparison")),
   "ai/ai-accuracy-calculator": lazy(() => import("@/tools/ai/AiAccuracyCalculator")),
+  "ai/model-latency-calculator": lazy(() => import("@/tools/ai/ModelLatencyCalculator")),
 };
 
 function ToolSkeleton() {
