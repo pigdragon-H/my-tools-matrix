@@ -2878,6 +2878,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "travel-price-comparator",
+    name: "旅遊價格比較器",
+    category: "travel",
+    path: "/tools/travel/travel-price-comparator",
+    icon: "Scale",
+    description: "旅遊價格比較器 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3100,3 +3115,4 @@ export const travelDayCounter = { id: "travel-day-counter", category: "travel", 
 export const travelInsuranceCalculator = { id: "travel-insurance-calculator", category: "travel", name: "Travel Insurance Calculator", path: "/tools/travel/travel-insurance-calculator" };
 export const hotelCostCalculator = { id: "hotel-cost-calculator", category: "travel", name: "Hotel Cost Calculator", path: "/tools/travel/hotel-cost-calculator" };
 export const dailyBudgetCalculator = { id: "daily-budget-calculator", category: "travel", name: "Daily Budget Calculator", path: "/tools/travel/daily-budget-calculator" };
+export const travelPriceComparator = { id: "travel-price-comparator", category: "travel", name: "Travel Price Comparator", path: "/tools/travel/travel-price-comparator" };
