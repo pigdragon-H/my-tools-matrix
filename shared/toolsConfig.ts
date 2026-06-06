@@ -2938,6 +2938,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "road-trip-calculator",
+    name: "公路旅行計算機",
+    category: "travel",
+    path: "/tools/travel/road-trip-calculator",
+    icon: "Car",
+    description: "公路旅行計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3164,3 +3179,4 @@ export const travelPriceComparator = { id: "travel-price-comparator", category: 
 export const currencyTravelConverter = { id: "currency-travel-converter", category: "travel", name: "Travel Currency Converter", path: "/tools/travel/currency-travel-converter" };
 export const purchasingPowerParity = { id: "purchasing-power-parity", category: "travel", name: "Purchasing Power Parity", path: "/tools/travel/purchasing-power-parity" };
 export const fuelCostCalculator = { id: "fuel-cost-calculator", category: "travel", name: "Fuel Cost Calculator", path: "/tools/travel/fuel-cost-calculator" };
+export const roadTripCalculator = { id: "road-trip-calculator", category: "travel", name: "Road Trip Calculator", path: "/tools/travel/road-trip-calculator" };
