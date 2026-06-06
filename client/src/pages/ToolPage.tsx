@@ -230,6 +230,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "ai/ai-roi-calculator": lazy(() => import("@/tools/ai/AiRoiCalculator")),
   "ai/automation-savings-calculator": lazy(() => import("@/tools/ai/AutomationSavingsCalculator")),
   "ai/ai-labor-calculator": lazy(() => import("@/tools/ai/AiLaborCalculator")),
+  "ai/ai-implementation-roi": lazy(() => import("@/tools/ai/AiImplementationRoi")),
 };
 
 function ToolSkeleton() {
