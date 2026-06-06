@@ -207,6 +207,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "travel/purchasing-power-parity": lazy(() => import("@/tools/travel/PurchasingPowerParity")),
   "travel/fuel-cost-calculator": lazy(() => import("@/tools/travel/FuelCostCalculator")),
   "travel/road-trip-calculator": lazy(() => import("@/tools/travel/RoadTripCalculator")),
+  "travel/jet-lag-calculator": lazy(() => import("@/tools/travel/JetLagCalculator")),
 };
 
 function ToolSkeleton() {

@@ -2953,6 +2953,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "jet-lag-calculator",
+    name: "時差調適計算機",
+    category: "travel",
+    path: "/tools/travel/jet-lag-calculator",
+    icon: "Plane",
+    description: "時差調適計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3180,3 +3195,4 @@ export const currencyTravelConverter = { id: "currency-travel-converter", catego
 export const purchasingPowerParity = { id: "purchasing-power-parity", category: "travel", name: "Purchasing Power Parity", path: "/tools/travel/purchasing-power-parity" };
 export const fuelCostCalculator = { id: "fuel-cost-calculator", category: "travel", name: "Fuel Cost Calculator", path: "/tools/travel/fuel-cost-calculator" };
 export const roadTripCalculator = { id: "road-trip-calculator", category: "travel", name: "Road Trip Calculator", path: "/tools/travel/road-trip-calculator" };
+export const jetLagCalculator = { id: "jet-lag-calculator", category: "travel", name: "Jet Lag Calculator", path: "/tools/travel/jet-lag-calculator" };
