@@ -3673,6 +3673,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "rhyme-finder",
+    name: "押韻詞查找器",
+    category: "language",
+    path: "/tools/language/rhyme-finder",
+    icon: "Languages",
+    description: "輸入一個英文單字，串接 Datamuse 開放語料即時找出押韻詞，每個結果標註 CEFR 等級、IPA 音標、詞性與中文釋義，並可展開查看英文定義與例句，幫你在寫詩、寫歌詞、押韻創作與口語節奏練習中快速找到合適的韻腳。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3948,3 +3963,4 @@ export const heatEnergyCalculator = { id: "heat-energy-calculator", category: "s
 export const voltageDropCalculator = { id: "voltage-drop-calculator", category: "science", name: "Voltage Drop Calculator", path: "/tools/science/voltage-drop-calculator" };
 export const synonymFinder = { id: "synonym-finder", category: "language", name: "Synonym Finder", path: "/tools/language/synonym-finder" };
 export const antonymFinder = { id: "antonym-finder", category: "language", name: "Antonym Finder", path: "/tools/language/antonym-finder" };
+export const rhymeFinder = { id: "rhyme-finder", category: "language", name: "Rhyme Finder", path: "/tools/language/rhyme-finder" };
