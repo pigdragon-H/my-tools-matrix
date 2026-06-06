@@ -3013,6 +3013,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "vaccine-schedule-calculator",
+    name: "疫苗接種排程計算機",
+    category: "travel",
+    path: "/tools/travel/vaccine-schedule-calculator",
+    icon: "Syringe",
+    description: "疫苗接種排程計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3244,3 +3259,4 @@ export const jetLagCalculator = { id: "jet-lag-calculator", category: "travel", 
 export const altitudeSicknessCalculator = { id: "altitude-sickness-calculator", category: "travel", name: "Altitude Sickness Calculator", path: "/tools/travel/altitude-sickness-calculator" };
 export const spfCalculator = { id: "spf-calculator", category: "travel", name: "SPF Calculator", path: "/tools/travel/spf-calculator" };
 export const travelHydrationCalculator = { id: "travel-hydration-calculator", category: "travel", name: "Travel Hydration Calculator", path: "/tools/travel/travel-hydration-calculator" };
+export const vaccineScheduleCalculator = { id: "vaccine-schedule-calculator", category: "travel", name: "Vaccine Schedule Calculator", path: "/tools/travel/vaccine-schedule-calculator" };

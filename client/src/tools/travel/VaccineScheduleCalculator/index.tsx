@@ -1,0 +1,172 @@
+// @profile B
+// Profile B · Calculator-Travel · VaccineScheduleCalculator（GOLD-STANDARD-001 compatible）
+
+import { useMemo, useState } from "react";
+import { AdSenseWrapper } from "@/components/AdSenseWrapper";
+import { AdSlot } from "@/components/business/AdSlot";
+import { PremiumGate } from "@/components/business/PremiumGate";
+import { useLanguage } from "@/contexts/LanguageContext";
+
+type Lang = "zh" | "en";
+type LocalText = { zh: string; en: string };
+type AffiliateItem = { label: LocalText; href: string };
+type TierMode = "relaxed" | "standard" | "tight";
+const l = (v: LocalText, lang: Lang) => v[lang];
+const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
+
+const bands = [
+  { key: "tiny", range: "< 30%", label: { zh: "極趕", en: "Very Tight" }, desc: { zh: "前置時間極不足，疫苗難以完整生效，須儘速就醫評估。", en: "Very insufficient lead time—vaccines may not fully take effect; see a clinic fast." } },
+  { key: "low", range: "30–50%", label: { zh: "趕", en: "Tight" }, desc: { zh: "時間偏緊，宜優先接種關鍵疫苗並接受加速劑程。", en: "Tight timing; prioritize key vaccines and consider accelerated schedules." } },
+  { key: "healthy", range: "50–75%", label: { zh: "中等", en: "Moderate" }, desc: { zh: "常見出行前區間，按建議劑程分次接種即可。", en: "Common pre-trip band; follow the recommended multi-dose schedule." } },
+  { key: "good", range: "75–90%", label: { zh: "充裕", en: "Ample" }, desc: { zh: "時間充裕，可從容安排劑次間隔與免疫生效期。", en: "Ample time; comfortably arrange dose intervals and immunity onset." } },
+  { key: "strong", range: "90–100%", label: { zh: "理想", en: "Ideal" }, desc: { zh: "前置時間理想，疫苗可完整生效並預留追加空間。", en: "Ideal lead time; vaccines fully take effect with room for boosters." } },
+  { key: "elite", range: "100%", label: { zh: "完備", en: "Complete" }, desc: { zh: "時間完全足夠，所有建議疫苗皆可如期完成。", en: "Time is fully sufficient; all recommended vaccines can be completed on schedule." } },
+] as const;
+
+const affiliateItems: AffiliateItem[] = [
+  { label: { zh: "旅遊補水計算機", en: "Travel Hydration Calculator" }, href: "/tools/travel/travel-hydration-calculator" },
+  { label: { zh: "高山症風險計算機", en: "Altitude Sickness Calculator" }, href: "/tools/travel/altitude-sickness-calculator" },
+  { label: { zh: "旅遊天數計算機", en: "Travel Day Counter" }, href: "/tools/travel/travel-day-counter" },
+  { label: { zh: "旅遊預算計算機", en: "Travel Budget Calculator" }, href: "/tools/travel/travel-budget-calculator" },
+];
+
+const ui = {
+  zh: {
+    badge: "旅遊 · 疫苗排程 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "疫苗接種排程計算機 · Vaccine", subtitle: "用距出發天數、所需劑次與前置急迫度算出疫苗準備度占比與每劑間隔",
+    intro: "Vaccine Schedule Calculator 依據距出發天數、所需接種劑次與前置急迫度（寬鬆、標準或緊湊），計算每劑建議間隔、疫苗準備度占比與緩衝天數，協助你判斷時間是否足夠、該不該採加速劑程、何時要儘速就醫評估，讓出國前的疫苗準備更安心有序。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以建議前置天數估算，未含個別疫苗劑程、禁忌與醫療史；實際接種排程請以旅遊門診或專業醫師建議為準。",
+    quickActionCard: "快速範例卡", tryExample: "一鍵建立疫苗範例", examplePreview: "準備度預覽", examplePerson: "距出發天數", fillExample: "一鍵填入標準急迫範例", previewActivePath: "填入緊湊急迫範例",
+    examplesCalculator: "範例 → 計算機", enterValues: "輸入距出發天數、所需劑次與前置急迫度", examplesHelper: "先用範例理解天數與劑次如何決定準備度占比與每劑間隔，再改成自己的行程數據。",
+    metric: "公制", imperial: "占比檢視", exampleCards: "範例卡", baselineExample: "標準急迫模式", activeExample: "緊湊急迫示範", baselineExampleNote: "天數 60 · 劑次 2 · 標準", activeExampleNote: "天數 60 · 劑次 2 · 緊湊", carbsLabel: "準備度占比", carbsName: "%", proteinLabel: "準備度占比", flowDemo: "所需劑次", calculator: "計算機",
+    weight: "距出發天數 (天)", tdee: "所需接種劑次 (劑)", goal: "前置急迫度", goalCut: "寬鬆 (建議 56 天)", goalMaintain: "標準 (建議 42 天)", goalBulk: "緊湊 (建議 28 天)",
+    resultCard: "疫苗排程結果", unit: "% (準備度)", primaryValue: "主要數值", maintenanceTarget: "每劑建議間隔", actionTarget: "緩衝天數", estimatedTdee: "所需劑次", maintenance: "天", fatLossTarget: "天",
+    resultIntelligence: "結果解讀", tdeeMatrix: "六格疫苗準備度占比判讀矩陣", tdeeMatrixNote: "L7 固定六格，將目前準備度占比放進常見區間；這是規劃參考，不是醫療結論。",
+    emotionConversionLayer: "情緒與轉換層", turnIntoPlan: "把疫苗結果轉成可執行的行前策略", conversionNote: "L9 會連動目前計算結果，顯示準備度占比、緩衝天數與劑次提示。",
+    progressInsight: "進度洞察卡", possibleTarget: "目前疫苗概況", dailyGap: "準備度占比", weeklyTrend: "緩衝天數", motivation: "動力卡", keepMomentum: "從準備度分析走向安心有序的行前接種節奏",
+    saveShareJourney: "儲存 / 分享", journeyTitle: "把今天的疫苗結果帶回團隊", journeyHint: "用旅遊天數計算機一起看，把接種間隔與行程天數一併納入行前規劃。",
+    nextActionLabel: "下一步行動", nextActionTitle: "將結果接到下一個工具", nextActionItem1: "用旅遊天數計算機確認行程天數", nextActionItem2: "用旅遊補水計算機規劃接種後補水", nextActionItem3: "用旅遊預算把疫苗費用納入花費",
+    shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給旅伴", shareCopiedToast: "已複製到剪貼簿 ✓",
+    decisionPath: "決策路徑", decisionTitle: "天數 → 準備度 → 急迫度 → 劑次", bmrStep: "天數", deficitStep: "準備度", trendStep: "急迫度", mealStep: "劑次",
+    knowledge: "知識", knowledgeTitle: "前置急迫度在疫苗排程中的意義", definition: "定義", definitionText: "疫苗排程評估是把距出發天數依建議前置天數換算成準備度占比，再把天數分配給各劑次；準備度占比與緩衝天數衡量疫苗能否如期完整生效，是出國前準備的核心指標。", formula: "公式", formulaText: "準備度占比 = 距出發天數 ÷ 建議前置天數。每劑間隔 = 距出發天數 ÷ 劑次。緩衝天數 = 距出發天數 − 建議前置天數。", limitations: "限制", limitationsText: "本工具以建議前置天數估算；真實排程還受疫苗種類、劑程間隔、免疫生效期、禁忌與醫療史影響，部分疫苗需數週才完整生效。", interpretation: "解讀", interpretationText: "準備度占比低於 50% 屬偏趕，達 100% 屬完備；可透過提早就醫、採加速劑程、優先接種關鍵疫苗來改善。", context: "脈絡", contextText: "疫苗結果應與旅遊天數、旅遊補水與旅遊預算一起看，才能在行前準備中兼顧健康與時程。", example: "範例", exampleText: "距出發 60 天、標準急迫（建議 42 天）、劑次 2 → 準備度約 100%，每劑間隔約 30 天，時間充裕。",
+    faq: "FAQ", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "疫苗的下一步工具", premiumTitle: "PRO 疫苗排程分析包", premiumText: "解鎖各國疫苗要求串接、個別劑程模板、接種提醒與多人同行排程。",
+    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具只供行程規劃與教育用途，不取代旅遊醫學門診或專業疫苗接種診斷。", relatedTools: "相關工具", relatedToolsText: "Travel Hydration · Altitude · Travel Day · Travel Budget", references: "參考資料", referencesText: "旅遊醫學會接種建議；各國入境疫苗要求；疫苗劑程指引；免疫生效期文獻。",
+    q1: "準備度占比怎麼算的？", a1: "本工具以距出發天數除以建議前置天數得準備度占比；實際還受疫苗種類與劑程間隔影響。",
+    q2: "要提前多久接種？", a2: "一般建議出發前 4–6 週開始，部分多劑疫苗需更早；越早就醫越能完整完成劑程並生效。",
+    q3: "寬鬆還是緊湊急迫度？", a3: "時間充足或多劑疫苗宜選寬鬆；時間很趕者選緊湊以採加速劑程，但仍應諮詢醫師。",
+    q4: "時間不夠怎麼補？", a4: "儘速就醫、優先接種關鍵疫苗、採加速劑程、必要時改採單劑替代方案並補打追加劑。",
+    q5: "要不要把劑次間隔算進去？", a5: "要。本工具的每劑間隔已依劑次估算；實際請以各疫苗仿單與醫師建議的最短間隔為準。",
+    q6: "這個工具能取代醫師嗎？", a6: "不能。它只是快速估算與教育用途；實際接種劑程與禁忌請務必諮詢旅遊醫學專業醫師。" },
+  en: {
+    badge: "Travel · Vaccine · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "Vaccine Schedule Calculator", subtitle: "Compute vaccine readiness share and per-dose interval from days until departure, doses required, and lead-time urgency",
+    intro: "This calculator uses days until departure, doses required, and lead-time urgency (relaxed, standard, or tight) to compute a recommended per-dose interval, a readiness share, and buffer days, helping you judge whether time is sufficient, whether to use an accelerated schedule, and when to see a clinic fast, making pre-trip vaccine preparation more reassuring and orderly.",
+    trustNoteLabel: "Note:", trustNote: "This tool estimates from recommended lead-time days, excluding individual vaccine schedules, contraindications, and medical history; base your real schedule on a travel clinic or professional physician advice.",
+    quickActionCard: "Quick Action Card", tryExample: "Create a vaccine example instantly", examplePreview: "Readiness preview", examplePerson: "Days to departure", fillExample: "One-click standard urgency example", previewActivePath: "Fill tight urgency example",
+    examplesCalculator: "Examples → Calculator", enterValues: "Enter days until departure, doses required, and lead-time urgency", examplesHelper: "Start with an example to see how days and doses set the readiness share and per-dose interval, then replace with your own trip data.",
+    metric: "Metric", imperial: "Share view", exampleCards: "Example cards", baselineExample: "Standard urgency mode", activeExample: "Tight demo", baselineExampleNote: "Days 60 · doses 2 · standard", activeExampleNote: "Days 60 · doses 2 · tight", carbsLabel: "Readiness share", carbsName: "%", proteinLabel: "Readiness share", flowDemo: "Doses required", calculator: "Calculator",
+    weight: "Days until departure (days)", tdee: "Doses required (doses)", goal: "Lead-time urgency", goalCut: "Relaxed (56 days advised)", goalMaintain: "Standard (42 days advised)", goalBulk: "Tight (28 days advised)",
+    resultCard: "Vaccine Schedule Result", unit: "% (readiness)", primaryValue: "Primary Value", maintenanceTarget: "Per-dose interval", actionTarget: "Buffer days", estimatedTdee: "Doses required", maintenance: "days", fatLossTarget: "days",
+    resultIntelligence: "Result Intelligence", tdeeMatrix: "Six-card vaccine-readiness interpretation matrix", tdeeMatrixNote: "L7 uses six fixed cards to place the current readiness share into common zones. This is planning guidance, not a medical conclusion.",
+    emotionConversionLayer: "Emotion + Conversion Layer", turnIntoPlan: "Turn the vaccine result into an actionable pre-trip strategy", conversionNote: "L9 values update from the computed result: readiness share, buffer days, and doses hint.",
+    progressInsight: "Progress Insight Card", possibleTarget: "Current vaccine snapshot", dailyGap: "Readiness share", weeklyTrend: "Buffer days", motivation: "Motivation Card", keepMomentum: "Move from readiness analysis to a reassuring, orderly pre-trip vaccination rhythm",
+    saveShareJourney: "Save / Share", journeyTitle: "Take today's vaccine result to your group", journeyHint: "Review it with the Travel Day Counter to fold dose intervals and trip days into pre-trip planning.",
+    nextActionLabel: "Next actions", nextActionTitle: "Connect this result to the next tool", nextActionItem1: "Confirm trip days with the Travel Day Counter", nextActionItem2: "Plan post-vaccine hydration with the Travel Hydration Calculator", nextActionItem3: "Fold vaccine fees into spend with Travel Budget",
+    shareLinkBtn: "📋 Copy result link", shareNativeBtn: "📤 Share with travel mates", shareCopiedToast: "Copied to clipboard ✓",
+    decisionPath: "Decision Path", decisionTitle: "Days → Readiness → Urgency → Doses", bmrStep: "Days", deficitStep: "Readiness", trendStep: "Urgency", mealStep: "Doses",
+    knowledge: "Knowledge", knowledgeTitle: "What lead-time urgency means in vaccine scheduling", definition: "Definition", definitionText: "Vaccine-schedule assessment converts days until departure by recommended lead-time into a readiness share, then allocates days across doses; readiness share and buffer days measure whether vaccines can take full effect on time, the core indicator of pre-trip preparation.", formula: "Formula", formulaText: "Readiness share = days until departure ÷ recommended lead-time days. Per-dose interval = days until departure ÷ doses. Buffer days = days until departure − recommended lead-time days.", limitations: "Limitations", limitationsText: "This tool estimates from recommended lead-time days; real scheduling is also affected by vaccine type, dose intervals, immunity onset, contraindications, and medical history, and some vaccines take weeks to fully take effect.", interpretation: "Interpretation", interpretationText: "A readiness share below 50% is tight and 100% is complete; improve it by seeing a clinic earlier, using accelerated schedules, and prioritizing key vaccines.", context: "Context", contextText: "Vaccine results should be evaluated with travel day, travel hydration, and travel budget to balance health and timing in pre-trip preparation.", example: "Example", exampleText: "Days to departure 60, standard urgency (42 days advised), doses 2 → about 100% readiness, per-dose interval about 30 days, ample time.",
+    faq: "FAQ", commonQuestions: "Common questions", affiliate: "Recommended Tools", affiliateTitle: "Next tools for vaccines", premiumTitle: "PRO Vaccine Schedule Analytics Pack", premiumText: "Unlock country vaccine-requirement feeds, individual dose-schedule templates, vaccination reminders, and multi-traveler scheduling.",
+    trustReferences: "Trust · Related Tools · References", trust: "Trust", trustText: "This tool is for trip planning and education. It does not replace a travel-medicine clinic or professional vaccination diagnosis.", relatedTools: "Related Tools", relatedToolsText: "Travel Hydration · Altitude · Travel Day · Travel Budget", references: "References", referencesText: "Travel-medicine society vaccination advice; country entry vaccine requirements; vaccine dose-schedule guidelines; immunity-onset literature.",
+    q1: "How is readiness share calculated?", a1: "This tool divides days until departure by recommended lead-time days for the readiness share; actual is also affected by vaccine type and dose intervals.",
+    q2: "How early should I vaccinate?", a2: "It is generally advised to start 4–6 weeks before departure, and some multi-dose vaccines need earlier; the earlier you see a clinic, the more fully you complete and activate the schedule.",
+    q3: "Relaxed or tight urgency?", a3: "Ample time or multi-dose vaccines lean relaxed; very tight timing picks tight for accelerated schedules, but still consult a physician.",
+    q4: "How do I cover insufficient time?", a4: "See a clinic fast, prioritize key vaccines, use accelerated schedules, and if needed switch to single-dose alternatives with later boosters.",
+    q5: "Should I count dose intervals?", a5: "Yes. This tool's per-dose interval is estimated from doses; in practice follow each vaccine's package insert and physician-advised minimum intervals.",
+    q6: "Can this tool replace a doctor?", a6: "No. It is a quick estimate for education; for actual dose schedules and contraindications, be sure to consult a travel-medicine professional physician." },
+} as const;
+
+const faqKeys = [["q1","a1"],["q2","a2"],["q3","a3"],["q4","a4"],["q5","a5"],["q6","a6"]] as const;
+
+function recommendedLead(mode: TierMode): number {
+  if (mode === "relaxed") return 56;
+  if (mode === "tight") return 28;
+  return 42;
+}
+
+export default function VaccineScheduleCalculator() {
+  const { lang, setLang } = useLanguage();
+  const [unit, setUnit] = useState<"metric" | "imperial">("metric");
+  const [weight, setWeight] = useState("60");
+  const [tdee, setTdee] = useState("2");
+  const [goal, setGoal] = useState<TierMode>("standard");
+  const t = ui[lang];
+
+  const result = useMemo(() => {
+    const daysUntil = Number(weight);
+    const doses = Number(tdee);
+    if (daysUntil <= 0 || doses <= 0) return null;
+    const lead = recommendedLead(goal);
+    const readinessShare = Math.min((daysUntil / lead) * 100, 100);
+    const perDoseInterval = daysUntil / doses;
+    const bufferDays = daysUntil - lead;
+    return { daysUntil, doses, readinessShare, perDoseInterval, bufferDays };
+  }, [weight, tdee, goal]);
+
+  const proteinDisplay = result ? fmt(result.readinessShare, 1) : "—";
+  const fatDisplay = result ? fmt(result.bufferDays, 0) : "—";
+  const carbDisplay = result ? fmt(result.perDoseInterval, 0) : "—";
+  const totalDisplay = result ? fmt(result.readinessShare, 1) : "—";
+
+  function fillStandard() { setUnit("metric"); setWeight("60"); setTdee("2"); setGoal("standard"); }
+  function fillCut() { setUnit("metric"); setWeight("60"); setTdee("2"); setGoal("tight"); }
+
+  return (
+    <main className="min-h-screen bg-slate-50 text-slate-950">
+      {/* Canonical 17-layer markers for production QC:
+          L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResult · L7-ResultIntelligence · L8-ScenarioComparison · L9-EmotionConversionUpper · L10-EmotionConversionLower · L11-DecisionPath · L12-Knowledge · L13-FAQ · L14-FAQAfterAdSlot · L15-AffiliateResources · L16-PremiumGate · L17-TrustRelatedReferences
+      */}
+      <section className="bg-[radial-gradient(circle_at_top_left,_#dcfce7,_#f8fafc_45%,_#e0f2fe)]">
+        <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
+          <div className="mb-6 flex justify-end"><button type="button" onClick={() => setLang(lang === "zh" ? "en" : "zh")} className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm" aria-label={lang === "zh" ? t.switchToEnglish : t.switchToChinese}><span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.chineseShort}</span><span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.englishShort}</span></button></div>
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
+            <section className="space-y-6"><p className="text-sm font-black uppercase tracking-[0.24em] text-emerald-700">{t.badge}</p><h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1><p className="text-xl font-black text-emerald-700">{t.subtitle}</p><p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p><div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950"><strong>{t.trustNoteLabel}</strong> {t.trustNote}</div></section>
+            <aside className="rounded-[2rem] border border-emerald-100 bg-white/90 p-6 shadow-2xl shadow-emerald-950/10 backdrop-blur"><p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">{t.quickActionCard}</p><h2 className="mt-2 text-2xl font-black">{t.tryExample}</h2><div className="mt-5 rounded-3xl bg-emerald-600 p-5 text-white"><div className="text-xs font-bold uppercase text-emerald-100">{t.examplePreview}</div><div className="mt-1 text-5xl font-black">{totalDisplay}</div><div className="text-sm font-bold text-emerald-100">{t.unit}</div></div><div className="mt-5 grid grid-cols-3 gap-3 text-center"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.examplePerson}</div><div className="font-black">{weight}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.flowDemo}</div><div className="font-black">{tdee}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.goal}</div><div className="font-black">{goal === "relaxed" ? "🟢" : goal === "tight" ? "🔴" : "🟡"}</div></div></div><button onClick={fillStandard} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white">{t.fillExample}</button><button onClick={fillCut} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900">{t.previewActivePath}</button></aside>
+          </div>
+        </div>
+      </section>
+      <div className="mx-auto max-w-7xl space-y-7 px-4 py-8 md:px-8">
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.examplesCalculator}</p><h2 className="mt-2 text-3xl font-black">{t.enterValues}</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{t.examplesHelper}</p></div><div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-2"><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "metric" ? "bg-emerald-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("metric")}>{t.metric}</button><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "imperial" ? "bg-emerald-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("imperial")}>{t.imperial}</button></div></div>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">{/* L5-Calc */}
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5"><h3 className="text-lg font-black">{t.exampleCards}</h3><div className="mt-4 space-y-3"><button onClick={fillStandard} className="w-full rounded-2xl border border-emerald-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-black text-emerald-700">100</span></div><p className="mt-2 text-sm text-slate-600">{t.baselineExampleNote}</p></button><button onClick={fillCut} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">100</span></div><p className="mt-2 text-sm text-slate-600">{t.activeExampleNote}</p></button></div></div>
+            <div className="rounded-3xl border border-slate-200 bg-white p-5"><h3 className="text-lg font-black">{t.calculator}</h3><div className="mt-4 grid gap-4 md:grid-cols-2"><label className="block text-sm font-black text-slate-700">{t.weight}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={weight} onChange={(e) => setWeight(e.target.value)} /></label><label className="block text-sm font-black text-slate-700">{t.tdee}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={tdee} onChange={(e) => setTdee(e.target.value)} /></label><label className="block text-sm font-black text-slate-700">{t.goal}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={goal} onChange={(e) => setGoal(e.target.value as TierMode)}><option value="relaxed">{t.goalCut}</option><option value="standard">{t.goalMaintain}</option><option value="tight">{t.goalBulk}</option></select></label></div></div>
+          </div>
+        </section>
+        <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">{/* L6-Result */}
+          <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"><div className="h-5 bg-gradient-to-r from-emerald-400 to-blue-600" /><div className="p-6 md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultCard}</p><div className="mt-4 flex items-start justify-between gap-5"><div><div className="text-7xl font-black tracking-tight text-slate-950">{totalDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.unit}</div></div><div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.primaryValue}</div><div className="mt-1 text-xl font-black">{fatDisplay}</div><div className="mt-1 text-xs text-slate-300">{goal.toUpperCase()}</div></div></div><div className="mt-6 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-blue-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500">{t.maintenanceTarget}</div><div className="mt-1 text-xs font-black uppercase text-blue-700">{t.maintenance}</div><p className="mt-2 text-3xl font-black text-blue-950">{carbDisplay}</p><p className="text-sm font-bold text-blue-700">d</p></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500">{t.actionTarget}</div><div className="mt-1 text-xs font-black uppercase text-emerald-700">{t.fatLossTarget}</div><p className="mt-2 text-3xl font-black text-emerald-950">{fatDisplay}</p><p className="text-sm font-bold text-emerald-700">d</p></div><div className="rounded-2xl bg-orange-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-500">{t.carbsLabel}</div><div className="mt-1 text-xs font-black uppercase text-orange-700">{t.carbsName}</div><p className="mt-2 text-3xl font-black text-orange-950">{proteinDisplay}</p><p className="text-sm font-bold text-orange-700">%</p></div></div></div></article>
+          <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultIntelligence}</p><h2 className="mt-2 text-3xl font-black">{t.tdeeMatrix}</h2><p className="mt-2 text-sm leading-6 text-slate-600">{t.tdeeMatrixNote}</p><div className="mt-5 grid gap-3 md:grid-cols-3">{bands.map((item) => <div key={item.key} className="rounded-2xl border p-4 border-slate-200 bg-slate-50"><div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{item.range}</span></div><p className="mt-2 text-sm leading-6 text-slate-700">{l(item.desc, lang)}</p><p className="mt-3 text-2xl font-black text-slate-950">{proteinDisplay} <span className="text-sm text-slate-500">%</span></p></div>)}</div></article>
+        </section>
+        <AdSenseWrapper showAds={true} adSlot="vaccine-schedule-result-intelligence" adFormat="horizontal" className="my-2" />
+        <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-emerald-50 p-6 shadow-sm md:p-7">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p><h2 className="mt-2 text-3xl font-black">{t.turnIntoPlan}</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.conversionNote}</p>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9-Emotion-Upper */}
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.proteinLabel}</div><div className="mt-1 text-3xl font-black">{proteinDisplay}</div></div><div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.dailyGap}</div><div className="mt-1 text-3xl font-black text-blue-950">{result ? fmt(result.readinessShare, 1) : "—"}</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.weeklyTrend}</div><div className="mt-1 text-3xl font-black text-emerald-950">{result ? fmt(result.bufferDays, 0) : "—"}</div></div></div></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.bmrStep, t.deficitStep, t.trendStep, t.mealStep].map((item) => <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
+          </div>
+          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10-Emotion-Lower */}
+            <article className="rounded-3xl border border-slate-200 bg-gradient-to-br from-amber-50 to-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-amber-700">{t.saveShareJourney}</p><h3 className="mt-2 text-2xl font-black">{t.journeyTitle}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{t.journeyHint}</p></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-emerald-700">{t.nextActionLabel}</p><h3 className="mt-2 text-lg font-black">{t.nextActionTitle}</h3><ul className="mt-3 space-y-2"><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">①</span><span>{t.nextActionItem1}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">②</span><span>{t.nextActionItem2}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">③</span><span>{t.nextActionItem3}</span></li></ul><div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2"><button type="button" onClick={() => { if (navigator.clipboard) { navigator.clipboard.writeText(window.location.href); alert(t.shareCopiedToast); } }} className="rounded-2xl bg-slate-950 px-4 py-2 text-xs font-black text-white">{t.shareLinkBtn}</button><button type="button" onClick={() => { const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> }; if (nav.share) nav.share({ title: document.title, url: window.location.href }).catch(() => {}); }} className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700">{t.shareNativeBtn}</button></div></article>
+          </div>
+        </section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.decisionPath}</p><h2 className="mt-2 text-3xl font-black">{t.decisionTitle}</h2><div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">{[{ label: "Days", note: t.bmrStep }, { label: "Readiness", note: t.deficitStep }, { label: "Urgency", note: t.trendStep }, { label: "Doses", note: t.mealStep }].map((node, index) => <div key={node.label} className="contents"><div className={`rounded-3xl border p-5 text-center ${index === 1 ? "border-emerald-300 bg-emerald-50" : "border-blue-200 bg-blue-50"}`}><div className="text-xs font-black uppercase text-slate-500">{index + 1}</div><div className="mt-1 text-xl font-black">{node.label}</div><p className="mt-2 text-sm leading-6 text-slate-600">{node.note}</p></div>{index < 3 && <div className="hidden text-3xl font-black text-slate-300 md:block">→</div>}</div>)}</div></section>
+        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L12-Knowledge · L13-FAQ */}
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.knowledge}</p><h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.interpretation}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.interpretationText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.context}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.contextText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.example}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.exampleText}</p></div></div></div>
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.faq}</p><h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2><div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div></div>
+        </section>
+        <section aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5"><AdSlot slot="vaccine-schedule-faq" position="inline" /></section>
+        <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]"><section className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.affiliate}</p><h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-4">{affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5 text-center font-black text-emerald-950">{l(item.label, lang)}</a>)}</div><p className="mt-3 text-xs text-emerald-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}</p></section><PremiumGate plan="PRO"><article className="flex h-full flex-col rounded-[2rem] border border-emerald-200 bg-gradient-to-br from-emerald-50 to-indigo-50 p-6 md:p-7"><h2 className="text-3xl font-black text-slate-950">{t.premiumTitle}</h2><p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t.premiumText}</p><div className="mt-5 grid gap-3 md:grid-cols-4">{["CountryRequirements", "DoseTemplate", "VaccineAlert", "GroupSchedule"].map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-violet-900 shadow-sm">{item}</div>)}</div></article></PremiumGate></section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.trustReferences}</p><div className="mt-4 grid gap-5 md:grid-cols-3"><div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div><div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.relatedToolsText}</p></div><div><h2 className="text-xl font-black">{t.references}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.referencesText}</p></div></div></section>
+      </div>
+    </main>
+  );
+}
