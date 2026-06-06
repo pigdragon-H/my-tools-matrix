@@ -3538,6 +3538,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "pressure-calculator",
+    name: "壓力計算機",
+    category: "science",
+    path: "/tools/science/pressure-calculator",
+    icon: "FlaskConical",
+    description: "壓力計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3804,3 +3819,4 @@ export const densityCalculator = { id: "density-calculator", category: "science"
 export const molarityCalculator = { id: "molarity-calculator", category: "science", name: "Molarity Calculator", path: "/tools/science/molarity-calculator" };
 export const speedDistanceTimeCalculator = { id: "speed-distance-time-calculator", category: "science", name: "Speed Distance Time Calculator", path: "/tools/science/speed-distance-time-calculator" };
 export const accelerationCalculator = { id: "acceleration-calculator", category: "science", name: "Acceleration Calculator", path: "/tools/science/acceleration-calculator" };
+export const pressureCalculator = { id: "pressure-calculator", category: "science", name: "Pressure Calculator", path: "/tools/science/pressure-calculator" };
