@@ -3838,6 +3838,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "hangman-solver",
+    name: "吊人遊戲解題器",
+    category: "language",
+    path: "/tools/language/hangman-solver",
+    icon: "Skull",
+    description: "輸入已知字母與位置（如 _pp_e），系統依字典比對所有可能單字，並依字母頻率推薦下一個最佳猜測字母，附 KK 音標、詞類、繁中釋義與例句。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4124,3 +4139,4 @@ export const vocabularyDnaEngine = { id: "vocabulary-dna-engine", category: "lan
 export const wordUnscrambler = { id: "word-unscrambler", category: "language", name: "Word Unscrambler", path: "/tools/language/word-unscrambler" };
 export const wordFinder = { id: "word-finder", category: "language", name: "Word Finder", path: "/tools/language/word-finder" };
 export const scrabbleWordChecker = { id: "scrabble-word-checker", category: "language", name: "Scrabble Word Checker", path: "/tools/language/scrabble-word-checker" };
+export const hangmanSolver = { id: "hangman-solver", category: "language", name: "Hangman Solver", path: "/tools/language/hangman-solver" };
