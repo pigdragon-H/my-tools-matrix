@@ -250,6 +250,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "science/power-calculator": lazy(() => import("@/tools/science/PowerCalculator")),
   "science/wavelength-frequency-calculator": lazy(() => import("@/tools/science/WavelengthFrequencyCalculator")),
   "science/ideal-gas-law-calculator": lazy(() => import("@/tools/science/IdealGasLawCalculator")),
+  "science/ph-calculator": lazy(() => import("@/tools/science/PhCalculator")),
 };
 
 function ToolSkeleton() {

@@ -3598,6 +3598,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "ph-calculator",
+    name: "pH值计算器",
+    category: "science",
+    path: "/tools/science/ph-calculator",
+    icon: "FlaskConical",
+    description: "pH值计算器 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3868,3 +3883,4 @@ export const pressureCalculator = { id: "pressure-calculator", category: "scienc
 export const powerCalculator = { id: "power-calculator", category: "science", name: "Power Calculator", path: "/tools/science/power-calculator" };
 export const wavelengthFrequencyCalculator = { id: "wavelength-frequency-calculator", category: "science", name: "Wavelength Frequency Calculator", path: "/tools/science/wavelength-frequency-calculator" };
 export const idealGasLawCalculator = { id: "ideal-gas-law-calculator", category: "science", name: "Ideal Gas Law Calculator", path: "/tools/science/ideal-gas-law-calculator" };
+export const phCalculator = { id: "ph-calculator", category: "science", name: "pH Calculator", path: "/tools/science/ph-calculator" };
