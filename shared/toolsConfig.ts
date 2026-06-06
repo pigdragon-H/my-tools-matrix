@@ -3748,6 +3748,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "idiom-explainer",
+    name: "慣用語解析器",
+    category: "language",
+    path: "/tools/language/idiom-explainer",
+    icon: "Languages",
+    description: "輸入英文慣用語或關鍵字，查它的字面義、真實意思、例句與使用情境",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4028,3 +4043,4 @@ export const anagramSolver = { id: "anagram-solver", category: "language", name:
 export const wordAssociationFinder = { id: "word-association-finder", category: "language", name: "Word Association Finder", path: "/tools/language/word-association-finder" };
 export const collocationFinder = { id: "collocation-finder", category: "language", name: "Collocation Finder", path: "/tools/language/collocation-finder" };
 export const phrasalVerbFinder = { id: "phrasal-verb-finder", category: "language", name: "Phrasal Verb Finder", path: "/tools/language/phrasal-verb-finder" };
+export const idiomExplainer = { id: "idiom-explainer", category: "language", name: "Idiom Explainer", path: "/tools/language/idiom-explainer" };
