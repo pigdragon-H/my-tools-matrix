@@ -2863,6 +2863,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "daily-budget-calculator",
+    name: "每日預算計算機",
+    category: "travel",
+    path: "/tools/travel/daily-budget-calculator",
+    icon: "Wallet",
+    description: "每日預算計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3084,3 +3099,4 @@ export const travelBudgetCalculator = { id: "travel-budget-calculator", category
 export const travelDayCounter = { id: "travel-day-counter", category: "travel", name: "Travel Day Counter", path: "/tools/travel/travel-day-counter" };
 export const travelInsuranceCalculator = { id: "travel-insurance-calculator", category: "travel", name: "Travel Insurance Calculator", path: "/tools/travel/travel-insurance-calculator" };
 export const hotelCostCalculator = { id: "hotel-cost-calculator", category: "travel", name: "Hotel Cost Calculator", path: "/tools/travel/hotel-cost-calculator" };
+export const dailyBudgetCalculator = { id: "daily-budget-calculator", category: "travel", name: "Daily Budget Calculator", path: "/tools/travel/daily-budget-calculator" };

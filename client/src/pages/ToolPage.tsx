@@ -201,6 +201,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "travel/travel-day-counter": lazy(() => import("@/tools/travel/TravelDayCounter")),
   "travel/travel-insurance-calculator": lazy(() => import("@/tools/travel/TravelInsuranceCalculator")),
   "travel/hotel-cost-calculator": lazy(() => import("@/tools/travel/HotelCostCalculator")),
+  "travel/daily-budget-calculator": lazy(() => import("@/tools/travel/DailyBudgetCalculator")),
 };
 
 function ToolSkeleton() {
