@@ -3733,6 +3733,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "phrasal-verb-finder",
+    name: "片語動詞查找器",
+    category: "language",
+    path: "/tools/language/phrasal-verb-finder",
+    icon: "Languages",
+    description: "輸入常見動詞，查找它構成的片語動詞，附中文義、英文義、例句與 CEFR 等級",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4012,3 +4027,4 @@ export const rhymeFinder = { id: "rhyme-finder", category: "language", name: "Rh
 export const anagramSolver = { id: "anagram-solver", category: "language", name: "Anagram Solver", path: "/tools/language/anagram-solver" };
 export const wordAssociationFinder = { id: "word-association-finder", category: "language", name: "Word Association Finder", path: "/tools/language/word-association-finder" };
 export const collocationFinder = { id: "collocation-finder", category: "language", name: "Collocation Finder", path: "/tools/language/collocation-finder" };
+export const phrasalVerbFinder = { id: "phrasal-verb-finder", category: "language", name: "Phrasal Verb Finder", path: "/tools/language/phrasal-verb-finder" };
