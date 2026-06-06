@@ -3763,6 +3763,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "cefr-level-estimator",
+    name: "CEFR 程度估算器",
+    category: "language",
+    path: "/tools/language/cefr-level-estimator",
+    icon: "Languages",
+    description: "輸入英文單字，立即查出該字的 CEFR 等級（A1–C2）、詞性與繁體中文釋義，並依六級分布給出學習建議。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4044,3 +4059,4 @@ export const wordAssociationFinder = { id: "word-association-finder", category: 
 export const collocationFinder = { id: "collocation-finder", category: "language", name: "Collocation Finder", path: "/tools/language/collocation-finder" };
 export const phrasalVerbFinder = { id: "phrasal-verb-finder", category: "language", name: "Phrasal Verb Finder", path: "/tools/language/phrasal-verb-finder" };
 export const idiomExplainer = { id: "idiom-explainer", category: "language", name: "Idiom Explainer", path: "/tools/language/idiom-explainer" };
+export const cefrLevelEstimator = { id: "cefr-level-estimator", category: "language", name: "CEFR Level Estimator", path: "/tools/language/cefr-level-estimator" };

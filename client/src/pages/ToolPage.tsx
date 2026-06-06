@@ -261,6 +261,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "language/collocation-finder": lazy(() => import("@/tools/language/CollocationFinder")),
   "language/phrasal-verb-finder": lazy(() => import("@/tools/language/PhrasalVerbFinder")),
   "language/idiom-explainer": lazy(() => import("@/tools/language/IdiomExplainer")),
+  "language/cefr-level-estimator": lazy(() => import("@/tools/language/CefrLevelEstimator")),
 };
 
 function ToolSkeleton() {
