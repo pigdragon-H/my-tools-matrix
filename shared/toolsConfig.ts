@@ -3448,6 +3448,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "kinetic-energy-calculator",
+    name: "動能計算機",
+    category: "science",
+    path: "/tools/science/kinetic-energy-calculator",
+    icon: "FlaskConical",
+    description: "動能計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3708,3 +3723,4 @@ export const gridLayoutCalculator = { id: "grid-layout-calculator", category: "d
 export const lineHeightCalculator = { id: "line-height-calculator", category: "design", name: "Line Height Calculator", path: "/tools/design/line-height-calculator" };
 export const unitConverterCalculator = { id: "unit-converter-calculator", category: "science", name: "Unit Converter Calculator", path: "/tools/science/unit-converter-calculator" };
 export const forceCalculator = { id: "force-calculator", category: "science", name: "Force Calculator", path: "/tools/science/force-calculator" };
+export const kineticEnergyCalculator = { id: "kinetic-energy-calculator", category: "science", name: "Kinetic Energy Calculator", path: "/tools/science/kinetic-energy-calculator" };
