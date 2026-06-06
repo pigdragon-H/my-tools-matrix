@@ -2893,6 +2893,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "currency-travel-converter",
+    name: "旅遊貨幣換算器",
+    category: "travel",
+    path: "/tools/travel/currency-travel-converter",
+    icon: "Coins",
+    description: "旅遊貨幣換算器 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3116,3 +3131,4 @@ export const travelInsuranceCalculator = { id: "travel-insurance-calculator", ca
 export const hotelCostCalculator = { id: "hotel-cost-calculator", category: "travel", name: "Hotel Cost Calculator", path: "/tools/travel/hotel-cost-calculator" };
 export const dailyBudgetCalculator = { id: "daily-budget-calculator", category: "travel", name: "Daily Budget Calculator", path: "/tools/travel/daily-budget-calculator" };
 export const travelPriceComparator = { id: "travel-price-comparator", category: "travel", name: "Travel Price Comparator", path: "/tools/travel/travel-price-comparator" };
+export const currencyTravelConverter = { id: "currency-travel-converter", category: "travel", name: "Travel Currency Converter", path: "/tools/travel/currency-travel-converter" };
