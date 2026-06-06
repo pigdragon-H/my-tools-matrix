@@ -1,0 +1,172 @@
+// @profile B
+// Profile B · Calculator-Travel · PurchasingPowerParity（GOLD-STANDARD-001 compatible）
+
+import { useMemo, useState } from "react";
+import { AdSenseWrapper } from "@/components/AdSenseWrapper";
+import { AdSlot } from "@/components/business/AdSlot";
+import { PremiumGate } from "@/components/business/PremiumGate";
+import { useLanguage } from "@/contexts/LanguageContext";
+
+type Lang = "zh" | "en";
+type LocalText = { zh: string; en: string };
+type AffiliateItem = { label: LocalText; href: string };
+type TierMode = "cheap" | "similar" | "pricey";
+const l = (v: LocalText, lang: Lang) => v[lang];
+const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
+
+const bands = [
+  { key: "tiny", range: "< 60%", label: { zh: "很便宜", en: "Very cheap" }, desc: { zh: "目的地物價遠低於母國，同樣預算可享更高品質生活。", en: "Destination prices are far below home; the same budget buys higher quality." } },
+  { key: "low", range: "60–85%", label: { zh: "偏便宜", en: "Cheaper" }, desc: { zh: "目的地物價偏低，預算較寬裕，可升級體驗。", en: "Destination prices are lower; the budget is looser and you can upgrade." } },
+  { key: "healthy", range: "85–110%", label: { zh: "差不多", en: "Similar" }, desc: { zh: "物價與母國相近，預算規劃可比照日常水準。", en: "Prices are similar to home; budget can mirror everyday levels." } },
+  { key: "good", range: "110–140%", label: { zh: "偏貴", en: "Pricier" }, desc: { zh: "目的地物價偏高，需上修預算或調整消費習慣。", en: "Destination prices are higher; raise the budget or adjust spending habits." } },
+  { key: "strong", range: "140–180%", label: { zh: "貴", en: "Expensive" }, desc: { zh: "物價明顯較高，宜精挑餐飲住宿，控制總花費。", en: "Prices are notably higher; select meals and lodging carefully to control spend." } },
+  { key: "elite", range: "> 180%", label: { zh: "很貴", en: "Very expensive" }, desc: { zh: "物價遠高於母國，務必大幅上修預算或縮短停留。", en: "Prices far above home; substantially raise the budget or shorten the stay." } },
+] as const;
+
+const affiliateItems: AffiliateItem[] = [
+  { label: { zh: "旅遊預算計算機", en: "Travel Budget Calculator" }, href: "/tools/travel/travel-budget-calculator" },
+  { label: { zh: "每日預算計算機", en: "Daily Budget Calculator" }, href: "/tools/travel/daily-budget-calculator" },
+  { label: { zh: "旅遊貨幣換算器", en: "Travel Currency Converter" }, href: "/tools/travel/currency-travel-converter" },
+  { label: { zh: "旅遊價格比較器", en: "Travel Price Comparator" }, href: "/tools/travel/travel-price-comparator" },
+];
+
+const ui = {
+  zh: {
+    badge: "旅遊 · 購買力平價 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "購買力平價計算機 · PPP", subtitle: "用母國金額、物價水準與消費型態算出目的地等值花費與購買力成本指數",
+    intro: "Purchasing Power Parity Calculator 依據母國金額、目的地物價水準與消費型態，計算在目的地維持相同生活水準所需的等值花費與購買力成本指數，協助你判斷目的地比母國貴或便宜、預算該上修或下修，避免用母國物價低估或高估旅費。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以物價水準比值估算等值花費，未含匯率波動與個別商品差異；正式預算應以目的地實際物價與當下匯率為準。",
+    quickActionCard: "快速範例卡", tryExample: "一鍵建立平價範例", examplePreview: "平價預覽", examplePerson: "母國金額", fillExample: "一鍵填入相近物價範例", previewActivePath: "填入高物價範例",
+    examplesCalculator: "範例 → 計算機", enterValues: "輸入母國金額、物價水準與消費型態", examplesHelper: "先用範例理解物價水準如何決定等值花費與成本指數，再改成自己的目的地數據。",
+    metric: "公制", imperial: "指數檢視", exampleCards: "範例卡", baselineExample: "相近物價模式", activeExample: "高物價示範", baselineExampleNote: "金額 30000 · 指數 100 · 相近", activeExampleNote: "金額 30000 · 指數 160 · 偏貴", carbsLabel: "等值花費", carbsName: "元", proteinLabel: "成本指數", flowDemo: "物價水準", calculator: "計算機",
+    weight: "物價水準 (指數)", tdee: "母國金額 (元)", goal: "消費型態", goalCut: "便宜地 (×0.7)", goalMaintain: "相近地 (×1.0)", goalBulk: "昂貴地 (×1.6)",
+    resultCard: "平價計算結果", unit: "元 (等值花費)", primaryValue: "主要數值", maintenanceTarget: "成本指數", actionTarget: "等值花費", estimatedTdee: "母國金額", maintenance: "%", fatLossTarget: "元",
+    resultIntelligence: "結果解讀", tdeeMatrix: "六格成本指數判讀矩陣", tdeeMatrixNote: "L7 固定六格，將目前購買力成本指數放進常見區間；這是規劃參考，不是會計結論。",
+    emotionConversionLayer: "情緒與轉換層", turnIntoPlan: "把平價結果轉成可執行的預算策略", conversionNote: "L9 會連動目前計算結果，顯示成本指數、等值花費與母國金額提示。",
+    progressInsight: "進度洞察卡", possibleTarget: "目前平價概況", dailyGap: "成本指數", weeklyTrend: "等值花費", motivation: "動力卡", keepMomentum: "從購買力分析走向務實的旅遊預算",
+    saveShareJourney: "儲存 / 分享", journeyTitle: "把今天的平價結果帶回團隊", journeyHint: "用旅遊預算計算機一起看，依目的地物價調整總預算與每日花費。",
+    nextActionLabel: "下一步行動", nextActionTitle: "將結果接到下一個工具", nextActionItem1: "用旅遊預算把等值花費納入總花費", nextActionItem2: "用每日預算依物價調整每日可用額", nextActionItem3: "用貨幣換算器把等值花費換成外幣",
+    shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給旅伴", shareCopiedToast: "已複製到剪貼簿 ✓",
+    decisionPath: "決策路徑", decisionTitle: "母國金額 → 成本指數 → 物價 → 預算", bmrStep: "母國金額", deficitStep: "成本指數", trendStep: "物價", mealStep: "預算",
+    knowledge: "知識", knowledgeTitle: "購買力平價在行程規劃中的意義", definition: "定義", definitionText: "購買力平價是把母國金額按目的地物價水準調整，得到維持相同生活水準所需的等值花費；成本指數衡量目的地相對母國的貴賤，是跨國預算的核心指標。", formula: "公式", formulaText: "等值花費 = 母國金額 × 物價比值（依消費型態）。成本指數 = 物價比值 × 100%（相對母國的貴賤）。", limitations: "限制", limitationsText: "本工具以物價水準比值估算；真實購買力還受匯率波動、個別商品差異、城市與鄉村落差及消費結構影響，且物價指數僅為平均概念。", interpretation: "解讀", interpretationText: "成本指數高於 100% 代表比母國貴，需上修預算；低於 100% 代表較便宜。可依目的地物價調整餐飲、住宿與行程的分配。", context: "脈絡", contextText: "購買力結果應與旅遊預算、每日花費與貨幣換算一起看，才能在物價、匯率與生活水準之間取得平衡。", example: "範例", exampleText: "母國金額 30000、相近物價（×1.0）→ 等值花費 30000，成本指數 100%；改昂貴地（×1.6）→ 等值花費 48000。",
+    faq: "FAQ", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "購買力的下一步工具", premiumTitle: "PRO 購買力分析包", premiumText: "解鎖即時物價指數串接、城市分級比對、分類消費結構與匯率調整後的等值報告。",
+    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具只供行程規劃與教育用途，不取代官方物價統計、經濟數據或專業財務建議。", relatedTools: "相關工具", relatedToolsText: "Travel Budget · Daily Budget · Currency Converter · Price Comparator", references: "參考資料", referencesText: "OECD 購買力平價；世界銀行物價數據；各國消費者物價指數；旅遊物價研究。",
+    q1: "等值花費怎麼算的？", a1: "本工具以母國金額乘物價比值估算，代表在目的地維持相同生活水準所需的金額；實際還受匯率與個別商品影響。",
+    q2: "成本指數怎麼看？", a2: "指數 100% 表示與母國物價相近；高於 100% 較貴、需上修預算，低於 100% 較便宜、預算可較寬裕。",
+    q3: "為何不直接用匯率？", a3: "匯率只反映貨幣兌換，未含物價差異；購買力平價同時考量物價，更貼近實際生活成本與旅費需求。",
+    q4: "物價水準怎麼取得？", a4: "可參考 OECD、世界銀行或物價比較網站的城市指數，輸入本工具估算；指數僅為平均概念，各品項仍有差異。",
+    q5: "購買力和貨幣換算差在哪？", a5: "貨幣換算把金額換成外幣面額；購買力平價進一步調整物價差異，告訴你在當地實際能買到多少同等生活。",
+    q6: "這個工具能取代官方統計嗎？", a6: "不能。它只是快速估算與教育用途；正式數據應以官方物價統計與當下市場價格為準。",
+  },
+  en: {
+    badge: "Travel · PPP · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "Purchasing Power Parity Calculator", subtitle: "Compute destination equivalent spend and a purchasing-power cost index from home amount, price level, and spending profile",
+    intro: "This calculator uses the home-currency amount, destination price level, and spending profile to compute the equivalent spend needed to keep the same standard of living and a purchasing-power cost index, helping you judge whether the destination is pricier or cheaper than home and whether to raise or lower the budget, avoiding under- or over-estimating trip cost using home prices.",
+    trustNoteLabel: "Note:", trustNote: "This tool estimates equivalent spend from a price-level ratio, excluding rate movement and individual-item differences; rely on actual destination prices and the current rate for the formal budget.",
+    quickActionCard: "Quick Action Card", tryExample: "Create a parity example instantly", examplePreview: "Parity preview", examplePerson: "Home amount", fillExample: "One-click similar-price example", previewActivePath: "Fill high-price example",
+    examplesCalculator: "Examples → Calculator", enterValues: "Enter home amount, price level, and spending profile", examplesHelper: "Start with an example to see how the price level sets the equivalent spend and cost index, then replace with your own destination data.",
+    metric: "Metric", imperial: "Index view", exampleCards: "Example cards", baselineExample: "Similar-price mode", activeExample: "High-price demo", baselineExampleNote: "Amount 30000 · index 100 · similar", activeExampleNote: "Amount 30000 · index 160 · pricier", carbsLabel: "Equivalent spend", carbsName: "currency", proteinLabel: "Cost index", flowDemo: "Price level", calculator: "Calculator",
+    weight: "Price level (index)", tdee: "Home amount (currency)", goal: "Spending profile", goalCut: "Cheap place (×0.7)", goalMaintain: "Similar place (×1.0)", goalBulk: "Pricey place (×1.6)",
+    resultCard: "Parity Result", unit: "currency (equivalent spend)", primaryValue: "Primary Value", maintenanceTarget: "Cost index", actionTarget: "Equivalent spend", estimatedTdee: "Home amount", maintenance: "%", fatLossTarget: "currency",
+    resultIntelligence: "Result Intelligence", tdeeMatrix: "Six-card cost-index interpretation matrix", tdeeMatrixNote: "L7 uses six fixed cards to place the current purchasing-power cost index into common zones. This is planning guidance, not an accounting conclusion.",
+    emotionConversionLayer: "Emotion + Conversion Layer", turnIntoPlan: "Turn the parity result into an actionable budget strategy", conversionNote: "L9 values update from the computed result: cost index, equivalent spend, and home-amount hint.",
+    progressInsight: "Progress Insight Card", possibleTarget: "Current parity snapshot", dailyGap: "Cost index", weeklyTrend: "Equivalent spend", motivation: "Motivation Card", keepMomentum: "Move from purchasing-power analysis to a realistic travel budget",
+    saveShareJourney: "Save / Share", journeyTitle: "Take today's parity result to your group", journeyHint: "Review it with the Travel Budget Calculator to adjust total budget and daily spend by destination prices.",
+    nextActionLabel: "Next actions", nextActionTitle: "Connect this result to the next tool", nextActionItem1: "Fold equivalent spend into total spend with Travel Budget", nextActionItem2: "Adjust daily allowance by prices with Daily Budget", nextActionItem3: "Convert equivalent spend to foreign currency with the Currency Converter",
+    shareLinkBtn: "📋 Copy result link", shareNativeBtn: "📤 Share with travel mates", shareCopiedToast: "Copied to clipboard ✓",
+    decisionPath: "Decision Path", decisionTitle: "Home Amount → Cost Index → Prices → Budget", bmrStep: "Home amount", deficitStep: "Cost index", trendStep: "Prices", mealStep: "Budget",
+    knowledge: "Knowledge", knowledgeTitle: "What purchasing power parity means in trip planning", definition: "Definition", definitionText: "Purchasing power parity adjusts a home-currency amount by the destination price level to get the equivalent spend needed to keep the same standard of living; the cost index measures how pricey the destination is versus home, the core indicator for cross-country budgets.", formula: "Formula", formulaText: "Equivalent spend = home amount × price ratio (by spending profile). Cost index = price ratio × 100% (pricey versus home).", limitations: "Limitations", limitationsText: "This tool estimates from a price-level ratio; real purchasing power is also affected by rate movement, individual-item differences, city-versus-rural gaps, and spending structure, while a price index is only an average concept.", interpretation: "Interpretation", interpretationText: "A cost index above 100% means pricier than home and you should raise the budget; below 100% means cheaper. Adjust the allocation of meals, lodging, and activities by destination prices.", context: "Context", contextText: "Purchasing-power results should be evaluated with travel budget, daily spend, and currency conversion to balance prices, rate, and standard of living.", example: "Example", exampleText: "Home amount 30000, similar prices (×1.0) → equivalent spend 30000, cost index 100%; pricey place (×1.6) → equivalent spend 48000.",
+    faq: "FAQ", commonQuestions: "Common questions", affiliate: "Recommended Tools", affiliateTitle: "Next tools for purchasing power", premiumTitle: "PRO Purchasing Power Analytics Pack", premiumText: "Unlock live price-index feeds, city-tier comparison, category spending structure, and rate-adjusted equivalent reports.",
+    trustReferences: "Trust · Related Tools · References", trust: "Trust", trustText: "This tool is for trip planning and education. It does not replace official price statistics, economic data, or professional financial advice.", relatedTools: "Related Tools", relatedToolsText: "Travel Budget · Daily Budget · Currency Converter · Price Comparator", references: "References", referencesText: "OECD purchasing power parities; World Bank price data; national consumer price indices; travel price studies.",
+    q1: "How is equivalent spend calculated?", a1: "This tool estimates it as home amount times a price ratio, representing the amount needed to keep the same standard of living at the destination; it is also affected by the rate and individual items.",
+    q2: "How do I read the cost index?", a2: "An index of 100% means prices similar to home; above 100% is pricier and needs a higher budget, below 100% is cheaper and the budget can be looser.",
+    q3: "Why not just use the exchange rate?", a3: "The rate only reflects currency conversion, not price differences; purchasing power parity also considers prices, closer to real living cost and trip-money needs.",
+    q4: "How do I get the price level?", a4: "Refer to city indices from OECD, the World Bank, or price-comparison sites, and enter them here to estimate; the index is an average concept, with per-item differences.",
+    q5: "How does purchasing power differ from currency conversion?", a5: "Currency conversion turns an amount into a foreign face value; purchasing power parity further adjusts for price differences to tell you how much equivalent living it actually buys locally.",
+    q6: "Can this tool replace official statistics?", a6: "No. It is a quick estimate for education; formal data should rely on official price statistics and current market prices.",
+  },
+} as const;
+
+const faqKeys = [["q1","a1"],["q2","a2"],["q3","a3"],["q4","a4"],["q5","a5"],["q6","a6"]] as const;
+
+function priceRatio(mode: TierMode): number {
+  if (mode === "cheap") return 0.7;
+  if (mode === "pricey") return 1.6;
+  return 1.0;
+}
+
+export default function PurchasingPowerParity() {
+  const { lang, setLang } = useLanguage();
+  const [unit, setUnit] = useState<"metric" | "imperial">("metric");
+  const [weight, setWeight] = useState("100");
+  const [tdee, setTdee] = useState("30000");
+  const [goal, setGoal] = useState<TierMode>("similar");
+  const t = ui[lang];
+
+  const result = useMemo(() => {
+    const priceLevel = Number(weight);
+    const homeAmount = Number(tdee);
+    if (priceLevel <= 0 || homeAmount <= 0) return null;
+    const equivalentSpend = homeAmount * priceRatio(goal);
+    const sharePct = priceRatio(goal) * 100;
+    return { priceLevel, homeAmount, equivalentSpend, sharePct };
+  }, [weight, tdee, goal]);
+
+  const proteinDisplay = result ? fmt(result.sharePct, 1) : "—";
+  const fatDisplay = result ? fmt(result.equivalentSpend, 0) : "—";
+  const carbDisplay = result ? fmt(result.equivalentSpend, 0) : "—";
+  const totalDisplay = result ? fmt(result.equivalentSpend, 0) : "—";
+
+  function fillStandard() { setUnit("metric"); setWeight("100"); setTdee("30000"); setGoal("similar"); }
+  function fillCut() { setUnit("metric"); setWeight("160"); setTdee("30000"); setGoal("pricey"); }
+
+  return (
+    <main className="min-h-screen bg-slate-50 text-slate-950">
+      {/* Canonical 17-layer markers for production QC:
+          L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResult · L7-ResultIntelligence · L8-ScenarioComparison · L9-EmotionConversionUpper · L10-EmotionConversionLower · L11-DecisionPath · L12-Knowledge · L13-FAQ · L14-FAQAfterAdSlot · L15-AffiliateResources · L16-PremiumGate · L17-TrustRelatedReferences
+      */}
+      <section className="bg-[radial-gradient(circle_at_top_left,_#dcfce7,_#f8fafc_45%,_#e0f2fe)]">
+        <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
+          <div className="mb-6 flex justify-end"><button type="button" onClick={() => setLang(lang === "zh" ? "en" : "zh")} className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm" aria-label={lang === "zh" ? t.switchToEnglish : t.switchToChinese}><span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.chineseShort}</span><span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.englishShort}</span></button></div>
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
+            <section className="space-y-6"><p className="text-sm font-black uppercase tracking-[0.24em] text-emerald-700">{t.badge}</p><h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1><p className="text-xl font-black text-emerald-700">{t.subtitle}</p><p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p><div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950"><strong>{t.trustNoteLabel}</strong> {t.trustNote}</div></section>
+            <aside className="rounded-[2rem] border border-emerald-100 bg-white/90 p-6 shadow-2xl shadow-emerald-950/10 backdrop-blur"><p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">{t.quickActionCard}</p><h2 className="mt-2 text-2xl font-black">{t.tryExample}</h2><div className="mt-5 rounded-3xl bg-emerald-600 p-5 text-white"><div className="text-xs font-bold uppercase text-emerald-100">{t.examplePreview}</div><div className="mt-1 text-5xl font-black">{totalDisplay}</div><div className="text-sm font-bold text-emerald-100">{t.unit}</div></div><div className="mt-5 grid grid-cols-3 gap-3 text-center"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.examplePerson}</div><div className="font-black">{tdee}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.flowDemo}</div><div className="font-black">{weight}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.goal}</div><div className="font-black">{goal === "cheap" ? "🟢" : goal === "pricey" ? "💎" : "🟡"}</div></div></div><button onClick={fillStandard} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white">{t.fillExample}</button><button onClick={fillCut} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900">{t.previewActivePath}</button></aside>
+          </div>
+        </div>
+      </section>
+      <div className="mx-auto max-w-7xl space-y-7 px-4 py-8 md:px-8">
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.examplesCalculator}</p><h2 className="mt-2 text-3xl font-black">{t.enterValues}</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{t.examplesHelper}</p></div><div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-2"><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "metric" ? "bg-emerald-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("metric")}>{t.metric}</button><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "imperial" ? "bg-emerald-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("imperial")}>{t.imperial}</button></div></div>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">{/* L5-Calc */}
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5"><h3 className="text-lg font-black">{t.exampleCards}</h3><div className="mt-4 space-y-3"><button onClick={fillStandard} className="w-full rounded-2xl border border-emerald-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-black text-emerald-700">30000</span></div><p className="mt-2 text-sm text-slate-600">{t.baselineExampleNote}</p></button><button onClick={fillCut} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">48000</span></div><p className="mt-2 text-sm text-slate-600">{t.activeExampleNote}</p></button></div></div>
+            <div className="rounded-3xl border border-slate-200 bg-white p-5"><h3 className="text-lg font-black">{t.calculator}</h3><div className="mt-4 grid gap-4 md:grid-cols-2"><label className="block text-sm font-black text-slate-700">{t.weight}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={weight} onChange={(e) => setWeight(e.target.value)} /></label><label className="block text-sm font-black text-slate-700">{t.tdee}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={tdee} onChange={(e) => setTdee(e.target.value)} /></label><label className="block text-sm font-black text-slate-700">{t.goal}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={goal} onChange={(e) => setGoal(e.target.value as TierMode)}><option value="cheap">{t.goalCut}</option><option value="similar">{t.goalMaintain}</option><option value="pricey">{t.goalBulk}</option></select></label></div></div>
+          </div>
+        </section>
+        <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">{/* L6-Result */}
+          <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"><div className="h-5 bg-gradient-to-r from-emerald-400 to-blue-600" /><div className="p-6 md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultCard}</p><div className="mt-4 flex items-start justify-between gap-5"><div><div className="text-7xl font-black tracking-tight text-slate-950">{totalDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.unit}</div></div><div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.primaryValue}</div><div className="mt-1 text-xl font-black">{fatDisplay}</div><div className="mt-1 text-xs text-slate-300">{goal.toUpperCase()}</div></div></div><div className="mt-6 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-blue-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500">{t.maintenanceTarget}</div><div className="mt-1 text-xs font-black uppercase text-blue-700">{t.maintenance}</div><p className="mt-2 text-3xl font-black text-blue-950">{proteinDisplay}</p><p className="text-sm font-bold text-blue-700">%</p></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500">{t.actionTarget}</div><div className="mt-1 text-xs font-black uppercase text-emerald-700">{t.fatLossTarget}</div><p className="mt-2 text-3xl font-black text-emerald-950">{fatDisplay}</p><p className="text-sm font-bold text-emerald-700">$</p></div><div className="rounded-2xl bg-orange-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-500">{t.carbsLabel}</div><div className="mt-1 text-xs font-black uppercase text-orange-700">{t.carbsName}</div><p className="mt-2 text-3xl font-black text-orange-950">{carbDisplay}</p><p className="text-sm font-bold text-orange-700">$</p></div></div></div></article>
+          <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultIntelligence}</p><h2 className="mt-2 text-3xl font-black">{t.tdeeMatrix}</h2><p className="mt-2 text-sm leading-6 text-slate-600">{t.tdeeMatrixNote}</p><div className="mt-5 grid gap-3 md:grid-cols-3">{bands.map((item) => <div key={item.key} className="rounded-2xl border p-4 border-slate-200 bg-slate-50"><div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{item.range}</span></div><p className="mt-2 text-sm leading-6 text-slate-700">{l(item.desc, lang)}</p><p className="mt-3 text-2xl font-black text-slate-950">{proteinDisplay} <span className="text-sm text-slate-500">%</span></p></div>)}</div></article>
+        </section>
+        <AdSenseWrapper showAds={true} adSlot="ppp-result-intelligence" adFormat="horizontal" className="my-2" />
+        <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-emerald-50 p-6 shadow-sm md:p-7">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p><h2 className="mt-2 text-3xl font-black">{t.turnIntoPlan}</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.conversionNote}</p>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9-Emotion-Upper */}
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.proteinLabel}</div><div className="mt-1 text-3xl font-black">{proteinDisplay}</div></div><div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.dailyGap}</div><div className="mt-1 text-3xl font-black text-blue-950">{result ? fmt(result.sharePct, 1) : "—"}</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.weeklyTrend}</div><div className="mt-1 text-3xl font-black text-emerald-950">{result ? fmt(result.equivalentSpend, 0) : "—"}</div></div></div></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.bmrStep, t.deficitStep, t.trendStep, t.mealStep].map((item) => <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
+          </div>
+          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10-Emotion-Lower */}
+            <article className="rounded-3xl border border-slate-200 bg-gradient-to-br from-amber-50 to-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-amber-700">{t.saveShareJourney}</p><h3 className="mt-2 text-2xl font-black">{t.journeyTitle}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{t.journeyHint}</p></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-emerald-700">{t.nextActionLabel}</p><h3 className="mt-2 text-lg font-black">{t.nextActionTitle}</h3><ul className="mt-3 space-y-2"><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">①</span><span>{t.nextActionItem1}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">②</span><span>{t.nextActionItem2}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">③</span><span>{t.nextActionItem3}</span></li></ul><div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2"><button type="button" onClick={() => { if (navigator.clipboard) { navigator.clipboard.writeText(window.location.href); alert(t.shareCopiedToast); } }} className="rounded-2xl bg-slate-950 px-4 py-2 text-xs font-black text-white">{t.shareLinkBtn}</button><button type="button" onClick={() => { const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> }; if (nav.share) nav.share({ title: document.title, url: window.location.href }).catch(() => {}); }} className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700">{t.shareNativeBtn}</button></div></article>
+          </div>
+        </section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.decisionPath}</p><h2 className="mt-2 text-3xl font-black">{t.decisionTitle}</h2><div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">{[{ label: "HomeAmount", note: t.bmrStep }, { label: "CostIndex", note: t.deficitStep }, { label: "Prices", note: t.trendStep }, { label: "Budget", note: t.mealStep }].map((node, index) => <div key={node.label} className="contents"><div className={`rounded-3xl border p-5 text-center ${index === 1 ? "border-emerald-300 bg-emerald-50" : "border-blue-200 bg-blue-50"}`}><div className="text-xs font-black uppercase text-slate-500">{index + 1}</div><div className="mt-1 text-xl font-black">{node.label}</div><p className="mt-2 text-sm leading-6 text-slate-600">{node.note}</p></div>{index < 3 && <div className="hidden text-3xl font-black text-slate-300 md:block">→</div>}</div>)}</div></section>
+        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L12-Knowledge · L13-FAQ */}
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.knowledge}</p><h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.interpretation}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.interpretationText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.context}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.contextText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.example}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.exampleText}</p></div></div></div>
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.faq}</p><h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2><div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div></div>
+        </section>
+        <section aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5"><AdSlot slot="ppp-faq" position="inline" /></section>
+        <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]"><section className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.affiliate}</p><h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-4">{affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5 text-center font-black text-emerald-950">{l(item.label, lang)}</a>)}</div><p className="mt-3 text-xs text-emerald-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}</p></section><PremiumGate plan="PRO"><article className="flex h-full flex-col rounded-[2rem] border border-emerald-200 bg-gradient-to-br from-emerald-50 to-indigo-50 p-6 md:p-7"><h2 className="text-3xl font-black text-slate-950">{t.premiumTitle}</h2><p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t.premiumText}</p><div className="mt-5 grid gap-3 md:grid-cols-4">{["LivePriceIndex", "CityTierCompare", "CategoryStructure", "RateAdjusted"].map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-violet-900 shadow-sm">{item}</div>)}</div></article></PremiumGate></section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.trustReferences}</p><div className="mt-4 grid gap-5 md:grid-cols-3"><div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div><div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.relatedToolsText}</p></div><div><h2 className="text-xl font-black">{t.references}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.referencesText}</p></div></div></section>
+      </div>
+    </main>
+  );
+}

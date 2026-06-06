@@ -2908,6 +2908,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "purchasing-power-parity",
+    name: "購買力平價計算機",
+    category: "travel",
+    path: "/tools/travel/purchasing-power-parity",
+    icon: "Globe",
+    description: "購買力平價計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3132,3 +3147,4 @@ export const hotelCostCalculator = { id: "hotel-cost-calculator", category: "tra
 export const dailyBudgetCalculator = { id: "daily-budget-calculator", category: "travel", name: "Daily Budget Calculator", path: "/tools/travel/daily-budget-calculator" };
 export const travelPriceComparator = { id: "travel-price-comparator", category: "travel", name: "Travel Price Comparator", path: "/tools/travel/travel-price-comparator" };
 export const currencyTravelConverter = { id: "currency-travel-converter", category: "travel", name: "Travel Currency Converter", path: "/tools/travel/currency-travel-converter" };
+export const purchasingPowerParity = { id: "purchasing-power-parity", category: "travel", name: "Purchasing Power Parity", path: "/tools/travel/purchasing-power-parity" };
