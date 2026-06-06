@@ -3628,6 +3628,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "voltage-drop-calculator",
+    name: "电压降计算器",
+    category: "science",
+    path: "/tools/science/voltage-drop-calculator",
+    icon: "FlaskConical",
+    description: "电压降计算器 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3900,3 +3915,4 @@ export const wavelengthFrequencyCalculator = { id: "wavelength-frequency-calcula
 export const idealGasLawCalculator = { id: "ideal-gas-law-calculator", category: "science", name: "Ideal Gas Law Calculator", path: "/tools/science/ideal-gas-law-calculator" };
 export const phCalculator = { id: "ph-calculator", category: "science", name: "pH Calculator", path: "/tools/science/ph-calculator" };
 export const heatEnergyCalculator = { id: "heat-energy-calculator", category: "science", name: "Heat Energy Calculator", path: "/tools/science/heat-energy-calculator" };
+export const voltageDropCalculator = { id: "voltage-drop-calculator", category: "science", name: "Voltage Drop Calculator", path: "/tools/science/voltage-drop-calculator" };
