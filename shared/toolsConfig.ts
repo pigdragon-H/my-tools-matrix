@@ -3883,6 +3883,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "word-family-explorer",
+    name: "單字家族探索器",
+    category: "language",
+    path: "/tools/language/word-family-explorer",
+    icon: "Network",
+    description: "輸入英文單字，探索它的單字家族（同一基底字的名詞、動詞、形容詞、副詞與衍生形態），每個家族成員附詞類、繁中釋義與音標，內建 100 組常用單字家族。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4172,3 +4187,4 @@ export const scrabbleWordChecker = { id: "scrabble-word-checker", category: "lan
 export const hangmanSolver = { id: "hangman-solver", category: "language", name: "Hangman Solver", path: "/tools/language/hangman-solver" };
 export const wordRootAnalyzer = { id: "word-root-analyzer", category: "language", name: "Word Root Analyzer", path: "/tools/language/word-root-analyzer" };
 export const irregularVerbFinder = { id: "irregular-verb-finder", category: "language", name: "Irregular Verb Finder", path: "/tools/language/irregular-verb-finder" };
+export const wordFamilyExplorer = { id: "word-family-explorer", category: "language", name: "Word Family Explorer", path: "/tools/language/word-family-explorer" };
