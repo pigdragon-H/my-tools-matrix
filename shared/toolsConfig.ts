@@ -3403,6 +3403,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "line-height-calculator",
+    name: "行高計算器",
+    category: "design",
+    path: "/tools/design/line-height-calculator",
+    icon: "Palette",
+    description: "行高計算器 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3660,3 +3675,4 @@ export const aspectRatioCalculator = { id: "aspect-ratio-calculator", category: 
 export const typeScaleCalculator = { id: "type-scale-calculator", category: "design", name: "Type Scale Calculator", path: "/tools/design/type-scale-calculator" };
 export const pxRemConverter = { id: "px-rem-converter", category: "design", name: "PX REM Converter", path: "/tools/design/px-rem-converter" };
 export const gridLayoutCalculator = { id: "grid-layout-calculator", category: "design", name: "Grid Layout Calculator", path: "/tools/design/grid-layout-calculator" };
+export const lineHeightCalculator = { id: "line-height-calculator", category: "design", name: "Line Height Calculator", path: "/tools/design/line-height-calculator" };
