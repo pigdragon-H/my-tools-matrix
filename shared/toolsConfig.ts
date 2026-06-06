@@ -2848,6 +2848,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "hotel-cost-calculator",
+    name: "住宿成本計算機",
+    category: "travel",
+    path: "/tools/travel/hotel-cost-calculator",
+    icon: "Hotel",
+    description: "住宿成本計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3068,3 +3083,4 @@ export const churnRateCalculator = { id: "churn-rate-calculator", category: "eco
 export const travelBudgetCalculator = { id: "travel-budget-calculator", category: "travel", name: "Travel Budget Calculator", path: "/tools/travel/travel-budget-calculator" };
 export const travelDayCounter = { id: "travel-day-counter", category: "travel", name: "Travel Day Counter", path: "/tools/travel/travel-day-counter" };
 export const travelInsuranceCalculator = { id: "travel-insurance-calculator", category: "travel", name: "Travel Insurance Calculator", path: "/tools/travel/travel-insurance-calculator" };
+export const hotelCostCalculator = { id: "hotel-cost-calculator", category: "travel", name: "Hotel Cost Calculator", path: "/tools/travel/hotel-cost-calculator" };
