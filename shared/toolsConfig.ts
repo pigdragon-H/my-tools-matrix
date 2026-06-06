@@ -3793,6 +3793,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "word-unscrambler",
+    name: "字母重組器",
+    category: "language",
+    path: "/tools/language/word-unscrambler",
+    icon: "Shuffle",
+    description: "輸入一串字母，用字母指紋演算法重組出所有可能的英文單字，每個結果附KK音標、詞類、繁中釋義與例句",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4076,3 +4091,4 @@ export const phrasalVerbFinder = { id: "phrasal-verb-finder", category: "languag
 export const idiomExplainer = { id: "idiom-explainer", category: "language", name: "Idiom Explainer", path: "/tools/language/idiom-explainer" };
 export const cefrLevelEstimator = { id: "cefr-level-estimator", category: "language", name: "CEFR Level Estimator", path: "/tools/language/cefr-level-estimator" };
 export const vocabularyDnaEngine = { id: "vocabulary-dna-engine", category: "language", name: "Vocabulary DNA Engine", path: "/tools/language/vocabulary-dna-engine" };
+export const wordUnscrambler = { id: "word-unscrambler", category: "language", name: "Word Unscrambler", path: "/tools/language/word-unscrambler" };
