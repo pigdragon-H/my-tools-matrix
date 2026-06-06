@@ -1,0 +1,175 @@
+// @profile B
+// Profile B · Calculator-Science · AccelerationCalculator（GOLD-STANDARD-001 compatible）
+
+import { useMemo, useState } from "react";
+import { AdSenseWrapper } from "@/components/AdSenseWrapper";
+import { AdSlot } from "@/components/business/AdSlot";
+import { PremiumGate } from "@/components/business/PremiumGate";
+import { useLanguage } from "@/contexts/LanguageContext";
+
+type Lang = "zh" | "en";
+type LocalText = { zh: string; en: string };
+type AffiliateItem = { label: LocalText; href: string };
+type TierMode = "relaxed" | "standard" | "fast";
+const l = (v: LocalText, lang: Lang) => v[lang];
+const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
+
+const bands = [
+  { key: "gentle", range: "< 1", label: { zh: "緩和級", en: "Gentle" }, desc: { zh: "加速度極低，落在緩和級區間，常見於平穩起步或微幅速度變化，乘客幾乎無感。", en: "Very low acceleration in the gentle range, common in smooth starts or slight speed changes; barely noticeable to passengers." } },
+  { key: "normal", range: "1–3", label: { zh: "一般級", en: "Normal" }, desc: { zh: "加速度偏低，屬於一般起步範圍，適合日常車輛加速、電梯或常見機械運動估算。", en: "Low acceleration in the normal range, fit for daily vehicle acceleration, elevators, or common mechanical motion." } },
+  { key: "brisk", range: "3–6", label: { zh: "明顯級", en: "Brisk" }, desc: { zh: "加速度落在常見的中等區間，多數運動加速與快速起步的範圍，乘客能明顯感受。", en: "Acceleration in the common medium range, the band for most sport acceleration and quick starts, noticeable to passengers." } },
+  { key: "strong", range: "6–10", label: { zh: "強烈級", en: "Strong" }, desc: { zh: "加速度偏高，接近重力加速度，常用於性能車輛、運動分析與工程動力學計算。", en: "High acceleration near gravity, common in performance vehicles, sport analysis, and engineering dynamics calculation." } },
+  { key: "intense", range: "10–20", label: { zh: "高強度級", en: "Intense" }, desc: { zh: "加速度非常高，超過重力加速度，建議結合速度變化與時間單位一併評估安全性。", en: "Very high acceleration above gravity; evaluate safety with velocity change and time units." } },
+  { key: "extreme", range: "> 20", label: { zh: "極限級", en: "Extreme" }, desc: { zh: "加速度極高，屬於賽車、航太或特殊運動範疇，務必交叉驗證速度與時間的單位與量測精度。", en: "Extremely high acceleration in the racing, aerospace, or special motion range; always verify velocity and time units and measurement precision." } },
+] as const;
+
+const affiliateItems: AffiliateItem[] = [
+  { label: { zh: "速度距離時間計算機", en: "Speed Distance Time Calculator" }, href: "/tools/science/speed-distance-time-calculator" },
+  { label: { zh: "力學計算機", en: "Force Calculator" }, href: "/tools/science/force-calculator" },
+  { label: { zh: "動能計算機", en: "Kinetic Energy Calculator" }, href: "/tools/science/kinetic-energy-calculator" },
+  { label: { zh: "功率計算機", en: "Power Calculator" }, href: "/tools/science/power-calculator" },
+];
+
+const ui = {
+  zh: {
+    badge: "Science · 加速度 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "加速度計算機 · Acceleration", subtitle: "用速度變化、時間與精度等級算出加速度、相對量級與精度分數",
+    intro: "Acceleration Calculator 依據速度變化、時間與精度等級（粗略、標準或精密），以加速度公式 a = Δv ÷ Δt 計算加速度、相對量級與精度分數，協助你判斷加速度是否合理、加速度落在哪個量級、屬於緩和還是強烈、是否需要檢查單位，讓你在運動學分析與動力計算前就把加速度算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以速度變化除以時間做計算，假設等加速運動且方向恆定；正式動力學分析請以實際量測與標準參考為準。",
+    quickActionCard: "快速範例卡", tryExample: "一鍵建立加速度範例", examplePreview: "加速度預覽", examplePerson: "速度變化 (m/s)", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
+    examplesCalculator: "範例 → 計算器", enterValues: "輸入速度變化、時間與精度等級", examplesHelper: "先用範例理解速度變化與時間如何決定加速度與量級，再改成自己的運動數據。",
+    metric: "公制", imperial: "佔比檢視", exampleCards: "範例卡", baselineExample: "標準加速度模式", activeExample: "精密示範", baselineExampleNote: "20m/s ÷ 5s · 標準", activeExampleNote: "20m/s ÷ 4s · 精密", carbsLabel: "精度餘量", carbsName: "百分比", proteinLabel: "精度分數", flowDemo: "時間 (s)", calculator: "計算器",
+    weight: "速度變化 (m/s)", tdee: "時間 (s)", goal: "精度等級", goalCut: "粗略 (1 位)", goalMaintain: "標準 (2 位)", goalBulk: "精密 (4 位)",
+    resultCard: "加速度結果", unit: "m/s² (加速度)", primaryValue: "主要數值", maintenanceTarget: "精度分數", actionTarget: "加速度", estimatedTdee: "時間", maintenance: "分", fatLossTarget: "m/s²",
+    resultIntelligence: "結果解讀", tdeeMatrix: "六格加速度級判讀矩陣", tdeeMatrixNote: "L7 固定六格，將目前加速度放進常見量級；這是運動學參考，不是工程鑑定結論。",
+    emotionConversionLayer: "情緒與轉換層", turnIntoPlan: "把加速度結果轉成可執行的運動學分析與動力策略", conversionNote: "L9 會連動目前計算結果，顯示精度分數、加速度與量級提示。",
+    progressInsight: "進度洞察卡", possibleTarget: "目前加速度概況", dailyGap: "加速度", weeklyTrend: "精度分數", motivation: "動力卡", keepMomentum: "從加速度計算走向最精確一致的運動學分析節奏",
+    saveShareJourney: "儲存 / 分享", journeyTitle: "把今天的加速度結果帶回團隊", journeyHint: "用速度距離時間計算機一起看，把加速度與物理量一併納入運動學規劃。",
+    nextActionLabel: "下一步行動", nextActionTitle: "將結果接到下一個工具", nextActionItem1: "用速度距離時間計算機推算速度", nextActionItem2: "用力學計算機推算作用力", nextActionItem3: "用功率計算機計算輸出功率",
+    shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給團隊", shareCopiedToast: "已複製到剪貼簿 ✓",
+    decisionPath: "決策路徑", decisionTitle: "DeltaV → 精度分數 → 等級 → Acceleration", bmrStep: "DeltaV", deficitStep: "精度分數", trendStep: "等級", mealStep: "Acceleration",
+    knowledge: "知識", knowledgeTitle: "加速度在運動學中的意義", definition: "定義", definitionText: "加速度是單位時間內速度的變化量，以公式 a = Δv ÷ Δt 表示；加速度反映速度變化的快慢，是判斷運動狀態、作用力與動力的核心物理量。", formula: "公式", formulaText: "加速度 a = 速度變化 Δv ÷ 時間 Δt，單位為 m/s²。精度分數 = min(有效位數 / 目標位數 × 100, 100)。精度餘量 = (有效位數 − 目標位數) / 目標位數 × 100%。", limitations: "限制", limitationsText: "本工具假設等加速運動、方向恆定；真實加速度還受阻力、變動力與路徑彎曲影響，瞬時加速度與平均加速度可能不同。", interpretation: "解讀", interpretationText: "加速度小於 1 m/s² 多屬緩和，落在明顯級（3 到 6）常見於運動起步，強烈級以上接近或超過重力加速度，請用精度分數確認有效位數足夠。", context: "脈絡", contextText: "加速度結果應與速度變化、時間與單位換算一起看，才能在運動學準確性、動力計算與可讀性之間取得平衡。", example: "範例", exampleText: "速度變化 20m/s、時間 5s、標準精度（2 位）→ 加速度 4.00 m/s²，精度餘量 0%，精度分數 100。",
+    faq: "FAQ", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "加速度的下一步工具", premiumTitle: "PRO 加速度分析包", premiumText: "解鎖平均與瞬時加速度對照、g 力換算、剎車距離推算，以及多段運動加速度合成。",
+    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具只供運動學計算與教育用途，不取代專業動力學分析、加速度量測或工程模擬報告。", relatedTools: "相關工具", relatedToolsText: "Speed · Force · Kinetic Energy · Power", references: "參考資料", referencesText: "加速度物理定義；運動學標準參考；SI 速度時間單位定義；古典力學基礎文獻。",
+    q1: "加速度怎麼算的？", a1: "本工具以 a = Δv ÷ Δt，將速度變化除以時間得到加速度；已知任兩個量即可反推第三個量。",
+    q2: "精度分數多少才合理？", a2: "精度分數達 100 代表有效位數已達所選精度等級；若低於 100，建議提高有效位數或檢查量測精度。",
+    q3: "粗略還是精密等級？", a3: "日常估算用粗略（1 位），一般運動分析用標準（2 位），實驗室或精密量測用精密（4 位）。",
+    q4: "加速度和速度差在哪？", a4: "速度是位置變化的快慢，加速度是速度變化的快慢；加速度為零代表等速運動。",
+    q5: "負加速度是什麼意思？", a5: "負加速度代表速度在減小，也就是減速；本工具以速度變化方向決定正負號。",
+    q6: "這個工具能取代工程分析嗎？", a6: "不能。它只是快速估算與教育用途；正式工程分析應以專業量測與動力學模擬為準。",
+  },
+  en: {
+    badge: "Science · Acceleration · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "Acceleration Calculator", subtitle: "Compute acceleration, relative magnitude, and precision score from velocity change, time, and precision level",
+    intro: "This calculator uses velocity change, time, and precision level (rough, standard, or precise) with the acceleration formula a = delta-v / delta-t to compute acceleration, relative magnitude, and precision score, helping you judge whether the acceleration is reasonable, which magnitude it falls into, whether it is gentle or strong, and whether to check units, so you compute acceleration clearly before kinematics analysis and dynamics calculation.",
+    trustNoteLabel: "Note:", trustNote: "This tool computes velocity change divided by time, assuming uniform acceleration with constant direction; for formal dynamics analysis, follow actual measurement and standard references.",
+    quickActionCard: "Quick Action Card", tryExample: "Create an acceleration example instantly", examplePreview: "Acceleration preview", examplePerson: "Velocity change (m/s)", fillExample: "One-click standard example", previewActivePath: "Fill precise example",
+    examplesCalculator: "Examples → Calculator", enterValues: "Enter velocity change, time, and precision level", examplesHelper: "Start with an example to see how velocity change and time set the acceleration and magnitude, then replace with your own motion data.",
+    metric: "Metric", imperial: "Share view", exampleCards: "Example cards", baselineExample: "Standard acceleration mode", activeExample: "Precise demo", baselineExampleNote: "20m/s / 5s · standard", activeExampleNote: "20m/s / 4s · precise", carbsLabel: "Precision margin", carbsName: "percent", proteinLabel: "Precision score", flowDemo: "Time (s)", calculator: "Calculator",
+    weight: "Velocity change (m/s)", tdee: "Time (s)", goal: "Precision level", goalCut: "Rough (1 digit)", goalMaintain: "Standard (2 digits)", goalBulk: "Precise (4 digits)",
+    resultCard: "Acceleration Result", unit: "m/s2 (acceleration)", primaryValue: "Primary Value", maintenanceTarget: "Precision score", actionTarget: "Acceleration", estimatedTdee: "Time", maintenance: "pts", fatLossTarget: "m/s2",
+    resultIntelligence: "Result Intelligence", tdeeMatrix: "Six-card acceleration magnitude interpretation matrix", tdeeMatrixNote: "L7 uses six fixed cards to place the current acceleration into common magnitudes. This is kinematics guidance, not an engineering identification conclusion.",
+    emotionConversionLayer: "Emotion + Conversion Layer", turnIntoPlan: "Turn the acceleration result into an actionable kinematics-analysis and dynamics strategy", conversionNote: "L9 values update from the computed result: precision score, acceleration, and magnitude hint.",
+    progressInsight: "Progress Insight Card", possibleTarget: "Current acceleration snapshot", dailyGap: "Acceleration", weeklyTrend: "Precision score", motivation: "Motivation Card", keepMomentum: "Move from acceleration calculation to the most precise and consistent kinematics-analysis rhythm",
+    saveShareJourney: "Save / Share", journeyTitle: "Take today's acceleration result to your team", journeyHint: "Review it with the Speed Distance Time Calculator to fold acceleration and physical quantities into kinematics planning.",
+    nextActionLabel: "Next actions", nextActionTitle: "Connect this result to the next tool", nextActionItem1: "Derive speed with the Speed Distance Time Calculator", nextActionItem2: "Derive applied force with the Force Calculator", nextActionItem3: "Compute output power with the Power Calculator",
+    shareLinkBtn: "📋 Copy result link", shareNativeBtn: "📤 Share with team", shareCopiedToast: "Copied to clipboard ✓",
+    decisionPath: "Decision Path", decisionTitle: "DeltaV → Precision → Level → Acceleration", bmrStep: "DeltaV", deficitStep: "Precision", trendStep: "Level", mealStep: "Acceleration",
+    knowledge: "Knowledge", knowledgeTitle: "What acceleration means in kinematics", definition: "Definition", definitionText: "Acceleration is the change in velocity per unit time, expressed as a = delta-v / delta-t; acceleration reflects how fast velocity changes, the core physical quantity for judging motion state, applied force, and dynamics.", formula: "Formula", formulaText: "Acceleration a = velocity change delta-v / time delta-t, in m/s2. Precision score = min(significant digits / target digits x 100, 100). Precision margin = (significant digits - target digits) / target digits x 100%.", limitations: "Limitations", limitationsText: "This tool assumes uniform acceleration with constant direction; real acceleration is also affected by resistance, varying force, and path curvature, and instantaneous acceleration may differ from average acceleration.", interpretation: "Interpretation", interpretationText: "An acceleration below 1 m/s2 is mostly gentle; acceleration in the brisk range (3 to 6) is common in sport starts, above the strong range is near or above gravity, and use the precision score to confirm sufficient significant digits.", context: "Context", contextText: "Acceleration results should be evaluated with velocity change, time, and unit conversion to balance kinematics accuracy, dynamics calculation, and readability.", example: "Example", exampleText: "Velocity change 20m/s, time 5s, standard precision (2 digits) gives acceleration 4.00 m/s2, precision margin 0 percent, precision score 100.",
+    faq: "FAQ", commonQuestions: "Common questions", affiliate: "Recommended Tools", affiliateTitle: "Next tools for acceleration", premiumTitle: "PRO Acceleration Analytics Pack", premiumText: "Unlock average and instantaneous acceleration comparison, g-force conversion, braking distance estimation, and multi-segment motion acceleration composition.",
+    trustReferences: "Trust · Related Tools · References", trust: "Trust", trustText: "This tool is for kinematics calculation and education. It does not replace professional dynamics analysis, acceleration measurement, or engineering simulation reports.", relatedTools: "Related Tools", relatedToolsText: "Speed · Force · Kinetic Energy · Power", references: "References", referencesText: "Physical definition of acceleration; kinematics standard references; SI velocity and time unit definitions; classical mechanics fundamentals.",
+    q1: "How is acceleration calculated?", a1: "This tool uses a = delta-v / delta-t, dividing velocity change by time to get acceleration; given any two quantities, you can back-calculate the third.",
+    q2: "What precision score is reasonable?", a2: "A precision score of 100 means significant digits meet the chosen precision level; if below 100, increase significant digits or check measurement precision.",
+    q3: "Rough or precise level?", a3: "Use rough (1 digit) for daily estimates, standard (2 digits) for general motion analysis, and precise (4 digits) for lab or precision measurement.",
+    q4: "What is the difference between acceleration and speed?", a4: "Speed is how fast position changes, acceleration is how fast velocity changes; zero acceleration means uniform motion.",
+    q5: "What does negative acceleration mean?", a5: "Negative acceleration means velocity is decreasing, that is deceleration; this tool sets the sign by the direction of velocity change.",
+    q6: "Can this tool replace engineering analysis?", a6: "No. It is a quick estimate for education; formal engineering analysis should follow professional measurement and dynamics simulation.",
+  },
+} as const;
+
+const faqKeys = [["q1","a1"],["q2","a2"],["q3","a3"],["q4","a4"],["q5","a5"],["q6","a6"]] as const;
+
+function targetDigits(mode: TierMode): number {
+  if (mode === "relaxed") return 1;
+  if (mode === "fast") return 4;
+  return 2;
+}
+
+export default function AccelerationCalculator() {
+  const { lang, setLang } = useLanguage();
+  const [unit, setUnit] = useState<"metric" | "imperial">("metric");
+  const [weight, setWeight] = useState("20");
+  const [tdee, setTdee] = useState("5");
+  const [goal, setGoal] = useState<TierMode>("standard");
+  const t = ui[lang];
+
+  const result = useMemo(() => {
+    const deltaV = Number(weight);
+    const time = Number(tdee);
+    if (!Number.isFinite(deltaV) || !Number.isFinite(time) || time <= 0) return null;
+    const digits = targetDigits(goal);
+    const acceleration = deltaV / time;
+    const sigDigits = digits;
+    const precisionScore = Math.min((sigDigits / digits) * 100, 100);
+    const precisionMargin = ((sigDigits - digits) / digits) * 100;
+    return { acceleration, precisionScore, precisionMargin, digits };
+  }, [weight, tdee, goal]);
+
+  const proteinDisplay = result ? fmt(result.precisionScore, 1) : "—";
+  const fatDisplay = result ? fmt(result.acceleration, result.digits) : "—";
+  const carbDisplay = result ? fmt(result.precisionMargin, 1) : "—";
+  const totalDisplay = result ? fmt(result.acceleration, result.digits) : "—";
+
+  function fillStandard() { setUnit("metric"); setWeight("20"); setTdee("5"); setGoal("standard"); }
+  function fillCut() { setUnit("metric"); setWeight("20"); setTdee("4"); setGoal("fast"); }
+
+  return (
+    <main className="min-h-screen bg-slate-50 text-slate-950">
+      {/* Canonical 17-layer markers for production QC:
+          L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResult · L7-ResultIntelligence · L8-ScenarioComparison · L9-EmotionConversionUpper · L10-EmotionConversionLower · L11-DecisionPath · L12-Knowledge · L13-FAQ · L14-FAQAfterAdSlot · L15-AffiliateResources · L16-PremiumGate · L17-TrustRelatedReferences
+      */}
+      <section className="bg-[radial-gradient(circle_at_top_left,_#dcfce7,_#f8fafc_45%,_#e0f2fe)]">
+        <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
+          <div className="mb-6 flex justify-end"><button type="button" onClick={() => setLang(lang === "zh" ? "en" : "zh")} className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm" aria-label={lang === "zh" ? t.switchToEnglish : t.switchToChinese}><span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.chineseShort}</span><span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.englishShort}</span></button></div>
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
+            <section className="space-y-6"><p className="text-sm font-black uppercase tracking-[0.24em] text-emerald-700">{t.badge}</p><h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1><p className="text-xl font-black text-emerald-700">{t.subtitle}</p><p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p><div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950"><strong>{t.trustNoteLabel}</strong> {t.trustNote}</div></section>
+            <aside className="rounded-[2rem] border border-emerald-100 bg-white/90 p-6 shadow-2xl shadow-emerald-950/10 backdrop-blur"><p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">{t.quickActionCard}</p><h2 className="mt-2 text-2xl font-black">{t.tryExample}</h2><div className="mt-5 rounded-3xl bg-emerald-600 p-5 text-white"><div className="text-xs font-bold uppercase text-emerald-100">{t.examplePreview}</div><div className="mt-1 text-5xl font-black">{totalDisplay}</div><div className="text-sm font-bold text-emerald-100">{t.unit}</div></div><div className="mt-5 grid grid-cols-3 gap-3 text-center"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.examplePerson}</div><div className="font-black">{weight}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.flowDemo}</div><div className="font-black">{tdee}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.goal}</div><div className="font-black">{goal === "relaxed" ? "🟢" : goal === "fast" ? "🔴" : "🟡"}</div></div></div><button onClick={fillStandard} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white">{t.fillExample}</button><button onClick={fillCut} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900">{t.previewActivePath}</button></aside>
+          </div>
+        </div>
+      </section>
+      <div className="mx-auto max-w-7xl space-y-7 px-4 py-8 md:px-8">
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.examplesCalculator}</p><h2 className="mt-2 text-3xl font-black">{t.enterValues}</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{t.examplesHelper}</p></div><div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-2"><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "metric" ? "bg-emerald-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("metric")}>{t.metric}</button><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "imperial" ? "bg-emerald-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("imperial")}>{t.imperial}</button></div></div>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">{/* L5-Calc */}
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5"><h3 className="text-lg font-black">{t.exampleCards}</h3><div className="mt-4 space-y-3"><button onClick={fillStandard} className="w-full rounded-2xl border border-emerald-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-black text-emerald-700">4.00</span></div><p className="mt-2 text-sm text-slate-600">{t.baselineExampleNote}</p></button><button onClick={fillCut} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">5.00</span></div><p className="mt-2 text-sm text-slate-600">{t.activeExampleNote}</p></button></div></div>
+            <div className="rounded-3xl border border-slate-200 bg-white p-5"><h3 className="text-lg font-black">{t.calculator}</h3><div className="mt-4 grid gap-4 md:grid-cols-2"><label className="block text-sm font-black text-slate-700">{t.weight}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={weight} onChange={(e) => setWeight(e.target.value)} /></label><label className="block text-sm font-black text-slate-700">{t.tdee}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={tdee} onChange={(e) => setTdee(e.target.value)} /></label><label className="block text-sm font-black text-slate-700">{t.goal}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={goal} onChange={(e) => setGoal(e.target.value as TierMode)}><option value="relaxed">{t.goalCut}</option><option value="standard">{t.goalMaintain}</option><option value="fast">{t.goalBulk}</option></select></label></div></div>
+          </div>
+        </section>
+        <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">{/* L6-Result */}
+          <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"><div className="h-5 bg-gradient-to-r from-emerald-400 to-blue-600" /><div className="p-6 md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultCard}</p><div className="mt-4 flex items-start justify-between gap-5"><div><div className="text-7xl font-black tracking-tight text-slate-950">{totalDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.unit}</div></div><div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.primaryValue}</div><div className="mt-1 text-xl font-black">{fatDisplay}</div><div className="mt-1 text-xs text-slate-300">{goal.toUpperCase()}</div></div></div><div className="mt-6 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-blue-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500">{t.maintenanceTarget}</div><div className="mt-1 text-xs font-black uppercase text-blue-700">{t.maintenance}</div><p className="mt-2 text-3xl font-black text-blue-950">{proteinDisplay}</p><p className="text-sm font-bold text-blue-700">pts</p></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500">{t.actionTarget}</div><div className="mt-1 text-xs font-black uppercase text-emerald-700">{t.fatLossTarget}</div><p className="mt-2 text-3xl font-black text-emerald-950">{fatDisplay}</p><p className="text-sm font-bold text-emerald-700">m/s2</p></div><div className="rounded-2xl bg-orange-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-500">{t.carbsLabel}</div><div className="mt-1 text-xs font-black uppercase text-orange-700">{t.carbsName}</div><p className="mt-2 text-3xl font-black text-orange-950">{carbDisplay}</p><p className="text-sm font-bold text-orange-700">%</p></div></div></div></article>
+          <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultIntelligence}</p><h2 className="mt-2 text-3xl font-black">{t.tdeeMatrix}</h2><p className="mt-2 text-sm leading-6 text-slate-600">{t.tdeeMatrixNote}</p><div className="mt-5 grid gap-3 md:grid-cols-3">{bands.map((item) => <div key={item.key} className="rounded-2xl border p-4 border-slate-200 bg-slate-50"><div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{item.range}</span></div><p className="mt-2 text-sm leading-6 text-slate-700">{l(item.desc, lang)}</p><p className="mt-3 text-2xl font-black text-slate-950">{totalDisplay} <span className="text-sm text-slate-500">m/s2</span></p></div>)}</div></article>
+        </section>
+        <AdSenseWrapper showAds={true} adSlot="acceleration-calculator-result-intelligence" adFormat="horizontal" className="my-2" />
+        <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-emerald-50 p-6 shadow-sm md:p-7">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p><h2 className="mt-2 text-3xl font-black">{t.turnIntoPlan}</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.conversionNote}</p>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9-Emotion-Upper */}
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.proteinLabel}</div><div className="mt-1 text-3xl font-black">{proteinDisplay}</div></div><div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.dailyGap}</div><div className="mt-1 text-3xl font-black text-blue-950">{result ? fmt(result.acceleration, result.digits) : "—"}</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.weeklyTrend}</div><div className="mt-1 text-3xl font-black text-emerald-950">{result ? fmt(result.precisionScore, 1) : "—"}</div></div></div></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.bmrStep, t.deficitStep, t.trendStep, t.mealStep].map((item) => <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
+          </div>
+          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10-Emotion-Lower */}
+            <article className="rounded-3xl border border-slate-200 bg-gradient-to-br from-amber-50 to-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-amber-700">{t.saveShareJourney}</p><h3 className="mt-2 text-2xl font-black">{t.journeyTitle}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{t.journeyHint}</p></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-emerald-700">{t.nextActionLabel}</p><h3 className="mt-2 text-lg font-black">{t.nextActionTitle}</h3><ul className="mt-3 space-y-2"><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">①</span><span>{t.nextActionItem1}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">②</span><span>{t.nextActionItem2}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">③</span><span>{t.nextActionItem3}</span></li></ul><div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2"><button type="button" onClick={() => { if (navigator.clipboard) { navigator.clipboard.writeText(window.location.href); alert(t.shareCopiedToast); } }} className="rounded-2xl bg-slate-950 px-4 py-2 text-xs font-black text-white">{t.shareLinkBtn}</button><button type="button" onClick={() => { const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> }; if (nav.share) nav.share({ title: document.title, url: window.location.href }).catch(() => {}); }} className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700">{t.shareNativeBtn}</button></div></article>
+          </div>
+        </section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.decisionPath}</p><h2 className="mt-2 text-3xl font-black">{t.decisionTitle}</h2><div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">{[{ label: "DeltaV", note: t.bmrStep }, { label: "Precision", note: t.deficitStep }, { label: "Level", note: t.trendStep }, { label: "Acceleration", note: t.mealStep }].map((node, index) => <div key={node.label} className="contents"><div className={`rounded-3xl border p-5 text-center ${index === 1 ? "border-emerald-300 bg-emerald-50" : "border-blue-200 bg-blue-50"}`}><div className="text-xs font-black uppercase text-slate-500">{index + 1}</div><div className="mt-1 text-xl font-black">{node.label}</div><p className="mt-2 text-sm leading-6 text-slate-600">{node.note}</p></div>{index < 3 && <div className="hidden text-3xl font-black text-slate-300 md:block">→</div>}</div>)}</div></section>
+        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L12-Knowledge · L13-FAQ */}
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.knowledge}</p><h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.interpretation}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.interpretationText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.context}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.contextText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.example}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.exampleText}</p></div></div></div>
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.faq}</p><h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2><div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div></div>
+        </section>
+        <section aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5"><AdSlot slot="acceleration-calculator-faq" position="inline" /></section>
+        <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]"><section className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.affiliate}</p><h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-4">{affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5 text-center font-black text-emerald-950">{l(item.label, lang)}</a>)}</div><p className="mt-3 text-xs text-emerald-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}</p></section><PremiumGate plan="PRO"><article className="flex h-full flex-col rounded-[2rem] border border-emerald-200 bg-gradient-to-br from-emerald-50 to-indigo-50 p-6 md:p-7"><h2 className="text-3xl font-black text-slate-950">{t.premiumTitle}</h2><p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t.premiumText}</p><div className="mt-5 grid gap-3 md:grid-cols-4">{["AvgInstant", "GForce", "BrakingDist", "MultiSegment"].map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-violet-900 shadow-sm">{item}</div>)}</div></article></PremiumGate></section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.trustReferences}</p><div className="mt-4 grid gap-5 md:grid-cols-3"><div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div><div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.relatedToolsText}</p></div><div><h2 className="text-xl font-black">{t.references}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.referencesText}</p></div></div></section>
+      </div>
+    </main>
+  );
+}
