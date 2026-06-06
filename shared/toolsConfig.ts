@@ -3433,6 +3433,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "force-calculator",
+    name: "力學計算機",
+    category: "science",
+    path: "/tools/science/force-calculator",
+    icon: "FlaskConical",
+    description: "力學計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3692,3 +3707,4 @@ export const pxRemConverter = { id: "px-rem-converter", category: "design", name
 export const gridLayoutCalculator = { id: "grid-layout-calculator", category: "design", name: "Grid Layout Calculator", path: "/tools/design/grid-layout-calculator" };
 export const lineHeightCalculator = { id: "line-height-calculator", category: "design", name: "Line Height Calculator", path: "/tools/design/line-height-calculator" };
 export const unitConverterCalculator = { id: "unit-converter-calculator", category: "science", name: "Unit Converter Calculator", path: "/tools/science/unit-converter-calculator" };
+export const forceCalculator = { id: "force-calculator", category: "science", name: "Force Calculator", path: "/tools/science/force-calculator" };

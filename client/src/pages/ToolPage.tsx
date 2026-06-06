@@ -239,6 +239,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "design/grid-layout-calculator": lazy(() => import("@/tools/design/GridLayoutCalculator")),
   "design/line-height-calculator": lazy(() => import("@/tools/design/LineHeightCalculator")),
   "science/unit-converter-calculator": lazy(() => import("@/tools/science/UnitConverterCalculator")),
+  "science/force-calculator": lazy(() => import("@/tools/science/ForceCalculator")),
 };
 
 function ToolSkeleton() {
