@@ -3358,6 +3358,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "type-scale-calculator",
+    name: "字級級數計算機",
+    category: "design",
+    path: "/tools/design/type-scale-calculator",
+    icon: "Palette",
+    description: "字級級數計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3612,3 +3627,4 @@ export const aiImplementationRoi = { id: "ai-implementation-roi", category: "ai"
 export const colorContrastRatioCalculator = { id: "color-contrast-ratio-calculator", category: "design", name: "Color Contrast Ratio Calculator", path: "/tools/design/color-contrast-ratio-calculator" };
 export const goldenRatioCalculator = { id: "golden-ratio-calculator", category: "design", name: "Golden Ratio Calculator", path: "/tools/design/golden-ratio-calculator" };
 export const aspectRatioCalculator = { id: "aspect-ratio-calculator", category: "design", name: "Aspect Ratio Calculator", path: "/tools/design/aspect-ratio-calculator" };
+export const typeScaleCalculator = { id: "type-scale-calculator", category: "design", name: "Type Scale Calculator", path: "/tools/design/type-scale-calculator" };
