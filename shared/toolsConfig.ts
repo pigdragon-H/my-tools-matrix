@@ -3313,6 +3313,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "color-contrast-ratio-calculator",
+    name: "色彩對比度計算機",
+    category: "design",
+    path: "/tools/design/color-contrast-ratio-calculator",
+    icon: "Palette",
+    description: "色彩對比度計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3564,3 +3579,4 @@ export const aiRoiCalculator = { id: "ai-roi-calculator", category: "ai", name: 
 export const automationSavingsCalculator = { id: "automation-savings-calculator", category: "ai", name: "Automation Savings Calculator", path: "/tools/ai/automation-savings-calculator" };
 export const aiLaborCalculator = { id: "ai-labor-calculator", category: "ai", name: "AI Labor Calculator", path: "/tools/ai/ai-labor-calculator" };
 export const aiImplementationRoi = { id: "ai-implementation-roi", category: "ai", name: "AI Implementation ROI", path: "/tools/ai/ai-implementation-roi" };
+export const colorContrastRatioCalculator = { id: "color-contrast-ratio-calculator", category: "design", name: "Color Contrast Ratio Calculator", path: "/tools/design/color-contrast-ratio-calculator" };
