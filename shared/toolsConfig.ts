@@ -3163,6 +3163,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "chatbot-cost-calculator",
+    name: "聊天機器人成本計算機",
+    category: "ai",
+    path: "/tools/ai/chatbot-cost-calculator",
+    icon: "Cpu",
+    description: "聊天機器人成本計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3404,3 +3419,4 @@ export const aiApiCostEstimator = { id: "ai-api-cost-estimator", category: "ai",
 export const aiProjectCostCalculator = { id: "ai-project-cost-calculator", category: "ai", name: "AI Project Cost Calculator", path: "/tools/ai/ai-project-cost-calculator" };
 export const promptTokenCalculator = { id: "prompt-token-calculator", category: "ai", name: "Prompt Token Calculator", path: "/tools/ai/prompt-token-calculator" };
 export const fineTuningCostCalculator = { id: "fine-tuning-cost-calculator", category: "ai", name: "Fine-Tuning Cost Calculator", path: "/tools/ai/fine-tuning-cost-calculator" };
+export const chatbotCostCalculator = { id: "chatbot-cost-calculator", category: "ai", name: "Chatbot Cost Calculator", path: "/tools/ai/chatbot-cost-calculator" };

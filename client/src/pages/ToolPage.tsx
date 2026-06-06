@@ -221,6 +221,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "ai/ai-project-cost-calculator": lazy(() => import("@/tools/ai/AiProjectCostCalculator")),
   "ai/prompt-token-calculator": lazy(() => import("@/tools/ai/PromptTokenCalculator")),
   "ai/fine-tuning-cost-calculator": lazy(() => import("@/tools/ai/FineTuningCostCalculator")),
+  "ai/chatbot-cost-calculator": lazy(() => import("@/tools/ai/ChatbotCostCalculator")),
 };
 
 function ToolSkeleton() {
