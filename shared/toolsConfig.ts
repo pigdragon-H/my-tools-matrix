@@ -2803,6 +2803,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "travel-budget-calculator",
+    name: "旅遊預算計算機",
+    category: "travel",
+    path: "/tools/travel/travel-budget-calculator",
+    icon: "Plane",
+    description: "旅遊預算計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3020,3 +3035,4 @@ export const returnRateCalculator = { id: "return-rate-calculator", category: "e
 export const deliveryTimeCalculator = { id: "delivery-time-calculator", category: "ecommerce", name: "Delivery Time Calculator", path: "/tools/ecommerce/delivery-time-calculator" };
 export const mrrCalculator = { id: "mrr-calculator", category: "ecommerce", name: "MRR Calculator", path: "/tools/ecommerce/mrr-calculator" };
 export const churnRateCalculator = { id: "churn-rate-calculator", category: "ecommerce", name: "Churn Rate Calculator", path: "/tools/ecommerce/churn-rate-calculator" };
+export const travelBudgetCalculator = { id: "travel-budget-calculator", category: "travel", name: "Travel Budget Calculator", path: "/tools/travel/travel-budget-calculator" };
