@@ -189,6 +189,11 @@
 | FIN-TAX-004 | `tax-withholding-calculator` | 預扣稅計算機 | Tax Withholding Calculator |
 | FIN-TAX-005 | `tax-loss-harvesting` | 稅損收割計算機 | Tax-Loss Harvesting Calculator |
 | FIN-CUR-001 | `currency-exchange-rate` | 即時匯率查詢器 | Currency Exchange Rate |
+| FIN-CUR-002 | `percentage-calculator` | 百分比計算機 | Percentage Calculator |
+| FIN-CUR-003 | `gst-calculator` | GST多國稅率計算機 | GST Calculator |
+| FIN-CUR-004 | `gold-silver-price-calculator` | 金銀價格計算機 | Gold Silver Price Calculator |
+| FIN-CUR-005 | `crypto-profit-calculator` | 加密貨幣獲利計算機 | Crypto Profit Calculator |
+| FIN-CUR-006 | `lottery-tax-calculator` | 彩票稅後實得計算機 | Lottery Tax Calculator |
 
 ### Health 健康  (+26)
 
@@ -220,6 +225,13 @@
 | HLT-VIT-002 | `vision-prescription-converter` | 視力度數轉換器 | Vision Prescription Converter |
 | HLT-WEL-001 | `sleep-cycle-calculator` | 睡眠週期計算機 | Sleep Cycle Calculator |
 | HLT-WEL-002 | `stress-index-calculator` | 壓力指數計算機 | Stress Index Calculator |
+| HLT-WOM-001 | `due-date-calculator` | 預產期計算機 | Due Date Calculator |
+| HLT-WOM-002 | `period-cycle-calculator` | 生理期預測計算機 | Period Cycle Calculator |
+| HLT-FIT-007 | `steps-to-calories-calculator` | 步數卡路里換算機 | Steps to Calories Calculator |
+| HLT-FIT-008 | `calories-burned-activity` | 活動消耗卡路里計算機 | Calories Burned by Activity |
+| HLT-MED-001 | `blood-sugar-converter` | 血糖單位換算機 | Blood Sugar Converter |
+| HLT-CHD-001 | `child-growth-percentile` | 兒童生長百分位計算機 | Child Growth Percentile Calculator |
+| HLT-SOB-001 | `sobriety-calculator` | 戒癮天數計算機 | Sobriety Calculator |
 
 ### Productivity 生產力  (+21)
 
@@ -246,6 +258,9 @@
 | PRD-TIM-004 | `reading-time-calculator` | 閱讀時間計算機 | Reading Time Calculator |
 | PRD-TIM-005 | `presentation-time-calculator` | 簡報時間計算機 | Presentation Time Calculator |
 | PRD-TIM-006 | `email-response-time` | 郵件回覆時間計算機 | Email Response Time Calculator |
+| PRD-TIM-007 | `deadline-countdown-calculator` | 截止日倒數計算機 | Deadline Countdown Calculator |
+| PRD-TIM-008 | `hours-calculator` | 工時累計計算機 | Hours Calculator |
+| PRD-MGT-001 | `task-priority-matrix` | 任務優先矩陣 | Task Priority Matrix |
 
 ### Education 教育  (+23)
 
@@ -274,6 +289,10 @@
 | EDU-MTH-003 | `unit-converter-edu` | 單位換算機（教育） | Unit Converter (Education) |
 | EDU-MTH-004 | `statistics-calculator` | 統計計算機 | Statistics Calculator |
 | EDU-MTH-005 | `matrix-calculator` | 矩陣計算機 | Matrix Calculator |
+| EDU-SKL-001 | `reading-speed-calculator` | 閱讀速度計算機 | Reading Speed Calculator |
+| EDU-SKL-002 | `exam-score-converter` | 考試分數等級換算機 | Exam Score Converter |
+| EDU-SKL-003 | `typing-speed-calculator` | 打字速度計算機 | Typing Speed Calculator |
+| EDU-SKL-004 | `spaced-repetition-calculator` | 間隔重複學習計算機 | Spaced Repetition Calculator |
 
 ### Developer 開發者  (+16)
 
@@ -295,6 +314,9 @@
 | DEV-UTL-002 | `lorem-ipsum-generator` | 假文產生器 | Lorem Ipsum Generator |
 | DEV-UTL-003 | `text-comparison` | 文字比對工具 | Text Comparison |
 | DEV-UTL-004 | `uuid-generator` | UUID 產生器 | UUID Generator |
+| DEV-UTL-005 | `code-minifier` | JS/CSS代碼壓縮器 | Code Minifier |
+| DEV-UTL-006 | `image-to-base64` | 圖片轉Base64工具 | Image to Base64 Converter |
+| DEV-UTL-007 | `chmod-calculator` | Linux權限計算機 | Chmod Calculator |
 
 ### Legal 法律  (+9)
 
@@ -440,6 +462,9 @@
 | ECM-SHP-002 | `packaging-cost-calculator` | 包裝成本計算機 | Packaging Cost Calculator |
 | ECM-SHP-003 | `return-rate-calculator` | 退貨率計算機 | Return Rate Calculator |
 | ECM-SHP-004 | `delivery-time-calculator` | 配送時間計算機 | Delivery Time Calculator |
+| ECM-MKT-005 | `amazon-fba-calculator` | 亞馬遜FBA費用計算機 | Amazon FBA Calculator |
+| ECM-MKT-006 | `dropshipping-profit-calculator` | 代發貨獲利計算機 | Dropshipping Profit Calculator |
+| ECM-MKT-007 | `etsy-fee-calculator` | Etsy費用計算機 | Etsy Fee Calculator |
 | ECM-SUB-001 | `mrr-calculator` | 月經常性收入計算機 | MRR Calculator |
 | ECM-SUB-002 | `churn-rate-calculator` | 流失率計算機 | Churn Rate Calculator |
 
@@ -464,6 +489,8 @@
 | TRV-HLT-005 | `vaccine-schedule-calculator` | 疫苗接種排程計算機 | Vaccine Schedule Calculator |
 | TRV-LOG-001 | `luggage-weight-calculator` | 行李重量計算機 | Luggage Weight Calculator |
 | TRV-LOG-002 | `visa-cost-calculator` | 簽證費用計算機 | Visa Cost Calculator |
+| TRV-ECO-001 | `flight-carbon-calculator` | 航班碳排放計算機 | Flight Carbon Calculator |
+| TRV-MIL-001 | `travel-miles-calculator` | 旅行里程計算機 | Travel Miles Calculator |
 | TRV-TIM-001 | `time-zone-difference` | 時差計算機 | Time Zone Difference Calculator |
 | TRV-TIM-002 | `flight-time-calculator` | 飛行時間計算機 | Flight Time Calculator |
 
