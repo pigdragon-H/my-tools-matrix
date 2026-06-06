@@ -3478,6 +3478,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "density-calculator",
+    name: "密度計算機",
+    category: "science",
+    path: "/tools/science/density-calculator",
+    icon: "FlaskConical",
+    description: "密度計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3740,3 +3755,4 @@ export const unitConverterCalculator = { id: "unit-converter-calculator", catego
 export const forceCalculator = { id: "force-calculator", category: "science", name: "Force Calculator", path: "/tools/science/force-calculator" };
 export const kineticEnergyCalculator = { id: "kinetic-energy-calculator", category: "science", name: "Kinetic Energy Calculator", path: "/tools/science/kinetic-energy-calculator" };
 export const ohmsLawCalculator = { id: "ohms-law-calculator", category: "science", name: "Ohms Law Calculator", path: "/tools/science/ohms-law-calculator" };
+export const densityCalculator = { id: "density-calculator", category: "science", name: "Density Calculator", path: "/tools/science/density-calculator" };
