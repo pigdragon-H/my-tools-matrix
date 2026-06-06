@@ -40,7 +40,7 @@ async function queryDatamuse(endpoint: string, maxResults = 20): Promise<Datamus
 // 內建 CEFR + 繁體中文釋義 + IPA 詞庫（CEFR-J ver1.5 + Octanove C1/C2 分級 · 繁體釋義人工撰寫 · ECDICT IPA，懶載入）
 //   形態：{ word: [cefr, zh, ipa] }
 // ============================================================
-type DictEntry = string[]; // [cefr, zh, ipa]
+type DictEntry = string[]; // [cefr, zh_tw, zh_cn, ipa]
 let DICT: Record<string, DictEntry> | null = null;
 let dictLoading: Promise<void> | null = null;
 function loadDict(): Promise<void> {
@@ -94,8 +94,9 @@ function parseTags(tags: string[] | undefined): { pos: string; freq: number; pro
   return { pos, freq, pron };
 }
 
+type MeaningSrc = "tw" | "cn" | "none";
 type ResultCard = {
-  word: string; cefr: Cefr; posKey: string; freq: number; ipa: string; meaningZh: string;
+  word: string; cefr: Cefr; posKey: string; freq: number; ipa: string; meaningZh: string; meaningSrc: MeaningSrc;
   // lazy enrichment (例句 via dictionaryapi.dev)
   exampleEn?: string; defEn?: string; enriched?: boolean;
 };
@@ -128,13 +129,13 @@ const ui = {
     badge: "語言 · 詞彙擴充 · Language Hub", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "同義詞查找器 · Synonym Finder", subtitle: "輸入一個英文字，立刻找出帶 CEFR 等級、IPA 音標與中文釋義的同義詞",
     intro: "Synonym Finder 串接 Datamuse 開放語料 API（rel_syn），並內建 CEFR-J 權威分級與編輯團隊人工撰寫的繁體中文釋義詞庫。輸入任何英文單字即可取得真實同義詞清單，每個結果都標註 CEFR 難度等級、IPA 音標、詞性與繁體中文釋義，並可展開查看英文定義與例句，幫你在口說、寫作、考試中挑出最貼切的替換詞。",
-    trustNoteLabel: "資料來源：", trustNote: "同義詞來自 Datamuse（彙整 WordNet）；CEFR 等級以 CEFR-J 與 Octanove 權威詞表對照；繁體中文釋義由編輯團隊人工撰寫，尚未收錄者展開即顯示英文定義；IPA 音標取自 ECDICT 開源詞典與 ARPABET 轉換；例句來自 Free Dictionary API。僅供學習參考。",
+    trustNoteLabel: "資料來源：", trustNote: "同義詞來自 Datamuse（彙整 WordNet）；CEFR 等級以 CEFR-J 與 Octanove 權威詞表對照；中文釋義以編輯團隊人工撰寫的繁體中文為優先，尚無繁體者改顯示 ECDICT 開源詞典的簡體釋義（標註「简」），繁簡皆無者展開即顯示英文定義；IPA 音標取自 ECDICT 與 ARPABET 轉換；例句來自 Free Dictionary API。僅供學習參考。",
     quickActionCard: "快速查詢卡", tryExample: "一鍵查 happy 的同義詞", examplePreview: "找到的同義詞數", examplePerson: "查詢字", fillExample: "查 happy 的同義詞", previewActivePath: "查 important 的同義詞",
     examplesCalculator: "範例 → 查詢", enterValues: "輸入英文單字", examplesHelper: "先用熱門範例了解 CEFR 等級、IPA 音標與中文釋義如何呈現，再換成你自己想查的單字。",
     queryBtn: "查詢同義詞", clearBtn: "清除", hotWords: "熱門查詢", inputPlaceholder: "輸入英文單字，例如 happy",
     loading: "查詢中…", emptyHint: "輸入上方單字並按「查詢同義詞」，結果會列在這裡。", noResult: "查無同義詞，換個更常見的單字試試。",
     fallbackTitle: "查詢暫時無法使用", fallbackBody: "網路連線問題，請稍後再試。常用結果已儲存在本機快取中。",
-    resultCard: "同義詞結果", unit: "個同義詞", primaryValue: "查詢字", ipaLabel: "音標", meaningLabel: "釋義", enGlossHint: "（此字繁體釋義整理中，展開看英文定義與例句）", expandHint: "展開看例句", collapseHint: "收合", exampleLabel: "例句", enLoading: "載入例句中…", noExample: "查無例句，建議造句練習。",
+    resultCard: "同義詞結果", unit: "個同義詞", primaryValue: "查詢字", ipaLabel: "音標", meaningLabel: "釋義", glossTagCn: "简", glossTagEn: "EN", enGlossHint: "展開看英文定義與例句", expandHint: "展開看例句", collapseHint: "收合", exampleLabel: "例句", enLoading: "載入例句中…", noExample: "查無例句，建議造句練習。",
     resultIntelligence: "結果解讀", levelMatrix: "六級 CEFR 同義詞解讀矩陣", levelMatrixNote: "L7 將同義詞依 CEFR 等級分層，以 CEFR-J 權威詞表對照，A1 最常用、C2 最罕見；挑替換詞時對照你的目標讀者程度。",
     scenarioLayer: "使用場景", scenarioTitle: "什麼時候該換同義詞", scenarioNote: "L8 列出四個典型場景，把同義詞用在對的地方，而不是為換而換。",
     scenarioExam: "考試寫作", scenarioExamNote: "避免重複用字，挑 B2/C1 同義詞展現詞彙廣度。", scenarioWriting: "正式書寫", scenarioWritingNote: "報告與郵件選語氣貼切、CEFR 適中的詞。", scenarioDaily: "日常口語", scenarioDailyNote: "選 A1/A2 同義詞，自然好懂不做作。", scenarioBusiness: "商務溝通", scenarioBusinessNote: "選精準專業的詞，避免太口語或太冷僻。",
@@ -146,11 +147,11 @@ const ui = {
     knowledge: "知識", knowledgeTitle: "同義詞在英語學習中的意義", definition: "定義", definitionText: "同義詞（synonym）是意義相近、可在特定語境互相替換的字；但很少完全等義，語氣與搭配常有差異。", usage: "用法", usageText: "查到同義詞後，先看 IPA 音標、詞性與 CEFR 等級，讀懂中文釋義，再確認語氣是否合適。例如 happy 的同義詞 content 偏「滿足」、joyful 偏「歡欣」，並不能無腦互換。", limitations: "限制", limitationsText: "Datamuse 的同義詞依語料統計，可能含罕見或古語；CEFR 等級以 CEFR-J/Octanove 詞表為主，詞表未收錄者改用詞頻啟發式推估，與官方 Cambridge 分級可能有出入。", interpretation: "解讀", interpretationText: "A1/A2 同義詞適合口語與初學；B1/B2 適合考試與寫作；C1/C2 雖然亮眼，用錯場合反而生硬。", context: "脈絡", contextText: "同義詞查詢應與反義詞、字根、CEFR 估算一起用，建立完整的語義網絡而非孤立記單字。", example: "範例", exampleText: "查 important → 得到 significant(A2)、crucial(B2)、vital(B2)、essential(B1)；寫學術報告時 crucial 比 important 更精準有力。",
     faq: "FAQ", commonQuestions: "常見問題", affiliate: "相關工具", affiliateTitle: "詞彙擴充的下一步工具", premiumTitle: "PRO 詞彙擴充包", premiumText: "解鎖無限查詢、依 CEFR 等級篩選結果、自動記錄學習歷史，並把單字表匯出複習。",
     feat1: "無限查詢次數", feat2: "難度等級篩選", feat3: "學習歷史記錄", feat4: "單字表匯出",
-    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具僅供英語學習與詞彙擴充用途；CEFR 等級以 CEFR-J/Octanove 權威詞表對照，詞表未收錄者為啟發式推估，不等同官方語言檢定結果。", relatedTools: "相關工具", relatedToolsText: "Antonym Finder · Rhyme Finder · Word Root Analyzer · CEFR Level Estimator", references: "參考資料", referencesText: "Datamuse API（rel_syn，彙整 WordNet）；CEFR-J Wordlist v1.5（Tono Lab, TUFS）；Octanove C1/C2 Vocabulary Profile（CC BY-SA 4.0）；ECDICT 開源英漢詞典（IPA 音標）；繁體中文釋義由編輯團隊人工撰寫；Free Dictionary API（例句）。",
+    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具僅供英語學習與詞彙擴充用途；CEFR 等級以 CEFR-J/Octanove 權威詞表對照，詞表未收錄者為啟發式推估，不等同官方語言檢定結果。", relatedTools: "相關工具", relatedToolsText: "Antonym Finder · Rhyme Finder · Word Root Analyzer · CEFR Level Estimator", references: "參考資料", referencesText: "Datamuse API（rel_syn，彙整 WordNet）；CEFR-J Wordlist v1.5（Tono Lab, TUFS）；Octanove C1/C2 Vocabulary Profile（CC BY-SA 4.0）；ECDICT 開源英漢詞典（IPA 音標與簡體釋義）；繁體中文釋義由編輯團隊人工撰寫；Free Dictionary API（例句）。",
     q1: "這些同義詞可以直接互換嗎？", a1: "不一定。同義詞意義相近但語氣與搭配常不同，建議先看 IPA 音標、中文釋義、CEFR 等級與詞性，再確認語境是否合適。",
     q2: "CEFR 等級是怎麼判斷的？", a2: "優先以 CEFR-J 與 Octanove 權威詞表對照；詞表未收錄的罕見字才改用 Datamuse 詞頻啟發式推估。這是學習參考，非官方檢定。",
     q3: "為什麼有些字查不到同義詞？", a3: "罕見字、專有名詞或拼錯的字可能沒有同義詞資料。換成更常見的基本字通常就有結果。",
-    q4: "音標和中文釋義從哪來？", a4: "IPA 音標取自 ECDICT 開源英漢詞典（內建 2 萬餘字），詞庫未收錄者改以 Datamuse 音標即時轉換 IPA；繁體中文釋義由編輯團隊人工撰寫常用核心字，尚未收錄者展開即顯示英文定義（不經機器翻譯，避免簡繁誤植）。例句來自 Free Dictionary API。",
+    q4: "音標和中文釋義從哪來？", a4: "IPA 音標取自 ECDICT 開源英漢詞典（內建 2 萬餘字），詞庫未收錄者改以 Datamuse 音標即時轉換 IPA；中文釋義採三層優先序——編輯團隊人工撰寫的繁體中文優先（無標註），尚無繁體者改顯示 ECDICT 簡體釋義並標註「简」，繁簡皆無者展開即顯示英文定義（標註 EN）。全程不經機器翻譯。例句來自 Free Dictionary API。",
     q5: "結果為什麼有時不一樣？", a5: "Datamuse 依語料統計動態排序，且我們已過濾極罕見結果，因此排序可能隨時間略有變化。",
     q6: "適合準備雅思托福嗎？", a6: "適合。挑 B2/C1 同義詞替換常見字能展現詞彙廣度，但務必確認語境與搭配正確，避免生硬堆砌。",
   },
@@ -158,13 +159,13 @@ const ui = {
     badge: "Language · Vocabulary · Language Hub", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "Synonym Finder", subtitle: "Type one English word and get synonyms with CEFR level, IPA, and Chinese gloss",
     intro: "Synonym Finder calls the open Datamuse corpus API (rel_syn) and ships a built-in CEFR-J grading plus an editor-curated Traditional Chinese gloss dictionary. Enter any English word to get a real synonym list, where each result is tagged with a CEFR difficulty level, IPA transcription, part of speech, and Traditional Chinese gloss, expandable to show an English definition and example sentence, helping you pick the most fitting replacement for speaking, writing, and exams.",
-    trustNoteLabel: "Data source:", trustNote: "Synonyms come from Datamuse (built on WordNet); CEFR levels are matched against the CEFR-J and Octanove authoritative wordlists; Traditional Chinese glosses are hand-written by the editorial team, with an English definition shown for words not yet covered; IPA comes from the open ECDICT dictionary and ARPABET conversion; examples come from the Free Dictionary API. For study reference only.",
+    trustNoteLabel: "Data source:", trustNote: "Synonyms come from Datamuse (built on WordNet); CEFR levels are matched against the CEFR-J and Octanove authoritative wordlists; Chinese glosses prioritize the editorial team's hand-written Traditional Chinese, falling back to ECDICT's Simplified gloss (tagged Simp) when no Traditional one exists, and to an English definition when neither is available; IPA comes from ECDICT and ARPABET conversion; examples come from the Free Dictionary API. For study reference only.",
     quickActionCard: "Quick Query Card", tryExample: "Find synonyms for happy", examplePreview: "Synonyms found", examplePerson: "Query word", fillExample: "Find synonyms for happy", previewActivePath: "Find synonyms for important",
     examplesCalculator: "Examples → Query", enterValues: "Enter an English word", examplesHelper: "Start with a popular example to see how CEFR level, IPA, and Chinese gloss appear, then swap in the word you want to look up.",
     queryBtn: "Find synonyms", clearBtn: "Clear", hotWords: "Popular queries", inputPlaceholder: "Type an English word, e.g. happy",
     loading: "Searching…", emptyHint: "Enter a word above and press Find synonyms; results will appear here.", noResult: "No synonyms found, try a more common word.",
     fallbackTitle: "Query temporarily unavailable", fallbackBody: "Network issue, please try again later. Common results are cached locally.",
-    resultCard: "Synonym Results", unit: "synonyms", primaryValue: "Query word", ipaLabel: "IPA", meaningLabel: "Gloss", enGlossHint: "(Traditional Chinese gloss coming soon — expand for the English definition & example.)", expandHint: "Show example", collapseHint: "Collapse", exampleLabel: "Example", enLoading: "Loading example…", noExample: "No example found; try writing your own.",
+    resultCard: "Synonym Results", unit: "synonyms", primaryValue: "Query word", ipaLabel: "IPA", meaningLabel: "Gloss", glossTagCn: "Simp", glossTagEn: "EN", enGlossHint: "See English definition & example on expand", expandHint: "Show example", collapseHint: "Collapse", exampleLabel: "Example", enLoading: "Loading example…", noExample: "No example found; try writing your own.",
     resultIntelligence: "Result Intelligence", levelMatrix: "Six-level CEFR synonym matrix", levelMatrixNote: "L7 groups synonyms by CEFR level using the authoritative CEFR-J wordlist, with A1 most common and C2 rarest; match the level to your target reader when choosing a replacement.",
     scenarioLayer: "Use scenarios", scenarioTitle: "When to swap in a synonym", scenarioNote: "L8 lists four typical scenarios so you use synonyms in the right place, not just for the sake of changing words.",
     scenarioExam: "Exam writing", scenarioExamNote: "Avoid repetition; pick B2/C1 synonyms to show vocabulary range.", scenarioWriting: "Formal writing", scenarioWritingNote: "Pick words with the right tone and a moderate CEFR level for reports and emails.", scenarioDaily: "Daily speech", scenarioDailyNote: "Choose A1/A2 synonyms that sound natural and easy.", scenarioBusiness: "Business communication", scenarioBusinessNote: "Pick precise professional words, avoiding the too casual or too obscure.",
@@ -176,11 +177,11 @@ const ui = {
     knowledge: "Knowledge", knowledgeTitle: "What synonyms mean in English learning", definition: "Definition", definitionText: "A synonym is a word with a similar meaning that can replace another in a given context; but they are rarely exactly equivalent, often differing in tone and collocation.", usage: "Usage", usageText: "After finding a synonym, check its IPA, part of speech, and CEFR level, read the Chinese gloss, then confirm the tone fits. For example, happy's synonyms content leans toward 'satisfied' and joyful toward 'cheerful'; they cannot be swapped blindly.", limitations: "Limitations", limitationsText: "Datamuse synonyms are corpus-statistical and may include rare or archaic words; CEFR levels primarily use the CEFR-J/Octanove wordlists, falling back to a frequency heuristic for unlisted words, which may differ from official Cambridge grading.", interpretation: "Interpretation", interpretationText: "A1/A2 synonyms suit speech and beginners; B1/B2 suit exams and writing; C1/C2 look impressive but feel stiff if used in the wrong place.", context: "Context", contextText: "Synonym lookup should be used with antonyms, word roots, and CEFR estimation to build a full semantic network rather than memorizing words in isolation.", example: "Example", exampleText: "Search important → get significant(A2), crucial(B2), vital(B2), essential(B1); in an academic report, crucial is more precise and forceful than important.",
     faq: "FAQ", commonQuestions: "Common questions", affiliate: "Related Tools", affiliateTitle: "Next tools for vocabulary expansion", premiumTitle: "PRO Vocabulary Pack", premiumText: "Unlock unlimited queries, filter results by CEFR level, auto-log study history, and export wordlists for review.",
     feat1: "Unlimited queries", feat2: "Level filter", feat3: "Study history", feat4: "Export wordlist",
-    trustReferences: "Trust · Related Tools · References", trust: "Trust", trustText: "This tool is for English learning and vocabulary expansion only; CEFR levels are matched against the CEFR-J/Octanove wordlists, with a heuristic estimate for unlisted words, and do not equal an official language assessment.", relatedTools: "Related Tools", relatedToolsText: "Antonym Finder · Rhyme Finder · Word Root Analyzer · CEFR Level Estimator", references: "References", referencesText: "Datamuse API (rel_syn, built on WordNet); CEFR-J Wordlist v1.5 (Tono Lab, TUFS); Octanove C1/C2 Vocabulary Profile (CC BY-SA 4.0); ECDICT open EN-ZH dictionary (IPA); Traditional Chinese glosses hand-written by the editorial team; Free Dictionary API (examples).",
+    trustReferences: "Trust · Related Tools · References", trust: "Trust", trustText: "This tool is for English learning and vocabulary expansion only; CEFR levels are matched against the CEFR-J/Octanove wordlists, with a heuristic estimate for unlisted words, and do not equal an official language assessment.", relatedTools: "Related Tools", relatedToolsText: "Antonym Finder · Rhyme Finder · Word Root Analyzer · CEFR Level Estimator", references: "References", referencesText: "Datamuse API (rel_syn, built on WordNet); CEFR-J Wordlist v1.5 (Tono Lab, TUFS); Octanove C1/C2 Vocabulary Profile (CC BY-SA 4.0); ECDICT open EN-ZH dictionary (IPA and Simplified glosses); Traditional Chinese glosses hand-written by the editorial team; Free Dictionary API (examples).",
     q1: "Can these synonyms be swapped directly?", a1: "Not always. Synonyms are close in meaning but often differ in tone and collocation; check the IPA, Chinese gloss, CEFR level, and part of speech first, then confirm the context fits.",
     q2: "How is the CEFR level decided?", a2: "It is matched first against the CEFR-J and Octanove authoritative wordlists; only rare words not in the lists fall back to a Datamuse frequency heuristic. It is study reference, not an official assessment.",
     q3: "Why do some words return no synonyms?", a3: "Rare words, proper nouns, or misspellings may have no synonym data. Switching to a more common base word usually returns results.",
-    q4: "Where do the IPA and Chinese gloss come from?", a4: "IPA comes from the open ECDICT EN-ZH dictionary (over 20k words built in); unlisted words convert the Datamuse pronunciation to IPA on the fly. Traditional Chinese glosses are hand-written by the editorial team for common core words; words not yet covered show an English definition on expand (no machine translation, avoiding simplified/traditional mix-ups). Examples come from the Free Dictionary API.",
+    q4: "Where do the IPA and Chinese gloss come from?", a4: "IPA comes from the open ECDICT EN-ZH dictionary (over 20k words built in); unlisted words convert the Datamuse pronunciation to IPA on the fly. Chinese glosses use a three-tier priority — the editorial team's hand-written Traditional Chinese first (no tag), then ECDICT's Simplified gloss tagged Simp, then an English definition tagged EN when neither exists. No machine translation is used. Examples come from the Free Dictionary API.",
     q5: "Why are results sometimes different?", a5: "Datamuse ranks dynamically by corpus statistics, and we filter out the rarest results, so the order may shift slightly over time.",
     q6: "Is it good for IELTS or TOEFL prep?", a6: "Yes. Swapping common words for B2/C1 synonyms shows vocabulary range, but always confirm the context and collocation are correct to avoid stiff word-stuffing.",
   },
@@ -235,9 +236,15 @@ export default function SynonymFinder() {
           const { pos, freq, pron } = parseTags(d.tags);
           const dict = DICT ? DICT[d.word.toLowerCase()] : undefined;
           const cefr: Cefr = dict && dict[0] ? (dict[0] as Cefr) : freqToCefr(freq);
-          const ipa = dict && dict[2] ? normIpa(dict[2]) : arpabetToIpa(pron);
-          const meaningZh = dict && dict[1] ? dict[1] : "";
-          return { word: d.word, cefr, posKey: pos, freq, ipa, meaningZh };
+          // 4 欄位 [cefr, zh_tw, zh_cn, ipa]
+          const zhTw = dict && dict[1] ? dict[1] : "";
+          const zhCn = dict && dict[2] ? dict[2] : "";
+          const ipa = dict && dict[3] ? normIpa(dict[3]) : arpabetToIpa(pron);
+          // 三層優先序：繁體 → 簡體 → 英文定義（前端展開）
+          let meaningZh = "", meaningSrc: MeaningSrc = "none";
+          if (zhTw) { meaningZh = zhTw; meaningSrc = "tw"; }
+          else if (zhCn) { meaningZh = zhCn; meaningSrc = "cn"; }
+          return { word: d.word, cefr, posKey: pos, freq, ipa, meaningZh, meaningSrc };
         })
         .filter((c) => c.freq >= 0.02)
         .slice(0, 18);
@@ -312,7 +319,9 @@ export default function SynonymFinder() {
               {!loading && cards.map((card) => (
                 <div key={card.word} className="rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur">
                   <div className="flex flex-wrap items-center gap-3"><span className="text-xl font-black text-slate-900">{card.word}</span>{card.cefr && <span className={`rounded-full px-2 py-1 text-xs font-black ${cefrColor[card.cefr]}`}>{card.cefr}</span>}<span className="text-xs font-black text-slate-500">{l(posMap[card.posKey] || posMap.u, lang)}</span>{card.ipa && <span className="font-mono text-sm text-slate-600">{card.ipa}</span>}</div>
-                  {card.meaningZh ? <p className="mt-2 text-sm leading-6 text-slate-700"><span className="font-black text-slate-400">{t.meaningLabel}：</span>{card.meaningZh}</p> : <p className="mt-2 text-xs leading-6 text-slate-400">{t.enGlossHint}</p>}
+                  {card.meaningSrc === "none"
+                    ? <p className="mt-2 text-sm leading-6 text-slate-700"><span className="font-black text-slate-400">{t.meaningLabel}<span className="ml-1 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-black text-slate-500">{t.glossTagEn}</span>：</span>{t.enGlossHint}</p>
+                    : <p className="mt-2 text-sm leading-6 text-slate-700"><span className="font-black text-slate-400">{t.meaningLabel}{card.meaningSrc === "cn" && <span className="ml-1 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-black text-amber-700">{t.glossTagCn}</span>}：</span>{card.meaningZh}</p>}
                   <button type="button" onClick={() => toggleExpand(card.word)} className="mt-2 text-xs font-black text-emerald-700">{expanded === card.word ? t.collapseHint : `▸ ${t.expandHint}`}</button>
                   {expanded === card.word && (
                     <div className="mt-2 rounded-xl bg-slate-50 p-3">
