@@ -18,11 +18,11 @@
 | Legal 法律 | 0 | 9 | 9 |
 | Design 設計 | 0 | 7 | 7 |
 | Science 科學 | 0 | 15 | 15 |
-| Language 語言 | 0 | 5 | 5 |
+| Language 語言 | 0 | 15 | 15 |
 | E-Commerce 電商 | 0 | 18 | 18 |
 | Travel 旅遊 | 0 | 19 | 19 |
 | AI Tools AI 工具 | 0 | 15 | 15 |
-| **TOTAL** | **100** | **201** | **301** |
+| **TOTAL** | **100** | **211** | **311** |
 
 ---
 
@@ -341,7 +341,7 @@
 | SCI-PHY-004 | `density-calculator` | 密度計算機 | Density Calculator |
 | SCI-PHY-005 | `power-calculator` | 功率計算機 | Power Calculator |
 
-### Language 語言  (+5)
+### Language 語言  (+15)
 
 | ID | slug | 中文名 | English Name |
 |----|------|--------|--------------|
@@ -350,6 +350,18 @@
 | LNG-TXT-001 | `readability-analyzer` | 可讀性分析器 | Readability Analyzer |
 | LNG-TXT-002 | `content-quality-scorer` | 內容品質評分器 | Content Quality Scorer |
 | LNG-TXT-003 | `anagram-solver` | 字謎重組器 | Anagram Solver |
+| LNG-TXT-004 | `rhyme-finder` | 押韻字查找器 | Rhyme Finder |
+| LNG-TXT-005 | `word-association-finder` | 單字聯想查找器 | Word Association Finder |
+| LNG-TXT-006 | `synonym-antonym-finder` | 同義反義詞查找器 | Synonym & Antonym Finder |
+| LNG-PHR-001 | `phrasal-verb-finder` | 片語動詞查找器 | Phrasal Verb Finder |
+| LNG-PHR-002 | `collocation-finder` | 詞語搭配查找器 | Collocation Finder |
+| LNG-PHR-003 | `idiom-explainer` | 慣用語解析器 | Idiom Explainer |
+| LNG-GRM-001 | `syllable-counter` | 音節計算器 | Syllable Counter |
+| LNG-GRM-002 | `spelling-variant-checker` | 拼字變體對照器 | Spelling Variant Checker |
+| LNG-GRM-003 | `plural-tense-generator` | 複數時態生成器 | Plural & Tense Generator |
+| LNG-WRT-001 | `cefr-level-estimator` | CEFR等級估算器 | CEFR Level Estimator |
+| LNG-WRT-002 | `sentence-complexity-scorer` | 句子複雜度評分器 | Sentence Complexity Scorer |
+| LNG-WRT-003 | `word-frequency-analyzer` | 詞頻分析器 | Word Frequency Analyzer |
 
 ### E-Commerce 電商  (+18)
 
