@@ -107,13 +107,24 @@ function lenToCefr(len: number): Cefr {
 }
 const posMap: Record<string, LocalText> = {
   n: { zh: "名詞", en: "noun" }, v: { zh: "動詞", en: "verb" },
-  adj: { zh: "形容詞", en: "adjective" }, adv: { zh: "副詞", en: "adverb" }, u: { zh: "其他", en: "other" },
+  adj: { zh: "形容詞", en: "adjective" }, adv: { zh: "副詞", en: "adverb" },
+  prep: { zh: "介系詞", en: "preposition" }, pron: { zh: "代名詞", en: "pronoun" },
+  conj: { zh: "連接詞", en: "conjunction" }, num: { zh: "數詞", en: "numeral" },
+  art: { zh: "冠詞", en: "article" }, int: { zh: "感嘆詞", en: "interjection" },
+  abbr: { zh: "縮寫", en: "abbreviation" }, u: { zh: "其他", en: "other" },
 };
 // ② 詞類：從 ECDICT 釋義文字開頭的詞性標記推導（vt./vi./n./adj./adv./num./prep./conj.…）
 const POS_V = /(^|\b)(vt\.|vi\.|v\.)/;
 const POS_ADJ = /(^|\b)(adj\.|a\.)/;
 const POS_ADV = /(^|\b)(adv\.)/;
 const POS_N = /(^|\b)(n\.)/;
+const POS_PREP = /(^|\b)(prep\.)/;
+const POS_PRON = /(^|\b)(pron\.)/;
+const POS_CONJ = /(^|\b)(conj\.)/;
+const POS_NUM = /(^|\b)(num\.)/;
+const POS_ART = /(^|\b)(art\.)/;
+const POS_INT = /(^|\b)(int\.|interj\.)/;
+const POS_ABBR = /(^|\b)(abbr\.)/;
 const POS_V_ZH = /\u52d5\u8a5e/;
 const POS_ADJ_ZH = /\u5f62\u5bb9\u8a5e/;
 const POS_ADV_ZH = /\u526f\u8a5e/;
@@ -121,10 +132,21 @@ const POS_N_ZH = /\u540d\u8a5e/;
 function posFromGloss(gloss: string): string {
   if (!gloss) return "u";
   const g = gloss.trim();
-  if (POS_V.test(g) || POS_V_ZH.test(g)) return "v";
-  if (POS_ADJ.test(g) || POS_ADJ_ZH.test(g)) return "adj";
-  if (POS_ADV.test(g) || POS_ADV_ZH.test(g)) return "adv";
-  if (POS_N.test(g) || POS_N_ZH.test(g)) return "n";
+  // 取「最先出現」的詞性標記（釋義常列多個詞性，以開頭主詞性為準）
+  const order: { key: string; re: RegExp }[] = [
+    { key: "n", re: POS_N }, { key: "v", re: POS_V }, { key: "adj", re: POS_ADJ },
+    { key: "adv", re: POS_ADV }, { key: "prep", re: POS_PREP }, { key: "pron", re: POS_PRON },
+    { key: "conj", re: POS_CONJ }, { key: "num", re: POS_NUM }, { key: "art", re: POS_ART },
+    { key: "int", re: POS_INT }, { key: "abbr", re: POS_ABBR },
+  ];
+  let best = "u"; let bestIdx = Infinity;
+  for (const o of order) { const m = o.re.exec(g); if (m && m.index < bestIdx) { bestIdx = m.index; best = o.key; } }
+  if (best !== "u") return best;
+  // 中文詞性（繁中釋義）保底
+  if (POS_N_ZH.test(g)) return "n";
+  if (POS_V_ZH.test(g)) return "v";
+  if (POS_ADJ_ZH.test(g)) return "adj";
+  if (POS_ADV_ZH.test(g)) return "adv";
   return "u";
 }
 
@@ -169,7 +191,7 @@ const ui = {
     queryBtn: "查找單字", clearBtn: "清除", hotWords: "熱門字母組", inputPlaceholder: "輸入要包含的字母，例如 qu",
     loading: "查找中…", emptyHint: "輸入上方字母並按「查找單字」，所有含有這些字母的單字會按字母數分組列在這裡。", noResult: "找不到含有這些字母的單字，換一組字母試試（字母越少、符合的字越多）。",
     fallbackTitle: "詞庫載入中", fallbackBody: "正在載入內建詞庫，請稍候再試一次。",
-    resultCard: "查找結果", unit: "個符合字", letterPool: "必含字母", lenGroupLabel: "字母", primaryValue: "輸入字母", ipaLabel: "音標", meaningLabel: "釋義", glossTagCn: "简", glossTagEn: "EN", enGlossHint: "展開看英文定義與例句", expandHint: "展開看例句", collapseHint: "收合", exampleLabel: "例句", enLoading: "載入例句中…", noExample: "查無例句，建議造句練習。",
+    resultCard: "查找結果", unit: "個符合字", letterPool: "必含字母", lenGroupLabel: "字母", primaryValue: "輸入字母", ipaLabel: "音標", ipaPending: "/音標整理中/", meaningLabel: "釋義", glossTagCn: "(简)", glossTagEn: "(EN)", enGlossHint: "展開看英文定義與例句", expandHint: "展開看例句", collapseHint: "收合", exampleLabel: "例句", enLoading: "載入例句中…", noExample: "查無例句，建議造句練習。",
     resultIntelligence: "結果解讀", levelMatrix: "六級 CEFR 重組字解讀矩陣", levelMatrixNote: "L7 將重組字依 CEFR 等級分層，以 CEFR-J 權威詞表對照，A1 最常用、C2 最罕見；玩字謎時優先挑你認得的等級。",
     scenarioLayer: "使用場景", scenarioTitle: "什麼時候用字謎重組", scenarioNote: "L8 列出四個典型場景，把重組字用在對的地方，而不是隨意拼湊。",
     scenarioExam: "拼字遊戲", scenarioExamNote: "Scrabble、Words with Friends 卡關時，重組手上字母找出能拿高分的單字。", scenarioWriting: "解字謎", scenarioWritingNote: "報紙字謎與填字遊戲，重組提示字母找出隱藏答案。", scenarioDaily: "創意命名", scenarioDailyNote: "幫品牌、帳號、角色取名，重組你的關鍵字找出有趣的同字母新詞。", scenarioBusiness: "字彙練習", scenarioBusinessNote: "重組常見字觀察拼字規律，順便用 CEFR 標記學新字。",
@@ -199,7 +221,7 @@ const ui = {
     queryBtn: "Find words", clearBtn: "Clear", hotWords: "Popular letter sets", inputPlaceholder: "Type required letters, e.g. qu",
     loading: "Searching…", emptyHint: "Enter letters above and press Find words; every word that contains them appears here, grouped by length.", noResult: "No words contain these letters; try a different set (fewer letters usually means more matches).",
     fallbackTitle: "Loading dictionary", fallbackBody: "The built-in dictionary is loading, please try again shortly.",
-    resultCard: "Matching Words", unit: "words", letterPool: "required letters", lenGroupLabel: "-letter", primaryValue: "Input letters", ipaLabel: "IPA", meaningLabel: "Gloss", glossTagCn: "Simp", glossTagEn: "EN", enGlossHint: "See English definition & example on expand", expandHint: "Show example", collapseHint: "Collapse", exampleLabel: "Example", enLoading: "Loading example…", noExample: "No example found; try writing your own.",
+    resultCard: "Matching Words", unit: "words", letterPool: "required letters", lenGroupLabel: "-letter", primaryValue: "Input letters", ipaLabel: "IPA", ipaPending: "/pending/", meaningLabel: "Gloss", glossTagCn: "(Simp)", glossTagEn: "(EN)", enGlossHint: "See English definition & example on expand", expandHint: "Show example", collapseHint: "Collapse", exampleLabel: "Example", enLoading: "Loading example…", noExample: "No example found; try writing your own.",
     resultIntelligence: "Result Intelligence", levelMatrix: "Six-level CEFR word matrix", levelMatrixNote: "L7 groups the words you can make by CEFR level using the authoritative CEFR-J wordlist, with A1 most common and C2 rarest; pick the level you recognize when solving puzzles.",
     scenarioLayer: "Use scenarios", scenarioTitle: "When to use letter unscrambling", scenarioNote: "L8 lists four typical scenarios so you unscramble letters in the right place, not just random guessing.",
     scenarioExam: "Word games", scenarioExamNote: "When stuck in Scrabble or Words with Friends, unscramble your tiles to find every word — including shorter subset words for guaranteed points.", scenarioWriting: "Puzzle solving", scenarioWritingNote: "For crosswords and word puzzles, unscramble the clue letters to find both full and partial answers.", scenarioDaily: "Creative naming", scenarioDailyNote: "Naming a brand, handle, or character, unscramble your keyword to find fun shorter coinages.", scenarioBusiness: "Spelling practice", scenarioBusinessNote: "Unscramble common letters to observe spelling patterns and learn new words via the CEFR tags.",
@@ -274,7 +296,7 @@ export default function WordFinder() {
       // 4 欄位 [cefr, zh_tw, zh_cn, ipa]
       const zhTw = dict && dict[1] ? dict[1] : "";
       const zhCn = dict && dict[2] ? dict[2] : "";
-      const ipa = dict && dict[3] ? normIpa(dict[3]) : "";
+      const ipa = dict && dict[3] ? normIpa(dict[3]) : "__PENDING__";
       // ② 詞類：從釋義文字開頭的詞性標記推導（n./vt./vi./adj./adv./num.）
       const posKey = posFromGloss(zhTw || zhCn);
       // ③ 三層優先序：繁體 → 簡體 → 英文定義（前端展開）
@@ -364,10 +386,10 @@ export default function WordFinder() {
                   <div className="flex items-center gap-2 pt-1"><span className="rounded-full bg-emerald-600 px-3 py-1 text-xs font-black text-white">{len}{t.lenGroupLabel}</span><span className="text-xs font-black text-slate-400">{items.length}{t.unit}</span></div>
                   {items.map((card: ResultCard) => (
                   <div key={card.word} className="rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur">
-                    <div className="flex flex-wrap items-center gap-3"><span className="text-xl font-black text-slate-900">{card.word}</span>{card.cefr && <span className={`rounded-full px-2 py-1 text-xs font-black ${cefrColor[card.cefr]}`}>{card.cefr}</span>}<span className="text-xs font-black text-slate-500">{l(posMap[card.posKey] || posMap.u, lang)}</span>{card.ipa && <span className="font-mono text-sm text-slate-600">{card.ipa}</span>}</div>
+                    <div className="flex flex-wrap items-center gap-3"><span className="text-xl font-black text-slate-900">{card.word}</span>{card.cefr && <span className={`rounded-full px-2 py-1 text-xs font-black ${cefrColor[card.cefr]}`}>{card.cefr}</span>}<span className="text-xs font-black text-slate-500">{l(posMap[card.posKey] || posMap.u, lang)}</span><span className="font-mono text-sm text-slate-600">{card.ipa === "__PENDING__" ? t.ipaPending : card.ipa}</span></div>
                     {card.meaningSrc === "none"
-                      ? <p className="mt-2 text-sm leading-6 text-slate-700"><span className="font-black text-slate-400">{t.meaningLabel}<span className="ml-1 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-black text-slate-500">{t.glossTagEn}</span>：</span>{t.enGlossHint}</p>
-                      : <p className="mt-2 text-sm leading-6 text-slate-700"><span className="font-black text-slate-400">{t.meaningLabel}{card.meaningSrc === "cn" && <span className="ml-1 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-black text-amber-700">{t.glossTagCn}</span>}：</span>{card.meaningZh}</p>}
+                      ? <p className="mt-2 text-sm leading-6 text-slate-500">{t.enGlossHint}</p>
+                      : <p className="mt-2 text-sm leading-6 text-slate-700">{card.meaningZh}{card.meaningSrc === "cn" && <span className="ml-1 text-xs font-black text-amber-600">{t.glossTagCn}</span>}</p>}
                     <button type="button" onClick={() => toggleExpand(card.word)} className="mt-2 text-xs font-black text-emerald-700">{expanded === card.word ? t.collapseHint : `▸ ${t.expandHint}`}</button>
                     {expanded === card.word && (
                       <div className="mt-2 rounded-xl bg-slate-50 p-3">

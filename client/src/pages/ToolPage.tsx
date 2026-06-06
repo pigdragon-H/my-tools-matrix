@@ -265,6 +265,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "language/vocabulary-dna-engine": lazy(() => import("@/tools/language/VocabularyDnaEngine")),
   "language/word-unscrambler": lazy(() => import("@/tools/language/WordUnscrambler")),
   "language/word-finder": lazy(() => import("@/tools/language/WordFinder")),
+  "language/scrabble-word-checker": lazy(() => import("@/tools/language/ScrabbleWordChecker")),
 };
 
 function ToolSkeleton() {
