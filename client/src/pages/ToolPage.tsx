@@ -235,6 +235,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "design/golden-ratio-calculator": lazy(() => import("@/tools/design/GoldenRatioCalculator")),
   "design/aspect-ratio-calculator": lazy(() => import("@/tools/design/AspectRatioCalculator")),
   "design/type-scale-calculator": lazy(() => import("@/tools/design/TypeScaleCalculator")),
+  "design/px-rem-converter": lazy(() => import("@/tools/design/PxRemConverter")),
 };
 
 function ToolSkeleton() {
