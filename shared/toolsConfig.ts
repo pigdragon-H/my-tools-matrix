@@ -3028,6 +3028,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "luggage-weight-calculator",
+    name: "行李重量計算機",
+    category: "travel",
+    path: "/tools/travel/luggage-weight-calculator",
+    icon: "Luggage",
+    description: "行李重量計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3260,3 +3275,4 @@ export const altitudeSicknessCalculator = { id: "altitude-sickness-calculator", 
 export const spfCalculator = { id: "spf-calculator", category: "travel", name: "SPF Calculator", path: "/tools/travel/spf-calculator" };
 export const travelHydrationCalculator = { id: "travel-hydration-calculator", category: "travel", name: "Travel Hydration Calculator", path: "/tools/travel/travel-hydration-calculator" };
 export const vaccineScheduleCalculator = { id: "vaccine-schedule-calculator", category: "travel", name: "Vaccine Schedule Calculator", path: "/tools/travel/vaccine-schedule-calculator" };
+export const luggageWeightCalculator = { id: "luggage-weight-calculator", category: "travel", name: "Luggage Weight Calculator", path: "/tools/travel/luggage-weight-calculator" };
