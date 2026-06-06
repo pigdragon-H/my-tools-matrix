@@ -3808,6 +3808,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "word-finder",
+    name: "找字工具",
+    category: "language",
+    path: "/tools/language/word-finder",
+    icon: "Search",
+    description: "依字母與位置條件（含有/開頭/結尾/字長）從內建22,499字詞庫找出符合的英文單字，每字附KK音標、詞類、繁中釋義與例句",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4092,3 +4107,4 @@ export const idiomExplainer = { id: "idiom-explainer", category: "language", nam
 export const cefrLevelEstimator = { id: "cefr-level-estimator", category: "language", name: "CEFR Level Estimator", path: "/tools/language/cefr-level-estimator" };
 export const vocabularyDnaEngine = { id: "vocabulary-dna-engine", category: "language", name: "Vocabulary DNA Engine", path: "/tools/language/vocabulary-dna-engine" };
 export const wordUnscrambler = { id: "word-unscrambler", category: "language", name: "Word Unscrambler", path: "/tools/language/word-unscrambler" };
+export const wordFinder = { id: "word-finder", category: "language", name: "Word Finder", path: "/tools/language/word-finder" };
