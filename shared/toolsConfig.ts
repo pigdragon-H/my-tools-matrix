@@ -3148,6 +3148,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "fine-tuning-cost-calculator",
+    name: "微調成本計算機",
+    category: "ai",
+    path: "/tools/ai/fine-tuning-cost-calculator",
+    icon: "Cpu",
+    description: "微調成本計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3388,3 +3403,4 @@ export const aiTokenCostCalculator = { id: "ai-token-cost-calculator", category:
 export const aiApiCostEstimator = { id: "ai-api-cost-estimator", category: "ai", name: "AI API Cost Estimator", path: "/tools/ai/ai-api-cost-estimator" };
 export const aiProjectCostCalculator = { id: "ai-project-cost-calculator", category: "ai", name: "AI Project Cost Calculator", path: "/tools/ai/ai-project-cost-calculator" };
 export const promptTokenCalculator = { id: "prompt-token-calculator", category: "ai", name: "Prompt Token Calculator", path: "/tools/ai/prompt-token-calculator" };
+export const fineTuningCostCalculator = { id: "fine-tuning-cost-calculator", category: "ai", name: "Fine-Tuning Cost Calculator", path: "/tools/ai/fine-tuning-cost-calculator" };
