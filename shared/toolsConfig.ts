@@ -3853,6 +3853,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "word-root-analyzer",
+    name: "字根分析器",
+    category: "language",
+    path: "/tools/language/word-root-analyzer",
+    icon: "Sprout",
+    description: "輸入英文單字，拆解它的字根、字首、字尾與語源（拉丁/希臘來源），列出同字根的衍生字族與例字，附 KK 音標、詞類、繁中釋義與例句，幫你由字根記憶整組單字。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4140,3 +4155,4 @@ export const wordUnscrambler = { id: "word-unscrambler", category: "language", n
 export const wordFinder = { id: "word-finder", category: "language", name: "Word Finder", path: "/tools/language/word-finder" };
 export const scrabbleWordChecker = { id: "scrabble-word-checker", category: "language", name: "Scrabble Word Checker", path: "/tools/language/scrabble-word-checker" };
 export const hangmanSolver = { id: "hangman-solver", category: "language", name: "Hangman Solver", path: "/tools/language/hangman-solver" };
+export const wordRootAnalyzer = { id: "word-root-analyzer", category: "language", name: "Word Root Analyzer", path: "/tools/language/word-root-analyzer" };
