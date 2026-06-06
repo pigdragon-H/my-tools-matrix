@@ -225,6 +225,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "ai/ai-model-comparison": lazy(() => import("@/tools/ai/AiModelComparison")),
   "ai/ai-accuracy-calculator": lazy(() => import("@/tools/ai/AiAccuracyCalculator")),
   "ai/model-latency-calculator": lazy(() => import("@/tools/ai/ModelLatencyCalculator")),
+  "ai/ai-error-rate-calculator": lazy(() => import("@/tools/ai/AiErrorRateCalculator")),
 };
 
 function ToolSkeleton() {

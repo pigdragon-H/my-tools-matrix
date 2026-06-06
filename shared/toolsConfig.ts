@@ -3223,6 +3223,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "ai-error-rate-calculator",
+    name: "AI錯誤率計算機",
+    category: "ai",
+    path: "/tools/ai/ai-error-rate-calculator",
+    icon: "Cpu",
+    description: "AI錯誤率計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3468,3 +3483,4 @@ export const chatbotCostCalculator = { id: "chatbot-cost-calculator", category: 
 export const aiModelComparison = { id: "ai-model-comparison", category: "ai", name: "AI Model Comparison", path: "/tools/ai/ai-model-comparison" };
 export const aiAccuracyCalculator = { id: "ai-accuracy-calculator", category: "ai", name: "AI Accuracy Calculator", path: "/tools/ai/ai-accuracy-calculator" };
 export const modelLatencyCalculator = { id: "model-latency-calculator", category: "ai", name: "Model Latency Calculator", path: "/tools/ai/model-latency-calculator" };
+export const aiErrorRateCalculator = { id: "ai-error-rate-calculator", category: "ai", name: "AI Error Rate Calculator", path: "/tools/ai/ai-error-rate-calculator" };
