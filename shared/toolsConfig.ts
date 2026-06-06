@@ -3778,6 +3778,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "vocabulary-dna-engine",
+    name: "字彙 DNA 引擎",
+    category: "language",
+    path: "/tools/language/vocabulary-dna-engine",
+    icon: "Languages",
+    description: "輸入英文單字，結合 Datamuse 同義、聯想與近義多端點，組成這個字的字彙 DNA 圖譜，並比對內建八十組拉丁／希臘字根，解析它的語義基因。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4060,3 +4075,4 @@ export const collocationFinder = { id: "collocation-finder", category: "language
 export const phrasalVerbFinder = { id: "phrasal-verb-finder", category: "language", name: "Phrasal Verb Finder", path: "/tools/language/phrasal-verb-finder" };
 export const idiomExplainer = { id: "idiom-explainer", category: "language", name: "Idiom Explainer", path: "/tools/language/idiom-explainer" };
 export const cefrLevelEstimator = { id: "cefr-level-estimator", category: "language", name: "CEFR Level Estimator", path: "/tools/language/cefr-level-estimator" };
+export const vocabularyDnaEngine = { id: "vocabulary-dna-engine", category: "language", name: "Vocabulary DNA Engine", path: "/tools/language/vocabulary-dna-engine" };
