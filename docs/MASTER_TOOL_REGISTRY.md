@@ -10,7 +10,7 @@
 
 | Domain | 現有 | 計畫 | 合計 |
 |--------|-----:|-----:|-----:|
-| Finance 財務 | 64 | 27 | 91 |
+| Finance 財務 | 64 | 28 | 92 |
 | Health 健康 | 8 | 26 | 34 |
 | Productivity 生產力 | 5 | 21 | 26 |
 | Education 教育 | 4 | 23 | 27 |
@@ -157,7 +157,7 @@
 
 ## 🗺️ PLANNED — 路線圖（尚未建置，禁止重複）
 
-### Finance 財務  (+27)
+### Finance 財務  (+28)
 
 | ID | slug | 中文名 | English Name |
 |----|------|--------|--------------|
@@ -188,6 +188,7 @@
 | FIN-TAX-003 | `estate-tax-calculator` | 遺產稅計算機 | Estate Tax Calculator |
 | FIN-TAX-004 | `tax-withholding-calculator` | 預扣稅計算機 | Tax Withholding Calculator |
 | FIN-TAX-005 | `tax-loss-harvesting` | 稅損收割計算機 | Tax-Loss Harvesting Calculator |
+| FIN-CUR-001 | `currency-exchange-rate` | 即時匯率查詢器 | Currency Exchange Rate |
 
 ### Health 健康  (+26)
 
