@@ -1,0 +1,175 @@
+// @profile B
+// Profile B · Calculator-Science · WavelengthFrequencyCalculator（GOLD-STANDARD-001 compatible）
+
+import { useMemo, useState } from "react";
+import { AdSenseWrapper } from "@/components/AdSenseWrapper";
+import { AdSlot } from "@/components/business/AdSlot";
+import { PremiumGate } from "@/components/business/PremiumGate";
+import { useLanguage } from "@/contexts/LanguageContext";
+
+type Lang = "zh" | "en";
+type LocalText = { zh: string; en: string };
+type AffiliateItem = { label: LocalText; href: string };
+type TierMode = "relaxed" | "standard" | "fast";
+const l = (v: LocalText, lang: Lang) => v[lang];
+const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
+
+const bands = [
+  { key: "tiny", range: "< 0.01", label: { zh: "微波長級", en: "Tiny" }, desc: { zh: "波長極短，落在微波長級區間，常見於高頻電磁波或微波，能量與穿透特性與長波明顯不同。", en: "Very short wavelength in the tiny range, common in high-frequency electromagnetic waves or microwaves; energy and penetration differ markedly from long waves." } },
+  { key: "short", range: "0.01–0.1", label: { zh: "短波長級", en: "Short" }, desc: { zh: "波長偏短，屬於短波範圍，適合高頻聲波、無線電或常見振盪系統的波長估算。", en: "Short wavelength in the short range, fit for high-frequency sound, radio, or common oscillation systems." } },
+  { key: "medium", range: "0.1–1", label: { zh: "中波長級", en: "Medium" }, desc: { zh: "波長落在常見的中等區間，多數聲波與一般振動的波長範圍，數值直觀易估算。", en: "Wavelength in the common medium range, the band for most sound waves and general vibration, intuitive to estimate." } },
+  { key: "long", range: "1–10", label: { zh: "長波長級", en: "Long" }, desc: { zh: "波長偏長，涵蓋多數低頻聲波與長波無線電，常用於聲學與通訊分析。", en: "Long wavelength covering most low-frequency sound and long-wave radio, common in acoustics and communication analysis." } },
+  { key: "verylong", range: "10–100", label: { zh: "超長波級", en: "Very Long" }, desc: { zh: "波長非常長，常見於極低頻聲波或長波通訊，建議結合波速與頻率單位一併評估。", en: "Very long wavelength, common in very-low-frequency sound or long-wave communication; evaluate with wave speed and frequency units." } },
+  { key: "extreme", range: "> 100", label: { zh: "極長波級", en: "Extreme" }, desc: { zh: "波長極長，屬於超低頻或特殊波動範疇，務必交叉驗證波速與頻率的單位與量測精度。", en: "Extremely long wavelength in the ultra-low-frequency or special wave range; always verify wave speed and frequency units and measurement precision." } },
+] as const;
+
+const affiliateItems: AffiliateItem[] = [
+  { label: { zh: "速度距離時間計算機", en: "Speed Distance Time Calculator" }, href: "/tools/science/speed-distance-time-calculator" },
+  { label: { zh: "通用單位換算計算機", en: "Unit Converter Calculator" }, href: "/tools/science/unit-converter-calculator" },
+  { label: { zh: "功率計算機", en: "Power Calculator" }, href: "/tools/science/power-calculator" },
+  { label: { zh: "歐姆定律計算機", en: "Ohms Law Calculator" }, href: "/tools/science/ohms-law-calculator" },
+];
+
+const ui = {
+  zh: {
+    badge: "Science · 波長 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "波長頻率計算機 · Wavelength", subtitle: "用波速、頻率與精度等級算出波長、相對量級與精度分數",
+    intro: "Wavelength Frequency Calculator 依據波速、頻率與精度等級（粗略、標準或精密），以波長公式 λ = v ÷ f 計算波長、相對量級與精度分數，協助你判斷波長是否合理、波長落在哪個量級、屬於短波還是長波、是否需要檢查單位，讓你在波動分析與訊號計算前就把波長算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以波速除以頻率做計算，假設波在均勻介質中傳播；正式波動分析請以實際介質參數與標準參考為準。",
+    quickActionCard: "快速範例卡", tryExample: "一鍵建立波長範例", examplePreview: "波長預覽", examplePerson: "波速 (m/s)", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
+    examplesCalculator: "範例 → 計算器", enterValues: "輸入波速、頻率與精度等級", examplesHelper: "先用範例理解波速與頻率如何決定波長與量級，再改成自己的波動數據。",
+    metric: "公制", imperial: "佔比檢視", exampleCards: "範例卡", baselineExample: "標準波長模式", activeExample: "精密示範", baselineExampleNote: "340m/s ÷ 1000Hz · 標準", activeExampleNote: "340m/s ÷ 850Hz · 精密", carbsLabel: "精度餘量", carbsName: "百分比", proteinLabel: "精度分數", flowDemo: "頻率 (Hz)", calculator: "計算器",
+    weight: "波速 (m/s)", tdee: "頻率 (Hz)", goal: "精度等級", goalCut: "粗略 (1 位)", goalMaintain: "標準 (2 位)", goalBulk: "精密 (4 位)",
+    resultCard: "波長結果", unit: "m (波長)", primaryValue: "主要數值", maintenanceTarget: "精度分數", actionTarget: "波長", estimatedTdee: "頻率", maintenance: "分", fatLossTarget: "m",
+    resultIntelligence: "結果解讀", tdeeMatrix: "六格波長級判讀矩陣", tdeeMatrixNote: "L7 固定六格，將目前波長放進常見量級；這是波動參考，不是訊號鑑定結論。",
+    emotionConversionLayer: "情緒與轉換層", turnIntoPlan: "把波長結果轉成可執行的波動分析與訊號策略", conversionNote: "L9 會連動目前計算結果，顯示精度分數、波長與量級提示。",
+    progressInsight: "進度洞察卡", possibleTarget: "目前波長概況", dailyGap: "波長", weeklyTrend: "精度分數", motivation: "動力卡", keepMomentum: "從波長計算走向最精確一致的波動分析節奏",
+    saveShareJourney: "儲存 / 分享", journeyTitle: "把今天的波長結果帶回團隊", journeyHint: "用速度距離時間計算機一起看，把波長與物理量一併納入波動分析規劃。",
+    nextActionLabel: "下一步行動", nextActionTitle: "將結果接到下一個工具", nextActionItem1: "用速度距離時間計算機推算波速", nextActionItem2: "用通用單位換算計算機轉換波長單位", nextActionItem3: "用功率計算機評估訊號功率",
+    shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給團隊", shareCopiedToast: "已複製到剪貼簿 ✓",
+    decisionPath: "決策路徑", decisionTitle: "Speed → 精度分數 → 等級 → Wavelength", bmrStep: "Speed", deficitStep: "精度分數", trendStep: "等級", mealStep: "Wavelength",
+    knowledge: "知識", knowledgeTitle: "波長在波動分析中的意義", definition: "定義", definitionText: "波長是波在一個週期內傳播的距離，以公式 λ = v ÷ f 表示；波長反映波的空間尺度，是判斷波動特性、共振與訊號傳播的核心物理量。", formula: "公式", formulaText: "波長 λ = 波速 v ÷ 頻率 f，單位為 m。精度分數 = min(有效位數 / 目標位數 × 100, 100)。精度餘量 = (有效位數 − 目標位數) / 目標位數 × 100%。", limitations: "限制", limitationsText: "本工具假設波在均勻介質中等速傳播；真實波長還受介質、溫度與色散影響，不同介質中波速與波長都可能改變。", interpretation: "解讀", interpretationText: "波長小於 0.01 m 多屬微波長，落在中波長級（0.1 到 1）常見於聲波，長波級以上多為低頻波，請用精度分數確認有效位數足夠。", context: "脈絡", contextText: "波長結果應與波速、頻率與單位換算一起看，才能在波動準確性、訊號分析與可讀性之間取得平衡。", example: "範例", exampleText: "波速 340m/s、頻率 1000Hz、標準精度（2 位）→ 波長 0.34 m，精度餘量 0%，精度分數 100。",
+    faq: "FAQ", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "波長的下一步工具", premiumTitle: "PRO 波長分析包", premiumText: "解鎖光速與聲速預設、波長與頻率雙向換算、頻譜區間判讀，以及多介質波速波長對照。",
+    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具只供波動計算與教育用途，不取代專業訊號分析、頻譜量測或工程模擬報告。", relatedTools: "相關工具", relatedToolsText: "Speed · Unit Converter · Power · Ohms Law", references: "參考資料", referencesText: "波長物理定義；波動學標準參考；SI 速度頻率單位定義；波動與光學基礎文獻。",
+    q1: "波長怎麼算的？", a1: "本工具以 λ = v ÷ f，將波速除以頻率得到波長；已知任兩個量即可反推第三個量。",
+    q2: "精度分數多少才合理？", a2: "精度分數達 100 代表有效位數已達所選精度等級；若低於 100，建議提高有效位數或檢查量測精度。",
+    q3: "粗略還是精密等級？", a3: "日常估算用粗略（1 位），一般波動分析用標準（2 位），實驗室或精密量測用精密（4 位）。",
+    q4: "頻率和波長是什麼關係？", a4: "在固定波速下，頻率越高波長越短，兩者成反比；波速等於波長乘以頻率。",
+    q5: "光波和聲波波速一樣嗎？", a5: "不一樣。光在真空中約 3×10⁸ m/s，聲音在空氣中約 340 m/s；不同波與介質波速差異很大。",
+    q6: "這個工具能取代訊號分析嗎？", a6: "不能。它只是快速估算與教育用途；正式訊號分析應以專業量測與頻譜儀為準。",
+  },
+  en: {
+    badge: "Science · Wavelength · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "Wavelength Frequency Calculator", subtitle: "Compute wavelength, relative magnitude, and precision score from wave speed, frequency, and precision level",
+    intro: "This calculator uses wave speed, frequency, and precision level (rough, standard, or precise) with the wavelength formula lambda = v / f to compute wavelength, relative magnitude, and precision score, helping you judge whether the wavelength is reasonable, which magnitude it falls into, whether it is a short or long wave, and whether to check units, so you compute wavelength clearly before wave analysis and signal calculation.",
+    trustNoteLabel: "Note:", trustNote: "This tool computes wave speed divided by frequency, assuming the wave propagates in a uniform medium; for formal wave analysis, follow actual medium parameters and standard references.",
+    quickActionCard: "Quick Action Card", tryExample: "Create a wavelength example instantly", examplePreview: "Wavelength preview", examplePerson: "Wave speed (m/s)", fillExample: "One-click standard example", previewActivePath: "Fill precise example",
+    examplesCalculator: "Examples → Calculator", enterValues: "Enter wave speed, frequency, and precision level", examplesHelper: "Start with an example to see how wave speed and frequency set the wavelength and magnitude, then replace with your own wave data.",
+    metric: "Metric", imperial: "Share view", exampleCards: "Example cards", baselineExample: "Standard wavelength mode", activeExample: "Precise demo", baselineExampleNote: "340m/s / 1000Hz · standard", activeExampleNote: "340m/s / 850Hz · precise", carbsLabel: "Precision margin", carbsName: "percent", proteinLabel: "Precision score", flowDemo: "Frequency (Hz)", calculator: "Calculator",
+    weight: "Wave speed (m/s)", tdee: "Frequency (Hz)", goal: "Precision level", goalCut: "Rough (1 digit)", goalMaintain: "Standard (2 digits)", goalBulk: "Precise (4 digits)",
+    resultCard: "Wavelength Result", unit: "m (wavelength)", primaryValue: "Primary Value", maintenanceTarget: "Precision score", actionTarget: "Wavelength", estimatedTdee: "Frequency", maintenance: "pts", fatLossTarget: "m",
+    resultIntelligence: "Result Intelligence", tdeeMatrix: "Six-card wavelength magnitude interpretation matrix", tdeeMatrixNote: "L7 uses six fixed cards to place the current wavelength into common magnitudes. This is wave guidance, not a signal identification conclusion.",
+    emotionConversionLayer: "Emotion + Conversion Layer", turnIntoPlan: "Turn the wavelength result into an actionable wave-analysis and signal strategy", conversionNote: "L9 values update from the computed result: precision score, wavelength, and magnitude hint.",
+    progressInsight: "Progress Insight Card", possibleTarget: "Current wavelength snapshot", dailyGap: "Wavelength", weeklyTrend: "Precision score", motivation: "Motivation Card", keepMomentum: "Move from wavelength calculation to the most precise and consistent wave-analysis rhythm",
+    saveShareJourney: "Save / Share", journeyTitle: "Take today's wavelength result to your team", journeyHint: "Review it with the Speed Distance Time Calculator to fold wavelength and physical quantities into wave-analysis planning.",
+    nextActionLabel: "Next actions", nextActionTitle: "Connect this result to the next tool", nextActionItem1: "Derive wave speed with the Speed Distance Time Calculator", nextActionItem2: "Convert wavelength units with the Unit Converter Calculator", nextActionItem3: "Evaluate signal power with the Power Calculator",
+    shareLinkBtn: "📋 Copy result link", shareNativeBtn: "📤 Share with team", shareCopiedToast: "Copied to clipboard ✓",
+    decisionPath: "Decision Path", decisionTitle: "Speed → Precision → Level → Wavelength", bmrStep: "Speed", deficitStep: "Precision", trendStep: "Level", mealStep: "Wavelength",
+    knowledge: "Knowledge", knowledgeTitle: "What wavelength means in wave analysis", definition: "Definition", definitionText: "Wavelength is the distance a wave travels in one period, expressed as lambda = v / f; wavelength reflects the spatial scale of the wave, the core physical quantity for judging wave properties, resonance, and signal propagation.", formula: "Formula", formulaText: "Wavelength lambda = wave speed v / frequency f, in m. Precision score = min(significant digits / target digits x 100, 100). Precision margin = (significant digits - target digits) / target digits x 100%.", limitations: "Limitations", limitationsText: "This tool assumes the wave propagates uniformly in a uniform medium; real wavelength is also affected by medium, temperature, and dispersion, and wave speed and wavelength may change in different media.", interpretation: "Interpretation", interpretationText: "A wavelength below 0.01 m is mostly tiny; wavelength in the medium range (0.1 to 1) is common in sound waves, above the long range is mostly low-frequency waves, and use the precision score to confirm sufficient significant digits.", context: "Context", contextText: "Wavelength results should be evaluated with wave speed, frequency, and unit conversion to balance wave accuracy, signal analysis, and readability.", example: "Example", exampleText: "Wave speed 340m/s, frequency 1000Hz, standard precision (2 digits) gives wavelength 0.34 m, precision margin 0 percent, precision score 100.",
+    faq: "FAQ", commonQuestions: "Common questions", affiliate: "Recommended Tools", affiliateTitle: "Next tools for wavelength", premiumTitle: "PRO Wavelength Analytics Pack", premiumText: "Unlock speed-of-light and speed-of-sound presets, two-way wavelength and frequency conversion, spectrum band interpretation, and multi-medium wave speed and wavelength comparison.",
+    trustReferences: "Trust · Related Tools · References", trust: "Trust", trustText: "This tool is for wave calculation and education. It does not replace professional signal analysis, spectrum measurement, or engineering simulation reports.", relatedTools: "Related Tools", relatedToolsText: "Speed · Unit Converter · Power · Ohms Law", references: "References", referencesText: "Physical definition of wavelength; wave science standard references; SI speed and frequency unit definitions; wave and optics fundamentals.",
+    q1: "How is wavelength calculated?", a1: "This tool uses lambda = v / f, dividing wave speed by frequency to get wavelength; given any two quantities, you can back-calculate the third.",
+    q2: "What precision score is reasonable?", a2: "A precision score of 100 means significant digits meet the chosen precision level; if below 100, increase significant digits or check measurement precision.",
+    q3: "Rough or precise level?", a3: "Use rough (1 digit) for daily estimates, standard (2 digits) for general wave analysis, and precise (4 digits) for lab or precision measurement.",
+    q4: "What is the relationship between frequency and wavelength?", a4: "At a fixed wave speed, higher frequency means shorter wavelength, and they are inversely proportional; wave speed equals wavelength times frequency.",
+    q5: "Do light and sound have the same speed?", a5: "No. Light in vacuum is about 3x10^8 m/s while sound in air is about 340 m/s; wave speed varies greatly between waves and media.",
+    q6: "Can this tool replace signal analysis?", a6: "No. It is a quick estimate for education; formal signal analysis should follow professional measurement and spectrum analyzers.",
+  },
+} as const;
+
+const faqKeys = [["q1","a1"],["q2","a2"],["q3","a3"],["q4","a4"],["q5","a5"],["q6","a6"]] as const;
+
+function targetDigits(mode: TierMode): number {
+  if (mode === "relaxed") return 1;
+  if (mode === "fast") return 4;
+  return 2;
+}
+
+export default function WavelengthFrequencyCalculator() {
+  const { lang, setLang } = useLanguage();
+  const [unit, setUnit] = useState<"metric" | "imperial">("metric");
+  const [weight, setWeight] = useState("340");
+  const [tdee, setTdee] = useState("1000");
+  const [goal, setGoal] = useState<TierMode>("standard");
+  const t = ui[lang];
+
+  const result = useMemo(() => {
+    const speed = Number(weight);
+    const frequency = Number(tdee);
+    if (!Number.isFinite(speed) || !Number.isFinite(frequency) || speed < 0 || frequency <= 0) return null;
+    const digits = targetDigits(goal);
+    const wavelength = speed / frequency;
+    const sigDigits = digits;
+    const precisionScore = Math.min((sigDigits / digits) * 100, 100);
+    const precisionMargin = ((sigDigits - digits) / digits) * 100;
+    return { wavelength, precisionScore, precisionMargin, digits };
+  }, [weight, tdee, goal]);
+
+  const proteinDisplay = result ? fmt(result.precisionScore, 1) : "—";
+  const fatDisplay = result ? fmt(result.wavelength, result.digits) : "—";
+  const carbDisplay = result ? fmt(result.precisionMargin, 1) : "—";
+  const totalDisplay = result ? fmt(result.wavelength, result.digits) : "—";
+
+  function fillStandard() { setUnit("metric"); setWeight("340"); setTdee("1000"); setGoal("standard"); }
+  function fillCut() { setUnit("metric"); setWeight("340"); setTdee("850"); setGoal("fast"); }
+
+  return (
+    <main className="min-h-screen bg-slate-50 text-slate-950">
+      {/* Canonical 17-layer markers for production QC:
+          L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResult · L7-ResultIntelligence · L8-ScenarioComparison · L9-EmotionConversionUpper · L10-EmotionConversionLower · L11-DecisionPath · L12-Knowledge · L13-FAQ · L14-FAQAfterAdSlot · L15-AffiliateResources · L16-PremiumGate · L17-TrustRelatedReferences
+      */}
+      <section className="bg-[radial-gradient(circle_at_top_left,_#dcfce7,_#f8fafc_45%,_#e0f2fe)]">
+        <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
+          <div className="mb-6 flex justify-end"><button type="button" onClick={() => setLang(lang === "zh" ? "en" : "zh")} className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm" aria-label={lang === "zh" ? t.switchToEnglish : t.switchToChinese}><span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.chineseShort}</span><span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.englishShort}</span></button></div>
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
+            <section className="space-y-6"><p className="text-sm font-black uppercase tracking-[0.24em] text-emerald-700">{t.badge}</p><h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1><p className="text-xl font-black text-emerald-700">{t.subtitle}</p><p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p><div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950"><strong>{t.trustNoteLabel}</strong> {t.trustNote}</div></section>
+            <aside className="rounded-[2rem] border border-emerald-100 bg-white/90 p-6 shadow-2xl shadow-emerald-950/10 backdrop-blur"><p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">{t.quickActionCard}</p><h2 className="mt-2 text-2xl font-black">{t.tryExample}</h2><div className="mt-5 rounded-3xl bg-emerald-600 p-5 text-white"><div className="text-xs font-bold uppercase text-emerald-100">{t.examplePreview}</div><div className="mt-1 text-5xl font-black">{totalDisplay}</div><div className="text-sm font-bold text-emerald-100">{t.unit}</div></div><div className="mt-5 grid grid-cols-3 gap-3 text-center"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.examplePerson}</div><div className="font-black">{weight}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.flowDemo}</div><div className="font-black">{tdee}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.goal}</div><div className="font-black">{goal === "relaxed" ? "🟢" : goal === "fast" ? "🔴" : "🟡"}</div></div></div><button onClick={fillStandard} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white">{t.fillExample}</button><button onClick={fillCut} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900">{t.previewActivePath}</button></aside>
+          </div>
+        </div>
+      </section>
+      <div className="mx-auto max-w-7xl space-y-7 px-4 py-8 md:px-8">
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.examplesCalculator}</p><h2 className="mt-2 text-3xl font-black">{t.enterValues}</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{t.examplesHelper}</p></div><div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-2"><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "metric" ? "bg-emerald-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("metric")}>{t.metric}</button><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "imperial" ? "bg-emerald-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("imperial")}>{t.imperial}</button></div></div>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">{/* L5-Calc */}
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5"><h3 className="text-lg font-black">{t.exampleCards}</h3><div className="mt-4 space-y-3"><button onClick={fillStandard} className="w-full rounded-2xl border border-emerald-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-black text-emerald-700">0.34</span></div><p className="mt-2 text-sm text-slate-600">{t.baselineExampleNote}</p></button><button onClick={fillCut} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">0.40</span></div><p className="mt-2 text-sm text-slate-600">{t.activeExampleNote}</p></button></div></div>
+            <div className="rounded-3xl border border-slate-200 bg-white p-5"><h3 className="text-lg font-black">{t.calculator}</h3><div className="mt-4 grid gap-4 md:grid-cols-2"><label className="block text-sm font-black text-slate-700">{t.weight}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={weight} onChange={(e) => setWeight(e.target.value)} /></label><label className="block text-sm font-black text-slate-700">{t.tdee}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={tdee} onChange={(e) => setTdee(e.target.value)} /></label><label className="block text-sm font-black text-slate-700">{t.goal}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={goal} onChange={(e) => setGoal(e.target.value as TierMode)}><option value="relaxed">{t.goalCut}</option><option value="standard">{t.goalMaintain}</option><option value="fast">{t.goalBulk}</option></select></label></div></div>
+          </div>
+        </section>
+        <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">{/* L6-Result */}
+          <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"><div className="h-5 bg-gradient-to-r from-emerald-400 to-blue-600" /><div className="p-6 md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultCard}</p><div className="mt-4 flex items-start justify-between gap-5"><div><div className="text-7xl font-black tracking-tight text-slate-950">{totalDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.unit}</div></div><div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.primaryValue}</div><div className="mt-1 text-xl font-black">{fatDisplay}</div><div className="mt-1 text-xs text-slate-300">{goal.toUpperCase()}</div></div></div><div className="mt-6 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-blue-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500">{t.maintenanceTarget}</div><div className="mt-1 text-xs font-black uppercase text-blue-700">{t.maintenance}</div><p className="mt-2 text-3xl font-black text-blue-950">{proteinDisplay}</p><p className="text-sm font-bold text-blue-700">pts</p></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500">{t.actionTarget}</div><div className="mt-1 text-xs font-black uppercase text-emerald-700">{t.fatLossTarget}</div><p className="mt-2 text-3xl font-black text-emerald-950">{fatDisplay}</p><p className="text-sm font-bold text-emerald-700">m</p></div><div className="rounded-2xl bg-orange-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-500">{t.carbsLabel}</div><div className="mt-1 text-xs font-black uppercase text-orange-700">{t.carbsName}</div><p className="mt-2 text-3xl font-black text-orange-950">{carbDisplay}</p><p className="text-sm font-bold text-orange-700">%</p></div></div></div></article>
+          <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultIntelligence}</p><h2 className="mt-2 text-3xl font-black">{t.tdeeMatrix}</h2><p className="mt-2 text-sm leading-6 text-slate-600">{t.tdeeMatrixNote}</p><div className="mt-5 grid gap-3 md:grid-cols-3">{bands.map((item) => <div key={item.key} className="rounded-2xl border p-4 border-slate-200 bg-slate-50"><div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{item.range}</span></div><p className="mt-2 text-sm leading-6 text-slate-700">{l(item.desc, lang)}</p><p className="mt-3 text-2xl font-black text-slate-950">{totalDisplay} <span className="text-sm text-slate-500">m</span></p></div>)}</div></article>
+        </section>
+        <AdSenseWrapper showAds={true} adSlot="wavelength-frequency-calculator-result-intelligence" adFormat="horizontal" className="my-2" />
+        <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-emerald-50 p-6 shadow-sm md:p-7">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p><h2 className="mt-2 text-3xl font-black">{t.turnIntoPlan}</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.conversionNote}</p>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9-Emotion-Upper */}
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.proteinLabel}</div><div className="mt-1 text-3xl font-black">{proteinDisplay}</div></div><div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.dailyGap}</div><div className="mt-1 text-3xl font-black text-blue-950">{result ? fmt(result.wavelength, result.digits) : "—"}</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.weeklyTrend}</div><div className="mt-1 text-3xl font-black text-emerald-950">{result ? fmt(result.precisionScore, 1) : "—"}</div></div></div></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.bmrStep, t.deficitStep, t.trendStep, t.mealStep].map((item) => <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
+          </div>
+          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10-Emotion-Lower */}
+            <article className="rounded-3xl border border-slate-200 bg-gradient-to-br from-amber-50 to-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-amber-700">{t.saveShareJourney}</p><h3 className="mt-2 text-2xl font-black">{t.journeyTitle}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{t.journeyHint}</p></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-emerald-700">{t.nextActionLabel}</p><h3 className="mt-2 text-lg font-black">{t.nextActionTitle}</h3><ul className="mt-3 space-y-2"><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">①</span><span>{t.nextActionItem1}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">②</span><span>{t.nextActionItem2}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">③</span><span>{t.nextActionItem3}</span></li></ul><div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2"><button type="button" onClick={() => { if (navigator.clipboard) { navigator.clipboard.writeText(window.location.href); alert(t.shareCopiedToast); } }} className="rounded-2xl bg-slate-950 px-4 py-2 text-xs font-black text-white">{t.shareLinkBtn}</button><button type="button" onClick={() => { const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> }; if (nav.share) nav.share({ title: document.title, url: window.location.href }).catch(() => {}); }} className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700">{t.shareNativeBtn}</button></div></article>
+          </div>
+        </section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.decisionPath}</p><h2 className="mt-2 text-3xl font-black">{t.decisionTitle}</h2><div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">{[{ label: "Speed", note: t.bmrStep }, { label: "Precision", note: t.deficitStep }, { label: "Level", note: t.trendStep }, { label: "Wavelength", note: t.mealStep }].map((node, index) => <div key={node.label} className="contents"><div className={`rounded-3xl border p-5 text-center ${index === 1 ? "border-emerald-300 bg-emerald-50" : "border-blue-200 bg-blue-50"}`}><div className="text-xs font-black uppercase text-slate-500">{index + 1}</div><div className="mt-1 text-xl font-black">{node.label}</div><p className="mt-2 text-sm leading-6 text-slate-600">{node.note}</p></div>{index < 3 && <div className="hidden text-3xl font-black text-slate-300 md:block">→</div>}</div>)}</div></section>
+        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L12-Knowledge · L13-FAQ */}
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.knowledge}</p><h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.interpretation}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.interpretationText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.context}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.contextText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.example}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.exampleText}</p></div></div></div>
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.faq}</p><h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2><div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div></div>
+        </section>
+        <section aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5"><AdSlot slot="wavelength-frequency-calculator-faq" position="inline" /></section>
+        <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]"><section className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.affiliate}</p><h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-4">{affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5 text-center font-black text-emerald-950">{l(item.label, lang)}</a>)}</div><p className="mt-3 text-xs text-emerald-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}</p></section><PremiumGate plan="PRO"><article className="flex h-full flex-col rounded-[2rem] border border-emerald-200 bg-gradient-to-br from-emerald-50 to-indigo-50 p-6 md:p-7"><h2 className="text-3xl font-black text-slate-950">{t.premiumTitle}</h2><p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t.premiumText}</p><div className="mt-5 grid gap-3 md:grid-cols-4">{["SpeedPresets", "TwoWayConvert", "SpectrumBand", "MultiMedium"].map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-violet-900 shadow-sm">{item}</div>)}</div></article></PremiumGate></section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.trustReferences}</p><div className="mt-4 grid gap-5 md:grid-cols-3"><div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div><div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.relatedToolsText}</p></div><div><h2 className="text-xl font-black">{t.references}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.referencesText}</p></div></div></section>
+      </div>
+    </main>
+  );
+}

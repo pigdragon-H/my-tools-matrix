@@ -3568,6 +3568,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "wavelength-frequency-calculator",
+    name: "波長頻率計算機",
+    category: "science",
+    path: "/tools/science/wavelength-frequency-calculator",
+    icon: "FlaskConical",
+    description: "波長頻率計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3836,3 +3851,4 @@ export const speedDistanceTimeCalculator = { id: "speed-distance-time-calculator
 export const accelerationCalculator = { id: "acceleration-calculator", category: "science", name: "Acceleration Calculator", path: "/tools/science/acceleration-calculator" };
 export const pressureCalculator = { id: "pressure-calculator", category: "science", name: "Pressure Calculator", path: "/tools/science/pressure-calculator" };
 export const powerCalculator = { id: "power-calculator", category: "science", name: "Power Calculator", path: "/tools/science/power-calculator" };
+export const wavelengthFrequencyCalculator = { id: "wavelength-frequency-calculator", category: "science", name: "Wavelength Frequency Calculator", path: "/tools/science/wavelength-frequency-calculator" };
