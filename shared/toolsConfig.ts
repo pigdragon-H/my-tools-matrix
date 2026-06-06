@@ -2833,6 +2833,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "travel-insurance-calculator",
+    name: "旅遊保險計算機",
+    category: "travel",
+    path: "/tools/travel/travel-insurance-calculator",
+    icon: "Shield",
+    description: "旅遊保險計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3052,3 +3067,4 @@ export const mrrCalculator = { id: "mrr-calculator", category: "ecommerce", name
 export const churnRateCalculator = { id: "churn-rate-calculator", category: "ecommerce", name: "Churn Rate Calculator", path: "/tools/ecommerce/churn-rate-calculator" };
 export const travelBudgetCalculator = { id: "travel-budget-calculator", category: "travel", name: "Travel Budget Calculator", path: "/tools/travel/travel-budget-calculator" };
 export const travelDayCounter = { id: "travel-day-counter", category: "travel", name: "Travel Day Counter", path: "/tools/travel/travel-day-counter" };
+export const travelInsuranceCalculator = { id: "travel-insurance-calculator", category: "travel", name: "Travel Insurance Calculator", path: "/tools/travel/travel-insurance-calculator" };
