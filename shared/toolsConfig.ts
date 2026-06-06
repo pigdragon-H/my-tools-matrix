@@ -3703,6 +3703,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "word-association-finder",
+    name: "詞語聯想查找器",
+    category: "language",
+    path: "/tools/language/word-association-finder",
+    icon: "Languages",
+    description: "輸入一個英文字，立刻找出語意相關的聯想詞，帶 CEFR 等級、IPA 音標與中文釋義",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3980,3 +3995,4 @@ export const synonymFinder = { id: "synonym-finder", category: "language", name:
 export const antonymFinder = { id: "antonym-finder", category: "language", name: "Antonym Finder", path: "/tools/language/antonym-finder" };
 export const rhymeFinder = { id: "rhyme-finder", category: "language", name: "Rhyme Finder", path: "/tools/language/rhyme-finder" };
 export const anagramSolver = { id: "anagram-solver", category: "language", name: "Anagram Solver", path: "/tools/language/anagram-solver" };
+export const wordAssociationFinder = { id: "word-association-finder", category: "language", name: "Word Association Finder", path: "/tools/language/word-association-finder" };
