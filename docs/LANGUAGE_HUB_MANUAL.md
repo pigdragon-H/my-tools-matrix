@@ -6,7 +6,7 @@
 > 即可產出「用戶明天還想回來用」的 A+ 級語言學習工具。
 > 違反任一條款 = 空殼工具 = 零流量 = 供應商扣分。零容忍。
 
-**版本：v1.1（2026-06-06）— 新增繁體中文鐵律 + KK音標規範**
+**版本：v1.2（2026-06-06）— 修正附錄A endpoint（rel_anag/rel_col無效）+ 新增§9 Datamuse有效清單**
 **適用：所有 Language Hub 工具（LNG-VOC / PHR / GRM / CEF / WRT / AI）**
 **黃金模板：client/src/tools/health/MacroCalculator/index.tsx**
 **上層手冊：docs/A_PLUS_PRODUCTION_MANUAL.md v5.1（仍然有效，本手冊為補充）**
@@ -482,18 +482,49 @@ Language Hub QC：
 
 ## 附錄A：10支首批工具技術規格速查
 
-| 編號 | slug | 類型 | 資料要求 | API端點 |
-|---|---|---|---|---|
-| LNG-VOC-003 | synonym-finder | A類 | - | rel_syn= |
-| LNG-VOC-004 | antonym-finder | A類 | - | rel_ant= |
-| LNG-VOC-005 | rhyme-finder | A類 | - | rel_rhy= |
-| LNG-PHR-001 | phrasal-verb-finder | B類 | 200筆 | - |
-| LNG-PHR-004 | idiom-explainer | B類 | 100筆 | - |
-| LNG-GRM-007 | irregular-verb-finder | B類 | 150筆 | - |
-| LNG-VOC-008 | word-root-analyzer | B類 | 80筆 | - |
-| LNG-CEF-001 | cefr-level-estimator | B類 | 各級200字 | - |
-| LNG-VOC-001 | anagram-solver | A類 | - | rel_anag= |
-| LNG-VOC-009 | vocabulary-dna-engine | 混合 | 字根80筆 | 多端點 |
+| 編號 | slug | 類型 | 資料要求 | API端點 | 備註 |
+|---|---|---|---|---|---|
+| LNG-VOC-003 | synonym-finder | A類 | - | rel_syn= | ✅已驗證 |
+| LNG-VOC-004 | antonym-finder | A類 | - | rel_ant= | ✅已驗證 |
+| LNG-VOC-005 | rhyme-finder | A類 | - | rel_rhy= | ✅已驗證 |
+| LNG-VOC-001 | anagram-solver | 自建算法 | 字典JSON 10000字 | 純前端字母指紋比對 | ⚠️ rel_anag=無效，改自建 |
+| LNG-VOC-006 | word-association-finder | A類 | - | rel_trg= | ✅已驗證 |
+| LNG-VOC-010 | collocation-finder | A類 | - | ml=（語意相近） | ⚠️ rel_col=無效，改ml= |
+| LNG-PHR-001 | phrasal-verb-finder | B類 | 200筆 | - | JSON內建 |
+| LNG-PHR-004 | idiom-explainer | B類 | 100筆 | - | JSON內建 |
+| LNG-CEF-001 | cefr-level-estimator | B類 | 各級200字 | - | JSON內建 |
+| LNG-VOC-009 | vocabulary-dna-engine | 混合 | 字根80筆 | rel_syn+rel_trg+ml組合 | 多端點 |
+
+
+## §9 Datamuse 有效 rel_[code] 清單（實測確認）
+
+**Datamuse官方合法relation code（2026實測）：**
+
+| code | 說明 | 範例 |
+|---|---|---|
+| rel_syn | 同義詞 | rel_syn=happy |
+| rel_ant | 反義詞 | rel_ant=happy |
+| rel_trg | 聯想詞 | rel_trg=cow |
+| rel_rhy | 押韻（完全） | rel_rhy=cat |
+| rel_nry | 押韻（近似） | rel_nry=cat |
+| rel_hom | 同音異義 | rel_hom=course |
+| rel_jja | 修飾名詞的形容詞 | rel_jja=ocean |
+| rel_jjb | 被形容詞修飾的名詞 | rel_jjb=blue |
+| ml= | 語意相似 | ml=ocean |
+| sp= | 拼字模式 | sp=t??t |
+
+**⚠️ 無效code（禁止使用）：**
+```
+rel_anag= → 回傳[] → 改用自建字母指紋算法
+rel_col=  → 回傳[] → 改用ml=（語意相近）
+```
+
+**永久警示：使用新endpoint前必須先curl驗證，不可假設有效。**
+```bash
+curl "https://api.datamuse.com/words?rel_xxx=test&max=3"
+# 回傳[] = 無效，停工回報Victor
+# 回傳有資料 = 有效，可使用
+```
 
 ## 附錄B：CEFR等級快速判定
 
@@ -508,7 +539,7 @@ C2：ephemeral/perspicacious/recondite/solipsistic/ineffable
 
 ---
 
-**版本：v1.1（2026-06-06）— 新增繁體中文鐵律 + KK音標規範**
+**版本：v1.2（2026-06-06）— 修正附錄A endpoint（rel_anag/rel_col無效）+ 新增§9 Datamuse有效清單**
 **制定：Claude品管視窗**
 **授權：Victor**
 **上層手冊：A_PLUS_PRODUCTION_MANUAL.md v5.1（同時有效）**
