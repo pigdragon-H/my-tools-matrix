@@ -2818,6 +2818,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "travel-day-counter",
+    name: "旅遊天數計算機",
+    category: "travel",
+    path: "/tools/travel/travel-day-counter",
+    icon: "CalendarDays",
+    description: "旅遊天數計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3036,3 +3051,4 @@ export const deliveryTimeCalculator = { id: "delivery-time-calculator", category
 export const mrrCalculator = { id: "mrr-calculator", category: "ecommerce", name: "MRR Calculator", path: "/tools/ecommerce/mrr-calculator" };
 export const churnRateCalculator = { id: "churn-rate-calculator", category: "ecommerce", name: "Churn Rate Calculator", path: "/tools/ecommerce/churn-rate-calculator" };
 export const travelBudgetCalculator = { id: "travel-budget-calculator", category: "travel", name: "Travel Budget Calculator", path: "/tools/travel/travel-budget-calculator" };
+export const travelDayCounter = { id: "travel-day-counter", category: "travel", name: "Travel Day Counter", path: "/tools/travel/travel-day-counter" };

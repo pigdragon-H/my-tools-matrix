@@ -198,6 +198,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "ecommerce/mrr-calculator": lazy(() => import("@/tools/ecommerce/MrrCalculator")),
   "ecommerce/churn-rate-calculator": lazy(() => import("@/tools/ecommerce/ChurnRateCalculator")),
   "travel/travel-budget-calculator": lazy(() => import("@/tools/travel/TravelBudgetCalculator")),
+  "travel/travel-day-counter": lazy(() => import("@/tools/travel/TravelDayCounter")),
 };
 
 function ToolSkeleton() {
