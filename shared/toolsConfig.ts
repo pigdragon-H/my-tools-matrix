@@ -3283,6 +3283,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "ai-labor-calculator",
+    name: "AI 人力成本計算機",
+    category: "ai",
+    path: "/tools/ai/ai-labor-calculator",
+    icon: "Cpu",
+    description: "AI 人力成本計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3532,3 +3547,4 @@ export const aiErrorRateCalculator = { id: "ai-error-rate-calculator", category:
 export const promptRoiCalculator = { id: "prompt-roi-calculator", category: "ai", name: "Prompt ROI Calculator", path: "/tools/ai/prompt-roi-calculator" };
 export const aiRoiCalculator = { id: "ai-roi-calculator", category: "ai", name: "AI ROI Calculator", path: "/tools/ai/ai-roi-calculator" };
 export const automationSavingsCalculator = { id: "automation-savings-calculator", category: "ai", name: "Automation Savings Calculator", path: "/tools/ai/automation-savings-calculator" };
+export const aiLaborCalculator = { id: "ai-labor-calculator", category: "ai", name: "AI Labor Calculator", path: "/tools/ai/ai-labor-calculator" };
