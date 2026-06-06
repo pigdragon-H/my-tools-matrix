@@ -3328,6 +3328,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "golden-ratio-calculator",
+    name: "黃金比例計算機",
+    category: "design",
+    path: "/tools/design/golden-ratio-calculator",
+    icon: "Palette",
+    description: "黃金比例計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3580,3 +3595,4 @@ export const automationSavingsCalculator = { id: "automation-savings-calculator"
 export const aiLaborCalculator = { id: "ai-labor-calculator", category: "ai", name: "AI Labor Calculator", path: "/tools/ai/ai-labor-calculator" };
 export const aiImplementationRoi = { id: "ai-implementation-roi", category: "ai", name: "AI Implementation ROI", path: "/tools/ai/ai-implementation-roi" };
 export const colorContrastRatioCalculator = { id: "color-contrast-ratio-calculator", category: "design", name: "Color Contrast Ratio Calculator", path: "/tools/design/color-contrast-ratio-calculator" };
+export const goldenRatioCalculator = { id: "golden-ratio-calculator", category: "design", name: "Golden Ratio Calculator", path: "/tools/design/golden-ratio-calculator" };
