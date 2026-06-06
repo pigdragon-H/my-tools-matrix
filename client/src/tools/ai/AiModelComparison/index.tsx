@@ -1,0 +1,173 @@
+// @profile B
+// Profile B · Calculator-AI · AiModelComparison（GOLD-STANDARD-001 compatible）
+
+import { useMemo, useState } from "react";
+import { AdSenseWrapper } from "@/components/AdSenseWrapper";
+import { AdSlot } from "@/components/business/AdSlot";
+import { PremiumGate } from "@/components/business/PremiumGate";
+import { useLanguage } from "@/contexts/LanguageContext";
+
+type Lang = "zh" | "en";
+type LocalText = { zh: string; en: string };
+type AffiliateItem = { label: LocalText; href: string };
+type TierMode = "relaxed" | "standard" | "fast";
+const l = (v: LocalText, lang: Lang) => v[lang];
+const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
+
+const bands = [
+  { key: "tiny", range: "< 5", label: { zh: "低性價比", en: "Low Value" }, desc: { zh: "性價比偏低，品質相對於單價不划算，建議改用較便宜或較強的替代模型。", en: "Low value—quality relative to price is poor; switch to a cheaper or stronger alternative model." } },
+  { key: "low", range: "5–15", label: { zh: "尚可", en: "Fair" }, desc: { zh: "性價比尚可，記得比較同級其他模型與是否能用較小模型達標。", en: "Fair value; compare same-tier models and whether a smaller model can meet the bar." } },
+  { key: "healthy", range: "15–30", label: { zh: "不錯", en: "Good" }, desc: { zh: "多數正式選型常見區間，宜開始監控實測品質與每百萬成本的平衡。", en: "Common production-selection band; start monitoring the balance of measured quality and per-million cost." } },
+  { key: "good", range: "30–50", label: { zh: "划算", en: "Great" }, desc: { zh: "性價比划算，品質與成本平衡良好，適合大量部署前再小規模驗證。", en: "Great value; quality and cost are well-balanced—validate at small scale before mass deployment." } },
+  { key: "strong", range: "50–80", label: { zh: "極划算", en: "Excellent" }, desc: { zh: "性價比極高，務必確認品質指標是任務相關的真實評測而非單一基準。", en: "Excellent value; confirm the quality metric is a task-relevant real evaluation, not a single benchmark." } },
+  { key: "elite", range: "> 80", label: { zh: "頂級性價比", en: "Top Value" }, desc: { zh: "頂級性價比，建議鎖定並談量價合約，同時保留備援模型避免單一依賴。", en: "Top value; lock in and negotiate volume pricing, but keep a backup model to avoid single dependency." } },
+] as const;
+
+const affiliateItems: AffiliateItem[] = [
+  { label: { zh: "AI Token成本計算機", en: "AI Token Cost Calculator" }, href: "/tools/ai/ai-token-cost-calculator" },
+  { label: { zh: "AI API成本估算器", en: "AI API Cost Estimator" }, href: "/tools/ai/ai-api-cost-estimator" },
+  { label: { zh: "AI準確率計算機", en: "AI Accuracy Calculator" }, href: "/tools/ai/ai-accuracy-calculator" },
+  { label: { zh: "模型延遲計算機", en: "Model Latency Calculator" }, href: "/tools/ai/model-latency-calculator" },
+];
+
+const ui = {
+  zh: {
+    badge: "AI · 模型選型 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "AI 模型比較器 · Model Value", subtitle: "用每百萬單價、月 token 量與品質階層算出模型性價比分數與整月成本",
+    intro: "AI Model Comparison 依據每百萬 token 單價、每月 token 用量與品質階層（基礎、標準或旗艦），算出模型性價比分數、整月成本與每美元品質，協助你判斷哪個模型最划算、品質是否值得溢價、該不該為了省錢降階，讓你在選定任何模型前就把性價比算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的單價與內建品質階層估算性價比，未含任務相關實測、延遲與穩定度；正式選型請以自家評測集與各供應商官方規格為準。",
+    quickActionCard: "快速範例卡", tryExample: "一鍵建立比較範例", examplePreview: "性價比預覽", examplePerson: "每百萬單價", fillExample: "一鍵填入標準範例", previewActivePath: "填入旗艦模型範例",
+    examplesCalculator: "範例 → 計算機", enterValues: "輸入 每百萬單價、月 token 量與品質階層", examplesHelper: "先用範例理解單價、用量與品質階層如何決定性價比分數與整月成本，再改成自己的選型數據。",
+    metric: "公制", imperial: "占比檢視", exampleCards: "範例卡", baselineExample: "標準模型模式", activeExample: "旗艦模型示範", baselineExampleNote: "單價 3 · token 100萬 · 標準", activeExampleNote: "單價 3 · token 100萬 · 旗艦", carbsLabel: "整月成本", carbsName: "美元", proteinLabel: "性價比分數", flowDemo: "月 token 量", calculator: "計算機",
+    weight: "每百萬單價 (USD)", tdee: "月 token 量 (token)", goal: "品質階層", goalCut: "基礎 (品質 60)", goalMaintain: "標準 (品質 80)", goalBulk: "旗艦 (品質 95)",
+    resultCard: "模型性價比結果", unit: "分 (性價比分數)", primaryValue: "主要數值", maintenanceTarget: "性價比分數", actionTarget: "整月成本", estimatedTdee: "月 token 量", maintenance: "分", fatLossTarget: "USD",
+    resultIntelligence: "結果解讀", tdeeMatrix: "六格性價比分數判讀矩陣", tdeeMatrixNote: "L7 固定六格，將目前性價比分數放進常見區間；這是規劃參考，不是會計結論。",
+    emotionConversionLayer: "情緒與轉換層", turnIntoPlan: "把性價比結果轉成可執行的模型選型策略", conversionNote: "L9 會連動目前計算結果，顯示性價比分數、整月成本與月 token 量提示。",
+    progressInsight: "進度洞察卡", possibleTarget: "目前選型概況", dailyGap: "整月成本", weeklyTrend: "性價比分數", motivation: "動力卡", keepMomentum: "從性價比分析走向最划算的模型組合",
+    saveShareJourney: "儲存 / 分享", journeyTitle: "把今天的選型結果帶回團隊", journeyHint: "用 AI 準確率計算機一起看，把品質指標換成任務相關的真實評測再做決策。",
+    nextActionLabel: "下一步行動", nextActionTitle: "將結果接到下一個工具", nextActionItem1: "用 AI Token 成本計算機細算各模型費用", nextActionItem2: "用 AI 準確率計算機驗證品質指標", nextActionItem3: "用模型延遲計算機把延遲納入選型",
+    shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給團隊", shareCopiedToast: "已複製到剪貼簿 ✓",
+    decisionPath: "決策路徑", decisionTitle: "Price → ValueScore → Quality → Tokens", bmrStep: "每百萬單價", deficitStep: "性價比分數", trendStep: "品質階層", mealStep: "月 token 量",
+    knowledge: "知識", knowledgeTitle: "性價比分數在模型選型中的意義", definition: "定義", definitionText: "模型性價比估算是把品質階層分數除以每百萬單價得每美元品質，再正規化成性價比分數；分數越高代表同樣花費換得越多品質，是判斷該選哪個模型的核心指標。", formula: "公式", formulaText: "整月成本 = 月 token 量 ÷ 100 萬 × 每百萬單價。每美元品質 = 品質分數 ÷ 每百萬單價。性價比分數 = 每美元品質 × 校正係數。分數越高越划算。", limitations: "限制", limitationsText: "本工具以內建品質階層近似；真實性價比受任務相關評測、延遲、穩定度、上下文長度與供應商配額影響，且公開基準不一定反映你的實際任務表現。", interpretation: "解讀", interpretationText: "性價比分數低於 15 宜重新選型；可透過改用較便宜同級模型、為簡單任務降階、為關鍵任務升階或混合路由來提升整體性價比。", context: "脈絡", contextText: "模型選型應與 AI Token 成本、準確率與延遲一起看，才能在品質、成本與速度之間取得平衡。", example: "範例", exampleText: "單價 $3/1M、品質階層 80、月 token 100 萬 → 整月成本 $3，每美元品質約 26.7，性價比分數約 27。",
+    faq: "FAQ", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "選型的下一步工具", premiumTitle: "PRO 模型選型分析包", premiumText: "解鎖各模型即時單價、任務相關評測對照、延遲與穩定度權重與多模型混合路由性價比矩陣。",
+    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具只供選型規劃與教育用途，不取代自家評測集、各供應商官方規格或正式合約報價。", relatedTools: "相關工具", relatedToolsText: "AI Token Cost · AI API Cost · AI Accuracy · Model Latency", references: "參考資料", referencesText: "各供應商官方模型規格頁；公開模型評測排行榜；任務相關評測方法；延遲與配額文件。",
+    q1: "性價比分數怎麼算的？", a1: "本工具把品質階層分數除以每百萬單價得每美元品質，再正規化成性價比分數；分數越高代表同花費換得越多品質。",
+    q2: "性價比分數多少要小心？", a2: "分數低於 15 代表品質相對於價格不划算；建議改用較便宜同級模型或為任務分別降階升階。",
+    q3: "品質階層怎麼決定？", a3: "基礎適合分類摘要，標準適合多數對話，旗艦適合複雜推理；正式選型仍應用任務相關評測集驗證。",
+    q4: "性價比太低怎麼提升？", a4: "改用較便宜同級模型、為簡單任務降階、為關鍵任務升階、混合路由，並用準確率計算機確認品質仍達標。",
+    q5: "公開基準準嗎？", a5: "公開基準只供參考；不同任務表現差異大，請務必用自家評測集實測，再搭配本工具估算性價比。",
+    q6: "這個工具能取代實測嗎？", a6: "不能。它只是快速規劃與教育用途；正式選型應以自家評測集、延遲穩定度測試與官方規格為準。",
+  },
+  en: {
+    badge: "AI · Model Selection · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "AI Model Comparison", subtitle: "Compute model value score and monthly cost from price per million, monthly tokens, and quality tier",
+    intro: "This comparison uses price per million tokens, monthly token usage, and quality tier (basic, standard, or premium) to compute a model value score, monthly cost, and quality per dollar, helping you judge which model is the best value, whether quality is worth the premium, and whether to downgrade to save money, so you compute value clearly before selecting any model.",
+    trustNoteLabel: "Note:", trustNote: "This tool estimates value from the price you enter and a built-in quality tier, excluding task-relevant evaluation, latency, and stability; for production selection, follow your own evaluation set and each vendor's official specs.",
+    quickActionCard: "Quick Action Card", tryExample: "Create a comparison example instantly", examplePreview: "Value preview", examplePerson: "Price per million", fillExample: "One-click standard example", previewActivePath: "Fill premium model example",
+    examplesCalculator: "Examples → Calculator", enterValues: "Enter price per million, monthly tokens, and quality tier", examplesHelper: "Start with an example to see how price, usage, and quality tier set the value score and monthly cost, then replace with your own selection data.",
+    metric: "Metric", imperial: "Share view", exampleCards: "Example cards", baselineExample: "Standard model mode", activeExample: "Premium model demo", baselineExampleNote: "price 3 · tokens 1M · standard", activeExampleNote: "price 3 · tokens 1M · premium", carbsLabel: "Monthly cost", carbsName: "USD", proteinLabel: "Value score", flowDemo: "Monthly tokens", calculator: "Calculator",
+    weight: "Price per million (USD)", tdee: "Monthly tokens (tokens)", goal: "Quality tier", goalCut: "Basic (quality 60)", goalMaintain: "Standard (quality 80)", goalBulk: "Premium (quality 95)",
+    resultCard: "Model Value Result", unit: "score (value score)", primaryValue: "Primary Value", maintenanceTarget: "Value score", actionTarget: "Monthly cost", estimatedTdee: "Monthly tokens", maintenance: "score", fatLossTarget: "USD",
+    resultIntelligence: "Result Intelligence", tdeeMatrix: "Six-card value-score interpretation matrix", tdeeMatrixNote: "L7 uses six fixed cards to place the current value score into common zones. This is planning guidance, not an accounting conclusion.",
+    emotionConversionLayer: "Emotion + Conversion Layer", turnIntoPlan: "Turn the value result into an actionable model-selection strategy", conversionNote: "L9 values update from the computed result: value score, monthly cost, and monthly-tokens hint.",
+    progressInsight: "Progress Insight Card", possibleTarget: "Current selection snapshot", dailyGap: "Monthly cost", weeklyTrend: "Value score", motivation: "Motivation Card", keepMomentum: "Move from value analysis to the best-value model mix",
+    saveShareJourney: "Save / Share", journeyTitle: "Take today's selection result to your team", journeyHint: "Review it with the AI Accuracy Calculator to replace the quality metric with a task-relevant real evaluation before deciding.",
+    nextActionLabel: "Next actions", nextActionTitle: "Connect this result to the next tool", nextActionItem1: "Compute each model's fees with the AI Token Cost Calculator", nextActionItem2: "Validate the quality metric with the AI Accuracy Calculator", nextActionItem3: "Factor latency into selection with the Model Latency Calculator",
+    shareLinkBtn: "📋 Copy result link", shareNativeBtn: "📤 Share with team", shareCopiedToast: "Copied to clipboard ✓",
+    decisionPath: "Decision Path", decisionTitle: "Price → ValueScore → Quality → Tokens", bmrStep: "Price per million", deficitStep: "Value score", trendStep: "Quality tier", mealStep: "Monthly tokens",
+    knowledge: "Knowledge", knowledgeTitle: "What value score means in model selection", definition: "Definition", definitionText: "Model value estimation divides the quality tier score by price per million for quality per dollar, then normalizes into a value score; a higher score means more quality per spend, the core indicator for which model to choose.", formula: "Formula", formulaText: "Monthly cost = monthly tokens ÷ 1M × price per million. Quality per dollar = quality score ÷ price per million. Value score = quality per dollar × calibration factor. Higher score is better value.", limitations: "Limitations", limitationsText: "This tool approximates from a built-in quality tier; real value is affected by task-relevant evaluation, latency, stability, context length, and vendor quotas, and public benchmarks may not reflect your actual task performance.", interpretation: "Interpretation", interpretationText: "Value score under 15 warrants reselection; improve overall value by switching to a cheaper same-tier model, downgrading for simple tasks, upgrading for critical tasks, or hybrid routing.", context: "Context", contextText: "Model selection should be evaluated with AI token cost, accuracy, and latency to balance quality, cost, and speed.", example: "Example", exampleText: "Price $3/1M, quality tier 80, monthly tokens 1M → monthly cost $3, quality per dollar about 26.7, value score about 27.",
+    faq: "FAQ", commonQuestions: "Common questions", affiliate: "Recommended Tools", affiliateTitle: "Next tools for selection", premiumTitle: "PRO Model Selection Analytics Pack", premiumText: "Unlock per-model live prices, task-relevant evaluation mapping, latency and stability weighting, and a multi-model hybrid-routing value matrix.",
+    trustReferences: "Trust · Related Tools · References", trust: "Trust", trustText: "This tool is for selection planning and education. It does not replace your own evaluation set, each vendor's official specs, or a formal contract quote.", relatedTools: "Related Tools", relatedToolsText: "AI Token Cost · AI API Cost · AI Accuracy · Model Latency", references: "References", referencesText: "Per-vendor official model spec pages; public model evaluation leaderboards; task-relevant evaluation methods; latency and quota docs.",
+    q1: "How is the value score calculated?", a1: "This tool divides the quality tier score by price per million for quality per dollar, then normalizes into a value score; higher means more quality per spend.",
+    q2: "What value score should I watch?", a2: "A score under 15 means quality relative to price is poor; switch to a cheaper same-tier model or downgrade/upgrade per task.",
+    q3: "How do I decide the quality tier?", a3: "Basic suits classification and summaries, standard suits most chat, premium suits complex reasoning; production selection should still validate with a task-relevant evaluation set.",
+    q4: "How do I improve low value?", a4: "Switch to a cheaper same-tier model, downgrade simple tasks, upgrade critical tasks, hybrid route, and confirm quality still meets the bar with the Accuracy Calculator.",
+    q5: "Are public benchmarks accurate?", a5: "Public benchmarks are only a reference; performance varies widely by task—always validate with your own evaluation set, then estimate value with this tool.",
+    q6: "Can this tool replace real testing?", a6: "No. It is a quick planning and education tool; production selection should follow your own evaluation set, latency/stability tests, and official specs.",
+  },
+} as const;
+
+const faqKeys = [["q1","a1"],["q2","a2"],["q3","a3"],["q4","a4"],["q5","a5"],["q6","a6"]] as const;
+
+function qualityScore(mode: TierMode): number {
+  if (mode === "relaxed") return 60;
+  if (mode === "fast") return 95;
+  return 80;
+}
+
+export default function AiModelComparison() {
+  const { lang, setLang } = useLanguage();
+  const [unit, setUnit] = useState<"metric" | "imperial">("metric");
+  const [weight, setWeight] = useState("3");
+  const [tdee, setTdee] = useState("1000000");
+  const [goal, setGoal] = useState<TierMode>("standard");
+  const t = ui[lang];
+
+  const result = useMemo(() => {
+    const price = Number(weight);
+    const tokens = Number(tdee);
+    if (price <= 0 || tokens <= 0) return null;
+    const monthlyCost = (tokens / 1_000_000) * price;
+    const qualityPerDollar = qualityScore(goal) / price;
+    const valueScore = qualityPerDollar;
+    return { monthlyCost, qualityPerDollar, valueScore };
+  }, [weight, tdee, goal]);
+
+  const proteinDisplay = result ? fmt(result.valueScore, 1) : "—";
+  const fatDisplay = result ? fmt(result.monthlyCost, 2) : "—";
+  const carbDisplay = result ? fmt(result.monthlyCost, 2) : "—";
+  const totalDisplay = result ? fmt(result.valueScore, 1) : "—";
+
+  function fillStandard() { setUnit("metric"); setWeight("3"); setTdee("1000000"); setGoal("standard"); }
+  function fillCut() { setUnit("metric"); setWeight("3"); setTdee("1000000"); setGoal("fast"); }
+
+  return (
+    <main className="min-h-screen bg-slate-50 text-slate-950">
+      {/* Canonical 17-layer markers for production QC:
+          L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResult · L7-ResultIntelligence · L8-ScenarioComparison · L9-EmotionConversionUpper · L10-EmotionConversionLower · L11-DecisionPath · L12-Knowledge · L13-FAQ · L14-FAQAfterAdSlot · L15-AffiliateResources · L16-PremiumGate · L17-TrustRelatedReferences
+      */}
+      <section className="bg-[radial-gradient(circle_at_top_left,_#dcfce7,_#f8fafc_45%,_#e0f2fe)]">
+        <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
+          <div className="mb-6 flex justify-end"><button type="button" onClick={() => setLang(lang === "zh" ? "en" : "zh")} className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm" aria-label={lang === "zh" ? t.switchToEnglish : t.switchToChinese}><span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.chineseShort}</span><span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.englishShort}</span></button></div>
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
+            <section className="space-y-6"><p className="text-sm font-black uppercase tracking-[0.24em] text-emerald-700">{t.badge}</p><h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1><p className="text-xl font-black text-emerald-700">{t.subtitle}</p><p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p><div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950"><strong>{t.trustNoteLabel}</strong> {t.trustNote}</div></section>
+            <aside className="rounded-[2rem] border border-emerald-100 bg-white/90 p-6 shadow-2xl shadow-emerald-950/10 backdrop-blur"><p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">{t.quickActionCard}</p><h2 className="mt-2 text-2xl font-black">{t.tryExample}</h2><div className="mt-5 rounded-3xl bg-emerald-600 p-5 text-white"><div className="text-xs font-bold uppercase text-emerald-100">{t.examplePreview}</div><div className="mt-1 text-5xl font-black">{totalDisplay}</div><div className="text-sm font-bold text-emerald-100">{t.unit}</div></div><div className="mt-5 grid grid-cols-3 gap-3 text-center"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.examplePerson}</div><div className="font-black">{weight}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.flowDemo}</div><div className="font-black">{tdee}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.goal}</div><div className="font-black">{goal === "relaxed" ? "🟢" : goal === "fast" ? "🔴" : "🟡"}</div></div></div><button onClick={fillStandard} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white">{t.fillExample}</button><button onClick={fillCut} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900">{t.previewActivePath}</button></aside>
+          </div>
+        </div>
+      </section>
+      <div className="mx-auto max-w-7xl space-y-7 px-4 py-8 md:px-8">
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.examplesCalculator}</p><h2 className="mt-2 text-3xl font-black">{t.enterValues}</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{t.examplesHelper}</p></div><div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-2"><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "metric" ? "bg-emerald-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("metric")}>{t.metric}</button><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "imperial" ? "bg-emerald-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("imperial")}>{t.imperial}</button></div></div>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">{/* L5-Calc */}
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5"><h3 className="text-lg font-black">{t.exampleCards}</h3><div className="mt-4 space-y-3"><button onClick={fillStandard} className="w-full rounded-2xl border border-emerald-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-black text-emerald-700">26.7</span></div><p className="mt-2 text-sm text-slate-600">{t.baselineExampleNote}</p></button><button onClick={fillCut} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">31.7</span></div><p className="mt-2 text-sm text-slate-600">{t.activeExampleNote}</p></button></div></div>
+            <div className="rounded-3xl border border-slate-200 bg-white p-5"><h3 className="text-lg font-black">{t.calculator}</h3><div className="mt-4 grid gap-4 md:grid-cols-2"><label className="block text-sm font-black text-slate-700">{t.weight}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={weight} onChange={(e) => setWeight(e.target.value)} /></label><label className="block text-sm font-black text-slate-700">{t.tdee}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={tdee} onChange={(e) => setTdee(e.target.value)} /></label><label className="block text-sm font-black text-slate-700">{t.goal}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={goal} onChange={(e) => setGoal(e.target.value as TierMode)}><option value="relaxed">{t.goalCut}</option><option value="standard">{t.goalMaintain}</option><option value="fast">{t.goalBulk}</option></select></label></div></div>
+          </div>
+        </section>
+        <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">{/* L6-Result */}
+          <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"><div className="h-5 bg-gradient-to-r from-emerald-400 to-blue-600" /><div className="p-6 md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultCard}</p><div className="mt-4 flex items-start justify-between gap-5"><div><div className="text-7xl font-black tracking-tight text-slate-950">{totalDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.unit}</div></div><div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.primaryValue}</div><div className="mt-1 text-xl font-black">{fatDisplay}</div><div className="mt-1 text-xs text-slate-300">{goal.toUpperCase()}</div></div></div><div className="mt-6 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-blue-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500">{t.maintenanceTarget}</div><div className="mt-1 text-xs font-black uppercase text-blue-700">{t.maintenance}</div><p className="mt-2 text-3xl font-black text-blue-950">{proteinDisplay}</p><p className="text-sm font-bold text-blue-700">pt</p></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500">{t.actionTarget}</div><div className="mt-1 text-xs font-black uppercase text-emerald-700">{t.fatLossTarget}</div><p className="mt-2 text-3xl font-black text-emerald-950">{fatDisplay}</p><p className="text-sm font-bold text-emerald-700">$</p></div><div className="rounded-2xl bg-orange-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-500">{t.carbsLabel}</div><div className="mt-1 text-xs font-black uppercase text-orange-700">{t.carbsName}</div><p className="mt-2 text-3xl font-black text-orange-950">{carbDisplay}</p><p className="text-sm font-bold text-orange-700">$</p></div></div></div></article>
+          <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultIntelligence}</p><h2 className="mt-2 text-3xl font-black">{t.tdeeMatrix}</h2><p className="mt-2 text-sm leading-6 text-slate-600">{t.tdeeMatrixNote}</p><div className="mt-5 grid gap-3 md:grid-cols-3">{bands.map((item) => <div key={item.key} className="rounded-2xl border p-4 border-slate-200 bg-slate-50"><div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{item.range}</span></div><p className="mt-2 text-sm leading-6 text-slate-700">{l(item.desc, lang)}</p><p className="mt-3 text-2xl font-black text-slate-950">{totalDisplay} <span className="text-sm text-slate-500">pt</span></p></div>)}</div></article>
+        </section>
+        <AdSenseWrapper showAds={true} adSlot="ai-model-comparison-result-intelligence" adFormat="horizontal" className="my-2" />
+        <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-emerald-50 p-6 shadow-sm md:p-7">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p><h2 className="mt-2 text-3xl font-black">{t.turnIntoPlan}</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.conversionNote}</p>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9-Emotion-Upper */}
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.proteinLabel}</div><div className="mt-1 text-3xl font-black">{proteinDisplay}</div></div><div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.dailyGap}</div><div className="mt-1 text-3xl font-black text-blue-950">{result ? fmt(result.monthlyCost, 2) : "—"}</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.weeklyTrend}</div><div className="mt-1 text-3xl font-black text-emerald-950">{result ? fmt(result.valueScore, 1) : "—"}</div></div></div></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.bmrStep, t.deficitStep, t.trendStep, t.mealStep].map((item) => <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
+          </div>
+          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10-Emotion-Lower */}
+            <article className="rounded-3xl border border-slate-200 bg-gradient-to-br from-amber-50 to-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-amber-700">{t.saveShareJourney}</p><h3 className="mt-2 text-2xl font-black">{t.journeyTitle}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{t.journeyHint}</p></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-emerald-700">{t.nextActionLabel}</p><h3 className="mt-2 text-lg font-black">{t.nextActionTitle}</h3><ul className="mt-3 space-y-2"><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">①</span><span>{t.nextActionItem1}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">②</span><span>{t.nextActionItem2}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">③</span><span>{t.nextActionItem3}</span></li></ul><div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2"><button type="button" onClick={() => { if (navigator.clipboard) { navigator.clipboard.writeText(window.location.href); alert(t.shareCopiedToast); } }} className="rounded-2xl bg-slate-950 px-4 py-2 text-xs font-black text-white">{t.shareLinkBtn}</button><button type="button" onClick={() => { const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> }; if (nav.share) nav.share({ title: document.title, url: window.location.href }).catch(() => {}); }} className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700">{t.shareNativeBtn}</button></div></article>
+          </div>
+        </section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.decisionPath}</p><h2 className="mt-2 text-3xl font-black">{t.decisionTitle}</h2><div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">{[{ label: "Price", note: t.bmrStep }, { label: "ValueScore", note: t.deficitStep }, { label: "Quality", note: t.trendStep }, { label: "Tokens", note: t.mealStep }].map((node, index) => <div key={node.label} className="contents"><div className={`rounded-3xl border p-5 text-center ${index === 1 ? "border-emerald-300 bg-emerald-50" : "border-blue-200 bg-blue-50"}`}><div className="text-xs font-black uppercase text-slate-500">{index + 1}</div><div className="mt-1 text-xl font-black">{node.label}</div><p className="mt-2 text-sm leading-6 text-slate-600">{node.note}</p></div>{index < 3 && <div className="hidden text-3xl font-black text-slate-300 md:block">→</div>}</div>)}</div></section>
+        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L12-Knowledge · L13-FAQ */}
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.knowledge}</p><h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.interpretation}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.interpretationText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.context}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.contextText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.example}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.exampleText}</p></div></div></div>
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.faq}</p><h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2><div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div></div>
+        </section>
+        <section aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5"><AdSlot slot="ai-model-comparison-faq" position="inline" /></section>
+        <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]"><section className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.affiliate}</p><h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-4">{affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5 text-center font-black text-emerald-950">{l(item.label, lang)}</a>)}</div><p className="mt-3 text-xs text-emerald-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}</p></section><PremiumGate plan="PRO"><article className="flex h-full flex-col rounded-[2rem] border border-emerald-200 bg-gradient-to-br from-emerald-50 to-indigo-50 p-6 md:p-7"><h2 className="text-3xl font-black text-slate-950">{t.premiumTitle}</h2><p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t.premiumText}</p><div className="mt-5 grid gap-3 md:grid-cols-4">{["LivePricing", "EvalMapping", "LatencyWeight", "HybridRouting"].map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-violet-900 shadow-sm">{item}</div>)}</div></article></PremiumGate></section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.trustReferences}</p><div className="mt-4 grid gap-5 md:grid-cols-3"><div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div><div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.relatedToolsText}</p></div><div><h2 className="text-xl font-black">{t.references}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.referencesText}</p></div></div></section>
+      </div>
+    </main>
+  );
+}
