@@ -6,7 +6,7 @@
 > 即可產出「用戶明天還想回來用」的 A+ 級語言學習工具。
 > 違反任一條款 = 空殼工具 = 零流量 = 供應商扣分。零容忍。
 
-**版本：v1.2（2026-06-06）— 修正附錄A endpoint（rel_anag/rel_col無效）+ 新增§9 Datamuse有效清單**
+**版本：v1.3（2026-06-06）— 新增§10學習四要素鐵律（KK音標/詞類/釋義/例句）+ 執行節奏裁示**
 **適用：所有 Language Hub 工具（LNG-VOC / PHR / GRM / CEF / WRT / AI）**
 **黃金模板：client/src/tools/health/MacroCalculator/index.tsx**
 **上層手冊：docs/A_PLUS_PRODUCTION_MANUAL.md v5.1（仍然有效，本手冊為補充）**
@@ -480,6 +480,109 @@ Language Hub QC：
 
 ---
 
+
+## §10 學習四要素鐵律（Victor裁示，永久生效）
+
+Language Hub 所有工具的每個單字結果卡片，必須同時包含以下四項，缺一不可：
+
+### 四要素規格
+
+```
+① KK音標
+   格式：/trænsˈpɔrt/
+   來源：Datamuse md=r → ipa_pron
+   備用：若API無音標，顯示「/音標整理中/」而非空白
+
+② 詞類
+   格式：名詞 / 動詞 / 形容詞 / 副詞 / 片語動詞
+   來源：Datamuse tags → n/v/adj/adv
+   顯示：繁體中文詞類名稱
+
+③ 釋義（三層優先序）
+   第一層：繁體中文（人工撰寫，優先顯示）
+   第二層：簡體中文(简)（ECDICT自動填補）
+   第三層：英文(EN)（Datamuse defs）
+   禁止：「整理中」佔位符
+
+④ 例句
+   格式：英文例句（黑字）
+         繁體中文翻譯（灰字，較小）
+   來源：人工撰寫或Datamuse defs擷取
+   最低要求：每個單字至少1個例句
+```
+
+### 標準結果卡片模板（v2.0）
+
+```tsx
+<div className="rounded-[2rem] bg-white/80 backdrop-blur p-5 border border-slate-200/60">
+
+  {/* 第一行：單字 + CEFR徽章 */}
+  <div className="flex items-center gap-3 mb-2">
+    <span className="text-2xl font-black text-slate-900">{card.word}</span>
+    {card.cefr && (
+      <span className="text-xs font-black px-2 py-1 rounded-full bg-emerald-100 text-emerald-800">
+        {card.cefr}
+      </span>
+    )}
+  </div>
+
+  {/* 第二行：① KK音標 + ② 詞類 */}
+  <div className="flex items-center gap-3 mb-3">
+    <span className="text-sm text-slate-500 font-mono">
+      {card.ipa ? `/${card.ipa}/` : '/音標整理中/'}
+    </span>
+    <span className="text-sm text-slate-500">
+      {card.pos_zh || card.pos}
+    </span>
+  </div>
+
+  {/* ③ 釋義（三層fallback） */}
+  <p className="text-slate-700 mb-3">
+    {card.zh_tw
+      ? card.zh_tw
+      : card.zh_cn
+        ? <>{card.zh_cn} <span className="text-xs text-slate-400">(简)</span></>
+        : <>{card.meaning_en} <span className="text-xs text-slate-400">(EN)</span></>
+    }
+  </p>
+
+  {/* ④ 例句 */}
+  {card.example_en && (
+    <div className="bg-slate-50 rounded-xl p-3">
+      <p className="text-slate-600 italic text-sm">{card.example_en}</p>
+      {card.example_zh && (
+        <p className="text-slate-500 text-xs mt-1">{card.example_zh}</p>
+      )}
+    </div>
+  )}
+
+</div>
+```
+
+### QC自檢（每支工具推送前必確認）
+
+```
+□ ① KK音標：每個結果卡片顯示音標（或/音標整理中/）？
+□ ② 詞類：每個結果卡片顯示繁體詞類名稱？
+□ ③ 釋義：三層fallback正確運作（繁→簡(简)→英(EN)）？
+□ ③ 釋義：無任何「整理中」佔位符？
+□ ④ 例句：每個結果卡片至少1個例句？
+□ 整體：繁體中文版面無簡體字（目視確認）？
+```
+
+### 執行節奏（Victor裁示 2026-06-06）
+
+```
+首樣通過 → 後續9支一無反顧奮勇直前，不中斷執行
+
+允許暫停的唯三情況：
+① 技術問題無法自行解決
+② 規格不明確需Victor裁示
+③ 發現條件衝突（依§0鐵律發警訊）
+
+其他情況一律不暫停，直到批次完成。
+```
+
 ## 附錄A：10支首批工具技術規格速查
 
 | 編號 | slug | 類型 | 資料要求 | API端點 | 備註 |
@@ -539,7 +642,7 @@ C2：ephemeral/perspicacious/recondite/solipsistic/ineffable
 
 ---
 
-**版本：v1.2（2026-06-06）— 修正附錄A endpoint（rel_anag/rel_col無效）+ 新增§9 Datamuse有效清單**
+**版本：v1.3（2026-06-06）— 新增§10學習四要素鐵律（KK音標/詞類/釋義/例句）+ 執行節奏裁示**
 **制定：Claude品管視窗**
 **授權：Victor**
 **上層手冊：A_PLUS_PRODUCTION_MANUAL.md v5.1（同時有效）**
