@@ -3718,6 +3718,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "collocation-finder",
+    name: "語意搭配查找器",
+    category: "language",
+    path: "/tools/language/collocation-finder",
+    icon: "Languages",
+    description: "輸入一個英文字，立刻找出語意相近、可搭配使用的詞，帶 CEFR 等級、IPA 音標與中文釋義",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3996,3 +4011,4 @@ export const antonymFinder = { id: "antonym-finder", category: "language", name:
 export const rhymeFinder = { id: "rhyme-finder", category: "language", name: "Rhyme Finder", path: "/tools/language/rhyme-finder" };
 export const anagramSolver = { id: "anagram-solver", category: "language", name: "Anagram Solver", path: "/tools/language/anagram-solver" };
 export const wordAssociationFinder = { id: "word-association-finder", category: "language", name: "Word Association Finder", path: "/tools/language/word-association-finder" };
+export const collocationFinder = { id: "collocation-finder", category: "language", name: "Collocation Finder", path: "/tools/language/collocation-finder" };

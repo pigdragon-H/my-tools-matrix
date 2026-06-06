@@ -258,6 +258,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "language/rhyme-finder": lazy(() => import("@/tools/language/RhymeFinder")),
   "language/anagram-solver": lazy(() => import("@/tools/language/AnagramSolver")),
   "language/word-association-finder": lazy(() => import("@/tools/language/WordAssociationFinder")),
+  "language/collocation-finder": lazy(() => import("@/tools/language/CollocationFinder")),
 };
 
 function ToolSkeleton() {
