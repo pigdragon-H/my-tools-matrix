@@ -3088,6 +3088,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "ai-token-cost-calculator",
+    name: "AI Token成本計算機",
+    category: "ai",
+    path: "/tools/ai/ai-token-cost-calculator",
+    icon: "Cpu",
+    description: "AI Token成本計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3324,3 +3339,4 @@ export const luggageWeightCalculator = { id: "luggage-weight-calculator", catego
 export const visaCostCalculator = { id: "visa-cost-calculator", category: "travel", name: "Visa Cost Calculator", path: "/tools/travel/visa-cost-calculator" };
 export const timeZoneDifference = { id: "time-zone-difference", category: "travel", name: "Time Zone Difference", path: "/tools/travel/time-zone-difference" };
 export const flightTimeCalculator = { id: "flight-time-calculator", category: "travel", name: "Flight Time Calculator", path: "/tools/travel/flight-time-calculator" };
+export const aiTokenCostCalculator = { id: "ai-token-cost-calculator", category: "ai", name: "AI Token Cost Calculator", path: "/tools/ai/ai-token-cost-calculator" };

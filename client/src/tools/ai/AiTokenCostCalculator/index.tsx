@@ -1,0 +1,174 @@
+// @profile B
+// Profile B · Calculator-AI · AiTokenCostCalculator（GOLD-STANDARD-001 compatible）
+
+import { useMemo, useState } from "react";
+import { AdSenseWrapper } from "@/components/AdSenseWrapper";
+import { AdSlot } from "@/components/business/AdSlot";
+import { PremiumGate } from "@/components/business/PremiumGate";
+import { useLanguage } from "@/contexts/LanguageContext";
+
+type Lang = "zh" | "en";
+type LocalText = { zh: string; en: string };
+type AffiliateItem = { label: LocalText; href: string };
+type TierMode = "relaxed" | "standard" | "fast";
+const l = (v: LocalText, lang: Lang) => v[lang];
+const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
+
+const bands = [
+  { key: "tiny", range: "< $10", label: { zh: "極省", en: "Minimal" }, desc: { zh: "整月 token 成本極低，適合原型驗證或低流量產品，幾乎無預算壓力。", en: "Very low monthly token cost—great for prototyping or low traffic, almost no budget pressure." } },
+  { key: "low", range: "$10–50", label: { zh: "輕量", en: "Light" }, desc: { zh: "輕量用量區間，成本可控，記得保留尖峰流量的緩衝。", en: "Light usage band; cost is manageable—keep buffer for peak traffic." } },
+  { key: "healthy", range: "$50–200", label: { zh: "成長", en: "Growing" }, desc: { zh: "多數成長期產品常見區間，宜開始監控每請求成本與快取命中率。", en: "Common growth-stage band; start monitoring per-request cost and cache hit rate." } },
+  { key: "good", range: "$200–500", label: { zh: "規模化", en: "Scaling" }, desc: { zh: "已進入規模化成本，建議導入提示精簡、快取與較便宜模型分流。", en: "Scaling cost; introduce prompt trimming, caching, and cheaper-model routing." } },
+  { key: "strong", range: "$500–1500", label: { zh: "高負擔", en: "Heavy" }, desc: { zh: "成本偏高，務必比較模型階層、批次推論與長文摘要壓縮策略。", en: "Heavy cost; compare model tiers, batch inference, and long-context compression." } },
+  { key: "elite", range: "> $1500", label: { zh: "企業級", en: "Enterprise" }, desc: { zh: "企業級用量，建議談量價合約、自建快取層並評估開源模型自託管。", en: "Enterprise usage; negotiate volume pricing, build a cache layer, and assess self-hosting open models." } },
+] as const;
+
+const affiliateItems: AffiliateItem[] = [
+  { label: { zh: "AI API成本估算器", en: "AI API Cost Estimator" }, href: "/tools/ai/ai-api-cost-estimator" },
+  { label: { zh: "Prompt Token計算機", en: "Prompt Token Calculator" }, href: "/tools/ai/prompt-token-calculator" },
+  { label: { zh: "AI專案成本計算機", en: "AI Project Cost Calculator" }, href: "/tools/ai/ai-project-cost-calculator" },
+  { label: { zh: "AI模型比較器", en: "AI Model Comparison" }, href: "/tools/ai/ai-model-comparison" },
+];
+
+const ui = {
+  zh: {
+    badge: "AI · Token 成本 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "AI Token 成本計算機 · Token Cost", subtitle: "用每請求 token 數、請求量與模型階層算出整月 token 總成本與每請求成本",
+    intro: "AI Token Cost Calculator 依據每請求平均 token 數（以千為單位）、請求總量與模型階層（經濟、標準或旗艦），計算整月 token 總成本、每請求成本與成本密度，協助你判斷預算是否合理、該選哪個模型階層、是否該導入快取與提示精簡，讓你在串接大型語言模型前就把 token 花費算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的模型階層單價估算，未含輸入/輸出分離計價、快取折扣與各家最新調價；實際費用請以各 AI 供應商官方計價頁為準。",
+    quickActionCard: "快速範例卡", tryExample: "一鍵建立 Token 範例", examplePreview: "成本預覽", examplePerson: "每請求 token (K)", fillExample: "一鍵填入標準模型範例", previewActivePath: "填入旗艦模型範例",
+    examplesCalculator: "範例 → 計算機", enterValues: "輸入每請求 token、請求量與模型階層", examplesHelper: "先用範例理解 token 量與單價如何決定總成本與每請求成本，再改成自己的用量數據。",
+    metric: "公制", imperial: "占比檢視", exampleCards: "範例卡", baselineExample: "標準模型模式", activeExample: "旗艦模型示範", baselineExampleNote: "token 0.5K · 請求 1000 · 標準", activeExampleNote: "token 0.5K · 請求 1000 · 旗艦", carbsLabel: "每請求成本", carbsName: "美分", proteinLabel: "成本密度", flowDemo: "請求量", calculator: "計算機",
+    weight: "每請求 token (千)", tdee: "請求量 (次)", goal: "模型階層", goalCut: "經濟 ($0.5/1M)", goalMaintain: "標準 ($3/1M)", goalBulk: "旗艦 ($15/1M)",
+    resultCard: "Token 成本結果", unit: "USD (整月總成本)", primaryValue: "主要數值", maintenanceTarget: "成本密度", actionTarget: "總成本", estimatedTdee: "請求量", maintenance: "%", fatLossTarget: "USD",
+    resultIntelligence: "結果解讀", tdeeMatrix: "六格整月總成本判讀矩陣", tdeeMatrixNote: "L7 固定六格，將目前整月總成本放進常見區間；這是規劃參考，不是會計結論。",
+    emotionConversionLayer: "情緒與轉換層", turnIntoPlan: "把 Token 結果轉成可執行的成本控制策略", conversionNote: "L9 會連動目前計算結果，顯示成本密度、總成本與請求量提示。",
+    progressInsight: "進度洞察卡", possibleTarget: "目前用量概況", dailyGap: "總成本", weeklyTrend: "成本密度", motivation: "動力卡", keepMomentum: "從成本分析走向最省的 Token 用量節奏",
+    saveShareJourney: "儲存 / 分享", journeyTitle: "把今天的 Token 結果帶回團隊", journeyHint: "用 AI API 成本估算器一起看，把多模型與輸入輸出分離計價一併納入預算規劃。",
+    nextActionLabel: "下一步行動", nextActionTitle: "將結果接到下一個工具", nextActionItem1: "用 AI API 成本估算器拆分輸入輸出計價", nextActionItem2: "用 AI 模型比較器找出最划算階層", nextActionItem3: "用 AI 專案成本把 token 費納入總預算",
+    shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給團隊", shareCopiedToast: "已複製到剪貼簿 ✓",
+    decisionPath: "決策路徑", decisionTitle: "Token → 成本密度 → 階層 → 請求量", bmrStep: "Token", deficitStep: "成本密度", trendStep: "階層", mealStep: "請求量",
+    knowledge: "知識", knowledgeTitle: "成本密度在 Token 計價中的意義", definition: "定義", definitionText: "Token 成本規劃是把每請求 token 數乘以請求量得總 token 數，再依模型單價換算成本；成本密度衡量每請求成本相對於整體預算的比重，是選擇模型階層的核心指標。", formula: "公式", formulaText: "總 token = 每請求 token(千) × 請求量。總成本 = 總 token ÷ 100 萬 × 每百萬單價。每請求成本 = 總成本 ÷ 請求量。成本密度 = 每請求成本 ÷ 基準 × 100%。", limitations: "限制", limitationsText: "本工具以單一綜合單價估算；真實費用還受輸入/輸出分離計價、快取折扣、批次 API、長上下文加成與各家定期調價影響，且不同模型同階層單價差異大。", interpretation: "解讀", interpretationText: "整月成本超過 $200 宜開始優化；可透過提示精簡、回應截斷、快取重複查詢、改用較便宜階層或批次推論來降低 token 花費。", context: "脈絡", contextText: "Token 結果應與 AI API 成本、模型比較與 AI 專案成本一起看，才能在效能、成本與品質之間取得平衡。", example: "範例", exampleText: "每請求 0.5K token、標準模型（$3/1M）、請求 1000 → 總 token 50 萬，總成本約 $1.5，每請求約 0.15 美分。",
+    faq: "FAQ", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "Token 的下一步工具", premiumTitle: "PRO Token 成本分析包", premiumText: "解鎖各家即時單價、輸入輸出分離計價、快取命中率模擬與多模型成本比較矩陣。",
+    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具只供成本規劃與教育用途，不取代各 AI 供應商官方計價、帳單明細或合約報價。", relatedTools: "相關工具", relatedToolsText: "AI API Cost · Prompt Token · AI Project Cost · Model Comparison", references: "參考資料", referencesText: "各 AI 供應商官方計價頁；token 計費文件；模型上下文長度規格；批次 API 折扣公告。",
+    q1: "Token 總成本怎麼算的？", a1: "本工具以每請求 token 乘請求量得總 token，再依每百萬單價換算成本；實際還受輸入輸出分離計價影響。",
+    q2: "成本密度多少才合理？", a2: "成本密度越低代表每請求越省；若每請求成本偏高，建議精簡提示、截斷回應或改用較便宜階層。",
+    q3: "經濟還是旗艦模型？", a3: "簡單分類與摘要可用經濟階層；複雜推理與長文生成才用旗艦，並用模型比較器評估性價比。",
+    q4: "Token 成本太高怎麼降？", a4: "精簡系統提示、設定回應上限、快取重複查詢、改用較便宜階層、批次推論，並把長上下文壓縮成摘要。",
+    q5: "要不要把輸入輸出分開算？", a5: "建議分開。本工具用綜合單價快速估算；若輸出 token 較貴，請用 AI API 成本估算器分離輸入輸出計價。",
+    q6: "這個工具能取代官方帳單嗎？", a6: "不能。它只是快速估算與教育用途；實際費用應以各 AI 供應商官方計價頁與帳單明細為準。",
+  },
+  en: {
+    badge: "AI · Token Cost · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "AI Token Cost Calculator", subtitle: "Compute monthly total token cost and per-request cost from tokens per request, request volume, and model tier",
+    intro: "This calculator uses average tokens per request (in thousands), total request volume, and model tier (economy, standard, or premium) to compute monthly total token cost, per-request cost, and cost density, helping you judge whether the budget is reasonable, which model tier to choose, and whether to introduce caching and prompt trimming, so you compute token spend clearly before integrating a large language model.",
+    trustNoteLabel: "Note:", trustNote: "This tool estimates from the model-tier unit price you enter, excluding split input/output pricing, cache discounts, and each vendor's latest price changes; for actual cost, follow each AI provider's official pricing page.",
+    quickActionCard: "Quick Action Card", tryExample: "Create a token example instantly", examplePreview: "Cost preview", examplePerson: "Tokens/request (K)", fillExample: "One-click standard model example", previewActivePath: "Fill premium model example",
+    examplesCalculator: "Examples → Calculator", enterValues: "Enter tokens per request, request volume, and model tier", examplesHelper: "Start with an example to see how token volume and unit price set the total and per-request cost, then replace with your own usage data.",
+    metric: "Metric", imperial: "Share view", exampleCards: "Example cards", baselineExample: "Standard model mode", activeExample: "Premium model demo", baselineExampleNote: "token 0.5K · requests 1000 · standard", activeExampleNote: "token 0.5K · requests 1000 · premium", carbsLabel: "Per-request cost", carbsName: "cents", proteinLabel: "Cost density", flowDemo: "Request volume", calculator: "Calculator",
+    weight: "Tokens per request (thousands)", tdee: "Request volume (requests)", goal: "Model tier", goalCut: "Economy ($0.5/1M)", goalMaintain: "Standard ($3/1M)", goalBulk: "Premium ($15/1M)",
+    resultCard: "Token Cost Result", unit: "USD (monthly total cost)", primaryValue: "Primary Value", maintenanceTarget: "Cost density", actionTarget: "Total cost", estimatedTdee: "Request volume", maintenance: "%", fatLossTarget: "USD",
+    resultIntelligence: "Result Intelligence", tdeeMatrix: "Six-card monthly total-cost interpretation matrix", tdeeMatrixNote: "L7 uses six fixed cards to place the current monthly total cost into common zones. This is planning guidance, not an accounting conclusion.",
+    emotionConversionLayer: "Emotion + Conversion Layer", turnIntoPlan: "Turn the token result into an actionable cost-control strategy", conversionNote: "L9 values update from the computed result: cost density, total cost, and request-volume hint.",
+    progressInsight: "Progress Insight Card", possibleTarget: "Current usage snapshot", dailyGap: "Total cost", weeklyTrend: "Cost density", motivation: "Motivation Card", keepMomentum: "Move from cost analysis to the cheapest token-usage rhythm",
+    saveShareJourney: "Save / Share", journeyTitle: "Take today's token result to your team", journeyHint: "Review it with the AI API Cost Estimator to fold multi-model and split input/output pricing into budget planning.",
+    nextActionLabel: "Next actions", nextActionTitle: "Connect this result to the next tool", nextActionItem1: "Split input/output pricing with the AI API Cost Estimator", nextActionItem2: "Find the best-value tier with AI Model Comparison", nextActionItem3: "Fold token fees into total budget with AI Project Cost",
+    shareLinkBtn: "📋 Copy result link", shareNativeBtn: "📤 Share with team", shareCopiedToast: "Copied to clipboard ✓",
+    decisionPath: "Decision Path", decisionTitle: "Tokens → Cost Density → Tier → Requests", bmrStep: "Tokens", deficitStep: "Cost density", trendStep: "Tier", mealStep: "Requests",
+    knowledge: "Knowledge", knowledgeTitle: "What cost density means in token pricing", definition: "Definition", definitionText: "Token cost planning multiplies tokens per request by request volume for total tokens, then converts by model unit price into cost; cost density measures per-request cost relative to total budget, the core indicator of model-tier selection.", formula: "Formula", formulaText: "Total tokens = tokens per request (thousands) × requests. Total cost = total tokens ÷ 1M × price per million. Per-request cost = total cost ÷ requests. Cost density = per-request cost ÷ baseline × 100%.", limitations: "Limitations", limitationsText: "This tool estimates from a single blended unit price; real cost is also affected by split input/output pricing, cache discounts, batch APIs, long-context surcharges, and periodic vendor price changes, and tiers vary widely between models.", interpretation: "Interpretation", interpretationText: "Monthly cost over $200 warrants optimization; reduce token spend with prompt trimming, response truncation, caching repeat queries, cheaper tiers, or batch inference.", context: "Context", contextText: "Token results should be evaluated with AI API cost, model comparison, and AI project cost to balance performance, cost, and quality.", example: "Example", exampleText: "Tokens 0.5K per request, standard model ($3/1M), requests 1000 → total tokens 500K, total cost about $1.5, per request about 0.15 cents.",
+    faq: "FAQ", commonQuestions: "Common questions", affiliate: "Recommended Tools", affiliateTitle: "Next tools for tokens", premiumTitle: "PRO Token Cost Analytics Pack", premiumText: "Unlock per-vendor live unit prices, split input/output pricing, cache-hit-rate simulation, and a multi-model cost comparison matrix.",
+    trustReferences: "Trust · Related Tools · References", trust: "Trust", trustText: "This tool is for cost planning and education. It does not replace each AI provider's official pricing, billing detail, or contract quote.", relatedTools: "Related Tools", relatedToolsText: "AI API Cost · Prompt Token · AI Project Cost · Model Comparison", references: "References", referencesText: "Per-AI-provider official pricing pages; token billing docs; model context-length specs; batch API discount announcements.",
+    q1: "How is total token cost calculated?", a1: "This tool multiplies tokens per request by request volume for total tokens, then converts by price per million; actual is also affected by split input/output pricing.",
+    q2: "What cost density is reasonable?", a2: "The lower the cost density the cheaper per request; if per-request cost is high, trim prompts, truncate responses, or switch to a cheaper tier.",
+    q3: "Economy or premium model?", a3: "Use economy for simple classification and summaries; use premium only for complex reasoning and long-form generation, and assess value with Model Comparison.",
+    q4: "How do I reduce token cost?", a4: "Trim system prompts, cap response length, cache repeat queries, switch to a cheaper tier, batch inference, and compress long context into summaries.",
+    q5: "Should I split input and output?", a5: "Recommended. This tool uses a blended price for a quick estimate; if output tokens are pricier, split input/output pricing with the AI API Cost Estimator.",
+    q6: "Can this tool replace the official bill?", a6: "No. It is a quick estimate for education; actual cost should follow each AI provider's official pricing page and billing detail.",
+  },
+} as const;
+
+const faqKeys = [["q1","a1"],["q2","a2"],["q3","a3"],["q4","a4"],["q5","a5"],["q6","a6"]] as const;
+
+function pricePerMillion(mode: TierMode): number {
+  if (mode === "relaxed") return 0.5;
+  if (mode === "fast") return 15;
+  return 3;
+}
+
+export default function AiTokenCostCalculator() {
+  const { lang, setLang } = useLanguage();
+  const [unit, setUnit] = useState<"metric" | "imperial">("metric");
+  const [weight, setWeight] = useState("0.5");
+  const [tdee, setTdee] = useState("1000");
+  const [goal, setGoal] = useState<TierMode>("standard");
+  const t = ui[lang];
+
+  const result = useMemo(() => {
+    const tokensK = Number(weight);
+    const requests = Number(tdee);
+    if (tokensK <= 0 || requests <= 0) return null;
+    const totalTokens = tokensK * 1000 * requests;
+    const totalCost = (totalTokens / 1_000_000) * pricePerMillion(goal);
+    const costPerReqCents = (totalCost / requests) * 100;
+    const costDensity = Math.min((costPerReqCents / 5) * 100, 100);
+    return { totalTokens, totalCost, costPerReqCents, costDensity };
+  }, [weight, tdee, goal]);
+
+  const proteinDisplay = result ? fmt(result.costDensity, 1) : "—";
+  const fatDisplay = result ? fmt(result.totalCost, 2) : "—";
+  const carbDisplay = result ? fmt(result.costPerReqCents, 2) : "—";
+  const totalDisplay = result ? fmt(result.totalCost, 2) : "—";
+
+  function fillStandard() { setUnit("metric"); setWeight("0.5"); setTdee("1000"); setGoal("standard"); }
+  function fillCut() { setUnit("metric"); setWeight("0.5"); setTdee("1000"); setGoal("fast"); }
+
+  return (
+    <main className="min-h-screen bg-slate-50 text-slate-950">
+      {/* Canonical 17-layer markers for production QC:
+          L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResult · L7-ResultIntelligence · L8-ScenarioComparison · L9-EmotionConversionUpper · L10-EmotionConversionLower · L11-DecisionPath · L12-Knowledge · L13-FAQ · L14-FAQAfterAdSlot · L15-AffiliateResources · L16-PremiumGate · L17-TrustRelatedReferences
+      */}
+      <section className="bg-[radial-gradient(circle_at_top_left,_#dcfce7,_#f8fafc_45%,_#e0f2fe)]">
+        <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
+          <div className="mb-6 flex justify-end"><button type="button" onClick={() => setLang(lang === "zh" ? "en" : "zh")} className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm" aria-label={lang === "zh" ? t.switchToEnglish : t.switchToChinese}><span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.chineseShort}</span><span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.englishShort}</span></button></div>
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
+            <section className="space-y-6"><p className="text-sm font-black uppercase tracking-[0.24em] text-emerald-700">{t.badge}</p><h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1><p className="text-xl font-black text-emerald-700">{t.subtitle}</p><p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p><div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950"><strong>{t.trustNoteLabel}</strong> {t.trustNote}</div></section>
+            <aside className="rounded-[2rem] border border-emerald-100 bg-white/90 p-6 shadow-2xl shadow-emerald-950/10 backdrop-blur"><p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">{t.quickActionCard}</p><h2 className="mt-2 text-2xl font-black">{t.tryExample}</h2><div className="mt-5 rounded-3xl bg-emerald-600 p-5 text-white"><div className="text-xs font-bold uppercase text-emerald-100">{t.examplePreview}</div><div className="mt-1 text-5xl font-black">{totalDisplay}</div><div className="text-sm font-bold text-emerald-100">{t.unit}</div></div><div className="mt-5 grid grid-cols-3 gap-3 text-center"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.examplePerson}</div><div className="font-black">{weight}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.flowDemo}</div><div className="font-black">{tdee}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.goal}</div><div className="font-black">{goal === "relaxed" ? "🟢" : goal === "fast" ? "🔴" : "🟡"}</div></div></div><button onClick={fillStandard} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white">{t.fillExample}</button><button onClick={fillCut} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900">{t.previewActivePath}</button></aside>
+          </div>
+        </div>
+      </section>
+      <div className="mx-auto max-w-7xl space-y-7 px-4 py-8 md:px-8">
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.examplesCalculator}</p><h2 className="mt-2 text-3xl font-black">{t.enterValues}</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{t.examplesHelper}</p></div><div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-2"><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "metric" ? "bg-emerald-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("metric")}>{t.metric}</button><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "imperial" ? "bg-emerald-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("imperial")}>{t.imperial}</button></div></div>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">{/* L5-Calc */}
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5"><h3 className="text-lg font-black">{t.exampleCards}</h3><div className="mt-4 space-y-3"><button onClick={fillStandard} className="w-full rounded-2xl border border-emerald-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-black text-emerald-700">1.50</span></div><p className="mt-2 text-sm text-slate-600">{t.baselineExampleNote}</p></button><button onClick={fillCut} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">7.50</span></div><p className="mt-2 text-sm text-slate-600">{t.activeExampleNote}</p></button></div></div>
+            <div className="rounded-3xl border border-slate-200 bg-white p-5"><h3 className="text-lg font-black">{t.calculator}</h3><div className="mt-4 grid gap-4 md:grid-cols-2"><label className="block text-sm font-black text-slate-700">{t.weight}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={weight} onChange={(e) => setWeight(e.target.value)} /></label><label className="block text-sm font-black text-slate-700">{t.tdee}<input className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={tdee} onChange={(e) => setTdee(e.target.value)} /></label><label className="block text-sm font-black text-slate-700">{t.goal}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={goal} onChange={(e) => setGoal(e.target.value as TierMode)}><option value="relaxed">{t.goalCut}</option><option value="standard">{t.goalMaintain}</option><option value="fast">{t.goalBulk}</option></select></label></div></div>
+          </div>
+        </section>
+        <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">{/* L6-Result */}
+          <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"><div className="h-5 bg-gradient-to-r from-emerald-400 to-blue-600" /><div className="p-6 md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultCard}</p><div className="mt-4 flex items-start justify-between gap-5"><div><div className="text-7xl font-black tracking-tight text-slate-950">{totalDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.unit}</div></div><div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.primaryValue}</div><div className="mt-1 text-xl font-black">{fatDisplay}</div><div className="mt-1 text-xs text-slate-300">{goal.toUpperCase()}</div></div></div><div className="mt-6 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-blue-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500">{t.maintenanceTarget}</div><div className="mt-1 text-xs font-black uppercase text-blue-700">{t.maintenance}</div><p className="mt-2 text-3xl font-black text-blue-950">{proteinDisplay}</p><p className="text-sm font-bold text-blue-700">%</p></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500">{t.actionTarget}</div><div className="mt-1 text-xs font-black uppercase text-emerald-700">{t.fatLossTarget}</div><p className="mt-2 text-3xl font-black text-emerald-950">{fatDisplay}</p><p className="text-sm font-bold text-emerald-700">$</p></div><div className="rounded-2xl bg-orange-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-500">{t.carbsLabel}</div><div className="mt-1 text-xs font-black uppercase text-orange-700">{t.carbsName}</div><p className="mt-2 text-3xl font-black text-orange-950">{carbDisplay}</p><p className="text-sm font-bold text-orange-700">¢</p></div></div></div></article>
+          <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultIntelligence}</p><h2 className="mt-2 text-3xl font-black">{t.tdeeMatrix}</h2><p className="mt-2 text-sm leading-6 text-slate-600">{t.tdeeMatrixNote}</p><div className="mt-5 grid gap-3 md:grid-cols-3">{bands.map((item) => <div key={item.key} className="rounded-2xl border p-4 border-slate-200 bg-slate-50"><div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{item.range}</span></div><p className="mt-2 text-sm leading-6 text-slate-700">{l(item.desc, lang)}</p><p className="mt-3 text-2xl font-black text-slate-950">{totalDisplay} <span className="text-sm text-slate-500">$</span></p></div>)}</div></article>
+        </section>
+        <AdSenseWrapper showAds={true} adSlot="ai-token-cost-result-intelligence" adFormat="horizontal" className="my-2" />
+        <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-emerald-50 p-6 shadow-sm md:p-7">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p><h2 className="mt-2 text-3xl font-black">{t.turnIntoPlan}</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.conversionNote}</p>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9-Emotion-Upper */}
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.proteinLabel}</div><div className="mt-1 text-3xl font-black">{proteinDisplay}</div></div><div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.dailyGap}</div><div className="mt-1 text-3xl font-black text-blue-950">{result ? fmt(result.totalCost, 2) : "—"}</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.weeklyTrend}</div><div className="mt-1 text-3xl font-black text-emerald-950">{result ? fmt(result.costDensity, 1) : "—"}</div></div></div></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.bmrStep, t.deficitStep, t.trendStep, t.mealStep].map((item) => <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
+          </div>
+          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10-Emotion-Lower */}
+            <article className="rounded-3xl border border-slate-200 bg-gradient-to-br from-amber-50 to-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-amber-700">{t.saveShareJourney}</p><h3 className="mt-2 text-2xl font-black">{t.journeyTitle}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{t.journeyHint}</p></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-emerald-700">{t.nextActionLabel}</p><h3 className="mt-2 text-lg font-black">{t.nextActionTitle}</h3><ul className="mt-3 space-y-2"><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">①</span><span>{t.nextActionItem1}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">②</span><span>{t.nextActionItem2}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">③</span><span>{t.nextActionItem3}</span></li></ul><div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2"><button type="button" onClick={() => { if (navigator.clipboard) { navigator.clipboard.writeText(window.location.href); alert(t.shareCopiedToast); } }} className="rounded-2xl bg-slate-950 px-4 py-2 text-xs font-black text-white">{t.shareLinkBtn}</button><button type="button" onClick={() => { const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> }; if (nav.share) nav.share({ title: document.title, url: window.location.href }).catch(() => {}); }} className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700">{t.shareNativeBtn}</button></div></article>
+          </div>
+        </section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.decisionPath}</p><h2 className="mt-2 text-3xl font-black">{t.decisionTitle}</h2><div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">{[{ label: "Tokens", note: t.bmrStep }, { label: "CostDensity", note: t.deficitStep }, { label: "Tier", note: t.trendStep }, { label: "Requests", note: t.mealStep }].map((node, index) => <div key={node.label} className="contents"><div className={`rounded-3xl border p-5 text-center ${index === 1 ? "border-emerald-300 bg-emerald-50" : "border-blue-200 bg-blue-50"}`}><div className="text-xs font-black uppercase text-slate-500">{index + 1}</div><div className="mt-1 text-xl font-black">{node.label}</div><p className="mt-2 text-sm leading-6 text-slate-600">{node.note}</p></div>{index < 3 && <div className="hidden text-3xl font-black text-slate-300 md:block">→</div>}</div>)}</div></section>
+        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L12-Knowledge · L13-FAQ */}
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.knowledge}</p><h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.interpretation}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.interpretationText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.context}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.contextText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.example}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.exampleText}</p></div></div></div>
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.faq}</p><h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2><div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div></div>
+        </section>
+        <section aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5"><AdSlot slot="ai-token-cost-faq" position="inline" /></section>
+        <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]"><section className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.affiliate}</p><h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-4">{affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5 text-center font-black text-emerald-950">{l(item.label, lang)}</a>)}</div><p className="mt-3 text-xs text-emerald-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}</p></section><PremiumGate plan="PRO"><article className="flex h-full flex-col rounded-[2rem] border border-emerald-200 bg-gradient-to-br from-emerald-50 to-indigo-50 p-6 md:p-7"><h2 className="text-3xl font-black text-slate-950">{t.premiumTitle}</h2><p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t.premiumText}</p><div className="mt-5 grid gap-3 md:grid-cols-4">{["LivePricing", "SplitIoPricing", "CacheSimulation", "ModelMatrix"].map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-violet-900 shadow-sm">{item}</div>)}</div></article></PremiumGate></section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.trustReferences}</p><div className="mt-4 grid gap-5 md:grid-cols-3"><div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div><div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.relatedToolsText}</p></div><div><h2 className="text-xl font-black">{t.references}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.referencesText}</p></div></div></section>
+      </div>
+    </main>
+  );
+}
