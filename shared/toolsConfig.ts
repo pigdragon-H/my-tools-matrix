@@ -3118,6 +3118,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "ai-project-cost-calculator",
+    name: "AI專案成本計算機",
+    category: "ai",
+    path: "/tools/ai/ai-project-cost-calculator",
+    icon: "Cpu",
+    description: "AI專案成本計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3356,3 +3371,4 @@ export const timeZoneDifference = { id: "time-zone-difference", category: "trave
 export const flightTimeCalculator = { id: "flight-time-calculator", category: "travel", name: "Flight Time Calculator", path: "/tools/travel/flight-time-calculator" };
 export const aiTokenCostCalculator = { id: "ai-token-cost-calculator", category: "ai", name: "AI Token Cost Calculator", path: "/tools/ai/ai-token-cost-calculator" };
 export const aiApiCostEstimator = { id: "ai-api-cost-estimator", category: "ai", name: "AI API Cost Estimator", path: "/tools/ai/ai-api-cost-estimator" };
+export const aiProjectCostCalculator = { id: "ai-project-cost-calculator", category: "ai", name: "AI Project Cost Calculator", path: "/tools/ai/ai-project-cost-calculator" };
