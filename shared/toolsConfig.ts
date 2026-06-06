@@ -2923,6 +2923,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "fuel-cost-calculator",
+    name: "油費計算機",
+    category: "travel",
+    path: "/tools/travel/fuel-cost-calculator",
+    icon: "Fuel",
+    description: "油費計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3148,3 +3163,4 @@ export const dailyBudgetCalculator = { id: "daily-budget-calculator", category: 
 export const travelPriceComparator = { id: "travel-price-comparator", category: "travel", name: "Travel Price Comparator", path: "/tools/travel/travel-price-comparator" };
 export const currencyTravelConverter = { id: "currency-travel-converter", category: "travel", name: "Travel Currency Converter", path: "/tools/travel/currency-travel-converter" };
 export const purchasingPowerParity = { id: "purchasing-power-parity", category: "travel", name: "Purchasing Power Parity", path: "/tools/travel/purchasing-power-parity" };
+export const fuelCostCalculator = { id: "fuel-cost-calculator", category: "travel", name: "Fuel Cost Calculator", path: "/tools/travel/fuel-cost-calculator" };
