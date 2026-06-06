@@ -209,6 +209,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "travel/road-trip-calculator": lazy(() => import("@/tools/travel/RoadTripCalculator")),
   "travel/jet-lag-calculator": lazy(() => import("@/tools/travel/JetLagCalculator")),
   "travel/altitude-sickness-calculator": lazy(() => import("@/tools/travel/AltitudeSicknessCalculator")),
+  "travel/spf-calculator": lazy(() => import("@/tools/travel/SpfCalculator")),
 };
 
 function ToolSkeleton() {

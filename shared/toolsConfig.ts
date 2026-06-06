@@ -2983,6 +2983,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "spf-calculator",
+    name: "防曬係數計算機",
+    category: "travel",
+    path: "/tools/travel/spf-calculator",
+    icon: "Sun",
+    description: "防曬係數計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3212,3 +3227,4 @@ export const fuelCostCalculator = { id: "fuel-cost-calculator", category: "trave
 export const roadTripCalculator = { id: "road-trip-calculator", category: "travel", name: "Road Trip Calculator", path: "/tools/travel/road-trip-calculator" };
 export const jetLagCalculator = { id: "jet-lag-calculator", category: "travel", name: "Jet Lag Calculator", path: "/tools/travel/jet-lag-calculator" };
 export const altitudeSicknessCalculator = { id: "altitude-sickness-calculator", category: "travel", name: "Altitude Sickness Calculator", path: "/tools/travel/altitude-sickness-calculator" };
+export const spfCalculator = { id: "spf-calculator", category: "travel", name: "SPF Calculator", path: "/tools/travel/spf-calculator" };
