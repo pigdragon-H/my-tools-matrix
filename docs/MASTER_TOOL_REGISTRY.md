@@ -18,11 +18,11 @@
 | Legal 法律 | 0 | 9 | 9 |
 | Design 設計 | 0 | 7 | 7 |
 | Science 科學 | 0 | 15 | 15 |
-| Language 語言 | 0 | 4 | 4 |
+| Language 語言 | 0 | 5 | 5 |
 | E-Commerce 電商 | 0 | 18 | 18 |
 | Travel 旅遊 | 0 | 19 | 19 |
 | AI Tools AI 工具 | 0 | 15 | 15 |
-| **TOTAL** | **100** | **200** | **300** |
+| **TOTAL** | **100** | **201** | **301** |
 
 ---
 
@@ -341,7 +341,7 @@
 | SCI-PHY-004 | `density-calculator` | 密度計算機 | Density Calculator |
 | SCI-PHY-005 | `power-calculator` | 功率計算機 | Power Calculator |
 
-### Language 語言  (+4)
+### Language 語言  (+5)
 
 | ID | slug | 中文名 | English Name |
 |----|------|--------|--------------|
@@ -349,6 +349,7 @@
 | LNG-SEO-001 | `keyword-density-calculator` | 關鍵字密度計算機 | Keyword Density Calculator |
 | LNG-TXT-001 | `readability-analyzer` | 可讀性分析器 | Readability Analyzer |
 | LNG-TXT-002 | `content-quality-scorer` | 內容品質評分器 | Content Quality Scorer |
+| LNG-TXT-003 | `anagram-solver` | 字謎重組器 | Anagram Solver |
 
 ### E-Commerce 電商  (+18)
 
