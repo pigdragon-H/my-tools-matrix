@@ -3643,6 +3643,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "synonym-finder",
+    name: "同義詞查找器",
+    category: "language",
+    path: "/tools/language/synonym-finder",
+    icon: "Languages",
+    description: "輸入一個英文單字，串接 Datamuse 開放語料即時找出真實同義詞，每個結果標註 CEFR 等級、詞性與音節，幫你在口說、寫作、考試挑出最貼切的替換詞。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3916,3 +3931,4 @@ export const idealGasLawCalculator = { id: "ideal-gas-law-calculator", category:
 export const phCalculator = { id: "ph-calculator", category: "science", name: "pH Calculator", path: "/tools/science/ph-calculator" };
 export const heatEnergyCalculator = { id: "heat-energy-calculator", category: "science", name: "Heat Energy Calculator", path: "/tools/science/heat-energy-calculator" };
 export const voltageDropCalculator = { id: "voltage-drop-calculator", category: "science", name: "Voltage Drop Calculator", path: "/tools/science/voltage-drop-calculator" };
+export const synonymFinder = { id: "synonym-finder", category: "language", name: "Synonym Finder", path: "/tools/language/synonym-finder" };

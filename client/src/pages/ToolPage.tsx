@@ -253,6 +253,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "science/ph-calculator": lazy(() => import("@/tools/science/PhCalculator")),
   "science/heat-energy-calculator": lazy(() => import("@/tools/science/HeatEnergyCalculator")),
   "science/voltage-drop-calculator": lazy(() => import("@/tools/science/VoltageDropCalculator")),
+  "language/synonym-finder": lazy(() => import("@/tools/language/SynonymFinder")),
 };
 
 function ToolSkeleton() {
