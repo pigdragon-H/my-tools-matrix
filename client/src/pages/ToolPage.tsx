@@ -233,6 +233,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "ai/ai-implementation-roi": lazy(() => import("@/tools/ai/AiImplementationRoi")),
   "design/color-contrast-ratio-calculator": lazy(() => import("@/tools/design/ColorContrastRatioCalculator")),
   "design/golden-ratio-calculator": lazy(() => import("@/tools/design/GoldenRatioCalculator")),
+  "design/aspect-ratio-calculator": lazy(() => import("@/tools/design/AspectRatioCalculator")),
 };
 
 function ToolSkeleton() {
