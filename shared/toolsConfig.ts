@@ -3658,6 +3658,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "antonym-finder",
+    name: "反義詞查找器",
+    category: "language",
+    path: "/tools/language/antonym-finder",
+    icon: "Languages",
+    description: "輸入一個英文單字，串接 Datamuse 開放語料即時找出真實反義詞，每個結果標註 CEFR 等級、IPA 音標、詞性與繁體中文釋義，並可展開查看英文定義與例句，幫你在口說、寫作、考試中精準對照語義光譜。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3932,3 +3947,4 @@ export const phCalculator = { id: "ph-calculator", category: "science", name: "p
 export const heatEnergyCalculator = { id: "heat-energy-calculator", category: "science", name: "Heat Energy Calculator", path: "/tools/science/heat-energy-calculator" };
 export const voltageDropCalculator = { id: "voltage-drop-calculator", category: "science", name: "Voltage Drop Calculator", path: "/tools/science/voltage-drop-calculator" };
 export const synonymFinder = { id: "synonym-finder", category: "language", name: "Synonym Finder", path: "/tools/language/synonym-finder" };
+export const antonymFinder = { id: "antonym-finder", category: "language", name: "Antonym Finder", path: "/tools/language/antonym-finder" };

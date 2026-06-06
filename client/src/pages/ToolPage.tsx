@@ -254,6 +254,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "science/heat-energy-calculator": lazy(() => import("@/tools/science/HeatEnergyCalculator")),
   "science/voltage-drop-calculator": lazy(() => import("@/tools/science/VoltageDropCalculator")),
   "language/synonym-finder": lazy(() => import("@/tools/language/SynonymFinder")),
+  "language/antonym-finder": lazy(() => import("@/tools/language/AntonymFinder")),
 };
 
 function ToolSkeleton() {
