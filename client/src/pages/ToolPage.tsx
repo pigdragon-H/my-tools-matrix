@@ -217,6 +217,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "travel/time-zone-difference": lazy(() => import("@/tools/travel/TimeZoneDifference")),
   "travel/flight-time-calculator": lazy(() => import("@/tools/travel/FlightTimeCalculator")),
   "ai/ai-token-cost-calculator": lazy(() => import("@/tools/ai/AiTokenCostCalculator")),
+  "ai/ai-api-cost-estimator": lazy(() => import("@/tools/ai/AiApiCostEstimator")),
 };
 
 function ToolSkeleton() {

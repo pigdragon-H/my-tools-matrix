@@ -3103,6 +3103,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "ai-api-cost-estimator",
+    name: "AI API成本估算器",
+    category: "ai",
+    path: "/tools/ai/ai-api-cost-estimator",
+    icon: "Cpu",
+    description: "AI API成本估算器 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3340,3 +3355,4 @@ export const visaCostCalculator = { id: "visa-cost-calculator", category: "trave
 export const timeZoneDifference = { id: "time-zone-difference", category: "travel", name: "Time Zone Difference", path: "/tools/travel/time-zone-difference" };
 export const flightTimeCalculator = { id: "flight-time-calculator", category: "travel", name: "Flight Time Calculator", path: "/tools/travel/flight-time-calculator" };
 export const aiTokenCostCalculator = { id: "ai-token-cost-calculator", category: "ai", name: "AI Token Cost Calculator", path: "/tools/ai/ai-token-cost-calculator" };
+export const aiApiCostEstimator = { id: "ai-api-cost-estimator", category: "ai", name: "AI API Cost Estimator", path: "/tools/ai/ai-api-cost-estimator" };
