@@ -3418,6 +3418,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "unit-converter-calculator",
+    name: "通用單位換算計算機",
+    category: "science",
+    path: "/tools/science/unit-converter-calculator",
+    icon: "FlaskConical",
+    description: "通用單位換算計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3676,3 +3691,4 @@ export const typeScaleCalculator = { id: "type-scale-calculator", category: "des
 export const pxRemConverter = { id: "px-rem-converter", category: "design", name: "PX REM Converter", path: "/tools/design/px-rem-converter" };
 export const gridLayoutCalculator = { id: "grid-layout-calculator", category: "design", name: "Grid Layout Calculator", path: "/tools/design/grid-layout-calculator" };
 export const lineHeightCalculator = { id: "line-height-calculator", category: "design", name: "Line Height Calculator", path: "/tools/design/line-height-calculator" };
+export const unitConverterCalculator = { id: "unit-converter-calculator", category: "science", name: "Unit Converter Calculator", path: "/tools/science/unit-converter-calculator" };
