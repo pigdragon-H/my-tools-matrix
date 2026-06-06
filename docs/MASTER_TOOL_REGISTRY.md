@@ -18,11 +18,11 @@
 | Legal 法律 | 0 | 9 | 9 |
 | Design 設計 | 0 | 7 | 7 |
 | Science 科學 | 0 | 15 | 15 |
-| Language 語言 | 0 | 15 | 15 |
+| Language 語言 | 0 | 50 | 50 |
 | E-Commerce 電商 | 0 | 18 | 18 |
 | Travel 旅遊 | 0 | 19 | 19 |
 | AI Tools AI 工具 | 0 | 15 | 15 |
-| **TOTAL** | **100** | **211** | **311** |
+| **TOTAL** | **100** | **246** | **346** |
 
 ---
 
@@ -341,27 +341,83 @@
 | SCI-PHY-004 | `density-calculator` | 密度計算機 | Density Calculator |
 | SCI-PHY-005 | `power-calculator` | 功率計算機 | Power Calculator |
 
-### Language 語言  (+15)
+### Language 語言  (+50)
 
+**Language Hub — 5大子類**
+
+#### VOC 單字類 (12支)
 | ID | slug | 中文名 | English Name |
 |----|------|--------|--------------|
-| LNG-COS-001 | `translation-cost-calculator` | 翻譯成本計算機 | Translation Cost Calculator |
-| LNG-SEO-001 | `keyword-density-calculator` | 關鍵字密度計算機 | Keyword Density Calculator |
-| LNG-TXT-001 | `readability-analyzer` | 可讀性分析器 | Readability Analyzer |
-| LNG-TXT-002 | `content-quality-scorer` | 內容品質評分器 | Content Quality Scorer |
-| LNG-TXT-003 | `anagram-solver` | 字謎重組器 | Anagram Solver |
-| LNG-TXT-004 | `rhyme-finder` | 押韻字查找器 | Rhyme Finder |
-| LNG-TXT-005 | `word-association-finder` | 單字聯想查找器 | Word Association Finder |
-| LNG-TXT-006 | `synonym-antonym-finder` | 同義反義詞查找器 | Synonym & Antonym Finder |
+| LNG-VOC-001 | `anagram-solver` | 字謎重組器 | Anagram Solver |
+| LNG-VOC-002 | `word-unscrambler` | 單字解碼器 | Word Unscrambler |
+| LNG-VOC-003 | `synonym-finder` | 同義詞查找器 | Synonym Finder |
+| LNG-VOC-004 | `antonym-finder` | 反義詞查找器 | Antonym Finder |
+| LNG-VOC-005 | `rhyme-finder` | 押韻字查找器 | Rhyme Finder |
+| LNG-VOC-006 | `word-association-finder` | 單字聯想查找器 | Word Association Finder |
+| LNG-VOC-007 | `word-family-explorer` | 單字家族探索器 | Word Family Explorer |
+| LNG-VOC-008 | `word-root-analyzer` | 字根分析器 | Word Root Analyzer |
+| LNG-VOC-009 | `vocabulary-dna-engine` | 詞彙DNA引擎 | Vocabulary DNA Engine |
+| LNG-VOC-010 | `collocation-finder` | 詞語搭配查找器 | Collocation Finder |
+| LNG-VOC-011 | `word-frequency-analyzer` | 詞頻分析器 | Word Frequency Analyzer |
+| LNG-VOC-012 | `vocabulary-size-estimator` | 詞彙量估算器 | Vocabulary Size Estimator |
+
+#### PHR 片語類 (8支)
+| ID | slug | 中文名 | English Name |
+|----|------|--------|--------------|
 | LNG-PHR-001 | `phrasal-verb-finder` | 片語動詞查找器 | Phrasal Verb Finder |
-| LNG-PHR-002 | `collocation-finder` | 詞語搭配查找器 | Collocation Finder |
-| LNG-PHR-003 | `idiom-explainer` | 慣用語解析器 | Idiom Explainer |
+| LNG-PHR-002 | `phrasal-verb-quiz` | 片語動詞測驗 | Phrasal Verb Quiz |
+| LNG-PHR-003 | `phrasal-verb-difference` | 片語動詞比較器 | Phrasal Verb Difference |
+| LNG-PHR-004 | `idiom-explainer` | 慣用語解析器 | Idiom Explainer |
+| LNG-PHR-005 | `idiom-quiz` | 慣用語測驗 | Idiom Quiz |
+| LNG-PHR-006 | `preposition-guide` | 介系詞用法指南 | Preposition Guide |
+| LNG-PHR-007 | `connective-words-finder` | 連接詞查找器 | Connective Words Finder |
+| LNG-PHR-008 | `fixed-expression-finder` | 固定表達查找器 | Fixed Expression Finder |
+
+#### GRM 文法類 (8支)
+| ID | slug | 中文名 | English Name |
+|----|------|--------|--------------|
 | LNG-GRM-001 | `syllable-counter` | 音節計算器 | Syllable Counter |
 | LNG-GRM-002 | `spelling-variant-checker` | 拼字變體對照器 | Spelling Variant Checker |
 | LNG-GRM-003 | `plural-tense-generator` | 複數時態生成器 | Plural & Tense Generator |
-| LNG-WRT-001 | `cefr-level-estimator` | CEFR等級估算器 | CEFR Level Estimator |
-| LNG-WRT-002 | `sentence-complexity-scorer` | 句子複雜度評分器 | Sentence Complexity Scorer |
-| LNG-WRT-003 | `word-frequency-analyzer` | 詞頻分析器 | Word Frequency Analyzer |
+| LNG-GRM-004 | `passive-active-converter` | 被動主動語態轉換器 | Passive Active Converter |
+| LNG-GRM-005 | `sentence-type-analyzer` | 句型分析器 | Sentence Type Analyzer |
+| LNG-GRM-006 | `punctuation-guide` | 標點符號指南 | Punctuation Guide |
+| LNG-GRM-007 | `irregular-verb-finder` | 不規則動詞查找器 | Irregular Verb Finder |
+| LNG-GRM-008 | `article-usage-checker` | 冠詞用法查核器 | Article Usage Checker |
+
+#### CEF 檢定類 (8支)
+| ID | slug | 中文名 | English Name |
+|----|------|--------|--------------|
+| LNG-CEF-001 | `cefr-level-estimator` | CEFR等級估算器 | CEFR Level Estimator |
+| LNG-CEF-002 | `vocabulary-level-checker` | 詞彙難度檢測器 | Vocabulary Level Checker |
+| LNG-CEF-003 | `ielts-vocabulary-analyzer` | 雅思詞彙分析器 | IELTS Vocabulary Analyzer |
+| LNG-CEF-004 | `toefl-vocabulary-analyzer` | 托福詞彙分析器 | TOEFL Vocabulary Analyzer |
+| LNG-CEF-005 | `toeic-score-estimator` | 多益分數估算器 | TOEIC Score Estimator |
+| LNG-CEF-006 | `reading-level-analyzer` | 閱讀難度分析器 | Reading Level Analyzer |
+| LNG-CEF-007 | `text-complexity-scorer` | 文本複雜度評分器 | Text Complexity Scorer |
+| LNG-CEF-008 | `exam-readiness-checker` | 考試準備度評估器 | Exam Readiness Checker |
+
+#### WRT 寫作類 (8支)
+| ID | slug | 中文名 | English Name |
+|----|------|--------|--------------|
+| LNG-WRT-001 | `readability-analyzer` | 可讀性分析器 | Readability Analyzer |
+| LNG-WRT-002 | `content-quality-scorer` | 內容品質評分器 | Content Quality Scorer |
+| LNG-WRT-003 | `sentence-complexity-scorer` | 句子複雜度評分器 | Sentence Complexity Scorer |
+| LNG-WRT-004 | `academic-word-checker` | 學術用字檢查器 | Academic Word Checker |
+| LNG-WRT-005 | `business-email-optimizer` | 商務郵件優化器 | Business Email Optimizer |
+| LNG-WRT-006 | `transition-words-finder` | 過渡詞查找器 | Transition Words Finder |
+| LNG-WRT-007 | `word-choice-improver` | 用字改善建議器 | Word Choice Improver |
+| LNG-WRT-008 | `essay-word-counter` | 作文字數計算器 | Essay Word Counter |
+
+#### AI AI學習類 (6支)
+| ID | slug | 中文名 | English Name |
+|----|------|--------|--------------|
+| LNG-AI-001 | `translation-cost-calculator` | 翻譯成本計算機 | Translation Cost Calculator |
+| LNG-AI-002 | `keyword-density-calculator` | 關鍵字密度計算機 | Keyword Density Calculator |
+| LNG-AI-003 | `language-learning-calculator` | 語言學習計算機 | Language Learning Calculator |
+| LNG-AI-004 | `language-roi-calculator` | 語言學習投報率 | Language Learning ROI Calculator |
+| LNG-AI-005 | `study-plan-generator` | 英語學習計畫生成器 | Study Plan Generator |
+| LNG-AI-006 | `language-proficiency-converter` | 語言能力對照轉換器 | Language Proficiency Converter |
 
 ### E-Commerce 電商  (+18)
 
