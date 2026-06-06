@@ -3508,6 +3508,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "speed-distance-time-calculator",
+    name: "速度距離時間計算機",
+    category: "science",
+    path: "/tools/science/speed-distance-time-calculator",
+    icon: "FlaskConical",
+    description: "速度距離時間計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3772,3 +3787,4 @@ export const kineticEnergyCalculator = { id: "kinetic-energy-calculator", catego
 export const ohmsLawCalculator = { id: "ohms-law-calculator", category: "science", name: "Ohms Law Calculator", path: "/tools/science/ohms-law-calculator" };
 export const densityCalculator = { id: "density-calculator", category: "science", name: "Density Calculator", path: "/tools/science/density-calculator" };
 export const molarityCalculator = { id: "molarity-calculator", category: "science", name: "Molarity Calculator", path: "/tools/science/molarity-calculator" };
+export const speedDistanceTimeCalculator = { id: "speed-distance-time-calculator", category: "science", name: "Speed Distance Time Calculator", path: "/tools/science/speed-distance-time-calculator" };
