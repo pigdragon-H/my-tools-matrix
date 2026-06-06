@@ -2968,6 +2968,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "altitude-sickness-calculator",
+    name: "高山症風險計算機",
+    category: "travel",
+    path: "/tools/travel/altitude-sickness-calculator",
+    icon: "Mountain",
+    description: "高山症風險計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3196,3 +3211,4 @@ export const purchasingPowerParity = { id: "purchasing-power-parity", category: 
 export const fuelCostCalculator = { id: "fuel-cost-calculator", category: "travel", name: "Fuel Cost Calculator", path: "/tools/travel/fuel-cost-calculator" };
 export const roadTripCalculator = { id: "road-trip-calculator", category: "travel", name: "Road Trip Calculator", path: "/tools/travel/road-trip-calculator" };
 export const jetLagCalculator = { id: "jet-lag-calculator", category: "travel", name: "Jet Lag Calculator", path: "/tools/travel/jet-lag-calculator" };
+export const altitudeSicknessCalculator = { id: "altitude-sickness-calculator", category: "travel", name: "Altitude Sickness Calculator", path: "/tools/travel/altitude-sickness-calculator" };
