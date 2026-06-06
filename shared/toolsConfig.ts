@@ -3268,6 +3268,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "automation-savings-calculator",
+    name: "自動化節省計算機",
+    category: "ai",
+    path: "/tools/ai/automation-savings-calculator",
+    icon: "Cpu",
+    description: "自動化節省計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3516,3 +3531,4 @@ export const modelLatencyCalculator = { id: "model-latency-calculator", category
 export const aiErrorRateCalculator = { id: "ai-error-rate-calculator", category: "ai", name: "AI Error Rate Calculator", path: "/tools/ai/ai-error-rate-calculator" };
 export const promptRoiCalculator = { id: "prompt-roi-calculator", category: "ai", name: "Prompt ROI Calculator", path: "/tools/ai/prompt-roi-calculator" };
 export const aiRoiCalculator = { id: "ai-roi-calculator", category: "ai", name: "AI ROI Calculator", path: "/tools/ai/ai-roi-calculator" };
+export const automationSavingsCalculator = { id: "automation-savings-calculator", category: "ai", name: "Automation Savings Calculator", path: "/tools/ai/automation-savings-calculator" };
