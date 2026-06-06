@@ -268,6 +268,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "language/scrabble-word-checker": lazy(() => import("@/tools/language/ScrabbleWordChecker")),
   "language/hangman-solver": lazy(() => import("@/tools/language/HangmanSolver")),
   "language/word-root-analyzer": lazy(() => import("@/tools/language/WordRootAnalyzer")),
+  "language/irregular-verb-finder": lazy(() => import("@/tools/language/IrregularVerbFinder")),
 };
 
 function ToolSkeleton() {

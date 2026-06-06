@@ -3868,6 +3868,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "irregular-verb-finder",
+    name: "不規則動詞查找器",
+    category: "language",
+    path: "/tools/language/irregular-verb-finder",
+    icon: "Repeat",
+    description: "輸入英文動詞，查找它的不規則變化（原形、過去式、過去分詞），附上繁中釋義與例句，內建 150 筆常用不規則動詞，純前端即時查詢。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4156,3 +4171,4 @@ export const wordFinder = { id: "word-finder", category: "language", name: "Word
 export const scrabbleWordChecker = { id: "scrabble-word-checker", category: "language", name: "Scrabble Word Checker", path: "/tools/language/scrabble-word-checker" };
 export const hangmanSolver = { id: "hangman-solver", category: "language", name: "Hangman Solver", path: "/tools/language/hangman-solver" };
 export const wordRootAnalyzer = { id: "word-root-analyzer", category: "language", name: "Word Root Analyzer", path: "/tools/language/word-root-analyzer" };
+export const irregularVerbFinder = { id: "irregular-verb-finder", category: "language", name: "Irregular Verb Finder", path: "/tools/language/irregular-verb-finder" };
