@@ -1,7 +1,8 @@
 // @profile B
 // Profile B · Language-Hub A-class (Datamuse rel_syn) · SynonymFinder（GOLD-STANDARD MacroCalculator compatible）
+// v2 修復：1) 音節→IPA音標(/rɛndər/)  2) 真實中文釋義(內建CEFR-J/ECDICT詞庫)  3) CEFR分層改用權威詞表(B1/B2完整覆蓋)
 
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { AdSlot } from "@/components/business/AdSlot";
 import { PremiumGate } from "@/components/business/PremiumGate";
@@ -16,12 +17,7 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 // ============================================================
 // Language Hub Datamuse 標準模板 v1.0（MANUAL §2a 完整照抄）
 // ============================================================
-interface DatamuseWord {
-  word: string;
-  score?: number;
-  tags?: string[];
-  numSyllables?: number;
-}
+interface DatamuseWord { word: string; score?: number; tags?: string[]; numSyllables?: number }
 const CACHE_PREFIX = "fu_lng_cache_";
 const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 小時
 
@@ -29,62 +25,79 @@ async function queryDatamuse(endpoint: string, maxResults = 20): Promise<Datamus
   const cacheKey = CACHE_PREFIX + btoa(endpoint).slice(0, 50);
   try {
     const cached = localStorage.getItem(cacheKey);
-    if (cached) {
-      const { data, timestamp } = JSON.parse(cached);
-      if (Date.now() - timestamp < CACHE_TTL) return data as DatamuseWord[];
-    }
+    if (cached) { const { data, timestamp } = JSON.parse(cached); if (Date.now() - timestamp < CACHE_TTL) return data as DatamuseWord[]; }
   } catch { /* 快取讀取失敗，繼續查 API */ }
   try {
-    const res = await fetch(
-      `https://api.datamuse.com/words?${endpoint}&md=psrf&max=${maxResults}`,
-      { signal: AbortSignal.timeout(5000) },
-    );
+    const res = await fetch(`https://api.datamuse.com/words?${endpoint}&md=psrf&max=${maxResults}`, { signal: AbortSignal.timeout(5000) });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data: DatamuseWord[] = await res.json();
-    try {
-      localStorage.setItem(cacheKey, JSON.stringify({ data, timestamp: Date.now() }));
-    } catch { /* 快取寫入失敗，不影響結果 */ }
+    try { localStorage.setItem(cacheKey, JSON.stringify({ data, timestamp: Date.now() })); } catch { /* 快取寫入失敗，不影響結果 */ }
     return data;
-  } catch {
-    return null; // null = 觸發降級 UI
-  }
+  } catch { return null; } // null = 觸發降級 UI
 }
 
 // ============================================================
-// CEFR 啟發式：以 Datamuse 頻率值 (f: 每百萬字出現次數) 推估等級
+// 內建 CEFR + 中文釋義 + IPA 詞庫（CEFR-J ver1.5 + Octanove C1/C2 + ECDICT，懶載入）
+//   形態：{ word: [cefr, zh, ipa] }
 // ============================================================
+type DictEntry = string[]; // [cefr, zh, ipa]
+let DICT: Record<string, DictEntry> | null = null;
+let dictLoading: Promise<void> | null = null;
+function loadDict(): Promise<void> {
+  if (DICT) return Promise.resolve();
+  if (dictLoading) return dictLoading;
+  dictLoading = import("./cefrDict.json").then((m) => { DICT = ((m as { default?: unknown }).default ?? m) as Record<string, DictEntry>; });
+  return dictLoading;
+}
+
+// ARPABET（Datamuse md=r 的 pron:）→ 美式 IPA，輸出 /rɛndər/ 格式
+const ARP_IPA: Record<string, string> = {
+  AA: "ɑ", AE: "æ", AH: "ʌ", AO: "ɔ", AW: "aʊ", AY: "aɪ", B: "b", CH: "tʃ", D: "d", DH: "ð",
+  EH: "ɛ", ER: "ər", EY: "eɪ", F: "f", G: "ɡ", HH: "h", IH: "ɪ", IY: "i", JH: "dʒ", K: "k",
+  L: "l", M: "m", N: "n", NG: "ŋ", OW: "oʊ", OY: "ɔɪ", P: "p", R: "r", S: "s", SH: "ʃ",
+  T: "t", TH: "θ", UH: "ʊ", UW: "u", V: "v", W: "w", Y: "j", Z: "z", ZH: "ʒ",
+};
+function arpabetToIpa(pron: string): string {
+  if (!pron) return "";
+  const phones = pron.trim().split(/\s+/);
+  let primary = -1;
+  phones.forEach((p, i) => { if (p.endsWith("1")) primary = i; });
+  let out = "";
+  phones.forEach((p, i) => { const b = p.replace(/[0-9]/g, ""); if (i === primary) out += "ˈ"; out += ARP_IPA[b] || ""; });
+  return out ? `/${out}/` : "";
+}
+// ECDICT phonetic 補上斜線
+function normIpa(raw: string): string {
+  if (!raw) return "";
+  const s = raw.trim();
+  if (!s) return "";
+  return s.startsWith("/") ? s : `/${s}/`;
+}
+
+// CEFR 啟發式（僅用於詞庫未收錄的罕見字）：以 Datamuse 詞頻 f 推估
 function freqToCefr(f: number): Cefr {
   if (!Number.isFinite(f) || f <= 0) return null;
-  if (f >= 50) return "A1";
-  if (f >= 10) return "A2";
-  if (f >= 3) return "B1";
-  if (f >= 1) return "B2";
-  if (f >= 0.3) return "C1";
-  return "C2";
+  if (f >= 50) return "A1"; if (f >= 10) return "A2"; if (f >= 3) return "B1";
+  if (f >= 1) return "B2"; if (f >= 0.3) return "C1"; return "C2";
 }
 const posMap: Record<string, LocalText> = {
-  n: { zh: "名詞", en: "noun" },
-  v: { zh: "動詞", en: "verb" },
-  adj: { zh: "形容詞", en: "adjective" },
-  adv: { zh: "副詞", en: "adverb" },
-  u: { zh: "其他", en: "other" },
+  n: { zh: "名詞", en: "noun" }, v: { zh: "動詞", en: "verb" },
+  adj: { zh: "形容詞", en: "adjective" }, adv: { zh: "副詞", en: "adverb" }, u: { zh: "其他", en: "other" },
 };
-function parseTags(tags: string[] | undefined): { pos: string; freq: number } {
-  let pos = "u";
-  let freq = 0;
+function parseTags(tags: string[] | undefined): { pos: string; freq: number; pron: string } {
+  let pos = "u", freq = 0, pron = "";
   (tags || []).forEach((tg) => {
     if (tg === "n" || tg === "v" || tg === "adj" || tg === "adv") { if (pos === "u") pos = tg; }
     else if (tg.startsWith("f:")) freq = Number(tg.slice(2));
+    else if (tg.startsWith("pron:")) pron = tg.slice(5).trim();
   });
-  return { pos, freq };
+  return { pos, freq, pron };
 }
 
 type ResultCard = {
-  word: string;
-  cefr: Cefr;
-  posKey: string;
-  syllables: number;
-  freq: number;
+  word: string; cefr: Cefr; posKey: string; freq: number; ipa: string; meaningZh: string;
+  // lazy enrichment (例句 via dictionaryapi.dev)
+  exampleEn?: string; defEn?: string; enriched?: boolean;
 };
 
 const cefrColor: Record<string, string> = {
@@ -92,7 +105,6 @@ const cefrColor: Record<string, string> = {
   B1: "bg-sky-100 text-sky-800", B2: "bg-sky-100 text-sky-800",
   C1: "bg-violet-100 text-violet-800", C2: "bg-violet-100 text-violet-800",
 };
-
 const HOT_WORDS = ["happy", "important", "beautiful", "difficult", "increase", "help"] as const;
 
 const cefrBands = [
@@ -114,67 +126,86 @@ const affiliateItems: AffiliateItem[] = [
 const ui = {
   zh: {
     badge: "語言 · 詞彙擴充 · Language Hub", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
-    title: "同義詞查找器 · Synonym Finder", subtitle: "輸入一個英文字，立刻找出帶 CEFR 等級與詞性的同義詞",
-    intro: "Synonym Finder 串接 Datamuse 開放語料 API（rel_syn），輸入任何英文單字即可取得真實同義詞清單，每個結果都標註 CEFR 難度等級、詞性與音節數，幫你在口說、寫作、考試中挑出最貼切的替換詞。",
-    trustNoteLabel: "資料來源：", trustNote: "同義詞來自 Datamuse（彙整 WordNet 等開放語料）；CEFR 等級依詞頻啟發式推估，僅供學習參考，非官方檢定結果。",
+    title: "同義詞查找器 · Synonym Finder", subtitle: "輸入一個英文字，立刻找出帶 CEFR 等級、IPA 音標與中文釋義的同義詞",
+    intro: "Synonym Finder 串接 Datamuse 開放語料 API（rel_syn），並內建 CEFR-J 與 ECDICT 開源詞庫。輸入任何英文單字即可取得真實同義詞清單，每個結果都標註 CEFR 難度等級、IPA 音標、詞性與中文釋義，並可展開查看英文釋義與例句，幫你在口說、寫作、考試中挑出最貼切的替換詞。",
+    trustNoteLabel: "資料來源：", trustNote: "同義詞來自 Datamuse（彙整 WordNet）；CEFR 等級以 CEFR-J 與 Octanove 權威詞表對照，IPA 與中文釋義取自 ECDICT 開源詞典；例句來自 Free Dictionary API。僅供學習參考。",
     quickActionCard: "快速查詢卡", tryExample: "一鍵查 happy 的同義詞", examplePreview: "找到的同義詞數", examplePerson: "查詢字", fillExample: "查 happy 的同義詞", previewActivePath: "查 important 的同義詞",
-    examplesCalculator: "範例 → 查詢", enterValues: "輸入英文單字", examplesHelper: "先用熱門範例了解 CEFR 等級與詞性如何呈現，再換成你自己想查的單字。",
+    examplesCalculator: "範例 → 查詢", enterValues: "輸入英文單字", examplesHelper: "先用熱門範例了解 CEFR 等級、IPA 音標與中文釋義如何呈現，再換成你自己想查的單字。",
     queryBtn: "查詢同義詞", clearBtn: "清除", hotWords: "熱門查詢", inputPlaceholder: "輸入英文單字，例如 happy",
     loading: "查詢中…", emptyHint: "輸入上方單字並按「查詢同義詞」，結果會列在這裡。", noResult: "查無同義詞，換個更常見的單字試試。",
     fallbackTitle: "查詢暫時無法使用", fallbackBody: "網路連線問題，請稍後再試。常用結果已儲存在本機快取中。",
-    resultCard: "同義詞結果", unit: "個同義詞", primaryValue: "查詢字", syllableLabel: "音節", freqLabel: "詞頻",
-    resultIntelligence: "結果解讀", levelMatrix: "六級 CEFR 同義詞解讀矩陣", levelMatrixNote: "L7 將同義詞依 CEFR 等級分層，A1 最常用、C2 最罕見；挑替換詞時對照你的目標讀者程度。",
+    resultCard: "同義詞結果", unit: "個同義詞", primaryValue: "查詢字", ipaLabel: "音標", meaningLabel: "釋義", expandHint: "展開看例句", collapseHint: "收合", exampleLabel: "例句", enLoading: "載入例句中…", noExample: "查無例句，建議造句練習。",
+    resultIntelligence: "結果解讀", levelMatrix: "六級 CEFR 同義詞解讀矩陣", levelMatrixNote: "L7 將同義詞依 CEFR 等級分層，以 CEFR-J 權威詞表對照，A1 最常用、C2 最罕見；挑替換詞時對照你的目標讀者程度。",
     scenarioLayer: "使用場景", scenarioTitle: "什麼時候該換同義詞", scenarioNote: "L8 列出四個典型場景，把同義詞用在對的地方，而不是為換而換。",
     scenarioExam: "考試寫作", scenarioExamNote: "避免重複用字，挑 B2/C1 同義詞展現詞彙廣度。", scenarioWriting: "正式書寫", scenarioWritingNote: "報告與郵件選語氣貼切、CEFR 適中的詞。", scenarioDaily: "日常口語", scenarioDailyNote: "選 A1/A2 同義詞，自然好懂不做作。", scenarioBusiness: "商務溝通", scenarioBusinessNote: "選精準專業的詞，避免太口語或太冷僻。",
-    progressInsight: "學習洞察卡", possibleTarget: "本次查詢", dailyGap: "最常用等級", weeklyTrend: "平均音節", motivation: "動力卡", keepMomentum: "從查同義詞走向主動擴充詞彙",
+    progressInsight: "學習洞察卡", possibleTarget: "本次查詢", dailyGap: "最常用等級", weeklyTrend: "已分級比例", motivation: "動力卡", keepMomentum: "從查同義詞走向主動擴充詞彙",
     saveShareJourney: "儲存 / 分享", journeyTitle: "把今天學到的同義詞帶回家", journeyHint: "挑 2–3 個你會真正用到的同義詞造句，比死背 20 個更有效。",
     nextActionLabel: "下一步行動", nextActionTitle: "把同義詞接到下一個工具", nextActionItem1: "用反義詞查找器補齊對立詞，理解語義光譜", nextActionItem2: "用 CEFR 等級估算確認難度是否符合你的程度", nextActionItem3: "用字根分析器理解詞義從何而來，記得更牢",
     shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給朋友", shareCopiedToast: "已複製到剪貼簿 ✓",
     decisionPath: "學習路徑", decisionTitle: "輸入 → 查詢 → 理解 → 應用", step1: "輸入單字", step2: "查同義詞", step3: "看 CEFR", step4: "造句應用",
-    knowledge: "知識", knowledgeTitle: "同義詞在英語學習中的意義", definition: "定義", definitionText: "同義詞（synonym）是意義相近、可在特定語境互相替換的字；但很少完全等義，語氣與搭配常有差異。", usage: "用法", usageText: "查到同義詞後，先看詞性與 CEFR 等級，再確認語氣是否合適。例如 happy 的同義詞 content 偏「滿足」、joyful 偏「歡欣」，並不能無腦互換。", limitations: "限制", limitationsText: "Datamuse 的同義詞依語料統計，可能含罕見或古語；CEFR 等級為詞頻啟發式推估，與官方 Cambridge 分級可能有出入。", interpretation: "解讀", interpretationText: "A1/A2 同義詞適合口語與初學；B1/B2 適合考試與寫作；C1/C2 雖然亮眼，用錯場合反而生硬。", context: "脈絡", contextText: "同義詞查詢應與反義詞、字根、CEFR 估算一起用，建立完整的語義網絡而非孤立記單字。", example: "範例", exampleText: "查 important → 得到 significant(B1)、crucial(B2)、vital(B2)、paramount(C1)；寫學術報告時 crucial 比 important 更精準有力。",
+    knowledge: "知識", knowledgeTitle: "同義詞在英語學習中的意義", definition: "定義", definitionText: "同義詞（synonym）是意義相近、可在特定語境互相替換的字；但很少完全等義，語氣與搭配常有差異。", usage: "用法", usageText: "查到同義詞後，先看 IPA 音標、詞性與 CEFR 等級，讀懂中文釋義，再確認語氣是否合適。例如 happy 的同義詞 content 偏「滿足」、joyful 偏「歡欣」，並不能無腦互換。", limitations: "限制", limitationsText: "Datamuse 的同義詞依語料統計，可能含罕見或古語；CEFR 等級以 CEFR-J/Octanove 詞表為主，詞表未收錄者改用詞頻啟發式推估，與官方 Cambridge 分級可能有出入。", interpretation: "解讀", interpretationText: "A1/A2 同義詞適合口語與初學；B1/B2 適合考試與寫作；C1/C2 雖然亮眼，用錯場合反而生硬。", context: "脈絡", contextText: "同義詞查詢應與反義詞、字根、CEFR 估算一起用，建立完整的語義網絡而非孤立記單字。", example: "範例", exampleText: "查 important → 得到 significant(A2)、crucial(B2)、vital(B2)、essential(B1)；寫學術報告時 crucial 比 important 更精準有力。",
     faq: "FAQ", commonQuestions: "常見問題", affiliate: "相關工具", affiliateTitle: "詞彙擴充的下一步工具", premiumTitle: "PRO 詞彙擴充包", premiumText: "解鎖無限查詢、依 CEFR 等級篩選結果、自動記錄學習歷史，並把單字表匯出複習。",
     feat1: "無限查詢次數", feat2: "難度等級篩選", feat3: "學習歷史記錄", feat4: "單字表匯出",
-    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具僅供英語學習與詞彙擴充用途；CEFR 等級為啟發式推估，不等同官方語言檢定結果。", relatedTools: "相關工具", relatedToolsText: "Antonym Finder · Rhyme Finder · Word Root Analyzer · CEFR Level Estimator", references: "參考資料", referencesText: "Datamuse API（rel_syn，彙整 WordNet 等開放語料）；Cambridge English CEFR 詞彙分級概念；CMU Pronouncing Dictionary 音節資料。",
-    q1: "這些同義詞可以直接互換嗎？", a1: "不一定。同義詞意義相近但語氣與搭配常不同，建議先看 CEFR 等級與詞性，再確認語境是否合適。",
-    q2: "CEFR 等級是怎麼判斷的？", a2: "本工具依 Datamuse 提供的詞頻啟發式推估：越常用等級越低（A1），越罕見等級越高（C2）。這是學習參考，非官方檢定。",
+    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具僅供英語學習與詞彙擴充用途；CEFR 等級以 CEFR-J/Octanove 權威詞表對照，詞表未收錄者為啟發式推估，不等同官方語言檢定結果。", relatedTools: "相關工具", relatedToolsText: "Antonym Finder · Rhyme Finder · Word Root Analyzer · CEFR Level Estimator", references: "參考資料", referencesText: "Datamuse API（rel_syn，彙整 WordNet）；CEFR-J Wordlist v1.5（Tono Lab, TUFS）；Octanove C1/C2 Vocabulary Profile（CC BY-SA 4.0）；ECDICT 開源英漢詞典（IPA 與中文釋義）；Free Dictionary API（例句）。",
+    q1: "這些同義詞可以直接互換嗎？", a1: "不一定。同義詞意義相近但語氣與搭配常不同，建議先看 IPA 音標、中文釋義、CEFR 等級與詞性，再確認語境是否合適。",
+    q2: "CEFR 等級是怎麼判斷的？", a2: "優先以 CEFR-J 與 Octanove 權威詞表對照；詞表未收錄的罕見字才改用 Datamuse 詞頻啟發式推估。這是學習參考，非官方檢定。",
     q3: "為什麼有些字查不到同義詞？", a3: "罕見字、專有名詞或拼錯的字可能沒有同義詞資料。換成更常見的基本字通常就有結果。",
-    q4: "查詢需要連網嗎？", a4: "需要連網查 Datamuse；不過查過的結果會在本機快取 24 小時，離線時仍可看到常用查詢。",
+    q4: "音標和中文釋義從哪來？", a4: "IPA 音標與中文釋義取自 ECDICT 開源英漢詞典（內建 2 萬餘字）；詞庫未收錄者改以 Datamuse 音標即時轉換 IPA。例句來自 Free Dictionary API。",
     q5: "結果為什麼有時不一樣？", a5: "Datamuse 依語料統計動態排序，且我們已過濾極罕見結果，因此排序可能隨時間略有變化。",
     q6: "適合準備雅思托福嗎？", a6: "適合。挑 B2/C1 同義詞替換常見字能展現詞彙廣度，但務必確認語境與搭配正確，避免生硬堆砌。",
   },
   en: {
     badge: "Language · Vocabulary · Language Hub", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
-    title: "Synonym Finder", subtitle: "Type one English word and get synonyms tagged with CEFR level and part of speech",
-    intro: "Synonym Finder calls the open Datamuse corpus API (rel_syn). Enter any English word to get a real synonym list, where each result is tagged with a CEFR difficulty level, part of speech, and syllable count, helping you pick the most fitting replacement for speaking, writing, and exams.",
-    trustNoteLabel: "Data source:", trustNote: "Synonyms come from Datamuse (built on WordNet and other open corpora); CEFR levels are estimated heuristically by word frequency, for study reference only, not an official assessment.",
+    title: "Synonym Finder", subtitle: "Type one English word and get synonyms with CEFR level, IPA, and Chinese gloss",
+    intro: "Synonym Finder calls the open Datamuse corpus API (rel_syn) and ships a built-in CEFR-J and ECDICT open dictionary. Enter any English word to get a real synonym list, where each result is tagged with a CEFR difficulty level, IPA transcription, part of speech, and Chinese gloss, expandable to show an English definition and example sentence, helping you pick the most fitting replacement for speaking, writing, and exams.",
+    trustNoteLabel: "Data source:", trustNote: "Synonyms come from Datamuse (built on WordNet); CEFR levels are matched against the CEFR-J and Octanove authoritative wordlists; IPA and Chinese glosses come from the open ECDICT dictionary; examples come from the Free Dictionary API. For study reference only.",
     quickActionCard: "Quick Query Card", tryExample: "Find synonyms for happy", examplePreview: "Synonyms found", examplePerson: "Query word", fillExample: "Find synonyms for happy", previewActivePath: "Find synonyms for important",
-    examplesCalculator: "Examples → Query", enterValues: "Enter an English word", examplesHelper: "Start with a popular example to see how CEFR level and part of speech appear, then swap in the word you want to look up.",
+    examplesCalculator: "Examples → Query", enterValues: "Enter an English word", examplesHelper: "Start with a popular example to see how CEFR level, IPA, and Chinese gloss appear, then swap in the word you want to look up.",
     queryBtn: "Find synonyms", clearBtn: "Clear", hotWords: "Popular queries", inputPlaceholder: "Type an English word, e.g. happy",
     loading: "Searching…", emptyHint: "Enter a word above and press Find synonyms; results will appear here.", noResult: "No synonyms found, try a more common word.",
     fallbackTitle: "Query temporarily unavailable", fallbackBody: "Network issue, please try again later. Common results are cached locally.",
-    resultCard: "Synonym Results", unit: "synonyms", primaryValue: "Query word", syllableLabel: "Syllables", freqLabel: "Frequency",
-    resultIntelligence: "Result Intelligence", levelMatrix: "Six-level CEFR synonym matrix", levelMatrixNote: "L7 groups synonyms by CEFR level, with A1 most common and C2 rarest; match the level to your target reader when choosing a replacement.",
+    resultCard: "Synonym Results", unit: "synonyms", primaryValue: "Query word", ipaLabel: "IPA", meaningLabel: "Gloss", expandHint: "Show example", collapseHint: "Collapse", exampleLabel: "Example", enLoading: "Loading example…", noExample: "No example found; try writing your own.",
+    resultIntelligence: "Result Intelligence", levelMatrix: "Six-level CEFR synonym matrix", levelMatrixNote: "L7 groups synonyms by CEFR level using the authoritative CEFR-J wordlist, with A1 most common and C2 rarest; match the level to your target reader when choosing a replacement.",
     scenarioLayer: "Use scenarios", scenarioTitle: "When to swap in a synonym", scenarioNote: "L8 lists four typical scenarios so you use synonyms in the right place, not just for the sake of changing words.",
     scenarioExam: "Exam writing", scenarioExamNote: "Avoid repetition; pick B2/C1 synonyms to show vocabulary range.", scenarioWriting: "Formal writing", scenarioWritingNote: "Pick words with the right tone and a moderate CEFR level for reports and emails.", scenarioDaily: "Daily speech", scenarioDailyNote: "Choose A1/A2 synonyms that sound natural and easy.", scenarioBusiness: "Business communication", scenarioBusinessNote: "Pick precise professional words, avoiding the too casual or too obscure.",
-    progressInsight: "Learning Insight Card", possibleTarget: "This query", dailyGap: "Most common level", weeklyTrend: "Avg syllables", motivation: "Motivation Card", keepMomentum: "Move from looking up synonyms to actively expanding vocabulary",
+    progressInsight: "Learning Insight Card", possibleTarget: "This query", dailyGap: "Most common level", weeklyTrend: "Graded ratio", motivation: "Motivation Card", keepMomentum: "Move from looking up synonyms to actively expanding vocabulary",
     saveShareJourney: "Save / Share", journeyTitle: "Take today's synonyms home", journeyHint: "Make sentences with 2–3 synonyms you will actually use; it beats memorizing 20 at once.",
     nextActionLabel: "Next actions", nextActionTitle: "Connect synonyms to the next tool", nextActionItem1: "Use Antonym Finder to add opposites and understand the semantic spectrum", nextActionItem2: "Use CEFR Level Estimator to confirm the difficulty fits your level", nextActionItem3: "Use Word Root Analyzer to see where the meaning comes from and remember it better",
     shareLinkBtn: "📋 Copy result link", shareNativeBtn: "📤 Share with friends", shareCopiedToast: "Copied to clipboard ✓",
     decisionPath: "Learning Path", decisionTitle: "Input → Query → Understand → Apply", step1: "Type a word", step2: "Find synonyms", step3: "Read CEFR", step4: "Use in a sentence",
-    knowledge: "Knowledge", knowledgeTitle: "What synonyms mean in English learning", definition: "Definition", definitionText: "A synonym is a word with a similar meaning that can replace another in a given context; but they are rarely exactly equivalent, often differing in tone and collocation.", usage: "Usage", usageText: "After finding a synonym, check its part of speech and CEFR level first, then confirm the tone fits. For example, happy's synonyms content leans toward 'satisfied' and joyful toward 'cheerful'; they cannot be swapped blindly.", limitations: "Limitations", limitationsText: "Datamuse synonyms are corpus-statistical and may include rare or archaic words; CEFR levels are a frequency heuristic and may differ from official Cambridge grading.", interpretation: "Interpretation", interpretationText: "A1/A2 synonyms suit speech and beginners; B1/B2 suit exams and writing; C1/C2 look impressive but feel stiff if used in the wrong place.", context: "Context", contextText: "Synonym lookup should be used with antonyms, word roots, and CEFR estimation to build a full semantic network rather than memorizing words in isolation.", example: "Example", exampleText: "Search important → get significant(B1), crucial(B2), vital(B2), paramount(C1); in an academic report, crucial is more precise and forceful than important.",
+    knowledge: "Knowledge", knowledgeTitle: "What synonyms mean in English learning", definition: "Definition", definitionText: "A synonym is a word with a similar meaning that can replace another in a given context; but they are rarely exactly equivalent, often differing in tone and collocation.", usage: "Usage", usageText: "After finding a synonym, check its IPA, part of speech, and CEFR level, read the Chinese gloss, then confirm the tone fits. For example, happy's synonyms content leans toward 'satisfied' and joyful toward 'cheerful'; they cannot be swapped blindly.", limitations: "Limitations", limitationsText: "Datamuse synonyms are corpus-statistical and may include rare or archaic words; CEFR levels primarily use the CEFR-J/Octanove wordlists, falling back to a frequency heuristic for unlisted words, which may differ from official Cambridge grading.", interpretation: "Interpretation", interpretationText: "A1/A2 synonyms suit speech and beginners; B1/B2 suit exams and writing; C1/C2 look impressive but feel stiff if used in the wrong place.", context: "Context", contextText: "Synonym lookup should be used with antonyms, word roots, and CEFR estimation to build a full semantic network rather than memorizing words in isolation.", example: "Example", exampleText: "Search important → get significant(A2), crucial(B2), vital(B2), essential(B1); in an academic report, crucial is more precise and forceful than important.",
     faq: "FAQ", commonQuestions: "Common questions", affiliate: "Related Tools", affiliateTitle: "Next tools for vocabulary expansion", premiumTitle: "PRO Vocabulary Pack", premiumText: "Unlock unlimited queries, filter results by CEFR level, auto-log study history, and export wordlists for review.",
     feat1: "Unlimited queries", feat2: "Level filter", feat3: "Study history", feat4: "Export wordlist",
-    trustReferences: "Trust · Related Tools · References", trust: "Trust", trustText: "This tool is for English learning and vocabulary expansion only; CEFR levels are a heuristic estimate and do not equal an official language assessment.", relatedTools: "Related Tools", relatedToolsText: "Antonym Finder · Rhyme Finder · Word Root Analyzer · CEFR Level Estimator", references: "References", referencesText: "Datamuse API (rel_syn, built on WordNet and other open corpora); Cambridge English CEFR vocabulary grading concept; CMU Pronouncing Dictionary syllable data.",
-    q1: "Can these synonyms be swapped directly?", a1: "Not always. Synonyms are close in meaning but often differ in tone and collocation; check the CEFR level and part of speech first, then confirm the context fits.",
-    q2: "How is the CEFR level decided?", a2: "This tool estimates it heuristically from the word frequency Datamuse provides: more common means a lower level (A1), rarer means a higher level (C2). It is study reference, not an official assessment.",
+    trustReferences: "Trust · Related Tools · References", trust: "Trust", trustText: "This tool is for English learning and vocabulary expansion only; CEFR levels are matched against the CEFR-J/Octanove wordlists, with a heuristic estimate for unlisted words, and do not equal an official language assessment.", relatedTools: "Related Tools", relatedToolsText: "Antonym Finder · Rhyme Finder · Word Root Analyzer · CEFR Level Estimator", references: "References", referencesText: "Datamuse API (rel_syn, built on WordNet); CEFR-J Wordlist v1.5 (Tono Lab, TUFS); Octanove C1/C2 Vocabulary Profile (CC BY-SA 4.0); ECDICT open EN-ZH dictionary (IPA and Chinese gloss); Free Dictionary API (examples).",
+    q1: "Can these synonyms be swapped directly?", a1: "Not always. Synonyms are close in meaning but often differ in tone and collocation; check the IPA, Chinese gloss, CEFR level, and part of speech first, then confirm the context fits.",
+    q2: "How is the CEFR level decided?", a2: "It is matched first against the CEFR-J and Octanove authoritative wordlists; only rare words not in the lists fall back to a Datamuse frequency heuristic. It is study reference, not an official assessment.",
     q3: "Why do some words return no synonyms?", a3: "Rare words, proper nouns, or misspellings may have no synonym data. Switching to a more common base word usually returns results.",
-    q4: "Does the query need internet?", a4: "It needs the internet to query Datamuse; however, queried results are cached locally for 24 hours, so common queries still show offline.",
+    q4: "Where do the IPA and Chinese gloss come from?", a4: "IPA and Chinese glosses come from the open ECDICT EN-ZH dictionary (over 20k words built in); unlisted words convert the Datamuse pronunciation to IPA on the fly. Examples come from the Free Dictionary API.",
     q5: "Why are results sometimes different?", a5: "Datamuse ranks dynamically by corpus statistics, and we filter out the rarest results, so the order may shift slightly over time.",
     q6: "Is it good for IELTS or TOEFL prep?", a6: "Yes. Swapping common words for B2/C1 synonyms shows vocabulary range, but always confirm the context and collocation are correct to avoid stiff word-stuffing.",
   },
 } as const;
 
 const faqKeys = [["q1", "a1"], ["q2", "a2"], ["q3", "a3"], ["q4", "a4"], ["q5", "a5"], ["q6", "a6"]] as const;
+
+// dictionaryapi.dev — 取英文釋義 + 例句（懶載入，快取）
+async function fetchExample(word: string): Promise<{ defEn: string; exampleEn: string } | null> {
+  const cacheKey = CACHE_PREFIX + "def_" + btoa(word).slice(0, 40);
+  try { const c = localStorage.getItem(cacheKey); if (c) { const { data, timestamp } = JSON.parse(c); if (Date.now() - timestamp < CACHE_TTL) return data; } } catch { /* ignore */ }
+  try {
+    const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`, { signal: AbortSignal.timeout(5000) });
+    if (!res.ok) throw new Error("no def");
+    const arr = await res.json();
+    let defEn = "", exampleEn = "";
+    for (const m of arr[0]?.meanings || []) {
+      for (const d of m.definitions || []) { if (!defEn) defEn = d.definition || ""; if (d.example) { exampleEn = d.example; break; } }
+      if (exampleEn) break;
+    }
+    const data = { defEn, exampleEn };
+    try { localStorage.setItem(cacheKey, JSON.stringify({ data, timestamp: Date.now() })); } catch { /* ignore */ }
+    return data;
+  } catch { return null; }
+}
 
 export default function SynonymFinder() {
   const { lang, setLang } = useLanguage();
@@ -184,41 +215,59 @@ export default function SynonymFinder() {
   const [cards, setCards] = useState<ResultCard[]>([]);
   const [apiResult, setApiResult] = useState<DatamuseWord[] | null | undefined>(undefined);
   const [loading, setLoading] = useState(false);
+  const [expanded, setExpanded] = useState<string | null>(null);
+
+  useEffect(() => { loadDict(); }, []);
 
   const runQuery = useCallback(async (rawWord: string) => {
     const word = rawWord.trim().toLowerCase();
     if (!word) return;
     setLoading(true);
     setQueryWord(word);
-    const data = await queryDatamuse(`rel_syn=${encodeURIComponent(word)}`, 20);
+    setExpanded(null);
+    await loadDict();
+    const data = await queryDatamuse(`rel_syn=${encodeURIComponent(word)}`, 24);
     setApiResult(data ?? null);
     if (data) {
       const mapped: ResultCard[] = data
         .filter((d) => d.word && !d.word.includes(" "))
         .map((d) => {
-          const { pos, freq } = parseTags(d.tags);
-          return { word: d.word, cefr: freqToCefr(freq), posKey: pos, syllables: d.numSyllables ?? 0, freq };
+          const { pos, freq, pron } = parseTags(d.tags);
+          const dict = DICT ? DICT[d.word.toLowerCase()] : undefined;
+          const cefr: Cefr = dict && dict[0] ? (dict[0] as Cefr) : freqToCefr(freq);
+          const ipa = dict && dict[2] ? normIpa(dict[2]) : arpabetToIpa(pron);
+          const meaningZh = dict && dict[1] ? dict[1] : "";
+          return { word: d.word, cefr, posKey: pos, freq, ipa, meaningZh };
         })
-        .filter((c) => c.freq >= 0.02) // 過濾極罕見/無頻雜訊
+        .filter((c) => c.freq >= 0.02)
         .slice(0, 18);
       setCards(mapped);
-    } else {
-      setCards([]);
-    }
+    } else { setCards([]); }
     setLoading(false);
   }, []);
 
+  const toggleExpand = useCallback(async (word: string) => {
+    if (expanded === word) { setExpanded(null); return; }
+    setExpanded(word);
+    setCards((prev) => prev.map((c) => c.word === word && !c.enriched ? { ...c, enriched: false } : c));
+    const card = cards.find((c) => c.word === word);
+    if (card && card.exampleEn === undefined) {
+      const ex = await fetchExample(word);
+      setCards((prev) => prev.map((c) => c.word === word ? { ...c, exampleEn: ex?.exampleEn || "", defEn: ex?.defEn || "", enriched: true } : c));
+    }
+  }, [expanded, cards]);
+
   function fillStandard() { setInput("happy"); runQuery("happy"); }
   function fillCut() { setInput("important"); runQuery("important"); }
-  function clearAll() { setInput(""); setQueryWord(""); setCards([]); setApiResult(undefined); }
+  function clearAll() { setInput(""); setQueryWord(""); setCards([]); setApiResult(undefined); setExpanded(null); }
 
   const stats = useMemo(() => {
     if (cards.length === 0) return null;
     const levelCount: Record<string, number> = {};
-    let syllSum = 0;
-    cards.forEach((c) => { if (c.cefr) levelCount[c.cefr] = (levelCount[c.cefr] || 0) + 1; syllSum += c.syllables; });
+    let graded = 0;
+    cards.forEach((c) => { if (c.cefr) { levelCount[c.cefr] = (levelCount[c.cefr] || 0) + 1; graded += 1; } });
     const topLevel = Object.entries(levelCount).sort((a, b) => b[1] - a[1])[0];
-    return { count: cards.length, topLevel: topLevel ? topLevel[0] : "—", avgSyll: (syllSum / cards.length).toFixed(1) };
+    return { count: cards.length, topLevel: topLevel ? topLevel[0] : "—", gradedPct: Math.round((graded / cards.length) * 100) };
   }, [cards]);
 
   const countDisplay = stats ? String(stats.count) : "—";
@@ -239,7 +288,7 @@ export default function SynonymFinder() {
           <div className="mb-6 flex justify-end"><button type="button" onClick={() => setLang(lang === "zh" ? "en" : "zh")} className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm" aria-label={lang === "zh" ? t.switchToEnglish : t.switchToChinese}><span className={`rounded-full px-3 py-1 ${lang === "zh" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.chineseShort}</span><span className={`rounded-full px-3 py-1 ${lang === "en" ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>{t.englishShort}</span></button></div>
           <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
             <section className="space-y-6"><p className="text-sm font-black uppercase tracking-[0.24em] text-emerald-700">{t.badge}</p><h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1><p className="text-xl font-black text-emerald-700">{t.subtitle}</p><p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p><div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950"><strong>{t.trustNoteLabel}</strong> {t.trustNote}</div></section>
-            <aside className="rounded-[2rem] border border-emerald-100 bg-white/90 p-6 shadow-2xl shadow-emerald-950/10 backdrop-blur"><p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">{t.quickActionCard}</p><h2 className="mt-2 text-2xl font-black">{t.tryExample}</h2><div className="mt-5 rounded-3xl bg-emerald-600 p-5 text-white"><div className="text-xs font-bold uppercase text-emerald-100">{t.examplePreview}</div><div className="mt-1 text-5xl font-black">{countDisplay}</div><div className="text-sm font-bold text-emerald-100">{t.unit}</div></div><div className="mt-5 grid grid-cols-3 gap-3 text-center"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.examplePerson}</div><div className="font-black">{queryWord || "—"}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.dailyGap}</div><div className="font-black">{stats ? stats.topLevel : "—"}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.weeklyTrend}</div><div className="font-black">{stats ? stats.avgSyll : "—"}</div></div></div><button onClick={fillStandard} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white">{t.fillExample}</button><button onClick={fillCut} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900">{t.previewActivePath}</button></aside>
+            <aside className="rounded-[2rem] border border-emerald-100 bg-white/90 p-6 shadow-2xl shadow-emerald-950/10 backdrop-blur"><p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">{t.quickActionCard}</p><h2 className="mt-2 text-2xl font-black">{t.tryExample}</h2><div className="mt-5 rounded-3xl bg-emerald-600 p-5 text-white"><div className="text-xs font-bold uppercase text-emerald-100">{t.examplePreview}</div><div className="mt-1 text-5xl font-black">{countDisplay}</div><div className="text-sm font-bold text-emerald-100">{t.unit}</div></div><div className="mt-5 grid grid-cols-3 gap-3 text-center"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.examplePerson}</div><div className="font-black">{queryWord || "—"}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.dailyGap}</div><div className="font-black">{stats ? stats.topLevel : "—"}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.weeklyTrend}</div><div className="font-black">{stats ? `${stats.gradedPct}%` : "—"}</div></div></div><button onClick={fillStandard} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white">{t.fillExample}</button><button onClick={fillCut} className="mt-3 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-sm font-black text-orange-900">{t.previewActivePath}</button></aside>
           </div>
         </div>
       </section>
@@ -261,7 +310,16 @@ export default function SynonymFinder() {
               )}
               {!loading && apiResult !== null && apiResult !== undefined && cards.length === 0 && <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center text-sm text-slate-500">{t.noResult}</div>}
               {!loading && cards.map((card) => (
-                <div key={card.word} className="rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur"><div className="flex items-center gap-3"><span className="text-xl font-black text-slate-900">{card.word}</span>{card.cefr && <span className={`rounded-full px-2 py-1 text-xs font-black ${cefrColor[card.cefr]}`}>{card.cefr}</span>}<span className="text-xs font-black text-slate-500">{l(posMap[card.posKey] || posMap.u, lang)}</span></div><div className="mt-2 flex gap-4 text-xs font-black text-slate-500"><span>{t.syllableLabel}: <b className="font-black text-slate-700">{card.syllables || "—"}</b></span><span>{t.freqLabel}: <b className="font-black text-slate-700">{card.freq.toFixed(2)}</b></span></div></div>
+                <div key={card.word} className="rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur">
+                  <div className="flex flex-wrap items-center gap-3"><span className="text-xl font-black text-slate-900">{card.word}</span>{card.cefr && <span className={`rounded-full px-2 py-1 text-xs font-black ${cefrColor[card.cefr]}`}>{card.cefr}</span>}<span className="text-xs font-black text-slate-500">{l(posMap[card.posKey] || posMap.u, lang)}</span>{card.ipa && <span className="font-mono text-sm text-slate-600">{card.ipa}</span>}</div>
+                  {card.meaningZh && <p className="mt-2 text-sm leading-6 text-slate-700"><span className="font-black text-slate-400">{t.meaningLabel}：</span>{card.meaningZh}</p>}
+                  <button type="button" onClick={() => toggleExpand(card.word)} className="mt-2 text-xs font-black text-emerald-700">{expanded === card.word ? t.collapseHint : `▸ ${t.expandHint}`}</button>
+                  {expanded === card.word && (
+                    <div className="mt-2 rounded-xl bg-slate-50 p-3">
+                      {card.exampleEn === undefined ? <p className="text-xs font-black text-slate-400">{t.enLoading}</p> : card.exampleEn ? (<><p className="text-sm italic text-slate-600">{card.exampleEn}</p>{card.defEn && <p className="mt-1 text-xs text-slate-500">{card.defEn}</p>}</>) : (card.defEn ? <p className="text-xs text-slate-500">{card.defEn}</p> : <p className="text-xs text-slate-400">{t.noExample}</p>)}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           </div></article>
@@ -274,7 +332,7 @@ export default function SynonymFinder() {
         </section>
         <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-emerald-50 p-6 shadow-sm md:p-7">
           <div className="grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9-Emotion-Upper */}
-            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.unit}</div><div className="mt-1 text-3xl font-black">{countDisplay}</div></div><div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.dailyGap}</div><div className="mt-1 text-3xl font-black text-blue-950">{stats ? stats.topLevel : "—"}</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.weeklyTrend}</div><div className="mt-1 text-3xl font-black text-emerald-950">{stats ? stats.avgSyll : "—"}</div></div></div></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.unit}</div><div className="mt-1 text-3xl font-black">{countDisplay}</div></div><div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.dailyGap}</div><div className="mt-1 text-3xl font-black text-blue-950">{stats ? stats.topLevel : "—"}</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.weeklyTrend}</div><div className="mt-1 text-3xl font-black text-emerald-950">{stats ? `${stats.gradedPct}%` : "—"}</div></div></div></article>
             <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.step1, t.step2, t.step3, t.step4].map((item) => <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
           </div>
           <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10-Emotion-Lower */}
