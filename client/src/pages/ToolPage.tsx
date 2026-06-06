@@ -215,6 +215,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "travel/luggage-weight-calculator": lazy(() => import("@/tools/travel/LuggageWeightCalculator")),
   "travel/visa-cost-calculator": lazy(() => import("@/tools/travel/VisaCostCalculator")),
   "travel/time-zone-difference": lazy(() => import("@/tools/travel/TimeZoneDifference")),
+  "travel/flight-time-calculator": lazy(() => import("@/tools/travel/FlightTimeCalculator")),
 };
 
 function ToolSkeleton() {

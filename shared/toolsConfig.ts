@@ -3073,6 +3073,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "flight-time-calculator",
+    name: "飛行時間計算機",
+    category: "travel",
+    path: "/tools/travel/flight-time-calculator",
+    icon: "Plane",
+    description: "飛行時間計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -3308,3 +3323,4 @@ export const vaccineScheduleCalculator = { id: "vaccine-schedule-calculator", ca
 export const luggageWeightCalculator = { id: "luggage-weight-calculator", category: "travel", name: "Luggage Weight Calculator", path: "/tools/travel/luggage-weight-calculator" };
 export const visaCostCalculator = { id: "visa-cost-calculator", category: "travel", name: "Visa Cost Calculator", path: "/tools/travel/visa-cost-calculator" };
 export const timeZoneDifference = { id: "time-zone-difference", category: "travel", name: "Time Zone Difference", path: "/tools/travel/time-zone-difference" };
+export const flightTimeCalculator = { id: "flight-time-calculator", category: "travel", name: "Flight Time Calculator", path: "/tools/travel/flight-time-calculator" };
