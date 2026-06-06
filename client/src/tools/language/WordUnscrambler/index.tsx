@@ -1,7 +1,7 @@
 // @profile B
 // Profile B · Language-Hub 自建演算法 · WordUnscrambler（GOLD-STANDARD MacroCalculator compatible）
-// 字謎重組器：Victor 正式裁示授權自建「字母指紋」演算法（rel_anag= 經實測無效，回傳[]）。
-//   原理：輸入字母排序成指紋 → 掃內建 cefrDict（22,499 字）找同指紋字 → 直接取 [cefr,zh_tw,zh_cn,ipa]
+// 字母重組器：Victor 正式裁示授權（選項B）自建「字母子集」重組演算法。
+//   原理：輸入字母當字母池 → 掃內建 cefrDict（22,499 字）找字母為子集（部分或全部）的字 → 直接取 [cefr,zh_tw,zh_cn,ipa]
 //   純前端、不依賴 Datamuse 主清單；三層中文釋義(繁體優先→ECDICT簡體標「简」→英文定義標EN) + ARPABET→IPA 全照 gold 範本。
 
 import { useMemo, useState, useCallback, useEffect } from "react";
@@ -29,7 +29,7 @@ const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 小時
 
 // ============================================================
 // 內建 CEFR + 繁體中文釋義 + IPA 詞庫（CEFR-J ver1.5 + Octanove + ECDICT，懶載入）
-//   形態：{ word: [cefr, zh_tw, zh_cn, ipa] } — 同時充當 anagram 字典（22,499 字）
+//   形態：{ word: [cefr, zh_tw, zh_cn, ipa] } — 同時充當子集重組字典（22,499 字）
 // ============================================================
 type DictEntry = string[]; // [cefr, zh_tw, zh_cn, ipa]
 let DICT: Record<string, DictEntry> | null = null;
@@ -42,24 +42,38 @@ function loadDict(): Promise<void> {
 }
 
 // ============================================================
-// 自建字母指紋 anagram 演算法（Victor 正式裁示授權）
-//   fingerprint("listen") === fingerprint("silent") === "eilnst"
+// 自建「字母子集」重組演算法（Victor 正式裁示授權 · 選項B）
+//   正規 Word Unscrambler：找出可用「部分或全部」輸入字母組成的所有單字
+//   例：輸入 abecotr → acrobat(7)/cobra(5)/cater(5)/trace(5)/bore(4)/ace(3)…
+//   與 Anagram Solver 的差異：Anagram 必須用盡全部字母；本工具允許子集。
 // ============================================================
-function fingerprint(word: string): string {
-  return word.toLowerCase().replace(/[^a-z]/g, "").split("").sort().join("");
+// 字母計數簽章：把單字壓成 26 維字母計數陣列，用於子集判斷
+function letterCount(word: string): Int8Array | null {
+  const c = new Int8Array(26);
+  for (const ch of word) {
+    const i = ch.charCodeAt(0) - 97;
+    if (i < 0 || i > 25) return null;
+    c[i]++;
+  }
+  return c;
 }
-// 指紋索引：第一次查詢時對整本字典建一次，之後 O(1) 取群組
-let FP_INDEX: Map<string, string[]> | null = null;
-function buildFingerprintIndex(): void {
-  if (FP_INDEX || !DICT) return;
-  const idx = new Map<string, string[]>();
+// 預先把字典壓成 {word, count} 清單，第一次查詢時建一次
+let WORD_INDEX: { word: string; count: Int8Array }[] | null = null;
+function buildWordIndex(): void {
+  if (WORD_INDEX || !DICT) return;
+  const list: { word: string; count: Int8Array }[] = [];
   for (const w of Object.keys(DICT)) {
     if (!/^[a-z]+$/.test(w)) continue; // 只收純小寫英文字
-    const fp = fingerprint(w);
-    const arr = idx.get(fp);
-    if (arr) arr.push(w); else idx.set(fp, [w]);
+    if (w.length < 3) continue; // 3 字母起算（單字母 a/I 不列）
+    const count = letterCount(w);
+    if (count) list.push({ word: w, count });
   }
-  FP_INDEX = idx;
+  WORD_INDEX = list;
+}
+// 關鍵：確認單字字母是 input 字母池的子集（部分或全部）
+function isSubset(wordCount: Int8Array, pool: Int8Array): boolean {
+  for (let i = 0; i < 26; i++) { if (wordCount[i] > pool[i]) return false; }
+  return true;
 }
 
 // ARPABET → 美式 IPA（dict 未帶 IPA 時的 fallback；本支主要直接讀 dict[3]）
@@ -126,15 +140,15 @@ const cefrColor: Record<string, string> = {
   B1: "bg-sky-100 text-sky-800", B2: "bg-sky-100 text-sky-800",
   C1: "bg-violet-100 text-violet-800", C2: "bg-violet-100 text-violet-800",
 };
-const HOT_WORDS = ["listen", "elbow", "stop", "angel", "earth", "night"] as const;
+const HOT_WORDS = ["abecotr", "trample", "stationed", "letters", "garden", "planets"] as const;
 
 const cefrBands = [
   { key: "A1", label: { zh: "A1 入門", en: "A1 Beginner" }, desc: { zh: "最常用的短字重組，玩字謎的首選答案。", en: "Most frequent short rearrangements; best puzzle answers." } },
-  { key: "A2", label: { zh: "A2 基礎", en: "A2 Elementary" }, desc: { zh: "常見的同字母異序字，足以應付一般字謎。", en: "Common anagrams for everyday word games." } },
+  { key: "A2", label: { zh: "A2 基礎", en: "A2 Elementary" }, desc: { zh: "常見的短組字，足以應付一般拼字遊戲。", en: "Common short words for everyday word games." } },
   { key: "B1", label: { zh: "B1 中級", en: "B1 Intermediate" }, desc: { zh: "讓 Scrabble 拿高分的中階重組字。", en: "Mid-level rearrangements that score well in Scrabble." } },
-  { key: "B2", label: { zh: "B2 中高", en: "B2 Upper-Inter" }, desc: { zh: "進階字謎與填字遊戲常見的重組字。", en: "Advanced anagrams common in crosswords." } },
-  { key: "C1", label: { zh: "C1 高級", en: "C1 Advanced" }, desc: { zh: "精準、罕用的高階重組字。", en: "Precise, less-common high-level anagrams." } },
-  { key: "C2", label: { zh: "C2 精通", en: "C2 Proficiency" }, desc: { zh: "罕見而典雅，重組字謎的隱藏答案。", en: "Rare and elegant; hidden anagram answers." } },
+  { key: "B2", label: { zh: "B2 中高", en: "B2 Upper-Inter" }, desc: { zh: "進階填字遊戲常見的中長組字。", en: "Medium words common in crosswords." } },
+  { key: "C1", label: { zh: "C1 高級", en: "C1 Advanced" }, desc: { zh: "精準、罕用的高階長組字。", en: "Precise, less-common high-level long words." } },
+  { key: "C2", label: { zh: "C2 精通", en: "C2 Proficiency" }, desc: { zh: "罕見而典雅，Scrabble 的隱藏高分答案。", en: "Rare and elegant; hidden high-scoring words." } },
 ] as const;
 
 const affiliateItems: AffiliateItem[] = [
@@ -147,15 +161,15 @@ const affiliateItems: AffiliateItem[] = [
 const ui = {
   zh: {
     badge: "語言 · 字母重組 · Language Hub", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
-    title: "字母重組器 · Word Unscrambler", subtitle: "輸入一串打亂的字母，立刻用字母指紋演算法重組出所有可能的英文單字，每個結果附 KK 音標、詞類、繁中釋義與例句",
-    intro: "字母重組器採用自建的「字母指紋」演算法，把你輸入的一串字母排序成一組指紋，再比對內建 22,499 字的詞庫，瞬間重組出所有同字母組成的英文單字。每個結果都標註 CEFR 難度等級、IPA 音標、詞性與中文釋義，並可展開查看英文定義與例句，幫你在玩拼字遊戲、解字謎、Scrabble 與創意命名時快速重組出可用的單字。本工具為純前端演算法，不依賴外部 API 取結果，速度快、離線可用。",
-    trustNoteLabel: "資料來源：", trustNote: "重組字以自建字母指紋演算法比對內建詞庫產生（不依賴 Datamuse rel_anag——該端點經實測無效）；CEFR 等級以 CEFR-J 與 Octanove 權威詞表對照；中文釋義以編輯團隊人工撰寫的繁體中文為優先，尚無繁體者改顯示 ECDICT 開源詞典的簡體釋義（標註「简」），繁簡皆無者展開即顯示英文定義；IPA 音標取自 ECDICT 與 ARPABET 轉換；例句來自 Free Dictionary API。僅供學習與娛樂參考。",
-    quickActionCard: "快速重組卡", tryExample: "一鍵重組 listen 的字母", examplePreview: "重組出的單字數", examplePerson: "輸入字母", fillExample: "重組 listen 的字母", previewActivePath: "重組 elbow 的字母",
+    title: "字母重組器 · Word Unscrambler", subtitle: "輸入一串打亂的字母，立刻找出可用「部分或全部」字母組成的所有英文單字，按字母數分組（7字母／6字母／5字母…），每個結果附 KK 音標、詞類、繁中釋義與例句",
+    intro: "字母重組器採用自建的「字母子集」演算法：把你輸入的一串字母當成可用字母池，再掃內建 22,499 字的詞庫，找出所有字母都落在池中的英文單字——不限用盡全部字母，只用部分字母組成的較短單字也會列出，並按字母數由長到短分組（例如輸入 abecotr：7字母 acrobat、5字母 cater/trace/react、4字母 bore/care/coat、3字母 ace/bat/car）。每個結果都標註 CEFR 難度等級、IPA 音標、詞性與中文釋義，並可展開查看英文定義與例句，正是 Scrabble 與拼字遊戲玩家真正需要的工具。本工具為純前端演算法，不依賴外部 API 取結果，速度快、離線可用。",
+    trustNoteLabel: "資料來源：", trustNote: "可組字以自建「字母子集」演算法比對內建詞庫產生（純前端，不依賴外部 API）；CEFR 等級以 CEFR-J 與 Octanove 權威詞表對照；中文釋義以編輯團隊人工撰寫的繁體中文為優先，尚無繁體者改顯示 ECDICT 開源詞典的簡體釋義（標註「简」），繁簡皆無者展開即顯示英文定義；IPA 音標取自 ECDICT 與 ARPABET 轉換；例句來自 Free Dictionary API。僅供學習與娛樂參考。",
+    quickActionCard: "快速重組卡", tryExample: "一鍵重組 abecotr 的字母", examplePreview: "可組出的單字數", examplePerson: "輸入字母", fillExample: "重組 abecotr 的字母", previewActivePath: "重組 trample 的字母",
     examplesCalculator: "範例 → 重組", enterValues: "輸入字母", examplesHelper: "先用熱門範例了解 CEFR 等級、IPA 音標與中文釋義如何呈現，再換成你自己想重組的字母組合。",
-    queryBtn: "重組字母", clearBtn: "清除", hotWords: "熱門重組", inputPlaceholder: "輸入字母，例如 listen",
-    loading: "重組中…", emptyHint: "輸入上方字母並按「重組字母」，所有同字母異序的單字會列在這裡。", noResult: "找不到同字母的其他單字，換一組字母試試（字母越多、可能組合越多）。",
+    queryBtn: "重組字母", clearBtn: "清除", hotWords: "熱門重組", inputPlaceholder: "輸入字母，例如 abecotr",
+    loading: "重組中…", emptyHint: "輸入上方字母並按「重組字母」，所有可用部分或全部字母組成的單字會按字母數分組列在這裡。", noResult: "找不到可組成的單字，換一組字母試試（字母越多、可組合越多）。",
     fallbackTitle: "詞庫載入中", fallbackBody: "正在載入內建詞庫，請稍候再試一次。",
-    resultCard: "重組結果", unit: "個重組字", primaryValue: "輸入字母", ipaLabel: "音標", meaningLabel: "釋義", glossTagCn: "简", glossTagEn: "EN", enGlossHint: "展開看英文定義與例句", expandHint: "展開看例句", collapseHint: "收合", exampleLabel: "例句", enLoading: "載入例句中…", noExample: "查無例句，建議造句練習。",
+    resultCard: "重組結果", unit: "個可組字", letterPool: "字母池", lenGroupLabel: "字母", primaryValue: "輸入字母", ipaLabel: "音標", meaningLabel: "釋義", glossTagCn: "简", glossTagEn: "EN", enGlossHint: "展開看英文定義與例句", expandHint: "展開看例句", collapseHint: "收合", exampleLabel: "例句", enLoading: "載入例句中…", noExample: "查無例句，建議造句練習。",
     resultIntelligence: "結果解讀", levelMatrix: "六級 CEFR 重組字解讀矩陣", levelMatrixNote: "L7 將重組字依 CEFR 等級分層，以 CEFR-J 權威詞表對照，A1 最常用、C2 最罕見；玩字謎時優先挑你認得的等級。",
     scenarioLayer: "使用場景", scenarioTitle: "什麼時候用字謎重組", scenarioNote: "L8 列出四個典型場景，把重組字用在對的地方，而不是隨意拼湊。",
     scenarioExam: "拼字遊戲", scenarioExamNote: "Scrabble、Words with Friends 卡關時，重組手上字母找出能拿高分的單字。", scenarioWriting: "解字謎", scenarioWritingNote: "報紙字謎與填字遊戲，重組提示字母找出隱藏答案。", scenarioDaily: "創意命名", scenarioDailyNote: "幫品牌、帳號、角色取名，重組你的關鍵字找出有趣的同字母新詞。", scenarioBusiness: "字彙練習", scenarioBusinessNote: "重組常見字觀察拼字規律，順便用 CEFR 標記學新字。",
@@ -164,45 +178,45 @@ const ui = {
     nextActionLabel: "下一步行動", nextActionTitle: "把重組字接到下一個工具", nextActionItem1: "用同義詞查找器替換重組出的字，理解語意光譜", nextActionItem2: "用 CEFR 等級估算確認重組字難度是否符合你的程度", nextActionItem3: "用字根分析器理解重組字的語義從何而來，記得更牢",
     shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給朋友", shareCopiedToast: "已複製到剪貼簿 ✓",
     decisionPath: "解題路徑", decisionTitle: "輸入 → 重組 → 理解 → 應用", step1: "輸入字母", step2: "重組單字", step3: "看 CEFR", step4: "用在遊戲",
-    knowledge: "知識", knowledgeTitle: "字謎重組在英語學習中的意義", definition: "定義", definitionText: "字謎（anagram）是把一個字的所有字母重新排列、組成另一個字；判斷兩字是否互為字謎，要看字母「組成」完全相同，而非意義或發音。", usage: "用法", usageText: "輸入一串字母後，演算法會把字母排序成「指紋」（例如 listen 與 silent 都是 eilnst），再比對詞庫找出所有相同指紋的單字。重組字越長、字母越多，可能的組合通常也越多。", limitations: "限制", limitationsText: "本工具的字典為內建 22,499 字常用詞庫，極罕見字、專有名詞與多數複數變化未必收錄；CEFR 等級以 CEFR-J/Octanove 詞表為主，未收錄者改用字長啟發式推估。", interpretation: "解讀", interpretationText: "A1/A2 重組字最適合一般字謎與拼字遊戲；B1/B2 適合進階填字；C1/C2 雖罕見，卻常是字謎遊戲的隱藏高分答案。", context: "脈絡", contextText: "字謎重組應與同義詞、字根、CEFR 估算一起用：重組找出字之後，再查語意與來源，把遊戲變成有效的學字工具。", example: "範例", exampleText: "輸入 listen → 指紋 eilnst → 重組出 silent(B1)、enlist(B2)；輸入 elbow → 指紋 below → 重組出 below(A1)、bowel(B2)。",
+    knowledge: "知識", knowledgeTitle: "字母子集重組在英語學習中的意義", definition: "定義", definitionText: "字母子集重組是把輸入的一串字母當成可用字母池，找出所有「字母都落在池中」的單字——不必用盡全部字母，用部分字母組成的較短單字也算，這正是 Scrabble 與拼字遊戲的核心玩法。", usage: "用法", usageText: "輸入一串字母後，演算法把字母壓成字母計數，再掃詞庫逐字確認其字母是否為池的子集，最後按字母數由長到短分組顯示。字母越多，可組出的單字通常越多、字長範圍也越廣。", limitations: "限制", limitationsText: "本工具的字典為內建 22,499 字常用詞庫，極罕見字、專有名詞與多數複數變化未必收錄；CEFR 等級以 CEFR-J/Octanove 詞表為主，未收錄者改用字長啟發式推估。", interpretation: "解讀", interpretationText: "A1/A2 短字最適合一般拼字遊戲；B1/B2 適合進階填字；C1/C2 雖罕見，卻常是 Scrabble 的隱藏高分長字。", context: "脈絡", contextText: "字母子集重組應與同義詞、字根、CEFR 估算一起用：組出字之後，再查語意與來源，把遊戲變成有效的學字工具。", example: "範例", exampleText: "輸入 abecotr → 7字母 acrobat、5字母 cater/trace/react、4字母 bore/care/coat、3字母 ace/bat/car；不必用盡全部字母。",
     faq: "FAQ", commonQuestions: "常見問題", affiliate: "相關工具", affiliateTitle: "字謎重組的下一步工具", premiumTitle: "PRO 字謎重組包", premiumText: "解鎖無限重組、依 CEFR 等級篩選結果、依字長排序、自動記錄解題歷史，並把重組字表匯出複習。",
     feat1: "無限重組次數", feat2: "難度等級篩選", feat3: "解題歷史記錄", feat4: "重組字表匯出",
-    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具僅供英語學習與字謎娛樂用途；重組以自建演算法比對內建詞庫產生，CEFR 等級為詞表對照與啟發式推估，不等同官方語言檢定結果。", relatedTools: "相關工具", relatedToolsText: "Rhyme Finder · Synonym Finder · Word Root Analyzer · CEFR Level Estimator", references: "參考資料", referencesText: "自建字母指紋演算法（純前端，不依賴 Datamuse rel_anag——該端點實測無效回傳[]）；CEFR-J Wordlist v1.5（Tono Lab, TUFS）；Octanove C1/C2 Vocabulary Profile（CC BY-SA 4.0）；ECDICT 開源英漢詞典（IPA 音標與簡體釋義）；繁體中文釋義由編輯團隊人工撰寫；Free Dictionary API（例句）。",
-    q1: "重組字是怎麼找出來的？", a1: "用自建的「字母指紋」演算法：把輸入字母依字母順序排序成一組指紋（listen→eilnst），再比對內建 22,499 字詞庫找出所有相同指紋的單字。這是純前端演算法，不需連外部 API。",
+    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具僅供英語學習與字謎娛樂用途；重組以自建演算法比對內建詞庫產生，CEFR 等級為詞表對照與啟發式推估，不等同官方語言檢定結果。", relatedTools: "相關工具", relatedToolsText: "Rhyme Finder · Synonym Finder · Word Root Analyzer · CEFR Level Estimator", references: "參考資料", referencesText: "自建「字母子集」演算法（純前端，逐字確認字母是否為輸入字母池子集）；CEFR-J Wordlist v1.5（Tono Lab, TUFS）；Octanove C1/C2 Vocabulary Profile（CC BY-SA 4.0）；ECDICT 開源英漢詞典（IPA 音標與簡體釋義）；繁體中文釋義由編輯團隊人工撰寫；Free Dictionary API（例句）。",
+    q1: "可組字是怎麼找出來的？", a1: "用自建的「字母子集」演算法：把輸入字母壓成字母計數當字母池，再掃內建 22,499 字詞庫，逐字確認其字母是否都落在池中（部分或全部皆可），最後按字母數分組。純前端演算法，不需連外部 API。",
     q2: "CEFR 等級是怎麼判斷的？", a2: "優先以 CEFR-J 與 Octanove 權威詞表對照；詞表未收錄的字才改用字長啟發式推估。這是學習參考，非官方檢定。",
     q3: "為什麼有些字母組合找不到其他單字？", a3: "若該組字母只能拼出輸入字本身，或其他組合不在內建詞庫中，就會無結果。字母越多、組合越多；極罕見字與多數複數變化未必收錄。",
     q4: "音標和中文釋義從哪來？", a4: "IPA 音標取自 ECDICT 開源英漢詞典（內建 2 萬餘字），詞庫未收錄者改以 ARPABET 即時轉換 IPA；中文釋義採三層優先序——編輯團隊人工撰寫的繁體中文優先（無標註），尚無繁體者改顯示 ECDICT 簡體釋義並標註「简」，繁簡皆無者展開即顯示英文定義（標註 EN）。全程不經機器翻譯。例句來自 Free Dictionary API。",
-    q5: "為什麼不用 Datamuse 的 anagram 端點？", a5: "Datamuse 的 rel_anag= 經實測對所有輸入都回傳空陣列（[]），實際無此功能；因此本工具改用自建字母指紋演算法，品質與穩定度反而更好，也能離線使用。",
+    q5: "本工具和「Anagram Solver」有什麼不同？", a5: "Anagram Solver 必須用盡全部字母（同字母異序）；Word Unscrambler 允許只用部分字母，因此會列出更多較短的子集字，按字母數分組顯示，正是 Scrabble 玩家真正需要的。",
     q6: "適合玩 Scrabble 嗎？", a6: "適合。輸入手上的字母，重組出所有可能的單字，再依 CEFR 等級與字長挑能拿高分的字；但比賽請依各自規則確認用字是否合法。",
   },
   en: {
     badge: "Language · Word Unscrambler · Language Hub", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
-    title: "Word Unscrambler", subtitle: "Type a set of scrambled letters and instantly rearrange them with a letter-fingerprint algorithm into all possible words, each with IPA, part of speech, Chinese gloss, and an example sentence",
-    intro: "Word Unscrambler uses a custom letter-fingerprint algorithm: it sorts the letters you enter into a fingerprint, then matches it against a built-in 22,499-word dictionary to instantly rearrange them into every word made of the same letters. Each result is tagged with a CEFR difficulty level, IPA transcription, part of speech, and Chinese gloss, expandable to show an English definition and example sentence, helping you quickly unscramble letters for word games, puzzles, Scrabble, and creative naming. This tool is a pure front-end algorithm that fetches no external API for results, so it is fast and works offline.",
-    trustNoteLabel: "Data source:", trustNote: "Anagrams are generated by a custom letter-fingerprint algorithm matched against a built-in dictionary (it does not use Datamuse rel_anag — that endpoint was tested and returns nothing); CEFR levels are matched against the CEFR-J and Octanove authoritative wordlists; Chinese glosses prioritize the editorial team's hand-written Traditional Chinese, falling back to ECDICT's Simplified gloss (tagged Simp) when no Traditional one exists, and to an English definition when neither is available; IPA comes from ECDICT and ARPABET conversion; examples come from the Free Dictionary API. For study and entertainment reference only.",
-    quickActionCard: "Quick Solve Card", tryExample: "Rearrange listen", examplePreview: "Words found", examplePerson: "Input letters", fillExample: "Rearrange listen", previewActivePath: "Rearrange elbow",
+    title: "Word Unscrambler", subtitle: "Type a set of scrambled letters and instantly find every English word you can make from some or all of them, grouped by word length (7-letter / 6-letter / 5-letter…), each with IPA, part of speech, Chinese gloss, and an example sentence",
+    intro: "Word Unscrambler uses a custom letter-subset algorithm: it treats the letters you enter as a pool, then scans a built-in 22,499-word dictionary to find every word whose letters all fit inside that pool — you do not have to use every letter, so shorter words made from a subset are listed too, grouped from longest to shortest by length (e.g. input abecotr: 7-letter acrobat, 5-letter cater/trace/react, 4-letter bore/care/coat, 3-letter ace/bat/car). Each result is tagged with a CEFR difficulty level, IPA transcription, part of speech, and Chinese gloss, expandable to show an English definition and example sentence — exactly what Scrabble and word-game players actually need. This tool is a pure front-end algorithm that fetches no external API for results, so it is fast and works offline.",
+    trustNoteLabel: "Data source:", trustNote: "Words are generated by a custom letter-subset algorithm matched against a built-in dictionary (pure front-end, no external API); CEFR levels are matched against the CEFR-J and Octanove authoritative wordlists; Chinese glosses prioritize the editorial team's hand-written Traditional Chinese, falling back to ECDICT's Simplified gloss (tagged Simp) when no Traditional one exists, and to an English definition when neither is available; IPA comes from ECDICT and ARPABET conversion; examples come from the Free Dictionary API. For study and entertainment reference only.",
+    quickActionCard: "Quick Solve Card", tryExample: "Unscramble abecotr", examplePreview: "Words found", examplePerson: "Input letters", fillExample: "Unscramble abecotr", previewActivePath: "Unscramble trample",
     examplesCalculator: "Examples → Solve", enterValues: "Enter letters", examplesHelper: "Start with a popular example to see how CEFR level, IPA, and Chinese gloss appear, then swap in the letters you want to rearrange.",
-    queryBtn: "Unscramble", clearBtn: "Clear", hotWords: "Popular sets", inputPlaceholder: "Type letters, e.g. listen",
-    loading: "Solving…", emptyHint: "Enter letters above and press Unscramble; all words made of the same letters will appear here.", noResult: "No other words with the same letters; try a different set (more letters usually means more combinations).",
+    queryBtn: "Unscramble", clearBtn: "Clear", hotWords: "Popular sets", inputPlaceholder: "Type letters, e.g. abecotr",
+    loading: "Unscrambling…", emptyHint: "Enter letters above and press Unscramble; every word you can make from some or all of them appears here, grouped by length.", noResult: "No words can be made from these letters; try a different set (more letters usually means more words).",
     fallbackTitle: "Loading dictionary", fallbackBody: "The built-in dictionary is loading, please try again shortly.",
-    resultCard: "Unscrambled Words", unit: "anagrams", primaryValue: "Input letters", ipaLabel: "IPA", meaningLabel: "Gloss", glossTagCn: "Simp", glossTagEn: "EN", enGlossHint: "See English definition & example on expand", expandHint: "Show example", collapseHint: "Collapse", exampleLabel: "Example", enLoading: "Loading example…", noExample: "No example found; try writing your own.",
-    resultIntelligence: "Result Intelligence", levelMatrix: "Six-level CEFR anagram matrix", levelMatrixNote: "L7 groups anagrams by CEFR level using the authoritative CEFR-J wordlist, with A1 most common and C2 rarest; pick the level you recognize when solving puzzles.",
-    scenarioLayer: "Use scenarios", scenarioTitle: "When to use anagram solving", scenarioNote: "L8 lists four typical scenarios so you use anagrams in the right place, not just random guessing.",
-    scenarioExam: "Word games", scenarioExamNote: "When stuck in Scrabble or Words with Friends, rearrange your tiles to find high-scoring words.", scenarioWriting: "Puzzle solving", scenarioWritingNote: "For newspaper anagrams and crosswords, rearrange the clue letters to find hidden answers.", scenarioDaily: "Creative naming", scenarioDailyNote: "Naming a brand, handle, or character, rearrange your keyword to find fun same-letter coinages.", scenarioBusiness: "Spelling practice", scenarioBusinessNote: "Rearrange common words to observe spelling patterns and learn new ones via the CEFR tags.",
+    resultCard: "Unscrambled Words", unit: "words", letterPool: "letter pool", lenGroupLabel: "-letter", primaryValue: "Input letters", ipaLabel: "IPA", meaningLabel: "Gloss", glossTagCn: "Simp", glossTagEn: "EN", enGlossHint: "See English definition & example on expand", expandHint: "Show example", collapseHint: "Collapse", exampleLabel: "Example", enLoading: "Loading example…", noExample: "No example found; try writing your own.",
+    resultIntelligence: "Result Intelligence", levelMatrix: "Six-level CEFR word matrix", levelMatrixNote: "L7 groups the words you can make by CEFR level using the authoritative CEFR-J wordlist, with A1 most common and C2 rarest; pick the level you recognize when solving puzzles.",
+    scenarioLayer: "Use scenarios", scenarioTitle: "When to use letter unscrambling", scenarioNote: "L8 lists four typical scenarios so you unscramble letters in the right place, not just random guessing.",
+    scenarioExam: "Word games", scenarioExamNote: "When stuck in Scrabble or Words with Friends, unscramble your tiles to find every word — including shorter subset words for guaranteed points.", scenarioWriting: "Puzzle solving", scenarioWritingNote: "For crosswords and word puzzles, unscramble the clue letters to find both full and partial answers.", scenarioDaily: "Creative naming", scenarioDailyNote: "Naming a brand, handle, or character, unscramble your keyword to find fun shorter coinages.", scenarioBusiness: "Spelling practice", scenarioBusinessNote: "Unscramble common letters to observe spelling patterns and learn new words via the CEFR tags.",
     progressInsight: "Learning Insight Card", possibleTarget: "This solve", dailyGap: "Most common level", weeklyTrend: "Graded ratio", motivation: "Motivation Card", keepMomentum: "Move from playing anagrams to actively building spelling intuition",
     saveShareJourney: "Save / Share", journeyTitle: "Take today's new words home", journeyHint: "Look up and make sentences with 2–3 anagrams you didn't know; play games and learn words at once.",
     nextActionLabel: "Next actions", nextActionTitle: "Connect anagrams to the next tool", nextActionItem1: "Use Synonym Finder to swap the anagram words and understand the semantic spectrum", nextActionItem2: "Use CEFR Level Estimator to confirm the anagram difficulty fits your level", nextActionItem3: "Use Word Root Analyzer to see where the anagram word's meaning comes from and remember it better",
     shareLinkBtn: "📋 Copy result link", shareNativeBtn: "📤 Share with friends", shareCopiedToast: "Copied to clipboard ✓",
     decisionPath: "Solving Path", decisionTitle: "Input → Solve → Understand → Apply", step1: "Type letters", step2: "Unscramble", step3: "Read CEFR", step4: "Use in game",
-    knowledge: "Knowledge", knowledgeTitle: "What anagrams mean in English learning", definition: "Definition", definitionText: "An anagram rearranges all the letters of one word to form another; whether two words are anagrams depends on having the exact same letter composition, not meaning or sound.", usage: "Usage", usageText: "After you enter letters, the algorithm sorts them into a fingerprint (e.g. listen and silent are both eilnst), then matches the dictionary to find all words with that fingerprint. Longer inputs with more letters usually yield more combinations.", limitations: "Limitations", limitationsText: "The dictionary is a built-in 22,499-word common-word list; very rare words, proper nouns, and most plural forms may not be included; CEFR levels primarily use the CEFR-J/Octanove wordlists, falling back to a word-length heuristic for unlisted words.", interpretation: "Interpretation", interpretationText: "A1/A2 anagrams suit general puzzles and word games; B1/B2 suit advanced crosswords; C1/C2 are rare but often the hidden high-scoring answers in anagram games.", context: "Context", contextText: "Anagram solving should be used with synonyms, word roots, and CEFR estimation: after finding a word, look up its meaning and origin to turn the game into an effective vocabulary tool.", example: "Example", exampleText: "Input listen → fingerprint eilnst → solve silent(B1), enlist(B2); input elbow → fingerprint below → solve below(A1), bowel(B2).",
+    knowledge: "Knowledge", knowledgeTitle: "What letter unscrambling means in English learning", definition: "Definition", definitionText: "Letter unscrambling treats your input letters as a pool and finds every word whose letters all fit inside that pool — you do not need to use every letter, so shorter subset words count too. This is the core mechanic of Scrabble and word games.", usage: "Usage", usageText: "After you enter letters, the algorithm reduces them to letter counts, then scans the dictionary checking each word's letters against the pool, finally grouping results from longest to shortest. More input letters usually yield more words across a wider length range.", limitations: "Limitations", limitationsText: "The dictionary is a built-in 22,499-word common-word list; very rare words, proper nouns, and most plural forms may not be included; CEFR levels primarily use the CEFR-J/Octanove wordlists, falling back to a word-length heuristic for unlisted words.", interpretation: "Interpretation", interpretationText: "A1/A2 short words suit general word games; B1/B2 suit advanced crosswords; C1/C2 are rare but often the hidden high-scoring long words in Scrabble.", context: "Context", contextText: "Letter unscrambling should be used with synonyms, word roots, and CEFR estimation: after finding a word, look up its meaning and origin to turn the game into an effective vocabulary tool.", example: "Example", exampleText: "Input abecotr → 7-letter acrobat, 5-letter cater/trace/react, 4-letter bore/care/coat, 3-letter ace/bat/car; you need not use every letter.",
     faq: "FAQ", commonQuestions: "Common questions", affiliate: "Related Tools", affiliateTitle: "Next tools for anagram solving", premiumTitle: "PRO Unscramble Pack", premiumText: "Unlock unlimited solves, filter results by CEFR level, sort by word length, auto-log solving history, and export anagram lists for review.",
     feat1: "Unlimited solves", feat2: "Level filter", feat3: "Solving history", feat4: "Export anagram list",
-    trustReferences: "Trust · Related Tools · References", trust: "Trust", trustText: "This tool is for English learning and anagram entertainment only; anagrams are generated by a custom algorithm matched against a built-in dictionary, and CEFR levels are wordlist matches plus a heuristic, not an official language assessment.", relatedTools: "Related Tools", relatedToolsText: "Rhyme Finder · Synonym Finder · Word Root Analyzer · CEFR Level Estimator", references: "References", referencesText: "Custom letter-fingerprint algorithm (pure front-end, does not use Datamuse rel_anag — that endpoint returns nothing in testing); CEFR-J Wordlist v1.5 (Tono Lab, TUFS); Octanove C1/C2 Vocabulary Profile (CC BY-SA 4.0); ECDICT open EN-ZH dictionary (IPA and Simplified glosses); Traditional Chinese glosses hand-written by the editorial team; Free Dictionary API (examples).",
-    q1: "How are the anagrams found?", a1: "By a custom letter-fingerprint algorithm: it sorts the input letters into a fingerprint (listen→eilnst), then matches a built-in 22,499-word dictionary to find all words with the same fingerprint. It is a pure front-end algorithm with no external API call.",
+    trustReferences: "Trust · Related Tools · References", trust: "Trust", trustText: "This tool is for English learning and anagram entertainment only; anagrams are generated by a custom algorithm matched against a built-in dictionary, and CEFR levels are wordlist matches plus a heuristic, not an official language assessment.", relatedTools: "Related Tools", relatedToolsText: "Rhyme Finder · Synonym Finder · Word Root Analyzer · CEFR Level Estimator", references: "References", referencesText: "Custom letter-subset algorithm (pure front-end, checks each dictionary word's letters against the input letter pool); CEFR-J Wordlist v1.5 (Tono Lab, TUFS); Octanove C1/C2 Vocabulary Profile (CC BY-SA 4.0); ECDICT open EN-ZH dictionary (IPA and Simplified glosses); Traditional Chinese glosses hand-written by the editorial team; Free Dictionary API (examples).",
+    q1: "How are the words found?", a1: "By a custom letter-subset algorithm: it reduces the input letters to a letter-count pool, then scans a built-in 22,499-word dictionary, checking each word's letters fit inside the pool (using some or all letters), and groups results by length. Pure front-end, no external API call.",
     q2: "How is the CEFR level decided?", a2: "It is matched first against the CEFR-J and Octanove authoritative wordlists; only words not in the lists fall back to a word-length heuristic. It is study reference, not an official assessment.",
     q3: "Why do some letter sets find no other words?", a3: "If the letters can only spell the input word itself, or other combinations are not in the built-in dictionary, there will be no result. More letters mean more combinations; very rare words and most plurals may not be included.",
     q4: "Where do the IPA and Chinese gloss come from?", a4: "IPA comes from the open ECDICT EN-ZH dictionary (over 20k words built in); unlisted words convert ARPABET to IPA on the fly. Chinese glosses use a three-tier priority — the editorial team's hand-written Traditional Chinese first (no tag), then ECDICT's Simplified gloss tagged Simp, then an English definition tagged EN when neither exists. No machine translation is used. Examples come from the Free Dictionary API.",
-    q5: "Why not use the Datamuse anagram endpoint?", a5: "Datamuse's rel_anag= returns an empty array ([]) for every input in testing — the feature does not actually work; so this tool uses a custom letter-fingerprint algorithm, which is more reliable and works offline.",
+    q5: "How is this different from an Anagram Solver?", a5: "An Anagram Solver must use every letter (same-letter rearrangements); a Word Unscrambler allows partial subsets, so it lists many more shorter words grouped by length — exactly what Scrabble players need.",
     q6: "Is it good for Scrabble?", a6: "Yes. Enter your tiles to solve all possible words, then pick high-scoring ones by CEFR level and length; for competition, confirm each word is legal under your rules.",
   },
 } as const;
@@ -231,7 +245,7 @@ async function fetchExample(word: string): Promise<{ defEn: string; exampleEn: s
 export default function WordUnscrambler() {
   const { lang, setLang } = useLanguage();
   const t = ui[lang];
-  const [input, setInput] = useState("listen");
+  const [input, setInput] = useState("abecotr");
   const [queryWord, setQueryWord] = useState("");
   const [cards, setCards] = useState<ResultCard[]>([]);
   const [solved, setSolved] = useState<boolean | undefined>(undefined); // undefined=未查 · true=已查
@@ -247,11 +261,13 @@ export default function WordUnscrambler() {
     setQueryWord(word);
     setExpanded(null);
     await loadDict();
-    buildFingerprintIndex();
-    const fp = fingerprint(word);
-    const group = (FP_INDEX && FP_INDEX.get(fp)) || [];
-    // 排除輸入字本身，其餘皆為合法重組字
-    const matches = group.filter((w) => w !== word);
+    buildWordIndex();
+    const pool = letterCount(word);
+    if (!pool || !WORD_INDEX) { setCards([]); setSolved(true); setLoading(false); return; }
+    // 子集匹配：找出字母為 input 子集（部分或全部）的所有單字
+    const matches = WORD_INDEX
+      .filter((e) => e.word !== word && e.word.length <= word.length && isSubset(e.count, pool))
+      .map((e) => e.word);
     const mapped: ResultCard[] = matches.map((w) => {
       const dict = DICT ? DICT[w] : undefined;
       const cefr: Cefr = dict && dict[0] ? (dict[0] as Cefr) : lenToCefr(w.length);
@@ -270,7 +286,7 @@ export default function WordUnscrambler() {
       const base: ResultCard = { word: w, cefr, posKey, ipa, meaningZh, meaningSrc };
       if (ex) { base.exampleEn = ex.exampleEn; base.exampleZh = ex.exampleZh; base.enriched = true; }
       return base;
-    }).sort((a, b) => b.word.length - a.word.length || a.word.localeCompare(b.word)).slice(0, 24);
+    }).sort((a, b) => b.word.length - a.word.length || a.word.localeCompare(b.word)).slice(0, 120);
     setCards(mapped);
     setSolved(true);
     setLoading(false);
@@ -287,8 +303,8 @@ export default function WordUnscrambler() {
     }
   }, [expanded, cards]);
 
-  function fillStandard() { setInput("listen"); runQuery("listen"); }
-  function fillCut() { setInput("elbow"); runQuery("elbow"); }
+  function fillStandard() { setInput("abecotr"); runQuery("abecotr"); }
+  function fillCut() { setInput("trample"); runQuery("trample"); }
   function clearAll() { setInput(""); setQueryWord(""); setCards([]); setSolved(undefined); setExpanded(null); }
 
   const stats = useMemo(() => {
@@ -301,6 +317,13 @@ export default function WordUnscrambler() {
   }, [cards]);
 
   const countDisplay = stats ? String(stats.count) : "—";
+
+  // 按字母數分組（7字母 / 6字母 / 5字母…），由長到短
+  const grouped = useMemo(() => {
+    const map = new Map<number, ResultCard[]>();
+    cards.forEach((c) => { const arr = map.get(c.word.length); if (arr) arr.push(c); else map.set(c.word.length, [c]); });
+    return Array.from(map.entries()).sort((a, b) => b[0] - a[0]);
+  }, [cards]);
   const scenarios = [
     { k: "exam", title: t.scenarioExam, note: t.scenarioExamNote, accent: "border-blue-200 bg-blue-50" },
     { k: "writing", title: t.scenarioWriting, note: t.scenarioWritingNote, accent: "border-emerald-200 bg-emerald-50" },
@@ -331,27 +354,32 @@ export default function WordUnscrambler() {
           </div>
         </section>
         <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">{/* L6-Result */}
-          <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"><div className="h-5 bg-gradient-to-r from-emerald-400 to-blue-600" /><div className="p-6 md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultCard}</p><div className="mt-4 flex items-start justify-between gap-5"><div><div className="text-7xl font-black tracking-tight text-slate-950">{countDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.unit}</div></div><div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.primaryValue}</div><div className="mt-1 text-xl font-black">{queryWord || "—"}</div><div className="mt-1 text-xs text-slate-300">fingerprint</div></div></div>
+          <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"><div className="h-5 bg-gradient-to-r from-emerald-400 to-blue-600" /><div className="p-6 md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">{t.resultCard}</p><div className="mt-4 flex items-start justify-between gap-5"><div><div className="text-7xl font-black tracking-tight text-slate-950">{countDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.unit}</div></div><div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.primaryValue}</div><div className="mt-1 text-xl font-black">{queryWord || "—"}</div><div className="mt-1 text-xs text-slate-300">{t.letterPool}</div></div></div>
             <div className="mt-6 space-y-3">
               {loading && <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center text-sm font-black text-slate-600">{t.loading}</div>}
               {!loading && solved === undefined && <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center text-sm font-black text-slate-500">{t.emptyHint}</div>}
               {!loading && solved === true && cards.length === 0 && <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center text-sm text-slate-500">{t.noResult}</div>}
-              {!loading && cards.map((card) => (
-                <div key={card.word} className="rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur">
-                  <div className="flex flex-wrap items-center gap-3"><span className="text-xl font-black text-slate-900">{card.word}</span>{card.cefr && <span className={`rounded-full px-2 py-1 text-xs font-black ${cefrColor[card.cefr]}`}>{card.cefr}</span>}<span className="text-xs font-black text-slate-500">{l(posMap[card.posKey] || posMap.u, lang)}</span>{card.ipa && <span className="font-mono text-sm text-slate-600">{card.ipa}</span>}</div>
-                  {card.meaningSrc === "none"
-                    ? <p className="mt-2 text-sm leading-6 text-slate-700"><span className="font-black text-slate-400">{t.meaningLabel}<span className="ml-1 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-black text-slate-500">{t.glossTagEn}</span>：</span>{t.enGlossHint}</p>
-                    : <p className="mt-2 text-sm leading-6 text-slate-700"><span className="font-black text-slate-400">{t.meaningLabel}{card.meaningSrc === "cn" && <span className="ml-1 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-black text-amber-700">{t.glossTagCn}</span>}：</span>{card.meaningZh}</p>}
-                  <button type="button" onClick={() => toggleExpand(card.word)} className="mt-2 text-xs font-black text-emerald-700">{expanded === card.word ? t.collapseHint : `▸ ${t.expandHint}`}</button>
-                  {expanded === card.word && (
-                    <div className="mt-2 rounded-xl bg-slate-50 p-3">
-                      {card.exampleEn === undefined
-                        ? <p className="text-xs font-black text-slate-400">{t.enLoading}</p>
-                        : card.exampleEn
-                          ? (<><p className="text-xs font-black text-slate-400">{t.exampleLabel}</p><p className="mt-1 text-sm italic text-slate-700">{card.exampleEn}</p>{card.exampleZh && <p className="mt-1 text-xs text-slate-500">{card.exampleZh}</p>}{card.defEn && !card.exampleZh && <p className="mt-1 text-xs text-slate-500">{card.defEn}</p>}</>)
-                          : (card.defEn ? <p className="text-xs text-slate-500">{card.defEn}</p> : <p className="text-xs text-slate-400">{t.noExample}</p>)}
-                    </div>
-                  )}
+              {!loading && grouped.map(([len, items]) => (
+                <div key={len} className="space-y-2">
+                  <div className="flex items-center gap-2 pt-1"><span className="rounded-full bg-emerald-600 px-3 py-1 text-xs font-black text-white">{len}{t.lenGroupLabel}</span><span className="text-xs font-black text-slate-400">{items.length}{t.unit}</span></div>
+                  {items.map((card: ResultCard) => (
+                  <div key={card.word} className="rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur">
+                    <div className="flex flex-wrap items-center gap-3"><span className="text-xl font-black text-slate-900">{card.word}</span>{card.cefr && <span className={`rounded-full px-2 py-1 text-xs font-black ${cefrColor[card.cefr]}`}>{card.cefr}</span>}<span className="text-xs font-black text-slate-500">{l(posMap[card.posKey] || posMap.u, lang)}</span>{card.ipa && <span className="font-mono text-sm text-slate-600">{card.ipa}</span>}</div>
+                    {card.meaningSrc === "none"
+                      ? <p className="mt-2 text-sm leading-6 text-slate-700"><span className="font-black text-slate-400">{t.meaningLabel}<span className="ml-1 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-black text-slate-500">{t.glossTagEn}</span>：</span>{t.enGlossHint}</p>
+                      : <p className="mt-2 text-sm leading-6 text-slate-700"><span className="font-black text-slate-400">{t.meaningLabel}{card.meaningSrc === "cn" && <span className="ml-1 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-black text-amber-700">{t.glossTagCn}</span>}：</span>{card.meaningZh}</p>}
+                    <button type="button" onClick={() => toggleExpand(card.word)} className="mt-2 text-xs font-black text-emerald-700">{expanded === card.word ? t.collapseHint : `▸ ${t.expandHint}`}</button>
+                    {expanded === card.word && (
+                      <div className="mt-2 rounded-xl bg-slate-50 p-3">
+                        {card.exampleEn === undefined
+                          ? <p className="text-xs font-black text-slate-400">{t.enLoading}</p>
+                          : card.exampleEn
+                            ? (<><p className="text-xs font-black text-slate-400">{t.exampleLabel}</p><p className="mt-1 text-sm italic text-slate-700">{card.exampleEn}</p>{card.exampleZh && <p className="mt-1 text-xs text-slate-500">{card.exampleZh}</p>}{card.defEn && !card.exampleZh && <p className="mt-1 text-xs text-slate-500">{card.defEn}</p>}</>)
+                            : (card.defEn ? <p className="text-xs text-slate-500">{card.defEn}</p> : <p className="text-xs text-slate-400">{t.noExample}</p>)}
+                      </div>
+                    )}
+                  </div>
+                  ))}
                 </div>
               ))}
             </div>
