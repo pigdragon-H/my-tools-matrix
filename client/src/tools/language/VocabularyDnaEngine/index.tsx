@@ -4,7 +4,7 @@
 //   組成這個字的「字彙 DNA 圖譜」；同時比對內建 wordRoots.json（80 組拉丁／希臘字根），解析語義基因。
 //   多端點即時查詢 + 內建字根表，全照 gold 範本 17 層結構。
 
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { AdSlot } from "@/components/business/AdSlot";
 import { PremiumGate } from "@/components/business/PremiumGate";
@@ -14,12 +14,13 @@ import wordRootsData from "./wordRoots.json";
 type Lang = "zh" | "en";
 type LocalText = { zh: string; en: string };
 type AffiliateItem = { label: LocalText; href: string };
+type Cefr = "A1" | "A2" | "B1" | "B2" | "C1" | "C2" | null;
 const l = (v: LocalText, lang: Lang) => v[lang];
 
 // ============================================================
 // Language Hub Datamuse 標準模板（MANUAL §2a 完整照抄）
 // ============================================================
-interface DatamuseWord { word: string; score?: number; tags?: string[] }
+interface DatamuseWord { word: string; score?: number; tags?: string[]; numSyllables?: number }
 const CACHE_PREFIX = "fu_lng_cache_";
 const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 小時
 
@@ -30,13 +31,74 @@ async function queryDatamuse(endpoint: string, maxResults = 20): Promise<Datamus
     if (cached) { const { data, timestamp } = JSON.parse(cached); if (Date.now() - timestamp < CACHE_TTL) return data as DatamuseWord[]; }
   } catch { /* 快取讀取失敗，繼續查 API */ }
   try {
-    const res = await fetch(`https://api.datamuse.com/words?${endpoint}&max=${maxResults}`, { signal: AbortSignal.timeout(5000) });
+    const res = await fetch(`https://api.datamuse.com/words?${endpoint}&md=psrf&max=${maxResults}`, { signal: AbortSignal.timeout(5000) });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data: DatamuseWord[] = await res.json();
     try { localStorage.setItem(cacheKey, JSON.stringify({ data, timestamp: Date.now() })); } catch { /* 快取寫入失敗，不影響結果 */ }
     return data;
   } catch { return null; } // null = 觸發降級 UI
 }
+
+// ============================================================
+// 內建 CEFR + 繁體中文釋義 + IPA 詞庫（CEFR-J ver1.5 + Octanove · 懶載入）
+//   形態：{ word: [cefr, zh_tw, zh_cn, ipa] }
+// ============================================================
+type DictEntry = string[];
+let DICT: Record<string, DictEntry> | null = null;
+let dictLoading: Promise<void> | null = null;
+function loadDict(): Promise<void> {
+  if (DICT) return Promise.resolve();
+  if (dictLoading) return dictLoading;
+  dictLoading = import("./cefrDict.json").then((m) => { DICT = ((m as { default?: unknown }).default ?? m) as Record<string, DictEntry>; });
+  return dictLoading;
+}
+
+// ARPABET（Datamuse md=r 的 pron:）→ 美式 IPA，輸出 /rɛndər/ 格式
+const ARP_IPA: Record<string, string> = {
+  AA: "ɑ", AE: "æ", AH: "ʌ", AO: "ɔ", AW: "aʊ", AY: "aɪ", B: "b", CH: "tʃ", D: "d", DH: "ð",
+  EH: "ɛ", ER: "ər", EY: "eɪ", F: "f", G: "ɡ", HH: "h", IH: "ɪ", IY: "i", JH: "dʒ", K: "k",
+  L: "l", M: "m", N: "n", NG: "ŋ", OW: "oʊ", OY: "ɔɪ", P: "p", R: "r", S: "s", SH: "ʃ",
+  T: "t", TH: "θ", UH: "ʊ", UW: "u", V: "v", W: "w", Y: "j", Z: "z", ZH: "ʒ",
+};
+function arpabetToIpa(pron: string): string {
+  if (!pron) return "";
+  const phones = pron.trim().split(/\s+/);
+  let primary = -1;
+  phones.forEach((p, i) => { if (p.endsWith("1")) primary = i; });
+  let out = "";
+  phones.forEach((p, i) => { const b = p.replace(/[0-9]/g, ""); if (i === primary) out += "ˈ"; out += ARP_IPA[b] || ""; });
+  return out ? `/${out}/` : "";
+}
+function normIpa(raw: string): string {
+  if (!raw) return "";
+  const s = raw.trim();
+  if (!s) return "";
+  return s.startsWith("/") ? s : `/${s}/`;
+}
+// CEFR 啟發式（僅用於詞庫未收錄的罕見字）：以 Datamuse 詞頻 f 推估
+function freqToCefr(f: number): Cefr {
+  if (!Number.isFinite(f) || f <= 0) return null;
+  if (f >= 50) return "A1"; if (f >= 10) return "A2"; if (f >= 3) return "B1";
+  if (f >= 1) return "B2"; if (f >= 0.3) return "C1"; return "C2";
+}
+const posMap: Record<string, LocalText> = {
+  n: { zh: "名詞", en: "noun" }, v: { zh: "動詞", en: "verb" },
+  adj: { zh: "形容詞", en: "adjective" }, adv: { zh: "副詞", en: "adverb" }, u: { zh: "其他", en: "other" },
+};
+function parseTags(tags: string[] | undefined): { pos: string; freq: number; pron: string } {
+  let pos = "u", freq = 0, pron = "";
+  (tags || []).forEach((tg) => {
+    if (tg === "n" || tg === "v" || tg === "adj" || tg === "adv") { if (pos === "u") pos = tg; }
+    else if (tg.startsWith("f:")) freq = Number(tg.slice(2));
+    else if (tg.startsWith("pron:")) pron = tg.slice(5).trim();
+  });
+  return { pos, freq, pron };
+}
+const cefrColor: Record<string, string> = {
+  A1: "bg-emerald-100 text-emerald-800", A2: "bg-emerald-100 text-emerald-800",
+  B1: "bg-sky-100 text-sky-800", B2: "bg-sky-100 text-sky-800",
+  C1: "bg-violet-100 text-violet-800", C2: "bg-violet-100 text-violet-800",
+};
 
 // ============================================================
 // 內建字根表（自行整理 · 真實拉丁／希臘字根 · 80 組）
@@ -54,7 +116,11 @@ const strandColor: Record<string, string> = {
 const HOT_WORDS = ["transport", "vision", "audio", "biology", "describe", "spectator"] as const;
 
 type Strand = "syn" | "trg" | "ml";
-type ResultCard = { word: string; strand: Strand };
+type MeaningSrc = "tw" | "cn" | "en" | "none";
+type ResultCard = {
+  word: string; strand: Strand; cefr: Cefr; posKey: string; ipa: string; meaningZh: string; meaningSrc: MeaningSrc;
+  exampleEn?: string; defEn?: string; enriched?: boolean;
+};
 
 const strandBands = [
   { key: "syn", label: { zh: "同義基因 (rel_syn)", en: "Synonym strand (rel_syn)" }, desc: { zh: "與查詢字意義相近、可互相替換的同義詞，是字彙 DNA 的核心股。", en: "Synonyms close in meaning to the query word, the core strand of the vocabulary DNA." } },
@@ -80,7 +146,7 @@ const ui = {
     queryBtn: "解析 DNA", clearBtn: "清除", hotWords: "熱門單字", inputPlaceholder: "輸入單字，例如 transport",
     loading: "解析中…", emptyHint: "輸入上方單字並按「解析 DNA」，這個單字的同義、聯想、近義三股基因與字根比對會列在這裡。", noResult: "查無相關詞，換一個常見英文單字試試，或檢查拼字。",
     fallbackTitle: "暫時無法連線", fallbackBody: "Datamuse 服務暫時無法連線，請稍後再試一次。字彙 DNA 引擎需要網路連線取得即時結果。",
-    resultCard: "字彙 DNA 圖譜", unit: "個 DNA 序列詞", primaryValue: "查詢單字", strandLabel: "基因股別", rootLabel: "字根基因", noRoot: "查無內建字根相符，這個字可能不含本表收錄的常見拉丁／希臘字根。", expandHint: "展開看基因股別", collapseHint: "收合",
+    resultCard: "字彙 DNA 圖譜", unit: "個 DNA 序列詞", primaryValue: "查詢單字", strandLabel: "基因股別", rootLabel: "字根基因", noRoot: "查無內建字根相符，這個字可能不含本表收錄的常見拉丁／希臘字根。", expandHint: "展開看釋義與例句", collapseHint: "收合", ipaLabel: "音標", meaningLabel: "釋義", glossTagCn: "簡", glossTagEn: "EN", exampleLabel: "例句", defLabel: "英文定義", enLoading: "載入例句中…", noExample: "查無例句，建議造句練習。",
     resultIntelligence: "結果解讀", levelMatrix: "三股字彙 DNA 基因矩陣", levelMatrixNote: "L7 將 DNA 序列詞依三股基因分層：同義（rel_syn）、聯想（rel_trg）、近義（ml=），各股反映一個字不同面向的語義關聯。",
     scenarioLayer: "使用場景", scenarioTitle: "什麼時候用字彙 DNA 引擎", scenarioNote: "L8 列出四個典型場景，把字彙 DNA 用在對的地方，而不是死背單字。",
     scenarioExam: "考試準備", scenarioExamNote: "背一個字時，同時看它的同義、聯想與字根，建立語義網，記得更牢、考試更靈活。", scenarioWriting: "寫作換字", scenarioWritingNote: "寫英文文章時，用同義與近義股換掉重複的字，讓用詞更豐富多元。", scenarioDaily: "字根記憶", scenarioDailyNote: "從字根理解一個字的語義來源，把同字根的字串成家族一起記，效率倍增。", scenarioBusiness: "字彙擴充", scenarioBusinessNote: "想擴充字彙量時，從一個字的 DNA 序列延伸出整個語義網絡，由點到面。",
@@ -110,7 +176,7 @@ const ui = {
     queryBtn: "Decode DNA", clearBtn: "Clear", hotWords: "Popular words", inputPlaceholder: "Type a word, e.g. transport",
     loading: "Decoding…", emptyHint: "Enter a word above and press Decode DNA; the word's synonym, trigger, meaning-like strands and root matching will appear here.", noResult: "No related words found; try another common English word or check the spelling.",
     fallbackTitle: "Temporarily offline", fallbackBody: "The Datamuse service is temporarily unreachable, please try again later. Vocabulary DNA Engine needs a network connection for live results.",
-    resultCard: "Vocabulary DNA Map", unit: "DNA sequence words", primaryValue: "Query word", strandLabel: "Gene strand", rootLabel: "Root gene", noRoot: "No built-in root matched; this word may not contain a common Latin/Greek root from this table.", expandHint: "Show gene strand", collapseHint: "Collapse",
+    resultCard: "Vocabulary DNA Map", unit: "DNA sequence words", primaryValue: "Query word", strandLabel: "Gene strand", rootLabel: "Root gene", noRoot: "No built-in root matched; this word may not contain a common Latin/Greek root from this table.", expandHint: "Show gloss & example", collapseHint: "Collapse", ipaLabel: "IPA", meaningLabel: "Gloss", glossTagCn: "Simp", glossTagEn: "EN", exampleLabel: "Example", defLabel: "Definition", enLoading: "Loading example…", noExample: "No example found; try writing your own.",
     resultIntelligence: "Result Intelligence", levelMatrix: "Three-strand vocabulary DNA gene matrix", levelMatrixNote: "L7 groups DNA sequence words by three strands: synonym (rel_syn), trigger (rel_trg), meaning-like (ml=), each reflecting a different facet of a word's semantic links.",
     scenarioLayer: "Use scenarios", scenarioTitle: "When to use Vocabulary DNA Engine", scenarioNote: "L8 lists four typical scenarios so you use vocabulary DNA in the right place, not just memorize words.",
     scenarioExam: "Exam prep", scenarioExamNote: "When learning a word, see its synonyms, triggers, and roots together to build a semantic web, remember it better, and stay flexible in exams.", scenarioWriting: "Writing variation", scenarioWritingNote: "When writing in English, use synonym and meaning-like strands to replace repeated words and enrich your vocabulary.", scenarioDaily: "Root memory", scenarioDailyNote: "Understand a word's semantic origin from its roots and learn same-root words as a family for multiplied efficiency.", scenarioBusiness: "Vocabulary expansion", scenarioBusinessNote: "When expanding vocabulary, extend a word's DNA sequence into a whole semantic network, from point to plane.",
@@ -134,6 +200,31 @@ const ui = {
 
 const faqKeys = [["q1", "a1"], ["q2", "a2"], ["q3", "a3"], ["q4", "a4"], ["q5", "a5"], ["q6", "a6"]] as const;
 
+// dictionaryapi.dev — 取英文釋義 + 例句（懶載入，快取）
+async function fetchExample(word: string): Promise<{ defEn: string; exampleEn: string } | null> {
+  const cacheKey = CACHE_PREFIX + "def_" + btoa(word).slice(0, 40);
+  try { const c = localStorage.getItem(cacheKey); if (c) { const { data, timestamp } = JSON.parse(c); if (Date.now() - timestamp < CACHE_TTL) return data; } } catch { /* ignore */ }
+  try {
+    const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`, { signal: AbortSignal.timeout(5000) });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    let defEn = "", exampleEn = "";
+    if (Array.isArray(json) && json[0]?.meanings) {
+      for (const m of json[0].meanings) {
+        for (const d of m.definitions || []) {
+          if (!defEn && d.definition) defEn = d.definition;
+          if (!exampleEn && d.example) exampleEn = d.example;
+          if (defEn && exampleEn) break;
+        }
+        if (defEn && exampleEn) break;
+      }
+    }
+    const data = { defEn, exampleEn };
+    try { localStorage.setItem(cacheKey, JSON.stringify({ data, timestamp: Date.now() })); } catch { /* ignore */ }
+    return data;
+  } catch { return null; }
+}
+
 export default function VocabularyDnaEngine() {
   const { lang, setLang } = useLanguage();
   const t = ui[lang];
@@ -145,12 +236,15 @@ export default function VocabularyDnaEngine() {
   const [loading, setLoading] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
 
+  useEffect(() => { loadDict(); }, []);
+
   const runQuery = useCallback(async (rawWord: string) => {
     const word = rawWord.trim().toLowerCase().replace(/[^a-z]/g, "");
     if (!word) return;
     setLoading(true);
     setQueryWord(word);
     setExpanded(null);
+    await loadDict();
     const [syn, trg, ml] = await Promise.all([
       queryDatamuse(`rel_syn=${encodeURIComponent(word)}`, 12),
       queryDatamuse(`rel_trg=${encodeURIComponent(word)}`, 12),
@@ -162,23 +256,60 @@ export default function VocabularyDnaEngine() {
     setApiResult(syn ?? trg ?? ml ?? null);
     const seen = new Set<string>([word]);
     const merged: ResultCard[] = [];
+    // 相關度過濾（Victor 規格）：剔除 Datamuse score < 1000 的低相關度詞條，再每股依 score 降序僅取前 8 名
+    const SCORE_FLOOR = 1000;
+    const STRAND_TOP = 8;
     const pushStrand = (data: DatamuseWord[] | null, strand: Strand) => {
-      (data ?? []).forEach((d) => {
+      const ranked = (data ?? [])
+        .filter((d) => (d.score ?? 0) >= SCORE_FLOOR)
+        .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+        .slice(0, STRAND_TOP);
+      ranked.forEach((d) => {
         const w = d.word?.toLowerCase();
         if (!w || w.includes(" ") || seen.has(w)) return;
-        seen.add(w); merged.push({ word: d.word, strand });
+        seen.add(w);
+        const { pos, freq, pron } = parseTags(d.tags);
+        const dict = DICT ? DICT[w] : undefined;
+        const cefr: Cefr = dict && dict[0] ? (dict[0] as Cefr) : freqToCefr(freq);
+        const zhTw = dict && dict[1] ? dict[1] : "";
+        const zhCn = dict && dict[2] ? dict[2] : "";
+        const ipa = dict && dict[3] ? normIpa(dict[3]) : arpabetToIpa(pron);
+        let meaningZh = "", meaningSrc: MeaningSrc = "none";
+        if (zhTw) { meaningZh = zhTw; meaningSrc = "tw"; }
+        else if (zhCn) { meaningZh = zhCn; meaningSrc = "cn"; }
+        merged.push({ word: d.word, strand, cefr, posKey: pos, ipa, meaningZh, meaningSrc });
       });
     };
     pushStrand(syn, "syn"); pushStrand(trg, "trg"); pushStrand(ml, "ml");
-    setCards(merged.slice(0, 24));
+    const finalCards = merged.slice(0, 24);
+    setCards(finalCards);
     const hits = WORD_ROOTS.filter((r) => r.root.toLowerCase().split("/").some((part) => part && word.includes(part)));
     setRootHits(hits.slice(0, 6));
     setLoading(false);
+    // 字義三層 fallback 第三層：無中文釋義者，背景補英文定義（EN）
+    const needEn = finalCards.filter((c) => c.meaningSrc === "none");
+    if (needEn.length > 0) {
+      const fetched = await Promise.all(needEn.map((c) => fetchExample(c.word).then((ex) => ({ word: c.word, defEn: ex?.defEn || "" }))));
+      const defMap = new Map(fetched.map((f) => [f.word, f.defEn]));
+      setCards((prev) => prev.map((c) => {
+        if (c.meaningSrc === "none") {
+          const def = defMap.get(c.word) || "";
+          if (def) return { ...c, meaningZh: def, meaningSrc: "en" as MeaningSrc };
+        }
+        return c;
+      }));
+    }
   }, []);
 
-  const toggleExpand = useCallback((word: string) => {
-    setExpanded((prev) => (prev === word ? null : word));
-  }, []);
+  const toggleExpand = useCallback(async (word: string) => {
+    if (expanded === word) { setExpanded(null); return; }
+    setExpanded(word);
+    const target = cards.find((c) => c.word === word);
+    if (target && !target.enriched) {
+      const ex = await fetchExample(word);
+      setCards((prev) => prev.map((c) => c.word === word ? { ...c, enriched: true, defEn: ex?.defEn || "", exampleEn: ex?.exampleEn || "" } : c));
+    }
+  }, [expanded, cards]);
 
   function fillStandard() { setInput("transport"); runQuery("transport"); }
   function fillCut() { setInput("vision"); runQuery("vision"); }
@@ -235,10 +366,19 @@ export default function VocabularyDnaEngine() {
               {!loading && apiResult !== undefined && apiResult !== null && cards.length === 0 && <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center text-sm text-slate-500">{t.noResult}</div>}
               {!loading && cards.map((card) => (
                 <div key={card.word} className="rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur">
-                  <div className="flex flex-wrap items-center gap-3"><span className="text-xl font-black text-slate-900">{card.word}</span><span className={`rounded-full px-2 py-1 text-xs font-black ${strandColor[card.strand]}`}>{strandName[card.strand]}</span><span className="text-xs font-black text-slate-500">{queryWord}</span></div>
+                  <div className="flex flex-wrap items-center gap-3"><span className="text-xl font-black text-slate-900">{card.word}</span><span className={`rounded-full px-2 py-1 text-xs font-black ${strandColor[card.strand]}`}>{strandName[card.strand]}</span>{card.cefr && <span className={`rounded-full px-2 py-1 text-xs font-black ${cefrColor[card.cefr]}`}>{card.cefr}</span>}<span className="text-xs font-black text-slate-500">{l(posMap[card.posKey] || posMap.u, lang)}</span>{card.ipa && <span className="font-mono text-sm text-slate-600">{card.ipa}</span>}</div>
+                  {card.meaningZh
+                    ? <p className="mt-2 text-sm leading-6 text-slate-700"><span className="font-black text-slate-400">{t.meaningLabel}{card.meaningSrc === "cn" && <span className="ml-1 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-black text-amber-700">{t.glossTagCn}</span>}{card.meaningSrc === "en" && <span className="ml-1 rounded bg-sky-100 px-1.5 py-0.5 text-[10px] font-black text-sky-700">{t.glossTagEn}</span>}：</span>{card.meaningZh}</p>
+                    : null}
                   <button type="button" onClick={() => toggleExpand(card.word)} className="mt-2 text-xs font-black text-emerald-700">{expanded === card.word ? t.collapseHint : `▸ ${t.expandHint}`}</button>
                   {expanded === card.word && (
-                    <div className="mt-2 rounded-xl bg-slate-50 p-3"><p className="text-sm text-slate-600"><span className="font-black text-slate-400">{t.strandLabel}：</span>{strandBands.find((b) => b.key === card.strand) ? l(strandBands.find((b) => b.key === card.strand)!.label, lang) : strandName[card.strand]}</p></div>
+                    <div className="mt-2 space-y-2 rounded-xl bg-slate-50 p-3">
+                      <p className="text-sm text-slate-600"><span className="font-black text-slate-400">{t.strandLabel}：</span>{strandBands.find((b) => b.key === card.strand) ? l(strandBands.find((b) => b.key === card.strand)!.label, lang) : strandName[card.strand]}</p>
+                      {!card.enriched && <p className="text-xs font-bold text-slate-400">{t.enLoading}</p>}
+                      {card.enriched && card.defEn && <p className="text-sm leading-6 text-slate-700"><span className="font-black text-slate-400">{t.defLabel}：</span>{card.defEn}</p>}
+                      {card.enriched && card.exampleEn && <p className="text-sm leading-6 text-slate-700"><span className="font-black text-slate-400">{t.exampleLabel}：</span><span className="italic">{card.exampleEn}</span></p>}
+                      {card.enriched && !card.defEn && !card.exampleEn && <p className="text-xs font-bold text-slate-400">{t.noExample}</p>}
+                    </div>
                   )}
                 </div>
               ))}
