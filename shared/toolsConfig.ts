@@ -4048,6 +4048,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "period-cycle-calculator",
+    name: "月經週期計算機",
+    category: "health",
+    path: "/tools/health/period-cycle-calculator",
+    icon: "CalendarHeart",
+    description: "依末次月經日期與平均週期長度，推算下次月經、排卵日與易孕窗口，並顯示週期階段。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4348,3 +4363,4 @@ export const cryptoProfitCalculator = { id: "crypto-profit-calculator", category
 export const lotteryTaxCalculator = { id: "lottery-tax-calculator", category: "finance", name: "Lottery Tax Calculator", path: "/tools/finance/lottery-tax-calculator" };
 export const currencyExchangeRate = { id: "currency-exchange-rate", category: "finance", name: "Currency Exchange Rate", path: "/tools/finance/currency-exchange-rate" };
 export const dueDateCalculator = { id: "due-date-calculator", category: "health", name: "Due Date Calculator", path: "/tools/health/due-date-calculator" };
+export const periodCycleCalculator = { id: "period-cycle-calculator", category: "health", name: "Period Cycle Calculator", path: "/tools/health/period-cycle-calculator" };
