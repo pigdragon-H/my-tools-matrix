@@ -4228,6 +4228,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "exam-score-converter",
+    name: "考試分數換算器",
+    category: "education",
+    path: "/tools/education/exam-score-converter",
+    icon: "GraduationCap",
+    description: "百分制、GPA、等第制、標準分數互相換算，支援多種評分系統",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4540,3 +4555,4 @@ export const codeMinifier = { id: "code-minifier", category: "developer", name: 
 export const imageToBase64 = { id: "image-to-base64", category: "developer", name: "Image to Base64", path: "/tools/developer/image-to-base64" };
 export const chmodCalculator = { id: "chmod-calculator", category: "developer", name: "Chmod Calculator", path: "/tools/developer/chmod-calculator" };
 export const readingSpeedCalculator = { id: "reading-speed-calculator", category: "education", name: "Reading Speed Calculator", path: "/tools/education/reading-speed-calculator" };
+export const examScoreConverter = { id: "exam-score-converter", category: "education", name: "Exam Score Converter", path: "/tools/education/exam-score-converter" };

@@ -292,6 +292,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "developer/image-to-base64": lazy(() => import("@/tools/developer/ImageToBase64")),
   "developer/chmod-calculator": lazy(() => import("@/tools/developer/ChmodCalculator")),
   "education/reading-speed-calculator": lazy(() => import("@/tools/education/ReadingSpeedCalculator")),
+  "education/exam-score-converter": lazy(() => import("@/tools/education/ExamScoreConverter")),
 };
 
 function ToolSkeleton() {
