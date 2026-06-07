@@ -87,21 +87,57 @@ function posLabel(posCode: string, lang: Lang): string {
   return posCode.split("/").map((p) => l(posMap[p] || posMap.u, lang)).join(" · ");
 }
 
+// ============================================================
+// 輕量字形還原（lemmatization）：詞庫只收原形(lemma)，屈折形(複數/過去式/進行式…)
+//   直接查會 miss → 導致「音標整理中／釋義整理中」且 CEFR 被長度啟發式誤判。
+//   依序剝除常見字尾回退查原形，命中即沿用原形的 CEFR/IPA/詞類/釋義。
+// ============================================================
+function lemmaCandidates(w: string): string[] {
+  const out: string[] = [];
+  const add = (x: string) => { if (x && x !== w && !out.includes(x)) out.push(x); };
+  if (/[a-z]+ies$/.test(w)) add(w.slice(0, -3) + "y");
+  if (/(ches|shes|sses|xes|zes|oes)$/.test(w)) add(w.slice(0, -2));
+  if (/[a-z]{3,}s$/.test(w) && !/(ss|us|is)$/.test(w)) add(w.slice(0, -1));
+  if (/[a-z]+ied$/.test(w)) add(w.slice(0, -3) + "y");
+  if (/[a-z]{3,}ed$/.test(w)) { add(w.slice(0, -1)); add(w.slice(0, -2)); }
+  if (/([a-z])\1ed$/.test(w)) add(w.slice(0, -3));
+  if (/[a-z]{3,}ing$/.test(w)) { add(w.slice(0, -3)); add(w.slice(0, -3) + "e"); }
+  if (/([a-z])\1ing$/.test(w)) add(w.slice(0, -4));
+  if (/[a-z]{3,}ly$/.test(w)) { add(w.slice(0, -2)); add(w.slice(0, -1) + "e"); }
+  if (/[a-z]{3,}er$/.test(w)) add(w.slice(0, -2));
+  if (/[a-z]{3,}est$/.test(w)) add(w.slice(0, -3));
+  return out;
+}
+function dictEntry(word: string): { entry: DictEntry | undefined; lemma: string } {
+  const w = word.toLowerCase();
+  if (DICT && DICT[w]) return { entry: DICT[w], lemma: w };
+  if (DICT) { for (const cand of lemmaCandidates(w)) { if (DICT[cand]) return { entry: DICT[cand], lemma: cand }; } }
+  return { entry: undefined, lemma: w };
+}
+
 function ipaOf(word: string): string {
-  const dict = DICT ? DICT[word.toLowerCase()] : undefined;
-  if (dict && dict[3]) return normIpa(dict[3]);
+  const { entry } = dictEntry(word);
+  if (entry && entry[3]) return normIpa(entry[3]);
+  // 音標回填：原形/屈折形雖收錄但音標欄為空時，改查其字形還原候選的音標
+  if (DICT) {
+    const w = word.toLowerCase();
+    for (const cand of lemmaCandidates(w)) {
+      const e = DICT[cand];
+      if (e && e[3]) return normIpa(e[3]);
+    }
+  }
   return "__PENDING__";
 }
 function cefrOf(word: string): Cefr {
-  const dict = DICT ? DICT[word.toLowerCase()] : undefined;
-  if (dict && dict[0]) return dict[0] as Cefr;
+  const { entry } = dictEntry(word);
+  if (entry && entry[0]) return entry[0] as Cefr;
   return lenToCefr(word.length);
 }
 // 三層中文釋義：繁tw優先 → ECDICT簡標「(簡)」→ 無則回傳空（展開看英文例句）
 function glossOf(word: string, lang: Lang): { text: string; tag: "tw" | "cn" | "none" } {
-  const dict = DICT ? DICT[word.toLowerCase()] : undefined;
-  if (dict) {
-    const tw = dict[1]; const cn = dict[2];
+  const { entry } = dictEntry(word);
+  if (entry) {
+    const tw = entry[1]; const cn = entry[2];
     if (tw && tw.trim()) return { text: tw.trim(), tag: "tw" };
     if (cn && cn.trim()) return { text: cn.trim(), tag: "cn" };
   }
@@ -122,9 +158,9 @@ const POS_PREFIX: { re: RegExp; code: string }[] = [
   { re: /^(abbr)\b\.?/i, code: "abbr" },
 ];
 function posOf(word: string): string {
-  const dict = DICT ? DICT[word.toLowerCase()] : undefined;
-  if (!dict) return "u";
-  const src = ((dict[1] && dict[1].trim()) || (dict[2] && dict[2].trim()) || "").trim();
+  const { entry } = dictEntry(word);
+  if (!entry) return "u";
+  const src = ((entry[1] && entry[1].trim()) || (entry[2] && entry[2].trim()) || "").trim();
   if (!src) return "u";
   for (const p of POS_PREFIX) { if (p.re.test(src)) return p.code; }
   return "u";
