@@ -3958,6 +3958,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "gst-calculator",
+    name: "GST多國稅率計算機",
+    category: "finance",
+    path: "/tools/finance/gst-calculator",
+    icon: "Receipt",
+    description: "輸入金額與GST/消費稅率，立即算出含稅、不含稅與稅額，支援多國稅率（澳洲、紐西蘭、加拿大、新加坡等）情境換算",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4252,3 +4267,4 @@ export const homophoneFinder = { id: "homophone-finder", category: "language", n
 export const ieltsVocabularyAnalyzer = { id: "ielts-vocabulary-analyzer", category: "language", name: "IELTS Vocabulary Analyzer", path: "/tools/language/ielts-vocabulary-analyzer" };
 export const toeicScoreEstimator = { id: "toeic-score-estimator", category: "language", name: "TOEIC Score Estimator", path: "/tools/language/toeic-score-estimator" };
 export const percentageCalculator = { id: "percentage-calculator", category: "finance", name: "Percentage Calculator", path: "/tools/finance/percentage-calculator" };
+export const gstCalculator = { id: "gst-calculator", category: "finance", name: "GST Calculator", path: "/tools/finance/gst-calculator" };

@@ -274,6 +274,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "language/ielts-vocabulary-analyzer": lazy(() => import("@/tools/language/IeltsVocabularyAnalyzer")),
   "language/toeic-score-estimator": lazy(() => import("@/tools/language/ToeicScoreEstimator")),
   "finance/percentage-calculator": lazy(() => import("@/tools/finance/PercentageCalculator")),
+  "finance/gst-calculator": lazy(() => import("@/tools/finance/GstCalculator")),
 };
 
 function ToolSkeleton() {
