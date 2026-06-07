@@ -4303,6 +4303,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "task-priority-matrix",
+    name: "任務優先矩陣計算器",
+    category: "productivity",
+    path: "/tools/productivity/task-priority-matrix",
+    icon: "Grid",
+    description: "依艾森豪重要緊急矩陣為任務評分分類，產出優先處理順序",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4620,3 +4635,4 @@ export const typingSpeedCalculator = { id: "typing-speed-calculator", category: 
 export const spacedRepetitionCalculator = { id: "spaced-repetition-calculator", category: "education", name: "Spaced Repetition Calculator", path: "/tools/education/spaced-repetition-calculator" };
 export const deadlineCountdownCalculator = { id: "deadline-countdown-calculator", category: "productivity", name: "Deadline Countdown Calculator", path: "/tools/productivity/deadline-countdown-calculator" };
 export const hoursCalculator = { id: "hours-calculator", category: "productivity", name: "Hours Calculator", path: "/tools/productivity/hours-calculator" };
+export const taskPriorityMatrix = { id: "task-priority-matrix", category: "productivity", name: "Task Priority Matrix", path: "/tools/productivity/task-priority-matrix" };
