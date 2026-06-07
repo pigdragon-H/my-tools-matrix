@@ -3913,6 +3913,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "ielts-vocabulary-analyzer",
+    name: "雅思詞彙分析器",
+    category: "language",
+    path: "/tools/language/ielts-vocabulary-analyzer",
+    icon: "GraduationCap",
+    description: "貼上一段英文，逐字依 CEFR/雅思 Band 標色分析詞彙難度——A1~C2 對應雅思 4.0~9.0 Band，統計各等級佔比、預估整體 Band、列出文中高階詞與高頻詞清單，每個詞附 KK 音標、詞類、繁體中文釋義與例句，幫雅思考生掌握用詞深度。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4204,3 +4219,4 @@ export const wordRootAnalyzer = { id: "word-root-analyzer", category: "language"
 export const irregularVerbFinder = { id: "irregular-verb-finder", category: "language", name: "Irregular Verb Finder", path: "/tools/language/irregular-verb-finder" };
 export const wordFamilyExplorer = { id: "word-family-explorer", category: "language", name: "Word Family Explorer", path: "/tools/language/word-family-explorer" };
 export const homophoneFinder = { id: "homophone-finder", category: "language", name: "Homophone Finder", path: "/tools/language/homophone-finder" };
+export const ieltsVocabularyAnalyzer = { id: "ielts-vocabulary-analyzer", category: "language", name: "IELTS Vocabulary Analyzer", path: "/tools/language/ielts-vocabulary-analyzer" };
