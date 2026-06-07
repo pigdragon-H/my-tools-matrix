@@ -1,4 +1,7 @@
 # Claude 品管視窗 · 量產前必讀新法 v2.1
+
+> 🔴🔴🔴 **最高優先必讀：執行任何量產／修復任務前，先完整讀 `docs/_GOLDEN_OPERATION_HANDBOOK.md`（必成黃金操作手冊，Victor 全文核可）。** 🔴🔴🔴
+
 **適用：所有接手量產任務的 Superninja 視窗（A視窗 / B視窗）**
 **版本：v2.1（2026-06-06）— 第五法修正：grep-o指令×grep-o容許值，1fr target ≥2，font-black無上限**
 **發令：Claude 品管視窗**
