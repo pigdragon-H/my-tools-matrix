@@ -3988,6 +3988,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "crypto-profit-calculator",
+    name: "加密貨幣獲利計算機",
+    category: "finance",
+    path: "/tools/finance/crypto-profit-calculator",
+    icon: "Bitcoin",
+    description: "本工具依買入價、賣出價、持有數量與手續費，計算加密貨幣的實際獲利、報酬率與盈虧金額，支援買賣雙邊手續費扣除，協助評估每筆交易的真實收益。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4284,3 +4299,4 @@ export const toeicScoreEstimator = { id: "toeic-score-estimator", category: "lan
 export const percentageCalculator = { id: "percentage-calculator", category: "finance", name: "Percentage Calculator", path: "/tools/finance/percentage-calculator" };
 export const gstCalculator = { id: "gst-calculator", category: "finance", name: "GST Calculator", path: "/tools/finance/gst-calculator" };
 export const goldSilverPriceCalculator = { id: "gold-silver-price-calculator", category: "finance", name: "Gold Silver Price Calculator", path: "/tools/finance/gold-silver-price-calculator" };
+export const cryptoProfitCalculator = { id: "crypto-profit-calculator", category: "finance", name: "Crypto Profit Calculator", path: "/tools/finance/crypto-profit-calculator" };
