@@ -4018,6 +4018,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "currency-exchange-rate",
+    name: "即時匯率查詢器",
+    category: "finance",
+    path: "/tools/finance/currency-exchange-rate",
+    icon: "ArrowLeftRight",
+    description: "本工具依輸入的金額、來源幣別與目標幣別匯率，立即換算兩種貨幣之間的兌換金額與反向匯率，協助旅遊、跨境購物與匯款時快速估算實際到手金額。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4316,3 +4331,4 @@ export const gstCalculator = { id: "gst-calculator", category: "finance", name: 
 export const goldSilverPriceCalculator = { id: "gold-silver-price-calculator", category: "finance", name: "Gold Silver Price Calculator", path: "/tools/finance/gold-silver-price-calculator" };
 export const cryptoProfitCalculator = { id: "crypto-profit-calculator", category: "finance", name: "Crypto Profit Calculator", path: "/tools/finance/crypto-profit-calculator" };
 export const lotteryTaxCalculator = { id: "lottery-tax-calculator", category: "finance", name: "Lottery Tax Calculator", path: "/tools/finance/lottery-tax-calculator" };
+export const currencyExchangeRate = { id: "currency-exchange-rate", category: "finance", name: "Currency Exchange Rate", path: "/tools/finance/currency-exchange-rate" };
