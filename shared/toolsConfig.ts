@@ -4063,6 +4063,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "steps-to-calories-calculator",
+    name: "步數熱量計算機",
+    category: "health",
+    path: "/tools/health/steps-to-calories-calculator",
+    icon: "Footprints",
+    description: "依步數、體重與步幅估算步行消耗的熱量與步行距離，並換算每日活動量參考。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4364,3 +4379,4 @@ export const lotteryTaxCalculator = { id: "lottery-tax-calculator", category: "f
 export const currencyExchangeRate = { id: "currency-exchange-rate", category: "finance", name: "Currency Exchange Rate", path: "/tools/finance/currency-exchange-rate" };
 export const dueDateCalculator = { id: "due-date-calculator", category: "health", name: "Due Date Calculator", path: "/tools/health/due-date-calculator" };
 export const periodCycleCalculator = { id: "period-cycle-calculator", category: "health", name: "Period Cycle Calculator", path: "/tools/health/period-cycle-calculator" };
+export const stepsToCaloriesCalculator = { id: "steps-to-calories-calculator", category: "health", name: "Steps to Calories Calculator", path: "/tools/health/steps-to-calories-calculator" };

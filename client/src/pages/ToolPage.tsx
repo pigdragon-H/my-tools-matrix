@@ -281,6 +281,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/currency-exchange-rate": lazy(() => import("@/tools/finance/CurrencyExchangeRate")),
   "health/due-date-calculator": lazy(() => import("@/tools/health/DueDateCalculator")),
   "health/period-cycle-calculator": lazy(() => import("@/tools/health/PeriodCycleCalculator")),
+  "health/steps-to-calories-calculator": lazy(() => import("@/tools/health/StepsToCaloriesCalculator")),
 };
 
 function ToolSkeleton() {
