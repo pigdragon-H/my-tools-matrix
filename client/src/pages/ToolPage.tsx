@@ -294,6 +294,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "education/reading-speed-calculator": lazy(() => import("@/tools/education/ReadingSpeedCalculator")),
   "education/exam-score-converter": lazy(() => import("@/tools/education/ExamScoreConverter")),
   "education/typing-speed-calculator": lazy(() => import("@/tools/education/TypingSpeedCalculator")),
+  "education/spaced-repetition-calculator": lazy(() => import("@/tools/education/SpacedRepetitionCalculator")),
 };
 
 function ToolSkeleton() {

@@ -4258,6 +4258,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "spaced-repetition-calculator",
+    name: "間隔重複複習計算器",
+    category: "education",
+    path: "/tools/education/spaced-repetition-calculator",
+    icon: "Brain",
+    description: "依SM-2演算法計算最佳複習間隔與記憶保留率，規劃學習排程",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4572,3 +4587,4 @@ export const chmodCalculator = { id: "chmod-calculator", category: "developer", 
 export const readingSpeedCalculator = { id: "reading-speed-calculator", category: "education", name: "Reading Speed Calculator", path: "/tools/education/reading-speed-calculator" };
 export const examScoreConverter = { id: "exam-score-converter", category: "education", name: "Exam Score Converter", path: "/tools/education/exam-score-converter" };
 export const typingSpeedCalculator = { id: "typing-speed-calculator", category: "education", name: "Typing Speed Calculator", path: "/tools/education/typing-speed-calculator" };
+export const spacedRepetitionCalculator = { id: "spaced-repetition-calculator", category: "education", name: "Spaced Repetition Calculator", path: "/tools/education/spaced-repetition-calculator" };
