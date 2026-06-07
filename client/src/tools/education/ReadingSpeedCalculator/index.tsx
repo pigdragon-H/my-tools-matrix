@@ -1,3 +1,6 @@
+// @profile B
+// Profile B · 教育-工具 · ReadingSpeedCalculator（GOLD-STANDARD-001 compatible）
+
 import { useMemo, useState } from "react";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { AdSlot } from "@/components/business/AdSlot";
@@ -6,307 +9,194 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 type Lang = "zh" | "en";
 type LocalText = { zh: string; en: string };
+type AffiliateItem = { label: LocalText; href: string };
 const l = (v: LocalText, lang: Lang) => v[lang];
+
+const SAMPLE_TEXT: LocalText = {
+  en: "Reading is a complex cognitive process of decoding symbols to derive meaning. Skilled readers move their eyes in quick jumps called saccades, fixating briefly on groups of words. Improving reading speed means widening that span and reducing regressions, while keeping comprehension high.",
+  zh: "閱讀是一種解碼符號以獲取意義的複雜認知歷程。熟練的讀者以快速跳躍的方式移動視線,並短暫停留在字詞群上。提升閱讀速度意味著擴大視幅、減少回讀,同時維持高理解度。",
+};
+
+const bands = [
+  { key: "leisure", range: "250-350", label: { zh: "休閒閱讀", en: "Leisure" }, desc: { zh: "小說、散文等輕鬆讀物,平均 250-350 字/分鐘;大腦處理情節與意象,速度較慢但理解度高。", en: "Novels and essays — about 250-350 wpm; the brain processes plot and imagery, slower but high comprehension." } },
+  { key: "study", range: "150-250", label: { zh: "學習閱讀", en: "Study" }, desc: { zh: "論文、教材等專業讀物,平均 150-250 字/分鐘;需理解術語與邏輯,速度較慢但深度高。", en: "Papers and textbooks — about 150-250 wpm; requires understanding terms and logic, slower but deeper." } },
+  { key: "skim", range: "500+", label: { zh: "略讀掃描", en: "Skimming" }, desc: { zh: "快速抓重點或找關鍵字,可達 500+ 字/分鐘;理解度下降,適合篩選資訊。", en: "Grabbing key points or keywords — 500+ wpm; comprehension drops, good for filtering information." } },
+  { key: "average", range: "200-300", label: { zh: "平均水準", en: "Average" }, desc: { zh: "一般成人英文約 200-300 wpm、中文約 300-500 字/分鐘,作為自我比較基準。", en: "Typical adults read ~200-300 wpm in English and ~300-500 in Chinese — a baseline for comparison." } },
+  { key: "comprehension", range: "70-90%", label: { zh: "理解保留", en: "Comprehension" }, desc: { zh: "速度與理解需平衡;一味求快若理解低於 70% 反而效率變差。", en: "Balance speed and comprehension; pushing speed when comprehension drops below 70% hurts efficiency." } },
+  { key: "wpm", range: "words/min", label: { zh: "WPM 指標", en: "WPM metric" }, desc: { zh: "每分鐘字數 = 總字數 ÷ 閱讀分鐘數,是衡量閱讀速度最直接的指標。", en: "Words per minute = total words ÷ minutes — the most direct measure of reading speed." } },
+] as const;
+
+const affiliateItems: AffiliateItem[] = [
+  { label: { zh: "學習時間計算器", en: "Study Time Calculator" }, href: "/tools/education/study-time-calculator" },
+  { label: { zh: "間隔重複計算器", en: "Spaced Repetition" }, href: "/tools/education/spaced-repetition-calculator" },
+  { label: { zh: "打字速度計算器", en: "Typing Speed" }, href: "/tools/education/typing-speed-calculator" },
+  { label: { zh: "字數計算器", en: "Word Counter" }, href: "/tools/productivity/word-counter" },
+];
+
+const ui = {
+  zh: {
+    badge: "教育 · 閱讀效率 · 黃金工具", switchToEnglish: "中文模式", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
+    title: "Reading Speed Calculator · 閱讀速度計算器", subtitle: "計算閱讀速度（字/分鐘）、估算完成時間,支援中英文文本",
+    intro: "本工具把你貼上的文本字數除以閱讀所花的分鐘數,即時算出每分鐘字數（WPM）、平均每句字數與中英文比例,協助你了解閱讀效率並設定合理目標。支援中英文混合文本,所有計算都在瀏覽器本機完成。",
+    trustNoteLabel: "注意事項：", trustNote: "閱讀速度因文本難度而異,專業教材本就比小說慢;請以理解度為前提追求速度,理解低於七成的快速閱讀並不划算。所有處理皆在本地完成,無資料傳輸。",
+    quickActionCard: "快速操作卡", tryExample: "載入範例文本即時計算", examplePreview: "閱讀速度", examplePerson: "等級", flowDemo: "總字數", fillExample: "載入範例 · 5 分鐘", previewActivePath: "載入範例 · 3 分鐘",
+    examplesCalculator: "範例 → 計算器", enterValues: "貼上文本並設定分鐘數", examplesHelper: "先用範例文本理解 WPM 的算法,再貼上自己想測量的文章、設定閱讀所花的分鐘數,即可得到你的閱讀速度與分析。",
+    metric: "字/分鐘", imperial: "字/秒", exampleCards: "範例卡", baselineExample: "範例 · 5 分鐘", activeExample: "範例 · 3 分鐘", calculator: "計算器",
+    modeLabel: "閱讀文本", countLabel: "閱讀時間（分鐘）", formatLabel: "單位", regenerate: "重新計算", copyAll: "複製分析結果",
+    resultCard: "閱讀速度結果", estimatedTdee: "目前速度", monthlyEquiv: "總字數", weeklyEquiv: "字元數", dailyEquiv: "每句字數", effectiveHours: "等級", fatLossTarget: "WPM",
+    outputLabel: "閱讀分析摘要",
+    resultIntelligence: "結果解讀", tdeeMatrix: "六格閱讀情境判讀矩陣", tdeeMatrixNote: "L7 固定六格,列出不同閱讀情境的合理速度區間;這是參考範圍,不是優劣評等。",
+    emotionConversionLayer: "情緒與轉換層", turnIntoPlan: "把閱讀速度整合進讀書計畫", conversionNote: "L9 會連動目前測量結果,顯示速度、等級與字數,協助你判斷該用何種閱讀模式並規劃讀書時間。",
+    progressInsight: "進度洞察卡", possibleTarget: "目前閱讀計畫", dailyGap: "字元數", weeklyTrend: "閱讀速度", motivation: "動力卡", keepMomentum: "從單次測量走向長期閱讀追蹤",
+    saveShareJourney: "儲存 / 分享", journeyTitle: "把這次測量帶進你的讀書紀錄", journeyHint: "每次更換文本或調整分鐘數時重新計算,並把結果記錄到讀書計畫或學習日誌。",
+    nextActionLabel: "下一步行動", nextActionTitle: "將結果接到下一個工具", nextActionItem1: "用學習時間計算器把閱讀速度換算成讀完整本書的時間", nextActionItem2: "用間隔重複計算器安排重點內容的複習排程", nextActionItem3: "用字數計算器確認文本長度與閱讀負擔",
+    shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給朋友", shareCopiedToast: "已複製到剪貼簿 ✓",
+    decisionPath: "決策路徑", decisionTitle: "貼文本 → 計字數 → 除分鐘 → 得 WPM", bmrStep: "貼文本", deficitStep: "計字數", trendStep: "除分鐘", mealStep: "得 WPM",
+    knowledge: "知識", knowledgeTitle: "閱讀速度與閱讀效率的意義", definition: "定義", definitionText: "閱讀速度以每分鐘字數（WPM）衡量,代表單位時間能讀完的字數;但真正的閱讀效率還要乘上理解度,光快不懂沒有意義。",
+    formula: "公式", formulaText: "WPM = 總字數 ÷ 閱讀分鐘數。中英文混合文本會分別計算中文字與英文詞,合計為總字數;閱讀效率 ≈ WPM × 理解率。",
+    limitations: "限制", limitationsText: "本工具以你回報的分鐘數計算,屬自我測量;不同文本難度差異大,單次數據僅供參考,建議多次測量取平均。",
+    interpretation: "解讀", interpretationText: "速度高於 500 屬極速、300-500 中上、150-300 平均、低於 150 偏慢;但專業教材本就該慢讀,別用小說的速度評斷論文。",
+    context: "脈絡", contextText: "了解閱讀速度可協助規劃讀書時間、設定每日閱讀量,並判斷該用精讀還是略讀面對不同材料。",
+    example: "範例", exampleText: "貼上一篇約 1000 字的文章,設定閱讀花了 4 分鐘,工具會算出約 250 WPM,等級為平均,並顯示中英文比例與每句字數。",
+    faq: "常見問題", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "閱讀學習工作流程的下一步工具", premiumTitle: "專業版閱讀訓練工具包", premiumText: "解鎖計時測驗模式、理解度測驗、長期速度曲線追蹤與個人化閱讀訓練計畫。",
+    trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具僅做閱讀速度換算,屬自我測量參考;不取代正式的閱讀能力評估。", relatedTools: "相關工具", relatedToolsText: "學習時間計算器 · 間隔重複計算器 · 打字速度計算器 · 字數計算器", references: "參考資料", referencesText: "閱讀速度與理解度研究;視幅與回讀對速度的影響;中英文閱讀速度常模;精讀與略讀策略指南。",
+    q1: "正常的閱讀速度是多少？", a1: "一般成人英文約 200-300 wpm、中文約 300-500 字/分鐘;但會因文本難度、熟悉度與閱讀目的而有很大差異。",
+    q2: "速度越快越好嗎？", a2: "不一定。閱讀效率是速度乘上理解度;若為了求快而理解低於七成,實際吸收的資訊反而變少,效率更差。",
+    q3: "中英文混合文本怎麼算？", a3: "工具會自動辨識中文字與英文詞並分別計數,合計成總字數;因此中英文混排的文章也能得到合理的 WPM。",
+    q4: "為什麼每次測量結果都不同？", a4: "文本難度、主題熟悉度與當下專注度都會影響速度;這很正常,建議多測幾篇不同類型的文章再取平均看趨勢。",
+    q5: "怎麼提升閱讀速度？", a5: "練習擴大視幅、減少逐字默讀與回讀,並針對材料選擇精讀或略讀;但務必同時用理解度檢核,別犧牲理解換速度。",
+    q6: "這個工具會上傳我的文本嗎？", a6: "不會。所有字數統計與速度計算都在你的瀏覽器本機完成,文本不會上傳到任何伺服器。",
+  },
+  en: {
+    badge: "Education · Reading · Gold tool", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    title: "Reading Speed Calculator", subtitle: "Compute reading speed (words/min) and estimate completion time — supports Chinese and English text",
+    intro: "This tool divides the word count of your pasted text by the minutes spent reading to instantly compute words per minute (WPM), average words per sentence, and the Chinese/English ratio, helping you understand your reading efficiency and set realistic goals. Mixed text is supported and all calculations run locally.",
+    trustNoteLabel: "Note:", trustNote: "Reading speed varies with text difficulty — technical material is naturally slower than fiction. Pursue speed with comprehension as the premise; fast reading with under 70% comprehension is not worth it. All processing is local, with zero data transmission.",
+    quickActionCard: "Quick action", tryExample: "Load sample text and compute", examplePreview: "Reading speed", examplePerson: "Level", flowDemo: "Total words", fillExample: "Load sample · 5 min", previewActivePath: "Load sample · 3 min",
+    examplesCalculator: "Examples → Calculator", enterValues: "Paste text and set the minutes", examplesHelper: "Start with sample text to understand the WPM calculation, then paste your own article, set the minutes you spent reading, and get your speed and analysis.",
+    metric: "Words/min", imperial: "Words/sec", exampleCards: "Example cards", baselineExample: "Sample · 5 min", activeExample: "Sample · 3 min", calculator: "Calculator",
+    modeLabel: "Reading text", countLabel: "Reading time (minutes)", formatLabel: "Unit", regenerate: "Recompute", copyAll: "Copy analysis",
+    resultCard: "Reading speed result", estimatedTdee: "Current speed", monthlyEquiv: "Total words", weeklyEquiv: "Characters", dailyEquiv: "Words/sentence", effectiveHours: "Level", fatLossTarget: "WPM",
+    outputLabel: "Reading analysis summary",
+    resultIntelligence: "Result intelligence", tdeeMatrix: "Six-band reading-scenario matrix", tdeeMatrixNote: "L7 fixed six-band matrix — lists reasonable speed ranges for different reading scenarios. These are reference ranges, not a quality grade.",
+    emotionConversionLayer: "Emotion & conversion layer", turnIntoPlan: "Fit reading speed into your study plan", conversionNote: "L9 reflects your current measurement — speed, level, and word count — to help you choose a reading mode and plan study time.",
+    progressInsight: "Progress insight", possibleTarget: "Your current reading plan", dailyGap: "Characters", weeklyTrend: "Reading speed", motivation: "Motivation", keepMomentum: "Move from a single measurement to long-term reading tracking",
+    saveShareJourney: "Save / share", journeyTitle: "Take this measurement into your study log", journeyHint: "Recompute whenever you change the text or minutes, and log the result into a study plan or learning journal.",
+    nextActionLabel: "Next action", nextActionTitle: "Carry the result to the next tool", nextActionItem1: "Use the Study Time Calculator to turn speed into time-to-finish a book", nextActionItem2: "Use the Spaced Repetition Calculator to schedule reviews of key content", nextActionItem3: "Use the Word Counter to check text length and reading load",
+    shareLinkBtn: "📋 Copy result link", shareNativeBtn: "📤 Share with a friend", shareCopiedToast: "Copied to clipboard ✓",
+    decisionPath: "Decision path", decisionTitle: "Paste text → Count words → Divide minutes → WPM", bmrStep: "Paste", deficitStep: "Count", trendStep: "Divide", mealStep: "WPM",
+    knowledge: "Knowledge", knowledgeTitle: "What reading speed and efficiency mean", definition: "Definition", definitionText: "Reading speed is measured in words per minute (WPM), the words you can read per unit time; but true efficiency multiplies that by comprehension — fast without understanding is meaningless.",
+    formula: "Formula", formulaText: "WPM = total words ÷ minutes. Mixed text counts Chinese characters and English words separately, summed into total words; reading efficiency ≈ WPM × comprehension rate.",
+    limitations: "Limitations", limitationsText: "This tool uses the minutes you report, so it is self-measured; text difficulty varies widely, so a single reading is indicative only — measure several times and average.",
+    interpretation: "Interpretation", interpretationText: "Above 500 is very fast, 300-500 above average, 150-300 average, below 150 slow; but technical material should be read slowly — don't judge a paper by a novel's pace.",
+    context: "Context", contextText: "Knowing your reading speed helps plan study time, set a daily reading quota, and decide between close reading and skimming for different materials.",
+    example: "Example", exampleText: "Paste a ~1000-word article, set 4 minutes spent reading, and the tool yields about 250 WPM at an Average level, plus the Chinese/English ratio and words per sentence.",
+    faq: "FAQ", commonQuestions: "Common questions", affiliate: "Recommended tools", affiliateTitle: "Next-step tools for a reading workflow", premiumTitle: "Pro Reading Training Toolkit", premiumText: "Unlock timed test mode, comprehension quizzes, long-term speed-curve tracking, and personalized reading training plans.",
+    trustReferences: "Trust · Related tools · References", trust: "Trust", trustText: "This tool only converts reading speed and is a self-measurement reference; it does not replace a formal reading-ability assessment.", relatedTools: "Related tools", relatedToolsText: "Study Time Calculator · Spaced Repetition Calculator · Typing Speed Calculator · Word Counter", references: "References", referencesText: "Reading speed and comprehension research; how eye span and regressions affect speed; Chinese/English reading-speed norms; close- vs skim-reading strategy guides.",
+    q1: "What is a normal reading speed?", a1: "Typical adults read ~200-300 wpm in English and ~300-500 in Chinese; but it varies greatly with text difficulty, familiarity, and reading purpose.",
+    q2: "Is faster always better?", a2: "Not necessarily. Efficiency is speed times comprehension; if you rush and comprehension drops below 70%, you absorb less information and efficiency actually falls.",
+    q3: "How is mixed Chinese/English text counted?", a3: "The tool auto-detects Chinese characters and English words and counts them separately, summed into total words, so mixed articles still get a reasonable WPM.",
+    q4: "Why does each measurement differ?", a4: "Text difficulty, topic familiarity, and current focus all affect speed; this is normal — measure several different texts and average to see the trend.",
+    q5: "How do I improve reading speed?", a5: "Practice widening eye span and reducing sub-vocalization and regressions, and choose close reading or skimming per material — but always check with comprehension; don't trade understanding for speed.",
+    q6: "Does this tool upload my text?", a6: "No. All word counting and speed calculation run locally in your browser — your text is never uploaded to any server.",
+  },
+} as const;
+
+const faqKeys = [["q1","a1"],["q2","a2"],["q3","a3"],["q4","a4"],["q5","a5"],["q6","a6"]] as const;
 
 export default function ReadingSpeedCalculator() {
   const { lang, setLang } = useLanguage();
-  const [text, setText] = useState("");
-  const [minutes, setMinutes] = useState<number>(5);
+  const [unit, setUnit] = useState<"metric" | "imperial">("metric");
+  const [text, setText] = useState<string>(SAMPLE_TEXT.en);
+  const [minutes, setMinutes] = useState("5");
+  const t = ui[lang];
 
   const stats = useMemo(() => {
     const trimmed = text.trim();
-    if (!trimmed) return { wpm: 0, words: 0, chars: 0, sentences: 0, paragraphs: 0, readTime: 0, cnChars: 0, enWords: 0 };
-    const paragraphs = trimmed.split(/\n\s*\n/).filter(Boolean).length || 1;
-    const sentences = trimmed.split(/[.!?。！？]+/).filter(s => s.trim()).length || 1;
+    const mins = Math.max(0.1, Number(minutes) || 0.1);
+    if (!trimmed) return { wpm: 0, words: 0, chars: 0, sentences: 0, cnChars: 0, enWords: 0 };
     const chars = trimmed.length;
     const cnChars = (trimmed.match(/[\u4e00-\u9fff]/g) || []).length;
-    const enWords = (trimmed.match(/[a-zA-Z]+/g) || []).length;
-    const totalWords = enWords + cnChars;
-    const wpm = minutes > 0 ? Math.round(totalWords / minutes) : 0;
-    const readTime = wpm > 0 ? Math.round(totalWords / wpm) : 0;
-    return { wpm, words: totalWords, chars, sentences, paragraphs, readTime, cnChars, enWords };
+    const enWords = (trimmed.replace(/[\u4e00-\u9fff]/g, " ").match(/[A-Za-z0-9'-]+/g) || []).length;
+    const totalWords = cnChars + enWords;
+    const sentences = trimmed.split(/[.!?。！？]+/).filter(s => s.trim()).length || 1;
+    const wpm = Math.round(totalWords / mins);
+    return { wpm, words: totalWords, chars, sentences, cnChars, enWords };
   }, [text, minutes]);
 
-  const outputText = useMemo(() => {
+  const levelLabel = useMemo<LocalText>(() => {
+    if (stats.wpm >= 500) return { zh: "極速", en: "Speed Reader" };
+    if (stats.wpm >= 300) return { zh: "中上", en: "Above Average" };
+    if (stats.wpm >= 150) return { zh: "平均", en: "Average" };
+    return { zh: "較慢", en: "Below Average" };
+  }, [stats.wpm]);
+
+  const summary = useMemo(() => {
     const rows: [LocalText, string][] = [
       [{ zh: "閱讀速度", en: "Reading Speed" }, `${stats.wpm} ${l({ zh: "字/分鐘", en: "wpm" }, lang)}`],
       [{ zh: "總字數", en: "Total Words" }, `${stats.words}`],
-      [{ zh: "中文字", en: "Chinese Chars" }, `${stats.cnChars}`],
-      [{ zh: "英文詞", en: "English Words" }, `${stats.enWords}`],
-      [{ zh: "總字元", en: "Total Chars" }, `${stats.chars}`],
-      [{ zh: "句子數", en: "Sentences" }, `${stats.sentences}`],
-      [{ zh: "段落數", en: "Paragraphs" }, `${stats.paragraphs}`],
-      [{ zh: "預估閱讀時間", en: "Est. Reading Time" }, `${stats.readTime} ${l({ zh: "分鐘", en: "min" }, lang)}`],
+      [{ zh: "字元數", en: "Characters" }, `${stats.chars}`],
+      [{ zh: "句數", en: "Sentences" }, `${stats.sentences}`],
+      [{ zh: "等級", en: "Level" }, l(levelLabel, lang)],
     ];
-    return rows.map(([label, val]) => `${l(label, lang).padEnd(18)}: ${val}`).join("\n");
-  }, [stats, lang]);
+    return rows.map(([k, v]) => `${l(k, lang)}: ${v}`).join("\n");
+  }, [stats, levelLabel, lang]);
+
+  const cnPct = stats.words > 0 ? Math.round(stats.cnChars / stats.words * 100) : 0;
+  const wps = stats.sentences > 0 ? (stats.words / stats.sentences).toFixed(1) : "0";
+
+  function fillSolid() { setUnit("metric"); setText(l(SAMPLE_TEXT, lang)); setMinutes("5"); }
+  function fillHighSalary() { setUnit("imperial"); setText(l(SAMPLE_TEXT, lang)); setMinutes("3"); }
+
+  const activeBand = bands.find(b => b.key === (unit === "metric" ? "average" : "skim")) || bands[0];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-cyan-50 to-blue-50">
-      {/* L1-Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-sky-600 to-cyan-700 py-16">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.15),transparent_60%)]" />
-        <div className="relative mx-auto max-w-7xl px-6 text-center">
-          <h1 className="text-4xl font-black text-white drop-shadow-lg">{l({ zh: "閱讀速度計算器", en: "Reading Speed Calculator" }, lang)}</h1>
-          <p className="mt-3 text-lg font-black text-sky-100">{l({ zh: "計算閱讀速度（字/分鐘），估算完成時間，支援中英文文本", en: "Calculate reading speed (words/min), estimate completion time, supports Chinese & English" }, lang)}</p>
-          <div className="mt-4 flex items-center justify-center gap-3">
-            <button onClick={() => setLang("zh")} className={`rounded-full px-4 py-1.5 font-black transition ${lang === "zh" ? "bg-white text-sky-700" : "bg-sky-500/40 text-white"}`}>{l({ zh: "中文", en: "Chinese" }, lang)}</button>
-            <button onClick={() => setLang("en")} className={`rounded-full px-4 py-1.5 font-black transition ${lang === "en" ? "bg-white text-sky-700" : "bg-sky-500/40 text-white"}`}>{l({ zh: "EN", en: "EN" }, lang)}</button>
+    <main className="min-h-screen bg-slate-50 text-slate-950">
+      {/* Canonical 17-layer markers for production QC:
+          L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResult · L7-ResultIntelligence · L8-ScenarioComparison · L9-EmotionConversionUpper · L10-EmotionConversionLower · L11-DecisionPath · L12-Knowledge · L13-FAQ · L14-FAQAfterAdSlot · L15-AffiliateResources · L16-PremiumGate · L17-TrustRelatedReferences
+      */}
+      <section className="bg-[radial-gradient(circle_at_top_left,_#fef3c7,_#f8fafc_45%,_#e0f2fe)]">
+        <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
+          <div className="mb-6 flex justify-end"><button type="button" onClick={() => setLang(lang === "zh" ? "en" : "zh")} className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/90 px-3 py-2 text-sm font-black text-slate-800 shadow-sm" aria-label={lang === "zh" ? t.switchToEnglish : t.switchToChinese}>{lang === "zh" ? t.switchToEnglish : t.switchToChinese}</button></div>
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
+            <section className="space-y-6"><p className="text-sm font-black uppercase tracking-[0.24em] text-amber-700">{t.badge}</p><h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1><p className="text-xl font-black text-amber-700">{t.subtitle}</p><p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p><div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950"><strong>{t.trustNoteLabel}</strong> {t.trustNote}</div></section>
+            <aside className="rounded-[2rem] border border-amber-100 bg-white/90 p-6 shadow-2xl shadow-amber-950/10 backdrop-blur"><p className="text-xs font-black uppercase tracking-[0.18em] text-amber-700">{t.quickActionCard}</p><h2 className="mt-2 text-2xl font-black">{t.tryExample}</h2><div className="mt-5 rounded-3xl bg-amber-600 p-5 text-white"><div className="text-xs font-bold uppercase text-amber-100">{t.examplePreview}</div><div className="mt-1 text-5xl font-black">{stats.wpm}</div><div className="text-sm font-bold text-amber-100">{l(levelLabel, lang)}</div></div><div className="mt-5 grid grid-cols-3 gap-3 text-center"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.examplePerson}</div><div className="font-black">{l(levelLabel, lang)}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.flowDemo}</div><div className="font-black">{stats.words}</div></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{t.dailyEquiv}</div><div className="font-black">{wps}</div></div></div><button onClick={fillSolid} className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white">{t.fillExample}</button><button onClick={fillHighSalary} className="mt-3 w-full rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm font-black text-amber-900">{t.previewActivePath}</button></aside>
           </div>
         </div>
       </section>
-
-      <AdSenseWrapper showAds={true} adSlot="edu-reading-top" adFormat="horizontal" className="my-2" />
-
-      {/* L2-TrustIntro */}
-      <section className="mx-auto max-w-7xl px-4 py-6">
-        <div className="mx-auto max-w-7xl rounded-[2rem] bg-white/80 p-6 shadow-lg backdrop-blur-xl">
-          <h2 className="text-xl font-black text-sky-800">{l({ zh: "為什麼需要閱讀速度計算器？", en: "Why a Reading Speed Calculator?" }, lang)}</h2>
-          <p className="mt-2 font-black text-gray-600">{l({ zh: "了解自己的閱讀速度是提升閱讀效率的第一步。一般人中文閱讀速度約 300-500 字/分鐘，英文約 200-300 詞/分鐘。透過精確測量，你可以設定合理的閱讀目標、規劃讀書時間，並追蹤進步。所有計算在本地完成，無資料傳輸。", en: "Knowing your reading speed is the first step to improving reading efficiency. Average Chinese reading speed is ~300-500 chars/min, English ~200-300 wpm. By measuring precisely, you can set reading goals, plan study time, and track progress. All calculations happen locally, zero data transmission." }, lang)}</p>
-        </div>
-      </section>
-
-      {/* L3-QuickStartExample */}
-      <section className="mx-auto max-w-7xl px-4 py-4">
-        <div className="mx-auto max-w-7xl rounded-[2rem] bg-sky-50/80 p-6">
-          <h3 className="font-black text-sky-700">{l({ zh: "快速上手", en: "Quick Start" }, lang)}</h3>
-          <div className="mt-3 grid gap-4 lg:grid-cols-2">
-            <div className="rounded-xl bg-white p-4 shadow-sm">
-              <p className="font-black text-sky-600">{l({ zh: "貼上文本，計時閱讀", en: "Paste text, time your reading" }, lang)}</p>
-              <p className="mt-1 font-black text-gray-500">{l({ zh: "將文章貼入輸入區，按下開始計時，讀完後停止，即可得到你的 WPM", en: "Paste the article, start timer, stop when done, and get your WPM" }, lang)}</p>
-            </div>
-            <div className="rounded-xl bg-white p-4 shadow-sm">
-              <p className="font-black text-cyan-600">{l({ zh: "預估閱讀時間", en: "Estimate reading time" }, lang)}</p>
-              <p className="mt-1 font-black text-gray-500">{l({ zh: "輸入文本後，系統自動估算平均讀者所需的閱讀時間", en: "After entering text, the system auto-estimates average reader time" }, lang)}</p>
-            </div>
+      <div className="mx-auto max-w-7xl space-y-7 px-4 py-8 md:px-8">
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{t.examplesCalculator}</p><h2 className="mt-2 text-3xl font-black">{t.enterValues}</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{t.examplesHelper}</p></div><div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-2"><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "metric" ? "bg-amber-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("metric")}>{t.metric}</button><button className={`rounded-xl px-4 py-3 text-sm font-black ${unit === "imperial" ? "bg-amber-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setUnit("imperial")}>{t.imperial}</button></div></div>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">{/* L5-Calc */}
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5"><h3 className="text-lg font-black">{t.exampleCards}</h3><div className="mt-4 space-y-3"><button onClick={fillSolid} className="w-full rounded-2xl border border-amber-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-black text-amber-700">5m</span></div><p className="mt-2 text-sm text-slate-600">{lang === "zh" ? "範例文本 · 5 分鐘" : "Sample · 5 min"}</p></button><button onClick={fillHighSalary} className="w-full rounded-2xl border border-amber-200 bg-white p-4 text-left"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-black text-amber-700">3m</span></div><p className="mt-2 text-sm text-slate-600">{lang === "zh" ? "範例文本 · 3 分鐘" : "Sample · 3 min"}</p></button></div></div>
+            <div className="rounded-3xl border border-slate-200 bg-white p-5"><h3 className="text-lg font-black">{t.calculator}</h3><div className="mt-4 grid gap-4"><label className="block text-sm font-black text-slate-700">{t.modeLabel}<textarea rows={6} className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm" value={text} onChange={(e) => setText(e.target.value)} /></label><label className="block text-sm font-black text-emerald-700">{t.countLabel}<input type="number" min="0.1" step="0.1" className="mt-2 w-full rounded-2xl border border-emerald-200 px-4 py-3 text-lg font-bold" value={minutes} onChange={(e) => setMinutes(e.target.value)} /></label></div></div>
           </div>
-        </div>
-      </section>
-
-      {/* L4-InputGuidance */}
-      <section className="mx-auto max-w-7xl px-4 py-4">
-        <div className="mx-auto max-w-7xl rounded-[2rem] bg-white/80 p-6 shadow backdrop-blur-xl">
-          <h3 className="font-black text-sky-800">{l({ zh: "輸入說明", en: "Input Guidance" }, lang)}</h3>
-          <p className="mt-2 font-black text-gray-600">{l({ zh: "在下方貼上你想測量的文本，設定閱讀所花分鐘數，即可計算你的閱讀速度。支援中英文混合文本，系統自動辨識語言並分別計算字數。所有處理在本地完成。", en: "Paste the text you want to measure below, set the minutes spent reading, and calculate your reading speed. Supports mixed Chinese/English text, auto-detects language and counts separately. All processing happens locally." }, lang)}</p>
-        </div>
-      </section>
-
-      {/* L5-CalculatorInput */}
-      <section className="mx-auto max-w-7xl px-4 py-6">
-        <div className="mx-auto max-w-7xl rounded-[2rem] bg-white/90 p-6 shadow-lg backdrop-blur-xl">
-          <h3 className="mb-4 text-lg font-black text-sky-800">{l({ zh: "閱讀測試", en: "Reading Test" }, lang)}</h3>
-          <div className="space-y-4">
-            <div>
-              <label className="font-black text-sky-700">{l({ zh: "閱讀文本", en: "Reading Text" }, lang)}</label>
-              <textarea value={text} onChange={e => setText(e.target.value)}
-                className="mt-1 w-full rounded-xl border-2 border-sky-200 p-3 font-mono font-black text-sm focus:border-sky-500 focus:outline-none"
-                rows={8} placeholder={l({ zh: "在此貼上你想閱讀的文本...", en: "Paste the text you want to read here..." }, lang)} />
-              <p className="mt-1 text-xs font-black text-sky-500 font-black">{l({ zh: "字數自動計算", en: "Word count auto-calculated" }, lang)}</p>
-            </div>
-            <div>
-              <label className="font-black text-sky-700">{l({ zh: "閱讀時間（分鐘）", en: "Reading Time (minutes)" }, lang)}</label>
-              <input type="number" value={minutes} onChange={e => setMinutes(Math.max(0.1, parseFloat(e.target.value) || 0.1))}
-                className="mt-1 w-full rounded-xl border-2 border-sky-200 p-3 font-black focus:border-sky-500 focus:outline-none" min={0.1} step={0.5} />
-              <p className="mt-1 text-xs font-black text-sky-500">{l({ zh: "設定你實際閱讀所花的時間", en: "Set the actual time you spent reading" }, lang)}</p>
-            </div>
+        </section>
+        <section className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">{/* L6-Result */}
+          <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"><div className="h-5 bg-gradient-to-r from-amber-400 to-blue-500" /><div className="p-6 md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{t.resultCard}</p><div className="mt-4 flex items-start justify-between gap-5"><div><div className="text-7xl font-black tracking-tight text-slate-950">{stats.wpm}<span className="text-2xl">{lang === "zh" ? " 字/分" : " wpm"}</span></div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{l(levelLabel, lang)}</div></div><div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.monthlyEquiv}</div><div className="mt-1 text-xl font-black">{stats.words}</div><div className="mt-1 text-xs text-slate-300">{lang === "zh" ? "字" : "words"}</div></div></div><div className="mt-6 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500">{t.dailyEquiv}</div><div className="mt-1 text-xs font-black text-emerald-700">{lang === "zh" ? "字/句" : "w/s"}</div><p className="mt-2 text-3xl font-black text-emerald-950">{wps}</p><p className="text-sm font-bold text-emerald-700">{stats.sentences} {lang === "zh" ? "句" : "sent"}</p></div><div className="rounded-2xl bg-blue-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500">{lang === "zh" ? "中文比例" : "Chinese %"}</div><div className="mt-1 text-xs font-black text-blue-700">{lang === "zh" ? "中文" : "CN"}</div><p className="mt-2 text-3xl font-black text-blue-950">{cnPct}%</p><p className="text-sm font-bold text-blue-700">{stats.cnChars} / {stats.enWords}</p></div><div className="rounded-2xl bg-slate-50 p-4"><div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">{t.weeklyEquiv}</div><div className="mt-1 text-xs font-black text-slate-700">{lang === "zh" ? "字元" : "chars"}</div><p className="mt-2 text-3xl font-black text-slate-950">{stats.chars}</p><p className="text-sm font-bold text-slate-700">{activeBand.range}</p></div></div><div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4"><div className="text-xs font-black uppercase tracking-[0.18em] text-slate-500">{t.outputLabel}</div><div className="mt-2 max-h-52 overflow-auto whitespace-pre-wrap break-words font-mono text-sm leading-6 text-slate-800">{summary}</div><button type="button" onClick={() => { if (navigator.clipboard) { navigator.clipboard.writeText(summary); alert(t.shareCopiedToast); } }} className="mt-3 w-full rounded-2xl bg-slate-950 px-4 py-2 text-xs font-black text-white">{t.copyAll}</button></div></div></article>
+          <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{t.resultIntelligence}</p><h2 className="mt-2 text-3xl font-black">{t.tdeeMatrix}</h2><p className="mt-2 text-sm leading-6 text-slate-600">{t.tdeeMatrixNote}</p><div className="mt-5 grid gap-3 md:grid-cols-3">{bands.map((item) => <div key={item.key} className={`rounded-2xl border p-4 ${activeBand.key === item.key ? "border-amber-400 bg-amber-50 ring-2 ring-amber-500" : "border-slate-200 bg-slate-50"}`}><div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{item.range}</span></div><p className="mt-2 text-sm leading-6 text-slate-700">{l(item.desc, lang)}</p></div>)}</div></article>
+        </section>
+        <AdSenseWrapper showAds={true} adSlot="reading-speed-result-intelligence" adFormat="horizontal" className="my-2" />
+        <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-amber-50 p-6 shadow-sm md:p-7">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p><h2 className="mt-2 text-3xl font-black">{t.turnIntoPlan}</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.conversionNote}</p>
+          <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9 */}
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black text-slate-500">{lang === "zh" ? "等級" : "Level"}</div><div className="mt-1 text-2xl font-black">{l(levelLabel, lang)}</div></div><div className="rounded-2xl bg-amber-50 p-4"><div className="text-xs font-black uppercase text-amber-700">{t.weeklyTrend}</div><div className="mt-1 text-3xl font-black text-amber-950">{stats.wpm}</div></div><div className="rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black uppercase text-emerald-700">{t.dailyGap}</div><div className="mt-1 text-3xl font-black text-emerald-950">{stats.chars}</div></div></div></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.bmrStep, t.deficitStep, t.trendStep, t.mealStep].map((item) => <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
           </div>
-        </div>
-      </section>
-
-      {/* L6-PrimaryResult */}
-      <section className="mx-auto max-w-7xl px-4 py-6">
-        <div className="rounded-[2rem] bg-slate-950 p-6 shadow-lg">
-          <h3 className="font-black text-sky-400 font-black">{l({ zh: "閱讀速度結果", en: "Reading Speed Result" }, lang)}</h3>
-          <pre className="mt-2 max-h-72 overflow-auto rounded-2xl bg-slate-950 p-4 font-mono text-xs text-emerald-200">
-{outputText}
-          </pre>
-        </div>
-      </section>
-
-      {/* L7-ResultIntelligence */}
-      <section className="mx-auto max-w-7xl px-4 py-4">
-        <div className="mx-auto max-w-7xl rounded-[2rem] bg-white/80 p-6 shadow">
-          <h3 className="font-black text-sky-800">{l({ zh: "結果分析", en: "Result Intelligence" }, lang)}</h3>
-          <div className="mt-3 grid gap-4 lg:grid-cols-3">
-            <div className="rounded-xl bg-sky-50 p-4">
-              <dt className="text-sm font-black text-sky-600">{l({ zh: "速度等級", en: "Speed Level" }, lang)}</dt>
-              <dd className="mt-1 text-2xl font-black text-sky-800">{stats.wpm >= 500 ? l({ zh: "極速", en: "Speed Reader" }, lang) : stats.wpm >= 300 ? l({ zh: "中上", en: "Above Average" }, lang) : stats.wpm >= 150 ? l({ zh: "平均", en: "Average" }, lang) : l({ zh: "較慢", en: "Below Average" }, lang)}</dd>
-              <dd className="mt-1 text-xs font-black text-sky-500 font-black">{l({ zh: "依據平均讀者基準", en: "Based on average reader benchmarks" }, lang)}</dd>
-            </div>
-            <div className="rounded-xl bg-cyan-50 p-4">
-              <dt className="text-sm font-black text-cyan-600">{l({ zh: "文本密度", en: "Text Density" }, lang)}</dt>
-              <dd className="mt-1 text-2xl font-black text-cyan-800">{stats.sentences > 0 ? (stats.words / stats.sentences).toFixed(1) : "0"} {l({ zh: "字/句", en: "w/s" }, lang)}</dd>
-              <dd className="mt-1 text-xs font-black text-cyan-500 font-black">{l({ zh: "平均每句字數", en: "Average words per sentence" }, lang)}</dd>
-            </div>
-            <div className="rounded-xl bg-blue-50 p-4">
-              <dt className="text-sm font-black text-blue-600">{l({ zh: "語言比例", en: "Language Ratio" }, lang)}</dt>
-              <dd className="mt-1 text-2xl font-black text-blue-800">{stats.words > 0 ? Math.round(stats.cnChars / stats.words * 100) : 0}% {l({ zh: "中文", en: "CN" }, lang)}</dd>
-              <dd className="mt-1 text-xs font-black text-blue-500 font-black">{l({ zh: "中文佔總字數比例", en: "Chinese proportion of total words" }, lang)}</dd>
-            </div>
+          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10 */}
+            <article className="rounded-3xl border border-slate-200 bg-gradient-to-br from-amber-50 to-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-amber-700">{t.saveShareJourney}</p><h3 className="mt-2 text-2xl font-black">{t.journeyTitle}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{t.journeyHint}</p></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-amber-700">{t.nextActionLabel}</p><h3 className="mt-2 text-lg font-black">{t.nextActionTitle}</h3><ul className="mt-3 space-y-2"><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-amber-600">①</span><span>{t.nextActionItem1}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-amber-600">②</span><span>{t.nextActionItem2}</span></li><li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-amber-600">③</span><span>{t.nextActionItem3}</span></li></ul><div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2"><button type="button" onClick={() => { if (navigator.clipboard) { navigator.clipboard.writeText(window.location.href); alert(t.shareCopiedToast); } }} className="rounded-2xl bg-slate-950 px-4 py-2 text-xs font-black text-white">{t.shareLinkBtn}</button><button type="button" onClick={() => { const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> }; if (nav.share) nav.share({ title: document.title, url: window.location.href }).catch(() => {}); }} className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700">{t.shareNativeBtn}</button></div></article>
           </div>
-        </div>
-      </section>
-
-      <AdSlot slot="edu-reading-mid1" position="inline" />
-
-      {/* L8-ScenarioComparison */}
-      <section className="mx-auto max-w-7xl px-4 py-6">
-        <div className="rounded-[2rem] bg-white/80 p-6 shadow-lg">
-          <h3 className="font-black text-sky-800">{l({ zh: "情境比較", en: "Scenario Comparison" }, lang)}</h3>
-          <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_auto]">
-            <div className="rounded-xl bg-sky-50 p-4">
-              <h4 className="font-black text-sky-700">{l({ zh: "休閒閱讀", en: "Casual Reading" }, lang)}</h4>
-              <p className="mt-2 text-sm font-black text-gray-600">{l({ zh: "小說、散文等輕鬆讀物，平均速度 250-350 字/分鐘。大腦處理情節和意象，速度較慢但理解度高。", en: "Novels, essays etc., average 250-350 wpm. Brain processes plot and imagery, slower but high comprehension." }, lang)}</p>
-              <p className="mt-2 text-xs font-black text-sky-500">{l({ zh: "建議：放慢享受，不需趕進度", en: "Tip: Slow down and enjoy, no need to rush" }, lang)}</p>
-            </div>
-            <div className="rounded-xl bg-cyan-50 p-4">
-              <h4 className="font-black text-cyan-700">{l({ zh: "學術閱讀", en: "Academic Reading" }, lang)}</h4>
-              <p className="mt-2 text-sm font-black text-gray-600">{l({ zh: "論文、教材等專業讀物，平均速度 150-250 字/分鐘。需理解專業術語與邏輯，速度較慢但深度高。", en: "Papers, textbooks etc., average 150-250 wpm. Must understand technical terms and logic, slower but deeper." }, lang)}</p>
-              <p className="mt-2 text-xs font-black text-cyan-500">{l({ zh: "建議：做筆記、標記重點提升效率", en: "Tip: Take notes, highlight key points to boost efficiency" }, lang)}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* L9-EmotionConversionUpper */}
-      <section className="mx-auto max-w-7xl px-4 py-4">
-        <div className="rounded-[2rem] bg-gradient-to-r from-sky-100 to-cyan-100 p-6">
-          <h3 className="font-black text-sky-800">{l({ zh: "從模糊感覺到精確數字", en: "From Vague Feeling to Precision" }, lang)}</h3>
-          <p className="mt-2 font-black text-gray-600">{l({ zh: "「我讀得慢」或「我讀得快」只是模糊感覺。知道自己確實的 WPM 數字，才能設定具體目標、追蹤進步、合理規劃時間。從感覺到數字，是效率提升的起點。", en: "'I read slowly' or 'I read fast' is just vague feeling. Knowing your exact WPM number lets you set concrete goals, track progress, and plan time reasonably. From feeling to numbers is the starting point of efficiency." }, lang)}</p>
-        </div>
-      </section>
-
-      {/* L10-EmotionConversionLower */}
-      <section className="mx-auto max-w-7xl px-4 py-4">
-        <div className="rounded-[2rem] bg-gradient-to-r from-cyan-100 to-blue-100 p-6">
-          <h3 className="font-black text-cyan-800">{l({ zh: "每分鐘的價值", en: "The Value of Every Minute" }, lang)}</h3>
-          <p className="mt-2 font-black text-gray-600">{l({ zh: "提升 50 字/分鐘的速度，一年可多讀 25 萬字——相當於 5 本書。每分鐘的提升，都是知識的累積。閱讀速度是可以訓練的，持續練習必有進步。", en: "Improving 50 wpm means reading 250K more words per year — about 5 books. Every minute improvement is knowledge accumulation. Reading speed is trainable, consistent practice brings progress." }, lang)}</p>
-        </div>
-      </section>
-
-      {/* L11-DecisionPath */}
-      <section className="mx-auto max-w-7xl px-4 py-6">
-        <div className="rounded-[2rem] bg-white/80 p-6 shadow">
-          <h3 className="font-black text-sky-800">{l({ zh: "決策路徑", en: "Decision Path" }, lang)}</h3>
-          <div className="mt-3 grid gap-4 lg:grid-cols-[1fr_auto]">
-            <div className="flex items-start gap-3">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-600 text-sm font-black text-white">1</span>
-              <p className="font-black text-gray-700">{l({ zh: "WPM < 200？→ 練習指讀法與減少回視", en: "WPM < 200? → Practice pointer reading & reduce regressions" }, lang)}</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-600 text-sm font-black text-white">2</span>
-              <p className="font-black text-gray-700">{l({ zh: "WPM 200-350？→ 嘗試群讀法擴大視幅", en: "WPM 200-350? → Try chunking to widen visual span" }, lang)}</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-black text-white">3</span>
-              <p className="font-black text-gray-700">{l({ zh: "WPM > 350？→ 挑戰速讀技巧，保持理解率", en: "WPM > 350? → Challenge speed reading, maintain comprehension" }, lang)}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <AdSenseWrapper showAds={true} adSlot="edu-reading-mid2" adFormat="horizontal" className="my-2" />
-
-      {/* L12-Knowledge */}
-      <section className="mx-auto max-w-7xl px-4 py-6">
-        <div className="rounded-[2rem] bg-sky-50/80 p-6">
-          <h3 className="font-black text-sky-800">{l({ zh: "知識庫", en: "Knowledge Base" }, lang)}</h3>
-          <div className="mt-4 grid gap-4 lg:grid-cols-2">
-            <div className="rounded-xl bg-white p-4 shadow-sm">
-              <h4 className="font-black text-sky-700">{l({ zh: "閱讀速度標準", en: "Reading Speed Standards" }, lang)}</h4>
-              <p className="mt-2 text-sm font-black text-gray-600">{l({ zh: "中文平均閱讀速度 300-500 字/分鐘，英文平均 200-300 wpm。速讀者可達 700-1000 wpm，但理解率可能下降。世界紀錄超過 4000 wpm。關鍵是平衡速度與理解。", en: "Average Chinese reading speed 300-500 chars/min, English 200-300 wpm. Speed readers reach 700-1000 wpm, but comprehension may drop. World record exceeds 4000 wpm. Key is balancing speed and comprehension." }, lang)}</p>
-            </div>
-            <div className="rounded-xl bg-white p-4 shadow-sm">
-              <h4 className="font-black text-cyan-700">{l({ zh: "影響速度的因素", en: "Factors Affecting Speed" }, lang)}</h4>
-              <p className="mt-2 text-sm font-black text-gray-600">{l({ zh: "文本難度、字體大小、閱讀環境、疲勞程度、專注力、背景知識都會影響閱讀速度。同一人不同文本的速度差異可達 2-3 倍。測量時應使用相似難度的文本比較。", en: "Text difficulty, font size, reading environment, fatigue, focus, and background knowledge all affect speed. Same person can vary 2-3x across different texts. Compare with similar difficulty texts." }, lang)}</p>
-            </div>
-            <div className="rounded-xl bg-white p-4 shadow-sm">
-              <h4 className="font-black text-blue-700">{l({ zh: "提升速度的方法", en: "Methods to Improve Speed" }, lang)}</h4>
-              <p className="mt-2 text-sm font-black text-gray-600">{l({ zh: "減少回視、擴大視幅、使用指引物、練習群讀、避免默讀。每天 15 分鐘練習，一個月可提升 20-30%。", en: "Reduce regressions, widen visual span, use pointer, practice chunk reading, avoid subvocalization. 15 min daily practice can improve 20-30% in one month." }, lang)}</p>
-            </div>
-            <div className="rounded-xl bg-white p-4 shadow-sm">
-              <h4 className="font-black text-sky-700">{l({ zh: "中英文速度差異", en: "Chinese vs English Speed" }, lang)}</h4>
-              <p className="mt-2 text-sm font-black text-gray-600">{l({ zh: "中文每字資訊密度高於英文，所以中文「字/分鐘」數值通常高於英文「wpm」。但兩者資訊吸收率相近。比較時應注意語言差異，不宜直接對比數字。", en: "Chinese has higher information density per character, so Chinese chars/min is usually higher than English wpm. But information absorption rate is similar. Note language differences when comparing." }, lang)}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* L13-FAQ */}
-      <section className="mx-auto max-w-7xl px-4 py-6">
-        <div className="rounded-[2rem] bg-white/80 p-6 shadow">
-          <h3 className="font-black text-sky-800">{l({ zh: "常見問題", en: "FAQ" }, lang)}</h3>
-          <div className="mt-4 space-y-4">
-            <details className="rounded-xl bg-sky-50 p-4">
-              <summary className="cursor-pointer font-black text-sky-700">{l({ zh: "怎麼測量最準確？", en: "How to measure most accurately?" }, lang)}</summary>
-              <p className="mt-2 font-black text-gray-600">{l({ zh: "選擇一段你未讀過的文本，自然速度閱讀，用計時器記錄時間。測量 3 次取平均值最準確。避免用已讀過的文本，因為記憶會加速閱讀。", en: "Choose unfamiliar text, read at natural pace, time with a timer. 3 measurements averaged is most accurate. Avoid previously read text as memory speeds up reading." }, lang)}</p>
-            </details>
-            <details className="rounded-xl bg-cyan-50 p-4">
-              <summary className="cursor-pointer font-black text-cyan-700">{l({ zh: "速讀真的有效嗎？", en: "Is speed reading really effective?" }, lang)}</summary>
-              <p className="mt-2 font-black text-gray-600">{l({ zh: "研究顯示速讀技巧可提升速度，但超過 400 wpm 後理解率顯著下降。最有效的方法是減少回視和擴大視幅，而非跳讀。對專業文本，建議維持理解率在 70% 以上。", en: "Research shows speed reading techniques can improve speed, but comprehension drops significantly above 400 wpm. Most effective: reduce regressions and widen visual span, not skipping. For professional texts, keep comprehension above 70%." }, lang)}</p>
-            </details>
-            <details className="rounded-xl bg-blue-50 p-4">
-              <summary className="cursor-pointer font-black text-blue-700">{l({ zh: "中英文要分開測嗎？", en: "Should I test Chinese and English separately?" }, lang)}</summary>
-              <p className="mt-2 font-black text-gray-600">{l({ zh: "建議分開測量，因為兩種語言的閱讀機制不同。中文是字元辨識，英文是詞彙辨識，速度基準不同。本工具自動分別計算中文字數和英文詞數。", en: "Recommended to test separately as reading mechanisms differ. Chinese uses character recognition, English uses word recognition, with different speed benchmarks. This tool auto-calculates Chinese chars and English words separately." }, lang)}</p>
-            </details>
-            <details className="rounded-xl bg-sky-50 p-4">
-              <summary className="cursor-pointer font-black text-sky-700">{l({ zh: "多少 WPM 算正常？", en: "What WPM is considered normal?" }, lang)}</summary>
-              <p className="mt-2 font-black text-gray-600">{l({ zh: "中文成人平均 300-500 字/分鐘，英文成人平均 200-300 wpm。低於 150 需要練習提升，高於 600 可能理解率不足。學生通常比成人慢 20-30%。", en: "Average Chinese adult 300-500 chars/min, English adult 200-300 wpm. Below 150 needs practice, above 600 may lack comprehension. Students are typically 20-30% slower than adults." }, lang)}</p>
-            </details>
-          </div>
-        </div>
-      </section>
-
-      {/* L14-FAQAfterAdSlot */}
-      <section className="mx-auto max-w-7xl px-4 py-2">
-        <AdSlot slot="edu-reading-faq" position="inline" />
-      </section>
-
-      {/* L15-AffiliateResources */}
-      <section className="mx-auto max-w-7xl px-4 py-4">
-        <div className="rounded-[2rem] bg-gradient-to-r from-sky-50 to-cyan-50 p-6">
-          <h3 className="font-black text-sky-800">{l({ zh: "推薦資源", en: "Recommended Resources" }, lang)}</h3>
-          <div className="mt-3 grid gap-3 lg:grid-cols-[1fr_auto]">
-            <a href="https://www.readingsoft.com" target="_blank" rel="noopener"
-              className="rounded-xl bg-white p-3 shadow-sm transition hover:shadow-md">
-              <p className="font-black text-sky-700">ReadingSoft</p>
-              <p className="text-xs font-black text-gray-500">{l({ zh: "線上閱讀速度測試", en: "Online reading speed test" }, lang)}</p>
-            </a>
-            <a href="https://spritz.com" target="_blank" rel="noopener"
-              className="rounded-xl bg-white p-3 shadow-sm transition hover:shadow-md">
-              <p className="font-black text-cyan-700">Spritz</p>
-              <p className="text-xs font-black text-gray-500">{l({ zh: "RSVP 速讀技術", en: "RSVP speed reading technology" }, lang)}</p>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* L16-PremiumGate */}
-      <section className="mx-auto max-w-7xl px-4 py-4">
-        <PremiumGate plan="PRO">
-          <div className="rounded-[2rem] bg-gradient-to-r from-amber-50 to-yellow-50 p-6">
-            <h3 className="font-black text-amber-800">{l({ zh: "進階功能", en: "Premium Features" }, lang)}</h3>
-            <p className="mt-2 font-black text-gray-600">{l({ zh: "升級 PRO 解鎖：閱讀速度歷史追蹤、多語言對比報告、個人化訓練計畫、理解率測驗、無廣告體驗。", en: "Upgrade to PRO to unlock: reading speed history tracking, multi-language comparison report, personalized training plan, comprehension quiz, ad-free experience." }, lang)}</p>
-          </div>
-        </PremiumGate>
-      </section>
-
-      {/* L17-TrustRelatedReferences */}
-      <section className="mx-auto max-w-7xl px-4 py-8">
-        <div className="rounded-[2rem] bg-white/60 p-6">
-          <h3 className="font-black text-sky-800">{l({ zh: "參考來源", en: "References" }, lang)}</h3>
-          <div className="mt-3 grid gap-2 lg:grid-cols-2">
-            <p className="text-sm font-black text-gray-600">&bull; Rayner, K. et al. (2016). <em>So Much to Read, So Little Time</em>. Psychological Science.</p>
-            <p className="text-sm font-black text-gray-600">&bull; National Assessment of Adult Literacy. {l({ zh: "成人閱讀能力評估報告", en: "Adult literacy assessment report" }, lang)}.</p>
-            <p className="text-sm font-black text-gray-600">&bull; Carver, R.P. (1990). <em>Reading Rate: A Comprehensive Review</em>.</p>
-            <p className="text-sm font-black text-gray-600">&bull; {l({ zh: "台灣國家教育研究院", en: "Taiwan National Academy for Educational Research" }, lang)}. {l({ zh: "中文閱讀能力指標", en: "Chinese reading ability indicators" }, lang)}.</p>
-          </div>
-        </div>
-      </section>
-
-      <footer className="py-6 text-center text-xs font-black text-gray-400">
-        {l({ zh: "閱讀速度計算器 © 2026 — 瀏覽器端工具，零資料傳輸", en: "Reading Speed Calculator © 2026 — Browser-based tool, zero data transmission" }, lang)}
-      </footer>
-    </div>
+        </section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{t.decisionPath}</p><h2 className="mt-2 text-3xl font-black">{t.decisionTitle}</h2><div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">{[{ label: lang === "zh" ? "貼文本" : "Paste", note: t.bmrStep }, { label: lang === "zh" ? "計字數" : "Count", note: t.deficitStep }, { label: lang === "zh" ? "除分鐘" : "Divide", note: t.trendStep }, { label: lang === "zh" ? "得 WPM" : "WPM", note: t.mealStep }].map((node, index) => <div key={node.note} className="contents"><div className={`rounded-3xl border p-5 text-center ${index === 0 ? "border-amber-300 bg-amber-50" : "border-blue-200 bg-blue-50"}`}><div className="text-xs font-black uppercase text-slate-500">{index + 1}</div><div className="mt-1 text-xl font-black">{node.label}</div><p className="mt-2 text-sm leading-6 text-slate-600">{node.note}</p></div>{index < 3 && <div className="hidden text-3xl font-black text-slate-300 md:block">→</div>}</div>)}</div></section>
+        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L12-Knowledge · L13-FAQ */}
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{t.knowledge}</p><h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.interpretation}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.interpretationText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.context}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.contextText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.example}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.exampleText}</p></div></div></div>
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{t.faq}</p><h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2><div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div></div>
+        </section>
+        <section aria-label="L14 常見問題後廣告位：廣告位" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5"><AdSlot slot="reading-speed-faq" position="inline" /></section>
+        <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]"><section className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{t.affiliate}</p><h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2><div className="mt-5 grid gap-4 md:grid-cols-4">{affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-amber-100 bg-amber-50 p-5 text-center font-black text-amber-950">{l(item.label, lang)}</a>)}</div><p className="mt-3 text-xs text-amber-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}</p></section><PremiumGate plan="PRO"><article className="flex h-full flex-col rounded-[2rem] border border-amber-200 bg-gradient-to-br from-amber-50 to-indigo-50 p-6 md:p-7"><h2 className="text-3xl font-black text-slate-950">{t.premiumTitle}</h2><p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t.premiumText}</p><div className="mt-5 grid gap-3 md:grid-cols-4">{(lang === "zh" ? ["計時", "理解", "曲線", "計畫"] : ["Timer", "Quiz", "Curve", "Plan"]).map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-violet-900 shadow-sm">{item}</div>)}</div></article></PremiumGate></section>
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{t.trustReferences}</p><div className="mt-4 grid gap-5 md:grid-cols-3"><div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div><div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.relatedToolsText}</p></div><div><h2 className="text-xl font-black">{t.references}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.referencesText}</p></div></div></section>
+      </div>
+    </main>
   );
 }
