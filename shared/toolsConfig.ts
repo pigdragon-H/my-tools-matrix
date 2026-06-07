@@ -3973,6 +3973,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "gold-silver-price-calculator",
+    name: "金銀價格計算機",
+    category: "finance",
+    path: "/tools/finance/gold-silver-price-calculator",
+    icon: "Coins",
+    description: "輸入金銀重量、純度與單價，立即計算貴金屬實際價值，支援盎司／公克／台錢單位與K金純度換算",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4268,3 +4283,4 @@ export const ieltsVocabularyAnalyzer = { id: "ielts-vocabulary-analyzer", catego
 export const toeicScoreEstimator = { id: "toeic-score-estimator", category: "language", name: "TOEIC Score Estimator", path: "/tools/language/toeic-score-estimator" };
 export const percentageCalculator = { id: "percentage-calculator", category: "finance", name: "Percentage Calculator", path: "/tools/finance/percentage-calculator" };
 export const gstCalculator = { id: "gst-calculator", category: "finance", name: "GST Calculator", path: "/tools/finance/gst-calculator" };
+export const goldSilverPriceCalculator = { id: "gold-silver-price-calculator", category: "finance", name: "Gold Silver Price Calculator", path: "/tools/finance/gold-silver-price-calculator" };
