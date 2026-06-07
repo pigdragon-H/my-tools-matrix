@@ -4003,6 +4003,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "lottery-tax-calculator",
+    name: "彩票稅後實得計算機",
+    category: "finance",
+    path: "/tools/finance/lottery-tax-calculator",
+    icon: "Ticket",
+    description: "本工具依中獎金額、預扣稅率與一次領取或分期年金選項，計算彩票或樂透中獎後的稅後實際可得金額，協助比較一次領與年金的稅後差異。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4300,3 +4315,4 @@ export const percentageCalculator = { id: "percentage-calculator", category: "fi
 export const gstCalculator = { id: "gst-calculator", category: "finance", name: "GST Calculator", path: "/tools/finance/gst-calculator" };
 export const goldSilverPriceCalculator = { id: "gold-silver-price-calculator", category: "finance", name: "Gold Silver Price Calculator", path: "/tools/finance/gold-silver-price-calculator" };
 export const cryptoProfitCalculator = { id: "crypto-profit-calculator", category: "finance", name: "Crypto Profit Calculator", path: "/tools/finance/crypto-profit-calculator" };
+export const lotteryTaxCalculator = { id: "lottery-tax-calculator", category: "finance", name: "Lottery Tax Calculator", path: "/tools/finance/lottery-tax-calculator" };
