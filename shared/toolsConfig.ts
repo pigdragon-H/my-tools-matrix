@@ -4033,6 +4033,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "due-date-calculator",
+    name: "預產期計算機",
+    category: "health",
+    path: "/tools/health/due-date-calculator",
+    icon: "Baby",
+    description: "依末次月經日期（LMP）以內格勒法則推算預產期，並顯示目前妊娠週數與三期階段。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4332,3 +4347,4 @@ export const goldSilverPriceCalculator = { id: "gold-silver-price-calculator", c
 export const cryptoProfitCalculator = { id: "crypto-profit-calculator", category: "finance", name: "Crypto Profit Calculator", path: "/tools/finance/crypto-profit-calculator" };
 export const lotteryTaxCalculator = { id: "lottery-tax-calculator", category: "finance", name: "Lottery Tax Calculator", path: "/tools/finance/lottery-tax-calculator" };
 export const currencyExchangeRate = { id: "currency-exchange-rate", category: "finance", name: "Currency Exchange Rate", path: "/tools/finance/currency-exchange-rate" };
+export const dueDateCalculator = { id: "due-date-calculator", category: "health", name: "Due Date Calculator", path: "/tools/health/due-date-calculator" };
