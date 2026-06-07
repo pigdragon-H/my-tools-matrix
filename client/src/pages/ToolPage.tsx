@@ -298,6 +298,11 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "productivity/deadline-countdown-calculator": lazy(() => import("@/tools/productivity/DeadlineCountdownCalculator")),
   "productivity/hours-calculator": lazy(() => import("@/tools/productivity/HoursCalculator")),
   "productivity/task-priority-matrix": lazy(() => import("@/tools/productivity/TaskPriorityMatrix")),
+  "ecommerce/amazon-fba-calculator": lazy(() => import("@/tools/ecommerce/AmazonFbaCalculator")),
+  "ecommerce/dropshipping-profit-calculator": lazy(() => import("@/tools/ecommerce/DropshippingProfitCalculator")),
+  "ecommerce/etsy-fee-calculator": lazy(() => import("@/tools/ecommerce/EtsyFeeCalculator")),
+  "travel/flight-carbon-calculator": lazy(() => import("@/tools/travel/FlightCarbonCalculator")),
+  "travel/travel-miles-calculator": lazy(() => import("@/tools/travel/TravelMilesCalculator")),
 };
 
 function ToolSkeleton() {
