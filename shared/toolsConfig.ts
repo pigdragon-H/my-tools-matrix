@@ -4273,6 +4273,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "deadline-countdown-calculator",
+    name: "截止日倒數計算器",
+    category: "productivity",
+    path: "/tools/productivity/deadline-countdown-calculator",
+    icon: "Clock",
+    description: "計算距離截止日的剩餘天數、工作日與每日所需進度，掌握專案排程",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4588,3 +4603,4 @@ export const readingSpeedCalculator = { id: "reading-speed-calculator", category
 export const examScoreConverter = { id: "exam-score-converter", category: "education", name: "Exam Score Converter", path: "/tools/education/exam-score-converter" };
 export const typingSpeedCalculator = { id: "typing-speed-calculator", category: "education", name: "Typing Speed Calculator", path: "/tools/education/typing-speed-calculator" };
 export const spacedRepetitionCalculator = { id: "spaced-repetition-calculator", category: "education", name: "Spaced Repetition Calculator", path: "/tools/education/spaced-repetition-calculator" };
+export const deadlineCountdownCalculator = { id: "deadline-countdown-calculator", category: "productivity", name: "Deadline Countdown Calculator", path: "/tools/productivity/deadline-countdown-calculator" };
