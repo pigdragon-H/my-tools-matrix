@@ -291,6 +291,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "developer/code-minifier": lazy(() => import("@/tools/developer/CodeMinifier")),
   "developer/image-to-base64": lazy(() => import("@/tools/developer/ImageToBase64")),
   "developer/chmod-calculator": lazy(() => import("@/tools/developer/ChmodCalculator")),
+  "education/reading-speed-calculator": lazy(() => import("@/tools/education/ReadingSpeedCalculator")),
 };
 
 function ToolSkeleton() {

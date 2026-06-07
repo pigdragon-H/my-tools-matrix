@@ -4213,6 +4213,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "reading-speed-calculator",
+    name: "閱讀速度計算器",
+    category: "education",
+    path: "/tools/education/reading-speed-calculator",
+    icon: "BookOpen",
+    description: "計算閱讀速度（字/分鐘），估算完成時間，支援中英文文本",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4524,3 +4539,4 @@ export const loremIpsumGenerator = { id: "lorem-ipsum-generator", category: "dev
 export const codeMinifier = { id: "code-minifier", category: "developer", name: "Code Minifier", path: "/tools/developer/code-minifier" };
 export const imageToBase64 = { id: "image-to-base64", category: "developer", name: "Image to Base64", path: "/tools/developer/image-to-base64" };
 export const chmodCalculator = { id: "chmod-calculator", category: "developer", name: "Chmod Calculator", path: "/tools/developer/chmod-calculator" };
+export const readingSpeedCalculator = { id: "reading-speed-calculator", category: "education", name: "Reading Speed Calculator", path: "/tools/education/reading-speed-calculator" };
