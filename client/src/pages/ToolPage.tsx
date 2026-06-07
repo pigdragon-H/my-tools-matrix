@@ -296,6 +296,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "education/typing-speed-calculator": lazy(() => import("@/tools/education/TypingSpeedCalculator")),
   "education/spaced-repetition-calculator": lazy(() => import("@/tools/education/SpacedRepetitionCalculator")),
   "productivity/deadline-countdown-calculator": lazy(() => import("@/tools/productivity/DeadlineCountdownCalculator")),
+  "productivity/hours-calculator": lazy(() => import("@/tools/productivity/HoursCalculator")),
 };
 
 function ToolSkeleton() {
