@@ -289,6 +289,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "developer/uuid-generator": lazy(() => import("@/tools/developer/UuidGenerator")),
   "developer/lorem-ipsum-generator": lazy(() => import("@/tools/developer/LoremIpsumGenerator")),
   "developer/code-minifier": lazy(() => import("@/tools/developer/CodeMinifier")),
+  "developer/image-to-base64": lazy(() => import("@/tools/developer/ImageToBase64")),
 };
 
 function ToolSkeleton() {

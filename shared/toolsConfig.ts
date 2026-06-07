@@ -4183,6 +4183,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "image-to-base64",
+    name: "圖片轉 Base64",
+    category: "developer",
+    path: "/tools/developer/image-to-base64",
+    icon: "Image",
+    description: "將圖片檔案轉換為 Base64 編碼字串，支援 PNG/JPG/GIF/WebP/SVG",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4492,3 +4507,4 @@ export const sobrietyCalculator = { id: "sobriety-calculator", category: "health
 export const uuidGenerator = { id: "uuid-generator", category: "developer", name: "UUID Generator", path: "/tools/developer/uuid-generator" };
 export const loremIpsumGenerator = { id: "lorem-ipsum-generator", category: "developer", name: "Lorem Ipsum Generator", path: "/tools/developer/lorem-ipsum-generator" };
 export const codeMinifier = { id: "code-minifier", category: "developer", name: "Code Minifier", path: "/tools/developer/code-minifier" };
+export const imageToBase64 = { id: "image-to-base64", category: "developer", name: "Image to Base64", path: "/tools/developer/image-to-base64" };
