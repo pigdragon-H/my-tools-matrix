@@ -4153,6 +4153,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "lorem-ipsum-generator",
+    name: "Lorem Ipsum 產生器",
+    category: "developer",
+    path: "/tools/developer/lorem-ipsum-generator",
+    icon: "Type",
+    description: "快速產生 Lorem Ipsum 假文段落，支援段落/句子/單字模式與自訂數量",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4460,3 +4475,4 @@ export const bloodSugarConverter = { id: "blood-sugar-converter", category: "hea
 export const childGrowthPercentile = { id: "child-growth-percentile", category: "health", name: "Child Growth Percentile", path: "/tools/health/child-growth-percentile" };
 export const sobrietyCalculator = { id: "sobriety-calculator", category: "health", name: "Sobriety Calculator", path: "/tools/health/sobriety-calculator" };
 export const uuidGenerator = { id: "uuid-generator", category: "developer", name: "UUID Generator", path: "/tools/developer/uuid-generator" };
+export const loremIpsumGenerator = { id: "lorem-ipsum-generator", category: "developer", name: "Lorem Ipsum Generator", path: "/tools/developer/lorem-ipsum-generator" };
