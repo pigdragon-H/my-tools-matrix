@@ -4198,6 +4198,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "chmod-calculator",
+    name: "Chmod 權限計算器",
+    category: "developer",
+    path: "/tools/developer/chmod-calculator",
+    icon: "Shield",
+    description: "計算 Linux/Unix 檔案權限 chmod 數值，支援符號與數字表示法轉換",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4508,3 +4523,4 @@ export const uuidGenerator = { id: "uuid-generator", category: "developer", name
 export const loremIpsumGenerator = { id: "lorem-ipsum-generator", category: "developer", name: "Lorem Ipsum Generator", path: "/tools/developer/lorem-ipsum-generator" };
 export const codeMinifier = { id: "code-minifier", category: "developer", name: "Code Minifier", path: "/tools/developer/code-minifier" };
 export const imageToBase64 = { id: "image-to-base64", category: "developer", name: "Image to Base64", path: "/tools/developer/image-to-base64" };
+export const chmodCalculator = { id: "chmod-calculator", category: "developer", name: "Chmod Calculator", path: "/tools/developer/chmod-calculator" };
