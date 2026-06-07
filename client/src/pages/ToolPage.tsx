@@ -293,6 +293,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "developer/chmod-calculator": lazy(() => import("@/tools/developer/ChmodCalculator")),
   "education/reading-speed-calculator": lazy(() => import("@/tools/education/ReadingSpeedCalculator")),
   "education/exam-score-converter": lazy(() => import("@/tools/education/ExamScoreConverter")),
+  "education/typing-speed-calculator": lazy(() => import("@/tools/education/TypingSpeedCalculator")),
 };
 
 function ToolSkeleton() {

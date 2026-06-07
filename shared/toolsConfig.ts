@@ -4243,6 +4243,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "typing-speed-calculator",
+    name: "打字速度計算器",
+    category: "education",
+    path: "/tools/education/typing-speed-calculator",
+    icon: "Keyboard",
+    description: "計算每分鐘字數(WPM)與準確率，評估打字速度等級",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4556,3 +4571,4 @@ export const imageToBase64 = { id: "image-to-base64", category: "developer", nam
 export const chmodCalculator = { id: "chmod-calculator", category: "developer", name: "Chmod Calculator", path: "/tools/developer/chmod-calculator" };
 export const readingSpeedCalculator = { id: "reading-speed-calculator", category: "education", name: "Reading Speed Calculator", path: "/tools/education/reading-speed-calculator" };
 export const examScoreConverter = { id: "exam-score-converter", category: "education", name: "Exam Score Converter", path: "/tools/education/exam-score-converter" };
+export const typingSpeedCalculator = { id: "typing-speed-calculator", category: "education", name: "Typing Speed Calculator", path: "/tools/education/typing-speed-calculator" };
