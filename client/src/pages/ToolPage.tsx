@@ -272,6 +272,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "language/word-family-explorer": lazy(() => import("@/tools/language/WordFamilyExplorer")),
   "language/homophone-finder": lazy(() => import("@/tools/language/HomophoneFinder")),
   "language/ielts-vocabulary-analyzer": lazy(() => import("@/tools/language/IeltsVocabularyAnalyzer")),
+  "language/toeic-score-estimator": lazy(() => import("@/tools/language/ToeicScoreEstimator")),
 };
 
 function ToolSkeleton() {

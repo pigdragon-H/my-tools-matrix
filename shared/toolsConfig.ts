@@ -3928,6 +3928,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "toeic-score-estimator",
+    name: "多益分數估算器",
+    category: "language",
+    path: "/tools/language/toeic-score-estimator",
+    icon: "Award",
+    description: "貼上一段英文，逐字依 CEFR 等級對應多益(TOEIC)分數帶估算用詞分數——A1~C2 對應多益約 250~990 分，逐字標色、統計各等級佔比、用加權平均預估這段文字的多益用詞分數，並列出文中高階詞與高頻詞清單，每個詞附 KK 音標、詞類、繁體中文釋義與例句，幫多益考生掌握用詞難度與目標分差距。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4220,3 +4235,4 @@ export const irregularVerbFinder = { id: "irregular-verb-finder", category: "lan
 export const wordFamilyExplorer = { id: "word-family-explorer", category: "language", name: "Word Family Explorer", path: "/tools/language/word-family-explorer" };
 export const homophoneFinder = { id: "homophone-finder", category: "language", name: "Homophone Finder", path: "/tools/language/homophone-finder" };
 export const ieltsVocabularyAnalyzer = { id: "ielts-vocabulary-analyzer", category: "language", name: "IELTS Vocabulary Analyzer", path: "/tools/language/ielts-vocabulary-analyzer" };
+export const toeicScoreEstimator = { id: "toeic-score-estimator", category: "language", name: "TOEIC Score Estimator", path: "/tools/language/toeic-score-estimator" };
