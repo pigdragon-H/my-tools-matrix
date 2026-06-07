@@ -283,6 +283,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "health/period-cycle-calculator": lazy(() => import("@/tools/health/PeriodCycleCalculator")),
   "health/steps-to-calories-calculator": lazy(() => import("@/tools/health/StepsToCaloriesCalculator")),
   "health/calories-burned-activity": lazy(() => import("@/tools/health/CaloriesBurnedActivity")),
+  "health/blood-sugar-converter": lazy(() => import("@/tools/health/BloodSugarConverter")),
 };
 
 function ToolSkeleton() {

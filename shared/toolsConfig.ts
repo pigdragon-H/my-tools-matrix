@@ -4093,6 +4093,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "blood-sugar-converter",
+    name: "血糖單位換算器",
+    category: "health",
+    path: "/tools/health/blood-sugar-converter",
+    icon: "Droplet",
+    description: "在 mg/dL 與 mmol/L 之間換算血糖值，並對照常見空腹與餐後參考區間。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4396,3 +4411,4 @@ export const dueDateCalculator = { id: "due-date-calculator", category: "health"
 export const periodCycleCalculator = { id: "period-cycle-calculator", category: "health", name: "Period Cycle Calculator", path: "/tools/health/period-cycle-calculator" };
 export const stepsToCaloriesCalculator = { id: "steps-to-calories-calculator", category: "health", name: "Steps to Calories Calculator", path: "/tools/health/steps-to-calories-calculator" };
 export const caloriesBurnedActivity = { id: "calories-burned-activity", category: "health", name: "Calories Burned by Activity", path: "/tools/health/calories-burned-activity" };
+export const bloodSugarConverter = { id: "blood-sugar-converter", category: "health", name: "Blood Sugar Converter", path: "/tools/health/blood-sugar-converter" };
