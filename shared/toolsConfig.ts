@@ -4078,6 +4078,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "calories-burned-activity",
+    name: "活動消耗熱量計算機",
+    category: "health",
+    path: "/tools/health/calories-burned-activity",
+    icon: "Flame",
+    description: "依運動類型的代謝當量(MET)、體重與時間估算各種活動消耗的熱量，並比較不同強度。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4380,3 +4395,4 @@ export const currencyExchangeRate = { id: "currency-exchange-rate", category: "f
 export const dueDateCalculator = { id: "due-date-calculator", category: "health", name: "Due Date Calculator", path: "/tools/health/due-date-calculator" };
 export const periodCycleCalculator = { id: "period-cycle-calculator", category: "health", name: "Period Cycle Calculator", path: "/tools/health/period-cycle-calculator" };
 export const stepsToCaloriesCalculator = { id: "steps-to-calories-calculator", category: "health", name: "Steps to Calories Calculator", path: "/tools/health/steps-to-calories-calculator" };
+export const caloriesBurnedActivity = { id: "calories-burned-activity", category: "health", name: "Calories Burned by Activity", path: "/tools/health/calories-burned-activity" };
