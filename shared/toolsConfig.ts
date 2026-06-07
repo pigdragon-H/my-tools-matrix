@@ -4123,6 +4123,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "sobriety-calculator",
+    name: "酒精濃度計算機",
+    category: "health",
+    path: "/tools/health/sobriety-calculator",
+    icon: "Wine",
+    description: "輸入飲酒量與體重，估算血液酒精濃度(BAC)與大致代謝所需時間。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4428,3 +4443,4 @@ export const stepsToCaloriesCalculator = { id: "steps-to-calories-calculator", c
 export const caloriesBurnedActivity = { id: "calories-burned-activity", category: "health", name: "Calories Burned by Activity", path: "/tools/health/calories-burned-activity" };
 export const bloodSugarConverter = { id: "blood-sugar-converter", category: "health", name: "Blood Sugar Converter", path: "/tools/health/blood-sugar-converter" };
 export const childGrowthPercentile = { id: "child-growth-percentile", category: "health", name: "Child Growth Percentile", path: "/tools/health/child-growth-percentile" };
+export const sobrietyCalculator = { id: "sobriety-calculator", category: "health", name: "Sobriety Calculator", path: "/tools/health/sobriety-calculator" };
