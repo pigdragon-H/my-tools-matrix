@@ -4108,6 +4108,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "child-growth-percentile",
+    name: "兒童生長曲線百分位",
+    category: "health",
+    path: "/tools/health/child-growth-percentile",
+    icon: "Baby",
+    description: "輸入兒童的年齡與身高體重，估算所在的生長百分位區間，對照常見參考帶，協助理解成長趨勢。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4412,3 +4427,4 @@ export const periodCycleCalculator = { id: "period-cycle-calculator", category: 
 export const stepsToCaloriesCalculator = { id: "steps-to-calories-calculator", category: "health", name: "Steps to Calories Calculator", path: "/tools/health/steps-to-calories-calculator" };
 export const caloriesBurnedActivity = { id: "calories-burned-activity", category: "health", name: "Calories Burned by Activity", path: "/tools/health/calories-burned-activity" };
 export const bloodSugarConverter = { id: "blood-sugar-converter", category: "health", name: "Blood Sugar Converter", path: "/tools/health/blood-sugar-converter" };
+export const childGrowthPercentile = { id: "child-growth-percentile", category: "health", name: "Child Growth Percentile", path: "/tools/health/child-growth-percentile" };
