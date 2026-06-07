@@ -3898,6 +3898,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "homophone-finder",
+    name: "同音異字查找器",
+    category: "language",
+    path: "/tools/language/homophone-finder",
+    icon: "Ear",
+    description: "輸入一個英文單字，查找與它發音相同（或極相近）但拼字、意義不同的同音異字（如 their/there/they're、to/too/two），每個同音字皆附 KK 音標、詞類、繁體中文釋義與例句，幫你分辨易混淆字。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4188,3 +4203,4 @@ export const hangmanSolver = { id: "hangman-solver", category: "language", name:
 export const wordRootAnalyzer = { id: "word-root-analyzer", category: "language", name: "Word Root Analyzer", path: "/tools/language/word-root-analyzer" };
 export const irregularVerbFinder = { id: "irregular-verb-finder", category: "language", name: "Irregular Verb Finder", path: "/tools/language/irregular-verb-finder" };
 export const wordFamilyExplorer = { id: "word-family-explorer", category: "language", name: "Word Family Explorer", path: "/tools/language/word-family-explorer" };
+export const homophoneFinder = { id: "homophone-finder", category: "language", name: "Homophone Finder", path: "/tools/language/homophone-finder" };
