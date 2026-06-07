@@ -4393,6 +4393,51 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "affordability-calculator",
+    name: "購屋負擔能力計算機",
+    category: "finance",
+    path: "/tools/finance/affordability-calculator",
+    icon: "Home",
+    description: "購屋負擔能力計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
+  {
+    id: "asset-depreciation",
+    name: "資產折舊計算機",
+    category: "finance",
+    path: "/tools/finance/asset-depreciation",
+    icon: "TrendingDown",
+    description: "資產折舊計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
+  {
+    id: "budget-planner",
+    name: "預算規劃計算機",
+    category: "finance",
+    path: "/tools/finance/budget-planner",
+    icon: "Wallet",
+    description: "預算規劃計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4716,3 +4761,6 @@ export const dropshippingProfitCalculator = { id: "dropshipping-profit-calculato
 export const etsyFeeCalculator = { id: "etsy-fee-calculator", category: "ecommerce", name: "Etsy Fee Calculator", path: "/tools/ecommerce/etsy-fee-calculator" };
 export const flightCarbonCalculator = { id: "flight-carbon-calculator", category: "travel", name: "Flight Carbon Calculator", path: "/tools/travel/flight-carbon-calculator" };
 export const travelMilesCalculator = { id: "travel-miles-calculator", category: "travel", name: "Travel Miles Calculator", path: "/tools/travel/travel-miles-calculator" };
+export const affordabilityCalculator = { id: "affordability-calculator", category: "finance", name: "Affordability Calculator", path: "/tools/finance/affordability-calculator" };
+export const assetDepreciation = { id: "asset-depreciation", category: "finance", name: "Asset Depreciation Calculator", path: "/tools/finance/asset-depreciation" };
+export const budgetPlanner = { id: "budget-planner", category: "finance", name: "Budget Planner", path: "/tools/finance/budget-planner" };

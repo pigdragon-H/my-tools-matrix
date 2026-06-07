@@ -303,6 +303,9 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "ecommerce/etsy-fee-calculator": lazy(() => import("@/tools/ecommerce/EtsyFeeCalculator")),
   "travel/flight-carbon-calculator": lazy(() => import("@/tools/travel/FlightCarbonCalculator")),
   "travel/travel-miles-calculator": lazy(() => import("@/tools/travel/TravelMilesCalculator")),
+  "finance/affordability-calculator": lazy(() => import("@/tools/finance/AffordabilityCalculator")),
+  "finance/asset-depreciation": lazy(() => import("@/tools/finance/AssetDepreciation")),
+  "finance/budget-planner": lazy(() => import("@/tools/finance/BudgetPlanner")),
 };
 
 function ToolSkeleton() {
