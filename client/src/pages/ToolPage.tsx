@@ -286,6 +286,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "health/blood-sugar-converter": lazy(() => import("@/tools/health/BloodSugarConverter")),
   "health/child-growth-percentile": lazy(() => import("@/tools/health/ChildGrowthPercentile")),
   "health/sobriety-calculator": lazy(() => import("@/tools/health/SobrietyCalculator")),
+  "developer/uuid-generator": lazy(() => import("@/tools/developer/UuidGenerator")),
 };
 
 function ToolSkeleton() {

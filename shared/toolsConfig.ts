@@ -4138,6 +4138,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "uuid-generator",
+    name: "UUID 產生器",
+    category: "developer",
+    path: "/tools/developer/uuid-generator",
+    icon: "Hash",
+    description: "一鍵產生 UUID v4，支援批次產生與格式選擇。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4444,3 +4459,4 @@ export const caloriesBurnedActivity = { id: "calories-burned-activity", category
 export const bloodSugarConverter = { id: "blood-sugar-converter", category: "health", name: "Blood Sugar Converter", path: "/tools/health/blood-sugar-converter" };
 export const childGrowthPercentile = { id: "child-growth-percentile", category: "health", name: "Child Growth Percentile", path: "/tools/health/child-growth-percentile" };
 export const sobrietyCalculator = { id: "sobriety-calculator", category: "health", name: "Sobriety Calculator", path: "/tools/health/sobriety-calculator" };
+export const uuidGenerator = { id: "uuid-generator", category: "developer", name: "UUID Generator", path: "/tools/developer/uuid-generator" };
