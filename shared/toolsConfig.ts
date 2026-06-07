@@ -4168,6 +4168,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "code-minifier",
+    name: "程式碼壓縮器",
+    category: "developer",
+    path: "/tools/developer/code-minifier",
+    icon: "Minimize2",
+    description: "壓縮 HTML/CSS/JavaScript 程式碼，移除空白註解，減少檔案體積",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4476,3 +4491,4 @@ export const childGrowthPercentile = { id: "child-growth-percentile", category: 
 export const sobrietyCalculator = { id: "sobriety-calculator", category: "health", name: "Sobriety Calculator", path: "/tools/health/sobriety-calculator" };
 export const uuidGenerator = { id: "uuid-generator", category: "developer", name: "UUID Generator", path: "/tools/developer/uuid-generator" };
 export const loremIpsumGenerator = { id: "lorem-ipsum-generator", category: "developer", name: "Lorem Ipsum Generator", path: "/tools/developer/lorem-ipsum-generator" };
+export const codeMinifier = { id: "code-minifier", category: "developer", name: "Code Minifier", path: "/tools/developer/code-minifier" };
