@@ -3943,6 +3943,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "percentage-calculator",
+    name: "百分比計算機",
+    category: "finance",
+    path: "/tools/finance/percentage-calculator",
+    icon: "Percent",
+    description: "輸入數值與百分比，立即計算百分比值、增減幅度與占比，支援多種百分比情境換算",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4236,3 +4251,4 @@ export const wordFamilyExplorer = { id: "word-family-explorer", category: "langu
 export const homophoneFinder = { id: "homophone-finder", category: "language", name: "Homophone Finder", path: "/tools/language/homophone-finder" };
 export const ieltsVocabularyAnalyzer = { id: "ielts-vocabulary-analyzer", category: "language", name: "IELTS Vocabulary Analyzer", path: "/tools/language/ielts-vocabulary-analyzer" };
 export const toeicScoreEstimator = { id: "toeic-score-estimator", category: "language", name: "TOEIC Score Estimator", path: "/tools/language/toeic-score-estimator" };
+export const percentageCalculator = { id: "percentage-calculator", category: "finance", name: "Percentage Calculator", path: "/tools/finance/percentage-calculator" };
