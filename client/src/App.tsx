@@ -17,6 +17,14 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminHealth from "./pages/admin/AdminHealth";
 import BlogPost from "./pages/BlogPost";
 import ArticlePage from "./pages/ArticlePage";
+// ── 四賽道（只增不刪；既有 /blog 等路由完全保留）──────────────
+import BlueprintList from "./pages/BlueprintList";
+import BlueprintPage from "./pages/BlueprintPage";
+import OpportunityList from "./pages/OpportunityList";
+import OpportunityPage from "./pages/OpportunityPage";
+import MatchmakingPage from "./pages/MatchmakingPage";
+import KnowledgeList from "./pages/KnowledgeList";
+import KnowledgePage from "./pages/KnowledgePage";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { Navbar } from "./components/Navbar";
@@ -47,6 +55,14 @@ export default function App() {
                   <Route path="/blog" component={BlogList} />
                   <Route path="/blog/:category/:slug" component={ArticlePage} />
                   <Route path="/blog/:slug" component={BlogPost} />
+                  {/* ── 四賽道路由（只增不刪；順序：specific 先於 generic）── */}
+                  <Route path="/blueprints" component={BlueprintList} />
+                  <Route path="/blueprints/:slug" component={BlueprintPage} />
+                  <Route path="/opportunities" component={OpportunityList} />
+                  <Route path="/opportunities/matchmaking" component={MatchmakingPage} />
+                  <Route path="/opportunities/:slug" component={OpportunityPage} />
+                  <Route path="/knowledge" component={KnowledgeList} />
+                  <Route path="/knowledge/:category/:slug" component={KnowledgePage} />
                   <Route path="/about" component={About} />
                   <Route path="/privacy" component={Privacy} />
                   <Route path="/terms" component={Terms} />

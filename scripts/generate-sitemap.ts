@@ -22,6 +22,9 @@ const ROOT = resolve(new URL(import.meta.url).pathname, "../..");
 const TOOLS_CONFIG = join(ROOT, "shared/toolsConfig.ts");
 const CATS_CONFIG = join(ROOT, "shared/categoriesConfig.ts");
 const ARTICLES_DIR = join(ROOT, "shared/articles");
+const BLUEPRINTS_DIR = join(ROOT, "shared/blueprints");
+const OPPORTUNITIES_DIR = join(ROOT, "shared/opportunities");
+const KNOWLEDGE_DIR = join(ROOT, "shared/knowledge");
 const OUT_PUBLIC = join(ROOT, "public/sitemap.xml");
 const OUT_CLIENT = join(ROOT, "client/public/sitemap.xml");
 
@@ -103,6 +106,48 @@ for (const file of articleFiles) {
   articlePaths.push(path);
 }
 
+// ── Step 2.6: scan the three lanes (blueprints / opportunities / knowledge)
+// Mirrors client/src/lib/laneContent.ts path logic so the sitemap matches
+// the live routes. Only-add: existing routes & URLs are untouched.
+//   blueprints   → /blueprints/<slug>
+//   opportunities→ /opportunities/<slug>
+//   knowledge    → /knowledge/<domain>/<slug>  (domain = frontmatter `domain`
+//                  or first sub-folder, fallback "formula-insights")
+function readFrontmatterField(raw: string, field: string): string {
+  const fmMatch = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!fmMatch) return "";
+  const line = fmMatch[1].match(
+    new RegExp(`^${field}:\\s*"?([a-z0-9-]+)"?\\s*$`, "m")
+  );
+  return line ? line[1] : "";
+}
+
+const lanePaths: string[] = [];
+
+// blueprints + opportunities: flat /<lane>/<slug>
+for (const [dir, base] of [
+  [BLUEPRINTS_DIR, "/blueprints"],
+  [OPPORTUNITIES_DIR, "/opportunities"],
+] as const) {
+  for (const file of walkMd(dir)) {
+    const slug = (file.split("/").pop() || "").replace(/\.md$/, "");
+    if (slug) lanePaths.push(`${base}/${slug}`);
+  }
+}
+
+// knowledge: /knowledge/<domain>/<slug>
+for (const file of walkMd(KNOWLEDGE_DIR)) {
+  const raw = readFileSync(file, "utf8");
+  const slug = (file.split("/").pop() || "").replace(/\.md$/, "");
+  if (!slug) continue;
+  const rel = file.slice(KNOWLEDGE_DIR.length + 1);
+  const relParts = rel.split("/");
+  const subDir = relParts.length > 1 ? relParts[0] : "";
+  const domain =
+    readFrontmatterField(raw, "domain") || subDir || "formula-insights";
+  lanePaths.push(`/knowledge/${domain}/${slug}`);
+}
+
 const entries: string[] = [];
 const seen = new Set<string>(); // 防重複 + 防舊命名分歧殘留
 
@@ -126,6 +171,14 @@ for (const t of tools) addUrl(t.path, "monthly", "0.7");
 // knowledge-base articles (/blog/<category>/<slug>) — GSC-indexed, must stay alive
 for (const ap of articlePaths) addUrl(ap, "monthly", "0.8");
 
+// 四賽道 hub 入口頁（只增不刪）
+addUrl("/blueprints", "weekly", "0.8");
+addUrl("/opportunities", "daily", "0.8");
+addUrl("/knowledge", "weekly", "0.8");
+
+// 四賽道內容頁（blueprints / opportunities / knowledge）
+for (const lp of lanePaths) addUrl(lp, "weekly", "0.7");
+
 // ── Step 4: 輸出 ────────────────────────────────────────────────────
 const xml =
   `<?xml version="1.0" encoding="UTF-8"?>\n` +
@@ -142,7 +195,7 @@ try {
 }
 
 console.log(
-  `✓ sitemap regenerated: ${STATIC_PAGES.length} static + ${uniqueCats.length} categories + ${tools.length} tools + ${articlePaths.length} articles = ${seen.size} URLs`
+  `✓ sitemap regenerated: ${STATIC_PAGES.length} static + ${uniqueCats.length} categories + ${tools.length} tools + ${articlePaths.length} articles + ${lanePaths.length} lane-pages = ${seen.size} URLs`
 );
 console.log(`  → ${OUT_PUBLIC}`);
 console.log(`  → ${OUT_CLIENT}`);

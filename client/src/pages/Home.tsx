@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { animate, motion, useReducedMotion } from "framer-motion";
 import { tools } from "@shared/toolsConfig";
+import { navLanes } from "@shared/laneRegistry";
 import {
   ArrowRight,
   ArrowUp,
@@ -23,13 +24,17 @@ import {
   Github,
   Globe2,
   HeartPulse,
+  Library,
+  Lightbulb,
   LineChart,
   Network,
   PiggyBank,
+  Rocket,
   Route,
   Scale,
   Target,
   TrendingUp,
+  Wrench,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -499,6 +504,50 @@ export default function Home() {
           <AdSlot slot="homepage-after-domains" position="middle" variant="responsive" />
         </div>
       </section>
+
+      {/* ── 四賽道入口（工具 + navLanes() 驅動；只增不刪）────────────────── */}
+      <motion.section className="border-b border-blue-200/70 bg-[linear-gradient(135deg,#f8fafc_0%,#eef2ff_50%,#f0fdfa_100%)] dark:border-blue-950/60 dark:bg-slate-950" {...sectionMotion}>
+        <div className="container py-16 md:py-20">
+          <div className="mx-auto mb-10 max-w-3xl text-center">
+            <Badge variant="outline" className="mb-3">{lang === "zh" ? "四大賽道" : "Four Lanes"}</Badge>
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "工具為入口，知識為骨架，AI 為引擎" : "Tools as entry, knowledge as backbone, AI as engine"}</h2>
+            <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "從長尾工具到 AI 創業藍圖、機會情報與知識中心——一個結構先定、只增不刪、可持續擴充的知識作業系統。" : "From long-tail tools to AI business blueprints, opportunity intelligence, and a knowledge center — a structure-first, only-add knowledge operating system."}</p>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {/* 工具賽道（既有 /tools） */}
+            <Link href="/tools" className="group rounded-3xl border border-cyan-200 bg-white/90 p-6 shadow-lg shadow-cyan-900/10 ring-1 ring-cyan-100 transition hover:-translate-y-1 hover:border-cyan-300 hover:shadow-2xl dark:border-cyan-950/60 dark:bg-white/8 dark:ring-cyan-950/40">
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-600 text-white shadow-lg shadow-cyan-900/20"><Wrench className="h-6 w-6" /></div>
+              <h3 className="text-lg font-black text-slate-950 dark:text-white">{lang === "zh" ? "工具" : "Tools"}</h3>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">{lang === "zh" ? "長尾流量的基本盤，數百個免費計算工具。" : "The long-tail traffic base — hundreds of free calculators."}</p>
+              <p className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-cyan-700 transition group-hover:gap-3 dark:text-cyan-300">{lang === "zh" ? "瀏覽工具" : "Browse tools"} <ArrowRight className="h-4 w-4" /></p>
+            </Link>
+
+            {/* 三條賽道（navLanes 驅動） */}
+            {navLanes().map((lane) => {
+              const Icon = lane.id === "blueprints" ? Rocket : lane.id === "opportunities" ? Lightbulb : Library;
+              const accent =
+                lane.id === "blueprints"
+                  ? "border-blue-200 ring-blue-100 dark:border-blue-950/60 dark:ring-blue-950/40"
+                  : lane.id === "opportunities"
+                    ? "border-amber-200 ring-amber-100 dark:border-amber-950/60 dark:ring-amber-950/40"
+                    : "border-indigo-200 ring-indigo-100 dark:border-indigo-950/60 dark:ring-indigo-950/40";
+              const iconBg =
+                lane.id === "blueprints" ? "bg-blue-600 shadow-blue-900/20" : lane.id === "opportunities" ? "bg-amber-500 shadow-amber-900/20" : "bg-indigo-600 shadow-indigo-900/20";
+              const linkColor =
+                lane.id === "blueprints" ? "text-blue-700 dark:text-blue-300" : lane.id === "opportunities" ? "text-amber-700 dark:text-amber-300" : "text-indigo-700 dark:text-indigo-300";
+              return (
+                <Link key={lane.id} href={lane.routeBase} className={`group rounded-3xl border bg-white/90 p-6 shadow-lg ring-1 transition hover:-translate-y-1 hover:shadow-2xl dark:bg-white/8 ${accent}`}>
+                  <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-lg ${iconBg}`}><Icon className="h-6 w-6" /></div>
+                  <h3 className="text-lg font-black text-slate-950 dark:text-white">{lane.title[lang]}</h3>
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{lane.tagline[lang]}</p>
+                  <p className={`mt-5 inline-flex items-center gap-2 text-sm font-bold transition group-hover:gap-3 ${linkColor}`}>{lang === "zh" ? "前往" : "Explore"} <ArrowRight className="h-4 w-4" /></p>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </motion.section>
+
 
       <motion.section className="border-b border-blue-200/70 bg-[radial-gradient(circle_at_12%_20%,rgba(37,99,235,0.18),transparent_26%),radial-gradient(circle_at_82%_28%,rgba(124,58,237,0.16),transparent_26%),linear-gradient(135deg,#dbeafe_0%,#eef2ff_48%,#f0fdfa_100%)] dark:border-blue-950/60 dark:bg-slate-950" {...sectionMotion}>
         <div className="container py-16 md:py-20">
