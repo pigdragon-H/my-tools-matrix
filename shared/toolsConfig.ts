@@ -4603,6 +4603,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "forex-profit-calculator",
+    name: "外匯交易損益計算機",
+    category: "finance",
+    path: "/tools/finance/forex-profit-calculator",
+    icon: "TrendingUp",
+    description: "外匯交易損益計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4940,3 +4955,4 @@ export const dividendReinvestment = { id: "dividend-reinvestment", category: "fi
 export const emiCalculator = { id: "emi-calculator", category: "finance", name: "EMI Calculator", path: "/tools/finance/emi-calculator" };
 export const exchangeRateCalculator = { id: "exchange-rate-calculator", category: "finance", name: "Exchange Rate Calculator", path: "/tools/finance/exchange-rate-calculator" };
 export const fireCalculator = { id: "fire-calculator", category: "finance", name: "FIRE Calculator", path: "/tools/finance/fire-calculator" };
+export const forexProfitCalculator = { id: "forex-profit-calculator", category: "finance", name: "Forex Profit Calculator", path: "/tools/finance/forex-profit-calculator" };
