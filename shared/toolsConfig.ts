@@ -4978,6 +4978,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "calories-burned-calculator",
+    name: "運動消耗熱量計算機",
+    category: "health",
+    path: "/tools/health/calories-burned-calculator",
+    icon: "Flame",
+    description: "運動消耗熱量計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5340,3 +5355,4 @@ export const bloodPressureCalculator = { id: "blood-pressure-calculator", catego
 export const bodySurfaceAreaCalculator = { id: "body-surface-area-calculator", category: "health", name: "Body Surface Area Calculator", path: "/tools/health/body-surface-area-calculator" };
 export const bodyWeightPlanner = { id: "body-weight-planner", category: "health", name: "Body Weight Planner", path: "/tools/health/body-weight-planner" };
 export const calorieCalculator = { id: "calorie-calculator", category: "health", name: "Calorie Calculator", path: "/tools/health/calorie-calculator" };
+export const caloriesBurnedCalculator = { id: "calories-burned-calculator", category: "health", name: "Calories Burned Calculator", path: "/tools/health/calories-burned-calculator" };
