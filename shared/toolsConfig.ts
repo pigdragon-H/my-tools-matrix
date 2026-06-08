@@ -4888,6 +4888,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "withholding-tax-calculator",
+    name: "扣繳稅額計算機",
+    category: "finance",
+    path: "/tools/finance/withholding-tax-calculator",
+    icon: "FileText",
+    description: "扣繳稅額計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5244,3 +5259,4 @@ export const stockProfitLossCalculator = { id: "stock-profit-loss-calculator", c
 export const stockReturnCalculator = { id: "stock-return-calculator", category: "finance", name: "Stock Return Calculator", path: "/tools/finance/stock-return-calculator" };
 export const taxRefundCalculator = { id: "tax-refund-calculator", category: "finance", name: "Tax Refund Calculator", path: "/tools/finance/tax-refund-calculator" };
 export const utilityCostCalculator = { id: "utility-cost-calculator", category: "finance", name: "Utility Cost Calculator", path: "/tools/finance/utility-cost-calculator" };
+export const withholdingTaxCalculator = { id: "withholding-tax-calculator", category: "finance", name: "Withholding Tax Calculator", path: "/tools/finance/withholding-tax-calculator" };
