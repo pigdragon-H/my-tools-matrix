@@ -4828,6 +4828,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "stock-profit-loss-calculator",
+    name: "股票損益計算機",
+    category: "finance",
+    path: "/tools/finance/stock-profit-loss-calculator",
+    icon: "CandlestickChart",
+    description: "股票損益計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5180,3 +5195,4 @@ export const pipValueCalculator = { id: "pip-value-calculator", category: "finan
 export const propertyRoiCalculator = { id: "property-roi-calculator", category: "finance", name: "Property ROI Calculator", path: "/tools/finance/property-roi-calculator" };
 export const retirementSavingsCalculator = { id: "retirement-savings-calculator", category: "finance", name: "Retirement Savings Calculator", path: "/tools/finance/retirement-savings-calculator" };
 export const roiCalculator = { id: "roi-calculator", category: "finance", name: "ROI Calculator", path: "/tools/finance/roi-calculator" };
+export const stockProfitLossCalculator = { id: "stock-profit-loss-calculator", category: "finance", name: "Stock Profit Loss Calculator", path: "/tools/finance/stock-profit-loss-calculator" };
