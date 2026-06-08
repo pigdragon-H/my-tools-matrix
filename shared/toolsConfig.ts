@@ -4723,6 +4723,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "mortgage-amortization-calculator",
+    name: "房貸攤還計算機",
+    category: "finance",
+    path: "/tools/finance/mortgage-amortization-calculator",
+    icon: "Home",
+    description: "房貸攤還計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5068,3 +5083,4 @@ export const inflationCalculator = { id: "inflation-calculator", category: "fina
 export const interestRateCalculator = { id: "interest-rate-calculator", category: "finance", name: "Interest Rate Calculator", path: "/tools/finance/interest-rate-calculator" };
 export const irrNpvCalculator = { id: "irr-npv-calculator", category: "finance", name: "IRR NPV Calculator", path: "/tools/finance/irr-npv-calculator" };
 export const landValueCalculator = { id: "land-value-calculator", category: "finance", name: "Land Value Calculator", path: "/tools/finance/land-value-calculator" };
+export const mortgageAmortizationCalculator = { id: "mortgage-amortization-calculator", category: "finance", name: "Mortgage Amortization Calculator", path: "/tools/finance/mortgage-amortization-calculator" };
