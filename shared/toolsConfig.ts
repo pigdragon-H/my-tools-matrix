@@ -4858,6 +4858,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "tax-refund-calculator",
+    name: "退稅計算機",
+    category: "finance",
+    path: "/tools/finance/tax-refund-calculator",
+    icon: "Banknote",
+    description: "退稅計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5212,3 +5227,4 @@ export const retirementSavingsCalculator = { id: "retirement-savings-calculator"
 export const roiCalculator = { id: "roi-calculator", category: "finance", name: "ROI Calculator", path: "/tools/finance/roi-calculator" };
 export const stockProfitLossCalculator = { id: "stock-profit-loss-calculator", category: "finance", name: "Stock Profit Loss Calculator", path: "/tools/finance/stock-profit-loss-calculator" };
 export const stockReturnCalculator = { id: "stock-return-calculator", category: "finance", name: "Stock Return Calculator", path: "/tools/finance/stock-return-calculator" };
+export const taxRefundCalculator = { id: "tax-refund-calculator", category: "finance", name: "Tax Refund Calculator", path: "/tools/finance/tax-refund-calculator" };
