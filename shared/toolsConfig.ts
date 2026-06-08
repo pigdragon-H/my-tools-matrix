@@ -5038,6 +5038,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "heart-rate-calculator",
+    name: "心率計算機",
+    category: "health",
+    path: "/tools/health/heart-rate-calculator",
+    icon: "HeartPulse",
+    description: "心率計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5404,3 +5419,4 @@ export const caloriesBurnedCalculator = { id: "calories-burned-calculator", cate
 export const carbIntakeCalculator = { id: "carb-intake-calculator", category: "health", name: "Carb Intake Calculator", path: "/tools/health/carb-intake-calculator" };
 export const fatLossCalculator = { id: "fat-loss-calculator", category: "health", name: "Fat Loss Calculator", path: "/tools/health/fat-loss-calculator" };
 export const fiberIntakeCalculator = { id: "fiber-intake-calculator", category: "health", name: "Fiber Intake Calculator", path: "/tools/health/fiber-intake-calculator" };
+export const heartRateCalculator = { id: "heart-rate-calculator", category: "health", name: "Heart Rate Calculator", path: "/tools/health/heart-rate-calculator" };
