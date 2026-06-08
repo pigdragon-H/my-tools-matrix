@@ -208,12 +208,16 @@ const journeyStepStyles = [
 const footerCategories = [
   { label: { zh: "財經投資", en: "Finance" }, href: "/tools/finance" },
   { label: { zh: "健康生活", en: "Health" }, href: "/tools/health" },
-  { label: { zh: "開發工具", en: "Developer" }, href: "/tools/dev" },
   { label: { zh: "職場效率", en: "Productivity" }, href: "/tools/productivity" },
+  { label: { zh: "開發工具", en: "Developer" }, href: "/tools/developer" },
   { label: { zh: "教育學習", en: "Education" }, href: "/tools/education" },
+  { label: { zh: "法律法規", en: "Legal" }, href: "/tools/legal" },
+  { label: { zh: "創意設計", en: "Design" }, href: "/tools/design" },
   { label: { zh: "科學工程", en: "Science" }, href: "/tools/science" },
+  { label: { zh: "語言文字", en: "Language" }, href: "/tools/language" },
   { label: { zh: "電商零售", en: "E-Commerce" }, href: "/tools/ecommerce" },
   { label: { zh: "旅遊地理", en: "Travel" }, href: "/tools/travel" },
+  { label: { zh: "AI 工具", en: "AI Tools" }, href: "/tools/ai" },
 ];
 
 // Autoplay tuning: dwell ≈ 7s per slide so users have time to read,
