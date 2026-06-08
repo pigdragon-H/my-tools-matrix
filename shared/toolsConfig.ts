@@ -4528,6 +4528,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "currency-converter-pro",
+    name: "進階換匯計算機",
+    category: "finance",
+    path: "/tools/finance/currency-converter-pro",
+    icon: "Coins",
+    description: "進階換匯計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4860,3 +4875,4 @@ export const corporateTaxCalculator = { id: "corporate-tax-calculator", category
 export const creditScoreCalculator = { id: "credit-score-calculator", category: "finance", name: "Credit Score Calculator", path: "/tools/finance/credit-score-calculator" };
 export const crossRateCalculator = { id: "cross-rate-calculator", category: "finance", name: "Cross Rate Calculator", path: "/tools/finance/cross-rate-calculator" };
 export const cryptoDcaBacktest = { id: "crypto-dca-backtest", category: "finance", name: "Crypto DCA Backtest", path: "/tools/finance/crypto-dca-backtest" };
+export const currencyConverterPro = { id: "currency-converter-pro", category: "finance", name: "Currency Converter Pro", path: "/tools/finance/currency-converter-pro" };
