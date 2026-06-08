@@ -5158,6 +5158,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "cpc-calculator",
+    name: "CPC 計算機",
+    category: "finance",
+    path: "/tools/finance/cpc-calculator",
+    icon: "MousePointerClick",
+    description: "CPC 計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5532,3 +5547,4 @@ export const utmBuilder = { id: "utm-builder", category: "ecommerce", name: "UTM
 export const iqTestCalculator = { id: "iq-test-calculator", category: "education", name: "IQ Test Calculator", path: "/tools/education/iq-test-calculator" };
 export const astrologyCalculatorEdu = { id: "astrology-calculator-edu", category: "education", name: "Astrology Calculator", path: "/tools/education/astrology-calculator-edu" };
 export const cpmCalculator = { id: "cpm-calculator", category: "ecommerce", name: "CPM Calculator", path: "/tools/ecommerce/cpm-calculator" };
+export const cpcCalculator = { id: "cpc-calculator", category: "finance", name: "CPC Calculator", path: "/tools/finance/cpc-calculator" };

@@ -393,6 +393,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "education/iq-test-calculator": lazy(() => import("@/tools/education/IqTestCalculator")),
   "education/astrology-calculator-edu": lazy(() => import("@/tools/education/AstrologyCalculatorEdu")),
   "ecommerce/cpm-calculator": lazy(() => import("@/tools/ecommerce/CpmCalculator")),
+  "finance/cpc-calculator": lazy(() => import("@/tools/finance/CpcCalculator")),
 };
 
 function ToolSkeleton() {
