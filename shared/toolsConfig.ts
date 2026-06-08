@@ -4813,6 +4813,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "roi-calculator",
+    name: "投資報酬率計算機",
+    category: "finance",
+    path: "/tools/finance/roi-calculator",
+    icon: "TrendingUp",
+    description: "投資報酬率計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5164,3 +5179,4 @@ export const personalLoanCalculator = { id: "personal-loan-calculator", category
 export const pipValueCalculator = { id: "pip-value-calculator", category: "finance", name: "Pip Value Calculator", path: "/tools/finance/pip-value-calculator" };
 export const propertyRoiCalculator = { id: "property-roi-calculator", category: "finance", name: "Property ROI Calculator", path: "/tools/finance/property-roi-calculator" };
 export const retirementSavingsCalculator = { id: "retirement-savings-calculator", category: "finance", name: "Retirement Savings Calculator", path: "/tools/finance/retirement-savings-calculator" };
+export const roiCalculator = { id: "roi-calculator", category: "finance", name: "ROI Calculator", path: "/tools/finance/roi-calculator" };
