@@ -5023,6 +5023,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "fiber-intake-calculator",
+    name: "纖維攝取計算機",
+    category: "health",
+    path: "/tools/health/fiber-intake-calculator",
+    icon: "Leaf",
+    description: "纖維攝取計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5388,3 +5403,4 @@ export const calorieCalculator = { id: "calorie-calculator", category: "health",
 export const caloriesBurnedCalculator = { id: "calories-burned-calculator", category: "health", name: "Calories Burned Calculator", path: "/tools/health/calories-burned-calculator" };
 export const carbIntakeCalculator = { id: "carb-intake-calculator", category: "health", name: "Carb Intake Calculator", path: "/tools/health/carb-intake-calculator" };
 export const fatLossCalculator = { id: "fat-loss-calculator", category: "health", name: "Fat Loss Calculator", path: "/tools/health/fat-loss-calculator" };
+export const fiberIntakeCalculator = { id: "fiber-intake-calculator", category: "health", name: "Fiber Intake Calculator", path: "/tools/health/fiber-intake-calculator" };
