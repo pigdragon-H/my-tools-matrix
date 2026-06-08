@@ -4783,6 +4783,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "property-roi-calculator",
+    name: "房產投報計算機",
+    category: "finance",
+    path: "/tools/finance/property-roi-calculator",
+    icon: "Building2",
+    description: "房產投報計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5132,3 +5147,4 @@ export const mortgageAmortizationCalculator = { id: "mortgage-amortization-calcu
 export const movingCostCalculator = { id: "moving-cost-calculator", category: "finance", name: "Moving Cost Calculator", path: "/tools/finance/moving-cost-calculator" };
 export const personalLoanCalculator = { id: "personal-loan-calculator", category: "finance", name: "Personal Loan Calculator", path: "/tools/finance/personal-loan-calculator" };
 export const pipValueCalculator = { id: "pip-value-calculator", category: "finance", name: "Pip Value Calculator", path: "/tools/finance/pip-value-calculator" };
+export const propertyRoiCalculator = { id: "property-roi-calculator", category: "finance", name: "Property ROI Calculator", path: "/tools/finance/property-roi-calculator" };
