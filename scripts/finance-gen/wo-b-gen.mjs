@@ -15,6 +15,35 @@ const specPath = process.argv[2];
 if (!specPath) { console.error("need spec json path"); process.exit(1); }
 const spec = JSON.parse(fs.readFileSync(specPath, "utf8"));
 
+// ── SPEC NORMALIZER (process-hardening; prevents the 4 recurring authoring pitfalls) ──
+// 1) inputs[].def MUST be a string (state is useState(def); onChange passes e.target.value:string)
+(spec.inputs || []).forEach((i) => { if (typeof i.def !== "string") i.def = String(i.def); });
+// 2) baselineBadge / activeBadge MUST be ASCII (rendered in both languages) — warn if CJK present
+const cjk = /[\u3400-\u9fff\uF900-\uFAFF]/;
+["baselineBadge", "activeBadge"].forEach((k) => {
+  if (spec[k] && cjk.test(spec[k])) {
+    console.error(`SPEC ERROR: ${k} contains CJK ("${spec[k]}") — must be ASCII (numeric/short token).`);
+    process.exit(2);
+  }
+});
+// 3) fillSolid / fillHigh MUST be setState statements (populate the form), not band math
+["fillSolid", "fillHigh"].forEach((k) => {
+  if (!spec[k] || !/setParticipants\(/.test(spec[k])) {
+    console.error(`SPEC ERROR: ${k} must be setState statements, e.g. setParticipants("..."); setAverageHourlyRate("..."); setDurationHours("..."); setMeetingsPerMonth("...");`);
+    process.exit(2);
+  }
+});
+// 4) ui.zh / ui.en MUST contain all required flat keys (113-key golden schema). Missing => hard error listing them.
+const REQUIRED_UI_KEYS = ["badge","switchToEnglish","switchToChinese","chineseShort","englishShort","title","subtitle","intro","trustNoteLabel","trustNote","quickActionCard","tryExample","examplePreview","examplePerson","fillExample","previewActivePath","examplesCalculator","enterValues","examplesHelper","metric","imperial","exampleCards","baselineExample","activeExample","flowDemo","calculator","participants","averageHourlyRate","durationHours","meetingsPerMonth","resultCard","unit","primaryValue","maintenanceTarget","actionTarget","estimatedTdee","maintenance","fatLossTarget","meetingCost","monthlyEquiv","weeklyEquiv","dailyEquiv","effectiveHours","resultIntelligence","tdeeMatrix","tdeeMatrixNote","emotionConversionLayer","turnIntoPlan","conversionNote","progressInsight","possibleTarget","dailyGap","weeklyTrend","motivation","keepMomentum","saveShareJourney","journeyTitle","journeyHint","nextActionLabel","nextActionTitle","nextActionItem1","nextActionItem2","nextActionItem3","shareLinkBtn","shareNativeBtn","shareCopiedToast","decisionPath","decisionTitle","bmrStep","deficitStep","trendStep","mealStep","knowledge","knowledgeTitle","definition","definitionText","formula","formulaText","limitations","limitationsText","interpretation","interpretationText","context","contextText","example","exampleText","faq","commonQuestions","affiliate","affiliateTitle","premiumTitle","premiumText","trustReferences","trust","trustText","relatedTools","relatedToolsText","references","referencesText","q1","a1","q2","a2","q3","a3","q4","a4","q5","a5","q6","a6"];
+["zh","en"].forEach((lng) => {
+  const have = new Set(Object.keys((spec.ui && spec.ui[lng]) || {}));
+  const missing = REQUIRED_UI_KEYS.filter((k) => !have.has(k));
+  if (missing.length) {
+    console.error(`SPEC ERROR: ui.${lng} missing ${missing.length} key(s): ${missing.join(", ")}`);
+    process.exit(2);
+  }
+});
+
 // spec fields:
 // fnName, comment(zh title), inputs[4]={key,zh,en,def,emerald?}, math (JS body returning result obj with keys),
 // primary (result key for big number), monthly (result key for /year-style second number),
