@@ -4933,6 +4933,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "body-surface-area-calculator",
+    name: "體表面積計算機",
+    category: "health",
+    path: "/tools/health/body-surface-area-calculator",
+    icon: "Ruler",
+    description: "體表面積計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5292,3 +5307,4 @@ export const utilityCostCalculator = { id: "utility-cost-calculator", category: 
 export const withholdingTaxCalculator = { id: "withholding-tax-calculator", category: "finance", name: "Withholding Tax Calculator", path: "/tools/finance/withholding-tax-calculator" };
 export const alcoholCalculator = { id: "alcohol-calculator", category: "health", name: "Alcohol Calculator", path: "/tools/health/alcohol-calculator" };
 export const bloodPressureCalculator = { id: "blood-pressure-calculator", category: "health", name: "Blood Pressure Calculator", path: "/tools/health/blood-pressure-calculator" };
+export const bodySurfaceAreaCalculator = { id: "body-surface-area-calculator", category: "health", name: "Body Surface Area Calculator", path: "/tools/health/body-surface-area-calculator" };
