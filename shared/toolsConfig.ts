@@ -4468,6 +4468,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "corporate-tax-calculator",
+    name: "公司稅計算機",
+    category: "finance",
+    path: "/tools/finance/corporate-tax-calculator",
+    icon: "Building2",
+    description: "公司稅計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4796,3 +4811,4 @@ export const assetDepreciation = { id: "asset-depreciation", category: "finance"
 export const budgetPlanner = { id: "budget-planner", category: "finance", name: "Budget Planner", path: "/tools/finance/budget-planner" };
 export const carDepreciation = { id: "car-depreciation", category: "finance", name: "Car Depreciation Calculator", path: "/tools/finance/car-depreciation" };
 export const compoundInterestProCalculator = { id: "compound-interest-pro-calculator", category: "finance", name: "Compound Interest Pro", path: "/tools/finance/compound-interest-pro-calculator" };
+export const corporateTaxCalculator = { id: "corporate-tax-calculator", category: "finance", name: "Corporate Tax Calculator", path: "/tools/finance/corporate-tax-calculator" };
