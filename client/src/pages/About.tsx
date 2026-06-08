@@ -233,19 +233,19 @@ export default function About() {
   const { lang } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="about-typo min-h-screen bg-background text-foreground">
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border bg-gradient-to-br from-background via-secondary to-accent/30 dark:from-background dark:via-card dark:to-accent/20">
         <div className="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(rgba(15,23,42,0.4)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.4)_1px,transparent_1px)] [background-size:48px_48px] dark:opacity-[0.12]" />
         <div className="container relative py-20 md:py-28">
           <div className="mx-auto max-w-4xl text-center">
-            <p className="mb-5 text-xs font-black uppercase tracking-[0.28em] text-primary">
+            <p className="t-eyebrow mb-5 uppercase text-primary">
               {copy.heroEyebrow[lang]}
             </p>
-            <h1 className="text-balance text-4xl font-black leading-tight tracking-tight md:text-6xl">
+            <h1 className="t-h1 text-balance tracking-tight">
               {copy.heroTitle[lang]}
             </h1>
-            <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-muted-foreground md:text-lg">
+            <p className="t-lead mx-auto mt-7 max-w-2xl text-muted-foreground">
               {copy.heroLead[lang]}
             </p>
           </div>
@@ -256,12 +256,12 @@ export default function About() {
       <section className="border-b border-border bg-gradient-to-br from-accent/30 via-background to-secondary/40">
         <div className="container py-16 md:py-20">
           <div className="mx-auto max-w-3xl text-center">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-black uppercase tracking-[0.2em] text-foreground">
+            <div className="t-eyebrow mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 uppercase text-foreground">
               <Sparkles className="h-4 w-4 text-primary" />
               {copy.soulEyebrow[lang]}
             </div>
-            <h2 className="text-3xl font-black tracking-tight md:text-4xl">{copy.soulTitle[lang]}</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-muted-foreground">{copy.soulLead[lang]}</p>
+            <h2 className="t-h2 tracking-tight">{copy.soulTitle[lang]}</h2>
+            <p className="t-lead mx-auto mt-4 max-w-2xl text-muted-foreground">{copy.soulLead[lang]}</p>
           </div>
           <div className="mx-auto mt-12 grid max-w-5xl gap-5 md:grid-cols-2">
             {copy.soulCards.map((item, i) => {
@@ -272,8 +272,8 @@ export default function About() {
                     <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <h3 className="text-xl font-black">{item[lang][0]}</h3>
-                    <p className="mt-3 text-sm leading-7 text-muted-foreground">{item[lang][1]}</p>
+                    <h3 className="t-h3">{item[lang][0]}</h3>
+                    <p className="t-body mt-3 text-muted-foreground">{item[lang][1]}</p>
                   </CardContent>
                 </Card>
               );
@@ -286,15 +286,15 @@ export default function About() {
       <section className="border-b border-border bg-background">
         <div className="container py-16 md:py-20">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-primary">
+            <p className="t-eyebrow uppercase text-primary">
               {lang === "zh" ? "六個支柱" : "Six Pillars"}
             </p>
-            <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
+            <h2 className="t-h2 mt-3 tracking-tight">
               {lang === "zh"
                 ? "AI · 科技 · 健康 · 科學 · 軟體 · 自然"
                 : "AI · Technology · Health · Science · Software · Nature"}
             </h2>
-            <p className="mt-4 text-base leading-7 text-muted-foreground">
+            <p className="t-body mt-4 text-muted-foreground">
               {lang === "zh"
                 ? "我們的工具集、設計選擇與運營方式都圍繞這六個面向。"
                 : "Our tool set, design choices, and operations all revolve around these six dimensions."}
@@ -307,8 +307,8 @@ export default function About() {
                   <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                     <Icon className="h-5 w-5" />
                   </div>
-                  <h3 className="text-xl font-black">{title[lang]}</h3>
-                  <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                  <h3 className="t-h3">{title[lang]}</h3>
+                  <p className="t-body mt-3 text-muted-foreground">
                     {body[lang]}
                   </p>
                 </CardContent>
@@ -323,11 +323,11 @@ export default function About() {
         <div className="container py-16 md:py-20">
           <div className="mx-auto max-w-5xl">
             <div className="mb-10 max-w-3xl">
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-black uppercase tracking-[0.2em] text-foreground">
+              <div className="t-eyebrow mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 uppercase text-foreground">
                 <ShieldCheck className="h-4 w-4 text-primary" />
                 {lang === "zh" ? "穩健運營承諾" : "Operational reliability"}
               </div>
-              <h2 className="text-3xl font-black tracking-tight md:text-4xl">
+              <h2 className="t-h2 tracking-tight">
                 {copy.promiseTitle[lang]}
               </h2>
             </div>
@@ -337,8 +337,8 @@ export default function About() {
                   key={item.en[0]}
                   className="rounded-2xl border border-border bg-card p-6 shadow-sm"
                 >
-                  <h3 className="text-lg font-black">{item[lang][0]}</h3>
-                  <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                  <h3 className="t-h3">{item[lang][0]}</h3>
+                  <p className="t-body mt-2 text-muted-foreground">
                     {item[lang][1]}
                   </p>
                 </div>
@@ -352,10 +352,10 @@ export default function About() {
       <section className="border-b border-border bg-background">
         <div className="container py-16 md:py-20">
           <div className="mx-auto max-w-3xl">
-            <h2 className="text-3xl font-black tracking-tight md:text-4xl">
+            <h2 className="t-h2 tracking-tight">
               {copy.whyTitle[lang]}
             </h2>
-            <div className="mt-6 space-y-5 text-base leading-8 text-muted-foreground">
+            <div className="mt-6 space-y-5 t-body text-muted-foreground">
               <p>{copy.whyP1[lang]}</p>
               <p>{copy.whyP2[lang]}</p>
             </div>
@@ -367,13 +367,13 @@ export default function About() {
       <section className="border-b border-border bg-gradient-to-br from-secondary/30 via-background to-accent/30">
         <div className="container py-16 md:py-20">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-primary">
+            <p className="t-eyebrow uppercase text-primary">
               K · A · J
             </p>
-            <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
+            <h2 className="t-h2 mt-3 tracking-tight">
               {copy.triadTitle[lang]}
             </h2>
-            <p className="mt-3 text-base leading-7 text-muted-foreground">
+            <p className="t-body mt-3 text-muted-foreground">
               {copy.triadLead[lang]}
             </p>
           </div>
@@ -384,14 +384,14 @@ export default function About() {
                   <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-accent text-accent-foreground">
                     <Icon className="h-5 w-5" />
                   </div>
-                  <h3 className="text-3xl font-black">{title[lang]}</h3>
-                  <p className="mt-1 text-sm font-bold text-primary">{subtitle[lang]}</p>
-                  <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                  <h3 className="t-h2">{title[lang]}</h3>
+                  <p className="t-small mt-1 font-bold text-primary">{subtitle[lang]}</p>
+                  <p className="t-body mt-3 text-muted-foreground">
                     {description[lang]}
                   </p>
                   <ul className="mt-4 space-y-2">
                     {points[lang].map((pt) => (
-                      <li key={pt} className="flex items-start gap-2 text-sm leading-6 text-foreground/80">
+                      <li key={pt} className="t-small flex items-start gap-2 text-foreground/80">
                         <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                         {pt}
                       </li>
@@ -408,14 +408,14 @@ export default function About() {
       <section className="border-b border-border bg-background">
         <div className="container py-16 md:py-20">
           <div className="mx-auto max-w-3xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-secondary px-3 py-1.5 text-xs font-black uppercase tracking-[0.2em] text-foreground">
+            <div className="t-eyebrow mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-secondary px-3 py-1.5 uppercase text-foreground">
               <HeartHandshake className="h-4 w-4 text-primary" />
               {copy.founderTitle[lang]}
             </div>
-            <p className="text-base leading-8 text-foreground md:text-lg md:leading-9">
+            <p className="t-lead text-foreground">
               {copy.founderBody[lang]}
             </p>
-            <p className="mt-6 text-right text-sm font-bold tracking-wide text-muted-foreground">
+            <p className="t-small mt-6 text-right font-bold tracking-wide text-muted-foreground">
               — PiGragon-H
             </p>
           </div>
@@ -426,10 +426,10 @@ export default function About() {
       <section className="border-b border-border bg-gradient-to-br from-primary/5 via-background to-accent/20">
         <div className="container py-14 md:py-20">
           <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl font-black tracking-tight md:text-4xl">
+            <h2 className="t-h2 tracking-tight">
               {lang === "zh" ? "入席開吃,從一道菜開始" : "Take a seat — start with one dish"}
             </h2>
-            <p className="mt-3 text-base leading-7 text-muted-foreground">
+            <p className="t-body mt-3 text-muted-foreground">
               {lang === "zh"
                 ? "席面已備,免費請用。慢慢吃、吃飽再走,我們歡迎你常來光臨。"
                 : "The table is set, and it's on the house. Dine slowly, eat your fill — you're always welcome back."}
