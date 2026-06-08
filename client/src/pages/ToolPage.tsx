@@ -324,6 +324,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/inflation-calculator": lazy(() => import("@/tools/finance/InflationCalculator")),
   "finance/interest-rate-calculator": lazy(() => import("@/tools/finance/InterestRateCalculator")),
   "finance/irr-npv-calculator": lazy(() => import("@/tools/finance/IrrNpvCalculator")),
+  "finance/land-value-calculator": lazy(() => import("@/tools/finance/LandValueCalculator")),
 };
 
 function ToolSkeleton() {

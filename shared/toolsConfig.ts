@@ -4708,6 +4708,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "land-value-calculator",
+    name: "土地價值計算機",
+    category: "finance",
+    path: "/tools/finance/land-value-calculator",
+    icon: "Map",
+    description: "土地價值計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5052,3 +5067,4 @@ export const incomeTaxCalculator = { id: "income-tax-calculator", category: "fin
 export const inflationCalculator = { id: "inflation-calculator", category: "finance", name: "Inflation Calculator", path: "/tools/finance/inflation-calculator" };
 export const interestRateCalculator = { id: "interest-rate-calculator", category: "finance", name: "Interest Rate Calculator", path: "/tools/finance/interest-rate-calculator" };
 export const irrNpvCalculator = { id: "irr-npv-calculator", category: "finance", name: "IRR NPV Calculator", path: "/tools/finance/irr-npv-calculator" };
+export const landValueCalculator = { id: "land-value-calculator", category: "finance", name: "Land Value Calculator", path: "/tools/finance/land-value-calculator" };
