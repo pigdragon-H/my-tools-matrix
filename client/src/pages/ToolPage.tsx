@@ -3,7 +3,7 @@
 // 根據路由參數動態渲染對應的計算工具組件
 // ============================================================
 
-import { useParams, Link } from "wouter";
+import { useParams, Link, Redirect } from "wouter";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getCategoryByKey } from "@shared/categoriesConfig";
@@ -11,6 +11,40 @@ import { getToolByPath } from "@shared/toolsConfig";
 import { lazy, Suspense, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { setSeoMeta } from "@/lib/seo";
+
+// ============================================================
+// GSC 歷史路由重導表 (Legacy GSC URL -> 正式 canonical 路徑)
+// 背景：下列 URL 已被 Google Search Console 索引，但因前綴/命名漂移
+// （dev→developer、tax/realestate/fin→finance、改名、跨分類搬移）
+// 現行 registry 已無對應 key，導致軟 404「找不到此工具」。
+// 解法：偵測到 legacy key 即客戶端重導至 canonical，保住 link equity、
+// 永不 404、永不刪除（符合「GSC URL 全救活」原則）。
+// 來源清單：outputs/specs/_GSC_MASTER_RESCUE_MANIFEST（36 支已驗證）
+// ============================================================
+const LEGACY_TOOL_REDIRECTS: Record<string, string> = {
+  // dev → developer
+  "dev/json-formatter": "/tools/developer/json-formatter",
+  // tax → finance
+  "tax/estate-tax-calculator": "/tools/finance/estate-tax-calculator",
+  "tax/gift-tax-calculator": "/tools/finance/gift-tax-calculator",
+  "tax/tax-refund-calculator": "/tools/finance/tax-refund-calculator",
+  // realestate → finance
+  "realestate/down-payment-calculator": "/tools/finance/down-payment-calculator",
+  "realestate/home-affordability-calculator": "/tools/finance/home-affordability-calculator",
+  // health slug 改名
+  "health/maximum-heart-rate-calculator": "/tools/health/max-heart-rate-calculator",
+  "health/protein-intake-calculator": "/tools/health/protein-calculator",
+  // 跨分類搬移
+  "productivity/typing-speed-calculator": "/tools/education/typing-speed-calculator",
+  "finance/churn-rate-calculator": "/tools/ecommerce/churn-rate-calculator",
+  // fin → finance
+  "fin/affordability-calculator": "/tools/finance/affordability-calculator",
+  "fin/cagr-calculator": "/tools/finance/cagr-calculator",
+  "fin/debt-payoff-calculator": "/tools/finance/debt-payoff-calculator",
+  "fin/dividend-yield-calculator": "/tools/finance/dividend-yield-calculator",
+  // design 近似對應（Victor 核准）
+  "design/css-grid-flexbox-generator": "/tools/design/grid-layout-calculator",
+};
 
 // 工具組件映射（懶加載）
 const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.ReactElement>> = {
@@ -371,6 +405,12 @@ export default function ToolPage() {
   const { category, toolName } = useParams<{ category: string; toolName: string }>();
   const toolKey = `${category}/${toolName}`;
   const toolPath = `/tools/${toolKey}`;
+
+  // GSC 歷史路由：若命中重導表，導向 canonical（保住已索引 URL，永不 404）
+  const legacyTarget = LEGACY_TOOL_REDIRECTS[toolKey];
+  if (legacyTarget) {
+    return <Redirect to={legacyTarget} />;
+  }
 
   const catInfo = getCategoryByKey(category ?? "");
   const toolConfig = getToolByPath(toolPath);
