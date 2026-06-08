@@ -4633,6 +4633,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "gold-price-calculator",
+    name: "黃金價值計算機",
+    category: "finance",
+    path: "/tools/finance/gold-price-calculator",
+    icon: "Coins",
+    description: "黃金價值計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4972,3 +4987,4 @@ export const exchangeRateCalculator = { id: "exchange-rate-calculator", category
 export const fireCalculator = { id: "fire-calculator", category: "finance", name: "FIRE Calculator", path: "/tools/finance/fire-calculator" };
 export const forexProfitCalculator = { id: "forex-profit-calculator", category: "finance", name: "Forex Profit Calculator", path: "/tools/finance/forex-profit-calculator" };
 export const giftTaxCalculator = { id: "gift-tax-calculator", category: "finance", name: "Gift Tax Calculator", path: "/tools/finance/gift-tax-calculator" };
+export const goldPriceCalculator = { id: "gold-price-calculator", category: "finance", name: "Gold Price Calculator", path: "/tools/finance/gold-price-calculator" };
