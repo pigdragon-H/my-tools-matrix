@@ -4453,6 +4453,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "compound-interest-pro-calculator",
+    name: "複利進階計算機",
+    category: "finance",
+    path: "/tools/finance/compound-interest-pro-calculator",
+    icon: "TrendingUp",
+    description: "複利進階計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4780,3 +4795,4 @@ export const affordabilityCalculator = { id: "affordability-calculator", categor
 export const assetDepreciation = { id: "asset-depreciation", category: "finance", name: "Asset Depreciation Calculator", path: "/tools/finance/asset-depreciation" };
 export const budgetPlanner = { id: "budget-planner", category: "finance", name: "Budget Planner", path: "/tools/finance/budget-planner" };
 export const carDepreciation = { id: "car-depreciation", category: "finance", name: "Car Depreciation Calculator", path: "/tools/finance/car-depreciation" };
+export const compoundInterestProCalculator = { id: "compound-interest-pro-calculator", category: "finance", name: "Compound Interest Pro", path: "/tools/finance/compound-interest-pro-calculator" };
