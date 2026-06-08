@@ -322,6 +322,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/gold-price-calculator": lazy(() => import("@/tools/finance/GoldPriceCalculator")),
   "finance/income-tax-calculator": lazy(() => import("@/tools/finance/IncomeTaxCalculator")),
   "finance/inflation-calculator": lazy(() => import("@/tools/finance/InflationCalculator")),
+  "finance/interest-rate-calculator": lazy(() => import("@/tools/finance/InterestRateCalculator")),
 };
 
 function ToolSkeleton() {

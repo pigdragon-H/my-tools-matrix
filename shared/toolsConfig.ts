@@ -4678,6 +4678,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "interest-rate-calculator",
+    name: "利率計算機",
+    category: "finance",
+    path: "/tools/finance/interest-rate-calculator",
+    icon: "Percent",
+    description: "利率計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5020,3 +5035,4 @@ export const giftTaxCalculator = { id: "gift-tax-calculator", category: "finance
 export const goldPriceCalculator = { id: "gold-price-calculator", category: "finance", name: "Gold Price Calculator", path: "/tools/finance/gold-price-calculator" };
 export const incomeTaxCalculator = { id: "income-tax-calculator", category: "finance", name: "Income Tax Calculator", path: "/tools/finance/income-tax-calculator" };
 export const inflationCalculator = { id: "inflation-calculator", category: "finance", name: "Inflation Calculator", path: "/tools/finance/inflation-calculator" };
+export const interestRateCalculator = { id: "interest-rate-calculator", category: "finance", name: "Interest Rate Calculator", path: "/tools/finance/interest-rate-calculator" };
