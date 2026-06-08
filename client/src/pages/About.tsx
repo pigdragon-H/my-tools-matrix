@@ -11,12 +11,13 @@ import {
   HeartHandshake,
   Sprout,
   Cpu,
-  Activity,
-  Microscope,
-  Code2,
   Leaf,
   ShieldCheck,
   Sparkles,
+  Rocket,
+  Lightbulb,
+  Library,
+  Wrench,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -85,54 +86,54 @@ const principles = [
   },
 ] as const;
 
-// The six pillars: AI / Tech / Health / Science / Software / Nature
+// The six pillars: 四賽道 (Blueprint/Opportunity/Knowledge/Tools) + AI Native + 用心
 const pillars = [
   {
+    icon: Rocket,
+    title: { zh: "AI 創業藍圖", en: "AI Business Blueprints" },
+    body: {
+      zh: "本站的主菜。把一個點子拆成商業模式、市場規模、90 天計畫與可落地的 AI 工作流——讓「想創業」變成「能開始」。",
+      en: "The main course. We break an idea into business model, market size, a 90-day plan, and ready-to-run AI workflows — turning 'I want to start' into 'I can begin'.",
+    },
+  },
+  {
+    icon: Lightbulb,
+    title: { zh: "機會情報", en: "Opportunity Intelligence" },
+    body: {
+      zh: "時令鮮味。匯整全球經濟新聞與變現點子的情報流，由 AI 持續彙整，幫你在對的時間抓住下一個機會。",
+      en: "Seasonal specials. A signal stream of global economic news and monetization ideas, continuously curated by AI, so you catch the next opportunity at the right time.",
+    },
+  },
+  {
+    icon: Library,
+    title: { zh: "知識中心", en: "Knowledge Center" },
+    body: {
+      zh: "招牌湯底。產業與技術的深度文獻——什麼是 AI Agent、RAG 怎麼運作——把骨架熬得有層次，讓每一道菜都更有底蘊。",
+      en: "The signature broth. In-depth industry and technology articles — what an AI agent is, how RAG works — building the topical depth that gives every dish its foundation.",
+    },
+  },
+  {
+    icon: Wrench,
+    title: { zh: "長尾工具", en: "Long-tail Tools" },
+    body: {
+      zh: "開胃前菜。數百個免費計算工具，從財務、健康到開發與學習，每個都標註公式來源、適用情境與限制，是進入這場盛宴最輕鬆的第一口。",
+      en: "Appetizers. Hundreds of free calculators across finance, health, development, and learning — each labels its formula source, scenarios, and limits — the easiest first bite into the banquet.",
+    },
+  },
+  {
     icon: Cpu,
-    title: { zh: "AI", en: "AI" },
+    title: { zh: "AI Native 架構", en: "AI Native Architecture" },
     body: {
-      zh: "每個工具都保留語意位置,讓未來的 AI 分析、知識圖譜與智慧推薦能直接接上,不需要砍掉重練。",
-      en: "Every tool keeps a semantic anchor so future AI analysis, knowledge graphs, and recommendations can plug in directly — no rebuild required.",
-    },
-  },
-  {
-    icon: Sparkles,
-    title: { zh: "科技", en: "Technology" },
-    body: {
-      zh: "前端 React + TypeScript、後端 tRPC + Postgres、Edge 部署,工程選型不為了潮流,而為了穩定。",
-      en: "Frontend React + TypeScript, backend tRPC + Postgres, edge deployment — engineering choices made for stability, not trends.",
-    },
-  },
-  {
-    icon: Activity,
-    title: { zh: "健康", en: "Health" },
-    body: {
-      zh: "從 BMI、BMR 到熱量赤字與運動規劃,每個健康工具都標註公式來源、適用情境與限制。",
-      en: "From BMI and BMR to calorie deficit and training plans, every health tool labels its formula source, applicable scenarios, and limits.",
-    },
-  },
-  {
-    icon: Microscope,
-    title: { zh: "科學", en: "Science" },
-    body: {
-      zh: "單位換算、物理公式、實驗模型 ── 我們相信精確度,也相信使用者該看見「為什麼是這個答案」。",
-      en: "Unit conversions, physics formulas, experimental models — we believe in precision, and in showing users why an answer is the answer.",
-    },
-  },
-  {
-    icon: Code2,
-    title: { zh: "軟體", en: "Software" },
-    body: {
-      zh: "JSON 格式化、Regex 測試、編碼解碼、API 檢查 ── 開發者每天用得到的微工具,被當成核心使用者群來設計。",
-      en: "JSON formatting, regex testing, encoding/decoding, API checks — micro-tools developers use daily, designed for them as a core audience.",
+      zh: "人機合一的引擎。結構先定、只增不刪，每個工具與內容都為 AI 分析與知識網路保留語意位置，讓系統能隨使用者一起成長，不需砍掉重練。",
+      en: "The human-and-AI engine. Structure-first and only-add: every tool and article keeps a semantic anchor for AI analysis and the knowledge network, so the system grows with users — no rebuild required.",
     },
   },
   {
     icon: Leaf,
-    title: { zh: "自然", en: "Nature" },
+    title: { zh: "用心與陪伴", en: "Care & Companionship" },
     body: {
-      zh: "資料是冷的,但使用體驗不該是。我們選用暖白卡片、森林綠點綴、自然字距,讓長時間閱讀計算結果不疲勞。",
-      en: "Data is cold; the experience shouldn't be. Warm-white cards, forest-green accents, natural typography — designed so long sessions reading results don't tire your eyes.",
+      zh: "園丁的心。我們對菜色的選擇是絕對的用心；暖白卡片、自然字距、舒適行高，讓你長時間查資料、做決策時，仍感覺被好好對待。",
+      en: "A gardener's heart. We choose every dish with absolute care; warm-white cards, natural spacing, and comfortable line-height keep you well cared for through long sessions of research and decisions.",
     },
   },
 ] as const;
@@ -291,13 +292,13 @@ export default function About() {
             </p>
             <h2 className="t-h2 mt-3 tracking-tight">
               {lang === "zh"
-                ? "AI · 科技 · 健康 · 科學 · 軟體 · 自然"
-                : "AI · Technology · Health · Science · Software · Nature"}
+                ? "藍圖 · 機會 · 知識 · 工具 · AI Native · 用心"
+                : "Blueprints · Opportunity · Knowledge · Tools · AI Native · Care"}
             </h2>
             <p className="t-body mt-4 text-muted-foreground">
               {lang === "zh"
-                ? "我們的工具集、設計選擇與運營方式都圍繞這六個面向。"
-                : "Our tool set, design choices, and operations all revolve around these six dimensions."}
+                ? "一桌流水席的六道支柱——四大賽道、AI Native 引擎，與貫穿其中的用心。"
+                : "Six pillars of the banquet — four lanes, an AI Native engine, and the care that runs through them all."}
             </p>
           </div>
           <div className="mx-auto mt-12 grid max-w-6xl gap-5 md:grid-cols-2 lg:grid-cols-3">
