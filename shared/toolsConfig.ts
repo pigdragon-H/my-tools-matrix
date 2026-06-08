@@ -4963,6 +4963,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "calorie-calculator",
+    name: "熱量計算機",
+    category: "health",
+    path: "/tools/health/calorie-calculator",
+    icon: "Flame",
+    description: "熱量計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5324,3 +5339,4 @@ export const alcoholCalculator = { id: "alcohol-calculator", category: "health",
 export const bloodPressureCalculator = { id: "blood-pressure-calculator", category: "health", name: "Blood Pressure Calculator", path: "/tools/health/blood-pressure-calculator" };
 export const bodySurfaceAreaCalculator = { id: "body-surface-area-calculator", category: "health", name: "Body Surface Area Calculator", path: "/tools/health/body-surface-area-calculator" };
 export const bodyWeightPlanner = { id: "body-weight-planner", category: "health", name: "Body Weight Planner", path: "/tools/health/body-weight-planner" };
+export const calorieCalculator = { id: "calorie-calculator", category: "health", name: "Calorie Calculator", path: "/tools/health/calorie-calculator" };
