@@ -4513,6 +4513,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "crypto-dca-backtest",
+    name: "加密定期定額回測",
+    category: "finance",
+    path: "/tools/finance/crypto-dca-backtest",
+    icon: "Bitcoin",
+    description: "加密定期定額回測 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4844,3 +4859,4 @@ export const compoundInterestProCalculator = { id: "compound-interest-pro-calcul
 export const corporateTaxCalculator = { id: "corporate-tax-calculator", category: "finance", name: "Corporate Tax Calculator", path: "/tools/finance/corporate-tax-calculator" };
 export const creditScoreCalculator = { id: "credit-score-calculator", category: "finance", name: "Credit Score Calculator", path: "/tools/finance/credit-score-calculator" };
 export const crossRateCalculator = { id: "cross-rate-calculator", category: "finance", name: "Cross Rate Calculator", path: "/tools/finance/cross-rate-calculator" };
+export const cryptoDcaBacktest = { id: "crypto-dca-backtest", category: "finance", name: "Crypto DCA Backtest", path: "/tools/finance/crypto-dca-backtest" };
