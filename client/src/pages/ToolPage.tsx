@@ -285,7 +285,6 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "health/calories-burned-activity": lazy(() => import("@/tools/health/CaloriesBurnedActivity")),
   "health/blood-sugar-converter": lazy(() => import("@/tools/health/BloodSugarConverter")),
   "health/child-growth-percentile": lazy(() => import("@/tools/health/ChildGrowthPercentile")),
-  "health/sobriety-calculator": lazy(() => import("@/tools/health/SobrietyCalculator")),
   "developer/uuid-generator": lazy(() => import("@/tools/developer/UuidGenerator")),
   "developer/lorem-ipsum-generator": lazy(() => import("@/tools/developer/LoremIpsumGenerator")),
   "developer/code-minifier": lazy(() => import("@/tools/developer/CodeMinifier")),
