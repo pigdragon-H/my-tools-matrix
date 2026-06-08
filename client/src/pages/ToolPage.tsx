@@ -47,6 +47,8 @@ const LEGACY_TOOL_REDIRECTS: Record<string, string> = {
   // Batch 3 重建：dev → developer
   "dev/hex-to-rgb": "/tools/developer/hex-to-rgb",
   "dev/html-to-markdown": "/tools/developer/html-to-markdown",
+  // GSC rescue：marketing → ecommerce（保留 GSC 已索引前綴）
+  "marketing/cpm-calculator": "/tools/ecommerce/cpm-calculator",
 };
 
 // 工具組件映射（懶加載）
@@ -390,6 +392,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "ecommerce/utm-builder": lazy(() => import("@/tools/ecommerce/UtmBuilder")),
   "education/iq-test-calculator": lazy(() => import("@/tools/education/IqTestCalculator")),
   "education/astrology-calculator-edu": lazy(() => import("@/tools/education/AstrologyCalculatorEdu")),
+  "ecommerce/cpm-calculator": lazy(() => import("@/tools/ecommerce/CpmCalculator")),
 };
 
 function ToolSkeleton() {

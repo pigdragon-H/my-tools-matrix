@@ -5143,6 +5143,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "cpm-calculator",
+    name: "CPM 計算機",
+    category: "ecommerce",
+    path: "/tools/ecommerce/cpm-calculator",
+    icon: "DollarSign",
+    description: "CPM 計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5516,3 +5531,4 @@ export const leanBodyMassCalculator = { id: "lean-body-mass-calculator", categor
 export const utmBuilder = { id: "utm-builder", category: "ecommerce", name: "UTM Builder", path: "/tools/ecommerce/utm-builder" };
 export const iqTestCalculator = { id: "iq-test-calculator", category: "education", name: "IQ Test Calculator", path: "/tools/education/iq-test-calculator" };
 export const astrologyCalculatorEdu = { id: "astrology-calculator-edu", category: "education", name: "Astrology Calculator", path: "/tools/education/astrology-calculator-edu" };
+export const cpmCalculator = { id: "cpm-calculator", category: "ecommerce", name: "CPM Calculator", path: "/tools/ecommerce/cpm-calculator" };
