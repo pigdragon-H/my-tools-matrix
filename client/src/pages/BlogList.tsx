@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { ArrowRight, BookOpen, FileText, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, FileText, Sparkles, Sigma, Compass, Route as RouteIcon, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -58,8 +58,132 @@ const featuredGuides: Guide[] = [
   },
 ];
 
+// 四大知識主題 — 對應首頁「知識庫」卡片列出的 4 課題，
+// 每個主題給豐盛、有說服力的說明 + 代表性工具/領域連結。
+type KnowledgeTheme = {
+  iconKey: "formula" | "guide" | "path" | "limit";
+  title: Record<Lang, string>;
+  lead: Record<Lang, string>;
+  points: Record<Lang, string[]>;
+  example: Record<Lang, string>;
+  href: string;
+  cta: Record<Lang, string>;
+};
+
+const knowledgeThemes: KnowledgeTheme[] = [
+  {
+    iconKey: "formula",
+    title: { zh: "公式與指標解釋", en: "Formula & Indicator Explanations" },
+    lead: {
+      zh: "每一個計算結果，背後都有一條可以驗證的公式。我們不只給你數字，更告訴你這個數字怎麼來、用了哪些假設、在統計或財務上代表什麼意義——讓你看得懂「為什麼是這個答案」。",
+      en: "Behind every result is a verifiable formula. We don't just hand you a number — we show how it's derived, which assumptions it uses, and what it means statistically or financially, so you understand why the answer is the answer.",
+    },
+    points: {
+      zh: [
+        "拆解每個公式的輸入變數與計算邏輯，避免黑箱",
+        "標註指標的正常範圍、警戒值與解讀方式",
+        "說明同一個概念在不同情境下的差異（如名目利率 vs 實質利率）",
+      ],
+      en: [
+        "Break down each formula's inputs and logic — no black boxes",
+        "Annotate normal ranges, warning thresholds, and how to read each indicator",
+        "Explain how one concept differs by context (e.g. nominal vs real interest rate)",
+      ],
+    },
+    example: {
+      zh: "例如：CAGR 年化成長率如何把多年報酬攤平成一個可比較的數字。",
+      en: "Example: how CAGR flattens multi-year returns into one comparable number.",
+    },
+    href: "/tools/finance/cagr-calculator",
+    cta: { zh: "看公式範例", en: "See a formula example" },
+  },
+  {
+    iconKey: "guide",
+    title: { zh: "工具使用指南", en: "Tool Usage Guides" },
+    lead: {
+      zh: "一個好的工具，不該讓你猜「該填什麼、結果怎麼讀」。每份使用指南都從真實情境出發，一步步帶你輸入正確的數值、避開常見錯誤，並把計算結果轉成可以執行的決策。",
+      en: "A good tool shouldn't leave you guessing what to enter or how to read the output. Each guide starts from a real scenario, walks you through correct inputs, helps you avoid common mistakes, and turns results into actionable decisions.",
+    },
+    points: {
+      zh: [
+        "逐欄說明每個輸入欄位的意義與單位",
+        "標示常見填錯的地方與正確做法",
+        "示範如何把結果套用到自己的真實狀況",
+      ],
+      en: [
+        "Field-by-field explanation of every input and its unit",
+        "Highlight common input mistakes and the correct approach",
+        "Show how to map results onto your own real situation",
+      ],
+    },
+    example: {
+      zh: "例如：房貸試算機要填的「年利率」是名目還是實際？指南直接告訴你。",
+      en: "Example: is the mortgage calculator's 'rate' nominal or effective? The guide tells you directly.",
+    },
+    href: "/tools/finance/mortgage-calculator",
+    cta: { zh: "看使用指南", en: "See a usage guide" },
+  },
+  {
+    iconKey: "path",
+    title: { zh: "決策路徑文章", en: "Decision-Path Articles" },
+    lead: {
+      zh: "真正的問題很少只用一個工具就能解決。決策路徑文章把「從問題 → 找對工具 → 讀懂結果 → 採取下一步」串成一條完整脈絡，讓你不只算出數字，更知道接下來該怎麼做。",
+      en: "Real problems are rarely solved with a single tool. Decision-path articles connect 'question → right tool → understand the result → next action' into one complete flow — so you don't just get a number, you know what to do next.",
+    },
+    points: {
+      zh: [
+        "以一個真實決策場景貫穿多個相關工具",
+        "標示每一步的判斷依據與取捨",
+        "在結尾給出明確、可執行的下一步建議",
+      ],
+      en: [
+        "Run a real decision scenario across several related tools",
+        "Mark the reasoning and trade-offs at each step",
+        "End with a clear, actionable next step",
+      ],
+    },
+    example: {
+      zh: "例如：想提早退休，從 BMR、薪資、CAGR 到退休金，一條路走完。",
+      en: "Example: planning early retirement — from BMR and salary to CAGR and pension, one path end to end.",
+    },
+    href: "/tools/finance/retirement-calculator",
+    cta: { zh: "看決策路徑", en: "See a decision path" },
+  },
+  {
+    iconKey: "limit",
+    title: { zh: "常見限制提醒", en: "Common Limitations & Caveats" },
+    lead: {
+      zh: "沒有任何公式適用於所有情況。我們誠實標註每個工具的假設、適用情境與「不該用它」的時機——因為知道一個答案在什麼時候會失準，和知道答案本身一樣重要。",
+      en: "No formula fits every situation. We honestly label each tool's assumptions, applicable scenarios, and when not to use it — because knowing when an answer breaks down matters as much as the answer itself.",
+    },
+    points: {
+      zh: [
+        "明列每個模型背後的假設與適用前提",
+        "提醒極端值、邊界情況與失準時機",
+        "建議何時該尋求專業人士的進一步判斷",
+      ],
+      en: [
+        "List the assumptions and preconditions behind each model",
+        "Warn about extreme values, edge cases, and when results lose accuracy",
+        "Advise when to seek further professional judgment",
+      ],
+    },
+    example: {
+      zh: "例如：BMI 不區分肌肉與脂肪，對運動員可能失真——我們會講清楚。",
+      en: "Example: BMI doesn't distinguish muscle from fat and can mislead for athletes — we say so plainly.",
+    },
+    href: "/tools/health/bmi-calculator",
+    cta: { zh: "看限制說明", en: "See the caveats" },
+  },
+];
+
 const copy = {
   heroTitle: { zh: "知識庫", en: "Knowledge Base" },
+  themesTitle: { zh: "四大知識主題", en: "Four knowledge pillars" },
+  themesDesc: {
+    zh: "知識庫圍繞四個主題建立。每一篇內容都希望回答的不只是「答案是多少」，而是「為什麼、怎麼用、下一步、何時別用」。",
+    en: "The knowledge base is built around four themes. Every piece aims to answer not just 'what's the number', but 'why, how to use it, what's next, and when not to'.",
+  },
   heroDesc: {
     zh: "從公式、工具、範例與限制說明開始,把每一次計算延伸成可理解、可行動的知識脈絡。",
     en: "Start from formulas, tools, examples, and limitations — turn every calculation into understandable, actionable knowledge.",
@@ -116,6 +240,51 @@ export default function BlogList() {
       {/* L8 — AdSlot (after hero) */}
       <section className="container py-6">
         <AdSlot slot="blog-after-hero" position="top" variant="responsive" />
+      </section>
+
+      {/* 四大知識主題 — 對應首頁知識庫卡片列出的 4 課題 */}
+      <section className="container py-14 md:py-20">
+        <div className="mx-auto mb-10 max-w-3xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{copy.themesTitle[lang]}</h2>
+          <p className="mt-3 text-muted-foreground md:text-lg">{copy.themesDesc[lang]}</p>
+        </div>
+        <div className="grid gap-6 md:grid-cols-2">
+          {knowledgeThemes.map((theme) => {
+            const Icon =
+              theme.iconKey === "formula" ? Sigma :
+              theme.iconKey === "guide" ? Compass :
+              theme.iconKey === "path" ? RouteIcon : ShieldAlert;
+            return (
+              <div
+                key={theme.title.en}
+                className="flex h-full flex-col rounded-3xl border border-blue-100 bg-white/90 p-7 shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-xl dark:border-blue-950/60 dark:bg-white/5"
+              >
+                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-900/20">
+                  <Icon className="h-6 w-6" />
+                </div>
+                <h3 className="text-xl font-black text-slate-950 dark:text-white">{theme.title[lang]}</h3>
+                <p className="mt-3 text-sm leading-7 text-muted-foreground">{theme.lead[lang]}</p>
+                <ul className="mt-5 space-y-2.5">
+                  {theme.points[lang].map((pt) => (
+                    <li key={pt} className="flex items-start gap-2.5 text-sm leading-6 text-slate-700 dark:text-slate-300">
+                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500" />
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-5 rounded-2xl bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-900 dark:bg-blue-950/40 dark:text-blue-100">
+                  {theme.example[lang]}
+                </p>
+                <Link
+                  href={theme.href}
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-black text-blue-700 transition hover:gap-3 dark:text-blue-300"
+                >
+                  {theme.cta[lang]} <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            );
+          })}
+        </div>
       </section>
 
       <section className="container py-14 md:py-20">

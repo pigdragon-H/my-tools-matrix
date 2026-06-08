@@ -28,25 +28,58 @@ type Lang = "zh" | "en";
 const principles = [
   {
     title: { zh: "知", en: "Know" },
+    subtitle: { zh: "建立可理解的知識脈絡", en: "Build an understandable knowledge map" },
     description: {
-      zh: "整理公式、指標、工具用法與決策脈絡,讓知識能被查找、理解與重複使用。",
-      en: "Organize formulas, indicators, tool usage, and decision context so knowledge can be found, understood, and reused.",
+      zh: "整理公式、指標、工具用法與決策脈絡，讓知識能被查找、理解與重複使用。我們相信一個答案的價值，不只在於它是多少，更在於你看得懂它從哪裡來、用了什麼假設、在什麼前提下成立。",
+      en: "Organize formulas, indicators, tool usage, and decision context so knowledge can be found, understood, and reused. We believe an answer's value lies not only in the number, but in your ability to see where it came from, which assumptions it used, and under what conditions it holds.",
+    },
+    points: {
+      zh: [
+        "每個結果標註公式來源、假設與適用範圍",
+        "把零散的計算串成可追溯的知識網絡",
+      ],
+      en: [
+        "Every result labels its formula source, assumptions, and scope",
+        "Connect scattered calculations into a traceable knowledge network",
+      ],
     },
     icon: BookOpen,
   },
   {
     title: { zh: "行", en: "Act" },
+    subtitle: { zh: "轉換為可操作的工具流程", en: "Turn it into operable tool flows" },
     description: {
-      zh: "把知識落到可操作的計算器、流程與檢查點,協助使用者做出下一步行動。",
-      en: "Turn knowledge into actionable calculators, flows, and checkpoints that guide users to the next step.",
+      zh: "把知識落到可操作的計算器、流程與檢查點，協助使用者做出下一步行動。知道一個概念很好，但能立刻把它變成輸入幾個數字就得到決策建議的工具，才真正改變了你今天的選擇。",
+      en: "Turn knowledge into actionable calculators, flows, and checkpoints that help users take the next step. Understanding a concept is good — but turning it into a tool where a few inputs yield a real decision is what actually changes your choices today.",
+    },
+    points: {
+      zh: [
+        "每個工具都從真實決策場景出發設計",
+        "計算結果直接連到「下一步該做什麼」的建議",
+      ],
+      en: [
+        "Every tool is designed around a real decision scenario",
+        "Results link directly to a concrete 'what to do next'",
+      ],
     },
     icon: Feather,
   },
   {
     title: { zh: "樂趣", en: "Joy" },
+    subtitle: { zh: "讓學習與決策更有陪伴感", en: "Make learning and decisions more companionable" },
     description: {
-      zh: "讓工具不只是冷冰冰的表格,而是能陪伴學習、工作與生活探索的花園。",
-      en: "Tools should not feel like cold spreadsheets — they should be a garden that accompanies learning, work, and life.",
+      zh: "讓工具不只是冷冰冰的表格，而是能陪伴學習、工作與生活探索的花園。我們在配色、字距與節奏上刻意留白，讓你在長時間查資料、做決策時，仍感覺被好好對待——這是一種安靜、可靠的陪伴。",
+      en: "Tools should not feel like cold spreadsheets — they should be a garden that accompanies learning, work, and life. We deliberately leave breathing room in color, spacing, and rhythm, so that during long sessions of research and decision-making, you still feel well cared for — a quiet, reliable companionship.",
+    },
+    points: {
+      zh: [
+        "暖白卡片、自然字距，長時間閱讀不疲勞",
+        "把「使用體驗」當成知識基礎建設的一部分",
+      ],
+      en: [
+        "Warm-white cards and natural typography for fatigue-free reading",
+        "Treat the experience itself as part of the knowledge infrastructure",
+      ],
     },
     icon: Sprout,
   },
@@ -286,16 +319,25 @@ export default function About() {
             </p>
           </div>
           <div className="mx-auto mt-10 grid max-w-5xl gap-5 md:grid-cols-3">
-            {principles.map(({ title, description, icon: Icon }) => (
+            {principles.map(({ title, subtitle, description, points, icon: Icon }) => (
               <Card key={title.en} className="border-border bg-card">
                 <CardContent className="p-7">
                   <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-accent text-accent-foreground">
                     <Icon className="h-5 w-5" />
                   </div>
                   <h3 className="text-3xl font-black">{title[lang]}</h3>
+                  <p className="mt-1 text-sm font-bold text-primary">{subtitle[lang]}</p>
                   <p className="mt-3 text-sm leading-7 text-muted-foreground">
                     {description[lang]}
                   </p>
+                  <ul className="mt-4 space-y-2">
+                    {points[lang].map((pt) => (
+                      <li key={pt} className="flex items-start gap-2 text-sm leading-6 text-foreground/80">
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                        {pt}
+                      </li>
+                    ))}
+                  </ul>
                 </CardContent>
               </Card>
             ))}
