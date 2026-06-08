@@ -4993,6 +4993,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "carb-intake-calculator",
+    name: "碳水攝取計算機",
+    category: "health",
+    path: "/tools/health/carb-intake-calculator",
+    icon: "Wheat",
+    description: "碳水攝取計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5356,3 +5371,4 @@ export const bodySurfaceAreaCalculator = { id: "body-surface-area-calculator", c
 export const bodyWeightPlanner = { id: "body-weight-planner", category: "health", name: "Body Weight Planner", path: "/tools/health/body-weight-planner" };
 export const calorieCalculator = { id: "calorie-calculator", category: "health", name: "Calorie Calculator", path: "/tools/health/calorie-calculator" };
 export const caloriesBurnedCalculator = { id: "calories-burned-calculator", category: "health", name: "Calories Burned Calculator", path: "/tools/health/calories-burned-calculator" };
+export const carbIntakeCalculator = { id: "carb-intake-calculator", category: "health", name: "Carb Intake Calculator", path: "/tools/health/carb-intake-calculator" };
