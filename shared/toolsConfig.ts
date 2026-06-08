@@ -5008,6 +5008,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "fat-loss-calculator",
+    name: "減脂計算機",
+    category: "health",
+    path: "/tools/health/fat-loss-calculator",
+    icon: "TrendingDown",
+    description: "減脂計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5372,3 +5387,4 @@ export const bodyWeightPlanner = { id: "body-weight-planner", category: "health"
 export const calorieCalculator = { id: "calorie-calculator", category: "health", name: "Calorie Calculator", path: "/tools/health/calorie-calculator" };
 export const caloriesBurnedCalculator = { id: "calories-burned-calculator", category: "health", name: "Calories Burned Calculator", path: "/tools/health/calories-burned-calculator" };
 export const carbIntakeCalculator = { id: "carb-intake-calculator", category: "health", name: "Carb Intake Calculator", path: "/tools/health/carb-intake-calculator" };
+export const fatLossCalculator = { id: "fat-loss-calculator", category: "health", name: "Fat Loss Calculator", path: "/tools/health/fat-loss-calculator" };
