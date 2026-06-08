@@ -5128,6 +5128,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "astrology-calculator-edu",
+    name: "占星計算機",
+    category: "education",
+    path: "/tools/education/astrology-calculator-edu",
+    icon: "Sparkles",
+    description: "占星計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5500,3 +5515,4 @@ export const htmlToMarkdown = { id: "html-to-markdown", category: "developer", n
 export const leanBodyMassCalculator = { id: "lean-body-mass-calculator", category: "health", name: "Lean Body Mass Calculator", path: "/tools/health/lean-body-mass-calculator" };
 export const utmBuilder = { id: "utm-builder", category: "ecommerce", name: "UTM Builder", path: "/tools/ecommerce/utm-builder" };
 export const iqTestCalculator = { id: "iq-test-calculator", category: "education", name: "IQ Test Calculator", path: "/tools/education/iq-test-calculator" };
+export const astrologyCalculatorEdu = { id: "astrology-calculator-edu", category: "education", name: "Astrology Calculator", path: "/tools/education/astrology-calculator-edu" };

@@ -389,6 +389,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "health/lean-body-mass-calculator": lazy(() => import("@/tools/health/LeanBodyMassCalculator")),
   "ecommerce/utm-builder": lazy(() => import("@/tools/ecommerce/UtmBuilder")),
   "education/iq-test-calculator": lazy(() => import("@/tools/education/IqTestCalculator")),
+  "education/astrology-calculator-edu": lazy(() => import("@/tools/education/AstrologyCalculatorEdu")),
 };
 
 function ToolSkeleton() {
