@@ -5068,6 +5068,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "html-to-markdown",
+    name: "HTML 轉 Markdown 轉換器",
+    category: "developer",
+    path: "/tools/developer/html-to-markdown",
+    icon: "FileText",
+    description: "HTML 轉 Markdown 轉換器 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5436,3 +5451,4 @@ export const fatLossCalculator = { id: "fat-loss-calculator", category: "health"
 export const fiberIntakeCalculator = { id: "fiber-intake-calculator", category: "health", name: "Fiber Intake Calculator", path: "/tools/health/fiber-intake-calculator" };
 export const heartRateCalculator = { id: "heart-rate-calculator", category: "health", name: "Heart Rate Calculator", path: "/tools/health/heart-rate-calculator" };
 export const hexToRgb = { id: "hex-to-rgb", category: "developer", name: "HEX to RGB Converter", path: "/tools/developer/hex-to-rgb" };
+export const htmlToMarkdown = { id: "html-to-markdown", category: "developer", name: "HTML to Markdown Converter", path: "/tools/developer/html-to-markdown" };
