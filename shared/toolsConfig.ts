@@ -4618,6 +4618,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "gift-tax-calculator",
+    name: "贈與稅計算機",
+    category: "finance",
+    path: "/tools/finance/gift-tax-calculator",
+    icon: "Gift",
+    description: "贈與稅計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4956,3 +4971,4 @@ export const emiCalculator = { id: "emi-calculator", category: "finance", name: 
 export const exchangeRateCalculator = { id: "exchange-rate-calculator", category: "finance", name: "Exchange Rate Calculator", path: "/tools/finance/exchange-rate-calculator" };
 export const fireCalculator = { id: "fire-calculator", category: "finance", name: "FIRE Calculator", path: "/tools/finance/fire-calculator" };
 export const forexProfitCalculator = { id: "forex-profit-calculator", category: "finance", name: "Forex Profit Calculator", path: "/tools/finance/forex-profit-calculator" };
+export const giftTaxCalculator = { id: "gift-tax-calculator", category: "finance", name: "Gift Tax Calculator", path: "/tools/finance/gift-tax-calculator" };
