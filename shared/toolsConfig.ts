@@ -4753,6 +4753,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "personal-loan-calculator",
+    name: "個人信貸計算機",
+    category: "finance",
+    path: "/tools/finance/personal-loan-calculator",
+    icon: "Wallet",
+    description: "個人信貸計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5100,3 +5115,4 @@ export const irrNpvCalculator = { id: "irr-npv-calculator", category: "finance",
 export const landValueCalculator = { id: "land-value-calculator", category: "finance", name: "Land Value Calculator", path: "/tools/finance/land-value-calculator" };
 export const mortgageAmortizationCalculator = { id: "mortgage-amortization-calculator", category: "finance", name: "Mortgage Amortization Calculator", path: "/tools/finance/mortgage-amortization-calculator" };
 export const movingCostCalculator = { id: "moving-cost-calculator", category: "finance", name: "Moving Cost Calculator", path: "/tools/finance/moving-cost-calculator" };
+export const personalLoanCalculator = { id: "personal-loan-calculator", category: "finance", name: "Personal Loan Calculator", path: "/tools/finance/personal-loan-calculator" };
