@@ -4918,6 +4918,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "blood-pressure-calculator",
+    name: "血壓計算機",
+    category: "health",
+    path: "/tools/health/blood-pressure-calculator",
+    icon: "HeartPulse",
+    description: "血壓計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5276,3 +5291,4 @@ export const taxRefundCalculator = { id: "tax-refund-calculator", category: "fin
 export const utilityCostCalculator = { id: "utility-cost-calculator", category: "finance", name: "Utility Cost Calculator", path: "/tools/finance/utility-cost-calculator" };
 export const withholdingTaxCalculator = { id: "withholding-tax-calculator", category: "finance", name: "Withholding Tax Calculator", path: "/tools/finance/withholding-tax-calculator" };
 export const alcoholCalculator = { id: "alcohol-calculator", category: "health", name: "Alcohol Calculator", path: "/tools/health/alcohol-calculator" };
+export const bloodPressureCalculator = { id: "blood-pressure-calculator", category: "health", name: "Blood Pressure Calculator", path: "/tools/health/blood-pressure-calculator" };
