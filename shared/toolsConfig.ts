@@ -5113,6 +5113,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "iq-test-calculator",
+    name: "IQ 測驗計算機",
+    category: "education",
+    path: "/tools/education/iq-test-calculator",
+    icon: "Brain",
+    description: "IQ 測驗計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5484,3 +5499,4 @@ export const hexToRgb = { id: "hex-to-rgb", category: "developer", name: "HEX to
 export const htmlToMarkdown = { id: "html-to-markdown", category: "developer", name: "HTML to Markdown Converter", path: "/tools/developer/html-to-markdown" };
 export const leanBodyMassCalculator = { id: "lean-body-mass-calculator", category: "health", name: "Lean Body Mass Calculator", path: "/tools/health/lean-body-mass-calculator" };
 export const utmBuilder = { id: "utm-builder", category: "ecommerce", name: "UTM Builder", path: "/tools/ecommerce/utm-builder" };
+export const iqTestCalculator = { id: "iq-test-calculator", category: "education", name: "IQ Test Calculator", path: "/tools/education/iq-test-calculator" };
