@@ -4843,6 +4843,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "stock-return-calculator",
+    name: "股票報酬計算機",
+    category: "finance",
+    path: "/tools/finance/stock-return-calculator",
+    icon: "BarChart3",
+    description: "股票報酬計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5196,3 +5211,4 @@ export const propertyRoiCalculator = { id: "property-roi-calculator", category: 
 export const retirementSavingsCalculator = { id: "retirement-savings-calculator", category: "finance", name: "Retirement Savings Calculator", path: "/tools/finance/retirement-savings-calculator" };
 export const roiCalculator = { id: "roi-calculator", category: "finance", name: "ROI Calculator", path: "/tools/finance/roi-calculator" };
 export const stockProfitLossCalculator = { id: "stock-profit-loss-calculator", category: "finance", name: "Stock Profit Loss Calculator", path: "/tools/finance/stock-profit-loss-calculator" };
+export const stockReturnCalculator = { id: "stock-return-calculator", category: "finance", name: "Stock Return Calculator", path: "/tools/finance/stock-return-calculator" };
