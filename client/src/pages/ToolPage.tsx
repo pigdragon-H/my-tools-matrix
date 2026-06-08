@@ -337,6 +337,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/tax-refund-calculator": lazy(() => import("@/tools/finance/TaxRefundCalculator")),
   "finance/utility-cost-calculator": lazy(() => import("@/tools/finance/UtilityCostCalculator")),
   "finance/withholding-tax-calculator": lazy(() => import("@/tools/finance/WithholdingTaxCalculator")),
+  "health/alcohol-calculator": lazy(() => import("@/tools/health/AlcoholCalculator")),
 };
 
 function ToolSkeleton() {
