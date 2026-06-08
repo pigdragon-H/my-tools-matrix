@@ -7,6 +7,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { animate, motion, useReducedMotion } from "framer-motion";
+import { tools } from "@shared/toolsConfig";
 import {
   ArrowRight,
   ArrowUp,
@@ -140,10 +141,11 @@ const journeyCards: JourneyCard[] = [
   { title: { zh: "旅遊規劃", en: "Travel planning" }, description: { zh: "用預算、匯率、時區與行程安排降低旅行決策成本。", en: "Use budget, exchange rate, time zone, and itinerary planning to reduce travel decision cost." }, steps: { zh: ["預算", "匯率", "時區", "行程"], en: ["Budget", "Exchange rate", "Time zone", "Itinerary"] } },
 ];
 
+// 工具總數與系統實際工具數連動：每新增一支工具，tools.length 自動 +1
 const stats: StatItem[] = [
-  { value: 157, suffix: "+", label: { zh: "個工具規劃中", en: "tools planned" } },
+  { value: tools.length, suffix: "+", label: { zh: "個上線工具", en: "tools live" } },
   { value: 12, suffix: "", label: { zh: "大知識領域", en: "knowledge domains" } },
-  { value: 6, suffix: "", label: { zh: "條決策路徑", en: "decision paths" } },
+  { value: 15, suffix: "/週", label: { zh: "週平均新增目標", en: "new tools / week" } },
   { value: 0, suffix: "", label: { zh: "AI Native 架構", en: "AI Native architecture" }, isText: true },
 ];
 
@@ -303,7 +305,7 @@ function FlashBannerStrip({ lang }: { lang: Lang }) {
               <p className={`mb-4 bg-gradient-to-r ${slide.accent} bg-clip-text text-sm font-black uppercase tracking-[0.28em] text-transparent`}>
                 {lang === "zh" ? "企業形象 · 專業科技 · 智慧工具" : "Brand · Technology · Intelligent Tools"}
               </p>
-              <h2 className="max-w-3xl whitespace-normal text-4xl font-black leading-tight tracking-tight md:whitespace-nowrap md:text-5xl lg:text-6xl">
+              <h2 className="max-w-3xl whitespace-normal text-4xl font-black leading-tight tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)] md:whitespace-nowrap md:text-5xl lg:text-6xl">
                 {slide.title[lang]}
               </h2>
               <p className="mt-6 max-w-2xl text-xl font-semibold leading-8 text-blue-50 md:text-2xl">
