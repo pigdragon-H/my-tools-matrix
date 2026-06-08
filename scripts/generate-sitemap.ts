@@ -15,12 +15,13 @@
  *   npm run generate:sitemap
  * 已掛進 prebuild，每次 npm run build 前自動更新。
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync, statSync } from "node:fs";
 import { resolve, join } from "node:path";
 
 const ROOT = resolve(new URL(import.meta.url).pathname, "../..");
 const TOOLS_CONFIG = join(ROOT, "shared/toolsConfig.ts");
 const CATS_CONFIG = join(ROOT, "shared/categoriesConfig.ts");
+const ARTICLES_DIR = join(ROOT, "shared/articles");
 const OUT_PUBLIC = join(ROOT, "public/sitemap.xml");
 const OUT_CLIENT = join(ROOT, "client/public/sitemap.xml");
 
@@ -54,6 +55,54 @@ const catKeys = [...catsText.matchAll(/key:\s*"([a-z]+)"/g)].map((mm) => mm[1]);
 const uniqueCats = [...new Set(catKeys)];
 
 // ── Step 3: 組 URL 條目 ─────────────────────────────────────────────
+// ── Step 2.5: scan shared/articles/**/*.md knowledge-base articles ──
+// Same logic as client/src/lib/staticArticles.ts: prefer frontmatter
+// category, else folder name; canonical = /blog/<category>/<slug>
+// (aligns with the GSC-indexed URL).
+function walkMd(dir: string): string[] {
+  const out: string[] = [];
+  let items: string[] = [];
+  try {
+    items = readdirSync(dir);
+  } catch {
+    return out;
+  }
+  for (const name of items) {
+    const full = join(dir, name);
+    let isDir = false;
+    try {
+      isDir = statSync(full).isDirectory();
+    } catch {
+      continue;
+    }
+    if (isDir) {
+      out.push(...walkMd(full));
+    } else if (name.endsWith(".md")) {
+      out.push(full);
+    }
+  }
+  return out;
+}
+
+const articleFiles = walkMd(ARTICLES_DIR);
+const articlePaths: string[] = [];
+for (const file of articleFiles) {
+  const raw = readFileSync(file, "utf8");
+  const fileName = file.split("/").pop() || "";
+  const slug = fileName.replace(/\.md$/, "");
+  const rel = file.slice(ARTICLES_DIR.length + 1); // "finance/foo.md" | "foo.md"
+  const relParts = rel.split("/");
+  const dirCategory = relParts.length > 1 ? relParts[0] : "";
+  let category = dirCategory;
+  const fmMatch = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (fmMatch) {
+    const catLine = fmMatch[1].match(/^category:\s*"?([a-z0-9-]+)"?\s*$/m);
+    if (catLine) category = catLine[1];
+  }
+  const path = category ? `/blog/${category}/${slug}` : `/blog/${slug}`;
+  articlePaths.push(path);
+}
+
 const entries: string[] = [];
 const seen = new Set<string>(); // 防重複 + 防舊命名分歧殘留
 
@@ -74,6 +123,9 @@ for (const cat of uniqueCats) addUrl(`/category/${cat}`, "weekly", "0.9");
 // 工具頁 (唯一真相來源 = toolsConfig 的 path)
 for (const t of tools) addUrl(t.path, "monthly", "0.7");
 
+// knowledge-base articles (/blog/<category>/<slug>) — GSC-indexed, must stay alive
+for (const ap of articlePaths) addUrl(ap, "monthly", "0.8");
+
 // ── Step 4: 輸出 ────────────────────────────────────────────────────
 const xml =
   `<?xml version="1.0" encoding="UTF-8"?>\n` +
@@ -90,7 +142,7 @@ try {
 }
 
 console.log(
-  `✓ sitemap regenerated: ${STATIC_PAGES.length} static + ${uniqueCats.length} categories + ${tools.length} tools = ${seen.size} URLs`
+  `✓ sitemap regenerated: ${STATIC_PAGES.length} static + ${uniqueCats.length} categories + ${tools.length} tools + ${articlePaths.length} articles = ${seen.size} URLs`
 );
 console.log(`  → ${OUT_PUBLIC}`);
 console.log(`  → ${OUT_CLIENT}`);
