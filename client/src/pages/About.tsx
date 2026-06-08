@@ -137,17 +137,46 @@ const pillars = [
   },
 ] as const;
 
+// Soul-section icons (人機合一 · 主廚與園丁): AI · human craft · guests · gardener
+const soulIcons = [Cpu, Feather, HeartHandshake, Sprout] as const;
+
 const copy = {
   // Hero
-  heroEyebrow: { zh: "ABOUT FORMULA UNIVERSE", en: "ABOUT FORMULA UNIVERSE" },
+  heroEyebrow: { zh: "ABOUT FORMULA UNIVERSE · 人 × AI", en: "ABOUT FORMULA UNIVERSE · HUMAN × AI" },
   heroTitle: {
-    zh: "在科技之後,留一份可靠。",
-    en: "Behind the technology, a quiet reliability.",
+    zh: "人機合一的結晶，一桌為你而辦的流水席。",
+    en: "A human-and-AI creation, an open banquet set just for you.",
   },
   heroLead: {
-    zh: "Formula Universe 是一座 AI Native Knowledge Infrastructure。我們把工具、公式、解釋、範例、限制與下一步行動串成可信任的決策入口 ── 表面上是計算機,底層是一份對「知識被正確使用」的長期承諾。",
-    en: "Formula Universe is an AI Native Knowledge Infrastructure. We connect tools, formulas, explanations, examples, limitations, and next actions into a trusted decision gateway — calculators on the surface, a long-term commitment to knowledge integrity underneath.",
+    zh: "Formula Universe 是一座 AI Native Knowledge Infrastructure，也是一桌免費的知識流水席。這裡的每一道菜——工具、公式、解釋、藍圖與機會——都是人的用心與 AI 的鼎力相助一起烹出來的。我們不避諱地說：沒有 AI，就沒有我們；但有了人的口味與判斷，這桌席才成為你吃得懂、信得過、還想再來的地方。",
+    en: "Formula Universe is an AI Native Knowledge Infrastructure — and a free, open banquet of knowledge. Every dish here, from tools and formulas to explanations, blueprints, and opportunities, is cooked by human care with the powerful help of AI. We say it plainly: without AI there is no us; yet with human taste and judgment, this banquet becomes a place you can understand, trust, and want to return to.",
   },
+
+  // ── Soul: 人 × AI · 主廚與園丁（流水席靈魂）──────────────────────────────
+  soulEyebrow: { zh: "人機合一 · 主廚與園丁", en: "Human × AI · Chef & Gardener" },
+  soulTitle: { zh: "關於我們：人、AI，與來作客的你", en: "About us: human, AI, and you who came" },
+  soulLead: {
+    zh: "這個地方是我的學習、知行與樂趣所在——有人，也有 AI。我們要展現人運行的智慧，也不避諱地說：這一切的成果，是 AI 鼎力相助的結晶。一句話——人機合一。",
+    en: "This place is where my learning, knowing-and-doing, and joy live — with humans, and with AI. We show the wisdom of people at work, and we never shy from saying: all of this is a creation made with the powerful help of AI. In one phrase — human and machine, as one.",
+  },
+  soulCards: [
+    {
+      zh: ["沒有 AI，就沒有我們", "我們大方、驕傲地承認：這桌席的視野、速度與深度，都由 AI 鼎力相助。人負責掌手、口味與判斷，AI 負責火候、產量與細節。"],
+      en: ["Without AI, there is no us", "We admit it openly and proudly: the vision, speed, and depth of this banquet all come with the powerful help of AI. Humans bring the hands, taste, and judgment; AI brings the heat, the volume, and the detail."],
+    },
+    {
+      zh: ["人運行的智慧", "選什麼菜、怎麼調味、保留哪些原則——這些是人的決定。我們對菜色的選擇是絕對的用心，主廚的手藝不是為了裝飾，而是為了讓你真的吃得懂、用得上。"],
+      en: ["The wisdom of human hands", "Which dishes to serve, how to season, which principles to keep — these are human decisions. Our choice of dishes is one of absolute care. The chef's craft is not for show, but so that you can truly understand and use what's served."],
+    },
+    {
+      zh: ["訪客的參與最重要", "說實話，我們就是辦流水席、盡情盡心盡興要饗宴訪客的。你慢慢吃、能等每一道菜、吃飽再走，是我們最大的成就；你的回饋與建議，是我們調味的依據。"],
+      en: ["Your participation matters most", "Honestly, we are simply hosting an open banquet — with heart, devotion, and joy — to feast our guests. That you dine slowly, wait for every dish, and leave full is our greatest reward; your feedback is how we adjust the flavor."],
+    },
+    {
+      zh: ["主廚，也是園丁", "我們不只炒一頓飯，更要深耕這片本源地。像園丁一樣長期照養，為這一切的豐富與美好做準備，讓 Formula Universe 成為大家喜歡來、也願意再來的地方。"],
+      en: ["Chef — and gardener", "We don't just cook one meal; we deep-root this homeland. Like a gardener tending for the long term, we prepare for the richness and beauty of it all — so Formula Universe becomes a place people love to come to, and gladly return to."],
+    },
+  ],
 
   // The promise (operational reliability — the "穩健意志")
   promiseTitle: { zh: "我們對使用者的承諾", en: "Our promise to users" },
@@ -184,8 +213,8 @@ const copy = {
   // The founder note
   founderTitle: { zh: "創辦人的話", en: "From the founder" },
   founderBody: {
-    zh: "我是 PiGragon-H ── 名字是「豬龍」的諧音。世人之下,我為豬;世人之上,我為龍;我之為我,自在為皇。Formula Universe 的目標不是做一個更花俏的計算器網站,而是讓「正確的知識能被正確地使用」這件事,在 AI 時代仍然站得住腳。如果你在這裡找到一個能信任的答案、一條能走的下一步,那就是這座宇宙存在的理由。",
-    en: "I'm PiGragon-H — the name is a homophone for 豬龍 (pig-dragon). Below the world, I am a pig. Above it, a dragon. As myself, free and at peace. Formula Universe isn't trying to be a flashier calculator site — it's trying to make sure 'correct knowledge, correctly used' still holds up in the age of AI. If you find a trustworthy answer here, or a next step you can actually take, that's the reason this universe exists.",
+    zh: "我是 PiGragon-H ── 名字是「豬龍」的諧音。世人之下,我為豬;世人之上,我為龍;我之為我,自在為皇。這個網站是我的學習、知行與樂趣所在,而它能走到今天,是 AI 鼎力相助的結晶 ── 沒有 AI,就沒有我們。我願意是這座大花園的園丁,也是這桌流水席的主廚:用心選每一道菜,慢慢把本源地耕得更深、更豐富,等你常來。如果你在這裡找到一個能信任的答案、一條能走的下一步,那就是這座宇宙存在的理由 ── 也歡迎你,吃飽再走,還想再來。",
+    en: "I'm PiGragon-H — the name is a homophone for 豬龍 (pig-dragon). Below the world, I am a pig. Above it, a dragon. As myself, free and at peace. This site is where my learning, doing, and joy live — and it reached today as a creation made with the powerful help of AI: without AI, there is no us. I am glad to be the gardener of this large garden, and the chef of this open banquet: choosing every dish with care, slowly deep-rooting this homeland to make it richer, waiting for you to return often. If you find a trustworthy answer here, or a next step you can actually take, that's the reason this universe exists — and you're welcome to eat your fill, then come back again.",
   },
 
   // K · A · Joy section header
@@ -219,6 +248,36 @@ export default function About() {
             <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-muted-foreground md:text-lg">
               {copy.heroLead[lang]}
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Soul: 人 × AI · 主廚與園丁（流水席靈魂） */}
+      <section className="border-b border-border bg-gradient-to-br from-accent/30 via-background to-secondary/40">
+        <div className="container py-16 md:py-20">
+          <div className="mx-auto max-w-3xl text-center">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-black uppercase tracking-[0.2em] text-foreground">
+              <Sparkles className="h-4 w-4 text-primary" />
+              {copy.soulEyebrow[lang]}
+            </div>
+            <h2 className="text-3xl font-black tracking-tight md:text-4xl">{copy.soulTitle[lang]}</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-muted-foreground">{copy.soulLead[lang]}</p>
+          </div>
+          <div className="mx-auto mt-12 grid max-w-5xl gap-5 md:grid-cols-2">
+            {copy.soulCards.map((item, i) => {
+              const Icon = soulIcons[i % soulIcons.length];
+              return (
+                <Card key={item.en[0]} className="border-border bg-card transition-shadow hover:shadow-md">
+                  <CardContent className="p-7">
+                    <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="text-xl font-black">{item[lang][0]}</h3>
+                    <p className="mt-3 text-sm leading-7 text-muted-foreground">{item[lang][1]}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -368,12 +427,12 @@ export default function About() {
         <div className="container py-14 md:py-20">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-black tracking-tight md:text-4xl">
-              {lang === "zh" ? "從一個工具開始" : "Start with one tool"}
+              {lang === "zh" ? "入席開吃,從一道菜開始" : "Take a seat — start with one dish"}
             </h2>
             <p className="mt-3 text-base leading-7 text-muted-foreground">
               {lang === "zh"
-                ? "閱讀理念之後,最好的下一步是親手用一次。"
-                : "The best next step after reading is to actually use one."}
+                ? "席面已備,免費請用。慢慢吃、吃飽再走,我們歡迎你常來光臨。"
+                : "The table is set, and it's on the house. Dine slowly, eat your fill — you're always welcome back."}
             </p>
             <div className="mt-7 flex flex-wrap justify-center gap-3">
               <Button asChild className="gap-2">
