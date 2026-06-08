@@ -4498,6 +4498,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "cross-rate-calculator",
+    name: "交叉匯率計算機",
+    category: "finance",
+    path: "/tools/finance/cross-rate-calculator",
+    icon: "ArrowLeftRight",
+    description: "交叉匯率計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4828,3 +4843,4 @@ export const carDepreciation = { id: "car-depreciation", category: "finance", na
 export const compoundInterestProCalculator = { id: "compound-interest-pro-calculator", category: "finance", name: "Compound Interest Pro", path: "/tools/finance/compound-interest-pro-calculator" };
 export const corporateTaxCalculator = { id: "corporate-tax-calculator", category: "finance", name: "Corporate Tax Calculator", path: "/tools/finance/corporate-tax-calculator" };
 export const creditScoreCalculator = { id: "credit-score-calculator", category: "finance", name: "Credit Score Calculator", path: "/tools/finance/credit-score-calculator" };
+export const crossRateCalculator = { id: "cross-rate-calculator", category: "finance", name: "Cross Rate Calculator", path: "/tools/finance/cross-rate-calculator" };
