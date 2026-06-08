@@ -4438,6 +4438,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "car-depreciation",
+    name: "車輛折舊計算機",
+    category: "finance",
+    path: "/tools/finance/car-depreciation",
+    icon: "Car",
+    description: "車輛折舊計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4764,3 +4779,4 @@ export const travelMilesCalculator = { id: "travel-miles-calculator", category: 
 export const affordabilityCalculator = { id: "affordability-calculator", category: "finance", name: "Affordability Calculator", path: "/tools/finance/affordability-calculator" };
 export const assetDepreciation = { id: "asset-depreciation", category: "finance", name: "Asset Depreciation Calculator", path: "/tools/finance/asset-depreciation" };
 export const budgetPlanner = { id: "budget-planner", category: "finance", name: "Budget Planner", path: "/tools/finance/budget-planner" };
+export const carDepreciation = { id: "car-depreciation", category: "finance", name: "Car Depreciation Calculator", path: "/tools/finance/car-depreciation" };
