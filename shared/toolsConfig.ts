@@ -5098,6 +5098,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "utm-builder",
+    name: "UTM 連結產生器",
+    category: "ecommerce",
+    path: "/tools/ecommerce/utm-builder",
+    icon: "Link",
+    description: "UTM 連結產生器 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5468,3 +5483,4 @@ export const heartRateCalculator = { id: "heart-rate-calculator", category: "hea
 export const hexToRgb = { id: "hex-to-rgb", category: "developer", name: "HEX to RGB Converter", path: "/tools/developer/hex-to-rgb" };
 export const htmlToMarkdown = { id: "html-to-markdown", category: "developer", name: "HTML to Markdown Converter", path: "/tools/developer/html-to-markdown" };
 export const leanBodyMassCalculator = { id: "lean-body-mass-calculator", category: "health", name: "Lean Body Mass Calculator", path: "/tools/health/lean-body-mass-calculator" };
+export const utmBuilder = { id: "utm-builder", category: "ecommerce", name: "UTM Builder", path: "/tools/ecommerce/utm-builder" };
