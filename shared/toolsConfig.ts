@@ -4873,6 +4873,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "utility-cost-calculator",
+    name: "水電費計算機",
+    category: "finance",
+    path: "/tools/finance/utility-cost-calculator",
+    icon: "Zap",
+    description: "水電費計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5228,3 +5243,4 @@ export const roiCalculator = { id: "roi-calculator", category: "finance", name: 
 export const stockProfitLossCalculator = { id: "stock-profit-loss-calculator", category: "finance", name: "Stock Profit Loss Calculator", path: "/tools/finance/stock-profit-loss-calculator" };
 export const stockReturnCalculator = { id: "stock-return-calculator", category: "finance", name: "Stock Return Calculator", path: "/tools/finance/stock-return-calculator" };
 export const taxRefundCalculator = { id: "tax-refund-calculator", category: "finance", name: "Tax Refund Calculator", path: "/tools/finance/tax-refund-calculator" };
+export const utilityCostCalculator = { id: "utility-cost-calculator", category: "finance", name: "Utility Cost Calculator", path: "/tools/finance/utility-cost-calculator" };
