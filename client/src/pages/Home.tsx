@@ -88,52 +88,52 @@ type FlashBannerSlide = {
 
 const flashBannerSlides: FlashBannerSlide[] = [
   {
-    eyebrow: { zh: "Formula Universe", en: "Formula Universe" },
-    title: { zh: "讓每個決策都有數據支撐", en: "Data-backed decisions" },
-    slogan: { zh: "工具、公式、知識與下一步行動，整合成一個智慧宇宙。", en: "Tools, formulas, knowledge, and next actions in one intelligent universe." },
-    description: { zh: "以 AI Native Knowledge Infrastructure 建立可信任的線上決策入口。", en: "A trusted AI Native Knowledge Infrastructure for everyday decisions." },
-    accent: "from-blue-500 to-cyan-300",
-    visual: "AI · DATA · FORMULA",
+    eyebrow: { zh: "Formula Universe · 知識盛宴", en: "Formula Universe · The Banquet" },
+    title: { zh: "一桌 AI 知識的滿漢全席", en: "A full feast of AI knowledge" },
+    slogan: { zh: "工具、創業藍圖、機會情報、知識中心——四大菜系，免費開席，慢慢享用。", en: "Tools, business blueprints, opportunity intelligence, and a knowledge center — four cuisines, free to enjoy." },
+    description: { zh: "從一個計算到一門事業，這裡把零散的知識端成一桌看得懂、用得上的盛宴。", en: "From a single calculation to a whole business — scattered knowledge served as one understandable, actionable feast." },
+    accent: "from-amber-400 to-orange-300",
+    visual: "TOOLS · BLUEPRINT · OPP · KNOW",
   },
   {
-    eyebrow: { zh: "Professional Tools", en: "Professional Tools" },
-    title: { zh: "把複雜問題變成清楚答案", en: "Turn complexity into clarity" },
-    slogan: { zh: "從財務、健康、開發到學習，每個工具都為真實情境設計。", en: "From finance and health to development and learning, every tool is built for real scenarios." },
-    description: { zh: "專業、快速、可理解，讓使用者知道下一步該怎麼做。", en: "Professional, fast, and understandable — so users know what to do next." },
+    eyebrow: { zh: "AI 創業藍圖 · 主菜", en: "AI Business Blueprints · Main Course" },
+    title: { zh: "把點子端成一門生意", en: "Turn an idea into a business" },
+    slogan: { zh: "從商業模式、市場規模到 90 天計畫與可落地的 AI 工作流，一站到位。", en: "From business model and market size to a 90-day plan and ready-to-run AI workflows." },
+    description: { zh: "AI 創業藍圖是本站的大宴席入口——話題最多、流量最旺、最值得細細品嚐。", en: "The blueprints are the banquet's grand entrance: the richest topics, the most traffic, the deepest flavor." },
+    accent: "from-blue-500 to-indigo-300",
+    visual: "MODEL · PLAN · WORKFLOW",
+  },
+  {
+    eyebrow: { zh: "機會情報 · 時令鮮味", en: "Opportunity Intelligence · Fresh Catch" },
+    title: { zh: "每天上桌的變現機會", en: "Daily monetization opportunities" },
+    slogan: { zh: "全球經濟新聞與變現點子的情報流，AI 持續彙整，幫你抓住下一個機會。", en: "A signal stream of global economic news and monetization ideas, continuously curated by AI." },
+    description: { zh: "從 X、Reddit 到產業新聞，鮮味即時上桌；企業整廠輸出媒合也已預留座位。", en: "From X and Reddit to industry news, served fresh; enterprise turnkey matchmaking is reserved too." },
+    accent: "from-amber-500 to-yellow-300",
+    visual: "SIGNAL · IDEA · MATCH",
+  },
+  {
+    eyebrow: { zh: "知識中心 · 招牌湯底", en: "Knowledge Center · Signature Stock" },
+    title: { zh: "看懂 AI 與產業的底蕴", en: "Understand AI and industries" },
+    slogan: { zh: "產業與技術的深度文獻——什麼是 AI Agent、RAG 怎麼運作，一篇看懂。", en: "In-depth industry & technology articles — what an AI agent is, how RAG works, all in one read." },
+    description: { zh: "好湯底要慢熬。知識中心建立主題權威，讓每一道菜都更有層次。", en: "Good stock takes time. The knowledge center builds topical authority that deepens every dish." },
     accent: "from-indigo-400 to-violet-300",
+    visual: "AGENT · RAG · INDUSTRY",
+  },
+  {
+    eyebrow: { zh: "工具 · 開胃前菜", en: "Tools · Appetizers" },
+    title: { zh: "數百道免費小菜隨點隨用", en: "Hundreds of free tools on tap" },
+    slogan: { zh: "財務、健康、開發到學習，每個計算工具都為真實情境而設計。", en: "From finance and health to development and learning — every tool built for real scenarios." },
+    description: { zh: "工具是長尾流量的基本盤，也是進入這場盛宴最輕鬆的第一口。", en: "Tools are the long-tail traffic base — and the easiest first bite into this banquet." },
+    accent: "from-cyan-400 to-sky-300",
     visual: "TOOLS · LOGIC · ACTION",
   },
   {
-    eyebrow: { zh: "Formula Universe Vision", en: "Formula Universe Vision" },
-    title: { zh: "工具整合中樞", en: "Smarter tool hub" },
-    slogan: { zh: "從計算、比較、規劃到理解結果，Formula Universe協助你更快找到可信答案。", en: "From calculation and comparison to planning and interpretation, Formula Universe helps you reach trusted answers faster." },
-    description: { zh: "Formula Universe 將公式、知識與行動建議串成清楚路徑，讓每一次選擇更有依據。", en: "Formula Universe connects formulas, knowledge, and next-step guidance into clear paths for better choices." },
-    accent: "from-sky-400 to-blue-200",
-    visual: "TOOLS · TRUST · FUTURE",
-  },
-  {
-    eyebrow: { zh: "AI Native", en: "AI Native" },
-    title: { zh: "公式遇見智慧", en: "Intelligent formulas" },
-    slogan: { zh: "不只計算數字，也連接解釋、限制、案例與建議。", en: "Not only calculating numbers, but connecting explanations, limits, examples, and guidance." },
-    description: { zh: "為未來 AI 分析與知識網路預留語義結構。", en: "Designed with semantic structure for future AI analysis and knowledge graphs." },
-    accent: "from-purple-400 to-blue-300",
-    visual: "AI · GRAPH · CONTEXT",
-  },
-  {
-    eyebrow: { zh: "Reliable Knowledge", en: "Reliable Knowledge" },
-    title: { zh: "可信決策基準", en: "Trusted baselines" },
-    slogan: { zh: "每一次估算都應該看得懂來源、假設與限制。", en: "Every estimate should make its source, assumptions, and limits understandable." },
-    description: { zh: "以透明結構提升工具結果的可讀性與可信度。", en: "Transparent structure improves readability and trust in tool results." },
-    accent: "from-emerald-300 to-cyan-200",
-    visual: "TRUST · MODEL · PROOF",
-  },
-  {
-    eyebrow: { zh: "Smart Helper", en: "Smart Helper" },
-    title: { zh: "智慧Formula Universe", en: "Smart tool matrix" },
-    slogan: { zh: "從問題、工具到行動，讓知識真正進入日常決策。", en: "From question to tool to action, knowledge becomes part of daily decisions." },
-    description: { zh: "Formula Universe 是面向未來的知識作業系統入口。", en: "Formula Universe is the entry point to a future-facing knowledge operating system." },
-    accent: "from-blue-300 to-violet-200",
-    visual: "SMART · FLOW · FUTURE",
+    eyebrow: { zh: "AI Native · 主廁精神", en: "AI Native · Chef's Philosophy" },
+    title: { zh: "工具為入口、知識為骨架、AI 為引擎", en: "Tools entry, knowledge backbone, AI engine" },
+    slogan: { zh: "一個結構先定、只增不刪、可持續擴充的 AI 知識作業系統。", en: "A structure-first, only-add, continuously expandable AI knowledge operating system." },
+    description: { zh: "我們不急著上完所有菜，但每道菜都為未來預留了位置——慢慢來，越來越精彩。", en: "We don't rush every dish — but each reserves a place for the future. Slowly, it only gets better." },
+    accent: "from-violet-400 to-blue-300",
+    visual: "KNOW · ACT · GROW",
   },
 ];
 
@@ -148,10 +148,10 @@ const journeyCards: JourneyCard[] = [
 
 // 工具總數與系統實際工具數連動：每新增一支工具，tools.length 自動 +1
 const stats: StatItem[] = [
-  { value: tools.length, suffix: "+", label: { zh: "個上線工具", en: "tools live" } },
-  { value: 12, suffix: "", label: { zh: "大知識領域", en: "knowledge domains" } },
-  { value: 15, suffix: "/週", label: { zh: "週平均新增目標", en: "new tools / week" } },
-  { value: 0, suffix: "", label: { zh: "AI Native 架構", en: "AI Native architecture" }, isText: true },
+  { value: 4, suffix: "", label: { zh: "大賽道·滿漢全席", en: "lanes · full banquet" } },
+  { value: tools.length, suffix: "+", label: { zh: "個免費工具·開胃菜", en: "free tools · appetizers" } },
+  { value: 12, suffix: "", label: { zh: "大知識領域·招牌湯底", en: "knowledge domains" } },
+  { value: 0, suffix: "", label: { zh: "AI Native·永遠上菜中", en: "AI Native · always serving" }, isText: true },
 ];
 
 const featuredTools: FeaturedTool[] = [
@@ -439,6 +439,49 @@ export default function Home() {
     <div className="min-h-screen bg-[linear-gradient(180deg,#eef6ff_0%,#f8fbff_22%,#eef4ff_52%,#f8fbff_100%)] text-foreground dark:bg-[linear-gradient(180deg,#020617_0%,#0f172a_45%,#111827_100%)]">
       <FlashBannerStrip lang={lang} />
 
+      {/* ── 四賽道入口（工具 + navLanes() 驅動；只增不刪）────────────────── */}
+      <motion.section className="border-b border-blue-200/70 bg-[linear-gradient(135deg,#f8fafc_0%,#eef2ff_50%,#f0fdfa_100%)] dark:border-blue-950/60 dark:bg-slate-950" {...sectionMotion}>
+        <div className="container py-16 md:py-20">
+          <div className="mx-auto mb-10 max-w-3xl text-center">
+            <Badge variant="outline" className="mb-3">{lang === "zh" ? "今日菜單 · 四大主菜" : "Today's Menu · Four Courses"}</Badge>
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "一桌流水席，四道主菜，免費續上" : "A free open banquet — four signature courses, endless refills"}</h2>
+            <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "AI 創業藍圖是主菜、機會情報是時令鮮味、知識中心是招牌湯底、工具是開胃前菜——慢慢吃、吃到飽，每道菜都會持續上新。" : "AI business blueprints as the main course, opportunity intelligence as seasonal specials, the knowledge center as the signature broth, and tools as appetizers — dine slowly, eat your fill, new dishes always coming."}</p>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {/* 工具賽道（既有 /tools） */}
+            <Link href="/tools" className="group rounded-3xl border border-cyan-200 bg-white/90 p-6 shadow-lg shadow-cyan-900/10 ring-1 ring-cyan-100 transition hover:-translate-y-1 hover:border-cyan-300 hover:shadow-2xl dark:border-cyan-950/60 dark:bg-white/8 dark:ring-cyan-950/40">
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-600 text-white shadow-lg shadow-cyan-900/20"><Wrench className="h-6 w-6" /></div>
+              <h3 className="text-lg font-black text-slate-950 dark:text-white">{lang === "zh" ? "工具" : "Tools"}</h3>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">{lang === "zh" ? "長尾流量的基本盤，數百個免費計算工具。" : "The long-tail traffic base — hundreds of free calculators."}</p>
+              <p className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-cyan-700 transition group-hover:gap-3 dark:text-cyan-300">{lang === "zh" ? "瀏覽工具" : "Browse tools"} <ArrowRight className="h-4 w-4" /></p>
+            </Link>
+
+            {/* 三條賽道（navLanes 驅動） */}
+            {navLanes().map((lane) => {
+              const Icon = lane.id === "blueprints" ? Rocket : lane.id === "opportunities" ? Lightbulb : Library;
+              const accent =
+                lane.id === "blueprints"
+                  ? "border-blue-200 ring-blue-100 dark:border-blue-950/60 dark:ring-blue-950/40"
+                  : lane.id === "opportunities"
+                    ? "border-amber-200 ring-amber-100 dark:border-amber-950/60 dark:ring-amber-950/40"
+                    : "border-indigo-200 ring-indigo-100 dark:border-indigo-950/60 dark:ring-indigo-950/40";
+              const iconBg =
+                lane.id === "blueprints" ? "bg-blue-600 shadow-blue-900/20" : lane.id === "opportunities" ? "bg-amber-500 shadow-amber-900/20" : "bg-indigo-600 shadow-indigo-900/20";
+              const linkColor =
+                lane.id === "blueprints" ? "text-blue-700 dark:text-blue-300" : lane.id === "opportunities" ? "text-amber-700 dark:text-amber-300" : "text-indigo-700 dark:text-indigo-300";
+              return (
+                <Link key={lane.id} href={lane.routeBase} className={`group rounded-3xl border bg-white/90 p-6 shadow-lg ring-1 transition hover:-translate-y-1 hover:shadow-2xl dark:bg-white/8 ${accent}`}>
+                  <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-lg ${iconBg}`}><Icon className="h-6 w-6" /></div>
+                  <h3 className="text-lg font-black text-slate-950 dark:text-white">{lane.title[lang]}</h3>
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{lane.tagline[lang]}</p>
+                  <p className={`mt-5 inline-flex items-center gap-2 text-sm font-bold transition group-hover:gap-3 ${linkColor}`}>{lang === "zh" ? "前往" : "Explore"} <ArrowRight className="h-4 w-4" /></p>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </motion.section>
+
       <section className="bg-gradient-to-r from-blue-700 via-indigo-700 to-violet-700 py-8 text-white shadow-inner shadow-blue-950/20 dark:from-blue-950 dark:via-indigo-950 dark:to-violet-950 md:py-10">
         <div className="container grid grid-cols-2 gap-8 md:grid-cols-4">
           {stats.map((stat) => <CountUpStat key={stat.label.zh} stat={stat} lang={lang} />)}
@@ -505,48 +548,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 四賽道入口（工具 + navLanes() 驅動；只增不刪）────────────────── */}
-      <motion.section className="border-b border-blue-200/70 bg-[linear-gradient(135deg,#f8fafc_0%,#eef2ff_50%,#f0fdfa_100%)] dark:border-blue-950/60 dark:bg-slate-950" {...sectionMotion}>
-        <div className="container py-16 md:py-20">
-          <div className="mx-auto mb-10 max-w-3xl text-center">
-            <Badge variant="outline" className="mb-3">{lang === "zh" ? "四大賽道" : "Four Lanes"}</Badge>
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "工具為入口，知識為骨架，AI 為引擎" : "Tools as entry, knowledge as backbone, AI as engine"}</h2>
-            <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "從長尾工具到 AI 創業藍圖、機會情報與知識中心——一個結構先定、只增不刪、可持續擴充的知識作業系統。" : "From long-tail tools to AI business blueprints, opportunity intelligence, and a knowledge center — a structure-first, only-add knowledge operating system."}</p>
-          </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {/* 工具賽道（既有 /tools） */}
-            <Link href="/tools" className="group rounded-3xl border border-cyan-200 bg-white/90 p-6 shadow-lg shadow-cyan-900/10 ring-1 ring-cyan-100 transition hover:-translate-y-1 hover:border-cyan-300 hover:shadow-2xl dark:border-cyan-950/60 dark:bg-white/8 dark:ring-cyan-950/40">
-              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-600 text-white shadow-lg shadow-cyan-900/20"><Wrench className="h-6 w-6" /></div>
-              <h3 className="text-lg font-black text-slate-950 dark:text-white">{lang === "zh" ? "工具" : "Tools"}</h3>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">{lang === "zh" ? "長尾流量的基本盤，數百個免費計算工具。" : "The long-tail traffic base — hundreds of free calculators."}</p>
-              <p className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-cyan-700 transition group-hover:gap-3 dark:text-cyan-300">{lang === "zh" ? "瀏覽工具" : "Browse tools"} <ArrowRight className="h-4 w-4" /></p>
-            </Link>
-
-            {/* 三條賽道（navLanes 驅動） */}
-            {navLanes().map((lane) => {
-              const Icon = lane.id === "blueprints" ? Rocket : lane.id === "opportunities" ? Lightbulb : Library;
-              const accent =
-                lane.id === "blueprints"
-                  ? "border-blue-200 ring-blue-100 dark:border-blue-950/60 dark:ring-blue-950/40"
-                  : lane.id === "opportunities"
-                    ? "border-amber-200 ring-amber-100 dark:border-amber-950/60 dark:ring-amber-950/40"
-                    : "border-indigo-200 ring-indigo-100 dark:border-indigo-950/60 dark:ring-indigo-950/40";
-              const iconBg =
-                lane.id === "blueprints" ? "bg-blue-600 shadow-blue-900/20" : lane.id === "opportunities" ? "bg-amber-500 shadow-amber-900/20" : "bg-indigo-600 shadow-indigo-900/20";
-              const linkColor =
-                lane.id === "blueprints" ? "text-blue-700 dark:text-blue-300" : lane.id === "opportunities" ? "text-amber-700 dark:text-amber-300" : "text-indigo-700 dark:text-indigo-300";
-              return (
-                <Link key={lane.id} href={lane.routeBase} className={`group rounded-3xl border bg-white/90 p-6 shadow-lg ring-1 transition hover:-translate-y-1 hover:shadow-2xl dark:bg-white/8 ${accent}`}>
-                  <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-lg ${iconBg}`}><Icon className="h-6 w-6" /></div>
-                  <h3 className="text-lg font-black text-slate-950 dark:text-white">{lane.title[lang]}</h3>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{lane.tagline[lang]}</p>
-                  <p className={`mt-5 inline-flex items-center gap-2 text-sm font-bold transition group-hover:gap-3 ${linkColor}`}>{lang === "zh" ? "前往" : "Explore"} <ArrowRight className="h-4 w-4" /></p>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </motion.section>
 
 
       <motion.section className="border-b border-blue-200/70 bg-[radial-gradient(circle_at_12%_20%,rgba(37,99,235,0.18),transparent_26%),radial-gradient(circle_at_82%_28%,rgba(124,58,237,0.16),transparent_26%),linear-gradient(135deg,#dbeafe_0%,#eef2ff_48%,#f0fdfa_100%)] dark:border-blue-950/60 dark:bg-slate-950" {...sectionMotion}>
