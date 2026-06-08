@@ -12,16 +12,26 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrustStrip } from "@/components/business/TrustStrip";
+import { getStaticArticle } from "@/lib/staticArticles";
+import { StaticArticleView } from "./ArticlePage";
 
 export default function BlogPost() {
   const { lang } = useLanguage();
   const [, params] = useRoute<{ slug: string }>("/blog/:slug");
   const slug = params?.slug ?? "";
 
+  // Static (MANUS-authored) root-level article takes priority — e.g.
+  // GSC-indexed /blog/roi-calculator-guide. Avoids the DB round-trip.
+  const staticArticle = getStaticArticle(undefined, slug);
+
   const articleQuery = trpc.articles.getBySlug.useQuery(
     { slug, locale: lang },
-    { enabled: !!slug, retry: false }
+    { enabled: !!slug && !staticArticle, retry: false }
   );
+
+  if (staticArticle) {
+    return <StaticArticleView article={staticArticle} />;
+  }
 
   const t = (zh: string, en: string) => (lang === "zh" ? zh : en);
 

@@ -16,6 +16,7 @@ import AdminSettings from "./pages/admin/AdminSettings";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminHealth from "./pages/admin/AdminHealth";
 import BlogPost from "./pages/BlogPost";
+import ArticlePage from "./pages/ArticlePage";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { Navbar } from "./components/Navbar";
@@ -44,6 +45,7 @@ export default function App() {
                 <Switch>
                   <Route path="/" component={Home} />
                   <Route path="/blog" component={BlogList} />
+                  <Route path="/blog/:category/:slug" component={ArticlePage} />
                   <Route path="/blog/:slug" component={BlogPost} />
                   <Route path="/about" component={About} />
                   <Route path="/privacy" component={Privacy} />

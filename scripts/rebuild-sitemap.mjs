@@ -25,6 +25,34 @@ const staticPages = [
 const categories = ['finance','health','productivity','developer','education','legal','design','science','language','ecommerce','travel','ai'];
 const categoryPages = categories.map(c => ({ loc: `/category/${c}`, changefreq: 'weekly', priority: '0.8' }));
 
+// 2b. 知識庫文章（靜態 Markdown，shared/articles/**/*.md）→ /blog/<category>/<slug>
+function listArticlePaths() {
+  const root = 'shared/articles';
+  const out = [];
+  if (!fs.existsSync(root)) return out;
+  const walk = (dir, cat) => {
+    for (const name of fs.readdirSync(dir)) {
+      const full = `${dir}/${name}`;
+      const stat = fs.statSync(full);
+      if (stat.isDirectory()) {
+        walk(full, name);
+      } else if (name.endsWith('.md')) {
+        const slug = name.replace(/\.md$/, '');
+        // Prefer frontmatter `category` (so root-level files with category
+        // still emit the canonical two-level URL that GSC indexed).
+        const raw = fs.readFileSync(full, 'utf8');
+        const fmCat = (raw.match(/^category:\s*(.+)$/m) || [])[1]?.trim();
+        const category = fmCat || cat;
+        out.push(category ? `/blog/${category}/${slug}` : `/blog/${slug}`);
+      }
+    }
+  };
+  walk(root, '');
+  return [...new Set(out)].sort();
+}
+const articlePaths = listArticlePaths();
+console.log(`知識庫文章數：${articlePaths.length}`);
+
 // 3. 組 XML
 function urlBlock(loc, changefreq, priority) {
   return `  <url>\n    <loc>${BASE}${loc}</loc>\n    <lastmod>${TODAY}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
@@ -33,6 +61,7 @@ function urlBlock(loc, changefreq, priority) {
 const blocks = [];
 for (const p of staticPages)   blocks.push(urlBlock(p.loc, p.changefreq, p.priority));
 for (const p of categoryPages) blocks.push(urlBlock(p.loc, p.changefreq, p.priority));
+for (const a of articlePaths)  blocks.push(urlBlock(a, 'monthly', '0.8'));
 for (const t of toolPaths)     blocks.push(urlBlock(t, 'monthly', '0.7'));
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${blocks.join('\n')}\n</urlset>\n`;
@@ -45,6 +74,7 @@ const totalLoc = (xml.match(/<loc>/g) || []).length;
 console.log(`寫入完成：`);
 console.log(`  靜態頁：${staticPages.length}`);
 console.log(`  分類頁：${categoryPages.length}`);
+console.log(`  知識庫文章：${articlePaths.length}`);
 console.log(`  工具 URL：${toolPaths.length}`);
 console.log(`  總 <loc>：${totalLoc}`);
 console.log(`  lastmod：${TODAY}`);

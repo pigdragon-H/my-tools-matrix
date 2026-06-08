@@ -9,6 +9,12 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { AdSlot } from "@/components/business/AdSlot";
 import { TrustStrip } from "@/components/business/TrustStrip";
 import { trpc } from "@/lib/trpc";
+import { STATIC_ARTICLES } from "@/lib/staticArticles";
+
+const STATIC_CATEGORY_LABELS: Record<string, string> = {
+  finance: "財經投資",
+  health: "健康生活",
+};
 
 type Lang = "zh" | "en";
 
@@ -322,6 +328,51 @@ export default function BlogList() {
       <section className="container py-6">
         <AdSlot slot="blog-before-domains" position="middle" variant="responsive" />
       </section>
+
+      {/* Tool application articles (MANUS-authored static Markdown). */}
+      {STATIC_ARTICLES.length > 0 && (
+        <section className="container py-14 md:py-20">
+          <div className="mb-10 max-w-2xl">
+            <h2 className="text-3xl font-bold tracking-tight inline-flex items-center gap-2">
+              <BookOpen className="h-6 w-6 text-blue-600" />
+              {lang === "zh" ? "工具應用文章" : "Tool application articles"}
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              {lang === "zh"
+                ? "深入解析每個工具的實際用途與運用方法，用真實情境帶你把計算結果轉化為決策。"
+                : "In-depth guides on how to apply each tool — turning numbers into decisions."}
+            </p>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {STATIC_ARTICLES.map((a) => (
+              <Link key={a.path} href={a.path}>
+                <Card className="h-full cursor-pointer border-blue-100 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-xl dark:border-blue-950/60 dark:bg-white/5">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-2 mb-4">
+                      <FileText className="h-6 w-6 text-blue-600" />
+                      {a.category && (
+                        <Badge variant="secondary" className="text-xs">
+                          {STATIC_CATEGORY_LABELS[a.category] || a.category}
+                        </Badge>
+                      )}
+                    </div>
+                    <h3 className="text-lg font-bold leading-snug">{a.title}</h3>
+                    {a.description && (
+                      <p className="mt-3 text-sm leading-7 text-muted-foreground line-clamp-3">
+                        {a.description}
+                      </p>
+                    )}
+                    <p className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">
+                      {lang === "zh" ? "閱讀文章" : "Read article"}{" "}
+                      <ArrowRight className="h-4 w-4" />
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Latest articles from the knowledge base (Supabase-backed). */}
       {dbArticles.length > 0 && (
