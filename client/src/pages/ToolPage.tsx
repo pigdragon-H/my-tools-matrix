@@ -386,6 +386,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "health/heart-rate-calculator": lazy(() => import("@/tools/health/HeartRateCalculator")),
   "developer/hex-to-rgb": lazy(() => import("@/tools/developer/HexToRgb")),
   "developer/html-to-markdown": lazy(() => import("@/tools/developer/HtmlToMarkdown")),
+  "health/lean-body-mass-calculator": lazy(() => import("@/tools/health/LeanBodyMassCalculator")),
 };
 
 function ToolSkeleton() {

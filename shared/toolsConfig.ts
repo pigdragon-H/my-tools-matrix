@@ -5083,6 +5083,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "lean-body-mass-calculator",
+    name: "瘦體重計算機",
+    category: "health",
+    path: "/tools/health/lean-body-mass-calculator",
+    icon: "Activity",
+    description: "瘦體重計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5452,3 +5467,4 @@ export const fiberIntakeCalculator = { id: "fiber-intake-calculator", category: 
 export const heartRateCalculator = { id: "heart-rate-calculator", category: "health", name: "Heart Rate Calculator", path: "/tools/health/heart-rate-calculator" };
 export const hexToRgb = { id: "hex-to-rgb", category: "developer", name: "HEX to RGB Converter", path: "/tools/developer/hex-to-rgb" };
 export const htmlToMarkdown = { id: "html-to-markdown", category: "developer", name: "HTML to Markdown Converter", path: "/tools/developer/html-to-markdown" };
+export const leanBodyMassCalculator = { id: "lean-body-mass-calculator", category: "health", name: "Lean Body Mass Calculator", path: "/tools/health/lean-body-mass-calculator" };
