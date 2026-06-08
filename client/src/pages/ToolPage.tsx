@@ -44,6 +44,8 @@ const LEGACY_TOOL_REDIRECTS: Record<string, string> = {
   "fin/dividend-yield-calculator": "/tools/finance/dividend-yield-calculator",
   // design 近似對應（Victor 核准）
   "design/css-grid-flexbox-generator": "/tools/design/grid-layout-calculator",
+  // Batch 3 重建：dev → developer
+  "dev/hex-to-rgb": "/tools/developer/hex-to-rgb",
 };
 
 // 工具組件映射（懶加載）
@@ -381,6 +383,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "health/fat-loss-calculator": lazy(() => import("@/tools/health/FatLossCalculator")),
   "health/fiber-intake-calculator": lazy(() => import("@/tools/health/FiberIntakeCalculator")),
   "health/heart-rate-calculator": lazy(() => import("@/tools/health/HeartRateCalculator")),
+  "developer/hex-to-rgb": lazy(() => import("@/tools/developer/HexToRgb")),
 };
 
 function ToolSkeleton() {

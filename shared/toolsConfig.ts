@@ -5053,6 +5053,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "hex-to-rgb",
+    name: "HEX 轉 RGB 色彩轉換器",
+    category: "developer",
+    path: "/tools/developer/hex-to-rgb",
+    icon: "Palette",
+    description: "HEX 轉 RGB 色彩轉換器 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5420,3 +5435,4 @@ export const carbIntakeCalculator = { id: "carb-intake-calculator", category: "h
 export const fatLossCalculator = { id: "fat-loss-calculator", category: "health", name: "Fat Loss Calculator", path: "/tools/health/fat-loss-calculator" };
 export const fiberIntakeCalculator = { id: "fiber-intake-calculator", category: "health", name: "Fiber Intake Calculator", path: "/tools/health/fiber-intake-calculator" };
 export const heartRateCalculator = { id: "heart-rate-calculator", category: "health", name: "Heart Rate Calculator", path: "/tools/health/heart-rate-calculator" };
+export const hexToRgb = { id: "hex-to-rgb", category: "developer", name: "HEX to RGB Converter", path: "/tools/developer/hex-to-rgb" };
