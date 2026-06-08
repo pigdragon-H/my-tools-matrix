@@ -4648,6 +4648,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "income-tax-calculator",
+    name: "所得稅計算機",
+    category: "finance",
+    path: "/tools/finance/income-tax-calculator",
+    icon: "Receipt",
+    description: "所得稅計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4988,3 +5003,4 @@ export const fireCalculator = { id: "fire-calculator", category: "finance", name
 export const forexProfitCalculator = { id: "forex-profit-calculator", category: "finance", name: "Forex Profit Calculator", path: "/tools/finance/forex-profit-calculator" };
 export const giftTaxCalculator = { id: "gift-tax-calculator", category: "finance", name: "Gift Tax Calculator", path: "/tools/finance/gift-tax-calculator" };
 export const goldPriceCalculator = { id: "gold-price-calculator", category: "finance", name: "Gold Price Calculator", path: "/tools/finance/gold-price-calculator" };
+export const incomeTaxCalculator = { id: "income-tax-calculator", category: "finance", name: "Income Tax Calculator", path: "/tools/finance/income-tax-calculator" };
