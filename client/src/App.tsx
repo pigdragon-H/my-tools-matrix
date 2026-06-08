@@ -6,6 +6,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Editorial from "./pages/Editorial";
 import CategoryPage from "./pages/CategoryPage";
+import AllToolsPage from "./pages/AllToolsPage";
 import ToolPage from "./pages/ToolPage";
 import Login from "./pages/Login";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -49,6 +50,7 @@ export default function App() {
                   <Route path="/terms" component={Terms} />
                   <Route path="/editorial" component={Editorial} />
                   <Route path="/category/:category" component={CategoryPage} />
+                  <Route path="/tools" component={AllToolsPage} />
                   <Route path="/tools/:category/:toolName" component={ToolPage} />
                   <Route path="/tools/:category" component={CategoryPage} />
                   <Route path="/login" component={Login} />

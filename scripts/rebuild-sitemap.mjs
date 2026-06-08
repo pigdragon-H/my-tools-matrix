@@ -17,6 +17,7 @@ console.log(`registry 工具路由數：${toolPaths.length}`);
 // 2. 靜態頁（沿用原 sitemap 既有的非工具 URL，原樣保留）
 const staticPages = [
   { loc: '/',        changefreq: 'weekly',  priority: '1.0' },
+  { loc: '/tools',   changefreq: 'weekly',  priority: '0.9' },
   { loc: '/about',   changefreq: 'monthly', priority: '0.8' },
   { loc: '/blog',    changefreq: 'weekly',  priority: '0.8' },
 ];
