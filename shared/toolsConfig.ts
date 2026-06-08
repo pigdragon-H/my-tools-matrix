@@ -4948,6 +4948,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "body-weight-planner",
+    name: "體重規劃計算機",
+    category: "health",
+    path: "/tools/health/body-weight-planner",
+    icon: "Scale",
+    description: "體重規劃計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5308,3 +5323,4 @@ export const withholdingTaxCalculator = { id: "withholding-tax-calculator", cate
 export const alcoholCalculator = { id: "alcohol-calculator", category: "health", name: "Alcohol Calculator", path: "/tools/health/alcohol-calculator" };
 export const bloodPressureCalculator = { id: "blood-pressure-calculator", category: "health", name: "Blood Pressure Calculator", path: "/tools/health/blood-pressure-calculator" };
 export const bodySurfaceAreaCalculator = { id: "body-surface-area-calculator", category: "health", name: "Body Surface Area Calculator", path: "/tools/health/body-surface-area-calculator" };
+export const bodyWeightPlanner = { id: "body-weight-planner", category: "health", name: "Body Weight Planner", path: "/tools/health/body-weight-planner" };
