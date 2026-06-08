@@ -4124,6 +4124,21 @@ export const tools: Tool[] = [
     seoArticles: [],
   },
   {
+    id: "sobriety-calculator",
+    name: "酒精濃度計算機",
+    category: "health",
+    path: "/tools/health/sobriety-calculator",
+    icon: "Wine",
+    description: "輸入飲酒量與體重，估算血液酒精濃度(BAC)與大致代謝所需時間。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
+  {
     id: "uuid-generator",
     name: "UUID 產生器",
     category: "developer",
@@ -4894,7 +4909,7 @@ export const tools: Tool[] = [
     category: "health",
     path: "/tools/health/alcohol-calculator",
     icon: "Wine",
-    description: "輸入飲酒量與體重，估算血液酒精濃度(BAC)與大致代謝所需時間。",
+    description: "酒精濃度計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
     isPremium: false,
     showAds: true,
     rateLimit: 30,
@@ -5343,6 +5358,7 @@ export const stepsToCaloriesCalculator = { id: "steps-to-calories-calculator", c
 export const caloriesBurnedActivity = { id: "calories-burned-activity", category: "health", name: "Calories Burned by Activity", path: "/tools/health/calories-burned-activity" };
 export const bloodSugarConverter = { id: "blood-sugar-converter", category: "health", name: "Blood Sugar Converter", path: "/tools/health/blood-sugar-converter" };
 export const childGrowthPercentile = { id: "child-growth-percentile", category: "health", name: "Child Growth Percentile", path: "/tools/health/child-growth-percentile" };
+export const sobrietyCalculator = { id: "sobriety-calculator", category: "health", name: "Sobriety Calculator", path: "/tools/health/sobriety-calculator" };
 export const uuidGenerator = { id: "uuid-generator", category: "developer", name: "UUID Generator", path: "/tools/developer/uuid-generator" };
 export const loremIpsumGenerator = { id: "lorem-ipsum-generator", category: "developer", name: "Lorem Ipsum Generator", path: "/tools/developer/lorem-ipsum-generator" };
 export const codeMinifier = { id: "code-minifier", category: "developer", name: "Code Minifier", path: "/tools/developer/code-minifier" };

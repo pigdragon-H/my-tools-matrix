@@ -1717,6 +1717,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://my-tools-matrix-production.up.railway.app/tools/health/sobriety-calculator</loc>
+    <lastmod>2026-06-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://my-tools-matrix-production.up.railway.app/tools/developer/uuid-generator</loc>
     <lastmod>2026-06-07</lastmod>
     <changefreq>monthly</changefreq>
