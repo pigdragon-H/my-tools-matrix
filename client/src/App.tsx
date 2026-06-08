@@ -50,6 +50,7 @@ export default function App() {
                   <Route path="/editorial" component={Editorial} />
                   <Route path="/category/:category" component={CategoryPage} />
                   <Route path="/tools/:category/:toolName" component={ToolPage} />
+                  <Route path="/tools/:category" component={CategoryPage} />
                   <Route path="/login" component={Login} />
                   <Route path="/admin">
                     <AdminPage>
