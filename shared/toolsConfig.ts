@@ -4543,6 +4543,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "dividend-reinvestment",
+    name: "股息再投入計算機",
+    category: "finance",
+    path: "/tools/finance/dividend-reinvestment",
+    icon: "TrendingUp",
+    description: "股息再投入計算機 — Profile B 計算器型 YMYL 工具，待補完 17 層內容。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -4876,3 +4891,4 @@ export const creditScoreCalculator = { id: "credit-score-calculator", category: 
 export const crossRateCalculator = { id: "cross-rate-calculator", category: "finance", name: "Cross Rate Calculator", path: "/tools/finance/cross-rate-calculator" };
 export const cryptoDcaBacktest = { id: "crypto-dca-backtest", category: "finance", name: "Crypto DCA Backtest", path: "/tools/finance/crypto-dca-backtest" };
 export const currencyConverterPro = { id: "currency-converter-pro", category: "finance", name: "Currency Converter Pro", path: "/tools/finance/currency-converter-pro" };
+export const dividendReinvestment = { id: "dividend-reinvestment", category: "finance", name: "Dividend Reinvestment Calculator", path: "/tools/finance/dividend-reinvestment" };

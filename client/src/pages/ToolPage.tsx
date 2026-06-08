@@ -313,6 +313,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/cross-rate-calculator": lazy(() => import("@/tools/finance/CrossRateCalculator")),
   "finance/crypto-dca-backtest": lazy(() => import("@/tools/finance/CryptoDcaBacktest")),
   "finance/currency-converter-pro": lazy(() => import("@/tools/finance/CurrencyConverterPro")),
+  "finance/dividend-reinvestment": lazy(() => import("@/tools/finance/DividendReinvestment")),
 };
 
 function ToolSkeleton() {
