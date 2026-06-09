@@ -89,7 +89,7 @@ export function ArticleShell(props: ArticleShellProps) {
   const affiliates = props.affiliateItems ?? DEFAULT_AFFILIATES;
 
   return (
-    <article className="max-w-3xl mx-auto px-4 py-8">
+    <article className="fu-typo max-w-3xl mx-auto px-4 py-8">
       <Link href={props.backHref}>
         <Button variant="ghost" size="sm" className="mb-4 -ml-2">
           <ArrowLeft className="w-4 h-4 mr-1" />
@@ -112,8 +112,8 @@ export function ArticleShell(props: ArticleShellProps) {
             </span>
           )}
         </div>
-        <h1 className="text-3xl font-bold leading-tight">{props.title[lang]}</h1>
-        <p className="text-lg text-muted-foreground mt-3">{props.description[lang]}</p>
+        <h1 className="t-h1">{props.title[lang]}</h1>
+        <p className="t-lead text-muted-foreground mt-3">{props.description[lang]}</p>
       </header>
 
       {props.headerSlot}

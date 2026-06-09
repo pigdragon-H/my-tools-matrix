@@ -254,3 +254,25 @@
   font-weight: 400;
   line-height: var(--lh-small);
 }
+
+/* ────────────────────────────────────────────────────────────────
+   黃金字級 × prose 內文：賽道文章正文（ArticleShell）套用後，
+   讓 ReactMarkdown 產出的正文也遵守黃金線（≥16px、行高 1.75）。
+   只增不刪：僅在 .fu-typo 範圍內微調 prose，不影響其他頁。
+   ──────────────────────────────────────────────────────────────── */
+.fu-typo .prose {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+.fu-typo .prose :where(p, li) {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+.fu-typo .prose :where(h2) {
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+}
+.fu-typo .prose :where(h3) {
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+}

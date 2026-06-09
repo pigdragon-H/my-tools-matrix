@@ -28,10 +28,10 @@ export function LaneHub({ laneId }: { laneId: string }) {
   if (!lane) return null;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-10">
+    <div className="fu-typo max-w-5xl mx-auto px-4 py-10">
       <header className="mb-8">
-        <h1 className="text-4xl font-bold">{lane.title[lang]}</h1>
-        <p className="text-lg text-muted-foreground mt-3 max-w-2xl">{lane.tagline[lang]}</p>
+        <h1 className="t-h1">{lane.title[lang]}</h1>
+        <p className="t-lead text-muted-foreground mt-3 max-w-2xl">{lane.tagline[lang]}</p>
       </header>
 
       {items.length === 0 ? (
@@ -57,10 +57,10 @@ export function LaneHub({ laneId }: { laneId: string }) {
                     </Badge>
                   )}
                 </div>
-                <h2 className="text-lg font-semibold group-hover:text-primary leading-snug">
+                <h2 className="t-h3 group-hover:text-primary leading-snug">
                   {item.meta.title[lang]}
                 </h2>
-                <p className="text-sm text-muted-foreground mt-2 line-clamp-3">
+                <p className="t-small text-muted-foreground mt-2 line-clamp-3">
                   {item.meta.description[lang]}
                 </p>
               </div>
