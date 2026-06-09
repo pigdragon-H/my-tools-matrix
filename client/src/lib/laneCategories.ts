@@ -57,6 +57,8 @@ const CATEGORY_LABELS: Record<string, Record<string, CategoryLabel>> = {
     "learning-center": { zh: "學習中心", en: "Learning Center", emoji: "📚" },
     "formula-insights": { zh: "公式洞察", en: "Formula Insights", emoji: "📐" },
     "tool-guide": { zh: "工具指南", en: "Tool Guide", emoji: "🧰" },
+    developer: { zh: "開發工具", en: "Developer", emoji: "💻" },
+    general: { zh: "綜合主題", en: "General", emoji: "🧭" },
     finance: { zh: "財經投資", en: "Finance", emoji: "💰" },
     health: { zh: "健康生活", en: "Health", emoji: "🩺" },
   },
