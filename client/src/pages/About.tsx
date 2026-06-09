@@ -106,7 +106,7 @@ const pillars = [
   },
   {
     icon: Library,
-    title: { zh: "知識中心", en: "Knowledge Center" },
+    title: { zh: "AI知識庫", en: "AI Knowledge" },
     body: {
       zh: "招牌湯底。產業與技術的深度文獻——什麼是 AI Agent、RAG 怎麼運作——把骨架熬得有層次，讓每一道菜都更有底蘊。",
       en: "The signature broth. In-depth industry and technology articles — what an AI agent is, how RAG works — building the topical depth that gives every dish its foundation.",
@@ -191,7 +191,7 @@ const copy = {
       en: ["Seasonal catch — opportunity intel, updated in real time", "Opportunity intel is the seasonal catch — freshness is everything. We track in real time and honestly label every source and timestamp, never passing off stale dishes as new."],
     },
     {
-      zh: ["招牌湯底——知識中心,底子紮實", "知識中心是熬了又熬的招牌湯底。我們承諾每篇都標註來源、假設與限制,錯了會公開更正,讓這鍋底永遠經得起追溯。"],
+      zh: ["招牌湯底——AI知識庫,底子紮實", "AI知識庫是熬了又熬的招牌湯底。我們承諾每篇都標註來源、假設與限制,錯了會公開更正,讓這鍋底永遠經得起追溯。"],
       en: ["Signature broth — the knowledge center, simmered deep", "The knowledge center is our long-simmered signature broth. Every piece labels its source, assumptions, and limits; mistakes are corrected in the open — a base that always holds up to scrutiny."],
     },
     {
@@ -227,7 +227,7 @@ const copy = {
 
   // CTAs
   ctaBmi: { zh: "從 BMI 工具開始", en: "Start with the BMI tool" },
-  ctaBlog: { zh: "前往知識庫", en: "Open the Knowledge Base" },
+  ctaBlog: { zh: "前往工具知識庫", en: "Open Tool Knowledge" },
 } as const;
 
 export default function About() {

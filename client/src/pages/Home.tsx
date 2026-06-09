@@ -90,7 +90,7 @@ const flashBannerSlides: FlashBannerSlide[] = [
   {
     eyebrow: { zh: "Formula Universe · 知識盛宴", en: "Formula Universe · The Banquet" },
     title: { zh: "一桌 AI 知識的滿漢全席", en: "A full feast of AI knowledge" },
-    slogan: { zh: "工具、創業藍圖、機會情報、知識中心——四大菜系，免費開席，慢慢享用。", en: "Tools, business blueprints, opportunity intelligence, and a knowledge center — four cuisines, free to enjoy." },
+    slogan: { zh: "工具、創業藍圖、機會情報、AI知識庫——四大菜系，免費開席，慢慢享用。", en: "Tools, business blueprints, opportunity intelligence, and AI Knowledge — four cuisines, free to enjoy." },
     description: { zh: "從一個計算到一門事業，這裡把零散的知識端成一桌看得懂、用得上的盛宴。", en: "From a single calculation to a whole business — scattered knowledge served as one understandable, actionable feast." },
     accent: "from-amber-400 to-orange-300",
     visual: "TOOLS · BLUEPRINT · OPP · KNOW",
@@ -112,10 +112,10 @@ const flashBannerSlides: FlashBannerSlide[] = [
     visual: "SIGNAL · IDEA · MATCH",
   },
   {
-    eyebrow: { zh: "知識中心 · 招牌湯底", en: "Knowledge Center · Signature Stock" },
+    eyebrow: { zh: "AI知識庫 · 招牌湯底", en: "AI Knowledge · Signature Stock" },
     title: { zh: "看懂 AI 與產業的底蕴", en: "Understand AI and industries" },
     slogan: { zh: "產業與技術的深度文獻——什麼是 AI Agent、RAG 怎麼運作，一篇看懂。", en: "In-depth industry & technology articles — what an AI agent is, how RAG works, all in one read." },
-    description: { zh: "好湯底要慢熬。知識中心建立主題權威，讓每一道菜都更有層次。", en: "Good stock takes time. The knowledge center builds topical authority that deepens every dish." },
+    description: { zh: "好湯底要慢熬。AI知識庫建立主題權威，讓每一道菜都更有層次。", en: "Good stock takes time. AI Knowledge builds topical authority that deepens every dish." },
     accent: "from-indigo-400 to-violet-300",
     visual: "AGENT · RAG · INDUSTRY",
   },
@@ -445,7 +445,7 @@ export default function Home() {
           <div className="mx-auto mb-10 max-w-3xl text-center">
             <Badge variant="outline" className="mb-3">{lang === "zh" ? "今日菜單 · 四大主菜" : "Today's Menu · Four Courses"}</Badge>
             <h2 className="t-h2 tracking-tight">{lang === "zh" ? "一桌流水席，四道主菜，免費續上" : "A free open banquet — four signature courses, endless refills"}</h2>
-            <p className="mt-3 t-lead text-muted-foreground">{lang === "zh" ? "AI 創業藍圖是主菜、機會情報是時令鮮味、知識中心是招牌湯底、工具是開胃前菜——慢慢吃、吃到飽，每道菜都會持續上新。" : "AI business blueprints as the main course, opportunity intelligence as seasonal specials, the knowledge center as the signature broth, and tools as appetizers — dine slowly, eat your fill, new dishes always coming."}</p>
+            <p className="mt-3 t-lead text-muted-foreground">{lang === "zh" ? "AI 創業藍圖是主菜、機會情報是時令鮮味、AI知識庫是招牌湯底、工具是開胃前菜——慢慢吃、吃到飽，每道菜都會持續上新。" : "AI business blueprints as the main course, opportunity intelligence as seasonal specials, AI Knowledge as the signature broth, and tools as appetizers — dine slowly, eat your fill, new dishes always coming."}</p>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {/* 工具賽道（既有 /tools） */}
@@ -568,7 +568,7 @@ export default function Home() {
       <motion.section className="border-b border-blue-200/70 bg-[linear-gradient(135deg,#ffffff_0%,#eff6ff_46%,#f5f3ff_100%)] dark:border-blue-950/60 dark:bg-slate-950" {...sectionMotion}>
         <div className="container py-16 md:py-20">
           <div className="mb-10 max-w-3xl">
-            <h2 className="t-h2 tracking-tight">{lang === "zh" ? "知識庫與關於我們" : "Knowledge Base and About"}</h2>
+            <h2 className="t-h2 tracking-tight">{lang === "zh" ? "工具知識庫與關於我們" : "Tool Knowledge and About"}</h2>
             <p className="mt-3 t-lead text-muted-foreground">
               {lang === "zh"
                 ? "首頁不只提供工具入口,也保留知識文章、公式脈絡與品牌說明,讓使用者知道如何理解結果、為什麼可以信任這套Formula Universe。"
@@ -581,7 +581,7 @@ export default function Home() {
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-900/20">
                 <BookOpen className="h-7 w-7" />
               </div>
-              <h3 className="t-h3 font-black text-slate-950 dark:text-white">{lang === "zh" ? "知識庫" : "Knowledge Base"}</h3>
+              <h3 className="t-h3 font-black text-slate-950 dark:text-white">{lang === "zh" ? "工具知識庫" : "Tool Knowledge"}</h3>
               <p className="mt-4 t-body text-muted-foreground">
                 {lang === "zh"
                   ? "整理公式解釋、工具範例、限制說明與決策脈絡,讓每一次計算不只是得到答案,也能理解答案背後的條件與下一步行動。"
@@ -596,7 +596,7 @@ export default function Home() {
                 ))}
               </div>
               <p className="mt-6 inline-flex items-center gap-2 text-sm font-black text-blue-700 transition group-hover:gap-3 dark:text-blue-300">
-                {lang === "zh" ? "前往知識庫" : "Open Knowledge Base"} <ArrowRight className="h-4 w-4" />
+                {lang === "zh" ? "前往工具知識庫" : "Open Tool Knowledge"} <ArrowRight className="h-4 w-4" />
               </p>
             </Link>
 
@@ -708,7 +708,7 @@ export default function Home() {
             <div>
               <h3 className="t-small font-semibold text-white">{lang === "zh" ? "更多" : "More"}</h3>
               <div className="mt-5 grid gap-3 text-sm text-slate-300">
-                <Link href="/blog" className="transition-colors hover:text-white">{lang === "zh" ? "知識庫" : "Knowledge"}</Link>
+                <Link href="/blog" className="transition-colors hover:text-white">{lang === "zh" ? "工具知識庫" : "Tool Knowledge"}</Link>
                 <Link href="/about" className="transition-colors hover:text-white">{lang === "zh" ? "關於我們" : "About"}</Link>
                 <Link href="/privacy" className="transition-colors hover:text-white">{lang === "zh" ? "隱私政策" : "Privacy"}</Link>
                 <Link href="/terms" className="transition-colors hover:text-white">{lang === "zh" ? "使用條款" : "Terms"}</Link>

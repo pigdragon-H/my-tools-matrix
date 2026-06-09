@@ -63,7 +63,7 @@ export default function BlogPost() {
         <Button asChild className="mt-6 gap-2">
           <Link href="/blog">
             <ArrowLeft className="h-4 w-4" />
-            {t("回到知識庫", "Back to blog")}
+            {t("回到工具知識庫", "Back to Tool Knowledge")}
           </Link>
         </Button>
       </div>
@@ -80,7 +80,7 @@ export default function BlogPost() {
         <Button asChild variant="ghost" size="sm" className="mb-6 gap-2 -ml-3">
           <Link href="/blog">
             <ArrowLeft className="h-4 w-4" />
-            {t("回到知識庫", "Back to blog")}
+            {t("回到工具知識庫", "Back to Tool Knowledge")}
           </Link>
         </Button>
 

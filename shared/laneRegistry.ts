@@ -81,7 +81,7 @@ export const LANES: Lane[] = [
     id: "knowledge",
     routeBase: "/knowledge",
     contentDir: "shared/knowledge",
-    title: { zh: "知識中心", en: "Knowledge Center" },
+    title: { zh: "AI知識庫", en: "AI Knowledge" },
     tagline: {
       zh: "產業與技術的深度文獻收集地——寫有分享價值的內容，建立主題權威。",
       en: "A library of in-depth industry & technology articles — building topical authority.",

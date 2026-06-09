@@ -184,10 +184,10 @@ const knowledgeThemes: KnowledgeTheme[] = [
 ];
 
 const copy = {
-  heroTitle: { zh: "知識庫", en: "Knowledge Base" },
+  heroTitle: { zh: "工具知識庫", en: "Tool Knowledge" },
   themesTitle: { zh: "四大知識主題", en: "Four knowledge pillars" },
   themesDesc: {
-    zh: "知識庫圍繞四個主題建立。每一篇內容都希望回答的不只是「答案是多少」，而是「為什麼、怎麼用、下一步、何時別用」。",
+    zh: "工具知識庫圍繞四個主題建立。每一篇內容都希望回答的不只是「答案是多少」，而是「為什麼、怎麼用、下一步、何時別用」。",
     en: "The knowledge base is built around four themes. Every piece aims to answer not just 'what's the number', but 'why, how to use it, what's next, and when not to'.",
   },
   heroDesc: {

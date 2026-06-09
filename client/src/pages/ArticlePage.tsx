@@ -61,7 +61,7 @@ export function StaticArticleView({ article }: { article: StaticArticle }) {
 
   useEffect(() => {
     setSeoMeta({
-      title: `${article.title}｜Formula Universe 知識庫`,
+      title: `${article.title}｜Formula Universe 工具知識庫`,
       description: article.description || article.title,
     });
   }, [article.title, article.description]);
@@ -84,7 +84,7 @@ export function StaticArticleView({ article }: { article: StaticArticle }) {
         <Button asChild variant="ghost" size="sm" className="mb-6 gap-2 -ml-3">
           <Link href="/blog">
             <ArrowLeft className="h-4 w-4" />
-            {t("回到知識庫", "Back to blog")}
+            {t("回到工具知識庫", "Back to Tool Knowledge")}
           </Link>
         </Button>
 
@@ -201,7 +201,7 @@ export default function ArticlePage() {
         <Button asChild className="mt-6 gap-2">
           <Link href="/blog">
             <ArrowLeft className="h-4 w-4" />
-            {t("回到知識庫", "Back to blog")}
+            {t("回到工具知識庫", "Back to Tool Knowledge")}
           </Link>
         </Button>
       </div>

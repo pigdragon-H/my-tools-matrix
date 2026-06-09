@@ -37,7 +37,7 @@ export default function KnowledgePage() {
     return (
       <LaneNotFound
         backHref="/knowledge"
-        backLabel={{ zh: "返回知識中心", en: "Back to Knowledge" }}
+        backLabel={{ zh: "返回 AI知識庫", en: "Back to AI Knowledge" }}
       />
     );
   }
@@ -54,7 +54,7 @@ export default function KnowledgePage() {
       categoryLabel={domainLabel ?? { zh: meta.domain, en: meta.domain }}
       keywords={meta.keywords?.[lang]}
       backHref="/knowledge"
-      backLabel={{ zh: "返回知識中心", en: "Back to Knowledge" }}
+      backLabel={{ zh: "返回 AI知識庫", en: "Back to AI Knowledge" }}
       slotPrefix="knowledge"
       affiliateItems={getLaneAffiliates("knowledge")}
       newsletterSource="knowledge"
