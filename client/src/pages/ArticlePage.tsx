@@ -24,6 +24,7 @@ import { NewsletterCta } from "@/components/business/NewsletterCta";
 import { TrustStrip } from "@/components/business/TrustStrip";
 import { setSeoMeta } from "@/lib/seo";
 import { useReadProgress } from "@/hooks/useReadProgress";
+import { getToolByPath, getToolById } from "@shared/toolsConfig";
 import { getStaticArticle, type StaticArticle } from "@/lib/staticArticles";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -78,6 +79,13 @@ export function StaticArticleView({ article }: { article: StaticArticle }) {
     ? article.keywords.split(/[、,，]/).map((k) => k.trim()).filter(Boolean)
     : [];
 
+  // 解析「搭配工具」：以 toolPath 或 toolId 查實際存在的工具,
+  // 只在工具真的存在時才渲染按鈕,且顯示工具中文名(不外露裸路由字串)。
+  // 工具不存在(例如尚未重造)→ 不渲染,避免死連結與技術路由外露。
+  const linkedTool =
+    (article.toolPath ? getToolByPath(article.toolPath) : undefined) ||
+    (article.toolId ? getToolById(article.toolId) : undefined);
+
   // Split the markdown body into two halves at a paragraph boundary so we can
   // place a mid-article ad (#14) naturally between sections.
   const paras = article.content.split(/\n\n+/);
@@ -117,14 +125,14 @@ export function StaticArticleView({ article }: { article: StaticArticle }) {
           )}
         </header>
 
-        {article.toolPath && (
+        {linkedTool && (
           <div className="mt-6 rounded-xl border border-blue-200 bg-blue-50/60 p-4 dark:border-blue-900 dark:bg-blue-950/20">
             <div className="flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">
               <Wrench className="h-4 w-4" />
               {t("搭配工具使用", "Use with this tool")}
             </div>
             <Button asChild variant="outline" size="sm" className="mt-2">
-              <Link href={article.toolPath}>{article.toolPath}</Link>
+              <Link href={linkedTool.path}>{linkedTool.name}</Link>
             </Button>
           </div>
         )}
