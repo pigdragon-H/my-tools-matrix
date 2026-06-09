@@ -317,10 +317,10 @@ function FlashBannerStrip({ lang }: { lang: Lang }) {
               <h2 className="max-w-3xl whitespace-normal text-4xl font-black leading-tight tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)] md:whitespace-nowrap md:text-5xl lg:text-6xl">
                 {slide.title[lang]}
               </h2>
-              <p className="mt-6 max-w-2xl text-xl font-semibold leading-8 text-blue-50 md:text-2xl">
+              <p className="mt-6 max-w-2xl t-h3 leading-8 text-blue-50 md:text-2xl">
                 {slide.slogan[lang]}
               </p>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-blue-100/80 md:text-base">
+              <p className="mt-4 max-w-2xl t-body text-blue-100/80">
                 {slide.description[lang]}
               </p>
             </motion.div>
@@ -436,7 +436,7 @@ export default function Home() {
   const sectionMotion = prefersReducedMotion ? {} : { initial: { opacity: 0, y: 18 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, amount: 0.2 }, transition: { duration: 0.45 } };
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#eef6ff_0%,#f8fbff_22%,#eef4ff_52%,#f8fbff_100%)] text-foreground dark:bg-[linear-gradient(180deg,#020617_0%,#0f172a_45%,#111827_100%)]">
+    <div className="fu-typo min-h-screen bg-[linear-gradient(180deg,#eef6ff_0%,#f8fbff_22%,#eef4ff_52%,#f8fbff_100%)] text-foreground dark:bg-[linear-gradient(180deg,#020617_0%,#0f172a_45%,#111827_100%)]">
       <FlashBannerStrip lang={lang} />
 
       {/* ── 四賽道入口（工具 + navLanes() 驅動；只增不刪）────────────────── */}
@@ -444,15 +444,15 @@ export default function Home() {
         <div className="container py-16 md:py-20">
           <div className="mx-auto mb-10 max-w-3xl text-center">
             <Badge variant="outline" className="mb-3">{lang === "zh" ? "今日菜單 · 四大主菜" : "Today's Menu · Four Courses"}</Badge>
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "一桌流水席，四道主菜，免費續上" : "A free open banquet — four signature courses, endless refills"}</h2>
-            <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "AI 創業藍圖是主菜、機會情報是時令鮮味、知識中心是招牌湯底、工具是開胃前菜——慢慢吃、吃到飽，每道菜都會持續上新。" : "AI business blueprints as the main course, opportunity intelligence as seasonal specials, the knowledge center as the signature broth, and tools as appetizers — dine slowly, eat your fill, new dishes always coming."}</p>
+            <h2 className="t-h2 tracking-tight">{lang === "zh" ? "一桌流水席，四道主菜，免費續上" : "A free open banquet — four signature courses, endless refills"}</h2>
+            <p className="mt-3 t-lead text-muted-foreground">{lang === "zh" ? "AI 創業藍圖是主菜、機會情報是時令鮮味、知識中心是招牌湯底、工具是開胃前菜——慢慢吃、吃到飽，每道菜都會持續上新。" : "AI business blueprints as the main course, opportunity intelligence as seasonal specials, the knowledge center as the signature broth, and tools as appetizers — dine slowly, eat your fill, new dishes always coming."}</p>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {/* 工具賽道（既有 /tools） */}
             <Link href="/tools" className="group rounded-3xl border border-cyan-200 bg-white/90 p-6 shadow-lg shadow-cyan-900/10 ring-1 ring-cyan-100 transition hover:-translate-y-1 hover:border-cyan-300 hover:shadow-2xl dark:border-cyan-950/60 dark:bg-white/8 dark:ring-cyan-950/40">
               <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-600 text-white shadow-lg shadow-cyan-900/20"><Wrench className="h-6 w-6" /></div>
-              <h3 className="text-lg font-black text-slate-950 dark:text-white">{lang === "zh" ? "工具" : "Tools"}</h3>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">{lang === "zh" ? "長尾流量的基本盤，數百個免費計算工具。" : "The long-tail traffic base — hundreds of free calculators."}</p>
+              <h3 className="t-h3 font-black text-slate-950 dark:text-white">{lang === "zh" ? "工具" : "Tools"}</h3>
+              <p className="mt-3 t-body text-muted-foreground">{lang === "zh" ? "長尾流量的基本盤，數百個免費計算工具。" : "The long-tail traffic base — hundreds of free calculators."}</p>
               <p className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-cyan-700 transition group-hover:gap-3 dark:text-cyan-300">{lang === "zh" ? "瀏覽工具" : "Browse tools"} <ArrowRight className="h-4 w-4" /></p>
             </Link>
 
@@ -472,8 +472,8 @@ export default function Home() {
               return (
                 <Link key={lane.id} href={lane.routeBase} className={`group rounded-3xl border bg-white/90 p-6 shadow-lg ring-1 transition hover:-translate-y-1 hover:shadow-2xl dark:bg-white/8 ${accent}`}>
                   <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-lg ${iconBg}`}><Icon className="h-6 w-6" /></div>
-                  <h3 className="text-lg font-black text-slate-950 dark:text-white">{lane.title[lang]}</h3>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{lane.tagline[lang]}</p>
+                  <h3 className="t-h3 font-black text-slate-950 dark:text-white">{lane.title[lang]}</h3>
+                  <p className="mt-3 t-body text-muted-foreground">{lane.tagline[lang]}</p>
                   <p className={`mt-5 inline-flex items-center gap-2 text-sm font-bold transition group-hover:gap-3 ${linkColor}`}>{lang === "zh" ? "前往" : "Explore"} <ArrowRight className="h-4 w-4" /></p>
                 </Link>
               );
@@ -499,8 +499,8 @@ export default function Home() {
         <div className="container py-16 md:py-20">
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="max-w-3xl">
-              <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "你的決策路徑" : "Your decision paths"}</h2>
-              <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "每張卡片都是靜態 hardcode 的知識路徑，先建立首頁語義與視覺，再等待未來資料層接入。" : "Each card is a static hardcoded knowledge path that establishes homepage semantics before future data wiring."}</p>
+              <h2 className="t-h2 tracking-tight">{lang === "zh" ? "你的決策路徑" : "Your decision paths"}</h2>
+              <p className="mt-3 t-lead text-muted-foreground">{lang === "zh" ? "每張卡片都是靜態 hardcode 的知識路徑，先建立首頁語義與視覺，再等待未來資料層接入。" : "Each card is a static hardcoded knowledge path that establishes homepage semantics before future data wiring."}</p>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -508,7 +508,7 @@ export default function Home() {
               const cardStyle = journeyCardStyles[cardIndex % journeyCardStyles.length];
               const accentStyle = journeyAccentStyles[cardIndex % journeyAccentStyles.length];
               const stepStyle = journeyStepStyles[cardIndex % journeyStepStyles.length];
-              return <article key={card.title.zh} className={`group rounded-3xl border p-6 shadow-lg ring-1 transition-all hover:-translate-y-1 hover:shadow-2xl ${cardStyle}`}><div className={`mb-4 h-1.5 w-16 rounded-full bg-gradient-to-r ${accentStyle}`} /><h3 className="text-lg font-black text-slate-900 group-hover:text-blue-700 dark:text-white">{card.title[lang]}</h3><p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">{card.description[lang]}</p><div className="mt-5 flex flex-wrap items-center gap-2">{card.steps[lang].map((step, index) => <span key={`${card.title.zh}-${step}`} className="flex items-center gap-2"><span className={`rounded-full border px-3 py-1.5 text-sm font-bold ${stepStyle}`}>{step}</span>{index < card.steps[lang].length - 1 ? <ArrowRight className="h-4 w-4 text-slate-400" /> : null}</span>)}</div></article>;
+              return <article key={card.title.zh} className={`group rounded-3xl border p-6 shadow-lg ring-1 transition-all hover:-translate-y-1 hover:shadow-2xl ${cardStyle}`}><div className={`mb-4 h-1.5 w-16 rounded-full bg-gradient-to-r ${accentStyle}`} /><h3 className="t-h3 font-black text-slate-900 group-hover:text-blue-700 dark:text-white">{card.title[lang]}</h3><p className="mt-2 t-body text-slate-600 dark:text-slate-300">{card.description[lang]}</p><div className="mt-5 flex flex-wrap items-center gap-2">{card.steps[lang].map((step, index) => <span key={`${card.title.zh}-${step}`} className="flex items-center gap-2"><span className={`rounded-full border px-3 py-1.5 text-sm font-bold ${stepStyle}`}>{step}</span>{index < card.steps[lang].length - 1 ? <ArrowRight className="h-4 w-4 text-slate-400" /> : null}</span>)}</div></article>;
             })}
           </div>
         </div>
@@ -517,13 +517,13 @@ export default function Home() {
       <motion.section className="border-b border-blue-200/70 bg-[radial-gradient(circle_at_80%_10%,rgba(14,165,233,0.14),transparent_28%),linear-gradient(180deg,#ffffff_0%,#eef6ff_100%)] dark:border-blue-950/60 dark:bg-slate-950" {...sectionMotion}>
         <div className="container py-16 md:py-20">
           <div className="mb-10 max-w-3xl">
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "最常用的工具" : "Most-used tools"}</h2>
-            <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "從高頻決策場景進入 Formula Universe，直接前往已規劃的工具頁。" : "Jump into Formula Universe from high-frequency decision scenarios, straight to the planned tool pages."}</p>
+            <h2 className="t-h2 tracking-tight">{lang === "zh" ? "最常用的工具" : "Most-used tools"}</h2>
+            <p className="mt-3 t-lead text-muted-foreground">{lang === "zh" ? "從高頻決策場景進入 Formula Universe，直接前往已規劃的工具頁。" : "Jump into Formula Universe from high-frequency decision scenarios, straight to the planned tool pages."}</p>
           </div>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {featuredTools.map((tool) => {
               const Icon = tool.icon;
-              return <Link key={tool.href} href={tool.href} className="group rounded-3xl border border-blue-100 bg-white/90 p-6 shadow-lg shadow-blue-900/10 ring-1 ring-white/80 transition-all hover:-translate-y-1 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-900/15 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><div className="mb-4 flex items-center justify-between"><div className="rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-cyan-500 p-3 shadow-lg shadow-blue-600/25"><Icon className="h-5 w-5 text-white" /></div><Badge variant="secondary" className="bg-blue-50 text-xs font-bold text-blue-700 dark:bg-blue-950 dark:text-blue-200">{tool.category[lang]}</Badge></div><h3 className="text-base font-black leading-6 text-slate-900 group-hover:text-blue-700 dark:text-white">{tool.name[lang]}</h3><p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{tool.description[lang]}</p><div className="mt-5 flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">{lang === "zh" ? "前往工具" : "Open tool"}<ArrowRight className="h-4 w-4" /></div></Link>;
+              return <Link key={tool.href} href={tool.href} className="group rounded-3xl border border-blue-100 bg-white/90 p-6 shadow-lg shadow-blue-900/10 ring-1 ring-white/80 transition-all hover:-translate-y-1 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-900/15 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><div className="mb-4 flex items-center justify-between"><div className="rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-cyan-500 p-3 shadow-lg shadow-blue-600/25"><Icon className="h-5 w-5 text-white" /></div><Badge variant="secondary" className="bg-blue-50 text-xs font-bold text-blue-700 dark:bg-blue-950 dark:text-blue-200">{tool.category[lang]}</Badge></div><h3 className="t-h3 font-black text-slate-900 group-hover:text-blue-700 dark:text-white">{tool.name[lang]}</h3><p className="mt-3 t-body text-slate-600 dark:text-slate-300">{tool.description[lang]}</p><div className="mt-5 flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">{lang === "zh" ? "前往工具" : "Open tool"}<ArrowRight className="h-4 w-4" /></div></Link>;
             })}
           </div>
         </div>
@@ -533,11 +533,11 @@ export default function Home() {
         <div className="container py-16 md:py-20">
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="max-w-3xl">
-              <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "探索知識領域" : "Explore knowledge domains"}</h2>
+              <h2 className="t-h2 tracking-tight">{lang === "zh" ? "探索知識領域" : "Explore knowledge domains"}</h2>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {clusterCards.map((cluster) => <Link key={cluster.websiteKey} href={cluster.href} className="group rounded-3xl border border-white/70 bg-white/90 p-6 shadow-lg shadow-indigo-900/10 ring-1 ring-indigo-100/70 transition-all hover:-translate-y-1 hover:border-indigo-300 hover:shadow-2xl hover:shadow-indigo-900/15 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><div className="mb-4 inline-flex rounded-full bg-gradient-to-r from-blue-600 to-violet-600 px-3 py-1 text-xs font-black text-white shadow-md shadow-blue-600/20">{cluster.websiteKey}</div><h3 className="text-lg font-black text-slate-900 group-hover:text-indigo-700 dark:text-white">{cluster.title[lang]}</h3><p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{cluster.description[lang]}</p><div className="mt-5 flex items-center gap-2 text-sm font-bold text-indigo-700 dark:text-indigo-300">{lang === "zh" ? "前往領域" : "Open domain"}<ArrowRight className="h-4 w-4" /></div></Link>)}
+            {clusterCards.map((cluster) => <Link key={cluster.websiteKey} href={cluster.href} className="group rounded-3xl border border-white/70 bg-white/90 p-6 shadow-lg shadow-indigo-900/10 ring-1 ring-indigo-100/70 transition-all hover:-translate-y-1 hover:border-indigo-300 hover:shadow-2xl hover:shadow-indigo-900/15 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><div className="mb-4 inline-flex rounded-full bg-gradient-to-r from-blue-600 to-violet-600 px-3 py-1 text-xs font-black text-white shadow-md shadow-blue-600/20">{cluster.websiteKey}</div><h3 className="t-h3 font-black text-slate-900 group-hover:text-indigo-700 dark:text-white">{cluster.title[lang]}</h3><p className="mt-3 t-body text-slate-600 dark:text-slate-300">{cluster.description[lang]}</p><div className="mt-5 flex items-center gap-2 text-sm font-bold text-indigo-700 dark:text-indigo-300">{lang === "zh" ? "前往領域" : "Open domain"}<ArrowRight className="h-4 w-4" /></div></Link>)}
           </div>
         </div>
       </motion.section>
@@ -554,13 +554,13 @@ export default function Home() {
         <div className="container py-16 md:py-20">
           <div className="mx-auto mb-10 max-w-3xl text-center">
             <Badge variant="outline" className="mb-3">AI Native</Badge>
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "不只是計算機" : "More than a calculator"}</h2>
-            <p className="mt-3 text-muted-foreground md:text-lg">{lang === "zh" ? "Formula Universe 的首頁是知識作業系統入口，而不是單純的工具清單。" : "The Formula Universe homepage is an entry point to a knowledge operating system, not just a tool list."}</p>
+            <h2 className="t-h2 tracking-tight">{lang === "zh" ? "不只是計算機" : "More than a calculator"}</h2>
+            <p className="mt-3 t-lead text-muted-foreground">{lang === "zh" ? "Formula Universe 的首頁是知識作業系統入口，而不是單純的工具清單。" : "The Formula Universe homepage is an entry point to a knowledge operating system, not just a tool list."}</p>
           </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-            <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-blue-900/10 ring-1 ring-blue-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Brain className="mb-5 h-8 w-8 text-blue-600" /><h3 className="text-xl font-semibold">{lang === "zh" ? "🧠 知識圖譜" : "🧠 Knowledge graph"}</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">{lang === "zh" ? "工具、公式、解釋串連成知識網絡，讓每個計算結果都有上下文。" : "Tools, formulas, and explanations are connected into a knowledge network so every result has context."}</p></div>
-            <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-indigo-900/10 ring-1 ring-indigo-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Route className="mb-5 h-8 w-8 text-indigo-600" /><h3 className="text-xl font-semibold">{lang === "zh" ? "🔗 決策路徑" : "🔗 Decision path"}</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">{lang === "zh" ? "從問題到答案的完整引導流程，協助使用者知道下一步該做什麼。" : "A complete guided flow from question to answer, helping users know what to do next."}</p></div>
-            <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-cyan-900/10 ring-1 ring-cyan-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Network className="mb-5 h-8 w-8 text-cyan-600" /><h3 className="text-xl font-semibold">📊 AI Native</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">{lang === "zh" ? "每個工具都預留連接 AI 分析與建議的語義位置，支援未來智慧探索。" : "Every tool reserves semantic slots for AI analysis and recommendations, enabling future intelligent exploration."}</p></div>
+            <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-blue-900/10 ring-1 ring-blue-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Brain className="mb-5 h-8 w-8 text-blue-600" /><h3 className="t-h3">{lang === "zh" ? "🧠 知識圖譜" : "🧠 Knowledge graph"}</h3><p className="mt-3 t-body text-muted-foreground">{lang === "zh" ? "工具、公式、解釋串連成知識網絡，讓每個計算結果都有上下文。" : "Tools, formulas, and explanations are connected into a knowledge network so every result has context."}</p></div>
+            <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-indigo-900/10 ring-1 ring-indigo-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Route className="mb-5 h-8 w-8 text-indigo-600" /><h3 className="t-h3">{lang === "zh" ? "🔗 決策路徑" : "🔗 Decision path"}</h3><p className="mt-3 t-body text-muted-foreground">{lang === "zh" ? "從問題到答案的完整引導流程，協助使用者知道下一步該做什麼。" : "A complete guided flow from question to answer, helping users know what to do next."}</p></div>
+            <div className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-xl shadow-cyan-900/10 ring-1 ring-cyan-100 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><Network className="mb-5 h-8 w-8 text-cyan-600" /><h3 className="t-h3">📊 AI Native</h3><p className="mt-3 t-body text-muted-foreground">{lang === "zh" ? "每個工具都預留連接 AI 分析與建議的語義位置，支援未來智慧探索。" : "Every tool reserves semantic slots for AI analysis and recommendations, enabling future intelligent exploration."}</p></div>
           </div>
         </div>
       </motion.section>
@@ -568,8 +568,8 @@ export default function Home() {
       <motion.section className="border-b border-blue-200/70 bg-[linear-gradient(135deg,#ffffff_0%,#eff6ff_46%,#f5f3ff_100%)] dark:border-blue-950/60 dark:bg-slate-950" {...sectionMotion}>
         <div className="container py-16 md:py-20">
           <div className="mb-10 max-w-3xl">
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{lang === "zh" ? "知識庫與關於我們" : "Knowledge Base and About"}</h2>
-            <p className="mt-3 text-muted-foreground md:text-lg">
+            <h2 className="t-h2 tracking-tight">{lang === "zh" ? "知識庫與關於我們" : "Knowledge Base and About"}</h2>
+            <p className="mt-3 t-lead text-muted-foreground">
               {lang === "zh"
                 ? "首頁不只提供工具入口,也保留知識文章、公式脈絡與品牌說明,讓使用者知道如何理解結果、為什麼可以信任這套Formula Universe。"
                 : "The homepage is more than a tool index — it also keeps knowledge articles, formula context, and brand notes so users understand the results and why this tool matrix can be trusted."}
@@ -581,8 +581,8 @@ export default function Home() {
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-900/20">
                 <BookOpen className="h-7 w-7" />
               </div>
-              <h3 className="text-2xl font-black text-slate-950 dark:text-white">{lang === "zh" ? "知識庫" : "Knowledge Base"}</h3>
-              <p className="mt-4 text-sm leading-7 text-muted-foreground md:text-base">
+              <h3 className="t-h3 font-black text-slate-950 dark:text-white">{lang === "zh" ? "知識庫" : "Knowledge Base"}</h3>
+              <p className="mt-4 t-body text-muted-foreground">
                 {lang === "zh"
                   ? "整理公式解釋、工具範例、限制說明與決策脈絡,讓每一次計算不只是得到答案,也能理解答案背後的條件與下一步行動。"
                   : "Formula explanations, tool examples, limitations, and decision context — so every calculation is not just an answer, but the conditions behind it and the next step."}
@@ -604,8 +604,8 @@ export default function Home() {
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-900/20">
                 <HeartPulse className="h-7 w-7" />
               </div>
-              <h3 className="text-2xl font-black text-slate-950 dark:text-white">{lang === "zh" ? "關於我們" : "About us"}</h3>
-              <p className="mt-4 text-sm leading-7 text-muted-foreground md:text-base">
+              <h3 className="t-h3 font-black text-slate-950 dark:text-white">{lang === "zh" ? "關於我們" : "About us"}</h3>
+              <p className="mt-4 t-body text-muted-foreground">
                 {lang === "zh"
                   ? "Formula Universe是一座 AI Native Knowledge Infrastructure,目標是把工具、公式、解釋、範例、限制與下一步行動串成可信任的決策入口。"
                   : "Formula Universe is an AI Native Knowledge Infrastructure that connects tools, formulas, explanations, examples, limitations, and next actions into a trusted decision gateway."}
@@ -630,13 +630,13 @@ export default function Home() {
       <motion.section className="border-b border-blue-200/70 bg-[linear-gradient(135deg,#fefce8_0%,#fef3c7_46%,#fde68a_100%)] py-14 dark:border-blue-950/60 dark:bg-slate-950 md:py-16" {...sectionMotion}>
         <div className="container">
           <div className="mb-8 max-w-3xl">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 dark:text-amber-300">
+            <p className="t-eyebrow text-amber-700 dark:text-amber-300">
               {lang === "zh" ? "保持聯繫" : "Stay in the loop"}
             </p>
-            <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-900 dark:text-white md:text-4xl">
+            <h2 className="mt-2 t-h2 tracking-tight text-slate-900 dark:text-white">
               {lang === "zh" ? "把工具與知識帶在身邊" : "Take the tools and knowledge with you"}
             </h2>
-            <p className="mt-3 text-sm leading-7 text-slate-700 dark:text-slate-300 md:text-base">
+            <p className="mt-3 t-body text-slate-700 dark:text-slate-300">
               {lang === "zh"
                 ? "訂閱電子報或加入書籤,讓 Formula Universe 成為你日常決策的延伸,而不是搜尋一次就忘的工具。"
                 : "Subscribe or bookmark to make Formula Universe part of your everyday decision flow, not a one-time search."}
@@ -650,13 +650,13 @@ export default function Home() {
       <motion.section className="border-b border-blue-200/70 bg-white py-14 dark:border-blue-950/60 dark:bg-slate-950 md:py-16" {...sectionMotion}>
         <div className="container">
           <div className="mb-8 max-w-3xl">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 dark:text-amber-300">
+            <p className="t-eyebrow text-amber-700 dark:text-amber-300">
               {lang === "zh" ? "工具推薦" : "Tool recommendations"}
             </p>
-            <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-900 dark:text-white md:text-4xl">
+            <h2 className="mt-2 t-h2 tracking-tight text-slate-900 dark:text-white">
               {lang === "zh" ? "把計算結果落地到實際生活" : "Turn results into action"}
             </h2>
-            <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300 md:text-base">
+            <p className="mt-3 t-body text-slate-600 dark:text-slate-300">
               {lang === "zh"
                 ? "這些是我們覺得能搭配 Formula Universe 一起使用的硬體與資源。聯盟夥伴正在洽談中,完成後連結會啟用。"
                 : "Hardware and resources we think pair well with Formula Universe. Partner agreements are in progress; links will activate when ready."}
@@ -695,18 +695,18 @@ export default function Home() {
         <div className="container py-12 md:py-16">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr_0.8fr]">
             <div>
-              <div className="flex items-center gap-3"><div className="rounded-2xl bg-primary/20 p-3"><Binary className="h-6 w-6 text-primary" /></div><div><p className="text-lg font-bold">Formula Universe</p><p className="text-sm text-slate-400">AI Native Knowledge Infrastructure</p></div></div>
-              <p className="mt-5 max-w-md text-sm leading-7 text-slate-300">{lang === "zh" ? "AI Native Knowledge Infrastructure 的首頁入口。" : "Homepage entry to the AI Native Knowledge Infrastructure."}</p>
-              <p className="mt-6 text-xs text-slate-500">© {new Date().getFullYear()} PiGragon-H. All rights reserved.</p>
+              <div className="flex items-center gap-3"><div className="rounded-2xl bg-primary/20 p-3"><Binary className="h-6 w-6 text-primary" /></div><div><p className="text-lg font-bold">Formula Universe</p><p className="t-small text-slate-400">AI Native Knowledge Infrastructure</p></div></div>
+              <p className="mt-5 max-w-md t-body text-slate-300">{lang === "zh" ? "AI Native Knowledge Infrastructure 的首頁入口。" : "Homepage entry to the AI Native Knowledge Infrastructure."}</p>
+              <p className="mt-6 t-small text-slate-500">© {new Date().getFullYear()} PiGragon-H. All rights reserved.</p>
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-white">{lang === "zh" ? "分類連結" : "Categories"}</h3>
+              <h3 className="t-small font-semibold text-white">{lang === "zh" ? "分類連結" : "Categories"}</h3>
               <div className="mt-5 flex flex-col gap-3 text-sm text-slate-300">
                 {footerCategories.map((item) => <Link key={item.href} href={item.href} className="transition-colors hover:text-white">{item.label[lang]}</Link>)}
               </div>
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-white">{lang === "zh" ? "更多" : "More"}</h3>
+              <h3 className="t-small font-semibold text-white">{lang === "zh" ? "更多" : "More"}</h3>
               <div className="mt-5 grid gap-3 text-sm text-slate-300">
                 <Link href="/blog" className="transition-colors hover:text-white">{lang === "zh" ? "知識庫" : "Knowledge"}</Link>
                 <Link href="/about" className="transition-colors hover:text-white">{lang === "zh" ? "關於我們" : "About"}</Link>

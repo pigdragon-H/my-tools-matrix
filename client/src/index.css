@@ -191,7 +191,8 @@
    核心：建立視覺層級、內文不小於 16px、字大行高小／字小行高大
    基準 1rem = 16px；Type Scale ≈ Perfect Fourth (1.333)
    ───────────────────────────────────────────────────────────────────────── */
-.about-typo {
+.about-typo,
+.fu-typo {
   /* 級數 tokens */
   --fs-eyebrow: 0.8125rem;                       /* 13px 標籤/eyebrow */
   --fs-h1: clamp(2.25rem, 5vw, 3rem);            /* 36 → 48px */
@@ -208,40 +209,47 @@
   --lh-small: 1.5;
 }
 
-.about-typo .t-eyebrow {
+.about-typo .t-eyebrow,
+.fu-typo .t-eyebrow {
   font-size: var(--fs-eyebrow);
   font-weight: 800;
   letter-spacing: 0.2em;
   line-height: var(--lh-small);
 }
-.about-typo .t-h1 {
+.about-typo .t-h1,
+.fu-typo .t-h1 {
   font-size: var(--fs-h1);
   font-weight: 700;
   line-height: var(--lh-tight);
   letter-spacing: -0.01em;
 }
-.about-typo .t-h2 {
+.about-typo .t-h2,
+.fu-typo .t-h2 {
   font-size: var(--fs-h2);
   font-weight: 700;
   line-height: var(--lh-h2);
   letter-spacing: -0.01em;
 }
-.about-typo .t-h3 {
+.about-typo .t-h3,
+.fu-typo .t-h3 {
   font-size: var(--fs-h3);
   font-weight: 600;
   line-height: var(--lh-h3);
 }
-.about-typo .t-lead {
+.about-typo .t-lead,
+.fu-typo .t-lead {
   font-size: var(--fs-lead);
   font-weight: 400;
   line-height: var(--lh-body);
 }
-.about-typo .t-body {
+.about-typo .t-body,
+.fu-typo .t-body {
   font-size: var(--fs-body);
   font-weight: 400;
   line-height: var(--lh-body);
 }
-.about-typo .t-small {
+.about-typo .t-small,
+.fu-typo .t-small {
   font-size: var(--fs-small);
   font-weight: 400;
   line-height: var(--lh-small);
