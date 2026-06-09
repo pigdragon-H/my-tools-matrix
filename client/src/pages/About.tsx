@@ -183,20 +183,20 @@ const copy = {
   promiseTitle: { zh: "我們對使用者的承諾", en: "Our promise to users" },
   promise: [
     {
-      zh: ["公式可追溯", "每個計算結果都標註來源、假設與限制,您看得見它從哪裡來。"],
-      en: ["Formulas are traceable", "Every result labels its source, assumptions, and limits — you can see exactly where it came from."],
+      zh: ["主菜——AI 創業藍圖,天天續上", "創業藍圖是這桌的主菜。我們承諾持續上新、隨產業變化更新流程與心法,讓您每次回來都吃得到熱的。"],
+      en: ["Main course — AI blueprints, served fresh daily", "Blueprints are the main course of this banquet. We commit to keeping them coming, updating playbooks as the industry shifts — so there's always something hot when you return."],
     },
     {
-      zh: ["資料留在您這邊", "預設情況下計算只在您的瀏覽器執行,我們不販售也不轉售您的資料。"],
-      en: ["Your data stays with you", "By default, calculations run in your browser. We do not sell or share your data."],
+      zh: ["時令鮮味——機會情報,即時更新", "機會情報是時令鮮味,講究的就是新鮮。我們承諾即時追蹤、誠實標註來源與時間,過了季的就不端上桌混充。"],
+      en: ["Seasonal catch — opportunity intel, updated in real time", "Opportunity intel is the seasonal catch — freshness is everything. We track in real time and honestly label every source and timestamp, never passing off stale dishes as new."],
     },
     {
-      zh: ["錯誤會被修正", "編輯方針、審稿流程與利益衝突揭露都是公開的,您可以指出問題,也可以追蹤更正。"],
-      en: ["Mistakes get fixed", "Editorial policy, review workflow, and conflict-of-interest disclosure are all public — you can flag issues and track corrections."],
+      zh: ["招牌湯底——知識中心,底子紮實", "知識中心是熬了又熬的招牌湯底。我們承諾每篇都標註來源、假設與限制,錯了會公開更正,讓這鍋底永遠經得起追溯。"],
+      en: ["Signature broth — the knowledge center, simmered deep", "The knowledge center is our long-simmered signature broth. Every piece labels its source, assumptions, and limits; mistakes are corrected in the open — a base that always holds up to scrutiny."],
     },
     {
-      zh: ["長期維運,不靠廣告轟炸", "Formula Universe 用付費方案、合適的合作夥伴連結與真實價值維運,不靠廣告堆疊獲利。"],
-      en: ["Long-term, not ad-driven", "Formula Universe sustains itself through paid plans, fair partnerships, and real value — not ad stacking."],
+      zh: ["開胃前菜——工具宇宙,免費取用", "工具是這桌的開胃前菜,人人都能先嚐。我們承諾計算只在您的瀏覽器執行,不販售也不轉售您的資料,靠真實價值維運而非廣告轟炸。"],
+      en: ["Appetizers — the tool universe, free to taste", "Tools are the appetizers everyone can sample first. Calculations run in your browser by default; we never sell or share your data, and we sustain ourselves through real value — not ad stacking."],
     },
   ],
 
