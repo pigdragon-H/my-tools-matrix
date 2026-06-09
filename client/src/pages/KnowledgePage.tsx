@@ -58,6 +58,7 @@ export default function KnowledgePage() {
       slotPrefix="knowledge"
       affiliateItems={getLaneAffiliates("knowledge")}
       newsletterSource="knowledge"
+      readProgress={{ laneId: "knowledge", slug }}
       headerSlot={
         <div className="flex flex-wrap gap-2 mt-4">
           {domainLabel && <Badge variant="secondary">{domainLabel[lang]}</Badge>}

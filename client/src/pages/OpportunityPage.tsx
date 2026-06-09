@@ -69,6 +69,7 @@ export default function OpportunityPage() {
       slotPrefix="opp"
       affiliateItems={getLaneAffiliates("opportunities")}
       newsletterSource="opportunity"
+      readProgress={{ laneId: "opportunities", slug }}
       headerSlot={
         <div className="flex flex-wrap gap-2 mt-4">
           <Badge variant="outline">

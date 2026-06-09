@@ -31,6 +31,7 @@ import { PremiumTeaser } from "@/components/business/PremiumTeaser";
 import { NewsletterCta } from "@/components/business/NewsletterCta";
 import { TrustStrip } from "@/components/business/TrustStrip";
 import { setSeoMeta } from "@/lib/seo";
+import { useReadProgress } from "@/hooks/useReadProgress";
 
 export interface ArticleShellProps {
   /** 雙語標題。 */
@@ -58,6 +59,8 @@ export interface ArticleShellProps {
   headerSlot?: ReactNode;
   /** 正文之後、聯盟之前注入（如藍圖的「關聯工作流」區塊）。 */
   footerExtra?: ReactNode;
+  /** [階段A] 已讀進度：進頁時把此 slug 標記為已讀（純前端）。 */
+  readProgress?: { laneId: string; slug: string };
 }
 
 const DEFAULT_AFFILIATES: AffiliateItem[] = [
@@ -77,6 +80,12 @@ function splitBody(body: string): [string, string] {
 export function ArticleShell(props: ArticleShellProps) {
   const { lang } = useLanguage();
   const t = (zh: string, en: string) => (lang === "zh" ? zh : en);
+
+  // [階段A] 進文章頁 → 標記已讀（純前端 localStorage）。
+  const { markRead } = useReadProgress(props.readProgress?.laneId ?? "");
+  useEffect(() => {
+    if (props.readProgress) markRead(props.readProgress.slug);
+  }, [props.readProgress, markRead]);
 
   useEffect(() => {
     setSeoMeta({

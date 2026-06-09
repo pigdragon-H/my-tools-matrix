@@ -73,6 +73,7 @@ export default function BlueprintPage() {
       slotPrefix="blueprint"
       affiliateItems={getLaneAffiliates("blueprints")}
       newsletterSource="blueprint"
+      readProgress={{ laneId: "blueprints", slug }}
       headerSlot={
         <div className="flex flex-wrap gap-2 mt-4">
           {industryLabel && (
