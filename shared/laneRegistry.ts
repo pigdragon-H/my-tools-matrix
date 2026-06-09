@@ -73,7 +73,7 @@ export const LANES: Lane[] = [
     },
     status: "live",
     navInclude: true,
-    order: 3,
+    order: 4,
     reservedNote:
       "未來既定變化：『企業整廠輸出媒合』為階段二功能，已於 shared/matchmaking.ts 預留供給/需求/配對三實體 interface，並由 /opportunities/matchmaking 用『需求登記表單』佔位（reserved，不露出）。階段二把該頁接上雙邊登錄與配對邏輯即可。機會報告 frontmatter 的 matchmakingTag 欄位為媒合預留。",
   },
@@ -88,7 +88,7 @@ export const LANES: Lane[] = [
     },
     status: "live",
     navInclude: true,
-    order: 4,
+    order: 3,
     reservedNote:
       "由舊 /blog 升級而來。紅線：舊 /blog、/blog/:slug、/blog/:category/:slug 與既有 9 篇文章 URL 永久保留可達；/knowledge 為新正規入口，舊 URL 以 canonical 收斂（階段二補 canonical）。",
   },
