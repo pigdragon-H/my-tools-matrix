@@ -114,7 +114,7 @@ const pillars = [
   },
   {
     icon: Wrench,
-    title: { zh: "長尾工具", en: "Long-tail Tools" },
+    title: { zh: "工具宇宙", en: "Tool Universe" },
     body: {
       zh: "開胃前菜。數百個免費計算工具，從財務、健康到開發與學習，每個都標註公式來源、適用情境與限制，是進入這場盛宴最輕鬆的第一口。",
       en: "Appetizers. Hundreds of free calculators across finance, health, development, and learning — each labels its formula source, scenarios, and limits — the easiest first bite into the banquet.",
