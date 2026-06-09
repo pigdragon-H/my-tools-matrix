@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "旅遊 · 疫苗排程 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "疫苗接種排程計算機 · Vaccine", subtitle: "用距出發天數、所需劑次與前置急迫度算出疫苗準備度占比與每劑間隔",
-    intro: "Vaccine Schedule Calculator 依據距出發天數、所需接種劑次與前置急迫度（寬鬆、標準或緊湊），計算每劑建議間隔、疫苗準備度占比與緩衝天數，協助你判斷時間是否足夠、該不該採加速劑程、何時要儘速就醫評估，讓出國前的疫苗準備更安心有序。",
+    intro: "Vaccine Schedule Calculator 依據距出發天數、所需接種劑次與前置急迫度（寬鬆、標準或緊湊），計算每劑建議間隔、疫苗準備度占比與緩衝天數，協助您判斷時間是否足夠、該不該採加速劑程、何時要儘速就醫評估，讓出國前的疫苗準備更安心有序。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以建議前置天數估算，未含個別疫苗劑程、禁忌與醫療史；實際接種排程請以旅遊門診或專業醫師建議為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立疫苗範例", examplePreview: "準備度預覽", examplePerson: "距出發天數", fillExample: "一鍵填入標準急迫範例", previewActivePath: "填入緊湊急迫範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入距出發天數、所需劑次與前置急迫度", examplesHelper: "先用範例理解天數與劑次如何決定準備度占比與每劑間隔，再改成自己的行程數據。",

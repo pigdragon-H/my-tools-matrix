@@ -65,7 +65,7 @@ const ui = {
     q2: "貼上的 Markdown 會被送到伺服器嗎?", a2: "不會。本工具完全在瀏覽器端用 string 操作渲染;頁面關閉後資料即消失,適合處理私有 README、未公開 issue、商業合約草稿與內部 design doc。",
     q3: "為什麼字元數和 GitHub 的不一樣?", a3: "本工具用 string.length 計算 UTF-16 code unit;GitHub 與部分編輯器用 UTF-8 byte 或 grapheme cluster。中文、emoji、組合字 (Zalgo) 會差異最明顯;若需 byte 數請改看 outputBytes 區塊。",
     q4: "可以渲染 Mermaid 流程圖、KaTeX 公式嗎?", a4: "本工具不支援。Mermaid 需要 mermaid.js 動態執行 <pre class=\"mermaid\">,KaTeX 需要 remark-math + rehype-katex 流程,皆涉及第三方腳本載入,故未內建。專業版會解鎖這兩者。",
-    q5: "為什麼 HTML 標籤被當成文字顯示?", a5: "為了避免 XSS,本工具預設不渲染 inline HTML (<script>、<iframe> 等),只把它們當成文字顯示。CommonMark 允許 inline HTML 但 GFM 會在不安全模式下過濾;若你信任來源,正式環境可在伺服器端串 DOMPurify 後解禁。",
+    q5: "為什麼 HTML 標籤被當成文字顯示?", a5: "為了避免 XSS,本工具預設不渲染 inline HTML (<script>、<iframe> 等),只把它們當成文字顯示。CommonMark 允許 inline HTML 但 GFM 會在不安全模式下過濾;若您信任來源,正式環境可在伺服器端串 DOMPurify 後解禁。",
     q6: "Markdown 文件多大算太大?", a6: "經驗法則:單檔 ≤20k 字元最舒服;20k–100k 開始需要 TOC + anchor;>100k 應拆檔或改用 mdBook / Docusaurus。本工具的「六段判讀矩陣」就是依此分區,協助判斷是否該重構文件結構。",
   },
   en: {

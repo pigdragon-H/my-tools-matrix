@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "電商 · 配送時間 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "配送時間計算機 · Delivery Time", subtitle: "用處理天數與物流方案算出總送達天數與時效解讀",
-    intro: "Delivery Time Calculator 依據出貨處理天數、配送距離與物流方案，估算總送達天數與其在常見時效區間中的位置，協助你判斷時效是否影響轉換與評價、是否該優化出貨流程或升級物流方案。",
+    intro: "Delivery Time Calculator 依據出貨處理天數、配送距離與物流方案，估算總送達天數與其在常見時效區間中的位置，協助您判斷時效是否影響轉換與評價、是否該優化出貨流程或升級物流方案。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以處理天數加運送天數估算總時效，未含假日、海關清關與旺季塞車差異；正式承諾時效應以物流商實際服務水準為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立時效範例", examplePreview: "時效預覽", examplePerson: "處理天數", fillExample: "一鍵填入標準時效範例", previewActivePath: "填入快配時效範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入處理天數、配送距離與物流方案", examplesHelper: "先用範例理解處理與方案如何決定總送達天數，再改成自己的物流數據。",

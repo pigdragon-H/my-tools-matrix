@@ -33,7 +33,7 @@ const ui = {
   zh: {
     badge: "財務 · 預算規劃 · 黃金工具", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "Budget Ratio Calculator · 預算比例計算機", subtitle: "用 50/30/20 法則分配收入，掌握財務結構",
-    intro: "本工具將你的月收入按 50/30/20 法則分為需要、想要與儲蓄三類，協助檢視支出結構是否健康並規劃改善方向。",
+    intro: "本工具將您的月收入按 50/30/20 法則分為需要、想要與儲蓄三類，協助檢視支出結構是否健康並規劃改善方向。",
     trustNoteLabel: "注意事項：", trustNote: "50/30/20 為一般性參考比例，實際分配需考慮地區生活成本與個人目標。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立預算比例範例", examplePreview: "預算比例預覽", examplePerson: "標準範例", fillExample: "一鍵填入標準範例", previewActivePath: "填入高支出範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入收入與支出", examplesHelper: "先用範例理解預算比例計算，再改成自己的數字。",

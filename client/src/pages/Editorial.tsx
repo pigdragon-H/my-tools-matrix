@@ -86,7 +86,7 @@ export default function Editorial() {
           <h2>{lang === "zh" ? "5. 修正與回饋" : "5. Corrections and feedback"}</h2>
           <p>
             {lang === "zh"
-              ? "如果你發現公式錯誤、引用過時或解釋有疑慮,請寄信到 hello@formulauniverse.dev,或在 GitHub 開 issue。重大修正會在版本歷史中留下紀錄。"
+              ? "如果您發現公式錯誤、引用過時或解釋有疑慮,請寄信到 hello@formulauniverse.dev,或在 GitHub 開 issue。重大修正會在版本歷史中留下紀錄。"
               : "If you spot an error, outdated citation, or unclear explanation, email hello@formulauniverse.dev or open a GitHub issue. Major corrections are recorded in the version history."}
           </p>
 

@@ -33,7 +33,7 @@ const ui = {
   zh: {
     badge: "財務 · 資產折舊 · 黃金工具", switchToEnglish: "中文模式", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "Asset Depreciation Calculator · 資產折舊計算機", subtitle: "依原始成本、殘值與年限估算年折舊與帳面價值",
-    intro: "本工具根據資產原始成本、殘值、預估使用年限與已使用年數，以直線法估算每年折舊金額與目前帳面價值，幫助你做記帳、汰換與稅務規劃。",
+    intro: "本工具根據資產原始成本、殘值、預估使用年限與已使用年數，以直線法估算每年折舊金額與目前帳面價值，幫助您做記帳、汰換與稅務規劃。",
     trustNoteLabel: "注意事項：", trustNote: "此工具採直線折舊法估算；未計入加速折舊、稅法差異、減損或資產重估，實際入帳請以會計與稅務規定為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立資產折舊範例", examplePreview: "年折舊預覽", examplePerson: "標準範例", fillExample: "一鍵填入標準範例", previewActivePath: "填入大型設備範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入原始成本、殘值與年限", examplesHelper: "先用範例理解直線折舊計算，再改成自己的數字。",

@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "旅遊 · 防曬係數 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "防曬係數計算機 · SPF", subtitle: "用未防護曬傷時間、SPF 係數與膚質敏感度算出有效防護時間與補擦提醒",
-    intro: "SPF Calculator 依據未防護曬傷時間、防曬係數與膚質敏感度（耐曬、標準或敏感），計算理論有效防護時間、補擦占比與建議補擦頻率，協助你判斷該選多高的 SPF、戶外活動能撐多久、何時該補擦或尋找遮蔭，讓旅途防曬更安心。",
+    intro: "SPF Calculator 依據未防護曬傷時間、防曬係數與膚質敏感度（耐曬、標準或敏感），計算理論有效防護時間、補擦占比與建議補擦頻率，協助您判斷該選多高的 SPF、戶外活動能撐多久、何時該補擦或尋找遮蔭，讓旅途防曬更安心。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以理論防護倍數估算，未含流汗、下水、摩擦與塗抹量；實際防曬效果通常低於理論值，請定時補擦並搭配遮蔽。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立防曬範例", examplePreview: "防護預覽", examplePerson: "曬傷時間", fillExample: "一鍵填入標準膚質範例", previewActivePath: "填入敏感膚質範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入未防護曬傷時間、SPF 係數與膚質敏感度", examplesHelper: "先用範例理解曬傷時間與 SPF 如何決定有效防護時間與補擦占比，再改成自己的膚質數據。",
@@ -48,7 +48,7 @@ const ui = {
     nextActionLabel: "下一步行動", nextActionTitle: "將結果接到下一個工具", nextActionItem1: "用旅遊補水計算機算出每日補水量", nextActionItem2: "用高山症風險計算機規劃高海拔防護", nextActionItem3: "用旅遊預算把防曬用品納入花費",
     shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給旅伴", shareCopiedToast: "已複製到剪貼簿 ✓",
     decisionPath: "決策路徑", decisionTitle: "曬傷時間 → 補擦占比 → 膚質 → SPF", bmrStep: "曬傷時間", deficitStep: "補擦占比", trendStep: "膚質", mealStep: "SPF",
-    knowledge: "知識", knowledgeTitle: "SPF 係數在防曬中的意義", definition: "定義", definitionText: "防曬係數評估是把未防護曬傷時間乘上 SPF 倍數，換算成理論有效防護時間；有效防護時間與補擦占比衡量你能在陽光下安全停留多久，是戶外防曬的核心指標。", formula: "公式", formulaText: "有效防護時間 = 未防護曬傷時間 × SPF。補擦占比 = 建議補擦間隔 ÷ 有效防護時間。膚質敏感度決定建議 SPF 下限。", limitations: "限制", limitationsText: "本工具以理論倍數估算；真實防曬效果還受塗抹量、流汗、下水、摩擦、UV 指數與膚質影響，實務上通常達不到理論值。", interpretation: "解讀", interpretationText: "有效防護時間越長越安心，但仍建議每兩小時補擦；補擦占比越高代表越需頻繁補擦，可提高 SPF 或搭配遮蔽改善。", context: "脈絡", contextText: "防曬結果應與旅遊補水、高山症風險與旅遊預算一起看，才能在戶外行程中兼顧防護與健康。", example: "範例", exampleText: "未防護曬傷 10 分鐘、SPF 30、標準膚質 → 理論有效防護約 5 小時，建議仍每兩小時補擦。",
+    knowledge: "知識", knowledgeTitle: "SPF 係數在防曬中的意義", definition: "定義", definitionText: "防曬係數評估是把未防護曬傷時間乘上 SPF 倍數，換算成理論有效防護時間；有效防護時間與補擦占比衡量您能在陽光下安全停留多久，是戶外防曬的核心指標。", formula: "公式", formulaText: "有效防護時間 = 未防護曬傷時間 × SPF。補擦占比 = 建議補擦間隔 ÷ 有效防護時間。膚質敏感度決定建議 SPF 下限。", limitations: "限制", limitationsText: "本工具以理論倍數估算；真實防曬效果還受塗抹量、流汗、下水、摩擦、UV 指數與膚質影響，實務上通常達不到理論值。", interpretation: "解讀", interpretationText: "有效防護時間越長越安心，但仍建議每兩小時補擦；補擦占比越高代表越需頻繁補擦，可提高 SPF 或搭配遮蔽改善。", context: "脈絡", contextText: "防曬結果應與旅遊補水、高山症風險與旅遊預算一起看，才能在戶外行程中兼顧防護與健康。", example: "範例", exampleText: "未防護曬傷 10 分鐘、SPF 30、標準膚質 → 理論有效防護約 5 小時，建議仍每兩小時補擦。",
     faq: "FAQ", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "防曬的下一步工具", premiumTitle: "PRO 防曬分析包", premiumText: "解鎖即時 UV 指數串接、塗抹量校正、補擦提醒與多場景防護計畫。", feat1: "即時紫外線", feat2: "用量修正", feat3: "補擦警示", feat4: "多情境",
     trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具只供戶外規劃與教育用途，不取代皮膚科醫療建議或專業防曬診斷。", relatedTools: "相關工具", relatedToolsText: "Travel Hydration · Altitude · Travel Budget · Daily Budget", references: "參考資料", referencesText: "皮膚科學會防曬建議；SPF 標準定義；UV 指數指引；戶外防護研究。",
     q1: "有效防護時間怎麼算的？", a1: "本工具以未防護曬傷時間乘上 SPF 倍數得理論防護時間；實際還受塗抹量與流汗影響，通常更短。",

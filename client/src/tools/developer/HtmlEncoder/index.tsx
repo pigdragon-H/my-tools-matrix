@@ -106,7 +106,7 @@ const ui = {
     q3: "輸入字串會被送到伺服器嗎?", a3: "不會。本工具完全在瀏覽器以 String 替換與 textarea.innerHTML→.value 完成 decode;頁面關閉後即消失。可在 DevTools Network 面板驗證:點計算後沒有任何 outbound request。",
     q4: "decode 後的結果可以直接 innerHTML 寫進頁面嗎?", a4: "不可以。decode 後的字串可能含 <script>、onclick 等危險結構;若要寫進頁面,正確做法是 element.textContent = decoded(只當文字)或先過 DOMPurify。本工具的 decode 僅還原命名實體,不做 sanitize。",
     q5: "為什麼 ' 被 encode 為 &#39; 而不是 &apos;?", a5: "&apos; 在 HTML4 並非標準命名實體(只有 XML 才標準),IE8 以下會顯示為原文字;為向下相容應使用數值參照 &#39;(或 &#x27;)。HTML5 已加入 &apos;,但業界仍沿用 &#39; 作為最廣相容寫法。",
-    q6: "可以用本工具防 XSS 嗎?", a6: "只能防 HTML 內文 context 的 XSS;若你的字串會被寫進 onclick=\"...\"、style=\"...\"、href=\"javascript:...\" 或 <script> 內,HTML escape 完全無效。完整 XSS 防護需要 CSP + DOMPurify + 框架自動 escape 三層,並在 server 端使用 autoescape 模板。",
+    q6: "可以用本工具防 XSS 嗎?", a6: "只能防 HTML 內文 context 的 XSS;若您的字串會被寫進 onclick=\"...\"、style=\"...\"、href=\"javascript:...\" 或 <script> 內,HTML escape 完全無效。完整 XSS 防護需要 CSP + DOMPurify + 框架自動 escape 三層,並在 server 端使用 autoescape 模板。",
   },
   en: {
     badge: "Developer · HTML escape · Named entities", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",

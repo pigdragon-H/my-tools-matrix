@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "健康 · 運動消耗 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "活動熱量消耗計算機 · Calorie Burn", subtitle: "用 MET、體重與運動時間估算各種活動消耗的熱量",
-    intro: "Calorie Burn Calculator 依據活動的 MET 代謝當量、體重(kg)與運動時間(分鐘)，估算該次活動消耗的熱量（公式約為 MET × 3.5 × 體重 ÷ 200 × 分鐘），幫你規劃運動量與熱量平衡。",
+    intro: "Calorie Burn Calculator 依據活動的 MET 代謝當量、體重(kg)與運動時間(分鐘)，估算該次活動消耗的熱量（公式約為 MET × 3.5 × 體重 ÷ 200 × 分鐘），幫您規劃運動量與熱量平衡。",
     trustNoteLabel: "注意事項：", trustNote: "MET 值為一般族群的平均估計；實際消耗受體能、效率、地形、強度與個人差異影響，僅供教育規劃用。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立運動消耗範例", examplePreview: "本次消耗預覽", examplePerson: "體重", fillExample: "一鍵填入標準範例", previewActivePath: "填入跑步範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入活動與時間", examplesHelper: "先用範例理解 MET 與消耗關係，再改成自己的運動、體重與時間。",

@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "電商 · 庫存營運 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "再訂購點計算機 · Reorder Point", subtitle: "用日需求、前置期與服務水準估算再訂購點與可撐天數",
-    intro: "Reorder Point Calculator 依據平均日需求、補貨前置期與服務水準，估算何時該下單的再訂購點與可撐天數，協助你避免缺貨同時不過度囤貨。",
+    intro: "Reorder Point Calculator 依據平均日需求、補貨前置期與服務水準，估算何時該下單的再訂購點與可撐天數，協助您避免缺貨同時不過度囤貨。",
     trustNoteLabel: "注意事項：", trustNote: "再訂購點受需求波動、前置期穩定度與安全庫存影響；本工具為簡化估算，實務應納入季節性、供應商交期變異與最小訂購量。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立再訂購點範例", examplePreview: "再訂購點預覽", examplePerson: "日需求", fillExample: "一鍵填入標準範例", previewActivePath: "填入長前置期範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入日需求、前置期與服務水準", examplesHelper: "先用範例理解日需求、前置期與服務水準如何決定再訂購點，再改成自己的補貨參數。",

@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "Design · 長寬比 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "長寬比計算機 · Aspect Ratio", subtitle: "用原始寬度、高度與目標寬度算出長寬比、縮放高度與匹配分數",
-    intro: "Aspect Ratio Calculator 依據原始寬度、高度與目標寬度，計算長寬比、縮放後高度與匹配分數，協助你判斷影像是否變形、該選哪種比例、是否需要裁切或留白，讓你在決定設計尺寸前就把比例與縮放算清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的像素值估算長寬比，未含 DPI 差異、子像素渲染與裝置解析度；正式輸出請以實際裝置預覽為準。",
+    intro: "Aspect Ratio Calculator 依據原始寬度、高度與目標寬度，計算長寬比、縮放後高度與匹配分數，協助您判斷影像是否變形、該選哪種比例、是否需要裁切或留白，讓您在決定設計尺寸前就把比例與縮放算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以您輸入的像素值估算長寬比，未含 DPI 差異、子像素渲染與裝置解析度；正式輸出請以實際裝置預覽為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立比例範例", examplePreview: "比例預覽", examplePerson: "原始寬度", fillExample: "一鍵填入 16:9 範例", previewActivePath: "填入 4:3 範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入原始寬度、高度與目標寬度", examplesHelper: "先用範例理解寬高如何決定長寬比與縮放高度，再改成自己的數據。",
     metric: "公制", imperial: "佔比檢視", exampleCards: "範例卡", baselineExample: "16:9 寬屏模式", activeExample: "4:3 傳統示範", baselineExampleNote: "1920 × 1080", activeExampleNote: "1024 × 768", carbsLabel: "匹配分數", carbsName: "百分比", proteinLabel: "合規分數", flowDemo: "目標寬度", calculator: "計算機",

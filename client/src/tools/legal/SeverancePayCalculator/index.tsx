@@ -35,7 +35,7 @@ const ui = {
   zh: {
     badge: "法律 · 勞動試算 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "資遣費計算機 · Severance Pay", subtitle: "依勞退新制用平均工資與年資估算資遣費與上限",
-    intro: "資遣費計算機依勞工退休金條例（新制），以平均月工資與年資估算資遣費：每滿一年發給0.5個月平均工資，未滿一年按比例計，總額以6個月為上限；亦提供舊制1個月／年的對照，協助你核對雇主給付。",
+    intro: "資遣費計算機依勞工退休金條例（新制），以平均月工資與年資估算資遣費：每滿一年發給0.5個月平均工資，未滿一年按比例計，總額以6個月為上限；亦提供舊制1個月／年的對照，協助您核對雇主給付。",
     trustNoteLabel: "注意事項：", trustNote: "新舊制基數與上限不同；本工具僅供教育與試算用途，不構成法律意見或給付憑據。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立資遣費試算範例", examplePreview: "估算資遣費預覽", examplePerson: "平均工資", fillExample: "一鍵填入新制範例", previewActivePath: "填入舊制範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入平均工資與年資", examplesHelper: "先用範例理解新制與舊制差異，再改成自己的平均工資與年資。",

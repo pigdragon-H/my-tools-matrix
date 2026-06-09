@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "AI · Automation · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "自動化節省計算機 · Savings", subtitle: "用每月任務數、每任務分鐘數與自動化程度算出月節省工時、節省金額與自動化占比",
-    intro: "Automation Savings Calculator 依據每月任務數、每任務耗時分鐘與自動化程度（部分、標準或全面），以固定時薪換算，計算每月節省工時、節省金額與自動化占比，協助你判斷某項重複工作是否值得自動化、該推進到哪種自動化程度、效益是否足以擴大，讓你在投入自動化流程前就把節省效益算清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的任務數與耗時估算節省，採固定時薪 $40 且未含建置維護、例外處理與品質複核成本；實際節省請以真實工時量測與財務數據為準。",
+    intro: "Automation Savings Calculator 依據每月任務數、每任務耗時分鐘與自動化程度（部分、標準或全面），以固定時薪換算，計算每月節省工時、節省金額與自動化占比，協助您判斷某項重複工作是否值得自動化、該推進到哪種自動化程度、效益是否足以擴大，讓您在投入自動化流程前就把節省效益算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以您輸入的任務數與耗時估算節省，採固定時薪 $40 且未含建置維護、例外處理與品質複核成本；實際節省請以真實工時量測與財務數據為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立自動化節省範例", examplePreview: "節省預覽", examplePerson: "每月任務數", fillExample: "一鍵填入標準自動化範例", previewActivePath: "填入全面自動化範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入每月任務數、每任務分鐘數與自動化程度", examplesHelper: "先用範例理解任務數與耗時如何決定節省工時與金額，再改成自己的流程數據。",
     metric: "公制", imperial: "占比檢視", exampleCards: "範例卡", baselineExample: "標準自動化模式", activeExample: "全面自動化示範", baselineExampleNote: "任務 2000 · 每任務 5 分 · 標準", activeExampleNote: "任務 2000 · 每任務 5 分 · 全面", carbsLabel: "節省金額", carbsName: "美元", proteinLabel: "自動化占比", flowDemo: "每任務分鐘", calculator: "計算機",

@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "旅遊 · 油費 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "油費計算機 · Fuel Cost", subtitle: "用行駛距離、油價與車輛油耗等級算出總油費與每百公里油費成本",
-    intro: "Fuel Cost Calculator 依據行駛距離、每公升油價與車輛油耗等級，計算整趟所需油量、總油費與每百公里油費成本，協助你判斷自駕是否划算、是否該共乘分攤、換省油車或改用大眾運輸來控制交通開銷。",
+    intro: "Fuel Cost Calculator 依據行駛距離、每公升油價與車輛油耗等級，計算整趟所需油量、總油費與每百公里油費成本，協助您判斷自駕是否划算、是否該共乘分攤、換省油車或改用大眾運輸來控制交通開銷。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以平均油耗與固定油價估算，未含怠速、塞車、空調與載重影響；正式油費以實際加油單據為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立油費範例", examplePreview: "油費預覽", examplePerson: "行駛距離", fillExample: "一鍵填入標準油費範例", previewActivePath: "填入高油耗範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入行駛距離、每公升油價與油耗等級", examplesHelper: "先用範例理解距離與油耗如何決定總油費與每公里成本，再改成自己的行程數據。",

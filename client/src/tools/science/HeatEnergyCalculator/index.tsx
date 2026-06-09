@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "Science · 熱能 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "熱能計算機 · Heat", subtitle: "用質量、溫度變化與精度等級算出熱量、相對量級與精度分數",
-    intro: "Heat Energy Calculator 依據質量、溫度變化與精度等級（粗略、標準或精密），以熱量公式 Q = m × c × ΔT（取水的比熱 c = 4.186 J/g·K）計算吸放熱、相對量級與精度分數，協助你判斷熱量是否合理、落在哪個量級、是否需要檢查單位，讓你在熱力計算與能量設計前就把熱量算清楚。",
+    intro: "Heat Energy Calculator 依據質量、溫度變化與精度等級（粗略、標準或精密），以熱量公式 Q = m × c × ΔT（取水的比熱 c = 4.186 J/g·K）計算吸放熱、相對量級與精度分數，協助您判斷熱量是否合理、落在哪個量級、是否需要檢查單位，讓您在熱力計算與能量設計前就把熱量算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以 Q = m × c × ΔT 計算，取水的比熱且假設無相變；正式熱力分析請以實際比熱、相變潛熱與標準參考資料為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立熱量範例", examplePreview: "熱量預覽", examplePerson: "質量 (g)", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
     examplesCalculator: "範例 → 計算器", enterValues: "輸入質量、溫度變化與精度等級", examplesHelper: "先用範例理解質量與溫差如何決定熱量與量級，再改成自己的熱力數據。",

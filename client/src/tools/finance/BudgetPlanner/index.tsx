@@ -33,7 +33,7 @@ const ui = {
   zh: {
     badge: "財務 · 預算規劃 · 黃金工具", switchToEnglish: "中文模式", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "Budget Planner · 預算規劃計算機", subtitle: "用 50/30/20 法則把月收入拆成需要、想要與儲蓄",
-    intro: "本工具根據月收入與 50/30/20 比例，估算每月在必要支出、彈性支出與儲蓄投資上的分配，幫助你建立清楚可執行的預算架構。",
+    intro: "本工具根據月收入與 50/30/20 比例，估算每月在必要支出、彈性支出與儲蓄投資上的分配，幫助您建立清楚可執行的預算架構。",
     trustNoteLabel: "注意事項：", trustNote: "此工具採用通用 50/30/20 比例估算；實際分配應依債務、家庭狀況與在地物價調整。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立預算範例", examplePreview: "每月儲蓄預覽", examplePerson: "標準範例", fillExample: "一鍵填入標準範例", previewActivePath: "填入高收入範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入月收入與分配比例", examplesHelper: "先用範例理解預算分配，再改成自己的數字。",

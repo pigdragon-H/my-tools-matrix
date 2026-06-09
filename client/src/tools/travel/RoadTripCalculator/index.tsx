@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "旅遊 · 公路旅行 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "公路旅行計算機 · Road Trip", subtitle: "用行駛距離、規劃天數與駕駛節奏算出單日駕駛時數與休息站占比",
-    intro: "Road Trip Calculator 依據總行駛距離、規劃天數與駕駛節奏（悠閒、標準或趕路），計算每日平均駕駛時數、建議休息站數與休息占比，協助你判斷行程是否過於疲勞、該拆成幾天、何時安排休息與輪替，讓自駕旅行安全又舒適。",
+    intro: "Road Trip Calculator 依據總行駛距離、規劃天數與駕駛節奏（悠閒、標準或趕路），計算每日平均駕駛時數、建議休息站數與休息占比，協助您判斷行程是否過於疲勞、該拆成幾天、何時安排休息與輪替，讓自駕旅行安全又舒適。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以平均車速與固定休息頻率估算，未含塞車、路況、天氣與個人狀態；實際駕駛時間請以路況與身體狀況彈性調整。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立公路範例", examplePreview: "公路預覽", examplePerson: "行駛距離", fillExample: "一鍵填入標準節奏範例", previewActivePath: "填入趕路節奏範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入行駛距離、規劃天數與駕駛節奏", examplesHelper: "先用範例理解距離與節奏如何決定單日駕駛時數與休息占比，再改成自己的行程數據。",

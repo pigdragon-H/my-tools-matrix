@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "Science · 密度 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "密度計算機 · Density", subtitle: "用質量、體積與精度等級算出密度、相對量級與精度分數",
-    intro: "Density Calculator 依據質量、體積與精度等級（粗略、標準或精密），以密度公式 ρ = m ÷ V 計算物質密度、相對量級與精度分數，協助你判斷物質密度是否合理、密度落在哪個量級、是否浮於水面或沉於水底、是否需要檢查單位，讓你在材料分析與化學計算前就把密度算清楚。",
+    intro: "Density Calculator 依據質量、體積與精度等級（粗略、標準或精密），以密度公式 ρ = m ÷ V 計算物質密度、相對量級與精度分數，協助您判斷物質密度是否合理、密度落在哪個量級、是否浮於水面或沉於水底、是否需要檢查單位，讓您在材料分析與化學計算前就把密度算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以質量除以體積做計算，假設物質均勻且溫度恆定；正式材料分析請以實際密度量測與標準參考表為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立密度範例", examplePreview: "密度預覽", examplePerson: "質量 (g)", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
     examplesCalculator: "範例 → 計算器", enterValues: "輸入質量、體積與精度等級", examplesHelper: "先用範例理解質量與體積如何決定密度與量級，再改成自己的材料數據。",

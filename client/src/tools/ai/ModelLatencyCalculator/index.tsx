@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "AI · Latency · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "模型延遲計算機 · Latency", subtitle: "用輸出 token 數、吞吐量與硬體階層算出總回應延遲、每 token 延遲與延遲分數",
-    intro: "Model Latency Calculator 依據輸出 token 數、每秒吞吐量與硬體階層（節能、標準或高速），計算模型總回應延遲、每 token 延遲與延遲分數，協助你判斷回應速度是否符合使用者期待、該選哪種硬體階層、是否需要串流輸出或縮短上下文，讓你在部署 AI 模型前就把延遲體驗算清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的吞吐量估算延遲，未含網路往返、排隊等待、首 token 延遲與批次效應；實際延遲請以真實壓力測試與監控數據為準。",
+    intro: "Model Latency Calculator 依據輸出 token 數、每秒吞吐量與硬體階層（節能、標準或高速），計算模型總回應延遲、每 token 延遲與延遲分數，協助您判斷回應速度是否符合使用者期待、該選哪種硬體階層、是否需要串流輸出或縮短上下文，讓您在部署 AI 模型前就把延遲體驗算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以您輸入的吞吐量估算延遲，未含網路往返、排隊等待、首 token 延遲與批次效應；實際延遲請以真實壓力測試與監控數據為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立延遲範例", examplePreview: "延遲預覽", examplePerson: "輸出 token 數", fillExample: "一鍵填入標準硬體範例", previewActivePath: "填入高速硬體範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入輸出 token 數、吞吐量與硬體階層", examplesHelper: "先用範例理解 token 數與吞吐量如何決定總延遲與每 token 延遲，再改成自己的部署數據。",
     metric: "公制", imperial: "占比檢視", exampleCards: "範例卡", baselineExample: "標準硬體模式", activeExample: "高速硬體示範", baselineExampleNote: "token 500 · 吞吐 50 · 標準", activeExampleNote: "token 500 · 吞吐 50 · 高速", carbsLabel: "每 token 延遲", carbsName: "毫秒", proteinLabel: "延遲分數", flowDemo: "吞吐量", calculator: "計算機",

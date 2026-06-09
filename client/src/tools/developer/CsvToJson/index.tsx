@@ -68,11 +68,11 @@ const ui = {
     example: "範例", exampleText: "若 CSV = 4 列 × 3 欄、首列為 name,age,city,輸出 JSON 會是 4 個物件的陣列,每個物件含 name(string)、age(number)、city(string);總位元組約 200 B,落在「輕量表格」band,可直接 import 到前端。",
     faq: "常見問題", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "CSV 處理的下一步工具", premiumTitle: "專業版 CSV 工具包", premiumText: "解鎖 CSV Schema 驗證、欄位型別自訂(日期/貨幣/UUID)、巨型 CSV 串流預覽、CSV ↔ Parquet 與 SQL DDL 自動產生。",
     trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具僅在瀏覽器端執行自寫 CSV 解析器,所有貼上的資料不會送到伺服器;不取代 CSV Schema 驗證、資料庫匯入或合規檢查工具。型別推斷僅作參考,正式 ETL 應以明確的 schema 定義為準。", relatedTools: "相關工具", relatedToolsText: "JSON 格式化器 · 正則表達式測試器 · 差異比對器 · Base64 編碼器", references: "參考資料", referencesText: "IETF RFC 4180 (Shafranovich, 2005) Common Format and MIME Type for Comma-Separated Values (CSV) Files;W3C 2014 CSV on the Web Working Group 規範文件;Mozilla MDN Web Docs — TextEncoder / TextDecoder 規範;Apache Commons CSV 與 Python csv 模組實作參考;DuckDB 官方文件 — read_csv_auto 自動推斷規則。",
-    q1: "為什麼我的 CSV 顯示「Invalid」?", a1: "RFC 4180 要求含逗號/換行/雙引號的欄位必須以雙引號包裹,且內部雙引號要用兩個雙引號逸出。若你的 CSV 含未配對引號、混用換行符(\\r vs \\n)或非 UTF-8 編碼,本工具可能解析失敗,錯誤訊息會標示行號。",
+    q1: "為什麼我的 CSV 顯示「Invalid」?", a1: "RFC 4180 要求含逗號/換行/雙引號的欄位必須以雙引號包裹,且內部雙引號要用兩個雙引號逸出。若您的 CSV 含未配對引號、混用換行符(\\r vs \\n)或非 UTF-8 編碼,本工具可能解析失敗,錯誤訊息會標示行號。",
     q2: "「型別推斷」會不會把我的電話號碼變成數字?", a2: "會,這是常見陷阱。本工具會把純數字字串(如 0912345678)轉成 number 並丟失前導零。若需保留為字串,請關閉型別推斷,或在 CSV 欄位前加單引號(Excel 慣例)讓它包成引號字串。",
     q3: "貼上的資料會被送到伺服器嗎?", a3: "不會。本工具完全在瀏覽器端用自寫的 RFC 4180 解析器處理;頁面關閉後資料即消失,適合處理含 PII、信用卡末四碼或商業敏感欄位的 CSV。",
     q4: "支援多大的檔案?", a4: "主要受瀏覽器記憶體限制(實務上 5–20 MB 仍可),但超過 1 萬列即建議改用 Node CLI 或 DuckDB;欄數超過 100 通常代表表格設計需要拆表(寬表 → 長表)。",
-    q5: "可以自訂分隔字元嗎?", a5: "可以。本工具支援逗號(,)、分號(;)與 Tab 三種常見分隔字元;若你的檔案是管道符號(|)或其他自訂字元,目前需要先用文字編輯器替換成支援的分隔字元。",
+    q5: "可以自訂分隔字元嗎?", a5: "可以。本工具支援逗號(,)、分號(;)與 Tab 三種常見分隔字元;若您的檔案是管道符號(|)或其他自訂字元,目前需要先用文字編輯器替換成支援的分隔字元。",
     q6: "可以用本工具做資料清理或合規檢查嗎?", a6: "不建議。本工具只處理語法解析與型別推斷,不檢查 schema、欄位敏感性或注入風險;資料清理請使用 OpenRefine、pandas 或專業 ETL 工具,合規檢查請使用 CSV Schema 驗證器或專業安全廠商服務。",
   },
   en: {

@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "Science · 莫耳濃度 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "摩爾濃度計算機 · Molarity", subtitle: "用莫耳數、體積與精度等級算出莫耳濃度、相對量級與精度分數",
-    intro: "Molarity Calculator 依據莫耳數、體積與精度等級（粗略、標準或精密），以莫耳濃度公式 M = n ÷ V 計算溶液的莫耳濃度、相對量級與精度分數，協助你判斷濃度是否合理、濃度落在哪個量級、屬於稀溶液還是濃溶液、是否需要檢查單位，讓你在配製溶液與化學計算前就把濃度算清楚。",
+    intro: "Molarity Calculator 依據莫耳數、體積與精度等級（粗略、標準或精密），以莫耳濃度公式 M = n ÷ V 計算溶液的莫耳濃度、相對量級與精度分數，協助您判斷濃度是否合理、濃度落在哪個量級、屬於稀溶液還是濃溶液、是否需要檢查單位，讓您在配製溶液與化學計算前就把濃度算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以莫耳數除以體積（公升）做計算，假設溶液均勻且溫度恆定；正式化學配製請以實際量測與標準參考表為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立濃度範例", examplePreview: "濃度預覽", examplePerson: "莫耳數 (mol)", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
     examplesCalculator: "範例 → 計算器", enterValues: "輸入莫耳數、體積與精度等級", examplesHelper: "先用範例理解莫耳數與體積如何決定濃度與量級，再改成自己的溶液數據。",

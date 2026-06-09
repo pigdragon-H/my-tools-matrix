@@ -59,7 +59,7 @@ export function PremiumTeaser({ lang }: PremiumTeaserProps) {
         text:
           data?.message ??
           (lang === "zh"
-            ? "✓ 我們會在 Premium 開放時通知你!"
+            ? "✓ 我們會在 Premium 開放時通知您!"
             : "✓ We'll notify you when Premium launches!"),
       });
       setEmail("");
@@ -98,7 +98,7 @@ export function PremiumTeaser({ lang }: PremiumTeaserProps) {
       </p>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300">
         {lang === "zh"
-          ? "Premium 方案會帶來無廣告體驗、計算紀錄、PDF 匯出、團隊協作與 API 額度,幫你把 Formula Universe 變成日常決策的延伸。"
+          ? "Premium 方案會帶來無廣告體驗、計算紀錄、PDF 匯出、團隊協作與 API 額度,幫您把 Formula Universe 變成日常決策的延伸。"
           : "Premium plans will bring an ad-free experience, calculation history, PDF export, team collaboration, and API quotas — extending Formula Universe into your everyday decision flow."}
       </p>
 

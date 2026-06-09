@@ -1,6 +1,6 @@
 const DEFAULT_TITLE = "Formula Universe｜免費線上計算工具與決策輔助平台";
 const DEFAULT_DESCRIPTION =
-  "Formula Universe提供免費線上計算工具與決策輔助服務，涵蓋財經投資、健康生活、職場效率、開發工具、電商旅遊等情境，協助你快速取得清楚可靠的試算結果。";
+  "Formula Universe提供免費線上計算工具與決策輔助服務，涵蓋財經投資、健康生活、職場效率、開發工具、電商旅遊等情境，協助您快速取得清楚可靠的試算結果。";
 
 function upsertMeta(selector: string, createAttributes: Record<string, string>, content: string) {
   if (typeof document === "undefined") return;

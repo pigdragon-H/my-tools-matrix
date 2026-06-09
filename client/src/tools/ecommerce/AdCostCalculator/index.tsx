@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "電商 · 行銷投放 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "廣告成本計算機 · Ad Cost", subtitle: "用廣告花費與營收估算 ROAS、ACoS 與每筆獲客成本",
-    intro: "Ad Cost Calculator 依據廣告花費、帶來的營收與轉換筆數，估算廣告投資報酬率 ROAS、廣告銷售比 ACoS 與每筆獲客成本 CPA，協助你判斷投放是否賺錢。",
+    intro: "Ad Cost Calculator 依據廣告花費、帶來的營收與轉換筆數，估算廣告投資報酬率 ROAS、廣告銷售比 ACoS 與每筆獲客成本 CPA，協助您判斷投放是否賺錢。",
     trustNoteLabel: "注意事項：", trustNote: "ROAS 未扣除商品成本與履約費用，僅看營收與廣告比；是否真正獲利還需納入毛利、退貨與其他變動成本。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立廣告成本範例", examplePreview: "ROAS 預覽", examplePerson: "廣告花費", fillExample: "一鍵填入標準範例", previewActivePath: "填入高投報範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入廣告花費、營收與通路", examplesHelper: "先用範例理解廣告花費與營收如何決定 ROAS，再改成自己的投放數據。",

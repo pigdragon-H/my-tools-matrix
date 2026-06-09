@@ -33,10 +33,10 @@ const ui = {
   zh: {
     badge: "健康 · 心血管 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "血壓分析器 · Blood Pressure", subtitle: "依收縮壓與舒張壓判讀血壓分級與脈壓",
-    intro: "血壓分析器依你輸入的收縮壓 (SBP) 與舒張壓 (DBP)，對照常見血壓分級（正常、偏高、第一期、第二期、危象），並計算脈壓與平均動脈壓 (MAP)，協助你理解數值意義並決定是否該就醫。",
+    intro: "血壓分析器依您輸入的收縮壓 (SBP) 與舒張壓 (DBP)，對照常見血壓分級（正常、偏高、第一期、第二期、危象），並計算脈壓與平均動脈壓 (MAP)，協助您理解數值意義並決定是否該就醫。",
     trustNoteLabel: "注意事項：", trustNote: "單次測量會受姿勢、情緒、咖啡因與時段影響；分級僅供教育參考，不可取代醫療診斷。若出現危象數值或不適，請立即就醫。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立血壓判讀範例", examplePreview: "血壓分級預覽", examplePerson: "SBP / DBP", fillExample: "一鍵填入正常範例", previewActivePath: "填入高血壓範例",
-    examplesCalculator: "範例 → 計算機", enterValues: "輸入收縮壓與舒張壓", examplesHelper: "先用範例理解分級與脈壓，再改成你自己的量測數值。",
+    examplesCalculator: "範例 → 計算機", enterValues: "輸入收縮壓與舒張壓", examplesHelper: "先用範例理解分級與脈壓，再改成您自己的量測數值。",
     metric: "mmHg", imperial: "kPa", exampleCards: "範例卡", baselineExample: "118 / 76 正常", activeExample: "146 / 94 第二期", baselineExampleNote: "正常範圍範例", activeExampleNote: "第二期高血壓範例", flowDemo: "脈壓", calculator: "計算機",
     weight: "收縮壓 SBP (mmHg)", tdee: "舒張壓 DBP (mmHg)", goal: "量測情境", goalCut: "居家靜息", goalMaintain: "診間", goalBulk: "運動後",
     resultCard: "血壓分析結果", unit: "mmHg", primaryValue: "分級", maintenanceTarget: "脈壓", actionTarget: "MAP", estimatedTdee: "等級", maintenance: "脈壓", fatLossTarget: "MAP",

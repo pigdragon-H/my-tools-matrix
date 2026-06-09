@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "旅遊 · 預算規劃 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "旅遊預算計算機 · Travel Budget", subtitle: "用天數、每日花費等級與機票成本算出整趟旅遊總預算與每日花費佔比",
-    intro: "Travel Budget Calculator 依據旅遊天數、每日花費等級與機票成本，計算整趟旅遊的總預算與每日花費佔比，協助你判斷預算是否被機票或在地花費主導、是否該調整住宿等級、縮短天數或重新規劃路線。",
+    intro: "Travel Budget Calculator 依據旅遊天數、每日花費等級與機票成本，計算整趟旅遊的總預算與每日花費佔比，協助您判斷預算是否被機票或在地花費主導、是否該調整住宿等級、縮短天數或重新規劃路線。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以每日花費等級加機票成本估算，未含簽證、保險、購物與突發支出；正式預算應以實際報價與行程細節為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立預算範例", examplePreview: "預算預覽", examplePerson: "旅遊天數", fillExample: "一鍵填入標準預算範例", previewActivePath: "填入豪華預算範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入旅遊天數、機票成本與花費等級", examplesHelper: "先用範例理解天數與等級如何決定總預算與每日佔比，再改成自己的行程數據。",
@@ -53,7 +53,7 @@ const ui = {
     trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具只供行程規劃與教育用途，不取代財務模型、旅行社報價或專業顧問建議。", relatedTools: "相關工具", relatedToolsText: "Daily Budget · Hotel Cost · Currency Converter · Travel Insurance", references: "參考資料", referencesText: "國際旅遊消費基準；OECD 旅遊統計；World Bank 物價指數；各國觀光局花費調查。",
     q1: "每日花費等級怎麼選？", a1: "依目的地物價與旅遊型態而定：背包客選經濟、一般自由行選標準、商務或度假選豪華；可用每日預算計算機細算。",
     q2: "每日花費佔比多少合理？", a2: "依目的地與天數而定，多數行程落在 55–70%；超過 90% 表示在地花費過高，長天數行程成本會快速膨脹。",
-    q3: "機票要算進預算嗎？", a3: "要。機票常是短天數行程的最大單筆支出；本工具把機票與每日花費分開計，方便你看清兩者佔比。",
+    q3: "機票要算進預算嗎？", a3: "要。機票常是短天數行程的最大單筆支出；本工具把機票與每日花費分開計，方便您看清兩者佔比。",
     q4: "經濟還是豪華等級？", a4: "經濟省成本但體驗陽春；豪華舒適但昂貴。應依預算上限與旅遊目的取捨，用住宿成本計算機評估差異。",
     q5: "預算太高怎麼降？", a5: "降低住宿等級、縮短天數、選平價目的地、提早訂機票，或避開旺季與匯率高點分攤花費。",
     q6: "這個工具能取代旅行社報價嗎？", a6: "不能。它只是快速估算與教育用途；正式預算應以實際報價與行程細節為準。",

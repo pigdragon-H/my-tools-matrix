@@ -32,10 +32,10 @@ const ui = {
   zh: {
     badge: "健康 · 孕期管理 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "懷孕週數計算機 · Pregnancy Week", subtitle: "依末次月經推算懷孕週數、孕期階段與預產期",
-    intro: "懷孕週數計算機以末次月經第一天 (LMP) 為基準，依 Naegele 法則推算目前懷孕週數與天數、所在孕期，以及預產期 (EDD = LMP + 280 天)，協助你掌握孕程進度。",
+    intro: "懷孕週數計算機以末次月經第一天 (LMP) 為基準，依 Naegele 法則推算目前懷孕週數與天數、所在孕期，以及預產期 (EDD = LMP + 280 天)，協助您掌握孕程進度。",
     trustNoteLabel: "注意事項：", trustNote: "以 LMP 推算假設 28 天規律週期；實際週數應以超音波與產檢為準。本工具僅供教育參考，不取代專業產科照護。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立孕期推算範例", examplePreview: "目前週數預覽", examplePerson: "末次月經", fillExample: "一鍵填入範例", previewActivePath: "改用較早 LMP",
-    examplesCalculator: "範例 → 計算機", enterValues: "輸入末次月經日期", examplesHelper: "先用範例理解週數與預產期推算，再改成你自己的末次月經日期。",
+    examplesCalculator: "範例 → 計算機", enterValues: "輸入末次月經日期", examplesHelper: "先用範例理解週數與預產期推算，再改成您自己的末次月經日期。",
     metric: "末次月經 (LMP)", imperial: "週期長度", exampleCards: "範例卡", baselineExample: "LMP 10 週前", activeExample: "LMP 24 週前", weeksLabel: "週數", baselineExampleNote: "第一孕期範例", activeExampleNote: "第二孕期範例", flowDemo: "預產期", calculator: "計算機",
     weight: "末次月經第一天", tdee: "平均週期 (天)", goal: "推算方式", goalCut: "用末次月經", goalMaintain: "—", goalBulk: "—",
     resultCard: "懷孕週數結果", unit: "週 + 天", primaryValue: "孕期", maintenanceTarget: "預產期", actionTarget: "已過天數", estimatedTdee: "孕期", maintenance: "EDD", fatLossTarget: "Days",

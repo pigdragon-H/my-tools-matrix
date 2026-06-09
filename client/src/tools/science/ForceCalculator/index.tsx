@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "Science · 力學 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "力學計算機 · Force", subtitle: "用質量、加速度與精度等級算出作用力、相對量級與精度分數",
-    intro: "Force Calculator 依據質量、加速度與精度等級（粗略、標準或精密），以牛頓第二定律 F = m × a 計算作用力、相對量級與精度分數，協助你判斷物體受力是否合理、力的大小落在哪個量級、是否需要改用科學記號或檢查單位，讓你在物理計算與工程分析前就把受力算清楚。",
+    intro: "Force Calculator 依據質量、加速度與精度等級（粗略、標準或精密），以牛頓第二定律 F = m × a 計算作用力、相對量級與精度分數，協助您判斷物體受力是否合理、力的大小落在哪個量級、是否需要改用科學記號或檢查單位，讓您在物理計算與工程分析前就把受力算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以牛頓第二定律做線性計算，未含摩擦力、空氣阻力與相對論效應；正式工程分析請以完整力學模型與實測數據為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立受力範例", examplePreview: "受力預覽", examplePerson: "質量 (kg)", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
     examplesCalculator: "範例 → 計算器", enterValues: "輸入質量、加速度與精度等級", examplesHelper: "先用範例理解質量與加速度如何決定作用力與量級，再改成自己的物理數據。",

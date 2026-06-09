@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "AI · API 成本 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "AI API 成本估算器 · API Cost", subtitle: "用輸入 token、輸出 token 與輸出計價倍率估算整月 API 總成本與每呼叫成本",
-    intro: "AI API Cost Estimator 依據每次呼叫的輸入 token 數、輸出 token 數與輸出計價倍率（經濟、標準或旗艦），把輸入與輸出分開計價，算出整月 API 總成本、每呼叫成本與輸出成本占比，協助你判斷預算是否合理、輸出是否太長、是否該截斷回應或改用較便宜模型，讓你在串接任何 AI API 前就把輸入輸出花費算清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以輸入單價 $1/百萬與你設定的輸出倍率估算，未含各家最新調價、快取折扣與批次 API 折扣；實際費用請以各 AI 供應商官方計價頁為準。",
+    intro: "AI API Cost Estimator 依據每次呼叫的輸入 token 數、輸出 token 數與輸出計價倍率（經濟、標準或旗艦），把輸入與輸出分開計價，算出整月 API 總成本、每呼叫成本與輸出成本占比，協助您判斷預算是否合理、輸出是否太長、是否該截斷回應或改用較便宜模型，讓您在串接任何 AI API 前就把輸入輸出花費算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以輸入單價 $1/百萬與您設定的輸出倍率估算，未含各家最新調價、快取折扣與批次 API 折扣；實際費用請以各 AI 供應商官方計價頁為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立 API 範例", examplePreview: "成本預覽", examplePerson: "輸入 token", fillExample: "一鍵填入標準範例", previewActivePath: "填入旗艦輸出範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入 輸入 token、輸出 token 與輸出倍率", examplesHelper: "先用範例理解輸入輸出 token 與倍率如何決定總成本與每呼叫成本，再改成自己的用量數據。",
     metric: "公制", imperial: "占比檢視", exampleCards: "範例卡", baselineExample: "標準輸出模式", activeExample: "旗艦輸出示範", baselineExampleNote: "輸入 800 · 輸出 200 · 標準", activeExampleNote: "輸入 800 · 輸出 200 · 旗艦", carbsLabel: "每呼叫成本", carbsName: "美分", proteinLabel: "輸出成本占比", flowDemo: "輸出 token", calculator: "計算機",

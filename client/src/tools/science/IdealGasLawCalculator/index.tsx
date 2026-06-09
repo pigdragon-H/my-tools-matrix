@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "Science · 理想氣體 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "理想氣體定律計算機 · Ideal Gas", subtitle: "用莫耳數、體積與精度等級算出壓力、相對量級與精度分數",
-    intro: "Ideal Gas Law Calculator 依據莫耳數、體積與精度等級（粗略、標準或精密），以理想氣體定律 P = nRT ÷ V（取 R = 0.0821、T = 273.15 K）計算氣體壓力、相對量級與精度分數，協助你判斷壓力是否合理、落在哪個量級、是否需要檢查單位，讓你在化學計算與製程設計前就把壓力算清楚。",
+    intro: "Ideal Gas Law Calculator 依據莫耳數、體積與精度等級（粗略、標準或精密），以理想氣體定律 P = nRT ÷ V（取 R = 0.0821、T = 273.15 K）計算氣體壓力、相對量級與精度分數，協助您判斷壓力是否合理、落在哪個量級、是否需要檢查單位，讓您在化學計算與製程設計前就把壓力算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以 P = nRT ÷ V 在標準溫度下計算，假設氣體為理想氣體；正式製程分析請以實際溫度、壓縮係數與標準參考資料為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立壓力範例", examplePreview: "壓力預覽", examplePerson: "莫耳數 (mol)", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
     examplesCalculator: "範例 → 計算器", enterValues: "輸入莫耳數、體積與精度等級", examplesHelper: "先用範例理解莫耳數與體積如何決定壓力與量級，再改成自己的氣體數據。",

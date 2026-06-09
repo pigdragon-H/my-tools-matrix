@@ -35,7 +35,7 @@ const ui = {
     intro: "排卵日計算機以末次月經第一天 (LMP) 與平均週期長度，推算預估排卵日（約下次月經前 14 天）、易孕窗口（排卵前 5 天至後 1 天）與下次月經日，協助備孕或經期規劃。",
     trustNoteLabel: "注意事項：", trustNote: "推算假設黃體期約 14 天且週期規律；實際排卵會因壓力、疾病與荷爾蒙變化而提前或延後。本工具僅供教育與規劃參考，不可作為避孕依據。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立排卵推算範例", examplePreview: "排卵日預覽", examplePerson: "末次月經", fillExample: "一鍵填入範例", previewActivePath: "改用較長週期",
-    examplesCalculator: "範例 → 計算機", enterValues: "輸入末次月經與週期", examplesHelper: "先用範例理解排卵與易孕窗口推算，再改成你自己的數值。",
+    examplesCalculator: "範例 → 計算機", enterValues: "輸入末次月經與週期", examplesHelper: "先用範例理解排卵與易孕窗口推算，再改成您自己的數值。",
     metric: "末次月經 (LMP)", imperial: "週期長度", exampleCards: "範例卡", baselineExample: "28 天規律週期", activeExample: "32 天較長週期", ovulateLabel: "排卵", baselineExampleNote: "約在第 14 天排卵", activeExampleNote: "約在第 18 天排卵", flowDemo: "易孕窗口", calculator: "計算機",
     weight: "末次月經第一天", tdee: "平均週期 (天)", goal: "推算方式", goalCut: "用末次月經", goalMaintain: "—", goalBulk: "—",
     resultCard: "排卵推算結果", unit: "排卵日", primaryValue: "週期", maintenanceTarget: "易孕起", actionTarget: "下次月經", estimatedTdee: "週期", maintenance: "Fertile", fatLossTarget: "Period",

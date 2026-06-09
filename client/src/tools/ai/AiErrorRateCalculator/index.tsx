@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "AI · Error Rate · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "AI 錯誤率計算機 · Error Rate", subtitle: "用總請求數、錯誤率與重試策略算出失敗請求數、重試成本與可靠度分數",
-    intro: "AI Error Rate Calculator 依據月總請求數、錯誤率與重試策略（保守、標準或積極），計算每月失敗請求數、重試額外成本與可靠度分數，協助你判斷服務穩定度是否達標、該採哪種重試與降級策略、是否需要加上輸出驗證與後備路徑，讓你在擴大 AI 服務前就把失敗成本算清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的平均錯誤率估算失敗與重試成本，未含錯誤類型分布、速率限制、超時退避與下游連鎖失敗；實際可靠度請以真實監控與事故報告為準。",
+    intro: "AI Error Rate Calculator 依據月總請求數、錯誤率與重試策略（保守、標準或積極），計算每月失敗請求數、重試額外成本與可靠度分數，協助您判斷服務穩定度是否達標、該採哪種重試與降級策略、是否需要加上輸出驗證與後備路徑，讓您在擴大 AI 服務前就把失敗成本算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以您輸入的平均錯誤率估算失敗與重試成本，未含錯誤類型分布、速率限制、超時退避與下游連鎖失敗；實際可靠度請以真實監控與事故報告為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立錯誤率範例", examplePreview: "可靠度預覽", examplePerson: "月總請求數", fillExample: "一鍵填入標準重試範例", previewActivePath: "填入積極重試範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入月總請求數、錯誤率與重試策略", examplesHelper: "先用範例理解請求數與錯誤率如何決定失敗數與重試成本，再改成自己的服務數據。",
     metric: "公制", imperial: "占比檢視", exampleCards: "範例卡", baselineExample: "標準重試模式", activeExample: "積極重試示範", baselineExampleNote: "請求 100000 · 錯誤 3% · 標準", activeExampleNote: "請求 100000 · 錯誤 3% · 積極", carbsLabel: "重試成本", carbsName: "美元", proteinLabel: "可靠度分數", flowDemo: "錯誤率", calculator: "計算機",

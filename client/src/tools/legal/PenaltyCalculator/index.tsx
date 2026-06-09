@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "法律 · 契約試算 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "違約金計算機 · Penalty Calculator", subtitle: "用合約金額、違約金率與逾期天數估算違約金與酌減後金額",
-    intro: "違約金計算機依合約金額、約定違約金率（每日或固定比例）與逾期天數，估算應付違約金總額，並提供法院酌減後的合理金額參考，協助你在協商或訴訟前先建立量化基準。",
+    intro: "違約金計算機依合約金額、約定違約金率（每日或固定比例）與逾期天數，估算應付違約金總額，並提供法院酌減後的合理金額參考，協助您在協商或訴訟前先建立量化基準。",
     trustNoteLabel: "注意事項：", trustNote: "違約金率與酌減幅度依約定與個案差異而不同；本工具僅供教育與試算用途，不構成法律意見。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立違約金試算範例", examplePreview: "估算違約金預覽", examplePerson: "合約金額", fillExample: "一鍵填入標準範例", previewActivePath: "填入高額違約範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入合約金額與違約金率", examplesHelper: "先用範例理解違約金與酌減關係，再改成自己的合約金額、違約金率與逾期天數。",

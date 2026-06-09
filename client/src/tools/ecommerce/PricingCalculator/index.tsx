@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "電商 · 定價策略 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "定價計算機 · Pricing Calculator", subtitle: "用成本與加價率算出建議售價、毛利率與單件利潤",
-    intro: "Pricing Calculator 依據商品成本與加價率，計算建議售價、毛利率與單件利潤，協助你在保有競爭力的同時守住健康毛利，避免售價過低吃掉利潤或過高流失訂單。",
+    intro: "Pricing Calculator 依據商品成本與加價率，計算建議售價、毛利率與單件利潤，協助您在保有競爭力的同時守住健康毛利，避免售價過低吃掉利潤或過高流失訂單。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以單件成本與加價率估算，未含平台抽成、金流手續費與退貨損耗；正式定價應再扣除這些變動成本後評估真實淨利。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立定價範例", examplePreview: "售價預覽", examplePerson: "單件成本", fillExample: "一鍵填入標準範例", previewActivePath: "填入溢價定價範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入成本、加價率與定價策略", examplesHelper: "先用範例理解成本與加價率如何決定售價與毛利，再改成自己的商品數據。",

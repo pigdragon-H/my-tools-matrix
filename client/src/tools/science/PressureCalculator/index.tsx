@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "Science · 壓力 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "壓力計算機 · Pressure", subtitle: "用受力、面積與精度等級算出壓力、相對量級與精度分數",
-    intro: "Pressure Calculator 依據受力、面積與精度等級（粗略、標準或精密），以壓力公式 P = F ÷ A 計算壓力、相對量級與精度分數，協助你判斷壓力是否合理、壓力落在哪個量級、屬於低壓還是高壓、是否需要檢查單位，讓你在材料受力與工程分析前就把壓力算清楚。",
+    intro: "Pressure Calculator 依據受力、面積與精度等級（粗略、標準或精密），以壓力公式 P = F ÷ A 計算壓力、相對量級與精度分數，協助您判斷壓力是否合理、壓力落在哪個量級、屬於低壓還是高壓、是否需要檢查單位，讓您在材料受力與工程分析前就把壓力算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以受力除以受力面積做計算，假設受力均勻分布且垂直作用；正式工程分析請以實際量測與標準參考為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立壓力範例", examplePreview: "壓力預覽", examplePerson: "受力 (N)", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
     examplesCalculator: "範例 → 計算器", enterValues: "輸入受力、面積與精度等級", examplesHelper: "先用範例理解受力與面積如何決定壓力與量級，再改成自己的受力數據。",

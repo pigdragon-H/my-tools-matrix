@@ -33,7 +33,7 @@ const ui = {
   zh: {
     badge: "職場效率 · 番茄鐘排程 · 黃金工具", switchToEnglish: "English mode", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "Pomodoro Planner · 番茄鐘日程規劃器", subtitle: "把可用工作時數轉成具體的專注循環、休息與產出預估",
-    intro: "本工具根據你今天可投入的工作時數、單次專注時長、短休與長休安排，估算可完成的番茄鐘循環數、總專注分鐘與休息分鐘，並提供六格節奏判讀，幫助你規劃可持續的深度工作日。",
+    intro: "本工具根據您今天可投入的工作時數、單次專注時長、短休與長休安排，估算可完成的番茄鐘循環數、總專注分鐘與休息分鐘，並提供六格節奏判讀，幫助您規劃可持續的深度工作日。",
     trustNoteLabel: "注意事項：", trustNote: "本工具為時間規劃輔助；實際產出取決於任務難度、精神狀態與被中斷次數，請保留 10–20% 的彈性緩衝。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立番茄鐘日程範例", examplePreview: "今日循環數預覽", examplePerson: "標準範例", fillExample: "一鍵填入標準範例", previewActivePath: "填入深度工作範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入可工作時數與循環設定", examplesHelper: "先用範例理解番茄鐘排程的算法,再改成自己的時間。",
@@ -41,7 +41,7 @@ const ui = {
     availableHours: "今日可投入時數", focusMinutes: "單次專注時長(分鐘)", breakMinutes: "短休時長(分鐘)", longBreakAfter: "幾個循環後長休",
     resultCard: "番茄鐘日程結果", unit: "今日可完成循環數", primaryValue: "主要數值", maintenanceTarget: "今日循環數", actionTarget: "總專注分鐘", estimatedTdee: "今日循環數", maintenance: "循環", fatLossTarget: "總專注分鐘",
     cyclesToday: "今日循環數", focusTotal: "總專注分鐘", breakTotal: "總休息分鐘", deepRatio: "深度專注佔比", weeklyProjection: "週度預估循環數",
-    resultIntelligence: "結果解讀", tdeeMatrix: "六格番茄鐘節奏判讀矩陣", tdeeMatrixNote: "L7 固定六格,將你今日的循環數放進常見節奏區間;這是排程參考,不是醫療或心理建議。",
+    resultIntelligence: "結果解讀", tdeeMatrix: "六格番茄鐘節奏判讀矩陣", tdeeMatrixNote: "L7 固定六格,將您今日的循環數放進常見節奏區間;這是排程參考,不是醫療或心理建議。",
     emotionConversionLayer: "情緒與轉換層", turnIntoPlan: "把番茄鐘節奏轉成可執行行動", conversionNote: "L9 會連動目前計算結果,顯示循環數、專注分鐘與休息分鐘,協助判斷是否需要分拆任務、加入長休或改為兩日排程。",
     progressInsight: "進度洞察卡", possibleTarget: "今日番茄鐘排程", dailyGap: "週度循環數", weeklyTrend: "今日循環數", motivation: "動力卡", keepMomentum: "從一日節奏走向穩定追蹤",
     saveShareJourney: "儲存 / 分享", journeyTitle: "把今天的排程帶回家", journeyHint: "每次調整可工作時數、會議量或任務重點時重新計算,追蹤週度循環數是否穩定上升。",

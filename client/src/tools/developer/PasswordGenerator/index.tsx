@@ -109,8 +109,8 @@ const ui = {
     q1: "為什麼選了某些字元集後產生不出密碼?", a1: "若四個字元集合(小寫/大寫/數字/符號)全部被取消勾選,字元集大小變 0,無法產生密碼。請至少勾一個集合;熵公式中 N 必須 ≥ 2 才有意義(否則沒有不確定性)。",
     q2: "Web Crypto 跟 Math.random() 差在哪?", a2: "Math.random() 採偽隨機(Mersenne Twister 等),對攻擊者可預測,絕不可用於產生密碼。Web Crypto 的 crypto.getRandomValues() 是密碼學安全 PRNG,符合 W3C Web Cryptography API 規範,瀏覽器底層通常接 OS 熵池(/dev/urandom 或 CryptoAPI)。本工具強制使用後者。",
     q3: "產生的密碼會被送到伺服器嗎?", a3: "不會。本工具完全在瀏覽器端產生密碼;頁面關閉後密碼即從 React state 消失。建議:產出後立刻貼進 password manager(1Password、Bitwarden、KeePass),不要留在瀏覽器歷史或剪貼簿過久。",
-    q4: "Shannon 熵高就一定安全嗎?", a4: "不一定。Shannon 熵假設字元等機率隨機,但若密碼是 \"P@ssw0rd1234567890\"(看起來有 18 字)在字典攻擊下幾秒就破。本工具產出的是真隨機,可信任 Shannon 熵;但若你手動編密碼,需另外用 zxcvbn 等字典評分工具。",
-    q5: "為什麼 12 字符串說熵只有 71 bit,但有些工具說 80 bit?", a5: "差在字元集大小估計。12 × log₂(62) ≈ 71;12 × log₂(94) ≈ 79。本工具按你勾選的集合精算 N;若工具預設「全 ASCII 可印 = 94」會給高估。實際威脅模型應用最差情況(攻擊者知道你的字元集)估算。",
+    q4: "Shannon 熵高就一定安全嗎?", a4: "不一定。Shannon 熵假設字元等機率隨機,但若密碼是 \"P@ssw0rd1234567890\"(看起來有 18 字)在字典攻擊下幾秒就破。本工具產出的是真隨機,可信任 Shannon 熵;但若您手動編密碼,需另外用 zxcvbn 等字典評分工具。",
+    q5: "為什麼 12 字符串說熵只有 71 bit,但有些工具說 80 bit?", a5: "差在字元集大小估計。12 × log₂(62) ≈ 71;12 × log₂(94) ≈ 79。本工具按您勾選的集合精算 N;若工具預設「全 ASCII 可印 = 94」會給高估。實際威脅模型應用最差情況(攻擊者知道您的字元集)估算。",
     q6: "可以用本工具做正式密碼政策稽核嗎?", a6: "不建議。本工具只做熵值計算,不檢查 MFA、速率限制、密碼歷史、HIBP 比對、credential stuffing 偵測。正式稽核請使用 BeyondTrust、Microsoft Entra Password Protection,或委由 IAM/Security 團隊。",
   },
   en: {

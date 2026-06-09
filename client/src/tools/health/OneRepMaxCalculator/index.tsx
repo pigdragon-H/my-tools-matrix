@@ -43,7 +43,7 @@ const ui = {
   zh: {
     badge: "健康 · 運動規劃 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "一次最大重量計算機 · One-Rep Max", subtitle: "用舉起重量與反覆次數估算 1RM 與各強度訓練重量",
-    intro: "One-Rep Max Calculator 依據你舉起的重量(kg)與反覆次數(reps)，以 Epley、Brzycki 或 Lombardi 公式估算最大單次重量(1RM)，並換算 60%~95% 強度對應的訓練重量與建議反覆次數，協助安排肌力與肌肥大課表。",
+    intro: "One-Rep Max Calculator 依據您舉起的重量(kg)與反覆次數(reps)，以 Epley、Brzycki 或 Lombardi 公式估算最大單次重量(1RM)，並換算 60%~95% 強度對應的訓練重量與建議反覆次數，協助安排肌力與肌肥大課表。",
     trustNoteLabel: "注意事項：", trustNote: "1RM 為估算值，reps 越多誤差越大（建議用 ≤10 下的組數估算）；嘗試真實 1RM 應有充分熱身、保護者與正確姿勢，避免受傷。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立 1RM 範例", examplePreview: "1RM 預覽", examplePerson: "重量", fillExample: "一鍵填入標準範例", previewActivePath: "填入 Brzycki 範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入重量、次數與公式", examplesHelper: "先用範例理解 1RM 與訓練強度換算，再改成自己的訓練數據。",

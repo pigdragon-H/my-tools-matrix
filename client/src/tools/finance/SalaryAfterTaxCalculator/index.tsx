@@ -54,8 +54,8 @@ function calcFederalTax(taxable: number): number {
 const ui = {
   zh: {
     badge: "財務 · 薪資稅務 · 黃金工具", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
-    title: "Salary After Tax Calculator · 稅後薪資計算機", subtitle: "計算你的實際到手薪資與有效稅率",
-    intro: "本工具根據你的年薪、州稅率與扣除額，估算聯邦稅、州稅、社會安全稅與醫療保險稅，得出實際到手薪資與有效稅率。",
+    title: "Salary After Tax Calculator · 稅後薪資計算機", subtitle: "計算您的實際到手薪資與有效稅率",
+    intro: "本工具根據您的年薪、州稅率與扣除額，估算聯邦稅、州稅、社會安全稅與醫療保險稅，得出實際到手薪資與有效稅率。",
     trustNoteLabel: "注意事項：", trustNote: "本工具使用簡化版 2024 美國單身聯邦稅率表；實際稅務因州法、家庭狀況與扣除項目而異。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立稅後薪資範例", examplePreview: "稅率預覽", examplePerson: "標準範例", fillExample: "一鍵填入標準範例", previewActivePath: "填入高薪範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入薪資與稅務資訊", examplesHelper: "先用範例理解稅後薪資計算，再改成自己的數字。",
@@ -68,7 +68,7 @@ const ui = {
     emotionConversionLayer: "情緒與轉換層", turnIntoPlan: "把稅後薪資盤點轉成可行計畫", conversionNote: "L9 會連動目前計算結果，顯示有效稅率、月到手薪資與儲蓄提示。",
     progressInsight: "進度洞察卡", possibleTarget: "目前稅後薪資計畫", dailyGap: "總稅額", weeklyTrend: "有效稅率", motivation: "動力卡", keepMomentum: "從稅後薪資盤點走向穩定追蹤",
     saveShareJourney: "儲存 / 分享", journeyTitle: "把今天的稅後薪資盤點帶回家", journeyHint: "每年報稅季重新計算一次，追蹤有效稅率變化。",
-    nextActionLabel: "下一步行動", nextActionTitle: "將結果接到下一個工具", nextActionItem1: "用時薪計算機了解你的真實時薪", nextActionItem2: "用預算比例計算機規劃到手薪資分配", nextActionItem3: "用淨資產計算機檢視整體財務健康",
+    nextActionLabel: "下一步行動", nextActionTitle: "將結果接到下一個工具", nextActionItem1: "用時薪計算機了解您的真實時薪", nextActionItem2: "用預算比例計算機規劃到手薪資分配", nextActionItem3: "用淨資產計算機檢視整體財務健康",
     shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給朋友", shareCopiedToast: "已複製到剪貼簿 ✓",
     decisionPath: "決策路徑", decisionTitle: "稅後薪資 → 時薪 → 預算比例 → 淨資產", bmrStep: "稅後薪資", deficitStep: "時薪", trendStep: "預算比例", mealStep: "淨資產",
     knowledge: "知識", knowledgeTitle: "稅後薪資在財務規劃中的意義", definition: "定義", definitionText: "稅後薪資是扣除所有強制稅費後的實際到手收入，包括聯邦所得稅、州所得稅、社會安全稅與醫療保險稅。",

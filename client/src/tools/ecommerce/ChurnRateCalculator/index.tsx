@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "電商 · 客戶流失 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "流失率計算機 · Churn Rate", subtitle: "用流失客戶數與期初客戶數算出流失率與留存率",
-    intro: "Churn Rate Calculator 依據期間流失客戶數與期初客戶數，計算客戶流失率與留存率，協助你判斷留存是否漏水、流失是否抵銷新增成長，並把流失連動到 MRR、LTV 與獲客成本的整體單位經濟。",
+    intro: "Churn Rate Calculator 依據期間流失客戶數與期初客戶數，計算客戶流失率與留存率，協助您判斷留存是否漏水、流失是否抵銷新增成長，並把流失連動到 MRR、LTV 與獲客成本的整體單位經濟。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以流失客戶數除以期初客戶數估算客戶流失率，未區分自願/非自願流失與收入流失差異；正式留存分析應以同期群與收入流失為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立流失範例", examplePreview: "流失預覽", examplePerson: "流失客戶數", fillExample: "一鍵填入標準流失範例", previewActivePath: "填入高流失範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入流失客戶數、期初客戶數與客群", examplesHelper: "先用範例理解流失與期初如何決定流失率，再改成自己的留存數據。",

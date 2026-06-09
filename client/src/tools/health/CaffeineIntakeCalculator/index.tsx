@@ -37,10 +37,10 @@ const ui = {
   zh: {
     badge: "健康 · 飲食 · 咖啡因 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "咖啡因攝取計算機 · Caffeine Planner", subtitle: "輸入每日各種飲品杯數，估算咖啡因總攝取量與安全占比",
-    intro: "Caffeine Calculator 依據每日咖啡、濃縮、茶、能量飲與可樂的份數，乘以各飲品平均咖啡因含量，估算每日咖啡因總攝取量（毫克），並對照成人 400mg 上限與你的體重安全參考值。",
+    intro: "Caffeine Calculator 依據每日咖啡、濃縮、茶、能量飲與可樂的份數，乘以各飲品平均咖啡因含量，估算每日咖啡因總攝取量（毫克），並對照成人 400mg 上限與您的體重安全參考值。",
     trustNoteLabel: "注意事項：", trustNote: "每份咖啡因為平均值，實際依品牌、沖泡與杯量而異；對咖啡因敏感者標準更低。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立咖啡因攝取範例", examplePreview: "每日咖啡因預覽", examplePerson: "標準範例", fillExample: "一鍵填入標準範例", previewActivePath: "填入重度範例",
-    examplesCalculator: "範例 → 計算機", enterValues: "輸入各飲品杯數與體重", examplesHelper: "先用範例理解咖啡因加總算法，再改成你自己的每日飲用習慣。",
+    examplesCalculator: "範例 → 計算機", enterValues: "輸入各飲品杯數與體重", examplesHelper: "先用範例理解咖啡因加總算法，再改成您自己的每日飲用習慣。",
     metric: "公制 (mg/kg)", imperial: "對照表 (mg/份)", exampleCards: "範例卡", baselineExample: "2 咖啡 + 1 茶 · 70kg", activeExample: "重度攝取示範", adultCapLabel: "成人上限", totalLabel: "總計", baselineExampleNote: "2 咖啡 + 1 茶 · 70 kg", activeExampleNote: "3 咖啡 + 1 濃縮 + 1 茶 + 1 能量飲 + 1 可樂", flowDemo: "70 kg", calculator: "計算機",
     weight: "體重 (kg)", tdee: "咖啡（杯·95mg）", goal: "茶（杯·47mg）", goalCut: "咖啡", goalMaintain: "茶", goalBulk: "能量飲",
     coffeeLabel: "咖啡（杯·95mg）", espressoLabel: "濃縮（份·63mg）", teaLabel: "茶（杯·47mg）", energyLabel: "能量飲（罐·80mg）", colaLabel: "可樂（罐·34mg）",

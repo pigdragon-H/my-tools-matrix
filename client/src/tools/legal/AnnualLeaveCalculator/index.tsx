@@ -48,7 +48,7 @@ const ui = {
   zh: {
     badge: "法律 · 勞動試算 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "特休假計算機 · Annual Leave", subtitle: "依勞基法第38條用年資估算特別休假天數與未休工資",
-    intro: "特休假計算機依勞動基準法第38條，以到職年資估算每年應有的特別休假天數（滿6個月3日、滿1年7日，逐級遞增至滿10年起每年加1日、上限30日），並可換算未休特休應折發的工資，協助你核對權益。",
+    intro: "特休假計算機依勞動基準法第38條，以到職年資估算每年應有的特別休假天數（滿6個月3日、滿1年7日，逐級遞增至滿10年起每年加1日、上限30日），並可換算未休特休應折發的工資，協助您核對權益。",
     trustNoteLabel: "注意事項：", trustNote: "特休天數依年資級距而定，未休折算依日薪計；本工具僅供教育與試算用途，不構成法律意見。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立特休試算範例", examplePreview: "估算特休天數預覽", examplePerson: "年資", fillExample: "一鍵填入5年範例", previewActivePath: "填入10年以上範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入年資與日薪", examplesHelper: "先用範例理解年資與特休天數的階梯關係，再改成自己的年資、日薪與計算模式。",

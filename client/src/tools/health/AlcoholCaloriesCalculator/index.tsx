@@ -44,10 +44,10 @@ const ui = {
   zh: {
     badge: "健康 · 飲食營養 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "酒精卡路里計算機 · Alcohol Calories", subtitle: "用份量、酒精濃度與糖分估算一杯飲品的總熱量",
-    intro: "Alcohol Calories Calculator 依據份量(ml)、酒精濃度(ABV%)與糖分(g)，估算一杯飲品的總熱量（酒精熱量＋糖分熱量），並換算純酒精克數，幫你把「液體卡路里」算清楚。",
+    intro: "Alcohol Calories Calculator 依據份量(ml)、酒精濃度(ABV%)與糖分(g)，估算一杯飲品的總熱量（酒精熱量＋糖分熱量），並換算純酒精克數，幫您把「液體卡路里」算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "估算採用乙醇 7 kcal/g、密度 0.789 g/ml，糖分為概略值；個別品牌與配方會影響實際熱量，過量飲酒有害健康。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立酒精熱量範例", examplePreview: "單杯熱量預覽", examplePerson: "份量", fillExample: "一鍵填入啤酒範例", previewActivePath: "填入調酒範例",
-    examplesCalculator: "範例 → 計算機", enterValues: "輸入份量、酒精濃度與糖分", examplesHelper: "先用範例理解酒精與糖分如何形成熱量，再改成你自己的飲品數據。",
+    examplesCalculator: "範例 → 計算機", enterValues: "輸入份量、酒精濃度與糖分", examplesHelper: "先用範例理解酒精與糖分如何形成熱量，再改成您自己的飲品數據。",
     metric: "啤酒 / 葡萄酒", imperial: "烈酒 / 調酒", exampleCards: "範例卡", baselineExample: "啤酒 355 ml · 5%", activeExample: "調酒 200 ml · 15%", totalLabel: "總計", baselineExampleNote: "啤酒 · 355 ml · 5% · 13 g", activeExampleNote: "雞尾酒 · 200 ml · 15% · 25 g", flowDemo: "ABV", calculator: "計算機",
     weight: "份量 (ml)", tdee: "酒精濃度 ABV (%)", goal: "糖分 (g)", goalCut: "啤酒", goalMaintain: "葡萄酒", goalBulk: "烈酒",
     resultCard: "酒精熱量估算結果", unit: "kcal/杯", primaryValue: "純酒精", maintenanceTarget: "酒精熱量 (kcal)", actionTarget: "糖分熱量 (kcal)", estimatedTdee: "純酒精克數", maintenance: "酒精", fatLossTarget: "糖分", gramsLabel: "公克",

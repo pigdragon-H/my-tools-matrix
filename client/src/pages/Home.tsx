@@ -106,7 +106,7 @@ const flashBannerSlides: FlashBannerSlide[] = [
   {
     eyebrow: { zh: "機會情報 · 時令鮮味", en: "Opportunity Intelligence · Fresh Catch" },
     title: { zh: "每天上桌的變現機會", en: "Daily monetization opportunities" },
-    slogan: { zh: "全球經濟新聞與變現點子的情報流，AI 持續彙整，幫你抓住下一個機會。", en: "A signal stream of global economic news and monetization ideas, continuously curated by AI." },
+    slogan: { zh: "全球經濟新聞與變現點子的情報流，AI 持續彙整，幫您抓住下一個機會。", en: "A signal stream of global economic news and monetization ideas, continuously curated by AI." },
     description: { zh: "從 X、Reddit 到產業新聞，鮮味即時上桌；企業整廠輸出媒合也已預留座位。", en: "From X and Reddit to industry news, served fresh; enterprise turnkey matchmaking is reserved too." },
     accent: "from-amber-500 to-yellow-300",
     visual: "SIGNAL · IDEA · MATCH",
@@ -499,7 +499,7 @@ export default function Home() {
         <div className="container py-16 md:py-20">
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="max-w-3xl">
-              <h2 className="t-h2 tracking-tight">{lang === "zh" ? "你的決策路徑" : "Your decision paths"}</h2>
+              <h2 className="t-h2 tracking-tight">{lang === "zh" ? "您的決策路徑" : "Your decision paths"}</h2>
               <p className="mt-3 t-lead text-muted-foreground">{lang === "zh" ? "每張卡片都是靜態 hardcode 的知識路徑，先建立首頁語義與視覺，再等待未來資料層接入。" : "Each card is a static hardcoded knowledge path that establishes homepage semantics before future data wiring."}</p>
             </div>
           </div>
@@ -638,7 +638,7 @@ export default function Home() {
             </h2>
             <p className="mt-3 t-body text-slate-700 dark:text-slate-300">
               {lang === "zh"
-                ? "訂閱電子報或加入書籤,讓 Formula Universe 成為你日常決策的延伸,而不是搜尋一次就忘的工具。"
+                ? "訂閱電子報或加入書籤,讓 Formula Universe 成為您日常決策的延伸,而不是搜尋一次就忘的工具。"
                 : "Subscribe or bookmark to make Formula Universe part of your everyday decision flow, not a one-time search."}
             </p>
           </div>

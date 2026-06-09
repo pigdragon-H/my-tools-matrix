@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "Science · 速度 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "速度距離時間計算機 · Speed", subtitle: "用距離、時間與精度等級算出速度、相對量級與精度分數",
-    intro: "Speed Distance Time Calculator 依據距離、時間與精度等級（粗略、標準或精密），以速度公式 v = d ÷ t 計算移動速度、相對量級與精度分數，協助你判斷速度是否合理、速度落在哪個量級、屬於步行還是高速、是否需要檢查單位，讓你在運動學分析與行程規劃前就把速度算清楚。",
+    intro: "Speed Distance Time Calculator 依據距離、時間與精度等級（粗略、標準或精密），以速度公式 v = d ÷ t 計算移動速度、相對量級與精度分數，協助您判斷速度是否合理、速度落在哪個量級、屬於步行還是高速、是否需要檢查單位，讓您在運動學分析與行程規劃前就把速度算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以距離除以時間做計算，假設等速運動且方向恆定；正式運動學分析請以實際量測與標準參考為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立速度範例", examplePreview: "速度預覽", examplePerson: "距離 (m)", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
     examplesCalculator: "範例 → 計算器", enterValues: "輸入距離、時間與精度等級", examplesHelper: "先用範例理解距離與時間如何決定速度與量級，再改成自己的運動數據。",

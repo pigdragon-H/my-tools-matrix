@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "AI · 微調成本 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "微調成本計算機 · Fine-Tuning Cost", subtitle: "用資料集 token 量、訓練輪數與模型大小階層算出微調總成本與每輪成本",
-    intro: "Fine-Tuning Cost Calculator 依據資料集 token 量（以百萬為單位）、訓練輪數與模型大小階層（小型、標準或大型），算出微調訓練總成本、每輪成本與訓練 token 總量占比，協助你判斷預算是否合理、輪數是否過多、該用全參數還是參數高效微調，讓你在啟動任何微調前就把訓練花費算清楚。",
+    intro: "Fine-Tuning Cost Calculator 依據資料集 token 量（以百萬為單位）、訓練輪數與模型大小階層（小型、標準或大型），算出微調訓練總成本、每輪成本與訓練 token 總量占比，協助您判斷預算是否合理、輪數是否過多、該用全參數還是參數高效微調，讓您在啟動任何微調前就把訓練花費算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以每百萬 token 訓練單價估算，未含資料清洗、驗證集、多次實驗與託管推論費；實際費用請以各平台官方訓練計價頁為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立微調範例", examplePreview: "成本預覽", examplePerson: "資料集 (M token)", fillExample: "一鍵填入標準範例", previewActivePath: "填入大型模型範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入 資料集 token 量、訓練輪數與模型階層", examplesHelper: "先用範例理解資料量、輪數與模型階層如何決定總成本與每輪成本，再改成自己的訓練數據。",

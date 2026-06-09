@@ -33,10 +33,10 @@ const ui = {
   zh: {
     badge: "健康 · 血糖管理 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "升糖指數計算機 · GI / GL", subtitle: "用食物 GI 值與份量碳水估算升糖負荷 (GL)",
-    intro: "升糖指數計算機依食物升糖指數 (GI) 與單份碳水化合物公克數，計算升糖負荷 (GL = GI × 碳水 ÷ 100)，協助你比較不同食物對血糖的影響，規劃血糖友善飲食。",
+    intro: "升糖指數計算機依食物升糖指數 (GI) 與單份碳水化合物公克數，計算升糖負荷 (GL = GI × 碳水 ÷ 100)，協助您比較不同食物對血糖的影響，規劃血糖友善飲食。",
     trustNoteLabel: "注意事項：", trustNote: "GI/GL 為食物層級的相對指標，實際血糖反應受烹調、成熟度、搭配食物與個人代謝差異影響；本工具不可取代醫療建議。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立升糖負荷範例", examplePreview: "升糖負荷預覽", examplePerson: "GI 值", fillExample: "一鍵填入標準範例", previewActivePath: "填入高GI範例",
-    examplesCalculator: "範例 → 計算機", enterValues: "輸入 GI 與碳水", examplesHelper: "先用範例理解 GI 與 GL 的差別，再改成你要評估的食物數值。",
+    examplesCalculator: "範例 → 計算機", enterValues: "輸入 GI 與碳水", examplesHelper: "先用範例理解 GI 與 GL 的差別，再改成您要評估的食物數值。",
     metric: "公制 (g)", imperial: "份量 (serving)", exampleCards: "範例卡", baselineExample: "燕麥 (低GI)", activeExample: "白吐司 (高GI)", baselineExampleNote: "GI 55 · 27g 碳水 · GL ≈ 15", activeExampleNote: "GI 75 · 24g 碳水 · GL ≈ 18", flowDemo: "GL 試算", calculator: "計算機",
     weight: "GI 升糖指數 (0–110)", tdee: "每份碳水 (g)", goal: "食物類型", goalCut: "主食/澱粉", goalMaintain: "水果", goalBulk: "點心/飲料",
     resultCard: "升糖負荷計算結果", unit: "GL (升糖負荷)", primaryValue: "GI 值", maintenanceTarget: "GI 等級", actionTarget: "GL 等級", estimatedTdee: "碳水", maintenance: "GI", fatLossTarget: "GL", carbsLabel: "碳水",

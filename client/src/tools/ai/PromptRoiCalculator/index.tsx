@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "AI · Prompt ROI · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "Prompt 投報率計算機 · ROI", subtitle: "用每月節省工時、每小時價值與 prompt 成本階層算出月節省價值、淨效益與投報率",
-    intro: "Prompt ROI Calculator 依據每月節省工時、每小時價值與 prompt 成本階層（精簡、標準或重型），計算月節省價值、淨效益與投報率，協助你判斷某個 prompt 工作流程是否值得導入、該精簡到哪種成本階層、是否該放大套用範圍，讓你在標準化 AI 提示前就把投報效益算清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的節省工時與每小時價值估算投報，未含導入維護、品質複核與失敗重試成本；實際投報請以真實工時量測與財務數據為準。",
+    intro: "Prompt ROI Calculator 依據每月節省工時、每小時價值與 prompt 成本階層（精簡、標準或重型），計算月節省價值、淨效益與投報率，協助您判斷某個 prompt 工作流程是否值得導入、該精簡到哪種成本階層、是否該放大套用範圍，讓您在標準化 AI 提示前就把投報效益算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以您輸入的節省工時與每小時價值估算投報，未含導入維護、品質複核與失敗重試成本；實際投報請以真實工時量測與財務數據為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立 Prompt ROI 範例", examplePreview: "投報預覽", examplePerson: "每月節省工時", fillExample: "一鍵填入標準 prompt 範例", previewActivePath: "填入重型 prompt 範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入每月節省工時、每小時價值與成本階層", examplesHelper: "先用範例理解節省工時與每小時價值如何決定淨效益與投報率，再改成自己的工作流程數據。",
     metric: "公制", imperial: "占比檢視", exampleCards: "範例卡", baselineExample: "標準 prompt 模式", activeExample: "重型 prompt 示範", baselineExampleNote: "工時 40 · 時薪 50 · 標準", activeExampleNote: "工時 40 · 時薪 50 · 重型", carbsLabel: "月節省價值", carbsName: "美元", proteinLabel: "投報率", flowDemo: "每小時價值", calculator: "計算機",

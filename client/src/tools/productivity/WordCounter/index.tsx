@@ -36,12 +36,12 @@ const ui = {
     intro: "本工具計算英文單字數、中文字元數、段落數、句子數與閱讀分鐘,並提供六格長度判讀,協助寫作者、編輯與內容經理快速判斷文章是否達到目標長度。",
     trustNoteLabel: "注意事項：", trustNote: "中英文混合內容會分別計算單字與字元;閱讀速度採成人平均 (英文 238 wpm / 中文 400 字/分);實際閱讀速度因背景與內容難度而異。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立字數統計範例", examplePreview: "字數預覽", examplePerson: "標準範例", fillExample: "一鍵填入標準範例", previewActivePath: "填入長文範例",
-    examplesCalculator: "範例 → 計算機", enterValues: "貼上你的文字內容", examplesHelper: "先貼入範例文字理解統計邏輯,再換成自己的稿件。",
+    examplesCalculator: "範例 → 計算機", enterValues: "貼上您的文字內容", examplesHelper: "先貼入範例文字理解統計邏輯,再換成自己的稿件。",
     metric: "簡易", imperial: "詳細", exampleCards: "範例卡", baselineExample: "標準英文短文", activeExample: "中文長篇", flowDemo: "238 wpm 閱讀速度", calculator: "計算機",
     textInput: "在此貼上文字內容", textInputHint: "支援中英文混合;空字元視為段落分隔。", clearText: "清除", pasteSample: "填入範例文字",
     resultCard: "字數統計結果", unit: "英文單字數", primaryValue: "主要數值", maintenanceTarget: "英文單字數", actionTarget: "閱讀分鐘", estimatedTdee: "英文單字數", maintenance: "單字", fatLossTarget: "閱讀分鐘",
     wordCount: "英文單字數", charCount: "字元數(含空白)", charNoSpace: "字元數(不含空白)", chineseCount: "中文字元數", paragraphCount: "段落數", sentenceCount: "句子數", readMinutes: "閱讀分鐘",
-    resultIntelligence: "結果解讀", tdeeMatrix: "六格文章長度判讀矩陣", tdeeMatrixNote: "L7 固定六格,將你的字數放進常見長度區間;這是寫作參考,不是 SEO 排名保證。",
+    resultIntelligence: "結果解讀", tdeeMatrix: "六格文章長度判讀矩陣", tdeeMatrixNote: "L7 固定六格,將您的字數放進常見長度區間;這是寫作參考,不是 SEO 排名保證。",
     emotionConversionLayer: "情緒與轉換層", turnIntoPlan: "把字數判讀轉成下一步寫作行動", conversionNote: "L9 會連動目前統計結果,顯示字數、閱讀分鐘與段落數,協助判斷是否需要擴寫、收斂或拆分章節。",
     progressInsight: "進度洞察卡", possibleTarget: "今日字數狀態", dailyGap: "閱讀分鐘", weeklyTrend: "目前字數", motivation: "動力卡", keepMomentum: "從一篇文章走向長期寫作節奏",
     saveShareJourney: "儲存 / 分享", journeyTitle: "把今天的字數結果帶回家", journeyHint: "每次完稿前重新統計,追蹤是否達到目標長度與適當段落數。",
@@ -58,10 +58,10 @@ const ui = {
     trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具僅供寫作量化參考,不取代編輯審稿、SEO 顧問或學術審查;結果不應用於合約或法律字數限制。", relatedTools: "相關工具", relatedToolsText: "番茄鐘日程規劃器 · 時區轉換器 · 日期天數計算機 · 年齡計算機", references: "參考資料", referencesText: "Brysbaert (2019) 平均閱讀速度後設研究;Yale Center for Teaching and Learning 寫作字數指南;Harvard Writing Center 學術寫作長度指南;Nielsen Norman Group 網頁閱讀行為研究;APA Publication Manual 7th Edition;Flesch–Kincaid 可讀性公式原始論文。",
     q1: "為什麼英文單字數和中文字元數要分開算？", a1: "英文以空白分隔詞彙,1 個單字往往多個字元;中文沒有空白且以字元為單位,因此兩者需用不同公式統計才不會誤判。",
     q2: "閱讀分鐘為什麼用 238 wpm？", a2: "238 wpm 是 Brysbaert (2019) 對成人英文閱讀速度的後設分析中位值;中文 400 字/分為常見估值。實際速度因人而異 ±30–40%。",
-    q3: "段落計算為什麼會多算？", a3: "本工具以「空行」切割段落;若你的稿件只用單一換行 (Enter) 換行,系統可能視為同一段。建議段落間留空行以求精確。",
+    q3: "段落計算為什麼會多算？", a3: "本工具以「空行」切割段落;若您的稿件只用單一換行 (Enter) 換行,系統可能視為同一段。建議段落間留空行以求精確。",
     q4: "可以統計簡體中文嗎？", a4: "可以,簡繁體都落在 CJK Unicode 範圍 (U+4E00–U+9FFF) 內,計算結果一致。但若混入日文假名或韓文諺文,需另外切換到專屬工具。",
     q5: "字數越多代表文章越好嗎？", a5: "不一定。SEO 偏好「能完整回答查詢的長度」,商業文宜短而精;學術文則需要充分論證。重點是字數與目的匹配,不是越多越好。",
-    q6: "本工具會儲存我貼上的文字嗎？", a6: "不會。所有計算都在你的瀏覽器中即時執行,文字內容不會送到伺服器、不會儲存、不會用於 AI 訓練。",
+    q6: "本工具會儲存我貼上的文字嗎？", a6: "不會。所有計算都在您的瀏覽器中即時執行,文字內容不會送到伺服器、不會儲存、不會用於 AI 訓練。",
   },
   en: {
     badge: "Productivity · Word counting · Gold tool", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
@@ -104,7 +104,7 @@ const SAMPLE_TEXT_ZH = `字數統計是內容工作的基本量化動作。一�
 
 寫作者面對的真正問題,並不是字數本身,而是字數與目的的匹配。社群貼文宜短、教學文宜中、白皮書宜長,每種媒體各有其讀者期待。
 
-當你貼入文字時,本工具會即時回報英文單字數、中文字元數、段落、句子與閱讀分鐘,並把字數放進常見的長度區間,協助你判斷是否該擴寫、收斂或重新分章。`;
+當您貼入文字時,本工具會即時回報英文單字數、中文字元數、段落、句子與閱讀分鐘,並把字數放進常見的長度區間,協助您判斷是否該擴寫、收斂或重新分章。`;
 
 const SAMPLE_TEXT_EN = `Word counting is a foundational quantification step in content work. A solid blog post usually lands between 800 and 1,500 words — long enough to make a complete argument, short enough that readers finish it.
 

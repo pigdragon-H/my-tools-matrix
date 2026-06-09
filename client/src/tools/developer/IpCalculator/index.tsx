@@ -202,7 +202,7 @@ const ui = {
     faq: "常見問題", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "IP 規劃的下一步工具", premiumTitle: "專業版 IPAM 工具包", premiumText: "解鎖 IPv6 推導、子網切割模擬器、conflict 偵測、BGP next-hop 視覺化、IPAM CSV 匯入匯出。",
     trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具僅在瀏覽器端推導 CIDR;貼上的 IP 不會送到伺服器,適合審視含內部拓樸資訊的 IP 規劃。", relatedTools: "相關工具", relatedToolsText: "Hash 生成器 · JSON 格式化器 · Cron 表達式解析器 · JWT 解碼器", references: "參考資料", referencesText: "RFC 4632 (Fuller & Li, 2006) Classless Inter-Domain Routing — CIDR 正式規範;RFC 1918 (Rekhter et al., 1996) Private Address Space — 10/8、172.16/12、192.168/16;RFC 3021 (Retana et al., 2000) Using 31-Bit Prefixes on IPv4 Point-to-Point Links;RFC 6890 (Cotton et al., 2013) Special-Purpose IP Address Registries;IANA IPv4 Special-Purpose Address Registry。",
     q1: "為什麼我的 CIDR 顯示「invalid」?", a1: "最常見原因是 IP 某段超出 0-255 範圍、IP 段數不是 4 段、或前綴長度不在 0-32 範圍。錯誤訊息會指出具體欄位 — 先把 IP 改成 192.0.2.0 確認其他欄位正確。",
-    q2: "為什麼 /31 顯示 2 個可用主機,跟我學的不一樣?", a2: "RFC 3021 (2000) 修訂了 /31 的解讀:在點對點鏈路上兩個位址都可指派給介面,廣播概念不適用。本工具採用此修訂版;若你的設備或 ISP 仍依舊版扣 2,需以該設備文件為準。",
+    q2: "為什麼 /31 顯示 2 個可用主機,跟我學的不一樣?", a2: "RFC 3021 (2000) 修訂了 /31 的解讀:在點對點鏈路上兩個位址都可指派給介面,廣播概念不適用。本工具採用此修訂版;若您的設備或 ISP 仍依舊版扣 2,需以該設備文件為準。",
     q3: "貼上的 IP 會被送到伺服器嗎?", a3: "不會。本工具完全在瀏覽器端用整數運算推導 CIDR;頁面關閉後 IP 即消失,適合審視包含內部拓樸資源 ID 的 IP 規劃(例如 vpc-prod-${region})。",
     q4: "為什麼 IPv6 沒有支援?", a4: "IPv6 (/0 - /128 範圍) 採 128-bit 位址,需要 BigInt 運算與不同的縮寫規則(::1、fe80::、雙冒號壓縮),未來會以獨立工具上線。目前如需 IPv6 規劃請使用專業 IPAM。",
     q5: "可用主機數為什麼是 254 而不是 256?", a5: "在 /24 等傳統前綴(/0 - /30)中,網路位址(全 0 主機部分)與廣播位址(全 1 主機部分)依 RFC 950 不可指派給介面,因此 256 個位址中扣掉 2 個 = 254 個可用。/31 / /32 採新規,不扣。",

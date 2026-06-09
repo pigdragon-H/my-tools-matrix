@@ -32,7 +32,7 @@ export default function Terms() {
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300">
             {lang === "zh"
-              ? "使用 Formula Universe 即代表你同意以下條款。"
+              ? "使用 Formula Universe 即代表您同意以下條款。"
               : "By using Formula Universe you agree to the following terms."}
           </p>
           <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
@@ -53,7 +53,7 @@ export default function Terms() {
           <h2>{lang === "zh" ? "2. 使用限制" : "2. Acceptable use"}</h2>
           <p>
             {lang === "zh"
-              ? "你同意不對本網站進行: 自動化大量爬取、攻擊性掃描、繞過付費或廣告機制、發布違法內容,或冒用他人身份。"
+              ? "您同意不對本網站進行: 自動化大量爬取、攻擊性掃描、繞過付費或廣告機制、發布違法內容,或冒用他人身份。"
               : "You agree not to: scrape the site at scale, run intrusive scans, bypass paid or ad mechanics, publish illegal content, or impersonate others."}
           </p>
 
@@ -67,14 +67,14 @@ export default function Terms() {
           <h2>{lang === "zh" ? "4. 廣告與聯盟連結" : "4. Ads and affiliate links"}</h2>
           <p>
             {lang === "zh"
-              ? "本站可能顯示 Google AdSense 廣告與聯盟行銷連結。當你透過聯盟連結購買,我們可能獲得佣金,這不會增加你的成本,也不會影響我們對工具或公式的評估。"
+              ? "本站可能顯示 Google AdSense 廣告與聯盟行銷連結。當您透過聯盟連結購買,我們可能獲得佣金,這不會增加您的成本,也不會影響我們對工具或公式的評估。"
               : "This site may show Google AdSense ads and affiliate links. If you purchase through an affiliate link, we may earn a commission. This does not increase your cost and does not influence our evaluation of tools or formulas."}
           </p>
 
           <h2>{lang === "zh" ? "5. 免責聲明" : "5. Disclaimer"}</h2>
           <p>
             {lang === "zh"
-              ? "本網站以「現狀」提供,不保證計算結果絕對準確,也不對你因使用本服務造成的任何損失負責。重要決策 (健康、投資、法律) 請諮詢合格的專業人士。"
+              ? "本網站以「現狀」提供,不保證計算結果絕對準確,也不對您因使用本服務造成的任何損失負責。重要決策 (健康、投資、法律) 請諮詢合格的專業人士。"
               : "This site is provided 'as is' without guarantee of accuracy. We are not liable for losses arising from your use of the service. For important decisions (health, investment, legal) consult a qualified professional."}
           </p>
 

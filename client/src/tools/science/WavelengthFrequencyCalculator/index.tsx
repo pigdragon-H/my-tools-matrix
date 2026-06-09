@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "Science · 波長 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "波長頻率計算機 · Wavelength", subtitle: "用波速、頻率與精度等級算出波長、相對量級與精度分數",
-    intro: "Wavelength Frequency Calculator 依據波速、頻率與精度等級（粗略、標準或精密），以波長公式 λ = v ÷ f 計算波長、相對量級與精度分數，協助你判斷波長是否合理、波長落在哪個量級、屬於短波還是長波、是否需要檢查單位，讓你在波動分析與訊號計算前就把波長算清楚。",
+    intro: "Wavelength Frequency Calculator 依據波速、頻率與精度等級（粗略、標準或精密），以波長公式 λ = v ÷ f 計算波長、相對量級與精度分數，協助您判斷波長是否合理、波長落在哪個量級、屬於短波還是長波、是否需要檢查單位，讓您在波動分析與訊號計算前就把波長算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以波速除以頻率做計算，假設波在均勻介質中傳播；正式波動分析請以實際介質參數與標準參考為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立波長範例", examplePreview: "波長預覽", examplePerson: "波速 (m/s)", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
     examplesCalculator: "範例 → 計算器", enterValues: "輸入波速、頻率與精度等級", examplesHelper: "先用範例理解波速與頻率如何決定波長與量級，再改成自己的波動數據。",

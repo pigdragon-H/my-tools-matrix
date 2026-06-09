@@ -32,8 +32,8 @@ const affiliateItems: AffiliateItem[] = [
 const ui = {
   zh: {
     badge: "財務 · 緊急預備 · 黃金工具", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
-    title: "Emergency Fund Calculator · 緊急預備金計算機", subtitle: "計算你需要多少緊急預備金與達成時間",
-    intro: "本工具根據你的月支出與現有儲蓄，計算目標預備金金額、缺口與預計達成月份，協助建立財務安全網。",
+    title: "Emergency Fund Calculator · 緊急預備金計算機", subtitle: "計算您需要多少緊急預備金與達成時間",
+    intro: "本工具根據您的月支出與現有儲蓄，計算目標預備金金額、缺口與預計達成月份，協助建立財務安全網。",
     trustNoteLabel: "注意事項：", trustNote: "建議預備金覆蓋 3–6 個月支出；自營業者或有依賴者建議 6–12 個月。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立緊急預備金範例", examplePreview: "預備金覆蓋預覽", examplePerson: "標準範例", fillExample: "一鍵填入標準範例", previewActivePath: "填入低儲蓄範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入支出與儲蓄", examplesHelper: "先用範例理解緊急預備金計算，再改成自己的數字。",

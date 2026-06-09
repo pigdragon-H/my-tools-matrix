@@ -48,7 +48,7 @@ const ui = {
   zh: {
     badge: "生產力 · 期限管理 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文",
     title: "截止日倒數計算機 · Deadline Countdown", subtitle: "用截止日與工作量推算每日所需進度",
-    intro: "輸入截止日期、總工作量與已完成量，計算剩餘天數、剩餘工作日，以及每日與每工作日所需完成量，協助你掌握進度節奏。",
+    intro: "輸入截止日期、總工作量與已完成量，計算剩餘天數、剩餘工作日，以及每日與每工作日所需完成量，協助您掌握進度節奏。",
     trustNoteLabel: "注意事項：", trustNote: "工作日計算排除週六、週日，但未扣除國定假日；每日所需量為平均值，實際排程仍需依任務性質調整。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立截止日範例", examplePreview: "每日所需量預覽", examplePerson: "剩餘天數", flowDemo: "進度", fatLossTarget: "每工作日", fillExample: "一鍵填入標準範例", previewActivePath: "填入衝刺範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入截止日與工作量", examplesHelper: "先用範例理解每日所需量如何推算，再改成自己的截止日與工作量。",

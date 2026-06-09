@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "AI · Accuracy · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "AI 準確率計算機 · Accuracy", subtitle: "用正確預測數、總預測數與評估嚴格度算出準確率、誤判率與品質分數",
-    intro: "AI Accuracy Calculator 依據正確預測數、總預測數與評估嚴格度（寬鬆、標準或嚴格），計算模型準確率、誤判率與綜合品質分數，協助你判斷模型是否達到上線水準、該選哪種信心門檻、是否需要更多訓練資料與人工複核，讓你在部署 AI 模型前就把準確率衡量清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的正確數與總數估算整體準確率，未含精確率、召回率、F1、混淆矩陣與分群表現；實際模型品質請以完整評估報告與獨立測試集為準。",
+    intro: "AI Accuracy Calculator 依據正確預測數、總預測數與評估嚴格度（寬鬆、標準或嚴格），計算模型準確率、誤判率與綜合品質分數，協助您判斷模型是否達到上線水準、該選哪種信心門檻、是否需要更多訓練資料與人工複核，讓您在部署 AI 模型前就把準確率衡量清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以您輸入的正確數與總數估算整體準確率，未含精確率、召回率、F1、混淆矩陣與分群表現；實際模型品質請以完整評估報告與獨立測試集為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立準確率範例", examplePreview: "品質預覽", examplePerson: "正確預測數", fillExample: "一鍵填入標準評估範例", previewActivePath: "填入嚴格評估範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入正確預測數、總預測數與評估嚴格度", examplesHelper: "先用範例理解正確數與總數如何決定準確率與品質分數，再改成自己的評估數據。",
     metric: "公制", imperial: "占比檢視", exampleCards: "範例卡", baselineExample: "標準評估模式", activeExample: "嚴格評估示範", baselineExampleNote: "正確 900 · 總數 1000 · 標準", activeExampleNote: "正確 900 · 總數 1000 · 嚴格", carbsLabel: "誤判率", carbsName: "百分比", proteinLabel: "品質分數", flowDemo: "總預測數", calculator: "計算機",

@@ -29,7 +29,7 @@ const affiliateItems: AffiliateItem[] = [
   { label: { zh: "時區轉換器", en: "Time Zone Converter" }, href: "/tools/productivity/time-zone-converter" },
 ];
 
-const SAMPLE_URL = "https://example.com/api?q=你好世界&lang=中文 🔐";
+const SAMPLE_URL = "https://example.com/api?q=您好世界&lang=中文 🔐";
 const SAMPLE_ENCODED = "https%3A%2F%2Fexample.com%2Fapi%3Fq%3D%E4%BD%A0%E5%A5%BD%E4%B8%96%E7%95%8C%26lang%3D%E4%B8%AD%E6%96%87%20%F0%9F%94%90";
 
 const ui = {
@@ -56,7 +56,7 @@ const ui = {
     limitations: "限制", limitationsText: "不支援自訂安全字元集；不解碼 + 為空格（application/x-www-form-urlencoded 規則）；不驗證編碼後 URL 的 DNS 合法性；解碼模式遇非法 %XX 序列立即拋例；不處理 IDN 國際域名（Punycode）轉換。",
     interpretation: "解讀", interpretationText: "URL 編碼是傳輸安全的文字表示，不是加密——任何人都能解碼。敏感資料（密碼、token、PII）必須先加密再編碼。長 query string 雖可傳輸，但超過 2000 字元可能被瀏覽器或伺服器截斷；大量資料改用 POST body。",
     context: "脈絡", contextText: "主要場景：API query 參數編碼、OAuth redirect_uri 組裝、Data URI 內容編碼、mailto: 主旨與正文、iframe src 建構。應與 POST body、multipart/form-data、JSON body 等替代方案一起評估。",
-    example: "範例", exampleText: "若輸入 =「你好世界」（4 CJK 字元 = 12 UTF-8 位元組），編碼後 = 36 字元（每 byte %XX），膨脹比 = 36 / 4 = 9×；落在「重度編碼」band。若放在 query 裡，URL 總長易超 2000 字元上限，改 POST 更穩。",
+    example: "範例", exampleText: "若輸入 =「您好世界」（4 CJK 字元 = 12 UTF-8 位元組），編碼後 = 36 字元（每 byte %XX），膨脹比 = 36 / 4 = 9×；落在「重度編碼」band。若放在 query 裡，URL 總長易超 2000 字元上限，改 POST 更穩。",
     faq: "常見問題", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "URL 編碼的下一步工具", premiumTitle: "專業版 URL 工具包", premiumText: "解鎖批次 URL 編碼/解碼、Punycode 國際域名轉換、URL 拆解與參數編輯、HTML entity 雙向轉換、IRI ↔ URI 規範轉換。",
     trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具僅在瀏覽器端執行 encodeURIComponent / decodeURIComponent，貼上的資料不會送到伺服器；不取代加密、簽章或安全審計工具。URL 編碼是編碼，不是加密。",
     relatedTools: "相關工具", relatedToolsText: "Base64 編碼器 · JSON 格式化器 · 字數統計工具 · 時區轉換器", references: "參考資料", referencesText: "IETF RFC 3986 (Berners-Lee et al., 2005) URI Generic Syntax §2.1 Percent-Encoding; IETF RFC 3629 (Yergeau, 2003) UTF-8 transformation format; Mozilla MDN Web Docs — encodeURIComponent() / encodeURI() reference; WHATWG URL Standard — URL parsing and encoding rules; Harvard CS50 Web Programming — URL encoding and query strings module。",
@@ -90,7 +90,7 @@ const ui = {
     limitations: "Limitations", limitationsText: "Does not support custom safe-character sets. Does not decode + as space (application/x-www-form-urlencoded rule). Does not validate post-encode URL DNS legality. Decode mode throws on illegal %XX sequences. No IDN Punycode conversion.",
     interpretation: "Interpretation", interpretationText: "URL encoding is a transport-safe representation, not encryption — anyone can decode it. Encrypt sensitive data first, then URL-encode. Long query strings work but may be truncated by browsers or servers above ~2000 characters; for large payloads use POST body.",
     context: "Context", contextText: "Main scenarios: API query parameter encoding, OAuth redirect_uri assembly, Data URI content encoding, mailto: subject and body, iframe src construction. Always weigh against POST body, multipart/form-data, or JSON body alternatives.",
-    example: "Example", exampleText: "If input =「你好世界」(4 CJK chars = 12 UTF-8 bytes), encoded = 36 chars (each byte → %XX), inflation = 36 / 4 = 9× — lands in \"Heavy encoding\" band. In a query string, total URL length may exceed 2000 char limit; POST is more reliable.",
+    example: "Example", exampleText: "If input =「您好世界」(4 CJK chars = 12 UTF-8 bytes), encoded = 36 chars (each byte → %XX), inflation = 36 / 4 = 9× — lands in \"Heavy encoding\" band. In a query string, total URL length may exceed 2000 char limit; POST is more reliable.",
     faq: "FAQ", commonQuestions: "Common questions", affiliate: "Recommended tools", affiliateTitle: "Next-step tools for URL encoding work", premiumTitle: "Pro URL Toolkit", premiumText: "Unlock batch URL encode/decode, Punycode IDN conversion, URL parsing & param editing, HTML entity two-way conversion, IRI ↔ URI canonical transformation.",
     trustReferences: "Trust · Related tools · References", trust: "Trust", trustText: "This tool only runs encodeURIComponent / decodeURIComponent in the browser; pasted data is never sent to the server. It does not replace encryption, signing, or security audit tooling. URL encoding is encoding, not encryption.", relatedTools: "Related tools", relatedToolsText: "Base64 Encoder · JSON Formatter · Word Counter · Time Zone Converter", references: "References", referencesText: "IETF RFC 3986 (Berners-Lee et al., 2005) URI Generic Syntax §2.1 Percent-Encoding; IETF RFC 3629 (Yergeau, 2003) UTF-8, a transformation format of ISO 10646; Mozilla MDN Web Docs — encodeURIComponent() / encodeURI() reference; WHATWG URL Standard — URL parsing and encoding rules; Harvard CS50 Web Programming — URL encoding and query strings module.",
     q1: "Why does decode mode show \"Invalid\"?", a1: "RFC 3986 requires percent-encoded sequences in the form % followed by two hex digits (0–9 A–F). Incomplete sequences like %G1 or %2 fail. Common culprits: HTML tags, extra spaces, or double-encoding by another tool in the paste — clean it first.",

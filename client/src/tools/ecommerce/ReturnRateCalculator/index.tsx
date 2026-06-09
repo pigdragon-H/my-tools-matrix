@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "電商 · 退貨率 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "退貨率計算機 · Return Rate", subtitle: "用退貨件數與總訂單數算出退貨率與佔比解讀",
-    intro: "Return Rate Calculator 依據退貨件數與總訂單數，計算退貨率與其在常見區間中的位置，協助你判斷逆物流成本是否侵蝕毛利、是否該改善尺寸表、商品照與描述一致性，或重整選品與品質管控。",
+    intro: "Return Rate Calculator 依據退貨件數與總訂單數，計算退貨率與其在常見區間中的位置，協助您判斷逆物流成本是否侵蝕毛利、是否該改善尺寸表、商品照與描述一致性，或重整選品與品質管控。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以退貨件數除以總訂單數估算退貨率，未含換貨、部分退款與運費補貼差異；正式退貨成本應以實際逆物流與重整費用為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立退貨範例", examplePreview: "退貨預覽", examplePerson: "退貨件數", fillExample: "一鍵填入標準退貨範例", previewActivePath: "填入高退貨範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入退貨件數、總訂單數與品類", examplesHelper: "先用範例理解件數與總訂單如何決定退貨率，再改成自己的營運數據。",

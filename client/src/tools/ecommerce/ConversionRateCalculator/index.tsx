@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "電商 · 流量轉換 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "轉換率計算機 · Conversion Rate", subtitle: "用造訪數與成交數估算轉換率與每次成交所需流量",
-    intro: "Conversion Rate Calculator 依據網站造訪數與成交筆數，估算轉換率與每次成交所需流量，協助你判斷流量是否有效成交、找出優化購物流程的空間。",
+    intro: "Conversion Rate Calculator 依據網站造訪數與成交筆數，估算轉換率與每次成交所需流量，協助您判斷流量是否有效成交、找出優化購物流程的空間。",
     trustNoteLabel: "注意事項：", trustNote: "轉換率受流量來源、商品類別與裝置差異影響很大；跨產業比較意義有限，應以自家歷史與相同來源為基準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立轉換率範例", examplePreview: "轉換率預覽", examplePerson: "造訪數", fillExample: "一鍵填入標準範例", previewActivePath: "填入高轉換範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入造訪數、成交數與裝置", examplesHelper: "先用範例理解造訪數與成交數如何決定轉換率，再改成自己的網站數據。",

@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "Design · 黃金比例 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "黃金比例計算機 · Golden Ratio", subtitle: "用基準長度、次要長度與比例精度算出黃金切分、比例吻合度與和諧分數",
-    intro: "Golden Ratio Calculator 依據基準長度、次要長度與目標比例精度（粗略、黃金 φ 或近似完全五度），計算黃金切分長度、比例吻合度與和諧分數，協助你判斷版面分割是否符合黃金比例、該選哪段尺寸、是否需要微調比例，讓你在排版與構圖前就把黃金分割算清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的長度與比例精度估算黃金切分，未含視覺權重、留白與內容密度差異；正式設計仍需以實際排版與視覺校稿為準。",
+    intro: "Golden Ratio Calculator 依據基準長度、次要長度與目標比例精度（粗略、黃金 φ 或近似完全五度），計算黃金切分長度、比例吻合度與和諧分數，協助您判斷版面分割是否符合黃金比例、該選哪段尺寸、是否需要微調比例，讓您在排版與構圖前就把黃金分割算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以您輸入的長度與比例精度估算黃金切分，未含視覺權重、留白與內容密度差異；正式設計仍需以實際排版與視覺校稿為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立比例範例", examplePreview: "比例預覽", examplePerson: "基準長度", fillExample: "一鍵填入黃金 φ 範例", previewActivePath: "填入完全五度範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入基準長度、次要長度與比例精度", examplesHelper: "先用範例理解長度比如何決定黃金切分與和諧分數，再改成自己的版面數據。",
     metric: "公制", imperial: "占比檢視", exampleCards: "範例卡", baselineExample: "黃金 φ 模式", activeExample: "完全五度示範", baselineExampleNote: "基準 618 · 次要 382 · φ", activeExampleNote: "基準 618 · 次要 382 · 五度", carbsLabel: "比例吻合度", carbsName: "百分比", proteinLabel: "和諧分數", flowDemo: "次要長度", calculator: "計算機",

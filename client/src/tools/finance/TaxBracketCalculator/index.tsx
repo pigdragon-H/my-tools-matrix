@@ -124,7 +124,7 @@ const ui = {
     limitations: "限制",
     limitationsText: "本工具僅試算聯邦個人所得稅;未涵蓋州稅、地方稅、社安(6.2%)、Medicare(1.45%)、AMT、NIIT(3.8%)、自雇稅、合格股利/長期資本利得單獨稅率、Section 199A 通透扣除、被動損失限制。",
     interpretation: "解讀",
-    interpretationText: "邊際 22% 不代表你被課 22%;通常有效稅率比邊際低 4–8 個百分點。決定 Roth 或 Traditional 401(k) 看「現在邊際 vs 退休邊際」;判斷加薪後實領,只看新所得落在哪個級距。",
+    interpretationText: "邊際 22% 不代表您被課 22%;通常有效稅率比邊際低 4–8 個百分點。決定 Roth 或 Traditional 401(k) 看「現在邊際 vs 退休邊際」;判斷加薪後實領,只看新所得落在哪個級距。",
     context: "脈絡",
     contextText: "級距每年依通膨調整(IRS Rev. Proc.)。2024→2025 年級距上限調升約 5.4%。州稅另計,加州、紐約最高 13.3%/10.9% 顯著推升總稅率。聯邦級距僅是聯邦那一半。",
     example: "範例",

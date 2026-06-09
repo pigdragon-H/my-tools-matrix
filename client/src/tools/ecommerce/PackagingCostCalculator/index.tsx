@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "電商 · 包裝成本 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "包裝成本計算機 · Packaging Cost", subtitle: "用箱型方案與每單件數算出單筆包裝成本與佔客單比例",
-    intro: "Packaging Cost Calculator 依據箱型方案、每單件數與客單價，計算單筆包裝成本與佔客單比例，協助你判斷材料成本是否侵蝕毛利、是否該精簡箱型、改用環保填充或重議材料報價。",
+    intro: "Packaging Cost Calculator 依據箱型方案、每單件數與客單價，計算單筆包裝成本與佔客單比例，協助您判斷材料成本是否侵蝕毛利、是否該精簡箱型、改用環保填充或重議材料報價。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以箱型成本加每件填充標籤費估算，未含倉內人工、棧板與促銷禮盒；正式包裝成本應以實際採購報價為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立包裝範例", examplePreview: "包裝預覽", examplePerson: "每單件數", fillExample: "一鍵填入標準包裝範例", previewActivePath: "填入精品包裝範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入每單件數、客單價與箱型方案", examplesHelper: "先用範例理解件數與方案如何決定包裝成本與佔比，再改成自己的材料數據。",

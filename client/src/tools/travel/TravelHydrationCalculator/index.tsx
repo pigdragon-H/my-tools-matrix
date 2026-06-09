@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "旅遊 · 補水 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "旅遊補水計算機 · Hydration", subtitle: "用體重、戶外活動時數與活動強度算出每日建議補水量與活動加成占比",
-    intro: "Travel Hydration Calculator 依據體重、戶外活動時數與活動強度（輕度、標準或高強度），計算每日基礎補水量、活動加成水量與總補水量，協助你判斷高溫或長時間戶外行程該補多少水、何時加電解質、如何分次補充避免脫水或一次過量，讓旅途保持精神與健康。",
+    intro: "Travel Hydration Calculator 依據體重、戶外活動時數與活動強度（輕度、標準或高強度），計算每日基礎補水量、活動加成水量與總補水量，協助您判斷高溫或長時間戶外行程該補多少水、何時加電解質、如何分次補充避免脫水或一次過量，讓旅途保持精神與健康。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以體重與活動強度估算，未含氣溫、濕度、海拔與個人疾病；實際補水量請依口渴、尿色與身體狀況彈性調整。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立補水範例", examplePreview: "補水預覽", examplePerson: "體重", fillExample: "一鍵填入標準強度範例", previewActivePath: "填入高強度範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入體重、戶外活動時數與活動強度", examplesHelper: "先用範例理解體重與活動強度如何決定每日補水量與活動加成占比，再改成自己的行程數據。",
@@ -48,7 +48,7 @@ const ui = {
     nextActionLabel: "下一步行動", nextActionTitle: "將結果接到下一個工具", nextActionItem1: "用防曬係數計算機規劃戶外防護", nextActionItem2: "用高山症風險計算機評估高海拔需水", nextActionItem3: "用旅遊預算把飲水與電解質納入花費",
     shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給旅伴", shareCopiedToast: "已複製到剪貼簿 ✓",
     decisionPath: "決策路徑", decisionTitle: "體重 → 加成占比 → 強度 → 時數", bmrStep: "體重", deficitStep: "加成占比", trendStep: "強度", mealStep: "時數",
-    knowledge: "知識", knowledgeTitle: "活動強度在旅遊補水中的意義", definition: "定義", definitionText: "旅遊補水評估是把體重依活動強度換算成基礎補水量，再加上戶外活動加成；每日補水量與活動加成占比衡量你的補水需求，是長時間戶外行程維持精神的核心指標。", formula: "公式", formulaText: "基礎補水 = 體重 × 強度係數（ml/kg）。活動加成 = 活動時數 × 200ml。每日補水 = 基礎 + 加成。", limitations: "限制", limitationsText: "本工具以體重與活動強度估算；真實補水量還受氣溫、濕度、海拔、咖啡因、酒精與個人疾病影響，高溫高濕環境需求明顯上升。", interpretation: "解讀", interpretationText: "每日補水超過 3 公升屬偏高，超過 5 公升屬極高；可透過分次補充、加電解質、避開正午高溫與監測尿色來調整。", context: "脈絡", contextText: "補水結果應與防曬係數、高山症風險與旅遊預算一起看，才能在戶外行程中兼顧健康與防護。", example: "範例", exampleText: "體重 65、標準強度（40ml/kg）、活動 6 小時 → 每日補水約 3.8 公升，屬偏高，建議分次補充。",
+    knowledge: "知識", knowledgeTitle: "活動強度在旅遊補水中的意義", definition: "定義", definitionText: "旅遊補水評估是把體重依活動強度換算成基礎補水量，再加上戶外活動加成；每日補水量與活動加成占比衡量您的補水需求，是長時間戶外行程維持精神的核心指標。", formula: "公式", formulaText: "基礎補水 = 體重 × 強度係數（ml/kg）。活動加成 = 活動時數 × 200ml。每日補水 = 基礎 + 加成。", limitations: "限制", limitationsText: "本工具以體重與活動強度估算；真實補水量還受氣溫、濕度、海拔、咖啡因、酒精與個人疾病影響，高溫高濕環境需求明顯上升。", interpretation: "解讀", interpretationText: "每日補水超過 3 公升屬偏高，超過 5 公升屬極高；可透過分次補充、加電解質、避開正午高溫與監測尿色來調整。", context: "脈絡", contextText: "補水結果應與防曬係數、高山症風險與旅遊預算一起看，才能在戶外行程中兼顧健康與防護。", example: "範例", exampleText: "體重 65、標準強度（40ml/kg）、活動 6 小時 → 每日補水約 3.8 公升，屬偏高，建議分次補充。",
     faq: "FAQ", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "補水的下一步工具", premiumTitle: "PRO 補水分析包", premiumText: "解鎖即時氣溫濕度串接、電解質配方、補水提醒與多日行程補水計畫。", feat1: "即時天氣", feat2: "電解質配比", feat3: "補水警示", feat4: "多日計畫",
     trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具只供行程規劃與教育用途，不取代醫療建議或專業營養補水診斷。", relatedTools: "相關工具", relatedToolsText: "SPF · Altitude · Jet Lag · Travel Budget", references: "參考資料", referencesText: "運動營養學補水建議；每日飲水量指引；戶外脫水研究；電解質補充文獻。",
     q1: "每日補水怎麼算的？", a1: "本工具以體重乘活動強度係數得基礎補水，再加活動時數加成；實際還受氣溫與濕度影響。",

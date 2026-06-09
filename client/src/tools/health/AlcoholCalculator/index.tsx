@@ -39,7 +39,7 @@ const ui = {
     englishShort: "EN",
     title: "飲酒量計算機 · Alcohol Calculator",
     subtitle: "用每週杯數與酒精濃度估算純酒精克數與熱量",
-    intro: "Alcohol Calculator 依據每週標準杯數與平均酒精濃度，估算每週純酒精克數、酒精熱量與每日平均攝取，協助你對照建議上限。",
+    intro: "Alcohol Calculator 依據每週標準杯數與平均酒精濃度，估算每週純酒精克數、酒精熱量與每日平均攝取，協助您對照建議上限。",
     trustNoteLabel: "注意事項：",
     trustNote: "標準杯定義依地區不同；本工具僅供教育參考，不取代醫療建議。",
     quickActionCard: "快速範例卡",

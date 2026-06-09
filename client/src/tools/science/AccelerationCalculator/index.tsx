@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "Science · 加速度 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "加速度計算機 · Acceleration", subtitle: "用速度變化、時間與精度等級算出加速度、相對量級與精度分數",
-    intro: "Acceleration Calculator 依據速度變化、時間與精度等級（粗略、標準或精密），以加速度公式 a = Δv ÷ Δt 計算加速度、相對量級與精度分數，協助你判斷加速度是否合理、加速度落在哪個量級、屬於緩和還是強烈、是否需要檢查單位，讓你在運動學分析與動力計算前就把加速度算清楚。",
+    intro: "Acceleration Calculator 依據速度變化、時間與精度等級（粗略、標準或精密），以加速度公式 a = Δv ÷ Δt 計算加速度、相對量級與精度分數，協助您判斷加速度是否合理、加速度落在哪個量級、屬於緩和還是強烈、是否需要檢查單位，讓您在運動學分析與動力計算前就把加速度算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以速度變化除以時間做計算，假設等加速運動且方向恆定；正式動力學分析請以實際量測與標準參考為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立加速度範例", examplePreview: "加速度預覽", examplePerson: "速度變化 (m/s)", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
     examplesCalculator: "範例 → 計算器", enterValues: "輸入速度變化、時間與精度等級", examplesHelper: "先用範例理解速度變化與時間如何決定加速度與量級，再改成自己的運動數據。",

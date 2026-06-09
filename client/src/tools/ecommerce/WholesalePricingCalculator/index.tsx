@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "電商 · 批發定價 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "批發定價計算機 · Wholesale Pricing", subtitle: "用零售價與批發折扣算出批發價、批發毛利與單件利潤",
-    intro: "Wholesale Pricing Calculator 依據零售價、批發折扣與單件成本，計算批發價、批發毛利率與單件利潤，協助你在給通路足夠分潤空間的同時，確認自己仍能在批發價上守住健康毛利。",
+    intro: "Wholesale Pricing Calculator 依據零售價、批發折扣與單件成本，計算批發價、批發毛利率與單件利潤，協助您在給通路足夠分潤空間的同時，確認自己仍能在批發價上守住健康毛利。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以單件成本與批發折扣估算，未含倉儲、物流與帳期成本；正式批發報價應再扣除這些費用後評估真實淨利。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立批發定價範例", examplePreview: "批發價預覽", examplePerson: "零售價", fillExample: "一鍵填入標準批發範例", previewActivePath: "填入量販批發範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入零售價、單件成本與批發層級", examplesHelper: "先用範例理解零售價與折扣如何決定批發價與毛利，再改成自己的商品數據。",

@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "電商 · 物流運費 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "運費計算機 · Shipping Cost", subtitle: "用包裹重量與物流方案算出單筆運費與運費占客單比例",
-    intro: "Shipping Cost Calculator 依據包裹重量、物流方案與客單價，計算單筆運費與運費占客單比例，協助你判斷物流成本是否侵蝕毛利、是否該調整包材、設定免運門檻或重議運費。",
+    intro: "Shipping Cost Calculator 依據包裹重量、物流方案與客單價，計算單筆運費與運費占客單比例，協助您判斷物流成本是否侵蝕毛利、是否該調整包材、設定免運門檻或重議運費。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以基本費加重量費估算，未含材積重、偏遠加價與燃油附加費；正式運費應以實際物流報價為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立運費範例", examplePreview: "運費預覽", examplePerson: "包裹重量", fillExample: "一鍵填入標準運費範例", previewActivePath: "填入快遞運費範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入包裹重量、客單價與物流方案", examplesHelper: "先用範例理解重量與方案如何決定運費與占比，再改成自己的物流數據。",

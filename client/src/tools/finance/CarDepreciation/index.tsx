@@ -38,7 +38,7 @@ const ui = {
     englishShort: "EN",
     title: "Car Depreciation Calculator · 車輛折舊計算機",
     subtitle: "估算車輛逐年殘值、總折舊與年均貶值",
-    intro: "本工具依購車價格、首年與後續年折舊率及持有年數，估算車輛目前殘值、累積折舊與年均貶值，協助你判斷換車與轉售時機。",
+    intro: "本工具依購車價格、首年與後續年折舊率及持有年數，估算車輛目前殘值、累積折舊與年均貶值，協助您判斷換車與轉售時機。",
     trustNoteLabel: "注意事項：",
     trustNote: "此工具採固定折舊率估算；實際殘值受車款、里程、車況、地區與市場供需影響。",
     quickActionCard: "快速範例卡",

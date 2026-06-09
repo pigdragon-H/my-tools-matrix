@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "旅遊 · 高山症 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "高山症風險計算機 · Altitude", subtitle: "用目標海拔、上升天數與上升節奏估算高山症風險占比與建議適應天數",
-    intro: "Altitude Sickness Calculator 依據目標海拔、計畫上升天數與上升節奏（保守、標準或快速），計算每日上升高度、風險占比與安全適應所需天數，協助你判斷行程是否上升太快、該不該多排適應日、何時該降海拔過夜或預防用藥，讓高海拔旅行更安全舒適。",
+    intro: "Altitude Sickness Calculator 依據目標海拔、計畫上升天數與上升節奏（保守、標準或快速），計算每日上升高度、風險占比與安全適應所需天數，協助您判斷行程是否上升太快、該不該多排適應日、何時該降海拔過夜或預防用藥，讓高海拔旅行更安全舒適。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以每日上升高度與建議上限估算，未含年齡、體質、過往病史與血氧；實際高山症風險請以自身狀況與專業醫療判斷為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立高山範例", examplePreview: "風險預覽", examplePerson: "目標海拔", fillExample: "一鍵填入標準節奏範例", previewActivePath: "填入快速上升範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入目標海拔、上升天數與上升節奏", examplesHelper: "先用範例理解海拔與節奏如何決定每日上升高度與風險占比，再改成自己的行程數據。",

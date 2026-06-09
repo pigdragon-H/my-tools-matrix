@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "旅遊 · 飛行時間 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "飛行時間計算機 · Flight Time", subtitle: "用航線距離、機型巡航速度與地面作業時間算出總飛行時數與地面占比",
-    intro: "Flight Time Calculator 依據航線距離、機型巡航速度（螺旋槳、標準噴射或高速噴射）與地面作業時間，計算純空中飛行時數、地面作業時數與總飛行時數，協助你判斷航程多長、地面作業占比多高、該如何安排機上睡眠與補水，讓你訂票與安排接駁前就掌握真實航程時間。",
+    intro: "Flight Time Calculator 依據航線距離、機型巡航速度（螺旋槳、標準噴射或高速噴射）與地面作業時間，計算純空中飛行時數、地面作業時數與總飛行時數，協助您判斷航程多長、地面作業占比多高、該如何安排機上睡眠與補水，讓您訂票與安排接駁前就掌握真實航程時間。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以平均巡航速度與固定地面作業時間估算，未含逆風、航管延誤、繞飛與轉機等差異；實際飛行時間請以航空公司官方時刻表為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立航程範例", examplePreview: "航程預覽", examplePerson: "航線距離", fillExample: "一鍵填入標準噴射範例", previewActivePath: "填入高速噴射範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入航線距離、地面作業時間與機型速度", examplesHelper: "先用範例理解距離與速度如何決定總飛行時數與地面占比，再改成自己的航線數據。",

@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "Design · PX REM · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "PX REM 轉換計算機 · PX ↔ REM", subtitle: "用像素值、基準字級與方向算出 REM 結果、比例與匹配分數",
-    intro: "PX REM Converter 依據像素值、基準字級與轉換方向，計算 REM 對應值、比例與匹配分數，協助你判斷 px 與 rem 的對應關係、該用哪個基準、是否需要調整根字級，讓你在寫 CSS 前就把單位換算算清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的基準字級估算轉換；未含瀏覽器預設覆寫、縮放與媒體查詢差異；正式排版請以實際預覽為準。",
+    intro: "PX REM Converter 依據像素值、基準字級與轉換方向，計算 REM 對應值、比例與匹配分數，協助您判斷 px 與 rem 的對應關係、該用哪個基準、是否需要調整根字級，讓您在寫 CSS 前就把單位換算算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以您輸入的基準字級估算轉換；未含瀏覽器預設覆寫、縮放與媒體查詢差異；正式排版請以實際預覽為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立轉換範例", examplePreview: "轉換預覽", examplePerson: "像素值", fillExample: "一鍵填入 16px 範例", previewActivePath: "填入 24px 範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入像素值、基準字級與轉換方向", examplesHelper: "先用範例理解 px 如何對應 rem，再改成自己的數據。",
     metric: "PX → REM", imperial: "REM → PX", exampleCards: "範例卡", baselineExample: "16px 轉換模式", activeExample: "24px 示範", baselineExampleNote: "16px · base 16", activeExampleNote: "24px · base 16", carbsLabel: "匹配分數", carbsName: "百分比", proteinLabel: "合規分數", flowDemo: "基準字級", calculator: "計算機",

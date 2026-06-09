@@ -20,7 +20,7 @@ export function TrustStrip({ lang, variant = "default" }: TrustStripProps) {
       icon: ShieldCheck,
       title: { zh: "隱私保護", en: "Privacy" },
       description: {
-        zh: "我們不販售用戶資料，計算結果預設只在你的瀏覽器執行。",
+        zh: "我們不販售用戶資料，計算結果預設只在您的瀏覽器執行。",
         en: "We do not sell user data; calculations run in your browser by default.",
       },
       href: "/privacy",

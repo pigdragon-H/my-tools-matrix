@@ -38,7 +38,7 @@ const affiliateItems: AffiliateItem[] = [
 
 const SAMPLE_PLAIN = `Hello, Formula Universe! 🌌
 This is a multi-line plain text sample to demonstrate Base64 encoding.
-Includes Chinese: 你好，世界 — and emoji.`;
+Includes Chinese: 您好，世界 — and emoji.`;
 const SAMPLE_BASE64 = `SGVsbG8sIEZvcm11bGEgVW5pdmVyc2UhIPCfjIwKVGhpcyBpcyBhIG11bHRpLWxpbmUgcGxhaW4gdGV4dCBzYW1wbGUgdG8gZGVtb25zdHJhdGUgQmFzZTY0IGVuY29kaW5nLgpJbmNsdWRlcyBDaGluZXNlOiDkvaDlpb3vvIzkuJbnlYwg4oCUIGFuZCBlbW9qaS4=`;
 
 const ui = {

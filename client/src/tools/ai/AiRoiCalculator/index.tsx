@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "AI · ROI · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "AI 投報率計算機 · ROI", subtitle: "用年效益、年營運成本與投資規模算出淨回報、投報率與回本月數",
-    intro: "AI ROI Calculator 依據年效益、年營運成本與投資規模（試點、部門或全企業），加計一次性建置成本後，計算淨回報、投報率與回本月數，協助你判斷一項 AI 投資是否值得、該以哪種規模推進、預期多久回本，讓你在投入企業級 AI 專案前就把整體投報算清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的年效益與成本估算投報，未含折舊攤提、風險折現、變革管理與隱性成本；實際投報請以正式財務模型與審計數據為準。",
+    intro: "AI ROI Calculator 依據年效益、年營運成本與投資規模（試點、部門或全企業），加計一次性建置成本後，計算淨回報、投報率與回本月數，協助您判斷一項 AI 投資是否值得、該以哪種規模推進、預期多久回本，讓您在投入企業級 AI 專案前就把整體投報算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以您輸入的年效益與成本估算投報，未含折舊攤提、風險折現、變革管理與隱性成本；實際投報請以正式財務模型與審計數據為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立 AI ROI 範例", examplePreview: "投報預覽", examplePerson: "年效益 ($k)", fillExample: "一鍵填入部門投資範例", previewActivePath: "填入全企業投資範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入年效益、年營運成本與投資規模", examplesHelper: "先用範例理解年效益與成本如何決定淨回報與投報率，再改成自己的專案數據。",
     metric: "公制", imperial: "占比檢視", exampleCards: "範例卡", baselineExample: "部門投資模式", activeExample: "全企業投資示範", baselineExampleNote: "效益 300 · 成本 100 · 部門", activeExampleNote: "效益 300 · 成本 100 · 全企業", carbsLabel: "回本月數", carbsName: "月", proteinLabel: "投報率", flowDemo: "年營運成本", calculator: "計算機",

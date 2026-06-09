@@ -81,7 +81,7 @@ const knowledgeThemes: KnowledgeTheme[] = [
     iconKey: "formula",
     title: { zh: "公式與指標解釋", en: "Formula & Indicator Explanations" },
     lead: {
-      zh: "每一個計算結果，背後都有一條可以驗證的公式。我們不只給你數字，更告訴你這個數字怎麼來、用了哪些假設、在統計或財務上代表什麼意義——讓你看得懂「為什麼是這個答案」。",
+      zh: "每一個計算結果，背後都有一條可以驗證的公式。我們不只給您數字，更告訴您這個數字怎麼來、用了哪些假設、在統計或財務上代表什麼意義——讓您看得懂「為什麼是這個答案」。",
       en: "Behind every result is a verifiable formula. We don't just hand you a number — we show how it's derived, which assumptions it uses, and what it means statistically or financially, so you understand why the answer is the answer.",
     },
     points: {
@@ -107,7 +107,7 @@ const knowledgeThemes: KnowledgeTheme[] = [
     iconKey: "guide",
     title: { zh: "工具使用指南", en: "Tool Usage Guides" },
     lead: {
-      zh: "一個好的工具，不該讓你猜「該填什麼、結果怎麼讀」。每份使用指南都從真實情境出發，一步步帶你輸入正確的數值、避開常見錯誤，並把計算結果轉成可以執行的決策。",
+      zh: "一個好的工具，不該讓您猜「該填什麼、結果怎麼讀」。每份使用指南都從真實情境出發，一步步帶您輸入正確的數值、避開常見錯誤，並把計算結果轉成可以執行的決策。",
       en: "A good tool shouldn't leave you guessing what to enter or how to read the output. Each guide starts from a real scenario, walks you through correct inputs, helps you avoid common mistakes, and turns results into actionable decisions.",
     },
     points: {
@@ -123,7 +123,7 @@ const knowledgeThemes: KnowledgeTheme[] = [
       ],
     },
     example: {
-      zh: "例如：房貸試算機要填的「年利率」是名目還是實際？指南直接告訴你。",
+      zh: "例如：房貸試算機要填的「年利率」是名目還是實際？指南直接告訴您。",
       en: "Example: is the mortgage calculator's 'rate' nominal or effective? The guide tells you directly.",
     },
     href: "/tools/finance/mortgage-calculator",
@@ -133,7 +133,7 @@ const knowledgeThemes: KnowledgeTheme[] = [
     iconKey: "path",
     title: { zh: "決策路徑文章", en: "Decision-Path Articles" },
     lead: {
-      zh: "真正的問題很少只用一個工具就能解決。決策路徑文章把「從問題 → 找對工具 → 讀懂結果 → 採取下一步」串成一條完整脈絡，讓你不只算出數字，更知道接下來該怎麼做。",
+      zh: "真正的問題很少只用一個工具就能解決。決策路徑文章把「從問題 → 找對工具 → 讀懂結果 → 採取下一步」串成一條完整脈絡，讓您不只算出數字，更知道接下來該怎麼做。",
       en: "Real problems are rarely solved with a single tool. Decision-path articles connect 'question → right tool → understand the result → next action' into one complete flow — so you don't just get a number, you know what to do next.",
     },
     points: {
@@ -339,7 +339,7 @@ export default function BlogList() {
             </h2>
             <p className="mt-3 text-muted-foreground">
               {lang === "zh"
-                ? "深入解析每個工具的實際用途與運用方法，用真實情境帶你把計算結果轉化為決策。"
+                ? "深入解析每個工具的實際用途與運用方法，用真實情境帶您把計算結果轉化為決策。"
                 : "In-depth guides on how to apply each tool — turning numbers into decisions."}
             </p>
           </div>

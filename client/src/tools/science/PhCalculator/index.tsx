@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "Science · pH · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "pH 值計算機 · pH", subtitle: "用氫離子濃度、稀釋倍數與精度等級算出 pH、相對量級與精度分數",
-    intro: "pH Calculator 依據氫離子濃度、稀釋倍數與精度等級（粗略、標準或精密），以 pH 公式 pH = -log10[H+] 計算溶液 pH、相對量級與精度分數，協助你判斷酸鹼度是否合理、落在哪個量級、是酸性還是鹼性、是否需要檢查單位，讓你在化學分析與溶液配製前就把 pH 算清楚。",
+    intro: "pH Calculator 依據氫離子濃度、稀釋倍數與精度等級（粗略、標準或精密），以 pH 公式 pH = -log10[H+] 計算溶液 pH、相對量級與精度分數，協助您判斷酸鹼度是否合理、落在哪個量級、是酸性還是鹼性、是否需要檢查單位，讓您在化學分析與溶液配製前就把 pH 算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以 pH = -log10[H+] 計算，假設溶液為稀水溶液且溫度恆定；正式化學分析請以實際量測與標準參考資料為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立 pH 範例", examplePreview: "pH 預覽", examplePerson: "氫離子濃度 (M)", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
     examplesCalculator: "範例 → 計算器", enterValues: "輸入氫離子濃度、稀釋倍數與精度等級", examplesHelper: "先用範例理解濃度與稀釋如何決定 pH 與量級，再改成自己的溶液數據。",

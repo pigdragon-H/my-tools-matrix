@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "電商 · 經常性收入 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "月經常性收入計算機 · MRR", subtitle: "用付費用戶數與每用戶平均收入算出 MRR 與年化 ARR",
-    intro: "MRR Calculator 依據付費用戶數、方案 ARPU 與自訂客單，計算月經常性收入與年化 ARR，協助你判斷訂閱規模、估算現金流與成長空間，並把 MRR 連動到流失率、LTV 與獲客成本的整體單位經濟。",
+    intro: "MRR Calculator 依據付費用戶數、方案 ARPU 與自訂客單，計算月經常性收入與年化 ARR，協助您判斷訂閱規模、估算現金流與成長空間，並把 MRR 連動到流失率、LTV 與獲客成本的整體單位經濟。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以付費用戶數乘以 ARPU 估算 MRR，未含一次性費用、年繳折扣攤提與稅；正式財報應以實際入帳與會計準則為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立 MRR 範例", examplePreview: "MRR 預覽", examplePerson: "付費用戶數", fillExample: "一鍵填入標準 MRR 範例", previewActivePath: "填入企業方案範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入付費用戶數、自訂 ARPU 與方案", examplesHelper: "先用範例理解用戶數與 ARPU 如何決定 MRR，再改成自己的訂閱數據。",

@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "Science · 電壓降 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "電壓降計算機 · Voltage Drop", subtitle: "用電流、電阻與精度等級算出電壓降、相對量級與精度分數",
-    intro: "Voltage Drop Calculator 依據電流、電阻與精度等級（粗略、標準或精密），以電壓降公式 V = I × R 計算線路電壓降、相對量級與精度分數，協助你判斷壓降是否合理、落在哪個量級、是否需要檢查導線規格，讓你在配線設計與電路分析前就把電壓降算清楚。",
+    intro: "Voltage Drop Calculator 依據電流、電阻與精度等級（粗略、標準或精密），以電壓降公式 V = I × R 計算線路電壓降、相對量級與精度分數，協助您判斷壓降是否合理、落在哪個量級、是否需要檢查導線規格，讓您在配線設計與電路分析前就把電壓降算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以 V = I × R 計算，假設導線電阻恆定且溫度穩定；正式配線設計請以實際導線規格、溫度修正與標準參考資料為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立電壓降範例", examplePreview: "電壓降預覽", examplePerson: "電流 (A)", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
     examplesCalculator: "範例 → 計算器", enterValues: "輸入電流、電阻與精度等級", examplesHelper: "先用範例理解電流與電阻如何決定電壓降與量級，再改成自己的線路數據。",

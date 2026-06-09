@@ -33,7 +33,7 @@ const ui = {
   zh: {
     badge: "財務 · 時薪換算 · 黃金工具", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "Hourly Rate Calculator · 時薪計算機", subtitle: "將年薪或月薪換算成真實時薪",
-    intro: "本工具將你的年薪換算成實際時薪，並考量休假與工時差異，幫助你了解每小時工作時間的真實價值。",
+    intro: "本工具將您的年薪換算成實際時薪，並考量休假與工時差異，幫助您了解每小時工作時間的真實價值。",
     trustNoteLabel: "注意事項：", trustNote: "此計算假設標準工時；實際時薪受加班、獎金與非現金福利影響。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立時薪範例", examplePreview: "時薪預覽", examplePerson: "標準範例", fillExample: "一鍵填入標準範例", previewActivePath: "填入高薪範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入薪資與工時資訊", examplesHelper: "先用範例理解時薪計算，再改成自己的數字。",

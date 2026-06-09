@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "AI · 機器人成本 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "聊天機器人成本計算機 · Chatbot Cost", subtitle: "用月對話量、每百萬單價與對話複雜度算出整月機器人成本與每對話成本",
-    intro: "Chatbot Cost Calculator 依據每月對話量、每百萬 token 單價與對話複雜度（簡短、標準或複雜），算出整月機器人總成本、每對話成本與 token 強度，協助你判斷預算是否合理、對話是否太長、該不該壓縮歷史或改用較便宜模型，讓你在上線任何客服機器人前就把營運花費算清楚。",
+    intro: "Chatbot Cost Calculator 依據每月對話量、每百萬 token 單價與對話複雜度（簡短、標準或複雜），算出整月機器人總成本、每對話成本與 token 強度，協助您判斷預算是否合理、對話是否太長、該不該壓縮歷史或改用較便宜模型，讓您在上線任何客服機器人前就把營運花費算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以單一綜合單價與對話複雜度估算，未含輸入輸出分離計價、快取折扣與各家最新調價；實際費用請以各 AI 供應商官方計價頁為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立機器人範例", examplePreview: "成本預覽", examplePerson: "月對話量", fillExample: "一鍵填入標準範例", previewActivePath: "填入複雜對話範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入 月對話量、每百萬單價與對話複雜度", examplesHelper: "先用範例理解對話量、單價與複雜度如何決定總成本與每對話成本，再改成自己的營運數據。",

@@ -33,7 +33,7 @@ const ui = {
   zh: {
     badge: "財務 · CPC 換算 · 黃金工具", switchToEnglish: "中文模式", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "CPC Calculator · CPC 計算機", subtitle: "計算每次點擊成本、每次轉換成本與整體點擊效率",
-    intro: "本工具根據廣告花費與點擊次數，估算每次點擊成本（CPC）、每次轉換成本與相關投放指標，幫助你比較不同關鍵字與活動的點擊效率。",
+    intro: "本工具根據廣告花費與點擊次數，估算每次點擊成本（CPC）、每次轉換成本與相關投放指標，幫助您比較不同關鍵字與活動的點擊效率。",
     trustNoteLabel: "注意事項：", trustNote: "此工具估算點擊成本指標；未計入客單價、毛利、退貨率或廣告創意差異等實際成效因素。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立 CPC 範例", examplePreview: "CPC 預覽", examplePerson: "標準範例", fillExample: "一鍵填入標準範例", previewActivePath: "填入高成本範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入廣告花費與點擊次數", examplesHelper: "先用範例理解 CPC 計算，再改成自己的數字。",

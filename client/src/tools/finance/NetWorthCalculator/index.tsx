@@ -33,7 +33,7 @@ const ui = {
   zh: {
     badge: "財務 · 資產規劃 · 黃金工具", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "Net Worth Calculator · 淨資產計算機", subtitle: "盤點資產與負債，計算淨資產並掌握財務健康",
-    intro: "本工具把你的總資產（現金、投資、不動產）減去總負債（貸款、信用卡），得出淨資產數值，協助了解目前財務健康並規劃改善方向。",
+    intro: "本工具把您的總資產（現金、投資、不動產）減去總負債（貸款、信用卡），得出淨資產數值，協助了解目前財務健康並規劃改善方向。",
     trustNoteLabel: "注意事項：", trustNote: "資產估值可能與市場實際變動有差異；不動產與投資需定期重新估算。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立淨資產範例", examplePreview: "淨資產預覽", examplePerson: "標準範例", fillExample: "一鍵填入標準範例", previewActivePath: "填入高負債範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入資產與負債", examplesHelper: "先用範例理解淨資產計算，再改成自己的數字。",

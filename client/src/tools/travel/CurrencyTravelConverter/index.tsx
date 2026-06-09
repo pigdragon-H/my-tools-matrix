@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "旅遊 · 貨幣換算 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "旅遊貨幣換算器 · Currency Converter", subtitle: "用匯率、母國金額與換匯通路算出實收外幣金額與換匯成本比例",
-    intro: "Travel Currency Converter 依據匯率、母國金額與換匯通路（銀行、刷卡或現鈔），計算扣除換匯費用後的實收外幣金額與換匯成本比例，協助你判斷哪個通路最划算、避免被高額手續費或差勁匯率吃掉旅費。",
+    intro: "Travel Currency Converter 依據匯率、母國金額與換匯通路（銀行、刷卡或現鈔），計算扣除換匯費用後的實收外幣金額與換匯成本比例，協助您判斷哪個通路最划算、避免被高額手續費或差勁匯率吃掉旅費。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以名目匯率乘金額再扣通路費率估算，未含當下即時匯率波動與發卡行附加費；正式金額以銀行或刷卡帳單為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立換匯範例", examplePreview: "換匯預覽", examplePerson: "匯率 (×1000)", fillExample: "一鍵填入標準換匯範例", previewActivePath: "填入現鈔通路範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入匯率、母國金額與換匯通路", examplesHelper: "先用範例理解匯率與通路如何決定實收外幣與成本比例，再改成自己的兌換數據。",

@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "Science · 單位換算 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "通用單位換算計算機 · Unit Converter", subtitle: "用來源數值、換算因子與精度等級算出換算結果、相對量級與精度分數",
-    intro: "Unit Converter Calculator 依據來源數值、換算因子與精度等級（粗略、標準或精密），計算換算結果、相對量級與精度分數，協助你判斷不同單位之間的轉換是否正確、結果落在哪個量級、是否需要改用科學記號或調整有效位數，讓你在科學計算與工程量測前就把單位換算算清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的換算因子做線性換算，未含非線性單位（如溫度偏移）與單位制差異；正式換算請以權威單位定義與標準對照表為準。",
+    intro: "Unit Converter Calculator 依據來源數值、換算因子與精度等級（粗略、標準或精密），計算換算結果、相對量級與精度分數，協助您判斷不同單位之間的轉換是否正確、結果落在哪個量級、是否需要改用科學記號或調整有效位數，讓您在科學計算與工程量測前就把單位換算算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以您輸入的換算因子做線性換算，未含非線性單位（如溫度偏移）與單位制差異；正式換算請以權威單位定義與標準對照表為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立換算範例", examplePreview: "換算預覽", examplePerson: "來源數值", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
     examplesCalculator: "範例 → 計算器", enterValues: "輸入來源數值、換算因子與精度等級", examplesHelper: "先用範例理解換算因子如何決定結果與量級，再改成自己的量測數據。",
     metric: "公制", imperial: "佔比檢視", exampleCards: "範例卡", baselineExample: "標準換算模式", activeExample: "精密示範", baselineExampleNote: "1.0 × 3.28084 · 標準", activeExampleNote: "10.0 × 3.28084 · 精密", carbsLabel: "精度餘量", carbsName: "百分比", proteinLabel: "精度分數", flowDemo: "換算因子", calculator: "計算器",

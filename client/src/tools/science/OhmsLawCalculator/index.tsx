@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "Science · 歐姆定律 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "歐姆定律計算機 · Ohms Law", subtitle: "用電流、電阻與精度等級算出電壓、相對量級與精度分數",
-    intro: "Ohms Law Calculator 依據電流、電阻與精度等級（粗略、標準或精密），以歐姆定律 V = I × R 計算電路兩端電壓、相對量級與精度分數，協助你判斷電路電壓是否合理、電壓落在哪個量級、是否需要改用科學記號或檢查單位，讓你在電路設計與電子分析前就把電壓算清楚。",
+    intro: "Ohms Law Calculator 依據電流、電阻與精度等級（粗略、標準或精密），以歐姆定律 V = I × R 計算電路兩端電壓、相對量級與精度分數，協助您判斷電路電壓是否合理、電壓落在哪個量級、是否需要改用科學記號或檢查單位，讓您在電路設計與電子分析前就把電壓算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以歐姆定律做線性計算，假設電阻為純電阻且溫度恆定；正式電路分析請以實際元件特性與量測數據為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立電壓範例", examplePreview: "電壓預覽", examplePerson: "電流 (A)", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
     examplesCalculator: "範例 → 計算器", enterValues: "輸入電流、電阻與精度等級", examplesHelper: "先用範例理解電流與電阻如何決定電壓與量級，再改成自己的電路數據。",

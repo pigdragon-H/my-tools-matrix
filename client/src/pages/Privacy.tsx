@@ -32,7 +32,7 @@ export default function Privacy() {
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300">
             {lang === "zh"
-              ? "我們重視你的隱私。這份政策說明 Formula Universe 如何處理 (或不處理) 你的個人資料。"
+              ? "我們重視您的隱私。這份政策說明 Formula Universe 如何處理 (或不處理) 您的個人資料。"
               : "We respect your privacy. This policy explains how Formula Universe handles (or does not handle) your personal data."}
           </p>
           <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
@@ -46,21 +46,21 @@ export default function Privacy() {
           <h2>{lang === "zh" ? "1. 我們收集什麼資料" : "1. What we collect"}</h2>
           <p>
             {lang === "zh"
-              ? "大多數計算工具完全在你的瀏覽器內執行,我們不會傳送你輸入的數值到伺服器。我們會收集匿名的訪問統計 (頁面瀏覽次數、瀏覽器類型、語言) 用來改善網站。"
+              ? "大多數計算工具完全在您的瀏覽器內執行,我們不會傳送您輸入的數值到伺服器。我們會收集匿名的訪問統計 (頁面瀏覽次數、瀏覽器類型、語言) 用來改善網站。"
               : "Most calculation tools run entirely in your browser; we do not send your input values to our servers. We collect anonymous visit statistics (page views, browser type, language) to improve the site."}
           </p>
 
           <h2>{lang === "zh" ? "2. Cookie 與第三方服務" : "2. Cookies and third-party services"}</h2>
           <p>
             {lang === "zh"
-              ? "本站可能使用 Google Analytics 與 Google AdSense 來提供匿名分析與廣告。這些服務會在你的瀏覽器設定 cookie。你可以在瀏覽器設定中停用或刪除 cookie。"
+              ? "本站可能使用 Google Analytics 與 Google AdSense 來提供匿名分析與廣告。這些服務會在您的瀏覽器設定 cookie。您可以在瀏覽器設定中停用或刪除 cookie。"
               : "This site may use Google Analytics and Google AdSense for anonymous analytics and advertising. These services set cookies in your browser. You can disable or delete cookies in your browser settings."}
           </p>
 
-          <h2>{lang === "zh" ? "3. 你的資料權利" : "3. Your data rights"}</h2>
+          <h2>{lang === "zh" ? "3. 您的資料權利" : "3. Your data rights"}</h2>
           <p>
             {lang === "zh"
-              ? "我們不販售也不分享個人資料給第三方做行銷用途。如果你曾透過電子報訂閱、聯絡表單或付費方案提供 email,你可以隨時要求刪除。"
+              ? "我們不販售也不分享個人資料給第三方做行銷用途。如果您曾透過電子報訂閱、聯絡表單或付費方案提供 email,您可以隨時要求刪除。"
               : "We do not sell or share personal data with third parties for marketing. If you have provided your email via newsletter, contact, or paid plan, you may request deletion at any time."}
           </p>
 

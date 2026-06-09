@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "法律 · 利息試算 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "法定利息計算機 · Legal Interest", subtitle: "用本金、利率與期間估算法定利息與遲延利息金額",
-    intro: "法定利息計算機依本金、年利率（法定 5% 或約定利率）與期間天數，估算應付利息總額，並提供法定上限 16% 的判讀，協助你在催討、協商或訴訟前先建立量化基準。",
+    intro: "法定利息計算機依本金、年利率（法定 5% 或約定利率）與期間天數，估算應付利息總額，並提供法定上限 16% 的判讀，協助您在催討、協商或訴訟前先建立量化基準。",
     trustNoteLabel: "注意事項：", trustNote: "利率與起算日依約定與個案差異而不同；本工具僅供教育與試算用途，不構成法律意見。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立利息試算範例", examplePreview: "估算利息預覽", examplePerson: "本金", fillExample: "一鍵填入法定範例", previewActivePath: "填入約定高利範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入本金與利率", examplesHelper: "先用範例理解法定與約定利率差異，再改成自己的本金、利率與期間天數。",

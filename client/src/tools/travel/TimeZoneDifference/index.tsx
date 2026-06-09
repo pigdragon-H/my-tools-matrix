@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "旅遊 · 時差 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "時差計算機 · Time Zone Difference", subtitle: "用出發地與目的地的 UTC 時區與調整節奏算出時差小時數與適應天數",
-    intro: "Time Zone Difference Calculator 依據出發地與目的地的 UTC 時區偏移與調整節奏（漸進、標準或積極），計算兩地時差小時數、適應天數與時差嚴重度，協助你判斷時差影響多大、需要幾天適應、該往哪個方向調整作息，讓你跨時區旅行前就把校時計畫安排好。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的 UTC 時區估算，未含夏令時間、個人體質與航班過夜差異；實際時差與適應狀況因人而異，請以當地官方時間與身體狀況為準。",
+    intro: "Time Zone Difference Calculator 依據出發地與目的地的 UTC 時區偏移與調整節奏（漸進、標準或積極），計算兩地時差小時數、適應天數與時差嚴重度，協助您判斷時差影響多大、需要幾天適應、該往哪個方向調整作息，讓您跨時區旅行前就把校時計畫安排好。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以您輸入的 UTC 時區估算，未含夏令時間、個人體質與航班過夜差異；實際時差與適應狀況因人而異，請以當地官方時間與身體狀況為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立時差範例", examplePreview: "時差預覽", examplePerson: "出發地 UTC", fillExample: "一鍵填入標準節奏範例", previewActivePath: "填入積極調整範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入出發地 UTC、目的地 UTC 與調整節奏", examplesHelper: "先用範例理解兩地時區如何決定時差小時數與適應天數，再改成自己的航線數據。",
     metric: "公制", imperial: "占比檢視", exampleCards: "範例卡", baselineExample: "標準節奏模式", activeExample: "積極調整示範", baselineExampleNote: "出發 +8 · 目的 -5 · 標準", activeExampleNote: "出發 +8 · 目的 -5 · 積極", carbsLabel: "適應天數", carbsName: "天", proteinLabel: "嚴重度", flowDemo: "目的地 UTC", calculator: "計算機",

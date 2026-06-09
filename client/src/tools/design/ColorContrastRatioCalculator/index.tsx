@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "Design · 色彩對比 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "色彩對比度計算機 · Contrast Ratio", subtitle: "用前景亮度、背景亮度與 WCAG 等級算出對比度、達標餘量與合規分數",
-    intro: "Color Contrast Ratio Calculator 依據前景亮度、背景亮度與目標 WCAG 等級（AA 大字、AA 標準或 AAA），計算對比度、達標餘量與合規分數，協助你判斷文字與背景是否清晰可讀、該選哪個無障礙等級、是否需要加深或調亮顏色，讓你在決定設計配色前就把可讀性與無障礙合規算清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的相對亮度估算對比度，未含子像素渲染、字重與環境光差異；正式無障礙稽核請以實際 WCAG 工具與螢幕量測為準。",
+    intro: "Color Contrast Ratio Calculator 依據前景亮度、背景亮度與目標 WCAG 等級（AA 大字、AA 標準或 AAA），計算對比度、達標餘量與合規分數，協助您判斷文字與背景是否清晰可讀、該選哪個無障礙等級、是否需要加深或調亮顏色，讓您在決定設計配色前就把可讀性與無障礙合規算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以您輸入的相對亮度估算對比度，未含子像素渲染、字重與環境光差異；正式無障礙稽核請以實際 WCAG 工具與螢幕量測為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立對比範例", examplePreview: "對比預覽", examplePerson: "前景亮度", fillExample: "一鍵填入 AA 標準範例", previewActivePath: "填入 AAA 範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入前景亮度、背景亮度與 WCAG 等級", examplesHelper: "先用範例理解亮度差如何決定對比度與達標餘量，再改成自己的配色數據。",
     metric: "公制", imperial: "占比檢視", exampleCards: "範例卡", baselineExample: "AA 標準模式", activeExample: "AAA 示範", baselineExampleNote: "前景 90 · 背景 10 · AA", activeExampleNote: "前景 90 · 背景 10 · AAA", carbsLabel: "達標餘量", carbsName: "百分比", proteinLabel: "合規分數", flowDemo: "背景亮度", calculator: "計算機",

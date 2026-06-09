@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "AI · Token 成本 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "AI Token 成本計算機 · Token Cost", subtitle: "用每請求 token 數、請求量與模型階層算出整月 token 總成本與每請求成本",
-    intro: "AI Token Cost Calculator 依據每請求平均 token 數（以千為單位）、請求總量與模型階層（經濟、標準或旗艦），計算整月 token 總成本、每請求成本與成本密度，協助你判斷預算是否合理、該選哪個模型階層、是否該導入快取與提示精簡，讓你在串接大型語言模型前就把 token 花費算清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的模型階層單價估算，未含輸入/輸出分離計價、快取折扣與各家最新調價；實際費用請以各 AI 供應商官方計價頁為準。",
+    intro: "AI Token Cost Calculator 依據每請求平均 token 數（以千為單位）、請求總量與模型階層（經濟、標準或旗艦），計算整月 token 總成本、每請求成本與成本密度，協助您判斷預算是否合理、該選哪個模型階層、是否該導入快取與提示精簡，讓您在串接大型語言模型前就把 token 花費算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以您輸入的模型階層單價估算，未含輸入/輸出分離計價、快取折扣與各家最新調價；實際費用請以各 AI 供應商官方計價頁為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立 Token 範例", examplePreview: "成本預覽", examplePerson: "每請求 token (K)", fillExample: "一鍵填入標準模型範例", previewActivePath: "填入旗艦模型範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入每請求 token、請求量與模型階層", examplesHelper: "先用範例理解 token 量與單價如何決定總成本與每請求成本，再改成自己的用量數據。",
     metric: "公制", imperial: "占比檢視", exampleCards: "範例卡", baselineExample: "標準模型模式", activeExample: "旗艦模型示範", baselineExampleNote: "token 0.5K · 請求 1000 · 標準", activeExampleNote: "token 0.5K · 請求 1000 · 旗艦", carbsLabel: "每請求成本", carbsName: "美分", proteinLabel: "成本密度", flowDemo: "請求量", calculator: "計算機",

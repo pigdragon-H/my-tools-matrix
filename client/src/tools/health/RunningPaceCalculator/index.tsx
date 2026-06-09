@@ -61,7 +61,7 @@ const ui = {
   zh: {
     badge: "健康 · 運動規劃 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "跑步配速計算機 · Running Pace", subtitle: "用距離與完成時間算出配速、速度與各賽事預估完賽時間",
-    intro: "Running Pace Calculator 依據你跑的距離(km)與完成時間(分鐘)，計算每公里配速(min/km)與速度(km/h)，並用相同配速預估 1K、5K、10K、半馬與全馬的完賽時間，協助設定目標與訓練配速。",
+    intro: "Running Pace Calculator 依據您跑的距離(km)與完成時間(分鐘)，計算每公里配速(min/km)與速度(km/h)，並用相同配速預估 1K、5K、10K、半馬與全馬的完賽時間，協助設定目標與訓練配速。",
     trustNoteLabel: "注意事項：", trustNote: "賽事預估假設配速維持不變，實際比賽會因疲勞、地形與天候而變慢；距離越長，預估誤差越大。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立配速範例", examplePreview: "配速預覽", examplePerson: "距離", fillExample: "一鍵填入標準範例", previewActivePath: "填入 10K 範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入距離與時間", examplesHelper: "先用範例理解配速與賽事預估，再改成自己的距離與完成時間。",

@@ -58,7 +58,7 @@ const ui = {
     trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具只供估算與規劃用途，不取代正式薪資結算系統或勞動法規諮詢。", relatedTools: "相關工具", relatedToolsText: "Deadline Countdown · Date Duration Calculator · Pomodoro Planner · Task Priority Matrix", references: "參考資料", referencesText: "勞動部 勞動基準法 工時與加班費規定; ILO Hours of Work conventions; standard timekeeping practices。",
     q1: "加班費怎麼算？", a1: "本工具以超過 8 小時部分乘以 1.34 倍概估，實際倍率請依當地法規。",
     q2: "跨夜班怎麼處理？", a2: "若下班時間早於上班，系統自動加 24 小時，視為跨夜班計算。",
-    q3: "休息時間會扣嗎？", a3: "會，總時段會先扣除你輸入的休息分鐘，再換算工時。",
+    q3: "休息時間會扣嗎？", a3: "會，總時段會先扣除您輸入的休息分鐘，再換算工時。",
     q4: "週薪怎麼算？", a4: "當日薪資乘以每週工作天數，為概估週薪。",
     q5: "有含稅與津貼嗎？", a5: "沒有，僅計基本工時薪資，未含稅務扣除、津貼或夜班加給。",
     q6: "適合哪些情境？", a6: "時薪制、排班制與需核對加班費的工作者做日常工時與薪資估算。",

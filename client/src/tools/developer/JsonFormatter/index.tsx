@@ -76,7 +76,7 @@ const ui = {
     example: "範例", exampleText: "若 JSON = 8 KB、深度 = 4、token = 142,落在「標準回應」band,以 4 空格格式化為 11 KB,gzip 後約 2.5 KB;此尺寸適合作為 REST 單一資源回應,不需立即分頁。",
     faq: "常見問題", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "JSON 處理的下一步工具", premiumTitle: "專業版 JSON 工具包", premiumText: "解鎖 JSON Schema 驗證、JSONPath 查詢、巨型 JSON 串流預覽、Diff 兩份 JSON 與 NDJSON 切換。",
     trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具僅在瀏覽器端執行 JSON.parse / JSON.stringify,所有貼上的資料不會送到伺服器;不取代 JSON Schema 驗證、安全審計或合規檢查工具。", relatedTools: "相關工具", relatedToolsText: "字數統計工具 · 日期天數計算機 · 番茄鐘日程規劃器 · 時區轉換器", references: "參考資料", referencesText: "IETF RFC 8259 (Bray, ed., 2017) The JavaScript Object Notation (JSON) Data Interchange Format;ECMA-404 (2nd ed., 2017) The JSON Data Interchange Syntax;Mozilla MDN Web Docs — JSON.parse / JSON.stringify 規範文件;Harvard CS50 (CS50x) Web Programming JSON 教學模組;JSON Schema 2020-12 (json-schema.org) 驗證慣例。",
-    q1: "為什麼我的 JSON 顯示「Invalid」?", a1: "RFC 8259 不允許尾隨逗號、單引號字串、未加引號的鍵名與註解;若你的資料源使用 JSON5 或 JSONC,需先轉成標準 JSON。錯誤訊息會標示行/列位置。",
+    q1: "為什麼我的 JSON 顯示「Invalid」?", a1: "RFC 8259 不允許尾隨逗號、單引號字串、未加引號的鍵名與註解;若您的資料源使用 JSON5 或 JSONC,需先轉成標準 JSON。錯誤訊息會標示行/列位置。",
     q2: "「鍵名排序」會破壞我的 API 嗎?", a2: "RFC 8259 明確規定 JSON 物件的鍵序「在語意上不重要」,絕大多數 API 客戶端不依賴鍵序;但少數舊系統(如部分 SOAP-to-JSON 轉換器)會出錯,使用前請於測試環境驗證。",
     q3: "貼上的資料會被送到伺服器嗎?", a3: "不會。本工具完全在瀏覽器端用 JSON.parse / JSON.stringify 處理;頁面關閉後資料即消失,適合處理含 API key、PII 或商業敏感欄位的 JSON。",
     q4: "支援多大檔案?", a4: "主要受瀏覽器記憶體限制(實務上 10–50 MB 仍可),但超過 1 MB 即建議改用 NDJSON 或伺服器端工具;深度超過 64 層通常代表結構設計需要重構。",

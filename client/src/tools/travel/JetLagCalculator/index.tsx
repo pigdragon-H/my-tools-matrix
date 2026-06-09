@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "旅遊 · 時差調適 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "時差調適計算機 · Jet Lag", subtitle: "用跨越時區數、出發前睡眠與恢復速度算出時差調適所需天數",
-    intro: "Jet Lag Calculator 依據跨越時區數、出發前睡眠時數與恢復速度（較慢、標準或較快），計算時差調適所需天數、睡眠不足的額外懲罰天數與調適進度占比，協助你判斷行程前段該不該排重要活動、何時開始預先調整作息、以及抵達後如何安排光照與休息，讓長程旅行的身體更快回到正軌。",
+    intro: "Jet Lag Calculator 依據跨越時區數、出發前睡眠時數與恢復速度（較慢、標準或較快），計算時差調適所需天數、睡眠不足的額外懲罰天數與調適進度占比，協助您判斷行程前段該不該排重要活動、何時開始預先調整作息、以及抵達後如何安排光照與休息，讓長程旅行的身體更快回到正軌。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以經驗法則與恢復速度估算，未含年齡、體質、用藥與睡眠品質；實際時差調適時間請以自身狀況彈性調整。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立時差範例", examplePreview: "時差預覽", examplePerson: "跨越時區", fillExample: "一鍵填入標準恢復範例", previewActivePath: "填入快速恢復範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入跨越時區數、出發前睡眠與恢復速度", examplesHelper: "先用範例理解時區數與恢復速度如何決定調適天數與進度占比，再改成自己的行程數據。",

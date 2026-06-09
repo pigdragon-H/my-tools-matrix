@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "旅遊 · 行程天數 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "旅遊天數計算機 · Travel Day Counter", subtitle: "用住宿夜數、週末天數與行程型態算出總天數與工作日佔比",
-    intro: "Travel Day Counter 依據住宿夜數、週末天數與行程型態，計算整趟旅遊的總天數與工作日佔比，協助你判斷要請幾天假、行程是否該銜接連假、是否該縮短或延長天數來分攤請假壓力。",
+    intro: "Travel Day Counter 依據住宿夜數、週末天數與行程型態，計算整趟旅遊的總天數與工作日佔比，協助您判斷要請幾天假、行程是否該銜接連假、是否該縮短或延長天數來分攤請假壓力。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以夜數加一估算總天數，未含時區跨越、紅眼班機與抵達日落地時間；正式行程應以實際航班與當地行事曆為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立天數範例", examplePreview: "天數預覽", examplePerson: "住宿夜數", fillExample: "一鍵填入標準天數範例", previewActivePath: "填入長程天數範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入住宿夜數、週末天數與行程型態", examplesHelper: "先用範例理解夜數與週末天數如何決定總天數與工作日佔比，再改成自己的行程數據。",

@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "電商 · 顧客獲取 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "顧客獲取成本計算機 · CAC", subtitle: "用總獲客支出與新顧客數估算每位顧客的獲取成本與回本月數",
-    intro: "CAC Calculator 依據總行銷與銷售支出及新增顧客數，估算每位新顧客的獲取成本，並結合終身價值估算 LTV/CAC 與回本月數，協助你判斷獲客是否划算。",
+    intro: "CAC Calculator 依據總行銷與銷售支出及新增顧客數，估算每位新顧客的獲取成本，並結合終身價值估算 LTV/CAC 與回本月數，協助您判斷獲客是否划算。",
     trustNoteLabel: "注意事項：", trustNote: "CAC 應包含廣告、人力、工具與促銷等全部獲客支出；只算媒體費會低估真實成本，導致高估獲客效率。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立獲客成本範例", examplePreview: "CAC 預覽", examplePerson: "獲客支出", fillExample: "一鍵填入標準範例", previewActivePath: "填入高成本範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入獲客支出、新顧客數與通路", examplesHelper: "先用範例理解支出與新顧客數如何決定 CAC，再改成自己的獲客數據。",

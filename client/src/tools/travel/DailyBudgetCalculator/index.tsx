@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "旅遊 · 每日預算 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "每日預算計算機 · Daily Budget", subtitle: "用行程天數、地面預算與舒適等級算出每日可用花費與占舒適目標比例",
-    intro: "Daily Budget Calculator 依據行程天數、地面預算（不含機票）與舒適等級，計算每天可用的花費上限與占舒適目標比例，協助你判斷每日花費是否寬裕或超標、是否該下修等級、拉長天數或重新分配總預算來控制成本。",
+    intro: "Daily Budget Calculator 依據行程天數、地面預算（不含機票）與舒適等級，計算每天可用的花費上限與占舒適目標比例，協助您判斷每日花費是否寬裕或超標、是否該下修等級、拉長天數或重新分配總預算來控制成本。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以地面預算除以天數估算每日可用花費，未含機票、簽證與保險；舒適目標僅為規劃參考，實際花費依目的地物價而定。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立每日預算範例", examplePreview: "每日預覽", examplePerson: "行程天數", fillExample: "一鍵填入標準每日範例", previewActivePath: "填入舒適每日範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入行程天數、地面預算與舒適等級", examplesHelper: "先用範例理解天數與等級如何決定每日花費與占比，再改成自己的行程數據。",

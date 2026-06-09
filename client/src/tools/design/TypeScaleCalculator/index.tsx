@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "Design · 字級級數 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "字級級數計算機 · Type Scale", subtitle: "用基礎字級、級數比率與級數次數算出字級序列、最大字級與匹配分數",
-    intro: "Type Scale Calculator 依據基礎字級、級數比率與級數次數，計算字級序列、最大字級與匹配分數，協助你判斷標題層級是否清晰、該選哪種比率、是否需要調整基礎字級，讓你在決定排版規格前就把字級層級算清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的數值估算字級序列，未含行高、字距與瀏覽器渲染差異；正式排版請以實際預覽為準。",
+    intro: "Type Scale Calculator 依據基礎字級、級數比率與級數次數，計算字級序列、最大字級與匹配分數，協助您判斷標題層級是否清晰、該選哪種比率、是否需要調整基礎字級，讓您在決定排版規格前就把字級層級算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以您輸入的數值估算字級序列，未含行高、字距與瀏覽器渲染差異；正式排版請以實際預覽為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立級數範例", examplePreview: "級數預覽", examplePerson: "基礎字級", fillExample: "一鍵填入 Major Third 範例", previewActivePath: "填入 Perfect Fifth 範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入基礎字級、級數比率與級數次數", examplesHelper: "先用範例理解基礎字級與比率如何決定層級序列，再改成自己的數據。",
     metric: "公制", imperial: "佔比檢視", exampleCards: "範例卡", baselineExample: "Major Third 模式", activeExample: "Perfect Fifth 示範", baselineExampleNote: "16px · 1.25 · 6", activeExampleNote: "16px · 1.5 · 6", carbsLabel: "匹配分數", carbsName: "百分比", proteinLabel: "合規分數", flowDemo: "級數次數", calculator: "計算機",

@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "旅遊 · 保險規劃 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "旅遊保險計算機 · Travel Insurance", subtitle: "用旅遊天數、旅費與保障方案算出保費與保費佔旅費比例",
-    intro: "Travel Insurance Calculator 依據旅遊天數、旅費與保障方案，計算旅遊保險保費與保費佔旅費比例，協助你判斷保障是否足夠、保費是否合理、是否該升級方案或縮短天數來控制成本。",
+    intro: "Travel Insurance Calculator 依據旅遊天數、旅費與保障方案，計算旅遊保險保費與保費佔旅費比例，協助您判斷保障是否足夠、保費是否合理、是否該升級方案或縮短天數來控制成本。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以每日費率乘天數估算保費，未含年齡加費、既往症、高風險活動與目的地風險係數；正式保費應以保險公司報價為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立保費範例", examplePreview: "保費預覽", examplePerson: "旅遊天數", fillExample: "一鍵填入標準保費範例", previewActivePath: "填入高保障範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入旅遊天數、旅費與保障方案", examplesHelper: "先用範例理解天數與方案如何決定保費與保費佔比，再改成自己的行程數據。",

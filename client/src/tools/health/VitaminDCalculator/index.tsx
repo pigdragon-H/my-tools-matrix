@@ -38,10 +38,10 @@ const ui = {
   zh: {
     badge: "健康 · 營養補充 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "維生素D計算機 · Vitamin D Planner", subtitle: "用目前血清濃度、年齡與日照習慣估算每日建議攝取量",
-    intro: "Vitamin D Calculator 依據目前血清 25(OH)D 濃度(ng/mL)、目標濃度與日照習慣，估算每日建議補充的維生素D(IU)，幫你把血清濃度從現值提升到充足區間(30–50 ng/mL)。",
+    intro: "Vitamin D Calculator 依據目前血清 25(OH)D 濃度(ng/mL)、目標濃度與日照習慣，估算每日建議補充的維生素D(IU)，幫您把血清濃度從現值提升到充足區間(30–50 ng/mL)。",
     trustNoteLabel: "注意事項：", trustNote: "本估算採用「約 100 IU/日提升血清約 1 ng/mL」的群體均值；個人吸收率、體重、腎肝功能與用藥會影響實際需求，補充前請諮詢醫師並驗血。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立維生素D範例", examplePreview: "每日建議預覽", examplePerson: "目前濃度", fillExample: "一鍵填入標準範例", previewActivePath: "填入低日照範例",
-    examplesCalculator: "範例 → 計算機", enterValues: "輸入目前濃度、年齡與日照", examplesHelper: "先用範例理解血清濃度與建議攝取的關係，再改成你自己的驗血數據。",
+    examplesCalculator: "範例 → 計算機", enterValues: "輸入目前濃度、年齡與日照", examplesHelper: "先用範例理解血清濃度與建議攝取的關係，再改成您自己的驗血數據。",
     metric: "ng/mL (美制)", imperial: "nmol/L (歐制)", exampleCards: "範例卡", baselineExample: "成人 缺乏補充", activeExample: "長者 低日照示範", gapLabel: "缺口", baselineExampleNote: "18 ng/mL · 35 歲 · 中等日照", activeExampleNote: "12 ng/mL · 72 歲 · 低日照", flowDemo: "目標 40", calculator: "計算機",
     weight: "目前血清 25(OH)D (ng/mL)", tdee: "年齡 (歲)", goal: "日照習慣", goalCut: "低日照", goalMaintain: "中等", goalBulk: "高日照",
     resultCard: "維生素D建議結果", unit: "IU/day", primaryValue: "目標濃度", maintenanceTarget: "需提升 (ng/mL)", actionTarget: "維持劑量 (IU)", estimatedTdee: "目標濃度", maintenance: "差距", fatLossTarget: "維持",

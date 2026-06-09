@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "Design · 網格版面 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "網格版面計算機 · Grid Layout", subtitle: "用總寬度、欄數與間距算出欄寬、可用空間與匹配分數",
-    intro: "Grid Layout Calculator 依據總寬度、欄數與間距，計算每欄寬度、可用空間與匹配分數，協助你判斷網格是否平衡、該用幾欄、間距是否合理，讓你在寫 CSS Grid 前就把版面配置算清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的數值估算網格；未含 CSS gap 與 padding 互動、瀏覽器子像素渲染差異；正式排版請以實際預覽為準。",
+    intro: "Grid Layout Calculator 依據總寬度、欄數與間距，計算每欄寬度、可用空間與匹配分數，協助您判斷網格是否平衡、該用幾欄、間距是否合理，讓您在寫 CSS Grid 前就把版面配置算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以您輸入的數值估算網格；未含 CSS gap 與 padding 互動、瀏覽器子像素渲染差異；正式排版請以實際預覽為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立網格範例", examplePreview: "網格預覽", examplePerson: "總寬度", fillExample: "一鍵填入 12 欄範例", previewActivePath: "填入 4 欄範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入總寬度、欄數與間距", examplesHelper: "先用範例理解總寬度如何分配給欄與間距，再改成自己的數據。",
     metric: "公制", imperial: "佔比檢視", exampleCards: "範例卡", baselineExample: "12 欄精細模式", activeExample: "4 欄基礎示範", baselineExampleNote: "1200px · 12 cols · 20px", activeExampleNote: "1200px · 4 cols · 24px", carbsLabel: "匹配分數", carbsName: "百分比", proteinLabel: "合規分數", flowDemo: "間距", calculator: "計算機",

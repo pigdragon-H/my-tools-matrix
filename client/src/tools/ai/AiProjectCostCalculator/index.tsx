@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "AI · 專案成本 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "AI 專案成本計算機 · Project Cost", subtitle: "用開發工時、時薪與維運基礎設施階層算出整體 AI 專案成本與維運占比",
-    intro: "AI Project Cost Calculator 依據開發工時、開發時薪與維運基礎設施階層（精簡、標準或重型），把一次性開發成本與半年維運成本合計，算出整體專案成本、維運成本占比與每工時成本，協助你判斷預算是否合理、該自建還是外包、維運是否吃掉太多成本，讓你在啟動任何 AI 專案前就把總花費算清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以六個月維運週期與你設定的時薪估算，未含授權費、資料標註、合規與意外延期；實際費用請以正式報價與合約為準。",
+    intro: "AI Project Cost Calculator 依據開發工時、開發時薪與維運基礎設施階層（精簡、標準或重型），把一次性開發成本與半年維運成本合計，算出整體專案成本、維運成本占比與每工時成本，協助您判斷預算是否合理、該自建還是外包、維運是否吃掉太多成本，讓您在啟動任何 AI 專案前就把總花費算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以六個月維運週期與您設定的時薪估算，未含授權費、資料標註、合規與意外延期；實際費用請以正式報價與合約為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立專案範例", examplePreview: "成本預覽", examplePerson: "開發工時", fillExample: "一鍵填入標準範例", previewActivePath: "填入重型維運範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入 開發工時、時薪與維運階層", examplesHelper: "先用範例理解工時、時薪與維運如何決定總成本與維運占比，再改成自己的專案數據。",
     metric: "公制", imperial: "占比檢視", exampleCards: "範例卡", baselineExample: "標準專案模式", activeExample: "重型維運示範", baselineExampleNote: "工時 120 · 時薪 80 · 標準", activeExampleNote: "工時 120 · 時薪 80 · 重型", carbsLabel: "每工時成本", carbsName: "美元", proteinLabel: "維運成本占比", flowDemo: "時薪", calculator: "計算機",

@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "旅遊 · 住宿成本 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "住宿成本計算機 · Hotel Cost", subtitle: "用住宿夜數、總旅費與房型等級算出住宿總成本與住宿佔旅費比例",
-    intro: "Hotel Cost Calculator 依據住宿夜數、總旅費與房型等級，計算住宿總成本與住宿佔旅費比例，協助你判斷住宿是否吃掉太多預算、是否該降等房型、縮短夜數或換地段來控制成本。",
+    intro: "Hotel Cost Calculator 依據住宿夜數、總旅費與房型等級，計算住宿總成本與住宿佔旅費比例，協助您判斷住宿是否吃掉太多預算、是否該降等房型、縮短夜數或換地段來控制成本。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以每晚房價乘夜數估算，未含稅金、服務費、旺季加價與城市稅；正式房費應以訂房平台報價為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立住宿範例", examplePreview: "住宿預覽", examplePerson: "住宿夜數", fillExample: "一鍵填入標準住宿範例", previewActivePath: "填入豪華住宿範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入住宿夜數、總旅費與房型等級", examplesHelper: "先用範例理解夜數與房型如何決定住宿成本與佔比，再改成自己的行程數據。",

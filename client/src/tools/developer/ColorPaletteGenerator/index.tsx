@@ -172,7 +172,7 @@ const ui = {
     faq: "常見問題", commonQuestions: "常見問題", affiliate: "推薦工具", affiliateTitle: "配色設計的下一步工具", premiumTitle: "專業版設計系統包", premiumText: "解鎖 P3 廣色域推導、APCA 對比度、tints/shades 自動展開、design token JSON 匯出、Figma/Sketch 變數同步、light/dark 雙主題鏡像。",
     trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具僅在瀏覽器端推導調色板;貼上的色碼不會送到伺服器,適合處理含品牌 ID 的未公開設計稿。", relatedTools: "相關工具", relatedToolsText: "Hash 生成器 · JSON 格式化器 · HTML 編碼解碼器 · Cron 表達式解析器", references: "參考資料", referencesText: "Joblove & Greenberg (1978) Color spaces for computer graphics;W3C WCAG 2.2 (2023) Success Criterion 1.4.3 Contrast (Minimum)、1.4.6 Contrast (Enhanced);Itten (1961) The Art of Color — 配色法則理論基礎;sRGB IEC 61966-2-1:1999 色域標準。",
     q1: "為什麼我的色碼顯示「invalid」?", a1: "最常見原因是 hex 字串長度不對(必須 3 或 6 字元,前綴 # 可省)、含非 0-9/a-f 字元,或大小寫錯誤。錯誤訊息會指出具體問題 — 先把色碼改成 #ffffff 確認其他流程正確。",
-    q2: "為什麼互補色推導出來不太「對」?", a2: "HSL 互補(H+180°)是色相環的數學對立,但人眼對色相敏感度不均(綠色感最廣、紫色感最窄),所以視覺上「最舒服」的互補色不一定是 H+180°。設計上常微調 ±15° 找到視覺平衡點;本工具給出標準 180° 為基準,微調由你決定。",
+    q2: "為什麼互補色推導出來不太「對」?", a2: "HSL 互補(H+180°)是色相環的數學對立,但人眼對色相敏感度不均(綠色感最廣、紫色感最窄),所以視覺上「最舒服」的互補色不一定是 H+180°。設計上常微調 ±15° 找到視覺平衡點;本工具給出標準 180° 為基準,微調由您決定。",
     q3: "貼上的色碼會被送到伺服器嗎?", a3: "不會。本工具完全在瀏覽器端用 HSL 公式與 WCAG 對比度公式運算;頁面關閉後色碼即消失,適合處理包含未公開品牌 ID 的設計稿(例如 brand-launch-2025-${tenant})。",
     q4: "為什麼對比度顯示通過 AA,但設計師看了覺得不夠?", a4: "WCAG 4.5 是底線(覆蓋大多數視力人群),對 high-contrast 美感要求或弱視族群仍嫌低。建議:重要 CTA 走 AAA(≥7),普通內文走 AA(≥4.5),裝飾元素 ≥3.0 即可;APCA(WCAG 3 草案)會更精準考量字級。",
     q5: "支援 P3 廣色域或 OKLCH 嗎?", a5: "目前不支援,本工具僅處理 sRGB。P3 約多覆蓋 25% 色域,適合 macOS / iOS Safari 16+;OKLCH 是感知均勻色空間,適合 dark mode 動態色階。未來會以獨立工具上線,專業版設計系統包已含。",

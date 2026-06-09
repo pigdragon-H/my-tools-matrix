@@ -25,7 +25,7 @@ export function NewsletterCta({ lang, source = "homepage-newsletter" }: Newslett
         kind: "success",
         text:
           data?.message ??
-          (lang === "zh" ? "✓ 已收到你的訂閱,謝謝!" : "✓ Subscribed — thank you!"),
+          (lang === "zh" ? "✓ 已收到您的訂閱,謝謝!" : "✓ Subscribed — thank you!"),
       });
       setEmail("");
     },
@@ -56,7 +56,7 @@ export function NewsletterCta({ lang, source = "homepage-newsletter" }: Newslett
         </h3>
         <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
           {lang === "zh"
-            ? "每月一封,把新工具、公式專欄與決策路徑直接寄到你的信箱。隨時可取消訂閱。"
+            ? "每月一封,把新工具、公式專欄與決策路徑直接寄到您的信箱。隨時可取消訂閱。"
             : "One email a month — new tools, formula essays, and decision paths straight to your inbox. Unsubscribe anytime."}
         </p>
         <form

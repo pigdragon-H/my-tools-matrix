@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "Science · 功率 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "功率計算機 · Power", subtitle: "用做功、時間與精度等級算出功率、相對量級與精度分數",
-    intro: "Power Calculator 依據做功、時間與精度等級（粗略、標準或精密），以功率公式 P = W ÷ t 計算功率、相對量級與精度分數，協助你判斷功率是否合理、功率落在哪個量級、屬於低功率還是高功率、是否需要檢查單位，讓你在能耗分析與動力計算前就把功率算清楚。",
+    intro: "Power Calculator 依據做功、時間與精度等級（粗略、標準或精密），以功率公式 P = W ÷ t 計算功率、相對量級與精度分數，協助您判斷功率是否合理、功率落在哪個量級、屬於低功率還是高功率、是否需要檢查單位，讓您在能耗分析與動力計算前就把功率算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以做功除以時間做計算，假設做功速率均勻；正式動力分析請以實際量測與標準參考為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立功率範例", examplePreview: "功率預覽", examplePerson: "做功 (J)", fillExample: "一鍵填入標準範例", previewActivePath: "填入精密範例",
     examplesCalculator: "範例 → 計算器", enterValues: "輸入做功、時間與精度等級", examplesHelper: "先用範例理解做功與時間如何決定功率與量級，再改成自己的能量數據。",

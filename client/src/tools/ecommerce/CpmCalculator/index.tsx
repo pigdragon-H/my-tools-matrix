@@ -33,7 +33,7 @@ const ui = {
   zh: {
     badge: "電商 · CPM 換算 · 黃金工具", switchToEnglish: "中文模式", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "CPM Calculator · CPM 計算機", subtitle: "計算每千次曝光成本、總成本與每次曝光成本",
-    intro: "本工具根據廣告花費與曝光次數，估算每千次曝光成本（CPM）、每次曝光成本與相關投放指標，幫助你比較不同版位與活動的曝光效率。",
+    intro: "本工具根據廣告花費與曝光次數，估算每千次曝光成本（CPM）、每次曝光成本與相關投放指標，幫助您比較不同版位與活動的曝光效率。",
     trustNoteLabel: "注意事項：", trustNote: "此工具估算曝光成本指標；未計入點擊品質、轉換率、客單價或廣告創意差異等實際成效因素。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立 CPM 範例", examplePreview: "CPM 預覽", examplePerson: "標準範例", fillExample: "一鍵填入標準範例", previewActivePath: "填入高成本範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入廣告花費與曝光次數", examplesHelper: "先用範例理解 CPM 計算，再改成自己的數字。",

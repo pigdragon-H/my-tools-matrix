@@ -14,7 +14,7 @@ const l = (v: LocalText, lang: Lang) => v[lang];
 const fmt = (v: number, d = 0) => Number.isFinite(v) ? v.toFixed(d) : "—";
 
 const bands = [
-  { key: "tiny", range: "<8 yr", label: { zh: "極速達成", en: "Very fast" }, desc: { zh: "高儲蓄率與良好報酬讓你在不到十年內接近財務獨立。", en: "High savings rate and solid returns put FI within under a decade." } },
+  { key: "tiny", range: "<8 yr", label: { zh: "極速達成", en: "Very fast" }, desc: { zh: "高儲蓄率與良好報酬讓您在不到十年內接近財務獨立。", en: "High savings rate and solid returns put FI within under a decade." } },
   { key: "normal", range: "8-15 yr", label: { zh: "快速達成", en: "Fast track" }, desc: { zh: "屬積極 FIRE 族群常見區間,紀律儲蓄是關鍵。", en: "A common range for aggressive FIRE; disciplined saving is key." } },
   { key: "notable", range: "15-22 yr", label: { zh: "穩健達成", en: "Steady path" }, desc: { zh: "穩健累積,提高儲蓄率或報酬可進一步縮短時程。", en: "A steady build; raising savings or returns can shorten it further." } },
   { key: "high", range: "22-30 yr", label: { zh: "傳統時程", en: "Conventional" }, desc: { zh: "接近傳統退休時程,可考慮增加收入或降低支出加速。", en: "Near conventional retirement timing; raise income or cut spending to speed up." } },
@@ -38,7 +38,7 @@ const ui = {
     englishShort: "EN",
     title: "FIRE Calculator · 財務獨立提早退休計算機",
     subtitle: "以年度支出推算 FIRE 目標金額,並依儲蓄與報酬估算達成財務獨立所需年數",
-    intro: "本工具以常見的 25 倍法則,將年度支出換算為 FIRE 目標金額,再依目前存款、每年新增儲蓄與預期報酬率,逐年累積估算達成財務獨立所需年數,協助你檢視提早退休的可行性。",
+    intro: "本工具以常見的 25 倍法則,將年度支出換算為 FIRE 目標金額,再依目前存款、每年新增儲蓄與預期報酬率,逐年累積估算達成財務獨立所需年數,協助您檢視提早退休的可行性。",
     trustNoteLabel: "注意事項:",
     trustNote: "此工具以固定報酬率與 25 倍法則假設計算,未計入通膨、稅負與市場波動;僅供教育規劃參考。",
     quickActionCard: "快速範例卡",

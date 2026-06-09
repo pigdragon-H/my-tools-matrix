@@ -2,7 +2,7 @@
 // Profile B · Language-Hub 自建演算法 · HomophoneFinder（GOLD-STANDARD MacroCalculator compatible）
 // 同音異字查找器：自建「同音異字查找 + 反查」演算法（單一單字輸入，單一豐富結果卡）。
 //   原理：輸入英文單字 → 比對內建 108 組同音異字群（拼字/意義不同但發音相同，如 their/there/they're、to/too/two），找出所屬群並列出全部同音字
-//   反查：群內每個單字都建索引，輸入任一同音字皆可反查整群，並標出「你查的字」。
+//   反查：群內每個單字都建索引，輸入任一同音字皆可反查整群，並標出「您查的字」。
 //   三層中文釋義(繁體優先→ECDICT簡體標「簡」→英文定義標EN) + ARPABET→IPA 全照 gold 範本。四要素鐵律：① KK音標 ② 詞類 ③ 釋義 ④ 例句。
 
 import { useState, useCallback, useEffect } from "react";
@@ -149,15 +149,15 @@ const ui = {
   zh: {
     badge: "語言 · 同音異字查找器 · Language Hub", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "同音異字查找器 · Homophone Finder", subtitle: "輸入一個英文單字，查找與它發音相同（或極相近）但拼字、意義不同的同音異字——如 their/there/they're、to/too/two、see/sea，每個同音字都附 KK 音標、詞類、繁體中文釋義與例句，內建 108 組常見同音群",
-    intro: "同音異字查找器採用自建的「同音異字查找 + 反查」演算法：輸入一個英文單字後，工具會比對內建 108 組常見同音異字群——不論你輸入的是 their、there 還是 they're，都能反查出整群同音字，列出每個同音字的 KK 音標、詞類、繁體中文釋義與一句例句，並標出你查的字。同音異字是英文寫作與聽寫最常見的拼字陷阱，一次看清整群差異，比死背更有效。本工具為純前端演算法，同音查找不依賴外部 API，速度快、離線可用。",
+    intro: "同音異字查找器採用自建的「同音異字查找 + 反查」演算法：輸入一個英文單字後，工具會比對內建 108 組常見同音異字群——不論您輸入的是 their、there 還是 they're，都能反查出整群同音字，列出每個同音字的 KK 音標、詞類、繁體中文釋義與一句例句，並標出您查的字。同音異字是英文寫作與聽寫最常見的拼字陷阱，一次看清整群差異，比死背更有效。本工具為純前端演算法，同音查找不依賴外部 API，速度快、離線可用。",
     trustNoteLabel: "資料來源：", trustNote: "同音群查找以自建演算法比對內建 108 組同音異字群產生（純前端，不依賴外部 API）；同音群成員、詞類與繁中釋義由編輯團隊人工整理（依發音相同分群）；IPA 音標取自 ECDICT 與 ARPABET 轉換；CEFR 等級以 CEFR-J 與 Octanove 權威詞表對照；例句由編輯團隊撰寫，展開可另載入 Free Dictionary API 的英文定義與例句。僅供學習與參考。",
     quickActionCard: "快速查找卡", tryExample: "查找 their", examplePreview: "同音字數", examplePerson: "查的字", fillExample: "查找 their", previewActivePath: "查找 to",
-    examplesCalculator: "範例 → 查找", enterValues: "輸入單字", examplesHelper: "先用熱門範例了解同音群、詞類、音標與中文釋義如何呈現，再換成你自己想查的單字（同音群中任一成員皆可）。",
+    examplesCalculator: "範例 → 查找", enterValues: "輸入單字", examplesHelper: "先用熱門範例了解同音群、詞類、音標與中文釋義如何呈現，再換成您自己想查的單字（同音群中任一成員皆可）。",
     queryBtn: "查找同音字", clearBtn: "清除", hotWords: "熱門同音群", inputPlaceholder: "輸入英文單字，例如 their、to、see",
-    loading: "查找中…", emptyHint: "輸入上方單字並按「查找同音字」，整群同音字與四要素會顯示在這裡並標出你查的字。", noResult: "在內建 108 組同音異字群中找不到這個單字，它可能沒有常見的同音異字，或不在內建清單中，建議改查常見同音字（如 their、to、see、right）。",
+    loading: "查找中…", emptyHint: "輸入上方單字並按「查找同音字」，整群同音字與四要素會顯示在這裡並標出您查的字。", noResult: "在內建 108 組同音異字群中找不到這個單字，它可能沒有常見的同音異字，或不在內建清單中，建議改查常見同音字（如 their、to、see、right）。",
     fallbackTitle: "詞庫載入中", fallbackBody: "正在載入內建詞庫，請稍候再試一次。",
-    resultCard: "查找結果", wordUnit: "個同音字", matchHint: "你查的字", ipaLabel: "音標", ipaPending: "/音標整理中/", meaningLabel: "釋義", expandHint: "展開看更多例句", collapseHint: "收合", exampleLabel: "例句", enLoading: "載入例句中…", noExample: "查無更多例句，已附人工例句。",
-    resultIntelligence: "結果解讀", levelMatrix: "同音異字三大類型", levelMatrixNote: "L7 把同音異字依混淆來源分三類，看你查的字屬於哪一類，記憶時對症下藥。",
+    resultCard: "查找結果", wordUnit: "個同音字", matchHint: "您查的字", ipaLabel: "音標", ipaPending: "/音標整理中/", meaningLabel: "釋義", expandHint: "展開看更多例句", collapseHint: "收合", exampleLabel: "例句", enLoading: "載入例句中…", noExample: "查無更多例句，已附人工例句。",
+    resultIntelligence: "結果解讀", levelMatrix: "同音異字三大類型", levelMatrixNote: "L7 把同音異字依混淆來源分三類，看您查的字屬於哪一類，記憶時對症下藥。",
     scenarioLayer: "使用場景", scenarioTitle: "什麼時候用同音字查找", scenarioNote: "L8 列出四個典型場景，把同音字查找用在對的地方，一次分清整群易混淆字。",
     scenarioExam: "考試備考", scenarioExamNote: "字彙題與克漏字常考同音異字（如 their/there、principal/principle），查找一次分清整群拼字與意義，避免選錯。", scenarioWriting: "寫作校對", scenarioWritingNote: "寫作時最常拼錯同音字（its/it's、your/you're），校對時查一次確認用對形態，提升正確率。", scenarioDaily: "聽寫聽力", scenarioDailyNote: "聽寫時同音字最容易聽錯寫錯，先查整群同音字記住差異，聽到時依語境判斷該寫哪一個。", scenarioBusiness: "教學備課", scenarioBusinessNote: "老師整理同音字易混清單時，快速取得同音群成員、詞類與例句作為教案素材。",
     progressInsight: "學習洞察卡", possibleTarget: "本次查找", dailyGap: "查的字", weeklyTrend: "同音字數", motivation: "動力卡", keepMomentum: "從聽到一個音走向認得整群同音字，一次分清易混淆字",
@@ -165,16 +165,16 @@ const ui = {
     nextActionLabel: "下一步行動", nextActionTitle: "把這個字接到下一個工具", nextActionItem1: "用單字家族探索器看這個字的整個構詞家族，把同源字一起記", nextActionItem2: "用字根分析器拆解這個字的字根與語源，理解意義來源", nextActionItem3: "用 CEFR 等級估算評估這些同音字的難度等級",
     shareLinkBtn: "📋 複製結果連結", shareNativeBtn: "📤 分享給朋友", shareCopiedToast: "已複製到剪貼簿 ✓",
     decisionPath: "查找路徑", decisionTitle: "輸入 → 反查同音群 → 看詞類意義 → 練造句", step1: "輸入單字", step2: "反查同音群", step3: "看差異", step4: "練造句",
-    knowledge: "知識", knowledgeTitle: "同音異字在英語學習中的意義", definition: "定義", definitionText: "同音異字（homophone）是發音相同（或極相近）但拼字、意義不同的單字，例如 their / there / they're、to / too / two、see / sea；它們是英文寫作與聽寫最常見的拼字陷阱，一次看清整群差異並依語境記憶，是避免拼錯的核心方法。", usage: "用法", usageText: "輸入一個單字後（同音群中任一成員皆可），演算法反查內建同音異字群，列出整群同音字並標出你查的字，每個成員附 KK 音標、詞類、繁中釋義與一句例句，可展開看英文定義與更多例句。", limitations: "限制", limitationsText: "本工具的同音群表為內建 108 組常見同音異字，並非完整詞典；罕見同音字與不在清單中的單字未必收錄；同音以美式發音為準，部分英式發音差異未必涵蓋；查無同音字者代表它在清單中沒有常見同音異字。", interpretation: "解讀", interpretationText: "同音異字依混淆來源可分三類——代名詞/縮寫類（their/there/they're）、拼字相近類（see/sea）、形音義皆異類（principal/principle）；抓住每類的辨別重點，看到同音字時依語境（詞類與意義）判斷該用哪一個。", context: "脈絡", contextText: "同音字查找應與單字家族探索、字根分析一起用：先用同音字查找分清易混淆字，再用家族探索與字根理解構詞與語源，把容易拼錯的孤立單字變成有系統的學習。", example: "範例", exampleText: "輸入 their → 同音群包含 their（限定詞，他們的）、there（副詞，那裡）、they're（縮寫，they are）；輸入 they're → 反查出整群並標出你查的字。",
+    knowledge: "知識", knowledgeTitle: "同音異字在英語學習中的意義", definition: "定義", definitionText: "同音異字（homophone）是發音相同（或極相近）但拼字、意義不同的單字，例如 their / there / they're、to / too / two、see / sea；它們是英文寫作與聽寫最常見的拼字陷阱，一次看清整群差異並依語境記憶，是避免拼錯的核心方法。", usage: "用法", usageText: "輸入一個單字後（同音群中任一成員皆可），演算法反查內建同音異字群，列出整群同音字並標出您查的字，每個成員附 KK 音標、詞類、繁中釋義與一句例句，可展開看英文定義與更多例句。", limitations: "限制", limitationsText: "本工具的同音群表為內建 108 組常見同音異字，並非完整詞典；罕見同音字與不在清單中的單字未必收錄；同音以美式發音為準，部分英式發音差異未必涵蓋；查無同音字者代表它在清單中沒有常見同音異字。", interpretation: "解讀", interpretationText: "同音異字依混淆來源可分三類——代名詞/縮寫類（their/there/they're）、拼字相近類（see/sea）、形音義皆異類（principal/principle）；抓住每類的辨別重點，看到同音字時依語境（詞類與意義）判斷該用哪一個。", context: "脈絡", contextText: "同音字查找應與單字家族探索、字根分析一起用：先用同音字查找分清易混淆字，再用家族探索與字根理解構詞與語源，把容易拼錯的孤立單字變成有系統的學習。", example: "範例", exampleText: "輸入 their → 同音群包含 their（限定詞，他們的）、there（副詞，那裡）、they're（縮寫，they are）；輸入 they're → 反查出整群並標出您查的字。",
     faq: "FAQ", commonQuestions: "常見問題", affiliate: "相關工具", affiliateTitle: "同音字查找的下一步工具", premiumTitle: "PRO 同音字大師包", premiumText: "解鎖無限查找、批次查同音字表、依類型匯出同音群、自動記錄查找歷史，並把同音清單匯出複習。",
     feat1: "無限查找次數", feat2: "批次查同音表", feat3: "查找歷史記錄", feat4: "同音清單匯出",
     trustReferences: "信任聲明 · 相關工具 · 參考資料", trust: "信任聲明", trustText: "本工具僅供英語學習與拼字辨別用途；同音群查找以自建演算法比對內建同音異字群，並非完整詞典；同音群成員與釋義由編輯團隊人工整理，CEFR 等級為詞表對照與啟發式推估。", relatedTools: "相關工具", relatedToolsText: "Word Family Explorer · Word Root Analyzer · Scrabble Word Checker · CEFR Level Estimator", references: "參考資料", referencesText: "自建「同音異字查找 + 反查」演算法（純前端，比對內建 108 組同音群）；同音群成員與繁中釋義由編輯團隊人工整理（依發音相同分群）；CEFR-J Wordlist v1.5（Tono Lab, TUFS）；Octanove C1/C2 Vocabulary Profile（CC BY-SA 4.0）；ECDICT 開源英漢詞典（IPA 音標與簡體釋義）；Free Dictionary API（英文定義與例句）。",
-    q1: "同音異字是怎麼查出來的？", a1: "用自建演算法建立索引：把內建 108 組同音異字群的每個成員全部建檔，所以不論你輸入的是哪一個同音字，都能反查出整群同音字。純前端判定，不需連外部 API。",
-    q2: "為什麼輸入任一同音字都能查到整群？", a2: "本工具支援反查：演算法把每組同音字的每個成員都建成索引，例如輸入 there 會反查出整群 their / there / they're，並標出你查的是哪一個成員。這對你只記得其中一個拼法、想看清整群差異時特別有用。",
+    q1: "同音異字是怎麼查出來的？", a1: "用自建演算法建立索引：把內建 108 組同音異字群的每個成員全部建檔，所以不論您輸入的是哪一個同音字，都能反查出整群同音字。純前端判定，不需連外部 API。",
+    q2: "為什麼輸入任一同音字都能查到整群？", a2: "本工具支援反查：演算法把每組同音字的每個成員都建成索引，例如輸入 there 會反查出整群 their / there / they're，並標出您查的是哪一個成員。這對您只記得其中一個拼法、想看清整群差異時特別有用。",
     q3: "為什麼有些單字查不到同音字？", a3: "若該單字不在內建 108 組常見同音異字群中（罕見同音字或沒有常見同音異字的單字未必收錄），就會顯示查無同音字。建議改查常見同音字，如 their、to、see、right、principal 等。",
     q4: "音標和中文釋義從哪來？", a4: "IPA 音標取自 ECDICT 開源英漢詞典（內建 2 萬餘字），詞庫未收錄者改以 ARPABET 即時轉換 IPA；繁體中文釋義、詞類與例句由編輯團隊人工整理；展開可另載入 Free Dictionary API 的英文定義與更多例句。",
     q5: "their、there、they're 到底怎麼分？", a5: "their 是限定詞「他們的」（their house）；there 是副詞「在那裡」（over there）；they're 是 they are 的縮寫（they're coming）。三者發音相同，靠詞類與意義判斷：能換成 they are 就用 they're，表示「那裡」用 there，其餘表所有用 their。",
-    q6: "同音字和拼字相近字有什麼不同？", a6: "同音字是發音完全相同但拼字、意義不同（如 see / sea）；拼字相近字（如 desert / dessert）發音其實不同。本工具聚焦發音相同的同音異字，幫你分清「聽起來一樣、寫法不同」的字。",
+    q6: "同音字和拼字相近字有什麼不同？", a6: "同音字是發音完全相同但拼字、意義不同（如 see / sea）；拼字相近字（如 desert / dessert）發音其實不同。本工具聚焦發音相同的同音異字，幫您分清「聽起來一樣、寫法不同」的字。",
   },
   en: {
     badge: "Language · Homophone Finder · Language Hub", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",

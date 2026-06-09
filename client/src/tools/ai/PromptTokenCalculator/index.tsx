@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "AI · Token 估算 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "Prompt Token 計算機 · Token Count", subtitle: "用提示字數、對話輪數與語言密度比估算 Prompt 總 token 與上下文占比",
-    intro: "Prompt Token Calculator 依據提示字數、對話輪數與語言密度比（精簡英文、標準混合或中日韓密集），估算單輪提示 token、多輪累積總 token 與相對於八千 token 視窗的上下文占比，協助你判斷提示是否太長、是否會被截斷、該不該摘要歷史或改用長上下文模型，讓你在送出任何提示前就把 token 量算清楚。",
+    intro: "Prompt Token Calculator 依據提示字數、對話輪數與語言密度比（精簡英文、標準混合或中日韓密集），估算單輪提示 token、多輪累積總 token 與相對於八千 token 視窗的上下文占比，協助您判斷提示是否太長、是否會被截斷、該不該摘要歷史或改用長上下文模型，讓您在送出任何提示前就把 token 量算清楚。",
     trustNoteLabel: "注意事項：", trustNote: "本工具以字數乘語言密度比近似估算，未含實際分詞器差異、特殊符號與多語言切換；精確 token 數請以各模型官方分詞器為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立 Token 範例", examplePreview: "Token 預覽", examplePerson: "提示字數", fillExample: "一鍵填入標準範例", previewActivePath: "填入密集語言範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入 提示字數、對話輪數與語言密度比", examplesHelper: "先用範例理解字數、輪數與密度比如何決定總 token 與上下文占比，再改成自己的提示數據。",

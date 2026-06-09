@@ -37,10 +37,10 @@ const ui = {
   zh: {
     badge: "健康 · 睡眠管理 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "睡眠週期計算機 · Sleep Cycle", subtitle: "用 90 分鐘睡眠週期推算最佳就寢與起床時間",
-    intro: "睡眠週期計算機以約 90 分鐘為一個完整睡眠週期、外加約 15 分鐘入睡緩衝，協助你從目標起床時間反推理想就寢時間，或從就寢時間推算清爽起床時間，減少在深睡期被叫醒的昏沉感。",
+    intro: "睡眠週期計算機以約 90 分鐘為一個完整睡眠週期、外加約 15 分鐘入睡緩衝，協助您從目標起床時間反推理想就寢時間，或從就寢時間推算清爽起床時間，減少在深睡期被叫醒的昏沉感。",
     trustNoteLabel: "注意事項：", trustNote: "90 分鐘是平均週期長度，個人實際週期在 70–120 分鐘間變動；本工具僅供作息規劃參考，不可取代睡眠醫學診斷。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立睡眠時間範例", examplePreview: "建議時間預覽", examplePerson: "目標時刻", fillExample: "一鍵填入起床範例", previewActivePath: "改用就寢推算",
-    examplesCalculator: "範例 → 計算機", enterValues: "輸入目標時間", examplesHelper: "先用範例理解週期推算，再改成你自己的起床或就寢時間。",
+    examplesCalculator: "範例 → 計算機", enterValues: "輸入目標時間", examplesHelper: "先用範例理解週期推算，再改成您自己的起床或就寢時間。",
     metric: "反推就寢", imperial: "推算起床", exampleCards: "範例卡", baselineExample: "07:00 起床", activeExample: "23:00 就寢", timeLabel: "時間", baselineExampleNote: "起床 07:00 → 建議就寢時間", activeExampleNote: "就寢 23:00 → 建議起床時間", flowDemo: "5 週期", calculator: "計算機",
     weight: "時 (0–23)", tdee: "分 (0–59)", goal: "計算方向", goalCut: "我設定起床時間", goalMaintain: "我設定就寢時間", goalBulk: "—",
     resultCard: "睡眠週期建議結果", unit: "建議時間", primaryValue: "目標", maintenanceTarget: "最佳建議", actionTarget: "次佳建議", estimatedTdee: "週期", maintenance: "5 週期", fatLossTarget: "4 週期",

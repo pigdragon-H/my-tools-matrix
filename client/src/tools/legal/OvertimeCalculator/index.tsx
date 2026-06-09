@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "法律 · 勞動試算 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "加班費計算機 · Overtime Pay", subtitle: "依勞基法用月薪、加班時數與日別估算加班費",
-    intro: "加班費計算機依月薪換算時薪，套用勞基法第24條延長工時加給倍率（平日前2小時1.34倍、第3小時起1.67倍，休息日與假日另計），估算應領加班費總額，協助你核對薪資單。",
+    intro: "加班費計算機依月薪換算時薪，套用勞基法第24條延長工時加給倍率（平日前2小時1.34倍、第3小時起1.67倍，休息日與假日另計），估算應領加班費總額，協助您核對薪資單。",
     trustNoteLabel: "注意事項：", trustNote: "倍率依日別與工時級距而不同；本工具僅供教育與試算用途，不構成法律意見或薪資憑據。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立加班費試算範例", examplePreview: "估算加班費預覽", examplePerson: "月薪", fillExample: "一鍵填入平日範例", previewActivePath: "填入休息日範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入月薪與加班時數", examplesHelper: "先用範例理解平日與休息日倍率差異，再改成自己的月薪、加班時數與日別。",

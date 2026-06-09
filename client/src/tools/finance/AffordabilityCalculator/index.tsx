@@ -32,8 +32,8 @@ const affiliateItems: AffiliateItem[] = [
 const ui = {
   zh: {
     badge: "財務 · 購屋負擔 · 黃金工具", switchToEnglish: "中文模式", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
-    title: "Affordability Calculator · 購屋負擔能力計算機", subtitle: "依收入、債務與利率估算你可負擔的房價與月供",
-    intro: "本工具根據月收入、現有月債務、頭期款、貸款利率與年限，估算你可負擔的房屋總價與每月房貸支出，幫助你在看屋前先設定務實預算。",
+    title: "Affordability Calculator · 購屋負擔能力計算機", subtitle: "依收入、債務與利率估算您可負擔的房價與月供",
+    intro: "本工具根據月收入、現有月債務、頭期款、貸款利率與年限，估算您可負擔的房屋總價與每月房貸支出，幫助您在看屋前先設定務實預算。",
     trustNoteLabel: "注意事項：", trustNote: "此工具以常見的負債收入比與利率估算可負擔房價；未計入稅金、保險、管理費、維修與生活開銷波動。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立購屋負擔範例", examplePreview: "可負擔房價預覽", examplePerson: "標準範例", fillExample: "一鍵填入標準範例", previewActivePath: "填入高收入範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入月收入、月債務與利率", examplesHelper: "先用範例理解購屋負擔計算，再改成自己的數字。",

@@ -133,7 +133,7 @@ const copy = {
     title: "理想體重計算機 · 多公式成人參考",
     subtitle: "用 BMR 黃金模板節奏呈現 Ideal Weight",
     intro:
-      "比較 Devine、Robinson、Miller、Hamwi 與成人 BMI 18.5–24.9 對應體重範圍，幫你理解身高公式給出的參考區間，而不是追逐單一魔法數字。",
+      "比較 Devine、Robinson、Miller、Hamwi 與成人 BMI 18.5–24.9 對應體重範圍，幫您理解身高公式給出的參考區間，而不是追逐單一魔法數字。",
     trustNoteLabel: "注意：",
     trustNote:
       "本工具僅供教育與規劃，不構成醫療建議。懷孕、疾病、飲食障礙史、兒童青少年或劇烈體重變化，請諮詢專業人員。",
@@ -177,9 +177,9 @@ const copy = {
     emotionConversionLayer: "CONTEXT LAYER",
     turnIntoPlan: "把參考體重轉成安全下一步",
     conversionNote:
-      "理想體重不是命令，而是幫你決定下一步要看 BMI、BMR、TDEE、體脂或專業評估。",
+      "理想體重不是命令，而是幫您決定下一步要看 BMI、BMR、TDEE、體脂或專業評估。",
     progressInsight: "進度洞察",
-    possibleTarget: "你不是在追單點數字",
+    possibleTarget: "您不是在追單點數字",
     dailyGap: "差距",
     weeklyTrend: "BMI 下限",
     motivation: "動機",

@@ -34,7 +34,7 @@ const ui = {
   zh: {
     badge: "電商 · 顧客價值 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "顧客終身價值計算機 · Customer LTV", subtitle: "用客單價、回購頻率與顧客壽命估算每位顧客的終身價值",
-    intro: "Customer LTV Calculator 依據平均客單價、年回購次數與顧客平均壽命，估算每位顧客在生命週期內帶來的總價值，協助你判斷獲客投入是否划算、設定合理的獲客成本上限。",
+    intro: "Customer LTV Calculator 依據平均客單價、年回購次數與顧客平均壽命，估算每位顧客在生命週期內帶來的總價值，協助您判斷獲客投入是否划算、設定合理的獲客成本上限。",
     trustNoteLabel: "注意事項：", trustNote: "本工具用毛收入估算 LTV，未扣商品成本與履約費用；若要看真實獲利型 LTV，應乘上毛利率再與獲客成本比較。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立顧客終身價值範例", examplePreview: "LTV 預覽", examplePerson: "客單價", fillExample: "一鍵填入標準範例", previewActivePath: "填入高忠誠範例",
     examplesCalculator: "範例 → 計算機", enterValues: "輸入客單價、年回購次數與忠誠度", examplesHelper: "先用範例理解客單價與回購頻率如何決定 LTV，再改成自己的顧客數據。",

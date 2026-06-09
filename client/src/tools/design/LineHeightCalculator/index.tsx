@@ -34,8 +34,8 @@ const ui = {
   zh: {
     badge: "Design · 行高 · Gold Tool", switchToEnglish: "Switch to English", switchToChinese: "切換到中文", chineseShort: "中", englishShort: "EN",
     title: "行高計算器 · Line Height", subtitle: "用字級大小、行高倍率與閱讀情境算出實際行距、舒適分數與最佳倍率建議",
-    intro: "Line Height Calculator 依據字級大小、行高倍率與閱讀情境（緊湊標題、標準正文或寬鬆長文），計算實際行距、舒適分數與最佳倍率建議，協助你判斷文字行距是否舒適易讀、該選哪個行高倍率、是否需要加寬或壓縮行距，讓你在決定排版參數前就把可讀性與美感算清楚。",
-    trustNoteLabel: "注意事項：", trustNote: "本工具以你輸入的字級與倍率估算行距與舒適分數，未含字體度量與環境渲染差異；正式排版請以實際字體度量與預覽為準。",
+    intro: "Line Height Calculator 依據字級大小、行高倍率與閱讀情境（緊湊標題、標準正文或寬鬆長文），計算實際行距、舒適分數與最佳倍率建議，協助您判斷文字行距是否舒適易讀、該選哪個行高倍率、是否需要加寬或壓縮行距，讓您在決定排版參數前就把可讀性與美感算清楚。",
+    trustNoteLabel: "注意事項：", trustNote: "本工具以您輸入的字級與倍率估算行距與舒適分數，未含字體度量與環境渲染差異；正式排版請以實際字體度量與預覽為準。",
     quickActionCard: "快速範例卡", tryExample: "一鍵建立行高範例", examplePreview: "行高預覽", examplePerson: "字級大小", fillExample: "一鍵填入標準正文範例", previewActivePath: "填入寬鬆長文範例",
     examplesCalculator: "範例 → 計算器", enterValues: "輸入字級大小、行高倍率與閱讀情境", examplesHelper: "先用範例理解倍率如何決定行距與舒適分數，再改成自己的排版數據。",
     metric: "公制", imperial: "佔比檢視", exampleCards: "範例卡", baselineExample: "標準正文模式", activeExample: "寬鬆長文示範", baselineExampleNote: "16px · 1.5 · 標準", activeExampleNote: "18px · 1.75 · 寬鬆", carbsLabel: "舒適餘量", carbsName: "百分比", proteinLabel: "舒適分數", flowDemo: "行高倍率", calculator: "計算器",
