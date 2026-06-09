@@ -3,7 +3,7 @@ id: ai-content-studio-blueprint
 title: { zh: "AI 內容工作室創業藍圖：從 0 到月入 5 萬的 90 天計畫", en: "AI Content Studio Blueprint: A 90-Day Plan from Zero to $1,500/mo" }
 description: { zh: "用 AI 把一個人變成一支內容團隊：商業模式、市場規模、收入來源、成本結構、工具棧與可落地的 90 天執行計畫一次講清楚。", en: "Turn one person into a content team with AI: business model, market size, revenue streams, cost structure, tool stack, and an actionable 90-day plan." }
 keywords: ["AI 內容工作室", "AI 創業", "內容變現", "90天計畫", "AI content studio", "content monetization"]
-publishedAt: 2026-06-10
+publishedAt: 2026-06-06
 industry: media
 difficulty: beginner
 revenueModel: ["廣告分潤", "聯盟行銷", "訂閱會員", "客製內容外包"]

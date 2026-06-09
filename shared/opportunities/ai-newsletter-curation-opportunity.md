@@ -3,7 +3,7 @@ id: ai-newsletter-curation-opportunity
 title: { zh: "機會情報：垂直領域 AI 策展電子報的訂閱變現機會", en: "Opportunity: Vertical AI-Curated Newsletters as a Subscription Play" }
 description: { zh: "資訊過載讓「精準策展」變得稀缺而值錢。用 AI 持續彙整某個垂直領域的關鍵資訊，做成付費電子報——本報告拆解這個低成本高利潤的機會。", en: "Information overload makes precise curation scarce and valuable. Use AI to continuously curate a vertical and sell it as a paid newsletter." }
 keywords: ["AI電子報", "策展變現", "訂閱經濟", "newsletter", "AI curation", "paid subscription"]
-publishedAt: 2026-06-11
+publishedAt: 2026-06-05
 signalSource: ["X", "ProductHunt", "Economic News"]
 marketDemand: medium
 revenueModel: "付費訂閱 + 贊助廣告"

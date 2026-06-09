@@ -3,7 +3,7 @@ id: ai-agent-customer-service-opportunity
 title: { zh: "機會情報：中小企業 AI 客服代理的整廠輸出商機", en: "Opportunity: Turnkey AI Customer-Service Agents for SMBs" }
 description: { zh: "中小企業想用 AI 客服卻沒有技術團隊——這個落差正在催生一個高需求的整廠輸出市場。本報告拆解需求、收入模式與切入難度。", en: "SMBs want AI customer service but lack tech teams — this gap is creating a high-demand turnkey market. We break down demand, revenue model, and difficulty." }
 keywords: ["AI客服", "AI agent", "整廠輸出", "中小企業AI", "AI customer service", "B2B opportunity"]
-publishedAt: 2026-06-12
+publishedAt: 2026-06-04
 signalSource: ["X", "Reddit", "Economic News"]
 marketDemand: high
 revenueModel: "建置費 + 月維運訂閱 + 對話量計費"
