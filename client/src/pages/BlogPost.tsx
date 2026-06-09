@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { TrustStrip } from "@/components/business/TrustStrip";
 import { getStaticArticle } from "@/lib/staticArticles";
 import { StaticArticleView } from "./ArticlePage";
+import { getToolById, getToolByPath, type Tool } from "@shared/toolsConfig";
 
 export default function BlogPost() {
   const { lang } = useLanguage();
@@ -82,6 +83,21 @@ export default function BlogPost() {
   const publishedAt = article.published_at
     ? new Date(article.published_at).toLocaleDateString()
     : "—";
+
+  // Safety gate for public article pages:
+  // DB seed/sample content may contain raw internal routes (e.g. /admin/articles).
+  // Never expose admin/API/login routes or raw route strings publicly. Only render
+  // real tools resolved from toolsConfig, with friendly names.
+  const blockedPublicPrefixes = ["/admin", "/api", "/login", "/auth", "/_", "/internal"];
+  const safeReferencedTools: Tool[] = Array.isArray(article.tools_referenced)
+    ? article.tools_referenced
+        .map((raw: unknown) => (typeof raw === "string" ? raw.trim() : ""))
+        .filter((href: string) =>
+          href && !blockedPublicPrefixes.some((prefix) => href.startsWith(prefix))
+        )
+        .map((href: string) => getToolByPath(href) || getToolById(href))
+        .filter((tool: Tool | undefined): tool is Tool => Boolean(tool))
+    : [];
 
   return (
     <div className="fu-typo">
@@ -154,21 +170,20 @@ export default function BlogPost() {
           </div>
         )}
 
-        {Array.isArray(article.tools_referenced) &&
-          article.tools_referenced.length > 0 && (
-            <div className="mt-6">
-              <h3 className="text-sm font-bold text-muted-foreground mb-2">
-                {t("相關工具", "Related tools")}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {article.tools_referenced.map((href: string) => (
-                  <Button key={href} asChild variant="outline" size="sm">
-                    <Link href={href}>{href}</Link>
-                  </Button>
-                ))}
-              </div>
+        {safeReferencedTools.length > 0 && (
+          <div className="mt-6">
+            <h3 className="text-sm font-bold text-muted-foreground mb-2">
+              {t("相關工具", "Related tools")}
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {safeReferencedTools.map((tool) => (
+                <Button key={tool!.id} asChild variant="outline" size="sm">
+                  <Link href={tool!.path}>{tool!.name}</Link>
+                </Button>
+              ))}
             </div>
-          )}
+          </div>
+        )}
       </article>
 
       <TrustStrip lang={lang} variant="default" />
