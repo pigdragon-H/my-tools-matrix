@@ -95,7 +95,7 @@ export function StaticArticleView({ article }: { article: StaticArticle }) {
 
   return (
     <div>
-      <article className="container py-12 md:py-16 max-w-3xl">
+      <article className="fu-typo container py-12 md:py-16 max-w-3xl">
         <Button asChild variant="ghost" size="sm" className="mb-6 gap-2 -ml-3">
           <Link href="/blog">
             <ArrowLeft className="h-4 w-4" />
@@ -114,12 +114,12 @@ export function StaticArticleView({ article }: { article: StaticArticle }) {
             )}
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-black tracking-tight leading-tight">
+          <h1 className="t-h1 font-black tracking-tight">
             {article.title}
           </h1>
 
           {article.description && (
-            <p className="text-lg leading-8 text-muted-foreground">
+            <p className="t-lead text-muted-foreground">
               {article.description}
             </p>
           )}
@@ -142,7 +142,7 @@ export function StaticArticleView({ article }: { article: StaticArticle }) {
           <AdSlot slot="article-after-intro" position="top" variant="responsive" />
         </div>
 
-        <div className="prose prose-blue dark:prose-invert max-w-none prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-p:leading-8">
+        <div className="prose prose-blue dark:prose-invert max-w-none prose-headings:font-bold">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{firstHalf}</ReactMarkdown>
         </div>
 
@@ -154,7 +154,7 @@ export function StaticArticleView({ article }: { article: StaticArticle }) {
         )}
 
         {secondHalf && (
-          <div className="prose prose-blue dark:prose-invert max-w-none prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-p:leading-8">
+          <div className="prose prose-blue dark:prose-invert max-w-none prose-headings:font-bold">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{secondHalf}</ReactMarkdown>
           </div>
         )}
