@@ -1,5 +1,6 @@
 import { Link } from "wouter";
-import { ArrowRight, BookOpen, FileText, Sparkles, Sigma, Compass, Route as RouteIcon, ShieldAlert } from "lucide-react";
+import { useMemo, useState } from "react";
+import { ArrowRight, BookOpen, FileText, Sparkles, Sigma, Compass, Route as RouteIcon, ShieldAlert, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +11,8 @@ import { AdSlot } from "@/components/business/AdSlot";
 import { TrustStrip } from "@/components/business/TrustStrip";
 import { trpc } from "@/lib/trpc";
 import { STATIC_ARTICLES } from "@/lib/staticArticles";
+import { groupBlogByCategory, getCategoryLabel, ordinal } from "@/lib/laneCategories";
+import { useReadProgress } from "@/hooks/useReadProgress";
 
 const STATIC_CATEGORY_LABELS: Record<string, string> = {
   finance: "財經投資",
@@ -227,6 +230,17 @@ export default function BlogList() {
     published_at?: string;
   }>;
 
+  // Phase A 結構：分類晶片 + 分類分區 + 序號 + 已讀進度（與三賽道頁一致）
+  const ALL_KEY = "__all__";
+  const [activeCat, setActiveCat] = useState<string>(ALL_KEY);
+  const { isRead, readCount } = useReadProgress("blog");
+
+  const groups = useMemo(() => groupBlogByCategory(dbArticles), [dbArticles]);
+  const visibleGroups = useMemo(
+    () => (activeCat === ALL_KEY ? groups : groups.filter((g) => g.key === activeCat)),
+    [groups, activeCat]
+  );
+
   return (
     <div className="fu-typo min-h-screen bg-background text-foreground">
       <section className="border-b border-blue-200/70 bg-[linear-gradient(135deg,#eff6ff_0%,#f5f3ff_48%,#ecfeff_100%)] dark:border-blue-950/60 dark:bg-slate-950">
@@ -377,7 +391,7 @@ export default function BlogList() {
       {/* Latest articles from the knowledge base (Supabase-backed). */}
       {dbArticles.length > 0 && (
         <section className="container py-14 md:py-20">
-          <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
               <h2 className="t-h2 tracking-tight inline-flex items-center gap-2">
                 <Sparkles className="h-6 w-6 text-blue-600" />
@@ -389,33 +403,100 @@ export default function BlogList() {
                   : "Co-authored by our team and AI, post anti-machine-tone review."}
               </p>
             </div>
+            {readCount > 0 && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-sm font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+                <Check className="h-4 w-4" />
+                {lang === "zh" ? `已讀 ${readCount} 篇` : `${readCount} read`}
+              </span>
+            )}
           </div>
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {dbArticles.map((a) => (
-              <Link key={a.id} href={`/blog/${a.slug}`}>
-                <Card className="h-full cursor-pointer border-blue-100 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-xl dark:border-blue-950/60 dark:bg-white/5">
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-2 mb-4">
-                      <FileText className="h-6 w-6 text-blue-600" />
-                      {a.category_key && (
-                        <Badge variant="secondary" className="t-small">
-                          {a.category_key}
-                        </Badge>
-                      )}
-                    </div>
-                    <h3 className="t-h3 leading-snug">{a.title}</h3>
-                    {(a.description || a.ai_summary) && (
-                      <p className="mt-3 t-body text-muted-foreground line-clamp-3">
-                        {a.description || a.ai_summary}
-                      </p>
-                    )}
-                    <p className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">
-                      {lang === "zh" ? "閱讀文章" : "Read article"}{" "}
-                      <ArrowRight className="h-4 w-4" />
-                    </p>
-                  </CardContent>
-                </Card>
-              </Link>
+
+          {/* 分類晶片 */}
+          <div className="mb-8 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => setActiveCat(ALL_KEY)}
+              className={`rounded-full border px-4 py-1.5 text-sm font-bold transition ${
+                activeCat === ALL_KEY
+                  ? "border-blue-600 bg-blue-600 text-white shadow-sm"
+                  : "border-blue-200 bg-white text-blue-700 hover:border-blue-400 dark:border-blue-950/60 dark:bg-white/5 dark:text-blue-200"
+              }`}
+            >
+              {lang === "zh" ? "全部" : "All"}
+              <span className="ml-1.5 opacity-70">{dbArticles.length}</span>
+            </button>
+            {groups.map((g) => (
+              <button
+                key={g.key}
+                type="button"
+                onClick={() => setActiveCat(g.key)}
+                className={`rounded-full border px-4 py-1.5 text-sm font-bold transition ${
+                  activeCat === g.key
+                    ? "border-blue-600 bg-blue-600 text-white shadow-sm"
+                    : "border-blue-200 bg-white text-blue-700 hover:border-blue-400 dark:border-blue-950/60 dark:bg-white/5 dark:text-blue-200"
+                }`}
+              >
+                <span className="mr-1">{g.label.emoji}</span>
+                {g.label[lang]}
+                <span className="ml-1.5 opacity-70">{g.count}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* 分類分區 + 序號 + 已讀 */}
+          <div className="space-y-12">
+            {visibleGroups.map((g) => (
+              <div key={g.key}>
+                <h3 className="t-h3 mb-5 flex items-center gap-2 tracking-tight">
+                  <span>{g.label.emoji}</span>
+                  {g.label[lang]}
+                  <span className="text-sm font-medium text-muted-foreground">({g.count})</span>
+                </h3>
+                <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                  {g.items.map((a, idx) => {
+                    const read = isRead(a.slug);
+                    return (
+                      <Link key={a.id} href={`/blog/${a.slug}`}>
+                        <Card
+                          className={`relative h-full cursor-pointer border-blue-100 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-xl dark:border-blue-950/60 dark:bg-white/5 ${
+                            read ? "opacity-70" : ""
+                          }`}
+                        >
+                          <span className="absolute right-4 top-4 text-xs font-black tabular-nums text-blue-300 dark:text-blue-700">
+                            {ordinal(idx + 1)}
+                          </span>
+                          {read && (
+                            <span className="absolute right-4 top-9 inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+                              <Check className="h-3 w-3" />
+                              {lang === "zh" ? "已讀" : "Read"}
+                            </span>
+                          )}
+                          <CardContent className="p-6">
+                            <div className="flex items-center gap-2 mb-4">
+                              <FileText className="h-6 w-6 text-blue-600" />
+                              {a.category_key && (
+                                <Badge variant="secondary" className="t-small">
+                                  {getCategoryLabel("blog", a.category_key)[lang]}
+                                </Badge>
+                              )}
+                            </div>
+                            <h3 className="t-h3 leading-snug pr-8">{a.title}</h3>
+                            {(a.description || a.ai_summary) && (
+                              <p className="mt-3 t-body text-muted-foreground line-clamp-3">
+                                {a.description || a.ai_summary}
+                              </p>
+                            )}
+                            <p className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">
+                              {lang === "zh" ? "閱讀文章" : "Read article"}{" "}
+                              <ArrowRight className="h-4 w-4" />
+                            </p>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
             ))}
           </div>
         </section>

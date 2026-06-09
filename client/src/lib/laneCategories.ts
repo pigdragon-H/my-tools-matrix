@@ -47,6 +47,19 @@ const CATEGORY_LABELS: Record<string, Record<string, CategoryLabel>> = {
     medium: { zh: "中需求機會", en: "Medium Demand", emoji: "📈" },
     low: { zh: "潛力觀察", en: "Emerging", emoji: "🌱" },
   },
+  // 工具知識庫 /blog（DB 文章）：依 category_key（沿用知識庫領域＋常見補充）
+  blog: {
+    "ai-business": { zh: "AI 商業應用", en: "AI Business", emoji: "💼" },
+    "ai-automation": { zh: "AI 自動化", en: "AI Automation", emoji: "⚙️" },
+    "ai-agent": { zh: "AI Agent", en: "AI Agent", emoji: "🤖" },
+    "ai-side-hustle": { zh: "AI 副業", en: "AI Side Hustle", emoji: "💡" },
+    "future-industry": { zh: "未來產業", en: "Future Industry", emoji: "🚀" },
+    "learning-center": { zh: "學習中心", en: "Learning Center", emoji: "📚" },
+    "formula-insights": { zh: "公式洞察", en: "Formula Insights", emoji: "📐" },
+    "tool-guide": { zh: "工具指南", en: "Tool Guide", emoji: "🧰" },
+    finance: { zh: "財經投資", en: "Finance", emoji: "💰" },
+    health: { zh: "健康生活", en: "Health", emoji: "🩺" },
+  },
 };
 
 /** 取某賽道某分類值的顯示資訊；查無則 fallback 用原值。 */
@@ -123,4 +136,51 @@ export function groupByCategory(laneId: string, items: LoadedContent[]): Categor
 /** 兩位數序號字串：1 → "01"。 */
 export function ordinal(n: number): string {
   return String(n).padStart(2, "0");
+}
+
+// ── DB 文章（/blog）通用分組 ───────────────────────────────────────────
+// DB 文章不是 LoadedContent，這裡用最小介面分組（依 category_key、依 published_at 排序）。
+export interface BlogArticleLike {
+  category_key?: string;
+  published_at?: string;
+}
+
+export interface BlogGroup<T extends BlogArticleLike> {
+  key: string;
+  label: CategoryLabel;
+  items: T[]; // 已依日期新→舊排序
+  count: number;
+}
+
+/**
+ * 把 /blog DB 文章依 category_key 分組；組內依 published_at 新→舊排序，
+ * 分區之間依「組內最新發布日期」新→舊排序（與賽道頁一致的視覺邏輯）。
+ */
+export function groupBlogByCategory<T extends BlogArticleLike>(items: T[]): BlogGroup<T>[] {
+  const buckets = new Map<string, T[]>();
+  for (const it of items) {
+    const key = it.category_key || "formula-insights";
+    if (!buckets.has(key)) buckets.set(key, []);
+    buckets.get(key)!.push(it);
+  }
+
+  const groups: BlogGroup<T>[] = [];
+  for (const [key, list] of Array.from(buckets.entries())) {
+    const sorted = [...list].sort(
+      (a, b) => (b.published_at || "").localeCompare(a.published_at || "")
+    );
+    groups.push({
+      key,
+      label: getCategoryLabel("blog", key),
+      items: sorted,
+      count: sorted.length,
+    });
+  }
+
+  groups.sort((a, b) => {
+    const ad = a.items[0]?.published_at || "";
+    const bd = b.items[0]?.published_at || "";
+    return bd.localeCompare(ad);
+  });
+  return groups;
 }

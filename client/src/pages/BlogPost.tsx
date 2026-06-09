@@ -2,8 +2,10 @@
 // /blog/:slug — render published article from Supabase via tRPC.
 // Falls back gracefully if article not found.
 // ============================================================
+import { useEffect } from "react";
 import { Link, useRoute } from "wouter";
 import { ArrowLeft, Calendar, Tag, Loader2 } from "lucide-react";
+import { useReadProgress } from "@/hooks/useReadProgress";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { trpc } from "@/lib/trpc";
@@ -19,6 +21,12 @@ export default function BlogPost() {
   const { lang } = useLanguage();
   const [, params] = useRoute<{ slug: string }>("/blog/:slug");
   const slug = params?.slug ?? "";
+
+  // 已讀進度（純前端 localStorage，與 /blog 列表共用 "blog" 命名空間）
+  const { markRead } = useReadProgress("blog");
+  useEffect(() => {
+    if (slug) markRead(slug);
+  }, [slug, markRead]);
 
   // Static (MANUS-authored) root-level article takes priority — e.g.
   // GSC-indexed /blog/roi-calculator-guide. Avoids the DB round-trip.
