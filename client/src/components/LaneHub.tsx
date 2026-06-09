@@ -8,7 +8,7 @@
 //   ④ 已讀 ✓ 進度 — 純前端 localStorage，已讀卡降彩度＋打勾
 // 只增不刪：黃金字級 .fu-typo 保留；無內容時仍顯示「籌備中」。
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "wouter";
+import { Link, useSearch } from "wouter";
 import { Check } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Badge } from "@/components/ui/badge";
@@ -27,11 +27,18 @@ export function LaneHub({ laneId }: { laneId: string }) {
   const groups = useMemo(() => groupByCategory(laneId, items), [laneId, items]);
   const { isRead, readCount } = useReadProgress(laneId);
 
-  const [activeCat, setActiveCat] = useState<string>(ALL_KEY);
+  // 友善導航：若網址帶 ?cat=xxx（來自導航下拉），預設就篩到該分類。
+  const search = useSearch();
+  const initialCat = useMemo(() => {
+    const cat = new URLSearchParams(search).get("cat");
+    return cat ? cat : ALL_KEY;
+  }, [search]);
+
+  const [activeCat, setActiveCat] = useState<string>(initialCat);
 
   useEffect(() => {
-    setActiveCat(ALL_KEY);
-  }, [laneId]);
+    setActiveCat(initialCat);
+  }, [laneId, initialCat]);
 
   useEffect(() => {
     if (lane) {

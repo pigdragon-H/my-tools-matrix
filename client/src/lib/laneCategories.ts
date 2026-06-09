@@ -201,3 +201,33 @@ export function groupByKeyAndDate<T>(
   });
   return groups;
 }
+
+// ── 導航下拉：各賽道「主軸類別 → 內部分類」清單 ──────────────────────────────
+// 目的：讓新訪客點擊導航板的主軸類別時，能直接看到該類別下的內部分類。
+//  • 沿用 CATEGORY_LABELS 既有的顯示對照（只增不刪、視覺層）。
+//  • 無法分類的內容一律歸到最後一類「其它」。
+export interface NavCategory {
+  key: string;
+  label: CategoryLabel;
+}
+
+/** 導航用「其它」分類（永遠排在最後一個）。 */
+export const NAV_OTHER_CATEGORY: NavCategory = {
+  key: "other",
+  label: { zh: "其它", en: "Other", emoji: "📦" },
+};
+
+/**
+ * 取某賽道的「內部分類」清單（給導航下拉使用），
+ * 依 CATEGORY_LABELS 既有順序輸出，並在最後補上「其它」。
+ * laneId 可為 knowledge / blueprints / opportunities / blog。
+ */
+export function navCategories(laneId: string): NavCategory[] {
+  const map = CATEGORY_LABELS[laneId] || {};
+  const list: NavCategory[] = Object.keys(map).map((key) => ({
+    key,
+    label: map[key],
+  }));
+  list.push(NAV_OTHER_CATEGORY);
+  return list;
+}

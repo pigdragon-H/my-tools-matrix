@@ -22,6 +22,7 @@ import { useLocation } from "wouter";
 import { categories } from "@shared/categoriesConfig";
 import { tools } from "@shared/toolsConfig";
 import { navLanes } from "@shared/laneRegistry";
+import { navCategories } from "@/lib/laneCategories";
 import { CategoryIcon } from "./CategoryIcon";
 import { cn } from "@/lib/utils";
 
@@ -69,6 +70,76 @@ const navbarI18n = {
 const toolCountByCategory: Record<string, number> = {};
 for (const tool of tools) {
   toolCountByCategory[tool.category] = (toolCountByCategory[tool.category] ?? 0) + 1;
+}
+
+
+// ── 賽道／知識庫「分類下拉」共用元件（桌機版）──────────────────────────────
+// 友善對待新訪客：點主軸類別即可看到內部分類；無法分類者歸到最後一類「其它」。
+// 每個分類連到 {routeBase}?cat={key}，列表頁會據此自動篩選。
+function LaneNavDropdown({
+  routeBase,
+  title,
+  Icon,
+  laneId,
+  lang,
+  location,
+}: {
+  routeBase: string;
+  title: string;
+  Icon: typeof Rocket;
+  laneId: string;
+  lang: Lang;
+  location: string;
+}) {
+  const cats = navCategories(laneId);
+  const viewAll = lang === "zh" ? "查看全部" : "View all";
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className={cn(
+            "gap-1.5 text-sm font-medium",
+            location.startsWith(routeBase) && "bg-accent text-accent-foreground"
+          )}
+        >
+          <Icon className="h-3.5 w-3.5" />
+          {title}
+          <ChevronDown className="h-3.5 w-3.5 opacity-60" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" className="w-64 p-2" sideOffset={4}>
+        <DropdownMenuLabel className="text-xs text-muted-foreground font-normal px-2 py-1.5">
+          {title}
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <div className="grid grid-cols-1 gap-0.5">
+          {cats.map((cat) => (
+            <DropdownMenuItem key={cat.key} asChild>
+              <Link href={`${routeBase}?cat=${cat.key}`}>
+                <div className="flex items-center gap-2 px-2 py-1.5 cursor-pointer w-full">
+                  <span className="text-sm shrink-0">{cat.label.emoji}</span>
+                  <span className="text-xs font-medium truncate">
+                    {lang === "zh" ? cat.label.zh : cat.label.en}
+                  </span>
+                </div>
+              </Link>
+            </DropdownMenuItem>
+          ))}
+        </div>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href={routeBase}>
+            <div className="flex items-center gap-2 px-2 py-1.5 cursor-pointer w-full text-primary">
+              <Icon className="h-3.5 w-3.5" />
+              <span className="text-xs font-medium">{viewAll}</span>
+            </div>
+          </Link>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }
 
 export function Navbar() {
@@ -161,37 +232,29 @@ export function Navbar() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Link href="/blog">
-            <Button
-              variant="ghost"
-              size="sm"
-              className={cn(
-                "gap-1.5 text-sm font-medium",
-                location.startsWith("/blog") && "bg-accent text-accent-foreground"
-              )}
-            >
-              <BookOpen className="h-3.5 w-3.5" />
-              {t.knowledge}
-            </Button>
-          </Link>
+          {/* 工具知識庫：分類下拉（點主軸即見內部分類） */}
+          <LaneNavDropdown
+            routeBase="/blog"
+            title={t.knowledge}
+            Icon={BookOpen}
+            laneId="blog"
+            lang={lang}
+            location={location}
+          />
 
-          {/* ── 四賽道導航（由 laneRegistry 的 navLanes() 驅動，只增不刪）── */}
+          {/* ── 四賽道導航（由 laneRegistry 的 navLanes() 驅動，只增不刪）：各賽道分類下拉 ── */}
           {navLanes().map((lane) => {
             const Icon = LANE_ICONS[lane.id] ?? Layers;
             return (
-              <Link key={lane.id} href={lane.routeBase}>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className={cn(
-                    "gap-1.5 text-sm font-medium",
-                    location.startsWith(lane.routeBase) && "bg-accent text-accent-foreground"
-                  )}
-                >
-                  <Icon className="h-3.5 w-3.5" />
-                  {lane.title[lang]}
-                </Button>
-              </Link>
+              <LaneNavDropdown
+                key={lane.id}
+                routeBase={lane.routeBase}
+                title={lane.title[lang]}
+                Icon={Icon}
+                laneId={lane.id}
+                lang={lang}
+                location={location}
+              />
             );
           })}
 
@@ -367,25 +430,61 @@ export function Navbar() {
               })}
             </div>
 
-            <div className="border-t border-border pt-3 mt-3 space-y-1">
-              <Link href="/blog" onClick={() => setMobileOpen(false)}>
-                <div className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-accent cursor-pointer">
-                  <BookOpen className="h-4 w-4" />
-                  <span className="text-sm">{t.knowledge}</span>
+            <div className="border-t border-border pt-3 mt-3 space-y-3">
+              {/* 工具知識庫 + 內部分類 */}
+              <div>
+                <Link href="/blog" onClick={() => setMobileOpen(false)}>
+                  <div className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-accent cursor-pointer">
+                    <BookOpen className="h-4 w-4" />
+                    <span className="text-sm font-medium">{t.knowledge}</span>
+                  </div>
+                </Link>
+                <div className="flex flex-wrap gap-1 pl-8 pr-2 pb-1">
+                  {navCategories("blog").map((cat) => (
+                    <Link
+                      key={cat.key}
+                      href={`/blog?cat=${cat.key}`}
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      <span className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-xs hover:bg-accent cursor-pointer">
+                        <span>{cat.label.emoji}</span>
+                        {lang === "zh" ? cat.label.zh : cat.label.en}
+                      </span>
+                    </Link>
+                  ))}
                 </div>
-              </Link>
-              {/* ── 四賽道（行動版，navLanes() 驅動）── */}
+              </div>
+
+              {/* ── 四賽道（行動版，navLanes() 驅動）+ 各自內部分類 ── */}
               {navLanes().map((lane) => {
                 const Icon = LANE_ICONS[lane.id] ?? Layers;
                 return (
-                  <Link key={lane.id} href={lane.routeBase} onClick={() => setMobileOpen(false)}>
-                    <div className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-accent cursor-pointer">
-                      <Icon className="h-4 w-4" />
-                      <span className="text-sm">{lane.title[lang]}</span>
+                  <div key={lane.id}>
+                    <Link href={lane.routeBase} onClick={() => setMobileOpen(false)}>
+                      <div className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-accent cursor-pointer">
+                        <Icon className="h-4 w-4" />
+                        <span className="text-sm font-medium">{lane.title[lang]}</span>
+                      </div>
+                    </Link>
+                    <div className="flex flex-wrap gap-1 pl-8 pr-2 pb-1">
+                      {navCategories(lane.id).map((cat) => (
+                        <Link
+                          key={cat.key}
+                          href={`${lane.routeBase}?cat=${cat.key}`}
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          <span className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-xs hover:bg-accent cursor-pointer">
+                            <span>{cat.label.emoji}</span>
+                            {lang === "zh" ? cat.label.zh : cat.label.en}
+                          </span>
+                        </Link>
+                      ))}
                     </div>
-                  </Link>
+                  </div>
                 );
               })}
+
+              {/* 關於我們：例外，維持單純連結，不加分類 */}
               <Link href="/about" onClick={() => setMobileOpen(false)}>
                 <div className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-accent cursor-pointer">
                   <Info className="h-4 w-4" />

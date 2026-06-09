@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { Link, useSearch } from "wouter";
 import { useMemo, useState } from "react";
 import { ArrowRight, BookOpen, FileText, Sparkles, Sigma, Compass, Route as RouteIcon, ShieldAlert, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -227,7 +227,13 @@ export default function BlogList() {
 
   // Phase A 結構：分類晶片 + 分類分區 + 序號 + 已讀進度（與三賽道頁一致）
   const ALL_KEY = "__all__";
-  const [activeCat, setActiveCat] = useState<string>(ALL_KEY);
+  // 友善導航：若網址帶 ?cat=xxx（來自導航下拉），預設就篩到該分類。
+  const blogSearch = useSearch();
+  const initialBlogCat = useMemo(() => {
+    const cat = new URLSearchParams(blogSearch).get("cat");
+    return cat ? cat : ALL_KEY;
+  }, [blogSearch]);
+  const [activeCat, setActiveCat] = useState<string>(initialBlogCat);
   const { isRead, readCount } = useReadProgress("blog");
 
   const groups = useMemo(() => groupBlogByCategory(dbArticles), [dbArticles]);
