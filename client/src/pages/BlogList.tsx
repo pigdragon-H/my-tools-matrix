@@ -11,13 +11,8 @@ import { AdSlot } from "@/components/business/AdSlot";
 import { TrustStrip } from "@/components/business/TrustStrip";
 import { trpc } from "@/lib/trpc";
 import { STATIC_ARTICLES } from "@/lib/staticArticles";
-import { groupBlogByCategory, getCategoryLabel, ordinal } from "@/lib/laneCategories";
+import { groupBlogByCategory, groupByKeyAndDate, getCategoryLabel, ordinal } from "@/lib/laneCategories";
 import { useReadProgress } from "@/hooks/useReadProgress";
-
-const STATIC_CATEGORY_LABELS: Record<string, string> = {
-  finance: "財經投資",
-  health: "健康生活",
-};
 
 type Lang = "zh" | "en";
 
@@ -241,6 +236,26 @@ export default function BlogList() {
     [groups, activeCat]
   );
 
+  // 工具應用文章（靜態 Markdown）：套同一套 Phase A 結構，獨立篩選與已讀命名空間
+  const [activeStaticCat, setActiveStaticCat] = useState<string>(ALL_KEY);
+  const { isRead: isStaticRead, readCount: staticReadCount } = useReadProgress("blog-static");
+  const staticGroups = useMemo(
+    () =>
+      groupByKeyAndDate(
+        STATIC_ARTICLES,
+        (a) => a.category || "formula-insights",
+        (a) => a.publishedAt || ""
+      ),
+    []
+  );
+  const visibleStaticGroups = useMemo(
+    () =>
+      activeStaticCat === ALL_KEY
+        ? staticGroups
+        : staticGroups.filter((g) => g.key === activeStaticCat),
+    [staticGroups, activeStaticCat]
+  );
+
   return (
     <div className="fu-typo min-h-screen bg-background text-foreground">
       <section className="border-b border-blue-200/70 bg-[linear-gradient(135deg,#eff6ff_0%,#f5f3ff_48%,#ecfeff_100%)] dark:border-blue-950/60 dark:bg-slate-950">
@@ -346,43 +361,112 @@ export default function BlogList() {
       {/* Tool application articles (MANUS-authored static Markdown). */}
       {STATIC_ARTICLES.length > 0 && (
         <section className="container py-14 md:py-20">
-          <div className="mb-10 max-w-2xl">
-            <h2 className="t-h2 tracking-tight inline-flex items-center gap-2">
-              <BookOpen className="h-6 w-6 text-blue-600" />
-              {lang === "zh" ? "工具應用文章" : "Tool application articles"}
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              {lang === "zh"
-                ? "深入解析每個工具的實際用途與運用方法，用真實情境帶您把計算結果轉化為決策。"
-                : "In-depth guides on how to apply each tool — turning numbers into decisions."}
-            </p>
+          <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-2xl">
+              <h2 className="t-h2 tracking-tight inline-flex items-center gap-2">
+                <BookOpen className="h-6 w-6 text-blue-600" />
+                {lang === "zh" ? "工具應用文章" : "Tool application articles"}
+              </h2>
+              <p className="mt-3 text-muted-foreground">
+                {lang === "zh"
+                  ? "深入解析每個工具的實際用途與運用方法,用真實情境帶您把計算結果轉化為決策。"
+                  : "In-depth guides on how to apply each tool — turning numbers into decisions."}
+              </p>
+            </div>
+            {staticReadCount > 0 && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-sm font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+                <Check className="h-4 w-4" />
+                {lang === "zh" ? `已讀 ${staticReadCount} 篇` : `${staticReadCount} read`}
+              </span>
+            )}
           </div>
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {STATIC_ARTICLES.map((a) => (
-              <Link key={a.path} href={a.path}>
-                <Card className="h-full cursor-pointer border-blue-100 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-xl dark:border-blue-950/60 dark:bg-white/5">
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-2 mb-4">
-                      <FileText className="h-6 w-6 text-blue-600" />
-                      {a.category && (
-                        <Badge variant="secondary" className="t-small">
-                          {STATIC_CATEGORY_LABELS[a.category] || a.category}
-                        </Badge>
-                      )}
-                    </div>
-                    <h3 className="t-h3 leading-snug">{a.title}</h3>
-                    {a.description && (
-                      <p className="mt-3 t-body text-muted-foreground line-clamp-3">
-                        {a.description}
-                      </p>
-                    )}
-                    <p className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">
-                      {lang === "zh" ? "閱讀文章" : "Read article"}{" "}
-                      <ArrowRight className="h-4 w-4" />
-                    </p>
-                  </CardContent>
-                </Card>
-              </Link>
+
+          {/* 分類晶片 */}
+          <div className="mb-8 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => setActiveStaticCat(ALL_KEY)}
+              className={`rounded-full border px-4 py-1.5 text-sm font-bold transition ${
+                activeStaticCat === ALL_KEY
+                  ? "border-blue-600 bg-blue-600 text-white shadow-sm"
+                  : "border-blue-200 bg-white text-blue-700 hover:border-blue-400 dark:border-blue-950/60 dark:bg-white/5 dark:text-blue-200"
+              }`}
+            >
+              {lang === "zh" ? "全部" : "All"}
+              <span className="ml-1.5 opacity-70">{STATIC_ARTICLES.length}</span>
+            </button>
+            {staticGroups.map((g) => (
+              <button
+                key={g.key}
+                type="button"
+                onClick={() => setActiveStaticCat(g.key)}
+                className={`rounded-full border px-4 py-1.5 text-sm font-bold transition ${
+                  activeStaticCat === g.key
+                    ? "border-blue-600 bg-blue-600 text-white shadow-sm"
+                    : "border-blue-200 bg-white text-blue-700 hover:border-blue-400 dark:border-blue-950/60 dark:bg-white/5 dark:text-blue-200"
+                }`}
+              >
+                <span className="mr-1">{g.label.emoji}</span>
+                {g.label[lang]}
+                <span className="ml-1.5 opacity-70">{g.count}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* 分類分區 + 序號 + 已讀 */}
+          <div className="space-y-12">
+            {visibleStaticGroups.map((g) => (
+              <div key={g.key}>
+                <h3 className="t-h3 mb-5 flex items-center gap-2 tracking-tight">
+                  <span>{g.label.emoji}</span>
+                  {g.label[lang]}
+                  <span className="text-sm font-medium text-muted-foreground">({g.count})</span>
+                </h3>
+                <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                  {g.items.map((a, idx) => {
+                    const read = isStaticRead(a.slug);
+                    return (
+                      <Link key={a.path} href={a.path}>
+                        <Card
+                          className={`relative h-full cursor-pointer border-blue-100 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-xl dark:border-blue-950/60 dark:bg-white/5 ${
+                            read ? "opacity-70" : ""
+                          }`}
+                        >
+                          <span className="absolute right-4 top-4 text-xs font-black tabular-nums text-blue-300 dark:text-blue-700">
+                            {ordinal(idx + 1)}
+                          </span>
+                          {read && (
+                            <span className="absolute right-4 top-9 inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+                              <Check className="h-3 w-3" />
+                              {lang === "zh" ? "已讀" : "Read"}
+                            </span>
+                          )}
+                          <CardContent className="p-6">
+                            <div className="flex items-center gap-2 mb-4">
+                              <FileText className="h-6 w-6 text-blue-600" />
+                              {a.category && (
+                                <Badge variant="secondary" className="t-small">
+                                  {getCategoryLabel("blog", a.category)[lang]}
+                                </Badge>
+                              )}
+                            </div>
+                            <h3 className="t-h3 leading-snug pr-8">{a.title}</h3>
+                            {a.description && (
+                              <p className="mt-3 t-body text-muted-foreground line-clamp-3">
+                                {a.description}
+                              </p>
+                            )}
+                            <p className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">
+                              {lang === "zh" ? "閱讀文章" : "Read article"}{" "}
+                              <ArrowRight className="h-4 w-4" />
+                            </p>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
             ))}
           </div>
         </section>

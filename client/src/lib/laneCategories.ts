@@ -147,7 +147,7 @@ export interface BlogArticleLike {
   published_at?: string;
 }
 
-export interface BlogGroup<T extends BlogArticleLike> {
+export interface BlogGroup<T> {
   key: string;
   label: CategoryLabel;
   items: T[]; // 已依日期新→舊排序
@@ -159,18 +159,33 @@ export interface BlogGroup<T extends BlogArticleLike> {
  * 分區之間依「組內最新發布日期」新→舊排序（與賽道頁一致的視覺邏輯）。
  */
 export function groupBlogByCategory<T extends BlogArticleLike>(items: T[]): BlogGroup<T>[] {
+  return groupByKeyAndDate(
+    items,
+    (it) => it.category_key || "formula-insights",
+    (it) => it.published_at || ""
+  );
+}
+
+/**
+ * 通用分組工具：給定「取分類 key」與「取日期字串」兩個函式，
+ * 依分類分組、組內日期新→舊、分區依組內最新日期新→舊。
+ * 可同時服務 DB 文章（category_key/published_at）與靜態文章（category/publishedAt）。
+ */
+export function groupByKeyAndDate<T>(
+  items: T[],
+  keyOf: (item: T) => string,
+  dateOf: (item: T) => string
+): BlogGroup<T>[] {
   const buckets = new Map<string, T[]>();
   for (const it of items) {
-    const key = it.category_key || "formula-insights";
+    const key = keyOf(it) || "formula-insights";
     if (!buckets.has(key)) buckets.set(key, []);
     buckets.get(key)!.push(it);
   }
 
   const groups: BlogGroup<T>[] = [];
   for (const [key, list] of Array.from(buckets.entries())) {
-    const sorted = [...list].sort(
-      (a, b) => (b.published_at || "").localeCompare(a.published_at || "")
-    );
+    const sorted = [...list].sort((a, b) => dateOf(b).localeCompare(dateOf(a)));
     groups.push({
       key,
       label: getCategoryLabel("blog", key),
@@ -180,8 +195,8 @@ export function groupBlogByCategory<T extends BlogArticleLike>(items: T[]): Blog
   }
 
   groups.sort((a, b) => {
-    const ad = a.items[0]?.published_at || "";
-    const bd = b.items[0]?.published_at || "";
+    const ad = a.items[0] ? dateOf(a.items[0]) : "";
+    const bd = b.items[0] ? dateOf(b.items[0]) : "";
     return bd.localeCompare(ad);
   });
   return groups;

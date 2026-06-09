@@ -23,6 +23,7 @@ import { PremiumTeaser } from "@/components/business/PremiumTeaser";
 import { NewsletterCta } from "@/components/business/NewsletterCta";
 import { TrustStrip } from "@/components/business/TrustStrip";
 import { setSeoMeta } from "@/lib/seo";
+import { useReadProgress } from "@/hooks/useReadProgress";
 import { getStaticArticle, type StaticArticle } from "@/lib/staticArticles";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -58,6 +59,12 @@ const AFFILIATE_ITEMS: Record<string, AffiliateItem[]> = {
 export function StaticArticleView({ article }: { article: StaticArticle }) {
   const { lang } = useLanguage();
   const t = (zh: string, en: string) => (lang === "zh" ? zh : en);
+
+  // 已讀進度（與 /blog 工具應用文章列表共用 "blog-static" 命名空間）
+  const { markRead } = useReadProgress("blog-static");
+  useEffect(() => {
+    if (article.slug) markRead(article.slug);
+  }, [article.slug, markRead]);
 
   useEffect(() => {
     setSeoMeta({

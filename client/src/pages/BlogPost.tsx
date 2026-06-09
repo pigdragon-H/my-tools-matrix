@@ -22,15 +22,16 @@ export default function BlogPost() {
   const [, params] = useRoute<{ slug: string }>("/blog/:slug");
   const slug = params?.slug ?? "";
 
-  // 已讀進度（純前端 localStorage，與 /blog 列表共用 "blog" 命名空間）
-  const { markRead } = useReadProgress("blog");
-  useEffect(() => {
-    if (slug) markRead(slug);
-  }, [slug, markRead]);
-
   // Static (MANUS-authored) root-level article takes priority — e.g.
   // GSC-indexed /blog/roi-calculator-guide. Avoids the DB round-trip.
   const staticArticle = getStaticArticle(undefined, slug);
+
+  // 已讀進度（純前端 localStorage）。靜態文章由 StaticArticleView 以 "blog-static"
+  // 命名空間標記,這裡只負責 DB 文章的 "blog" 命名空間,避免重複/錯置。
+  const { markRead } = useReadProgress("blog");
+  useEffect(() => {
+    if (slug && !staticArticle) markRead(slug);
+  }, [slug, staticArticle, markRead]);
 
   const articleQuery = trpc.articles.getBySlug.useQuery(
     { slug, locale: lang },
