@@ -88,8 +88,8 @@ export default function Privacy() {
           <p className="text-sm text-slate-500">
             <em>
               {lang === "zh"
-                ? "* 本頁為初版範本。隨著本站接入廣告 / 訂閱 / 帳號系統,本政策將持續更新。"
-                : "* This page is an initial template. It will be updated as ads / subscriptions / accounts come online."}
+                ? "本政策自 2026 年 6 月 9 日起生效。我們會在功能或法規變動時更新本頁,並於頁面標示最新生效日期。"
+                : "This policy is effective from June 9, 2026. We update this page when features or regulations change, and mark the latest effective date here."}
             </em>
           </p>
         </article>
