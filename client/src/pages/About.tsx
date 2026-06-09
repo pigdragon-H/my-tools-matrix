@@ -31,7 +31,7 @@ const principles = [
     title: { zh: "知", en: "Know" },
     subtitle: { zh: "建立可理解的知識脈絡", en: "Build an understandable knowledge map" },
     description: {
-      zh: "整理公式、指標、工具用法與決策脈絡，讓知識能被查找、理解與重複使用。我們相信一個答案的價值，不只在於它是多少，更在於你看得懂它從哪裡來、用了什麼假設、在什麼前提下成立。",
+      zh: "整理公式、指標、工具用法與決策脈絡，讓知識能被查找、理解與重複使用。我們相信一個答案的價值，不只在於它是多少，更在於您看得懂它從哪裡來、用了什麼假設、在什麼前提下成立。",
       en: "Organize formulas, indicators, tool usage, and decision context so knowledge can be found, understood, and reused. We believe an answer's value lies not only in the number, but in your ability to see where it came from, which assumptions it used, and under what conditions it holds.",
     },
     points: {
@@ -50,7 +50,7 @@ const principles = [
     title: { zh: "行", en: "Act" },
     subtitle: { zh: "轉換為可操作的工具流程", en: "Turn it into operable tool flows" },
     description: {
-      zh: "把知識落到可操作的計算器、流程與檢查點，協助使用者做出下一步行動。知道一個概念很好，但能立刻把它變成輸入幾個數字就得到決策建議的工具，才真正改變了你今天的選擇。",
+      zh: "把知識落到可操作的計算器、流程與檢查點，協助使用者做出下一步行動。知道一個概念很好，但能立刻把它變成輸入幾個數字就得到決策建議的工具，才真正改變了您今天的選擇。",
       en: "Turn knowledge into actionable calculators, flows, and checkpoints that help users take the next step. Understanding a concept is good — but turning it into a tool where a few inputs yield a real decision is what actually changes your choices today.",
     },
     points: {
@@ -69,7 +69,7 @@ const principles = [
     title: { zh: "樂趣", en: "Joy" },
     subtitle: { zh: "讓學習與決策更有陪伴感", en: "Make learning and decisions more companionable" },
     description: {
-      zh: "讓工具不只是冷冰冰的表格，而是能陪伴學習、工作與生活探索的花園。我們在配色、字距與節奏上刻意留白，讓你在長時間查資料、做決策時，仍感覺被好好對待——這是一種安靜、可靠的陪伴。",
+      zh: "讓工具不只是冷冰冰的表格，而是能陪伴學習、工作與生活探索的花園。我們在配色、字距與節奏上刻意留白，讓您在長時間查資料、做決策時，仍感覺被好好對待——這是一種安靜、可靠的陪伴。",
       en: "Tools should not feel like cold spreadsheets — they should be a garden that accompanies learning, work, and life. We deliberately leave breathing room in color, spacing, and rhythm, so that during long sessions of research and decision-making, you still feel well cared for — a quiet, reliable companionship.",
     },
     points: {
@@ -100,7 +100,7 @@ const pillars = [
     icon: Lightbulb,
     title: { zh: "機會情報", en: "Opportunity Intelligence" },
     body: {
-      zh: "時令鮮味。匯整全球經濟新聞與變現點子的情報流，由 AI 持續彙整，幫你在對的時間抓住下一個機會。",
+      zh: "時令鮮味。匯整全球經濟新聞與變現點子的情報流，由 AI 持續彙整，幫您在對的時間抓住下一個機會。",
       en: "Seasonal specials. A signal stream of global economic news and monetization ideas, continuously curated by AI, so you catch the next opportunity at the right time.",
     },
   },
@@ -124,7 +124,7 @@ const pillars = [
     icon: Cpu,
     title: { zh: "AI Native 架構", en: "AI Native Architecture" },
     body: {
-      zh: "人機合一的引擎。結構先定、只增不刪，每個工具與內容都為 AI 分析與知識網路保留語意位置，讓系統能隨使用者一起成長，不需砍掉重練。",
+      zh: "人機合一的引擎。對用戶貼心的結構設計，每個工具與內容或您對情報的蒐集，都為 AI 所分析在知識鏈接網路中保留位置，讓系統能隨使用者一起成長。",
       en: "The human-and-AI engine. Structure-first and only-add: every tool and article keeps a semantic anchor for AI analysis and the knowledge network, so the system grows with users — no rebuild required.",
     },
   },
@@ -132,7 +132,7 @@ const pillars = [
     icon: Leaf,
     title: { zh: "用心與陪伴", en: "Care & Companionship" },
     body: {
-      zh: "園丁的心。我們對菜色的選擇是絕對的用心；暖白卡片、自然字距、舒適行高，讓你長時間查資料、做決策時，仍感覺被好好對待。",
+      zh: "園丁的心。我們對菜色的選擇是絕對的用心；暖白卡片、自然字距、舒適行高，讓您長時間查資料、做決策時，仍感覺被好好對待。",
       en: "A gardener's heart. We choose every dish with absolute care; warm-white cards, natural spacing, and comfortable line-height keep you well cared for through long sessions of research and decisions.",
     },
   },
@@ -145,17 +145,17 @@ const copy = {
   // Hero
   heroEyebrow: { zh: "ABOUT FORMULA UNIVERSE · 人 × AI", en: "ABOUT FORMULA UNIVERSE · HUMAN × AI" },
   heroTitle: {
-    zh: "人機合一的結晶，一桌為你而辦的流水席。",
+    zh: "人機合一的結晶，一桌為您而辦的流水席。",
     en: "A human-and-AI creation, an open banquet set just for you.",
   },
   heroLead: {
-    zh: "Formula Universe 是一座 AI Native Knowledge Infrastructure，也是一桌免費的知識流水席。這裡的每一道菜——工具、公式、解釋、藍圖與機會——都是人的用心與 AI 的鼎力相助一起烹出來的。我們不避諱地說：沒有 AI，就沒有我們；但有了人的口味與判斷，這桌席才成為你吃得懂、信得過、還想再來的地方。",
+    zh: "Formula Universe 是一座 AI Native Knowledge Infrastructure，也是一桌免費的知識流水席。這裡的每一道菜——工具、公式、解釋、藍圖與機會——都是人的用心與 AI 的鼎力相助一起烹出來的。我們不避諱地說：沒有 AI，就沒有我們；但有了人的口味與判斷，這桌席才成為您吃得懂、信得過、還想再來的地方。",
     en: "Formula Universe is an AI Native Knowledge Infrastructure — and a free, open banquet of knowledge. Every dish here, from tools and formulas to explanations, blueprints, and opportunities, is cooked by human care with the powerful help of AI. We say it plainly: without AI there is no us; yet with human taste and judgment, this banquet becomes a place you can understand, trust, and want to return to.",
   },
 
   // ── Soul: 人 × AI · 主廚與園丁（流水席靈魂）──────────────────────────────
   soulEyebrow: { zh: "人機合一 · 主廚與園丁", en: "Human × AI · Chef & Gardener" },
-  soulTitle: { zh: "關於我們：人、AI，與來作客的你", en: "About us: human, AI, and you who came" },
+  soulTitle: { zh: "關於我們：人、AI，與來作客的您", en: "About us: human, AI, and you who came" },
   soulLead: {
     zh: "這個地方是我的學習、知行與樂趣所在——有人，也有 AI。我們要展現人運行的智慧，也不避諱地說：這一切的成果，是 AI 鼎力相助的結晶。一句話——人機合一。",
     en: "This place is where my learning, knowing-and-doing, and joy live — with humans, and with AI. We show the wisdom of people at work, and we never shy from saying: all of this is a creation made with the powerful help of AI. In one phrase — human and machine, as one.",
@@ -166,11 +166,11 @@ const copy = {
       en: ["Without AI, there is no us", "We admit it openly and proudly: the vision, speed, and depth of this banquet all come with the powerful help of AI. Humans bring the hands, taste, and judgment; AI brings the heat, the volume, and the detail."],
     },
     {
-      zh: ["人運行的智慧", "選什麼菜、怎麼調味、保留哪些原則——這些是人的決定。我們對菜色的選擇是絕對的用心，主廚的手藝不是為了裝飾，而是為了讓你真的吃得懂、用得上。"],
+      zh: ["人運行的智慧", "選什麼菜、怎麼調味、保留哪些原則——這些是人的決定。我們對菜色的選擇是絕對的用心，主廚的手藝不是為了裝飾，而是為了讓您真的吃得懂、用得上。"],
       en: ["The wisdom of human hands", "Which dishes to serve, how to season, which principles to keep — these are human decisions. Our choice of dishes is one of absolute care. The chef's craft is not for show, but so that you can truly understand and use what's served."],
     },
     {
-      zh: ["訪客的參與最重要", "說實話，我們就是辦流水席、盡情盡心盡興要饗宴訪客的。你慢慢吃、能等每一道菜、吃飽再走，是我們最大的成就；你的回饋與建議，是我們調味的依據。"],
+      zh: ["訪客的參與最重要", "說實話，我們就是辦流水席、盡情盡心盡興要饗宴訪客的。您慢慢吃、能等每一道菜、吃飽再走，是我們最大的成就；您的回饋與建議，是我們調味的依據。"],
       en: ["Your participation matters most", "Honestly, we are simply hosting an open banquet — with heart, devotion, and joy — to feast our guests. That you dine slowly, wait for every dish, and leave full is our greatest reward; your feedback is how we adjust the flavor."],
     },
     {
@@ -183,15 +183,15 @@ const copy = {
   promiseTitle: { zh: "我們對使用者的承諾", en: "Our promise to users" },
   promise: [
     {
-      zh: ["公式可追溯", "每個計算結果都標註來源、假設與限制,你看得見它從哪裡來。"],
+      zh: ["公式可追溯", "每個計算結果都標註來源、假設與限制,您看得見它從哪裡來。"],
       en: ["Formulas are traceable", "Every result labels its source, assumptions, and limits — you can see exactly where it came from."],
     },
     {
-      zh: ["資料留在你這邊", "預設情況下計算只在你的瀏覽器執行,我們不販售也不轉售你的資料。"],
+      zh: ["資料留在您這邊", "預設情況下計算只在您的瀏覽器執行,我們不販售也不轉售您的資料。"],
       en: ["Your data stays with you", "By default, calculations run in your browser. We do not sell or share your data."],
     },
     {
-      zh: ["錯誤會被修正", "編輯方針、審稿流程與利益衝突揭露都是公開的,你可以指出問題,也可以追蹤更正。"],
+      zh: ["錯誤會被修正", "編輯方針、審稿流程與利益衝突揭露都是公開的,您可以指出問題,也可以追蹤更正。"],
       en: ["Mistakes get fixed", "Editorial policy, review workflow, and conflict-of-interest disclosure are all public — you can flag issues and track corrections."],
     },
     {
@@ -214,7 +214,7 @@ const copy = {
   // The founder note
   founderTitle: { zh: "創辦人的話", en: "From the founder" },
   founderBody: {
-    zh: "我是 PiGragon-H ── 名字是「豬龍」的諧音。世人之下,我為豬;世人之上,我為龍;我之為我,自在為皇。這個網站是我的學習、知行與樂趣所在,而它能走到今天,是 AI 鼎力相助的結晶 ── 沒有 AI,就沒有我們。我願意是這座大花園的園丁,也是這桌流水席的主廚:用心選每一道菜,慢慢把本源地耕得更深、更豐富,等你常來。如果你在這裡找到一個能信任的答案、一條能走的下一步,那就是這座宇宙存在的理由 ── 也歡迎你,吃飽再走,還想再來。",
+    zh: "我是 PiGragon-H ── 名字是「豬龍」的諧音。世人之下,我為豬;世人之上,我為龍;我之為我,自在為皇。這個網站是我的學習、知行與樂趣所在,而它能走到今天,是 AI 鼎力相助的結晶 ── 沒有 AI,就沒有我們。我願意是這座大花園的園丁,也是這桌流水席的主廚:用心選每一道菜,慢慢把本源地耕得更深、更豐富,等您常來。如果您在這裡找到一個能信任的答案、一條能走的下一步,那就是這座宇宙存在的理由 ── 也歡迎您,吃飽再走,還想再來。",
     en: "I'm PiGragon-H — the name is a homophone for 豬龍 (pig-dragon). Below the world, I am a pig. Above it, a dragon. As myself, free and at peace. This site is where my learning, doing, and joy live — and it reached today as a creation made with the powerful help of AI: without AI, there is no us. I am glad to be the gardener of this large garden, and the chef of this open banquet: choosing every dish with care, slowly deep-rooting this homeland to make it richer, waiting for you to return often. If you find a trustworthy answer here, or a next step you can actually take, that's the reason this universe exists — and you're welcome to eat your fill, then come back again.",
   },
 
@@ -432,7 +432,7 @@ export default function About() {
             </h2>
             <p className="t-body mt-3 text-muted-foreground">
               {lang === "zh"
-                ? "席面已備,免費請用。慢慢吃、吃飽再走,我們歡迎你常來光臨。"
+                ? "席面已備,免費請用。慢慢吃、吃飽再走,我們歡迎您常來光臨。"
                 : "The table is set, and it's on the house. Dine slowly, eat your fill — you're always welcome back."}
             </p>
             <div className="mt-7 flex flex-wrap justify-center gap-3">
