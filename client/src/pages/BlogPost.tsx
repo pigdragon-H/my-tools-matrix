@@ -39,7 +39,7 @@ export default function BlogPost() {
     return (
       <div className="container py-20 text-center">
         <Loader2 className="h-8 w-8 animate-spin mx-auto text-blue-600" />
-        <p className="mt-4 text-sm text-muted-foreground">
+        <p className="mt-4 t-small text-muted-foreground">
           {t("載入文章中…", "Loading article…")}
         </p>
       </div>
@@ -50,8 +50,8 @@ export default function BlogPost() {
 
   if (!article) {
     return (
-      <div className="container py-20 max-w-2xl mx-auto text-center">
-        <h1 className="text-3xl font-bold tracking-tight">
+      <div className="fu-typo container py-20 max-w-2xl mx-auto text-center">
+        <h1 className="t-h2 tracking-tight">
           {t("找不到這篇文章", "Article not found")}
         </h1>
         <p className="mt-4 text-muted-foreground">
@@ -75,7 +75,7 @@ export default function BlogPost() {
     : "—";
 
   return (
-    <div>
+    <div className="fu-typo">
       <article className="container py-12 md:py-16 max-w-3xl">
         <Button asChild variant="ghost" size="sm" className="mb-6 gap-2 -ml-3">
           <Link href="/blog">
@@ -106,12 +106,12 @@ export default function BlogPost() {
             </span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-black tracking-tight leading-tight">
+          <h1 className="t-h1 font-black tracking-tight">
             {article.title}
           </h1>
 
           {article.description && (
-            <p className="text-lg leading-8 text-muted-foreground">
+            <p className="t-lead text-muted-foreground">
               {article.description}
             </p>
           )}
@@ -128,7 +128,7 @@ export default function BlogPost() {
           )}
         </header>
 
-        <div className="prose prose-blue dark:prose-invert max-w-none mt-10 prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-p:leading-8">
+        <div className="prose prose-blue dark:prose-invert max-w-none mt-10 prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-p:leading-8 prose-p:text-[1.0625rem] prose-li:text-[1.0625rem] prose-p:leading-[1.75]">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
             {article.content_mdx ?? ""}
           </ReactMarkdown>

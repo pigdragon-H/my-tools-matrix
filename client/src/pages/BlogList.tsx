@@ -228,15 +228,15 @@ export default function BlogList() {
   }>;
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="fu-typo min-h-screen bg-background text-foreground">
       <section className="border-b border-blue-200/70 bg-[linear-gradient(135deg,#eff6ff_0%,#f5f3ff_48%,#ecfeff_100%)] dark:border-blue-950/60 dark:bg-slate-950">
         <div className="container py-16 md:py-24">
           <div className="mx-auto max-w-3xl text-center">
             <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-900/20">
               <BookOpen className="h-7 w-7" />
             </div>
-            <h1 className="text-4xl font-black tracking-tight md:text-6xl">{copy.heroTitle[lang]}</h1>
-            <p className="mt-5 text-base leading-8 text-muted-foreground md:text-lg">
+            <h1 className="t-h1 font-black tracking-tight">{copy.heroTitle[lang]}</h1>
+            <p className="mt-5 t-lead text-muted-foreground">
               {copy.heroDesc[lang]}
             </p>
           </div>
@@ -251,8 +251,8 @@ export default function BlogList() {
       {/* 四大知識主題 — 對應首頁知識庫卡片列出的 4 課題 */}
       <section className="container py-14 md:py-20">
         <div className="mx-auto mb-10 max-w-3xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{copy.themesTitle[lang]}</h2>
-          <p className="mt-3 text-muted-foreground md:text-lg">{copy.themesDesc[lang]}</p>
+          <h2 className="t-h2 tracking-tight">{copy.themesTitle[lang]}</h2>
+          <p className="mt-3 t-lead text-muted-foreground">{copy.themesDesc[lang]}</p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
           {knowledgeThemes.map((theme) => {
@@ -268,17 +268,17 @@ export default function BlogList() {
                 <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-900/20">
                   <Icon className="h-6 w-6" />
                 </div>
-                <h3 className="text-xl font-black text-slate-950 dark:text-white">{theme.title[lang]}</h3>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground">{theme.lead[lang]}</p>
+                <h3 className="t-h3 font-black text-slate-950 dark:text-white">{theme.title[lang]}</h3>
+                <p className="mt-3 t-body text-muted-foreground">{theme.lead[lang]}</p>
                 <ul className="mt-5 space-y-2.5">
                   {theme.points[lang].map((pt) => (
-                    <li key={pt} className="flex items-start gap-2.5 text-sm leading-6 text-slate-700 dark:text-slate-300">
+                    <li key={pt} className="flex items-start gap-2.5 t-body text-slate-700 dark:text-slate-300">
                       <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500" />
                       {pt}
                     </li>
                   ))}
                 </ul>
-                <p className="mt-5 rounded-2xl bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-900 dark:bg-blue-950/40 dark:text-blue-100">
+                <p className="mt-5 rounded-2xl bg-blue-50 px-4 py-3 t-body text-blue-900 dark:bg-blue-950/40 dark:text-blue-100">
                   {theme.example[lang]}
                 </p>
                 <Link
@@ -296,7 +296,7 @@ export default function BlogList() {
       <section className="container py-14 md:py-20">
         <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <h2 className="text-3xl font-bold tracking-tight">{copy.guidesTitle[lang]}</h2>
+            <h2 className="t-h2 tracking-tight">{copy.guidesTitle[lang]}</h2>
             <p className="mt-3 text-muted-foreground">{copy.guidesDesc[lang]}</p>
           </div>
           <Button asChild variant="outline" className="gap-2 md:self-auto">
@@ -312,8 +312,8 @@ export default function BlogList() {
               <Card className="h-full cursor-pointer border-blue-100 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-xl dark:border-blue-950/60 dark:bg-white/5">
                 <CardContent className="p-6">
                   <FileText className="mb-5 h-7 w-7 text-blue-600" />
-                  <h3 className="text-xl font-bold">{guide.title[lang]}</h3>
-                  <p className="mt-3 text-sm leading-7 text-muted-foreground">{guide.description[lang]}</p>
+                  <h3 className="t-h3">{guide.title[lang]}</h3>
+                  <p className="mt-3 t-body text-muted-foreground">{guide.description[lang]}</p>
                   <p className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">
                     {guide.cta[lang]} <ArrowRight className="h-4 w-4" />
                   </p>
@@ -333,7 +333,7 @@ export default function BlogList() {
       {STATIC_ARTICLES.length > 0 && (
         <section className="container py-14 md:py-20">
           <div className="mb-10 max-w-2xl">
-            <h2 className="text-3xl font-bold tracking-tight inline-flex items-center gap-2">
+            <h2 className="t-h2 tracking-tight inline-flex items-center gap-2">
               <BookOpen className="h-6 w-6 text-blue-600" />
               {lang === "zh" ? "工具應用文章" : "Tool application articles"}
             </h2>
@@ -351,14 +351,14 @@ export default function BlogList() {
                     <div className="flex items-center gap-2 mb-4">
                       <FileText className="h-6 w-6 text-blue-600" />
                       {a.category && (
-                        <Badge variant="secondary" className="text-xs">
+                        <Badge variant="secondary" className="t-small">
                           {STATIC_CATEGORY_LABELS[a.category] || a.category}
                         </Badge>
                       )}
                     </div>
-                    <h3 className="text-lg font-bold leading-snug">{a.title}</h3>
+                    <h3 className="t-h3 leading-snug">{a.title}</h3>
                     {a.description && (
-                      <p className="mt-3 text-sm leading-7 text-muted-foreground line-clamp-3">
+                      <p className="mt-3 t-body text-muted-foreground line-clamp-3">
                         {a.description}
                       </p>
                     )}
@@ -379,7 +379,7 @@ export default function BlogList() {
         <section className="container py-14 md:py-20">
           <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
-              <h2 className="text-3xl font-bold tracking-tight inline-flex items-center gap-2">
+              <h2 className="t-h2 tracking-tight inline-flex items-center gap-2">
                 <Sparkles className="h-6 w-6 text-blue-600" />
                 {lang === "zh" ? "最新文章" : "Latest articles"}
               </h2>
@@ -398,14 +398,14 @@ export default function BlogList() {
                     <div className="flex items-center gap-2 mb-4">
                       <FileText className="h-6 w-6 text-blue-600" />
                       {a.category_key && (
-                        <Badge variant="secondary" className="text-xs">
+                        <Badge variant="secondary" className="t-small">
                           {a.category_key}
                         </Badge>
                       )}
                     </div>
-                    <h3 className="text-lg font-bold leading-snug">{a.title}</h3>
+                    <h3 className="t-h3 leading-snug">{a.title}</h3>
                     {(a.description || a.ai_summary) && (
-                      <p className="mt-3 text-sm leading-7 text-muted-foreground line-clamp-3">
+                      <p className="mt-3 t-body text-muted-foreground line-clamp-3">
                         {a.description || a.ai_summary}
                       </p>
                     )}
@@ -424,7 +424,7 @@ export default function BlogList() {
       <section className="border-t border-blue-200/70 bg-blue-50/60 dark:border-blue-950/60 dark:bg-slate-950">
         <div className="container py-14 md:py-20">
           <div className="mb-10 max-w-2xl">
-            <h2 className="text-3xl font-bold tracking-tight">{copy.domainsTitle[lang]}</h2>
+            <h2 className="t-h2 tracking-tight">{copy.domainsTitle[lang]}</h2>
             <p className="mt-3 text-muted-foreground">{copy.domainsDesc[lang]}</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -437,7 +437,7 @@ export default function BlogList() {
                     </div>
                     <h3 className="font-bold">{lang === "zh" ? cat.name : cat.nameEn}</h3>
                     {lang === "zh" && (
-                      <p className="mt-2 text-sm leading-6 text-muted-foreground">{cat.description}</p>
+                      <p className="mt-2 t-body text-muted-foreground">{cat.description}</p>
                     )}
                   </CardContent>
                 </Card>
