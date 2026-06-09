@@ -721,7 +721,7 @@ export default function BmiCalculator() {
             <article className="flex h-full flex-col rounded-[2rem] border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-7">{/* L16-PremiumGate */}
                             <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{lang === "zh" ? "進階功能" : "Premium Features"}</p>
                             <h2 className="mt-2 text-3xl font-black">{lang === "zh" ? "解鎖完整健康追蹤" : "Unlock Complete Health Tracking"}</h2>
-                            <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{lang === "zh" ? "Premium 功能即將推出：把 BMI、BMR、TDEE 與趨勢追蹤整合成完整健康儀表板。" : "Premium features coming soon: combine BMI, BMR, TDEE, and trend tracking into one health dashboard."}</p>
+                            <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{lang === "zh" ? "進階健康規劃：把 BMI、BMR、TDEE 與趨勢追蹤整合成完整健康儀表板。" : "Advanced health planning: combine BMI, BMR, TDEE, and trend tracking into one health dashboard."}</p>
                             <div className="mt-5 grid gap-3 md:grid-cols-4">
                               {[
                                 lang === "zh" ? "BMI 趨勢" : "BMI trends",

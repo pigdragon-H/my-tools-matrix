@@ -65,12 +65,12 @@ export function LaneHub({ laneId }: { laneId: string }) {
       {total === 0 ? (
         <div className="border border-dashed rounded-xl p-12 text-center text-muted-foreground">
           <p className="text-xl font-semibold mb-2">
-            {lang === "zh" ? "內容籌備中" : "Coming Soon"}
+            {lang === "zh" ? "目前沒有符合項目" : "No matching items"}
           </p>
           <p className="text-sm">
             {lang === "zh"
-              ? "我們正在為這個方向準備高品質內容,敬請期待。"
-              : "We're preparing high-quality content for this lane. Stay tuned."}
+              ? "請切換分類或回到全部項目查看已公開內容。"
+              : "Switch categories or return to all items to view published content."}
           </p>
         </div>
       ) : (

@@ -4,7 +4,7 @@
 
 import { useState, useCallback } from "react";
 import { Link } from "wouter";
-import { Menu, X, Sun, Moon, ChevronDown, Layers, BookOpen, LogIn, LogOut, Search, Info, Globe, ShieldCheck, Rocket, Lightbulb, Library } from "lucide-react";
+import { Menu, X, Sun, Moon, ChevronDown, Layers, BookOpen, LogOut, Search, Info, Globe, ShieldCheck, Rocket, Lightbulb, Library } from "lucide-react";
 import { SearchDialog } from "./SearchDialog";
 import { Button } from "@/components/ui/button";
 import {
@@ -360,17 +360,7 @@ export function Navbar() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          ) : (
-            <Button
-              size="sm"
-              variant="default"
-              className="hidden md:flex gap-1.5 text-sm h-8"
-              onClick={() => setLocation("/login")}
-            >
-              <LogIn className="h-3.5 w-3.5" />
-              {t.signIn}
-            </Button>
-          )}
+          ) : null}
 
           {/* Mobile menu toggle */}
           <Button
@@ -491,16 +481,7 @@ export function Navbar() {
                   <span className="text-sm">{t.about}</span>
                 </div>
               </Link>
-              {!isAuthenticated && (
-                <Button
-                  size="sm"
-                  className="w-full mt-2 gap-2"
-                  onClick={() => setLocation("/login")}
-                >
-                  <LogIn className="h-3.5 w-3.5" />
-                  {t.signIn}
-                </Button>
-              )}
+              {/* Public mobile navigation intentionally does not expose internal login/admin routes. */}
             </div>
           </div>
         </div>

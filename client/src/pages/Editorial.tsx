@@ -100,8 +100,8 @@ export default function Editorial() {
           <p className="text-sm text-slate-500">
             <em>
               {lang === "zh"
-                ? "* 本頁為初版範本,將隨網站規模擴大而具體化 (例如增列審稿人名單、AI 使用比例公開等)。"
-                : "* This page is an initial template and will be expanded (e.g. named reviewer list, AI-usage disclosure) as the site grows."}
+                ? "* 本頁說明本站目前採用的編輯與審稿原則；如流程、負責人或揭露方式調整，將於本頁同步更新。"
+                : "* This page describes our current editorial and review principles; updates to workflow, accountability, or disclosure practices will be reflected here."}
             </em>
           </p>
         </article>

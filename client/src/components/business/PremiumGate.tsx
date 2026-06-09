@@ -15,9 +15,9 @@ export function PremiumGate({ children, plan = "PRO" }: PremiumGateProps) {
   return (
     <div className="rounded-2xl border-2 border-blue-200 bg-blue-50 p-6">
       <p className="font-black text-blue-700">
-        {plan} 功能 — 即將推出
+        {plan} 進階功能
       </p>
-      {/* TODO: Stripe checkout */}
+      {/* Payment integration is intentionally disabled until the commercial plan is activated. */}
     </div>
   )
 }

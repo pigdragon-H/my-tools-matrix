@@ -95,8 +95,8 @@ export default function Terms() {
           <p className="text-sm text-slate-500">
             <em>
               {lang === "zh"
-                ? "* 本頁為初版範本,將隨服務功能更新而調整。"
-                : "* This page is an initial template and will be revised as features mature."}
+                ? "* 本頁為目前適用的服務條款；若服務內容或使用規則調整，將於本頁同步更新。"
+                : "* These are the currently applicable terms of service; updates to service scope or usage rules will be reflected here."}
             </em>
           </p>
         </article>

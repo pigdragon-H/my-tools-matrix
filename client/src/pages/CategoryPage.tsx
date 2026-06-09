@@ -106,9 +106,9 @@ export default function CategoryPage() {
           <div className="py-20 text-center">
             {allTools.length === 0 ? (
               <>
-                <p className="text-lg font-medium">此分類工具即將推出</p>
+                <p className="text-lg font-medium">此分類目前沒有公開工具</p>
                 <p className="text-muted-foreground mt-2 text-sm">
-                  我們正在積極開發中，敬請期待！
+                  請先探索其他分類，或使用上方搜尋尋找相關工具。
                 </p>
                 <Button asChild variant="outline" className="mt-6">
                   <Link href="/">探索其他分類</Link>
