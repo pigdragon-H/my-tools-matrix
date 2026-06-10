@@ -9,13 +9,14 @@ import { Link } from "wouter";
 import { ArrowLeft, ArrowRight, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { categories } from "@shared/categoriesConfig";
-import { tools } from "@shared/toolsConfig";
+import { getPublicTools } from "@shared/toolsConfig";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { setSeoMeta } from "@/lib/seo";
 
 // 預先計算每個分類的工具數量（動態，新增工具自動更新）
 const toolCountByCategory: Record<string, number> = {};
-for (const tool of tools) {
+const publicTools = getPublicTools();
+for (const tool of publicTools) {
   toolCountByCategory[tool.category] = (toolCountByCategory[tool.category] ?? 0) + 1;
 }
 
@@ -23,7 +24,7 @@ export default function AllToolsPage() {
   useEffect(() => {
     setSeoMeta({
       title: "全部工具｜Formula Universe",
-      description: `Formula Universe 全站 ${tools.length}+ 個上線工具，橫跨 ${categories.length} 大知識領域：財經、健康、開發、教育、法律、設計、科學、語言、電商、旅遊與 AI。免費、快速、適合台灣使用情境的線上計算與決策輔助工具。`,
+      description: `Formula Universe 全站 ${publicTools.length}+ 個上線工具，橫跨 ${categories.length} 大知識領域：財經、健康、開發、教育、法律、設計、科學、語言、電商、旅遊與 AI。免費、快速、適合台灣使用情境的線上計算與決策輔助工具。`,
     });
   }, []);
 
@@ -45,7 +46,7 @@ export default function AllToolsPage() {
             <div>
               <h1 className="text-3xl font-bold md:text-4xl">全部工具</h1>
               <p className="text-muted-foreground mt-2 max-w-2xl">
-                全站 <span className="font-bold text-blue-700 dark:text-blue-300">{tools.length}+</span> 個上線工具，橫跨 {categories.length} 大知識領域。選擇一個領域，探索為真實決策情境設計的線上工具。
+                全站 <span className="font-bold text-blue-700 dark:text-blue-300">{publicTools.length}+</span> 個上線工具，橫跨 {categories.length} 大知識領域。選擇一個領域，探索為真實決策情境設計的線上工具。
               </p>
             </div>
           </div>

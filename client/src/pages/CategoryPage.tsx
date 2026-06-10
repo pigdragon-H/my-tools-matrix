@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getCategoryByKey } from "@shared/categoriesConfig";
-import { getToolsByCategory } from "@shared/toolsConfig";
+import { getPublicToolsByCategory } from "@shared/toolsConfig";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { setSeoMeta } from "@/lib/seo";
 import type { Tool } from "@shared/toolsConfig";
@@ -22,7 +22,7 @@ export default function CategoryPage() {
   const [filter, setFilter] = useState<"all" | "free" | "premium">("all");
 
   const catInfo = getCategoryByKey(category ?? "");
-  const allTools = getToolsByCategory(category ?? "");
+  const allTools = getPublicToolsByCategory(category ?? "");
 
   useEffect(() => {
     if (!catInfo) return;

@@ -40,7 +40,7 @@ const STATIC_PAGES: { path: string; changefreq: string; priority: string }[] = [
 
 // ── Step 1: 解析 toolsConfig.ts 的 tools[] (id + category + path) ────
 const cfgText = readFileSync(TOOLS_CONFIG, "utf8");
-const tools: { id: string; category: string; path: string }[] = [];
+const tools: { id: string; category: string; path: string; status: string }[] = [];
 const blockRe = /\{\s*id:\s*"([a-z0-9-]+)",((?:(?!\n\s*\{)[\s\S])*?)\n\s*\},/g;
 let m: RegExpExecArray | null;
 while ((m = blockRe.exec(cfgText)) !== null) {
@@ -48,8 +48,9 @@ while ((m = blockRe.exec(cfgText)) !== null) {
   const body = m[2];
   const catMatch = body.match(/category:\s*"([a-z]+)"/);
   const pathMatch = body.match(/path:\s*"([^"]+)"/);
+  const statusMatch = body.match(/status:\s*"([^"]+)"/);
   if (!catMatch || !pathMatch) continue;
-  tools.push({ id, category: catMatch[1], path: pathMatch[1] });
+  tools.push({ id, category: catMatch[1], path: pathMatch[1], status: statusMatch?.[1] ?? "" });
 }
 
 // ── Step 2: 解析 categoriesConfig.ts 的所有 category key ────────────
@@ -165,8 +166,9 @@ for (const p of STATIC_PAGES) addUrl(p.path, p.changefreq, p.priority);
 // 分類頁
 for (const cat of uniqueCats) addUrl(`/category/${cat}`, "weekly", "0.9");
 
-// 工具頁 (唯一真相來源 = toolsConfig 的 path)
-for (const t of tools) addUrl(t.path, "monthly", "0.7");
+// 工具頁：正式 sitemap 只收錄 GOLD 公開工具，REBUILDING / LEGACY / 預留項不得公開曝光
+const publicTools = tools.filter((tool) => tool.status === "GOLD");
+for (const t of publicTools) addUrl(t.path, "monthly", "0.7");
 
 // knowledge-base articles (/blog/<category>/<slug>) — GSC-indexed, must stay alive
 for (const ap of articlePaths) addUrl(ap, "monthly", "0.8");
@@ -195,7 +197,7 @@ try {
 }
 
 console.log(
-  `✓ sitemap regenerated: ${STATIC_PAGES.length} static + ${uniqueCats.length} categories + ${tools.length} tools + ${articlePaths.length} articles + ${lanePaths.length} lane-pages = ${seen.size} URLs`
+  `✓ sitemap regenerated: ${STATIC_PAGES.length} static + ${uniqueCats.length} categories + ${publicTools.length} public tools + ${articlePaths.length} articles + ${lanePaths.length} lane-pages = ${seen.size} URLs`
 );
 console.log(`  → ${OUT_PUBLIC}`);
 console.log(`  → ${OUT_CLIENT}`);

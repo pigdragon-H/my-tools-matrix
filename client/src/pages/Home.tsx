@@ -7,7 +7,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { animate, motion, useReducedMotion } from "framer-motion";
-import { tools } from "@shared/toolsConfig";
+import { getPublicTools } from "@shared/toolsConfig";
 import { navLanes } from "@shared/laneRegistry";
 import {
   ArrowRight,
@@ -146,10 +146,12 @@ const journeyCards: JourneyCard[] = [
   { title: { zh: "旅遊規劃", en: "Travel planning" }, description: { zh: "用預算、匯率、時區與行程安排降低旅行決策成本。", en: "Use budget, exchange rate, time zone, and itinerary planning to reduce travel decision cost." }, steps: { zh: ["預算", "匯率", "時區", "行程"], en: ["Budget", "Exchange rate", "Time zone", "Itinerary"] } },
 ];
 
-// 工具總數與系統實際工具數連動：每新增一支工具，tools.length 自動 +1
+// 工具總數與正式公開工具數連動：只有 GOLD 工具會計入公開數量
+const publicTools = getPublicTools();
+const publicToolPaths = new Set(publicTools.map((tool) => tool.path));
 const stats: StatItem[] = [
   { value: 4, suffix: "", label: { zh: "大賽道·滿漢全席", en: "lanes · full banquet" } },
-  { value: tools.length, suffix: "+", label: { zh: "個免費工具·開胃菜", en: "free tools · appetizers" } },
+  { value: publicTools.length, suffix: "+", label: { zh: "個免費工具·開胃菜", en: "free tools · appetizers" } },
   { value: 12, suffix: "", label: { zh: "大知識領域·招牌湯底", en: "knowledge domains" } },
   { value: 0, suffix: "", label: { zh: "AI Native·永遠上菜中", en: "AI Native · always serving" }, isText: true },
 ];
@@ -167,6 +169,8 @@ const featuredTools: FeaturedTool[] = [
   { name: { zh: "退休金計算", en: "Retirement Calculator" }, category: { zh: "財經", en: "finance" }, description: { zh: "估算退休資金需求、儲蓄節奏與提領情境。", en: "Estimate retirement capital needs, saving pace, and withdrawal scenarios." }, href: "/tools/finance/retirement-calculator", icon: PiggyBank },
   { name: { zh: "存錢目標反推試算", en: "Savings Goal Calculator" }, category: { zh: "財務", en: "finance" }, description: { zh: "反推達成目標金額所需的每月存入金額。", en: "Solve the required monthly contribution for a savings goal." }, href: "/tools/finance/savings-goal-calculator", icon: Target },
 ];
+
+const publicFeaturedTools = featuredTools.filter((tool) => publicToolPaths.has(tool.href));
 
 const clusterCards: ClusterCard[] = [
   { websiteKey: "finance", title: { zh: "finance｜財經投資", en: "finance" }, description: { zh: "投資報酬、貸款試算、資產規劃、退休與現金流決策。", en: "Investment return, loans, asset planning, retirement, and cash-flow decisions." }, href: "/tools/finance" },
@@ -521,7 +525,7 @@ export default function Home() {
             <p className="mt-3 t-lead text-muted-foreground">{lang === "zh" ? "從高頻決策場景進入 Formula Universe，直接前往已規劃的工具頁。" : "Jump into Formula Universe from high-frequency decision scenarios, straight to the planned tool pages."}</p>
           </div>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {featuredTools.map((tool) => {
+            {publicFeaturedTools.map((tool) => {
               const Icon = tool.icon;
               return <Link key={tool.href} href={tool.href} className="group rounded-3xl border border-blue-100 bg-white/90 p-6 shadow-lg shadow-blue-900/10 ring-1 ring-white/80 transition-all hover:-translate-y-1 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-900/15 dark:border-white/10 dark:bg-white/8 dark:ring-white/10"><div className="mb-4 flex items-center justify-between"><div className="rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-cyan-500 p-3 shadow-lg shadow-blue-600/25"><Icon className="h-5 w-5 text-white" /></div><Badge variant="secondary" className="bg-blue-50 text-xs font-bold text-blue-700 dark:bg-blue-950 dark:text-blue-200">{tool.category[lang]}</Badge></div><h3 className="t-h3 font-black text-slate-900 group-hover:text-blue-700 dark:text-white">{tool.name[lang]}</h3><p className="mt-3 t-body text-slate-600 dark:text-slate-300">{tool.description[lang]}</p><div className="mt-5 flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">{lang === "zh" ? "前往工具" : "Open tool"}<ArrowRight className="h-4 w-4" /></div></Link>;
             })}

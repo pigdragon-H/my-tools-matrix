@@ -20,7 +20,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useLocation } from "wouter";
 import { categories } from "@shared/categoriesConfig";
-import { tools } from "@shared/toolsConfig";
+import { getPublicTools } from "@shared/toolsConfig";
 import { navLanes } from "@shared/laneRegistry";
 import { navCategories } from "@/lib/laneCategories";
 import { CategoryIcon } from "./CategoryIcon";
@@ -68,7 +68,8 @@ const navbarI18n = {
 
 // 預先計算每個分類的工具數量（動態，新增工具自動更新）
 const toolCountByCategory: Record<string, number> = {};
-for (const tool of tools) {
+const publicTools = getPublicTools();
+for (const tool of publicTools) {
   toolCountByCategory[tool.category] = (toolCountByCategory[tool.category] ?? 0) + 1;
 }
 

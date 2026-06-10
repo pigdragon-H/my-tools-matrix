@@ -5178,12 +5178,20 @@ export const tools: Tool[] = [
 // ============================================================
 // 工具查詢函數
 // ============================================================
+export function isPublicTool(tool: Tool): boolean {
+  return tool.status === "GOLD";
+}
+
 export function getToolByPath(path: string): Tool | undefined {
   return tools.find((tool) => tool.path === path);
 }
 
 export function getToolsByCategory(category: string): Tool[] {
   return tools.filter((tool) => tool.category === category);
+}
+
+export function getPublicToolsByCategory(category: string): Tool[] {
+  return tools.filter((tool) => tool.category === category && isPublicTool(tool));
 }
 
 export function getToolById(id: string): Tool | undefined {
@@ -5194,12 +5202,16 @@ export function getAllTools(): Tool[] {
   return tools;
 }
 
+export function getPublicTools(): Tool[] {
+  return tools.filter(isPublicTool);
+}
+
 export function getFeaturedTools(): Tool[] {
-  return tools.filter((tool) => tool.isFeatured);
+  return tools.filter((tool) => tool.isFeatured && isPublicTool(tool));
 }
 
 export function getNewTools(): Tool[] {
-  return tools.filter((tool) => tool.isNew);
+  return tools.filter((tool) => tool.isNew && isPublicTool(tool));
 }
 
 // Health Tools

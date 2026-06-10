@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { tools } from "@shared/toolsConfig";
+import { getPublicTools } from "@shared/toolsConfig";
 import { categories, getCategoryByKey } from "@shared/categoriesConfig";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -79,6 +79,8 @@ const LANE_META: Record<string, { icon: typeof Rocket; titleZh: string; titleEn:
 };
 
 // ── 建立搜尋索引（靜態，只建立一次）────────────────────────
+const publicTools = getPublicTools();
+
 const categoryItems: CategorySearchItem[] = categories.map((cat) => ({
   type: "category",
   key: cat.key,
@@ -87,10 +89,10 @@ const categoryItems: CategorySearchItem[] = categories.map((cat) => ({
   descriptionZh: cat.description,
   descriptionEn: cat.description, // 分類僅有單一描述，雙語共用
   icon: cat.icon,
-  toolCount: tools.filter((t) => t.category === cat.key).length,
+  toolCount: publicTools.filter((t) => t.category === cat.key).length,
 }));
 
-const toolItems: ToolSearchItem[] = tools.map((tool) => {
+const toolItems: ToolSearchItem[] = publicTools.map((tool) => {
   const catInfo = getCategoryByKey(tool.category);
   return {
     type: "tool",
