@@ -351,7 +351,7 @@ export default function LoanCalculator() {
   const totalInterestDisplay = calculation ? formatMoney(calculation.totalInterest) : "—";
 
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-950">
+    <main className="tool-typo min-h-screen bg-slate-50 text-slate-950">
       {/* Canonical 17-layer markers for production QC:
           L1-Hero · L2-TrustIntro · L3-QuickStartExample · L4-InputGuidance · L5-CalculatorInput · L6-PrimaryResult · L7-ResultIntelligence · L8-ScenarioComparison · L9-EmotionConversionUpper · L10-EmotionConversionLower · L11-DecisionPath · L12-Knowledge · L13-FAQ · L14-FAQAfterAdSlot · L15-AffiliateResources · L16-PremiumGate · L17-TrustRelatedReferences
       */}
@@ -367,16 +367,16 @@ export default function LoanCalculator() {
 
           <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
             <section className="space-y-6">
-              <p className="text-sm font-black uppercase tracking-[0.24em] text-blue-700">{t.badge}</p>
-              <h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1>
-              <p className="text-xl font-black text-blue-700">{t.subtitle}</p>
-              <p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p>
-              <div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950"><strong>{t.trustNoteLabel}</strong> {t.trustNote}</div>
+              <p className="tool-eyebrow text-blue-700">{t.badge}</p>
+              <h1 className="tool-h1 max-w-3xl text-slate-950">{t.title}</h1>
+              <p className="tool-lead text-blue-700">{t.subtitle}</p>
+              <p className="tool-body max-w-2xl text-slate-700">{t.intro}</p>
+              <div className="tool-helper rounded-3xl border border-amber-200 bg-amber-50 p-5 text-amber-950"><strong>{t.trustNoteLabel}</strong> {t.trustNote}</div>
             </section>
 
             <aside className="rounded-[2rem] border border-blue-100 bg-white/90 p-6 shadow-2xl shadow-blue-950/10 backdrop-blur">
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-700">{t.quickActionCard}</p>
-              <h2 className="mt-2 text-2xl font-black">{t.tryExample}</h2>
+              <p className="tool-eyebrow text-blue-700">{t.quickActionCard}</p>
+              <h2 className="tool-h3 mt-2">{t.tryExample}</h2>
               <div className="mt-5 rounded-3xl bg-blue-600 p-5 text-white">
                 <div className="text-xs font-bold uppercase text-blue-100">{t.examplePreview}</div>
                 <div className="mt-1 text-5xl font-black">25,531</div>
@@ -398,9 +398,9 @@ export default function LoanCalculator() {
         <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.examplesCalculator}</p>
-              <h2 className="mt-2 text-3xl font-black">{t.enterValues}</h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{t.examplesHelper}</p>
+              <p className="tool-eyebrow text-blue-700">{t.examplesCalculator}</p>
+              <h2 className="tool-h2 mt-2">{t.enterValues}</h2>
+              <p className="tool-helper mt-2 max-w-2xl text-slate-600">{t.examplesHelper}</p>
             </div>
             <div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-2">
               <button className={`rounded-xl px-4 py-3 text-sm font-black ${currency === "TWD" ? "bg-blue-600 text-white" : "bg-white text-slate-700"}`} onClick={() => setCurrency("TWD")}>{t.metric}</button>
@@ -410,19 +410,19 @@ export default function LoanCalculator() {
 
           <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">{/* L5-Calc */}
             <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-              <h3 className="text-lg font-black">{t.exampleCards}</h3>
+              <h3 className="tool-h3">{t.exampleCards}</h3>
               <div className="mt-4 space-y-3">
-                <button onClick={fillBaselineExample} className="w-full rounded-2xl border border-blue-200 bg-white p-4 text-left transition hover:border-blue-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">25,531</span></div><p className="mt-2 text-sm text-slate-600">5M · 2.1% · 20 yr</p></button>
-                <button onClick={fillActiveExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div><p className="mt-2 text-sm text-slate-600">800K · 5.0% · 5 yr</p></button>
+                <button onClick={fillBaselineExample} className="w-full rounded-2xl border border-blue-200 bg-white p-4 text-left transition hover:border-blue-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.baselineExample}</span><span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">25,531</span></div><p className="tool-helper mt-2 text-slate-600">5M · 2.1% · 20 yr</p></button>
+                <button onClick={fillActiveExample} className="w-full rounded-2xl border border-orange-200 bg-white p-4 text-left transition hover:border-orange-500"><div className="flex items-center justify-between gap-3"><span className="font-black">{t.activeExample}</span><span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{t.flowDemo}</span></div><p className="tool-helper mt-2 text-slate-600">800K · 5.0% · 5 yr</p></button>
               </div>
             </div>
 
             <div className="rounded-3xl border border-slate-200 bg-white p-5">
-              <h3 className="text-lg font-black">{t.calculator}</h3>
+              <h3 className="tool-h3">{t.calculator}</h3>
               <div className="mt-4 grid gap-4 md:grid-cols-2">
-                <label className="block text-sm font-black text-slate-700 md:col-span-2">{t.principal}<input type="number" min={0} step={10000} className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={principal} onChange={(e) => setPrincipal(e.target.value)} /></label>
-                <label className="block text-sm font-black text-slate-700">{t.annualRate}<input type="number" min={0} max={30} step={0.01} className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={annualRate} onChange={(e) => setAnnualRate(e.target.value)} /></label>
-                <label className="block text-sm font-black text-slate-700">{t.term}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={term} onChange={(e) => setTerm(Number(e.target.value) as LoanTerm)}>{termLevels.map((item) => <option key={item.key} value={item.key}>{l(item.label, lang)}</option>)}</select></label>
+                <label className="block tool-helper font-bold text-slate-700 md:col-span-2">{t.principal}<input type="number" min={0} step={10000} className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={principal} onChange={(e) => setPrincipal(e.target.value)} /></label>
+                <label className="block tool-helper font-bold text-slate-700">{t.annualRate}<input type="number" min={0} max={30} step={0.01} className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={annualRate} onChange={(e) => setAnnualRate(e.target.value)} /></label>
+                <label className="block tool-helper font-bold text-slate-700">{t.term}<select className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-lg font-bold" value={term} onChange={(e) => setTerm(Number(e.target.value) as LoanTerm)}>{termLevels.map((item) => <option key={item.key} value={item.key}>{l(item.label, lang)}</option>)}</select></label>
               </div>
             </div>
           </div>
@@ -431,7 +431,7 @@ export default function LoanCalculator() {
           <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
             <div className={`h-5 bg-gradient-to-r ${activeTerm.tone}`} />
             <div className="p-6 md:p-7">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.resultCard}</p>
+              <p className="tool-eyebrow text-blue-700">{t.resultCard}</p>
               <div className="mt-4 flex items-start justify-between gap-5">
                 <div><div className="text-7xl font-black tracking-tight text-slate-950">{monthlyDisplay}</div><div className="mt-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-slate-700">{t.monthlyUnit}</div></div>
                 <div className="rounded-3xl bg-slate-950 p-4 text-right text-white"><div className="text-xs font-bold uppercase text-slate-300">{t.termTag}</div><div className="mt-1 text-xl font-black">{l(activeTerm.label, lang)}</div><div className="mt-1 text-xs text-slate-300">{activeTerm.key * 12} mo</div></div>
@@ -460,14 +460,14 @@ export default function LoanCalculator() {
           </article>
 
           <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.resultIntelligence}</p>
-            <h2 className="mt-2 text-3xl font-black">{t.termMatrix}</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600">{t.termMatrixNote}</p>
+            <p className="tool-eyebrow text-blue-700">{t.resultIntelligence}</p>
+            <h2 className="tool-h2 mt-2">{t.termMatrix}</h2>
+            <p className="tool-helper mt-2 text-slate-600">{t.termMatrixNote}</p>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {(calculation?.matrix ?? termLevels.map((item) => ({ ...item, monthlyPayment: 0, totalPayment: 0, totalInterest: 0 }))).map((item) => (
                 <div key={item.key} className={`rounded-2xl border p-4 ${item.key === activeTerm.key ? "border-blue-500 bg-blue-50 shadow-sm" : "border-slate-200 bg-slate-50"}`}>
                   <div className="flex items-center justify-between gap-3"><h3 className="font-black">{l(item.label, lang)}</h3><span className="text-xs font-black text-slate-500">{item.key * 12} mo</span></div>
-                  <p className="mt-2 text-sm leading-6 text-slate-700">{l(item.description, lang)}</p>
+                  <p className="tool-helper mt-2 text-slate-700">{l(item.description, lang)}</p>
                   <p className="mt-3 text-2xl font-black text-slate-950">{formatMoney(item.monthlyPayment)} <span className="text-sm text-slate-500">{t.monthlyUnit}</span></p>
                   <p className="mt-1 text-xs font-bold text-orange-700">{t.interestShort}: {formatMoney(item.totalInterest)}</p>
                 </div>
@@ -479,28 +479,28 @@ export default function LoanCalculator() {
         <AdSenseWrapper showAds={true} adSlot="loan-result-intelligence" adFormat="horizontal" className="my-2" />
 
         <section className="rounded-[2rem] border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-blue-50 p-6 shadow-sm md:p-7">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-indigo-700">{t.emotionConversionLayer}</p>
-          <h2 className="mt-2 text-3xl font-black">{t.turnIntoPlan}</h2>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.conversionNote}</p>
+          <p className="tool-eyebrow text-indigo-700">{t.emotionConversionLayer}</p>
+          <h2 className="tool-h2 mt-2">{t.turnIntoPlan}</h2>
+          <p className="tool-helper mt-2 max-w-3xl text-slate-600">{t.conversionNote}</p>
           {/* L9 · Emotion+Conversion 上排 · Progress + Motivation · lg:grid-cols-[1_0.9] */}
           <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_0.9fr]">{/* L9-Emotion-Upper */}
-            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">{t.progressInsight}</p><h3 className="mt-2 text-2xl font-black">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.monthlyShort}</div><div className="mt-1 text-3xl font-black">{monthlyDisplay}</div></div><div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.monthlyGap}</div><div className="mt-1 text-3xl font-black text-blue-950">{monthlyDisplay}</div></div><div className="rounded-2xl bg-orange-50 p-4"><div className="text-xs font-black uppercase text-orange-700">{t.yearlyTrend}</div><div className="mt-1 text-3xl font-black text-orange-950">{calculation ? formatMoney(calculation.yearlyInterest) : "—"}</div></div></div></article>
-            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="text-xs font-black uppercase tracking-[0.16em] text-pink-700">{t.motivation}</p><h3 className="mt-2 text-2xl font-black">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.monthlyShort, t.totalShort, t.interestShort, t.termShort].map((item) => <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="tool-eyebrow text-blue-700">{t.progressInsight}</p><h3 className="tool-h3 mt-2">{t.possibleTarget}</h3><div className="mt-5 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-500">{t.monthlyShort}</div><div className="mt-1 text-3xl font-black">{monthlyDisplay}</div></div><div className="rounded-2xl bg-blue-50 p-4"><div className="text-xs font-black uppercase text-blue-600">{t.monthlyGap}</div><div className="mt-1 text-3xl font-black text-blue-950">{monthlyDisplay}</div></div><div className="rounded-2xl bg-orange-50 p-4"><div className="text-xs font-black uppercase text-orange-700">{t.yearlyTrend}</div><div className="mt-1 text-3xl font-black text-orange-950">{calculation ? formatMoney(calculation.yearlyInterest) : "—"}</div></div></div></article>
+            <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><p className="tool-eyebrow text-pink-700">{t.motivation}</p><h3 className="tool-h3 mt-2">{t.keepMomentum}</h3><div className="mt-5 grid grid-cols-2 gap-3">{[t.monthlyShort, t.totalShort, t.interestShort, t.termShort].map((item) => <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm font-black text-slate-800">{item}</div>)}</div></article>
           </div>
           {/* L10 · Emotion+Conversion 下排 · Save / Share Journey · lg:grid-cols-[1_0.8] */}
           <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.8fr]">{/* L10-Emotion-Lower */}
             <article className="rounded-3xl border border-slate-200 bg-gradient-to-br from-amber-50 to-white p-5 shadow-sm">
-              <p className="text-xs font-black uppercase tracking-[0.16em] text-amber-700">{t.saveShareJourney}</p>
-              <h3 className="mt-2 text-2xl font-black">{t.journeyTitle}</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-600">{t.journeyHint}</p>
+              <p className="tool-eyebrow text-amber-700">{t.saveShareJourney}</p>
+              <h3 className="tool-h3 mt-2">{t.journeyTitle}</h3>
+              <p className="tool-helper mt-2 text-slate-600">{t.journeyHint}</p>
             </article>
             <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-xs font-black uppercase tracking-[0.16em] text-emerald-700">{t.nextActionLabel}</p>
-              <h3 className="mt-2 text-lg font-black">{t.nextActionTitle}</h3>
+              <p className="tool-eyebrow text-emerald-700">{t.nextActionLabel}</p>
+              <h3 className="tool-h3 mt-2">{t.nextActionTitle}</h3>
               <ul className="mt-3 space-y-2">
-                <li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">①</span><span>{t.nextActionItem1}</span></li>
-                <li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">②</span><span>{t.nextActionItem2}</span></li>
-                <li className="flex gap-2 text-sm leading-6 text-slate-700"><span className="font-black text-emerald-600">③</span><span>{t.nextActionItem3}</span></li>
+                <li className="tool-helper flex gap-2 text-slate-700"><span className="font-black text-emerald-600">①</span><span>{t.nextActionItem1}</span></li>
+                <li className="tool-helper flex gap-2 text-slate-700"><span className="font-black text-emerald-600">②</span><span>{t.nextActionItem2}</span></li>
+                <li className="tool-helper flex gap-2 text-slate-700"><span className="font-black text-emerald-600">③</span><span>{t.nextActionItem3}</span></li>
               </ul>
               <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
                 <button type="button" onClick={() => { if (typeof navigator !== "undefined" && navigator.clipboard) { navigator.clipboard.writeText(window.location.href); alert(t.shareCopiedToast); } }} className="rounded-2xl bg-slate-950 px-4 py-2 text-xs font-black text-white hover:bg-slate-800">{t.shareLinkBtn}</button>
@@ -511,27 +511,27 @@ export default function LoanCalculator() {
         </section>
 
         <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.decisionPath}</p>
-          <h2 className="mt-2 text-3xl font-black">{t.decisionTitle}</h2>
+          <p className="tool-eyebrow text-blue-700">{t.decisionPath}</p>
+          <h2 className="tool-h2 mt-2">{t.decisionTitle}</h2>
           <div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">
             {[{ label: t.principal, note: t.principalStep }, { label: t.annualRate, note: t.rateStep }, { label: t.term, note: t.termStep }, { label: t.monthlyPayment, note: t.goalStep }].map((node, index) => (
-              <div key={node.label} className="contents"><div className={`rounded-3xl border p-5 text-center ${index === 0 ? "border-blue-300 bg-blue-50" : "border-indigo-200 bg-indigo-50"}`}><div className="text-xs font-black uppercase text-slate-500">{index + 1}</div><div className="mt-1 text-xl font-black">{node.label}</div><p className="mt-2 text-sm leading-6 text-slate-600">{node.note}</p></div>{index < 3 && <div className="hidden text-3xl font-black text-slate-300 md:block">→</div>}</div>
+              <div key={node.label} className="contents"><div className={`rounded-3xl border p-5 text-center ${index === 0 ? "border-blue-300 bg-blue-50" : "border-indigo-200 bg-indigo-50"}`}><div className="text-xs font-black uppercase text-slate-500">{index + 1}</div><div className="mt-1 text-xl font-black">{node.label}</div><p className="tool-helper mt-2 text-slate-600">{node.note}</p></div>{index < 3 && <div className="hidden text-3xl font-black text-slate-300 md:block">→</div>}</div>
             ))}
           </div>
         </section>
 
-        {/* L14 · Knowledge + FAQ 並排 · lg:grid-cols-[1fr_0.9fr] */}
-        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L12-Knowledge · L13-FAQ */}
+        {/* L14-Knowledge-FAQ · Knowledge + FAQ 並排 · lg:grid-cols-[1fr_0.9fr] */}
+        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L14-Knowledge-FAQ · L12-Knowledge · L13-FAQ */}
           <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.knowledge}</p>
-            <h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2>
-            <div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t.limitationsText}</p></div></div>
+            <p className="tool-eyebrow text-blue-700">{t.knowledge}</p>
+            <h2 className="tool-h2 mt-2">{t.knowledgeTitle}</h2>
+            <div className="mt-5 grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.definition}</h3><p className="tool-helper mt-2 text-slate-700">{t.definitionText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.formula}</h3><p className="tool-helper mt-2 text-slate-700">{t.formulaText}</p></div><div className="rounded-2xl bg-slate-50 p-4"><h3 className="font-black">{t.limitations}</h3><p className="tool-helper mt-2 text-slate-700">{t.limitationsText}</p></div></div>
           </div>
 
           <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.faq}</p>
-            <h2 className="mt-2 text-3xl font-black">{t.commonQuestions}</h2>
-            <div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div>          </div>
+            <p className="tool-eyebrow text-blue-700">{t.faq}</p>
+            <h2 className="tool-h2 mt-2">{t.commonQuestions}</h2>
+            <div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="tool-helper mt-2 text-slate-700">{t[a]}</p></details>)}</div>          </div>
         </section>
 
 
@@ -544,12 +544,12 @@ export default function LoanCalculator() {
         <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]">
           {/* L15-Affiliate */}
           <section className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-                              <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.affiliate}</p>
-                              <h2 className="mt-2 text-3xl font-black">{t.affiliateTitle}</h2>
+                              <p className="tool-eyebrow text-blue-700">{t.affiliate}</p>
+                              <h2 className="tool-h2 mt-2">{t.affiliateTitle}</h2>
                               <div className="mt-5 grid gap-4 md:grid-cols-4">
                                 {affiliateItems.map((item) => <a key={item.href} href={item.href} className="rounded-2xl border border-blue-100 bg-blue-50 p-5 text-center font-black text-blue-950 transition hover:border-blue-500 hover:bg-blue-100">{l(item.label, lang)}</a>)}
                               </div>
-                              <p className="mt-3 text-xs text-blue-700">
+                              <p className="tool-micro mt-3 text-blue-700">
                                 {lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}
                               </p>
                             </section>
@@ -557,8 +557,8 @@ export default function LoanCalculator() {
           {/* L16-PremiumGate */}
           <PremiumGate plan="PRO">
             <article className="flex h-full flex-col rounded-[2rem] border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-7">{/* L16-PremiumGate */}
-              <h2 className="text-3xl font-black text-slate-950">{t.premiumTitle}</h2>
-                                  <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t.premiumText}</p>
+              <h2 className="tool-h2 text-slate-950">{t.premiumTitle}</h2>
+                                  <p className="tool-helper mt-3 max-w-3xl text-slate-700">{t.premiumText}</p>
                                   <div className="mt-5 grid gap-3 md:grid-cols-4">
                                     {[t.monthlyShort, t.totalShort, t.paymentCycles, t.reports].map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-violet-900 shadow-sm">{item}</div>)}
                                   </div>
@@ -568,11 +568,11 @@ export default function LoanCalculator() {
 
 
         <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">{t.trustReferences}</p>
+          {/* L17-TrustRelatedReferences */}<p className="tool-eyebrow text-blue-700">{t.trustReferences}</p>
           <div className="mt-4 grid gap-5 md:grid-cols-3">
-            <div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div>
-            <div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.relatedToolsText}</p></div>
-            <div><h2 className="text-xl font-black">{t.references}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.referencesText}</p></div>
+            <div><h2 className="tool-h3">{t.trust}</h2><p className="tool-helper mt-2 text-slate-700">{t.trustText}</p></div>
+            <div><h2 className="tool-h3">{t.relatedTools}</h2><p className="tool-helper mt-2 text-slate-700">{t.relatedToolsText}</p></div>
+            <div><h2 className="tool-h3">{t.references}</h2><p className="tool-helper mt-2 text-slate-700">{t.referencesText}</p></div>
           </div>
         </section>
       </div>

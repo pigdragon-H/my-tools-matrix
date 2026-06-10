@@ -4,7 +4,7 @@
 
 import { useEffect, useState } from "react";
 import { Link, useParams } from "wouter";
-import { ArrowLeft, Search, Lock, Megaphone } from "lucide-react";
+import { ArrowLeft, Search, Lock, Megaphone, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -14,15 +14,30 @@ import { getCategoryByKey } from "@shared/categoriesConfig";
 import { getPublicToolsByCategory } from "@shared/toolsConfig";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { setSeoMeta } from "@/lib/seo";
+import { useLanguage } from "@/contexts/LanguageContext";
 import type { Tool } from "@shared/toolsConfig";
 
 export default function CategoryPage() {
+  const { lang } = useLanguage();
   const { category } = useParams<{ category: string }>();
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "free" | "premium">("all");
 
   const catInfo = getCategoryByKey(category ?? "");
   const allTools = getPublicToolsByCategory(category ?? "");
+  const categoryDisclaimer = category === "finance"
+    ? lang === "zh"
+      ? "財經工具僅供教育與估算參考，不構成投資、稅務、保險或理財建議；重大決策前請諮詢合格專業人士。"
+      : "Finance tools are for education and estimation only. They are not investment, tax, insurance, or financial advice; consult qualified professionals before major decisions."
+    : category === "health"
+      ? lang === "zh"
+        ? "健康工具僅供一般資訊參考，不能取代醫師、營養師或其他醫療專業人員的診斷與建議。"
+        : "Health tools are for general information only and do not replace diagnosis or advice from doctors, dietitians, or qualified medical professionals."
+      : category === "developer"
+        ? lang === "zh"
+          ? "開發工具在瀏覽器端處理輸入內容；處理敏感程式碼或資料前，請先確認資料安全與授權限制。"
+          : "Developer tools process inputs in the browser. Confirm data security and authorization limits before handling sensitive code or data."
+        : undefined;
 
   useEffect(() => {
     if (!catInfo) return;
@@ -77,6 +92,15 @@ export default function CategoryPage() {
           </div>
         </div>
       </div>
+
+      {categoryDisclaimer && (
+        <div className="container pt-6">
+          <div className="flex gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-950 dark:border-amber-900/60 dark:bg-amber-950/20 dark:text-amber-100">
+            <AlertTriangle className="mt-1 h-4 w-4 shrink-0" />
+            <p>{categoryDisclaimer}</p>
+          </div>
+        </div>
+      )}
 
       {/* ── Filters ─────────────────────────────────────────── */}
       <div className="container py-6">

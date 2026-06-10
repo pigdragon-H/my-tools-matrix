@@ -32,8 +32,22 @@ HOME = ROOT / "client/src/pages/Home.tsx"
 
 
 def kebab(camel: str) -> str:
-    """BmiCalculator → bmi-calculator"""
-    s = re.sub(r"([a-z0-9])([A-Z])", r"\1-\2", camel)
+    """Convert PascalCase folder names to canonical kebab slugs.
+
+    Aligns this route audit with Gate 1 / registry naming for mixed numeric and
+    one-letter acronym cases, e.g.:
+    Retirement401kCalculator → retirement-401k-calculator
+    RuleOf72Calculator → rule-of-72-calculator
+    VitaminDCalculator → vitamin-d-calculator
+    """
+    # Split acronym-to-word boundaries first: VitaminDCalculator → VitaminD-Calculator
+    s = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1-\2", camel)
+    # Split lower/digit to upper: RuleOf → Rule-Of
+    s = re.sub(r"([a-z0-9])([A-Z])", r"\1-\2", s)
+    # Split letter to digit: Retirement401k → Retirement-401k; Of72 → Of-72
+    s = re.sub(r"([A-Za-z])([0-9])", r"\1-\2", s)
+    # Preserve common technical token spellings used by the registry.
+    s = s.replace("Base-64", "Base64").replace("base-64", "base64")
     return s.lower()
 
 

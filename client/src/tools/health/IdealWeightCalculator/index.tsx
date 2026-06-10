@@ -995,7 +995,7 @@ export default function IdealWeightCalculator() {
         </section>
 
         <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">
-          {/* L12-Knowledge · L13-FAQ */}
+          {/* L14-Knowledge-FAQ · L12-Knowledge · L13-FAQ */}
           <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
             {/* L12 */}
             <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">
