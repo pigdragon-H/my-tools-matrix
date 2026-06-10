@@ -396,6 +396,55 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "finance/cpc-calculator": lazy(() => import("@/tools/finance/CpcCalculator")),
 };
 
+function ToolCrawlerStaticBlock({
+  toolConfig,
+  categoryName,
+  categoryNameEn,
+}: {
+  toolConfig: NonNullable<ReturnType<typeof getToolByPath>>;
+  categoryName: string;
+  categoryNameEn?: string;
+}) {
+  const categoryLabel = categoryNameEn ? `${categoryName} / ${categoryNameEn}` : categoryName;
+  const adPolicyText = toolConfig.showAds
+    ? "本工具頁允許在內容區顯示 Google AdSense 或等效廣告版位，並以不遮擋主要工具輸入與結果為原則。"
+    : "本工具頁目前不啟用廣告版位；若未來啟用，仍會維持主要工具內容可讀與可操作。";
+  const premiumText = toolConfig.isPremium
+    ? "此工具包含 Premium 功能或進階內容入口，基礎摘要與主要說明仍保留為可讀文字。"
+    : "此工具目前可免費使用；頁面仍保留 Premium 升級與延伸內容的靜態說明位置。";
+
+  return (
+    <section
+      aria-label="Crawler-readable tool summary"
+      className="border-b border-border bg-background/95"
+      data-crawler-static="tool-summary"
+    >
+      <div className="container py-5 text-sm leading-7 text-muted-foreground">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+          Static tool summary
+        </p>
+        <h2 className="mt-2 text-xl font-bold text-foreground">
+          {toolConfig.name}：可被搜尋引擎讀取的工具頁摘要
+        </h2>
+        <p className="mt-2">
+          {toolConfig.description}
+        </p>
+        <p className="mt-2">
+          分類：{categoryLabel}。正式路徑：{toolConfig.path}。狀態：{toolConfig.status ?? "GOLD"}。
+          本頁提供可直接閱讀的工具用途、輸入情境、結果解讀、FAQ、信任聲明與相關資源摘要，避免搜尋引擎只看到互動元件或空白容器。
+        </p>
+        <p className="mt-2">
+          {adPolicyText} 本頁可能包含站內推薦或聯盟連結；若透過部分連結購買，我們可能獲得佣金。{premiumText}
+        </p>
+        <p className="mt-2 text-xs">
+          English summary: {toolConfig.name} is a Formula Universe tool in the {categoryLabel} category.
+          It includes static, crawler-readable context for the tool purpose, input guidance, result interpretation, FAQ, advertising policy, affiliate disclosure, premium access notes, and trust references.
+        </p>
+      </div>
+    </section>
+  );
+}
+
 function ToolSkeleton() {
   return (
     <div className="container py-8 space-y-4">
@@ -475,6 +524,13 @@ export default function ToolPage() {
           </nav>
         </div>
       </div>
+
+      {/* Crawler-readable static text block: rendered before lazy tool code so bots can read real content immediately. */}
+      <ToolCrawlerStaticBlock
+        toolConfig={toolConfig}
+        categoryName={catInfo?.name ?? category ?? toolConfig.category}
+        categoryNameEn={catInfo?.nameEn}
+      />
 
       {/* Tool Component */}
       <Suspense fallback={<ToolSkeleton />}>
