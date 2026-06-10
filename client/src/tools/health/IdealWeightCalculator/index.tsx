@@ -4,6 +4,7 @@
 // Spec: ops/specs/ideal-weight-calculator.md
 
 import { useMemo, useState } from "react";
+import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { AdSlot } from "@/components/business/AdSlot";
 import { PremiumGate } from "@/components/business/PremiumGate";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -842,7 +843,8 @@ export default function IdealWeightCalculator() {
           aria-label="L8 AdSlot #1 廣告位・Advertisement"
           className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm"
         >
-          {/* L8 · AdSenseWrapper removed per v1.0; single AdSlot only */}
+          {/* L8 · AdSenseWrapper + AdSlot 廣告程序 */}
+          <AdSenseWrapper showAds={true} adSlot="ideal-weight-result-intelligence" adFormat="horizontal" className="my-2" />
           <AdSlot slot="ideal-weight-l8" position="inline" />
         </section>
 
