@@ -54,7 +54,7 @@ async function fetchText(url) {
 // 樣式範例： "health/workout-plan-calculator":S.lazy(()=>te(()=>import("./index-XXXX.js"), ...
 function findComponentChunk(mainJs, toolId) {
   // 比對 "<cat>/<tool-id>":...import("./index-XXXX.js")
-  const re = new RegExp(`[A-Za-z0-9_-]+\\/${toolId.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")}"\\s*:\\s*[^,]*?import\\(\\s*"\\.\\/(index-[A-Za-z0-9_-]+\\.js)"`);
+  const re = new RegExp(`[A-Za-z0-9_-]+\\/${toolId.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")}"\\s*:\\s*[^,]*?import\\(\\s*"\\.\\/((?:chunks\\/)?[A-Za-z0-9_-]+\\.js)"`);
   const m = mainJs.match(re);
   return m ? m[1] : null;
 }
@@ -62,7 +62,7 @@ function findComponentChunk(mainJs, toolId) {
 async function checkOnce() {
   // ① 抓首頁，解析 main bundle 檔名
   const html = await fetchText(`${BASE}/?_t=${Date.now()}`);
-  const bundles = [...html.matchAll(/assets\/(index-[A-Za-z0-9_-]+\.js)/g)].map((m) => m[1]);
+  const bundles = [...html.matchAll(/assets\/(index(?:-[A-Za-z0-9_-]+)?\.js)/g)].map((m) => m[1]);
   if (bundles.length === 0) {
     console.log(`${YEL}  · 首頁未找到 bundle 檔名(可能還在 build)${RST}`);
     return false;
