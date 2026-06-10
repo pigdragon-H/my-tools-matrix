@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/alert";
 import { trpc } from "@/lib/trpc";
 import { ARTICLE_STATUSES } from "@shared/const";
+import { getCategoryLabel, normalizeBlogCategoryKey } from "@/lib/laneCategories";
 
 type StatusFilter = "all" | (typeof ARTICLE_STATUSES)[number];
 
@@ -211,7 +212,7 @@ export default function AdminArticles() {
                       <div className="font-medium">{a.title || "(untitled)"}</div>
                       <div className="text-xs text-muted-foreground mt-0.5">
                         /{a.slug}
-                        {a.category_key ? ` · ${a.category_key}` : ""}
+                        {a.category_key ? ` · ${getCategoryLabel("blog", normalizeBlogCategoryKey(a.category_key))[lang]}` : ""}
                       </div>
                     </td>
                     <td className="px-4 py-3">

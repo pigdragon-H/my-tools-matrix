@@ -26,6 +26,7 @@ import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { categories } from "@shared/categoriesConfig";
+import { normalizeBlogCategoryKey } from "@/lib/laneCategories";
 
 type ArticleDraft = {
   id?: string;
@@ -59,7 +60,7 @@ const empty: ArticleDraft = {
   content_mdx: "# 標題\n\n寫點什麼...\n",
   ai_summary: "",
   ai_keywords: [],
-  category_key: "",
+  category_key: "finance",
   tools_referenced: [],
   tags: [],
 };
@@ -109,7 +110,7 @@ export default function AdminArticleEditor() {
         content_mdx: existing.data.content_mdx ?? "",
         ai_summary: existing.data.ai_summary ?? "",
         ai_keywords: existing.data.ai_keywords ?? [],
-        category_key: existing.data.category_key ?? "",
+        category_key: normalizeBlogCategoryKey(existing.data.category_key),
         tools_referenced: existing.data.tools_referenced ?? [],
         tags: existing.data.tags ?? [],
       });
@@ -135,7 +136,7 @@ export default function AdminArticleEditor() {
           content_mdx: draft.content_mdx,
           ai_summary: draft.ai_summary,
           ai_keywords: draft.ai_keywords,
-          category_key: draft.category_key,
+          category_key: normalizeBlogCategoryKey(draft.category_key),
           tools_referenced: draft.tools_referenced,
           tags: draft.tags,
         });
@@ -387,7 +388,6 @@ export default function AdminArticleEditor() {
               }
               className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
             >
-              <option value="">—</option>
               {categories.map((c) => (
                 <option key={c.key} value={c.key}>
                   {c.name} / {c.nameEn}

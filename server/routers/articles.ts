@@ -12,6 +12,7 @@ import {
 } from "../_core/trpc";
 import { supabaseService } from "../lib/supabaseAdmin";
 import { ARTICLE_STATUSES } from "../../shared/const";
+import { categoryKeys } from "../../shared/categoriesConfig";
 
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY ?? "";
 const CLAUDE_MODEL = process.env.CLAUDE_MODEL ?? "claude-sonnet-4-5-20250929";
@@ -19,6 +20,12 @@ const CLAUDE_MODEL = process.env.CLAUDE_MODEL ?? "claude-sonnet-4-5-20250929";
 const anthropic = ANTHROPIC_API_KEY
   ? new Anthropic({ apiKey: ANTHROPIC_API_KEY })
   : null;
+
+const ArticleCategorySchema = z
+  .string()
+  .refine((key) => categoryKeys.includes(key), {
+    message: `category_key must be one of: ${categoryKeys.join(", ")}`,
+  });
 
 const ArticleInputSchema = z.object({
   slug: z.string().min(1).max(120),
@@ -30,7 +37,7 @@ const ArticleInputSchema = z.object({
   content_mdx: z.string().default(""),
   ai_summary: z.string().default(""),
   ai_keywords: z.array(z.string()).default([]),
-  category_key: z.string().default(""),
+  category_key: ArticleCategorySchema.default("finance"),
   tools_referenced: z.array(z.string()).default([]),
   tags: z.array(z.string()).default([]),
 });
@@ -184,6 +191,19 @@ export const articlesRouter = router({
     .input(z.object({ id: z.string().uuid() }))
     .mutation(async ({ input, ctx }) => {
       const sb = await ensureSupabase();
+      const current = await sb
+        .from("articles")
+        .select("category_key")
+        .eq("id", input.id)
+        .single();
+      if (current.error) throw new Error(current.error.message);
+      const parsedCategory = ArticleCategorySchema.safeParse(current.data?.category_key);
+      if (!parsedCategory.success) {
+        throw new Error(
+          `Cannot publish article: category_key must be one of the 12 tool categories (${categoryKeys.join(", ")}).`
+        );
+      }
+
       const { data, error } = await sb
         .from("articles")
         .update({
