@@ -81,8 +81,8 @@ export default function Privacy() {
           <h2>{lang === "zh" ? "6. 聯絡方式" : "6. Contact"}</h2>
           <p>
             {lang === "zh"
-              ? "隱私相關問題請寄至 hello@formulauniverse.dev,我們會在 7 個工作日內回覆。"
-              : "For privacy questions, email hello@formulauniverse.dev. We respond within 7 business days."}
+              ? "隱私相關問題請寄至 pigragonh@gmail.com,我們會在 7 個工作日內回覆。"
+              : "For privacy questions, email pigragonh@gmail.com. We respond within 7 business days."}
           </p>
 
           <p className="text-sm text-slate-500">

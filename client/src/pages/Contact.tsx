@@ -48,7 +48,7 @@ export default function Contact() {
           </CardHeader>
           <CardContent className="space-y-3 text-sm leading-7 text-muted-foreground">
             <p>{lang === "zh" ? "工具建議、錯誤回報、商務合作與一般問題。" : "Tool suggestions, bug reports, partnerships, and general questions."}</p>
-            <a className="font-bold text-blue-700 hover:underline dark:text-blue-300" href="mailto:hello@formulauniverse.dev">hello@formulauniverse.dev</a>
+            <a className="font-bold text-blue-700 hover:underline dark:text-blue-300" href="mailto:pigragonh@gmail.com">pigragonh@gmail.com</a>
           </CardContent>
         </Card>
 
