@@ -377,7 +377,7 @@ export default function AdminArticleEditor() {
           </div>
           <div>
             <Label htmlFor="category">
-              {lang === "zh" ? "分類" : "Category"}
+              {lang === "zh" ? "工具分類" : "Tool category"}
             </Label>
             <select
               id="category"

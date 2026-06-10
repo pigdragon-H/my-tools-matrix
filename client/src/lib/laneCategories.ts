@@ -47,20 +47,21 @@ const CATEGORY_LABELS: Record<string, Record<string, CategoryLabel>> = {
     medium: { zh: "中需求機會", en: "Medium Demand", emoji: "📈" },
     low: { zh: "潛力觀察", en: "Emerging", emoji: "🌱" },
   },
-  // 工具知識庫 /blog（DB 文章）：依 category_key（沿用知識庫領域＋常見補充）
+  // 工具知識庫 /blog（DB/靜態文章）：必須與工具矩陣 12 個頂層分類一致。
+  // 使用者明確要求：工具知識庫是收納工具類文章，因此分類不可沿用 AI/內容欄目。
   blog: {
-    "ai-business": { zh: "AI 商業應用", en: "AI Business", emoji: "💼" },
-    "ai-automation": { zh: "AI 自動化", en: "AI Automation", emoji: "⚙️" },
-    "ai-agent": { zh: "AI Agent", en: "AI Agent", emoji: "🤖" },
-    "ai-side-hustle": { zh: "AI 副業", en: "AI Side Hustle", emoji: "💡" },
-    "future-industry": { zh: "未來產業", en: "Future Industry", emoji: "🚀" },
-    "learning-center": { zh: "學習中心", en: "Learning Center", emoji: "📚" },
-    "formula-insights": { zh: "公式洞察", en: "Formula Insights", emoji: "📐" },
-    "tool-guide": { zh: "工具指南", en: "Tool Guide", emoji: "🧰" },
-    developer: { zh: "開發工具", en: "Developer", emoji: "💻" },
-    general: { zh: "綜合主題", en: "General", emoji: "🧭" },
     finance: { zh: "財經投資", en: "Finance", emoji: "💰" },
     health: { zh: "健康生活", en: "Health", emoji: "🩺" },
+    productivity: { zh: "職場效率", en: "Productivity", emoji: "💼" },
+    developer: { zh: "開發工具", en: "Developer", emoji: "💻" },
+    education: { zh: "教育學習", en: "Education", emoji: "🎓" },
+    legal: { zh: "法律法規", en: "Legal", emoji: "⚖️" },
+    design: { zh: "創意設計", en: "Design", emoji: "🎨" },
+    science: { zh: "科學工程", en: "Science", emoji: "🧪" },
+    language: { zh: "語言文字", en: "Language", emoji: "🌐" },
+    ecommerce: { zh: "電商零售", en: "E-Commerce", emoji: "🛒" },
+    travel: { zh: "旅遊地理", en: "Travel", emoji: "🧭" },
+    ai: { zh: "AI 工具", en: "AI Tools", emoji: "✨" },
   },
 };
 
@@ -69,6 +70,31 @@ export function getCategoryLabel(laneId: string, key: string): CategoryLabel {
   const map = CATEGORY_LABELS[laneId];
   if (map && map[key]) return map[key];
   return { zh: key || "其他", en: key || "Other", emoji: "📄" };
+}
+
+const BLOG_LEGACY_CATEGORY_REDIRECTS: Record<string, string> = {
+  "ai-business": "ai",
+  "ai-automation": "ai",
+  "ai-agent": "ai",
+  "ai-side-hustle": "ai",
+  "future-industry": "ai",
+  "learning-center": "education",
+  "formula-insights": "education",
+  "tool-guide": "education",
+  general: "productivity",
+};
+
+/**
+ * /blog 是工具知識庫，公開分組必須永遠落在工具矩陣 12 類。
+ * 舊資料若仍帶有先前 AI/內容欄目的 category_key，這裡統一轉入最接近的工具類別，
+ * 避免導覽與列表再次出現第 13 類或錯誤欄目。
+ */
+export function normalizeBlogCategoryKey(key?: string): string {
+  const raw = (key || "").trim();
+  const blogMap = CATEGORY_LABELS.blog || {};
+  if (raw && blogMap[raw]) return raw;
+  if (raw && BLOG_LEGACY_CATEGORY_REDIRECTS[raw]) return BLOG_LEGACY_CATEGORY_REDIRECTS[raw];
+  return "finance";
 }
 
 /** 從一筆內容取出它所屬的分類技術值（依賽道讀不同欄位）。 */
@@ -161,7 +187,7 @@ export interface BlogGroup<T> {
 export function groupBlogByCategory<T extends BlogArticleLike>(items: T[]): BlogGroup<T>[] {
   return groupByKeyAndDate(
     items,
-    (it) => it.category_key || "formula-insights",
+    (it) => normalizeBlogCategoryKey(it.category_key),
     (it) => it.published_at || ""
   );
 }
@@ -178,7 +204,7 @@ export function groupByKeyAndDate<T>(
 ): BlogGroup<T>[] {
   const buckets = new Map<string, T[]>();
   for (const it of items) {
-    const key = keyOf(it) || "formula-insights";
+    const key = keyOf(it) || "finance";
     if (!buckets.has(key)) buckets.set(key, []);
     buckets.get(key)!.push(it);
   }
@@ -228,6 +254,11 @@ export function navCategories(laneId: string): NavCategory[] {
     key,
     label: map[key],
   }));
-  list.push(NAV_OTHER_CATEGORY);
+
+  // /blog 是「工具知識庫」，導覽必須精準對齊工具矩陣 12 類；不可額外顯示「其它」。
+  if (laneId !== "blog") {
+    list.push(NAV_OTHER_CATEGORY);
+  }
+
   return list;
 }

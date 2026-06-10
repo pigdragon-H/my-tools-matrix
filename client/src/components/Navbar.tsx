@@ -142,6 +142,85 @@ function LaneNavDropdown({
   );
 }
 
+function BlogToolCategoryDropdown({
+  title,
+  lang,
+  location,
+}: {
+  title: string;
+  lang: Lang;
+  location: string;
+}) {
+  const viewAll = lang === "zh" ? "查看全部" : "View all";
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className={cn(
+            "gap-1.5 text-sm font-medium",
+            location.startsWith("/blog") && "bg-accent text-accent-foreground"
+          )}
+        >
+          <BookOpen className="h-3.5 w-3.5" />
+          {title}
+          <ChevronDown className="h-3.5 w-3.5 opacity-60" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" className="w-80 p-2" sideOffset={4}>
+        <DropdownMenuLabel className="text-xs text-muted-foreground font-normal px-2 py-1.5">
+          12 {lang === "zh" ? "個工具分類" : "Tool Categories"}
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <div className="grid grid-cols-2 gap-0.5">
+          {categories.map((cat, idx) => {
+            const count = toolCountByCategory[cat.key] ?? 0;
+            const seq = String(idx + 1).padStart(2, "0");
+            const catName = lang === "zh" ? cat.name : cat.nameEn;
+            return (
+              <DropdownMenuItem key={cat.key} asChild>
+                <Link href={`/blog?cat=${cat.key}`}>
+                  <div className={cn(
+                    "flex items-center gap-2 px-2 py-1.5 cursor-pointer w-full",
+                    count === 0 && "opacity-50"
+                  )}>
+                    <div className={cn("rounded p-1 shrink-0", cat.bgColor)}>
+                      <CategoryIcon iconName={cat.icon} className={cn("h-3.5 w-3.5", cat.color)} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs font-medium">
+                        <span className="text-muted-foreground mr-1">{seq}.</span>
+                        {catName}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {lang === "zh" ? cat.nameEn : cat.name}
+                        <span className={cn(
+                          "ml-1 font-medium",
+                          count > 0 ? "text-primary" : "text-muted-foreground"
+                        )}>({count})</span>
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              </DropdownMenuItem>
+            );
+          })}
+        </div>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href="/blog">
+            <div className="flex items-center gap-2 px-2 py-1.5 cursor-pointer w-full text-primary">
+              <BookOpen className="h-3.5 w-3.5" />
+              <span className="text-xs font-medium">{viewAll}</span>
+            </div>
+          </Link>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -233,11 +312,8 @@ export function Navbar() {
           </DropdownMenu>
 
           {/* 工具知識庫：分類下拉（點主軸即見內部分類） */}
-          <LaneNavDropdown
-            routeBase="/blog"
+          <BlogToolCategoryDropdown
             title={t.knowledge}
-            Icon={BookOpen}
-            laneId="blog"
             lang={lang}
             location={location}
           />
@@ -429,19 +505,42 @@ export function Navbar() {
                     <span className="text-sm font-medium">{t.knowledge}</span>
                   </div>
                 </Link>
-                <div className="flex flex-wrap gap-1 pl-8 pr-2 pb-1">
-                  {navCategories("blog").map((cat) => (
-                    <Link
-                      key={cat.key}
-                      href={`/blog?cat=${cat.key}`}
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      <span className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-xs hover:bg-accent cursor-pointer">
-                        <span>{cat.label.emoji}</span>
-                        {lang === "zh" ? cat.label.zh : cat.label.en}
-                      </span>
-                    </Link>
-                  ))}
+                <div className="grid grid-cols-2 gap-1 pl-8 pr-2 pb-1">
+                  {categories.map((cat, idx) => {
+                    const count = toolCountByCategory[cat.key] ?? 0;
+                    const seq = String(idx + 1).padStart(2, "0");
+                    const catName = lang === "zh" ? cat.name : cat.nameEn;
+                    return (
+                      <Link
+                        key={cat.key}
+                        href={`/blog?cat=${cat.key}`}
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        <div className={cn(
+                          "flex items-center gap-1.5 rounded-md px-2 py-2 hover:bg-accent cursor-pointer",
+                          count === 0 && "opacity-50"
+                        )}>
+                          <div className={cn("rounded p-1 shrink-0", cat.bgColor)}>
+                            <CategoryIcon iconName={cat.icon} className={cn("h-3.5 w-3.5", cat.color)} />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-xs font-medium leading-tight">
+                              <span className="text-muted-foreground mr-0.5">{seq}.</span>
+                              {catName}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {lang === "zh" ? cat.nameEn : cat.name}
+                              {" "}
+                              <span className={cn(
+                                "font-medium",
+                                count > 0 ? "text-primary" : ""
+                              )}>({count})</span>
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
 

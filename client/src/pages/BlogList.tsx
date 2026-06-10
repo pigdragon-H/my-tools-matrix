@@ -11,7 +11,7 @@ import { AdSlot } from "@/components/business/AdSlot";
 import { TrustStrip } from "@/components/business/TrustStrip";
 import { trpc } from "@/lib/trpc";
 import { STATIC_ARTICLES } from "@/lib/staticArticles";
-import { groupBlogByCategory, groupByKeyAndDate, getCategoryLabel, ordinal } from "@/lib/laneCategories";
+import { groupBlogByCategory, groupByKeyAndDate, getCategoryLabel, normalizeBlogCategoryKey, ordinal } from "@/lib/laneCategories";
 import { useReadProgress } from "@/hooks/useReadProgress";
 
 type Lang = "zh" | "en";
@@ -62,7 +62,7 @@ const featuredGuides: Guide[] = [
   },
 ];
 
-// 四大知識主題 — 對應首頁「知識庫」卡片列出的 4 課題，
+// 工具知識庫內容支柱 — 說明工具文章應提供的 4 種閱讀價值，
 // 每個主題給豐盛、有說服力的說明 + 代表性工具/領域連結。
 type KnowledgeTheme = {
   iconKey: "formula" | "guide" | "path" | "limit";
@@ -183,10 +183,10 @@ const knowledgeThemes: KnowledgeTheme[] = [
 
 const copy = {
   heroTitle: { zh: "工具知識庫", en: "Tool Knowledge" },
-  themesTitle: { zh: "四大知識主題", en: "Four knowledge pillars" },
+  themesTitle: { zh: "工具文章的四種閱讀價值", en: "Four ways tool articles help" },
   themesDesc: {
-    zh: "工具知識庫圍繞四個主題建立。每一篇內容都希望回答的不只是「答案是多少」，而是「為什麼、怎麼用、下一步、何時別用」。",
-    en: "The knowledge base is built around four themes. Every piece aims to answer not just 'what's the number', but 'why, how to use it, what's next, and when not to'.",
+    zh: "工具知識庫依照 12 個工具分類收納文章；每一篇內容都希望回答的不只是「答案是多少」，而是「為什麼、怎麼用、下一步、何時別用」。",
+    en: "Tool Knowledge is organized by the same 12 categories as the tool library. Every piece aims to answer not just 'what's the number', but 'why, how to use it, what's next, and when not to'.",
   },
   heroDesc: {
     zh: "從公式、工具、範例與限制說明開始,把每一次計算延伸成可理解、可行動的知識脈絡。",
@@ -198,10 +198,10 @@ const copy = {
     en: "Start with common decision scenarios, pair them with tools, and turn concepts into action right away.",
   },
   backHome: { zh: "回首頁", en: "Back to home" },
-  domainsTitle: { zh: "依知識領域探索", en: "Explore by knowledge domain" },
+  domainsTitle: { zh: "依 12 個工具分類探索", en: "Explore by 12 tool categories" },
   domainsDesc: {
-    zh: "12 大領域會逐步累積文章、公式解釋、工具範例與決策路徑。",
-    en: "12 domains will gradually accumulate articles, formula explanations, tool examples, and decision paths.",
+    zh: "工具知識庫與工具矩陣使用同一套 12 個分類，文章、公式解釋、工具範例與決策路徑都會依此歸檔。",
+    en: "Tool Knowledge uses the same 12 categories as the tool library; articles, formula explanations, examples, and decision paths are filed under those categories.",
   },
 } as const;
 
@@ -249,7 +249,7 @@ export default function BlogList() {
     () =>
       groupByKeyAndDate(
         STATIC_ARTICLES,
-        (a) => a.category || "formula-insights",
+        (a) => normalizeBlogCategoryKey(a.category),
         (a) => a.publishedAt || ""
       ),
     []
@@ -283,7 +283,7 @@ export default function BlogList() {
         <AdSlot slot="blog-after-hero" position="top" variant="responsive" />
       </section>
 
-      {/* 四大知識主題 — 對應首頁知識庫卡片列出的 4 課題 */}
+      {/* 工具知識庫內容支柱 — 文章依 12 個工具分類收納 */}
       <section className="container py-14 md:py-20">
         <div className="mx-auto mb-10 max-w-3xl text-center">
           <h2 className="t-h2 tracking-tight">{copy.themesTitle[lang]}</h2>
@@ -452,7 +452,7 @@ export default function BlogList() {
                               <FileText className="h-6 w-6 text-blue-600" />
                               {a.category && (
                                 <Badge variant="secondary" className="t-small">
-                                  {getCategoryLabel("blog", a.category)[lang]}
+                                  {getCategoryLabel("blog", normalizeBlogCategoryKey(a.category))[lang]}
                                 </Badge>
                               )}
                             </div>
@@ -566,7 +566,7 @@ export default function BlogList() {
                               <FileText className="h-6 w-6 text-blue-600" />
                               {a.category_key && (
                                 <Badge variant="secondary" className="t-small">
-                                  {getCategoryLabel("blog", a.category_key)[lang]}
+                                  {getCategoryLabel("blog", normalizeBlogCategoryKey(a.category_key))[lang]}
                                 </Badge>
                               )}
                             </div>

@@ -15,6 +15,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrustStrip } from "@/components/business/TrustStrip";
 import { getStaticArticle } from "@/lib/staticArticles";
+import { getCategoryLabel, normalizeBlogCategoryKey } from "@/lib/laneCategories";
 import { StaticArticleView } from "./ArticlePage";
 import { getToolById, getToolByPath, type Tool } from "@shared/toolsConfig";
 
@@ -123,7 +124,7 @@ export default function BlogPost() {
               {article.locale}
             </Badge>
             {article.category_key && (
-              <Badge variant="secondary">{article.category_key}</Badge>
+              <Badge variant="secondary">{getCategoryLabel("blog", normalizeBlogCategoryKey(article.category_key))[lang]}</Badge>
             )}
             <span className="inline-flex items-center gap-1">
               <Calendar className="h-3 w-3" />
