@@ -142,3 +142,39 @@ toolPath: /tools/finance/roi-calculator
 </div>
 
 輸入你的每月投入金額、預期年化報酬率與投資年限，系統將即時生成複利成長曲線圖，讓你一眼看清財富累積的軌跡。現在就開始，讓數字說話！
+
+<div style="text-align: center; margin: 2rem 0;">
+
+**[→ 立即使用 ROI 計算機（/tools/finance/roi-calculator）]**
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "定期定額 vs 單筆投資：哪種方式報酬率更高？用數據告訴你答案",
+  "description": "從報酬率、風險控制、心理壓力三個維度，深入比較定期定額與單筆投資的差異，用數據幫你選對策略。",
+  "keywords": " 定期定額報酬率比較、單筆投資風險、定期定額優缺點、投資策略選擇、台灣股市投資方式",
+  "datePublished": "2026-05-17",
+  "dateModified": "2026-05-17",
+  "author": {
+    "@type": "Organization",
+    "name": "Formula Universe"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Formula Universe",
+    "url": "https://my-tools-matrix-production.up.railway.app"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://my-tools-matrix-production.up.railway.app/articles/finance/roi-vs-lump-sum"
+  },
+  "about": {
+    "@type": "SoftwareApplication",
+    "name": "roi-calculator",
+    "url": "https://my-tools-matrix-production.up.railway.app/tools/finance/roi-calculator"
+  }
+}
+</script>

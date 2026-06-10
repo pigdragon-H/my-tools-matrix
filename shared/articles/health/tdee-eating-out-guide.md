@@ -181,3 +181,39 @@ toolPath: /tools/health/tdee-calculator
 </div>
 
 知道自己的 TDEE，才能在外食中做出聰明的選擇。現在就計算，讓外食族也能輕鬆達成健康目標！
+
+<div style="text-align: center; margin: 2rem 0;">
+
+**[→ 立即使用 TDEE 計算機（/tools/health/tdee-calculator）]**
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "外食族如何控制熱量？TDEE 實戰應用指南",
+  "description": "外食族如何控制熱量？TDEE 實戰應用指南，教你估算便當熱量、在外食中維持健康飲食。",
+  "keywords": " 外食族減脂、外食熱量控制、台灣外食健康飲食、便當熱量計算、外食 TDEE 應用",
+  "datePublished": "2026-05-17",
+  "dateModified": "2026-05-17",
+  "author": {
+    "@type": "Organization",
+    "name": "Formula Universe"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Formula Universe",
+    "url": "https://my-tools-matrix-production.up.railway.app"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://my-tools-matrix-production.up.railway.app/articles/health/tdee-eating-out-guide"
+  },
+  "about": {
+    "@type": "SoftwareApplication",
+    "name": "tdee-calculator",
+    "url": "https://my-tools-matrix-production.up.railway.app/tools/health/tdee-calculator"
+  }
+}
+</script>

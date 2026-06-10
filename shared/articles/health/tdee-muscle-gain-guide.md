@@ -165,3 +165,39 @@ toolPath: /tools/health/tdee-calculator
 </div>
 
 精準的數字，是打造理想體態的基礎。現在就計算你的 TDEE，讓每一餐都為你的增肌目標服務！
+
+<div style="text-align: center; margin: 2rem 0;">
+
+**[→ 立即使用 TDEE 計算機（/tools/health/tdee-calculator）]**
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "增肌飲食計畫：用 TDEE 計算每日蛋白質需求，打造理想體態",
+  "description": "增肌飲食計畫：用 TDEE 計算每日蛋白質需求與熱量盈餘，打造理想體態的完整攻略。",
+  "keywords": " TDEE 增肌、增肌蛋白質需求計算、增肌飲食計畫台灣、健身增肌熱量、增肌期吃什麼",
+  "datePublished": "2026-05-17",
+  "dateModified": "2026-05-17",
+  "author": {
+    "@type": "Organization",
+    "name": "Formula Universe"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Formula Universe",
+    "url": "https://my-tools-matrix-production.up.railway.app"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://my-tools-matrix-production.up.railway.app/articles/health/tdee-muscle-gain-guide"
+  },
+  "about": {
+    "@type": "SoftwareApplication",
+    "name": "tdee-calculator",
+    "url": "https://my-tools-matrix-production.up.railway.app/tools/health/tdee-calculator"
+  }
+}
+</script>

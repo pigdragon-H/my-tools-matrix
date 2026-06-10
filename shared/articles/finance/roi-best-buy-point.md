@@ -151,3 +151,39 @@ toolPath: /tools/finance/roi-calculator
 </div>
 
 輸入每月存股金額、預期年化報酬率（高股息 ETF 建議設定 6%～9%）與目標年限，系統將即時生成你的財富成長曲線。現在就開始，讓數字幫你找到最佳的存股策略！
+
+<div style="text-align: center; margin: 2rem 0;">
+
+**[→ 立即使用 ROI 計算機（/tools/finance/roi-calculator）]**
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "存股族必看：用 ROI 計算機找出最佳買點，讓報酬率翻倍",
+  "description": "存股族必看：用 ROI 計算機找出最佳買點，搭配高股息 ETF 與台股存股策略，讓報酬率翻倍。",
+  "keywords": " 存股最佳買點、高股息 ETF 買點、存股 ROI 計算、0056 買點分析、台股存股策略",
+  "datePublished": "2026-05-17",
+  "dateModified": "2026-05-17",
+  "author": {
+    "@type": "Organization",
+    "name": "Formula Universe"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Formula Universe",
+    "url": "https://my-tools-matrix-production.up.railway.app"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://my-tools-matrix-production.up.railway.app/articles/finance/roi-best-buy-point"
+  },
+  "about": {
+    "@type": "SoftwareApplication",
+    "name": "roi-calculator",
+    "url": "https://my-tools-matrix-production.up.railway.app/tools/finance/roi-calculator"
+  }
+}
+</script>

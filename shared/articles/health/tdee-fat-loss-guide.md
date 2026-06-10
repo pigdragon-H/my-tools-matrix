@@ -166,3 +166,39 @@ BMR = 10 × 75 + 6.25 × 170 - 5 × 30 + 5 = 750 + 1062.5 - 150 + 5 = **1,667.5 
 </div>
 
 科學減脂，從精準的數字開始。現在就計算你的 TDEE，讓每一口食物都有意義！
+
+<div style="text-align: center; margin: 2rem 0;">
+
+**[→ 立即使用 TDEE 計算機（/tools/health/tdee-calculator）]**
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "減脂期間怎麼吃？TDEE 熱量缺口完整攻略",
+  "description": "減脂期間怎麼吃？用 TDEE 熱量缺口框架建立科學、可持續的減脂飲食計畫，附台灣實戰指南。",
+  "keywords": " TDEE 減脂、熱量缺口計算、減脂飲食計畫、如何計算減脂熱量、台灣減脂飲食指南",
+  "datePublished": "2026-05-17",
+  "dateModified": "2026-05-17",
+  "author": {
+    "@type": "Organization",
+    "name": "Formula Universe"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Formula Universe",
+    "url": "https://my-tools-matrix-production.up.railway.app"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://my-tools-matrix-production.up.railway.app/articles/health/tdee-fat-loss-guide"
+  },
+  "about": {
+    "@type": "SoftwareApplication",
+    "name": "tdee-calculator",
+    "url": "https://my-tools-matrix-production.up.railway.app/tools/health/tdee-calculator"
+  }
+}
+</script>

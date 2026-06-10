@@ -163,3 +163,39 @@ toolPath: /tools/finance/car-depreciation-calculator
 </div>
 
 掌握數據，才能掌握主動權。現在就試算，讓你的愛車賣出最好的價格！
+
+<div style="text-align: center; margin: 2rem 0;">
+
+**[→ 立即使用 中古車折舊計算機（/tools/finance/car-depreciation-calculator）]**
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "中古車怎麼賣最划算？掌握殘值最高點的完整攻略",
+  "description": "中古車怎麼賣最划算？掌握殘值最高點的完整攻略，告訴你台灣賣車與換車的最佳時機。",
+  "keywords": " 中古車賣車時機、二手車殘值最高點、中古車出售攻略、台灣賣車最佳時機、中古車換車策略",
+  "datePublished": "2026-05-17",
+  "dateModified": "2026-05-17",
+  "author": {
+    "@type": "Organization",
+    "name": "Formula Universe"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Formula Universe",
+    "url": "https://my-tools-matrix-production.up.railway.app"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://my-tools-matrix-production.up.railway.app/articles/finance/used-car-sell-best-time"
+  },
+  "about": {
+    "@type": "SoftwareApplication",
+    "name": "car-depreciation-calculator",
+    "url": "https://my-tools-matrix-production.up.railway.app/tools/finance/car-depreciation-calculator"
+  }
+}
+</script>
