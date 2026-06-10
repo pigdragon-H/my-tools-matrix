@@ -5,7 +5,7 @@
 import { Link } from "wouter";
 import { isEnabled } from "@/config/featureFlags";
 import type { Lang } from "@/contexts/LanguageContext";
-import { ShieldCheck, BookOpenCheck, FileText, Mail, Github } from "lucide-react";
+import { ShieldCheck, BookOpenCheck, FileText, Mail, Github, ArrowRight, ExternalLink } from "lucide-react";
 
 interface TrustStripProps {
   lang: Lang;
@@ -51,13 +51,25 @@ export function TrustStrip({ lang, variant = "default" }: TrustStripProps) {
   const contactLinks = [
     {
       icon: Mail,
-      label: { zh: "聯絡我們", en: "Contact" },
-      href: "mailto:hello@formulauniverse.dev",
+      label: { zh: "聯絡我們", en: "Contact us" },
+      description: {
+        zh: "回報錯誤、授權合作或提出公式校正建議。",
+        en: "Report issues, request partnerships, or suggest formula corrections.",
+      },
+      action: { zh: "前往聯絡頁", en: "Open contact page" },
+      href: "/contact",
+      external: false,
     },
     {
       icon: Github,
-      label: { zh: "原始碼", en: "Source" },
+      label: { zh: "原始碼", en: "Source code" },
+      description: {
+        zh: "查看公開程式碼、提交 issue，或追蹤更新紀錄。",
+        en: "Review public code, file issues, or follow release history.",
+      },
+      action: { zh: "查看 GitHub", en: "View GitHub" },
       href: "https://github.com/pigdragon-H/my-tools-matrix",
+      external: true,
     },
   ];
 
@@ -82,6 +94,9 @@ export function TrustStrip({ lang, variant = "default" }: TrustStripProps) {
             </Link>
             <Link href="/editorial" className="text-blue-700 hover:underline dark:text-blue-300">
               {lang === "zh" ? "編輯方針" : "Editorial"}
+            </Link>
+            <Link href="/contact" className="text-blue-700 hover:underline dark:text-blue-300">
+              {lang === "zh" ? "聯絡我們" : "Contact"}
             </Link>
           </div>
         </div>
@@ -133,25 +148,72 @@ export function TrustStrip({ lang, variant = "default" }: TrustStripProps) {
           })}
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-slate-200 pt-6 text-sm dark:border-slate-800">
-          <span className="font-bold text-slate-700 dark:text-slate-200">
-            {lang === "zh" ? "聯絡管道" : "Get in touch"}
-          </span>
-          {contactLinks.map((c) => {
-            const Icon = c.icon;
-            return (
-              <a
-                key={c.href}
-                href={c.href}
-                target={c.href.startsWith("http") ? "_blank" : undefined}
-                rel={c.href.startsWith("http") ? "noreferrer" : undefined}
-                className="inline-flex items-center gap-2 text-slate-600 hover:text-blue-700 dark:text-slate-300 dark:hover:text-blue-300"
-              >
-                <Icon className="h-4 w-4" />
-                {c.label[lang]}
-              </a>
-            );
-          })}
+        <div className="mt-8 border-t border-slate-200 pt-6 dark:border-slate-800">
+          <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-700 dark:text-blue-300">
+                {lang === "zh" ? "聯絡選項" : "Contact options"}
+              </p>
+              <h3 className="mt-1 text-lg font-black text-slate-900 dark:text-white">
+                {lang === "zh" ? "需要協助或想檢視專案？" : "Need help or want to inspect the project?"}
+              </h3>
+            </div>
+            <p className="max-w-xl text-sm leading-6 text-slate-600 dark:text-slate-300">
+              {lang === "zh"
+                ? "我們把聯絡入口與公開原始碼整理成可點擊卡片，方便快速回報、審閱與追蹤。"
+                : "Contact and source links are presented as clear action cards for reporting, reviewing, and tracking updates."}
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            {contactLinks.map((c) => {
+              const Icon = c.icon;
+              const indicator = c.external ? (
+                <ExternalLink className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              ) : (
+                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              );
+              const content = (
+                <>
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-700 ring-1 ring-blue-100 transition group-hover:bg-blue-600 group-hover:text-white dark:bg-blue-950/60 dark:text-blue-300 dark:ring-blue-900 dark:group-hover:bg-blue-500 dark:group-hover:text-white">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-base font-black text-slate-900 dark:text-white">
+                      {c.label[lang]}
+                    </span>
+                    <span className="mt-1 block text-sm leading-6 text-slate-600 dark:text-slate-300">
+                      {c.description[lang]}
+                    </span>
+                    <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-blue-700 dark:text-blue-300">
+                      {c.action[lang]}
+                      {indicator}
+                    </span>
+                  </span>
+                </>
+              );
+
+              return c.external ? (
+                <a
+                  key={c.href}
+                  href={c.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex gap-4 rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:border-slate-800 dark:from-slate-900/70 dark:to-slate-950 dark:hover:border-blue-700 dark:focus-visible:ring-offset-slate-950"
+                >
+                  {content}
+                </a>
+              ) : (
+                <Link
+                  key={c.href}
+                  href={c.href}
+                  className="group flex gap-4 rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:border-slate-800 dark:from-slate-900/70 dark:to-slate-950 dark:hover:border-blue-700 dark:focus-visible:ring-offset-slate-950"
+                >
+                  {content}
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
