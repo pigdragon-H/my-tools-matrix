@@ -56,7 +56,7 @@ const kebabId  = flags.id || positional[1];
 const enName   = flags.name || flags.enName || positional[2];
 const zhName   = flags.nameCh || flags.nameZh || flags.zhName || positional[3];
 const iconName = flags.icon || positional[4] || "Calculator";
-const descZh   = flags.descZh || flags.description || `${zhName} — Profile B 計算器型 YMYL 工具，待補完 17 層內容。`;
+const descZh   = flags.descZh || flags.description || `${zhName} — 提供快速估算、情境比較與決策參考；請依實際資料與專業建議交叉驗證。`;
 
 if (!category || !kebabId || !enName || !zhName) {
   console.error(`

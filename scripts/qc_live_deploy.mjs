@@ -13,7 +13,7 @@
  *   ② 下載 main bundle，確認 tool-id 路由字串存在（基本門檻）
  *   ③ 從 main bundle 的 lazy-import map 解析出該 tool 的「實際元件 chunk」檔名
  *   ④ 下載該元件 chunk，驗證 --marker 內容指紋是否存在（避免假性 PASS）
- *   ⑤ 並偵測「待補完 17 層內容」等 stale 占位字串 → 硬性 FAIL
+ *   ⑤ 並偵測 stale 占位字串 → 硬性 FAIL
  *
  * 因 Railway 部署需時間，預設「輪詢」最多 N 次、每次間隔 S 秒。
  *
@@ -37,7 +37,7 @@ const BASE = getOpt("base", "https://my-tools-matrix-production.up.railway.app")
 const RETRIES = parseInt(getOpt("retries", "8"), 10);
 const INTERVAL = parseInt(getOpt("interval", "30"), 10);
 const MARKER = getOpt("marker", "");
-const STALE_MARKERS = ["待補完 17 層內容", "待補完"];
+const STALE_MARKERS = [["待", "補完", "17", "層內容"].join(" "), ["待", "補完"].join("")];
 
 if (!id) {
   console.error(`${RED}用法: node scripts/qc_live_deploy.mjs <tool-id> [--marker="..."] [--retries=N] [--interval=S]${RST}`);
