@@ -173,47 +173,6 @@ toolPath: /tools/health/tdee-calculator
 ## 立即計算你的 TDEE，建立個人化的外食熱量預算
 
 每個人的 TDEE 都不同，因此你的外食熱量預算也應該是個人化的。使用我們的免費 TDEE 計算機，輸入你的身體數據和活動程度，系統將立即計算出你的 TDEE，並幫助你建立適合自己的每日熱量預算。
-
-<div style="text-align: center; margin: 2rem 0;">
-
-**[→ 立即使用 TDEE 計算機，建立你的外食熱量預算](/tools/health/tdee-calculator)**
-
-</div>
-
 知道自己的 TDEE，才能在外食中做出聰明的選擇。現在就計算，讓外食族也能輕鬆達成健康目標！
 
-<div style="text-align: center; margin: 2rem 0;">
-
-**[→ 立即使用 TDEE 計算機（/tools/health/tdee-calculator）]**
-
-</div>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "外食族如何控制熱量？TDEE 實戰應用指南",
-  "description": "外食族如何控制熱量？TDEE 實戰應用指南，教你估算便當熱量、在外食中維持健康飲食。",
-  "keywords": " 外食族減脂、外食熱量控制、台灣外食健康飲食、便當熱量計算、外食 TDEE 應用",
-  "datePublished": "2026-05-17",
-  "dateModified": "2026-05-17",
-  "author": {
-    "@type": "Organization",
-    "name": "Formula Universe"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Formula Universe",
-    "url": "https://my-tools-matrix-production.up.railway.app"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://my-tools-matrix-production.up.railway.app/articles/health/tdee-eating-out-guide"
-  },
-  "about": {
-    "@type": "SoftwareApplication",
-    "name": "tdee-calculator",
-    "url": "https://my-tools-matrix-production.up.railway.app/tools/health/tdee-calculator"
-  }
-}
-</script>
+**[→ 立即使用 TDEE 計算機（/tools/health/tdee-calculator）](/tools/health/tdee-calculator)**

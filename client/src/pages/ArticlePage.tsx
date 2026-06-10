@@ -27,6 +27,8 @@ import { useReadProgress } from "@/hooks/useReadProgress";
 import { getToolByPath, getToolById } from "@shared/toolsConfig";
 import { getStaticArticle, type StaticArticle } from "@/lib/staticArticles";
 
+const SITE_ORIGIN = "https://my-tools-matrix-production.up.railway.app";
+
 const CATEGORY_LABELS: Record<string, string> = {
   finance: "財經投資",
   health: "健康生活",
@@ -86,6 +88,38 @@ export function StaticArticleView({ article }: { article: StaticArticle }) {
     (article.toolPath ? getToolByPath(article.toolPath) : undefined) ||
     (article.toolId ? getToolById(article.toolId) : undefined);
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.description || article.title,
+    keywords: article.keywords,
+    datePublished: article.publishedAt,
+    dateModified: article.publishedAt,
+    author: {
+      "@type": "Organization",
+      name: "Formula Universe",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Formula Universe",
+      url: SITE_ORIGIN,
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${SITE_ORIGIN}${article.path}`,
+    },
+    ...(article.toolPath || article.toolId
+      ? {
+          about: {
+            "@type": "SoftwareApplication",
+            name: article.toolId || linkedTool?.id || linkedTool?.name || "Formula Universe tool",
+            url: `${SITE_ORIGIN}${article.toolPath || linkedTool?.path || ""}`,
+          },
+        }
+      : {}),
+  };
+
   // Split the markdown body into two halves at a paragraph boundary so we can
   // place a mid-article ad (#14) naturally between sections.
   const paras = article.content.split(/\n\n+/);
@@ -95,6 +129,10 @@ export function StaticArticleView({ article }: { article: StaticArticle }) {
 
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <article className="fu-typo container py-12 md:py-16 max-w-3xl">
         <Button asChild variant="ghost" size="sm" className="mb-6 gap-2 -ml-3">
           <Link href="/blog">

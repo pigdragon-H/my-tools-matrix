@@ -170,38 +170,4 @@ A 只多投入了 60 萬本金，最終資產卻多出 **700 萬元以上**。�
 
 *本文僅供教育目的，不構成任何投資建議。投資有風險，入市需謹慎。過去的報酬不代表未來的績效。*
 
-<div style="text-align: center; margin: 2rem 0;">
-
-**[→ 立即使用 ROI 計算機（/tools/finance/roi-calculator）]**
-
-</div>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "定期定額 ROI 計算機｜免費試算你的投資報酬率",
-  "description": "深入解析定期定額投資策略，教你用 ROI 計算機精準預測投資成果，從零開始建立穩健的被動收入來源。",
-  "keywords": "定期定額, ROI計算機, 投資報酬率計算, 複利投資, 財富自由, 定期定額試算, 投資計算機, 定期定額試算表, 每月投資多少",
-  "datePublished": "2026-05-17",
-  "dateModified": "2026-05-17",
-  "author": {
-    "@type": "Organization",
-    "name": "Formula Universe"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Formula Universe",
-    "url": "https://my-tools-matrix-production.up.railway.app"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://my-tools-matrix-production.up.railway.app/articles/finance/roi-calculator-guide"
-  },
-  "about": {
-    "@type": "SoftwareApplication",
-    "name": "roi-calculator",
-    "url": "https://my-tools-matrix-production.up.railway.app/tools/finance/roi-calculator"
-  }
-}
-</script>
+**[→ 立即使用 ROI 計算機（/tools/finance/roi-calculator）](/tools/finance/roi-calculator)**

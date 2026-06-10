@@ -140,47 +140,6 @@ BMW 和 Benz 的原廠認證中古車計畫，提供延伸保固和嚴格的車�
 3. 根據品牌選擇對應的保值率
 4. 比較不同車款的 5 年殘值差異
 5. 計算年均折舊成本，加入你的月度預算
-
-<div style="text-align: center; margin: 2rem 0;">
-
-**[→ 立即使用中古車折舊估算工具比較日系 vs 德系](/tools/finance/car-depreciation)**
-
-</div>
-
 輸入你正在考慮的兩款車，系統將同時生成兩張殘值階梯表，讓你一眼看清 5 年內的折舊差距。做出最聰明的購車決策，從數字開始！
 
-<div style="text-align: center; margin: 2rem 0;">
-
-**[→ 立即使用 中古車折舊計算機（/tools/finance/car-depreciation-calculator）]**
-
-</div>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "日系 vs 德系中古車折舊率大比較：買哪個品牌最保值？",
-  "description": "日系 vs 德系中古車折舊率大比較，從 Toyota 保值率到 BMW 折舊，幫你選出最保值的品牌。",
-  "keywords": " 日系德系中古車比較、Toyota 保值率、BMW 折舊、中古車品牌選擇、台灣最保值汽車",
-  "datePublished": "2026-05-17",
-  "dateModified": "2026-05-17",
-  "author": {
-    "@type": "Organization",
-    "name": "Formula Universe"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Formula Universe",
-    "url": "https://my-tools-matrix-production.up.railway.app"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://my-tools-matrix-production.up.railway.app/articles/finance/japan-vs-german-car-depreciation"
-  },
-  "about": {
-    "@type": "SoftwareApplication",
-    "name": "car-depreciation-calculator",
-    "url": "https://my-tools-matrix-production.up.railway.app/tools/finance/car-depreciation-calculator"
-  }
-}
-</script>
+**[→ 立即使用 中古車折舊計算機（/tools/finance/car-depreciation-calculator）](/tools/finance/car-depreciation-calculator)**
