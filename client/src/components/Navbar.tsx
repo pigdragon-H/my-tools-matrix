@@ -21,6 +21,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { useLocation } from "wouter";
 import { categories } from "@shared/categoriesConfig";
 import { getPublicTools } from "@shared/toolsConfig";
+import { STATIC_ARTICLES } from "@/lib/staticArticles";
 import { navLanes } from "@shared/laneRegistry";
 import { navCategories } from "@/lib/laneCategories";
 import { CategoryIcon } from "./CategoryIcon";
@@ -66,11 +67,17 @@ const navbarI18n = {
   },
 }
 
-// 預先計算每個分類的工具數量（動態，新增工具自動更新）
+// 預先計算每個工具分類的工具數量（動態，新增工具自動更新）
 const toolCountByCategory: Record<string, number> = {};
 const publicTools = getPublicTools();
 for (const tool of publicTools) {
   toolCountByCategory[tool.category] = (toolCountByCategory[tool.category] ?? 0) + 1;
+}
+
+// 預先計算工具知識庫每個分類的文章數量（動態，新增 Markdown 文章自動更新）
+const articleCountByCategory: Record<string, number> = {};
+for (const article of STATIC_ARTICLES) {
+  articleCountByCategory[article.category] = (articleCountByCategory[article.category] ?? 0) + 1;
 }
 
 
@@ -176,7 +183,7 @@ function BlogToolCategoryDropdown({
         <DropdownMenuSeparator />
         <div className="grid grid-cols-2 gap-0.5">
           {categories.map((cat, idx) => {
-            const count = toolCountByCategory[cat.key] ?? 0;
+            const count = articleCountByCategory[cat.key] ?? 0;
             const seq = String(idx + 1).padStart(2, "0");
             const catName = lang === "zh" ? cat.name : cat.nameEn;
             return (
@@ -508,7 +515,7 @@ export function Navbar() {
                 </Link>
                 <div className="grid grid-cols-2 gap-1 pl-8 pr-2 pb-1">
                   {categories.map((cat, idx) => {
-                    const count = toolCountByCategory[cat.key] ?? 0;
+                    const count = articleCountByCategory[cat.key] ?? 0;
                     const seq = String(idx + 1).padStart(2, "0");
                     const catName = lang === "zh" ? cat.name : cat.nameEn;
                     return (
