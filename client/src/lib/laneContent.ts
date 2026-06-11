@@ -1,3 +1,4 @@
+/* === SAFE ZONE START === */
 // ============================================================
 // LANE CONTENT LOADER — 三賽道靜態 Markdown 載入器
 // ============================================================
@@ -253,3 +254,4 @@ export function contentByLane(laneId: string): LoadedContent[] {
       return [];
   }
 }
+/* === SAFE ZONE END === */

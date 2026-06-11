@@ -1,3 +1,4 @@
+/* === SAFE ZONE START === */
 
 // toolsConfig.ts - 工具矩陣設定大腦
 // 每個工具必須含 category（對應 categoriesConfig key）
@@ -5560,3 +5561,4 @@ export const iqTestCalculator = { id: "iq-test-calculator", category: "education
 export const astrologyCalculatorEdu = { id: "astrology-calculator-edu", category: "education", name: "Astrology Calculator", path: "/tools/education/astrology-calculator-edu" };
 export const cpmCalculator = { id: "cpm-calculator", category: "ecommerce", name: "CPM Calculator", path: "/tools/ecommerce/cpm-calculator" };
 export const cpcCalculator = { id: "cpc-calculator", category: "finance", name: "CPC Calculator", path: "/tools/finance/cpc-calculator" };
+/* === SAFE ZONE END === */

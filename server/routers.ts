@@ -1,3 +1,4 @@
+/* === SAFE ZONE START === */
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { adminRouter } from "./routers/admin";
 import { settingsRouter } from "./routers/settings";
@@ -17,3 +18,4 @@ export const appRouter = router({
 });
 
 export type AppRouter = typeof appRouter;
+/* === SAFE ZONE END === */

@@ -1,3 +1,4 @@
+/* === SAFE ZONE START === */
 import { Router, Route, Switch } from "wouter";
 import Home from "./pages/Home";
 import BlogList from "./pages/BlogList";
@@ -118,3 +119,4 @@ export default function App() {
     </ThemeProvider>
   );
 }
+/* === SAFE ZONE END === */

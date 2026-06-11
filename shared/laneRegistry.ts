@@ -1,3 +1,4 @@
+/* === SAFE ZONE START === */
 // ============================================================
 // LANE REGISTRY — Formula Universe 賽道註冊表（單一事實來源）
 // ============================================================
@@ -104,3 +105,4 @@ export const liveLanes = (): Lane[] =>
 /** 導航列要顯示的賽道（live + navInclude）。 */
 export const navLanes = (): Lane[] =>
   liveLanes().filter((l) => l.navInclude);
+/* === SAFE ZONE END === */

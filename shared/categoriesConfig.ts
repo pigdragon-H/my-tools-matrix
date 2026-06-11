@@ -1,3 +1,4 @@
+/* === SAFE ZONE START === */
 // ============================================================
 // categoriesConfig.ts - 工具矩陣分類系統
 // 12 個頂層分類，每個分類對應一個 /tools/[category] 路由
@@ -133,3 +134,4 @@ export function getCategoryByKey(key: string): Category | undefined {
 }
 
 export const categoryKeys = categories.map((c) => c.key);
+/* === SAFE ZONE END === */

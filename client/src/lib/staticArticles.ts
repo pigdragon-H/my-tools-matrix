@@ -1,3 +1,4 @@
+/* === SAFE ZONE START === */
 // ============================================================
 // Static Markdown article loader.
 // Loads all .md files from shared/articles/**, parses frontmatter,
@@ -119,3 +120,4 @@ export function getStaticArticle(
 export function getArticlesByCategory(category: string): StaticArticle[] {
   return STATIC_ARTICLES.filter((a) => a.category === category);
 }
+/* === SAFE ZONE END === */

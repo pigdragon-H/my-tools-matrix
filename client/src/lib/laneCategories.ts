@@ -1,3 +1,4 @@
+/* === SAFE ZONE START === */
 // ============================================================
 // laneCategories.ts — 賽道分類顯示對照 + 分組/序號工具（階段 A）
 // ============================================================
@@ -262,3 +263,4 @@ export function navCategories(laneId: string): NavCategory[] {
 
   return list;
 }
+/* === SAFE ZONE END === */
