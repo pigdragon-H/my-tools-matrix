@@ -72,7 +72,7 @@ export default function CategoryPage() {
             </div>
             <div>
               <h1 className="text-2xl font-bold md:text-3xl">{catInfo.name}</h1>
-              <p className="text-muted-foreground mt-1">{catInfo.description}</p>
+              <p className="mt-2 text-base leading-[1.7] text-muted-foreground md:text-lg">{catInfo.description}</p>
             </div>
           </div>
         </div>
