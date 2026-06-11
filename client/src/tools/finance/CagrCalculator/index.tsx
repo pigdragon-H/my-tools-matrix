@@ -527,8 +527,8 @@ export default function CagrCalculator() {
           </div>
         </section>
 
-        {/* L14-Knowledge-FAQ · Knowledge + FAQ 並排 · lg:grid-cols-[1fr_0.9fr] */}
-        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L14-Knowledge-FAQ · L12-Knowledge · L13-FAQ */}
+        {/* L14 · Knowledge + FAQ 並排 · lg:grid-cols-[1fr_0.9fr] */}
+        <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">{/* L12-Knowledge · L13-FAQ */}
           <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-700">{t.knowledge}</p>
             <h2 className="mt-2 text-3xl font-black">{t.knowledgeTitle}</h2>
@@ -575,7 +575,7 @@ export default function CagrCalculator() {
 
 
         <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7">
-          {/* L17-TrustRelatedReferences */}<p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-700">{t.trustReferences}</p>
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-700">{t.trustReferences}</p>
           <div className="mt-4 grid gap-5 md:grid-cols-3">
             <div><h2 className="text-xl font-black">{t.trust}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.trustText}</p></div>
             <div><h2 className="text-xl font-black">{t.relatedTools}</h2><p className="mt-2 text-sm leading-6 text-slate-700">{t.relatedToolsText}</p></div>
