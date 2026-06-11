@@ -50,66 +50,19 @@ async function fetchText(url) {
   return await r.text();
 }
 
-const escapeRe = (v) => v.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
-const unicodeEscaped = (v) => v.replace(/[\s\S]/g, (ch) => {
-  const code = ch.charCodeAt(0);
-  return code > 127 ? `\\u${code.toString(16).toUpperCase().padStart(4, "0")}` : ch;
-});
-
-// 從 main bundle 或 category loader 解析該 tool 的 lazy 元件 chunk 檔名。
-// 支援兩種格式：
-//   1) 舊版 main bundle 直接含 "<cat>/<tool-id>": lazy(() => import("./chunks/Foo.js"))
-//   2) low-memory build: main bundle 先載入 "<cat>": import("./chunks/AiToolLoader.js")，
-//      再由 category loader chunk 解析 "<cat>/<tool-id>": import("./Foo.js")。
-function findDirectComponentChunk(js, toolKey) {
-  const re = new RegExp(`"${escapeRe(toolKey)}"\\s*:\\s*[^\n]*?import\\(\\s*"\\.\\/((?:chunks\\/)?[A-Za-z0-9_-]+\\.js)"`);
-  const m = js.match(re);
-  return m ? m[1] : null;
-}
-
-function findCategory(mainJs, toolId) {
-  const idRe = escapeRe(toolId);
-  const byPath = mainJs.match(new RegExp(`path:\\s*"/tools/([A-Za-z0-9_-]+)/${idRe}"`));
-  if (byPath) return byPath[1];
-  const byId = mainJs.match(new RegExp(`id:\\s*"${idRe}"[\\s\\S]{0,700}?category:\\s*"([A-Za-z0-9_-]+)"`));
-  if (byId) return byId[1];
-  return null;
-}
-
-function findCategoryLoaderChunk(mainJs, category) {
-  const re = new RegExp(`"${escapeRe(category)}"\\s*:\\s*[^\n]*?import\\(\\s*"\\.\\/((?:chunks\\/)?[A-Za-z0-9_-]+\\.js)"`);
+// 從 main bundle 解析該 tool 的 lazy 元件 chunk 檔名。
+// 樣式範例： "health/workout-plan-calculator":S.lazy(()=>te(()=>import("./index-XXXX.js"), ...
+function findComponentChunk(mainJs, toolId) {
+  // 比對 "<cat>/<tool-id>":...import("./index-XXXX.js")
+  const re = new RegExp(`[A-Za-z0-9_-]+\\/${toolId.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")}"\\s*:\\s*[^,]*?import\\(\\s*"\\.\\/(index-[A-Za-z0-9_-]+\\.js)"`);
   const m = mainJs.match(re);
   return m ? m[1] : null;
-}
-
-async function findComponentChunk(mainJs, toolId) {
-  const category = findCategory(mainJs, toolId);
-  const keys = category ? [`${category}/${toolId}`, toolId] : [toolId];
-
-  for (const key of keys) {
-    const direct = findDirectComponentChunk(mainJs, key);
-    if (direct) return { chunk: direct, via: "main", category };
-  }
-
-  if (!category) return null;
-  const loaderChunk = findCategoryLoaderChunk(mainJs, category);
-  if (!loaderChunk) return null;
-
-  let loaderJs;
-  try { loaderJs = await fetchText(`${BASE}/assets/${loaderChunk}`); }
-  catch (e) { console.log(`${YEL}  · 下載 category loader 失敗 ${loaderChunk}: ${e.message}${RST}`); return null; }
-
-  const toolKey = `${category}/${toolId}`;
-  const component = findDirectComponentChunk(loaderJs, toolKey);
-  if (!component) return null;
-  const normalized = component.startsWith("chunks/") ? component : `chunks/${component}`;
-  return { chunk: normalized, via: loaderChunk, category };
 }
 
 async function checkOnce() {
   // ① 抓首頁，解析 main bundle 檔名
   const html = await fetchText(`${BASE}/?_t=${Date.now()}`);
-  const bundles = [...html.matchAll(/assets\/(index(?:-[A-Za-z0-9_-]+)?\.js)/g)].map((m) => m[1]);
+  const bundles = [...html.matchAll(/assets\/(index-[A-Za-z0-9_-]+\.js)/g)].map((m) => m[1]);
   if (bundles.length === 0) {
     console.log(`${YEL}  · 首頁未找到 bundle 檔名(可能還在 build)${RST}`);
     return false;
@@ -145,22 +98,20 @@ async function checkOnce() {
     return true;
   }
 
-  // ② 解析實際元件 chunk
-  const resolved = await findComponentChunk(mainJs, id);
-  if (!resolved) {
-    console.log(`${YEL}  · 無法從 main bundle/category loader 解析 "${id}" 的 lazy 元件 chunk 檔名${RST}`);
+  // ③ 解析實際元件 chunk
+  const chunk = findComponentChunk(mainJs, id);
+  if (!chunk) {
+    console.log(`${YEL}  · 無法從 main bundle 解析 "${id}" 的 lazy 元件 chunk 檔名${RST}`);
     return false;
   }
-  const { chunk, via, category } = resolved;
-  console.log(`${DIM}  · 元件 chunk = ${chunk}${category ? ` · category=${category}` : ""} · via=${via}${RST}`);
+  console.log(`${DIM}  · 元件 chunk = ${chunk}${RST}`);
 
-  // ③ 下載元件 chunk，驗證 marker
+  // ④ 下載元件 chunk，驗證 marker
   let chunkJs;
   try { chunkJs = await fetchText(`${BASE}/assets/${chunk}`); }
   catch (e) { console.log(`${YEL}  · 下載元件 chunk 失敗: ${e.message}${RST}`); return false; }
 
-  const escapedMarker = unicodeEscaped(MARKER);
-  if (chunkJs.includes(MARKER) || (escapedMarker !== MARKER && chunkJs.includes(escapedMarker))) {
+  if (chunkJs.includes(MARKER)) {
     console.log(`${GREEN}  ✓ 元件 chunk ${chunk} 含內容指紋「${MARKER}」→ 真實部署確認${RST}`);
     return true;
   }
