@@ -90,7 +90,7 @@ await esbuild({
   splitting: true,
   format: "esm",
   outdir: assetsDir,
-  entryNames: "index-[hash]",
+  entryNames: "index",
   chunkNames: "chunks/[name]-[hash]",
   assetNames: "assets/[name]-[hash]",
   platform: "browser",
@@ -144,12 +144,9 @@ await esbuild({
   ],
 });
 
-const entryFile = readdirSync(assetsDir).find((file) => /^index-[A-Z0-9]+\.js$/i.test(file));
-if (!entryFile) throw new Error("low-memory client build did not emit a hashed index entry");
-
 const html = readFileSync(join(root, "client/index.html"), "utf8")
-  .replace(/<script[^>]+src="\/src\/main\.tsx"[^>]*><\/script>/, `<link rel="stylesheet" href="/assets/index.css">\n    <script type="module" src="/assets/${entryFile}"></script>`)
-  .replace(/<script[^>]+src="\/assets\/index(?:-[A-Za-z0-9_-]+)?\.js"[^>]*><\/script>/, `<script type="module" src="/assets/${entryFile}"></script>`);
+  .replace(/<script[^>]+src="\/src\/main\.tsx"[^>]*><\/script>/, '<link rel="stylesheet" href="/assets/index.css">\n    <script type="module" src="/assets/index.js"></script>')
+  .replace(/<script[^>]+src="\/assets\/index\.js"[^>]*><\/script>/, '<script type="module" src="/assets/index.js"></script>');
 writeFileSync(join(outDir, "index.html"), html);
 
 console.log(`✓ low-memory client build complete: ${outDir}`);
