@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { build as esbuild } from "esbuild";
@@ -60,6 +61,10 @@ function viteEnvDefineValue(name) {
   return value === undefined ? "undefined" : JSON.stringify(value);
 }
 
+function contentHash(contents) {
+  return createHash("sha256").update(contents).digest("hex").slice(0, 8);
+}
+
 rmSync(outDir, { recursive: true, force: true });
 mkdirSync(assetsDir, { recursive: true });
 
@@ -78,7 +83,8 @@ const css = compiler.build([
   join(root, "shared/**/*.{ts,tsx,js,jsx}"),
 ]);
 const optimizedCss = optimize(css, { minify: false }).code;
-writeFileSync(join(assetsDir, "index.css"), optimizedCss);
+const cssFileName = `index-${contentHash(optimizedCss)}.css`;
+writeFileSync(join(assetsDir, cssFileName), optimizedCss);
 
 await esbuild({
   entryPoints: [join(root, "client/src/main.tsx")],
@@ -86,7 +92,7 @@ await esbuild({
   splitting: true,
   format: "esm",
   outdir: assetsDir,
-  entryNames: "index",
+  entryNames: "index-[hash]",
   chunkNames: "chunks/[name]-[hash]",
   assetNames: "assets/[name]-[hash]",
   platform: "browser",
@@ -141,9 +147,17 @@ await esbuild({
   ],
 });
 
+const entryFileName = readdirSync(assetsDir).find((fileName) => /^index-[A-Za-z0-9_-]+\.js$/.test(fileName));
+if (!entryFileName) {
+  throw new Error("Unable to locate hashed client entry in build output");
+}
+
 const html = readFileSync(join(root, "client/index.html"), "utf8")
-  .replace(/<script[^>]+src="\/src\/main\.tsx"[^>]*><\/script>/, '<link rel="stylesheet" href="/assets/index.css">\n    <script type="module" src="/assets/index.js"></script>')
-  .replace(/<script[^>]+src="\/assets\/index\.js"[^>]*><\/script>/, '<script type="module" src="/assets/index.js"></script>');
+  .replace(
+    /<script[^>]+src="\/src\/main\.tsx"[^>]*><\/script>/,
+    `<link rel="stylesheet" href="/assets/${cssFileName}">\n    <script type="module" src="/assets/${entryFileName}"></script>`
+  )
+  .replace(/<script[^>]+src="\/assets\/index(?:-[A-Za-z0-9_-]+)?\.js"[^>]*><\/script>/, `<script type="module" src="/assets/${entryFileName}"></script>`);
 writeFileSync(join(outDir, "index.html"), html);
 
 console.log(`✓ low-memory client build complete: ${outDir}`);
