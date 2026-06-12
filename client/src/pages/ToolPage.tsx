@@ -412,6 +412,7 @@ function ToolCrawlerStaticBlock({
   const premiumText = toolConfig.isPremium
     ? "此工具包含 Premium 功能或進階內容入口，基礎摘要與主要說明仍保留為可讀文字。"
     : "此工具目前可免費使用；頁面仍保留 Premium 升級與延伸內容的靜態說明位置。";
+  const isMeetingCostFirstSample = toolConfig.path === "/tools/finance/meeting-cost-calculator";
 
   return (
     <section
@@ -419,8 +420,8 @@ function ToolCrawlerStaticBlock({
       className="border-b border-border bg-background/95"
       data-crawler-static="tool-summary"
     >
-      <div className="container py-5 text-sm leading-7 text-muted-foreground">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+      <div className={isMeetingCostFirstSample ? "container py-5 text-base leading-[1.6] text-muted-foreground md:text-[16px]" : "container py-5 text-sm leading-7 text-muted-foreground"}>
+        <p className={isMeetingCostFirstSample ? "font-semibold uppercase tracking-[0.2em] text-primary" : "text-xs font-semibold uppercase tracking-[0.2em] text-primary"}>
           Static tool summary
         </p>
         <h2 className="mt-2 text-xl font-bold text-foreground">
@@ -436,7 +437,7 @@ function ToolCrawlerStaticBlock({
         <p className="mt-2">
           {adPolicyText} 本頁可能包含站內推薦或聯盟連結；若透過部分連結購買，我們可能獲得佣金。{premiumText}
         </p>
-        <p className="mt-2 text-xs">
+        <p className={isMeetingCostFirstSample ? "mt-2" : "mt-2 text-xs"}>
           English summary: {toolConfig.name} is a Formula Universe tool in the {categoryLabel} category.
           It includes static, crawler-readable context for the tool purpose, input guidance, result interpretation, FAQ, advertising policy, affiliate disclosure, premium access notes, and trust references.
         </p>
