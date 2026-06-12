@@ -34,6 +34,7 @@ function isGoldenSummaryTypographyEnabled(toolPath: string) {
 // ============================================================
 const LEGACY_TOOL_REDIRECTS: Record<string, string> = {
   // dev → developer
+  "developer/json": "/tools/developer/json-formatter",
   "dev/json-formatter": "/tools/developer/json-formatter",
   // tax → finance
   "tax/estate-tax-calculator": "/tools/finance/estate-tax-calculator",
