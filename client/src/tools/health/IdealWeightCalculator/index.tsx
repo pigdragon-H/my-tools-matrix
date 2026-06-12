@@ -531,7 +531,7 @@ export default function IdealWeightCalculator() {
               <p className="text-sm font-black uppercase tracking-[0.24em] text-emerald-700">
                 {t.badge}
               </p>
-              <h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">
+              <h1 className="max-w-3xl font-black tracking-tight text-slate-950 [font-size:clamp(1.75rem,4vw,2.5rem)] [line-height:1.2]">
                 {t.title}
               </h1>
               <p className="text-xl font-black text-emerald-700">

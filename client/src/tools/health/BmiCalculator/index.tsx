@@ -427,7 +427,7 @@ export default function BmiCalculator() {
           <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">{/* L1-Hero */}
             <section className="space-y-6">
               <p className="text-sm font-black uppercase tracking-[0.24em] text-blue-700">{t.badge}</p>
-              <h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{t.title}</h1>
+              <h1 className="max-w-3xl font-black tracking-tight text-slate-950 [font-size:clamp(1.75rem,4vw,2.5rem)] [line-height:1.2]">{t.title}</h1>
               <p className="text-xl font-black text-blue-700">{t.subtitle}</p>
               <p className="max-w-2xl text-lg leading-8 text-slate-700">{t.intro}</p>
               <div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950">
