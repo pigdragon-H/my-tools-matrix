@@ -36,6 +36,8 @@ const LANE_ICONS: Record<string, typeof Rocket> = {
   knowledge: Library,
 };
 
+const ADSENSE_REVIEW_HIDE_UNDERBUILT_LANE_NAV = true;
+
 const navbarI18n = {
   zh: {
     toolsCategory: "工具分類",
@@ -319,28 +321,32 @@ export function Navbar() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* 工具知識庫：分類下拉（點主軸即見內部分類） */}
+          {/* 工具知識庫：接回 /blog，曝光 33 篇文章資產 */}
           <BlogToolCategoryDropdown
             title={t.knowledge}
             lang={lang}
             location={location}
           />
 
-          {/* ── 四賽道導航（由 laneRegistry 的 navLanes() 驅動，只增不刪）：各賽道分類下拉 ── */}
-          {navLanes().map((lane) => {
-            const Icon = LANE_ICONS[lane.id] ?? Layers;
-            return (
-              <LaneNavDropdown
-                key={lane.id}
-                routeBase={lane.routeBase}
-                title={lane.title[lang]}
-                Icon={Icon}
-                laneId={lane.id}
-                lang={lang}
-                location={location}
-              />
-            );
-          })}
+          {!ADSENSE_REVIEW_HIDE_UNDERBUILT_LANE_NAV && (
+            <>
+              {/* ── 四賽道導航（由 laneRegistry 的 navLanes() 驅動，只增不刪）：各賽道分類下拉 ── */}
+              {navLanes().map((lane) => {
+                const Icon = LANE_ICONS[lane.id] ?? Layers;
+                return (
+                  <LaneNavDropdown
+                    key={lane.id}
+                    routeBase={lane.routeBase}
+                    title={lane.title[lang]}
+                    Icon={Icon}
+                    laneId={lane.id}
+                    lang={lang}
+                    location={location}
+                  />
+                );
+              })}
+            </>
+          )}
 
           <Link href="/about">
             <Button
@@ -505,81 +511,85 @@ export function Navbar() {
             </div>
 
             <div className="border-t border-border pt-3 mt-3 space-y-3">
-              {/* 工具知識庫 + 內部分類 */}
+              {/* 工具知識庫 + 內部分類：接回 /blog，曝光文章資產 */}
               <div>
-                <Link href="/blog" onClick={() => setMobileOpen(false)}>
-                  <div className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-accent cursor-pointer">
-                    <BookOpen className="h-4 w-4" />
-                    <span className="text-sm font-medium">{t.knowledge}</span>
-                  </div>
-                </Link>
-                <div className="grid grid-cols-2 gap-1 pl-8 pr-2 pb-1">
-                  {categories.map((cat, idx) => {
-                    const count = articleCountByCategory[cat.key] ?? 0;
-                    const seq = String(idx + 1).padStart(2, "0");
-                    const catName = lang === "zh" ? cat.name : cat.nameEn;
-                    return (
-                      <Link
-                        key={cat.key}
-                        href={`/blog?cat=${cat.key}`}
-                        onClick={() => setMobileOpen(false)}
-                      >
-                        <div className={cn(
-                          "flex items-center gap-1.5 rounded-md px-2 py-2 hover:bg-accent cursor-pointer",
-                          count === 0 && "opacity-50"
-                        )}>
-                          <div className={cn("rounded p-1 shrink-0", cat.bgColor)}>
-                            <CategoryIcon iconName={cat.icon} className={cn("h-3.5 w-3.5", cat.color)} />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="text-xs font-medium leading-tight">
-                              <span className="text-muted-foreground mr-0.5">{seq}.</span>
-                              {catName}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              {lang === "zh" ? cat.nameEn : cat.name}
-                              {" "}
-                              <span className={cn(
-                                "font-medium",
-                                count > 0 ? "text-primary" : ""
-                              )}>({count})</span>
-                            </p>
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* ── 四賽道（行動版，navLanes() 驅動）+ 各自內部分類 ── */}
-              {navLanes().map((lane) => {
-                const Icon = LANE_ICONS[lane.id] ?? Layers;
-                return (
-                  <div key={lane.id}>
-                    <Link href={lane.routeBase} onClick={() => setMobileOpen(false)}>
+                    <Link href="/blog" onClick={() => setMobileOpen(false)}>
                       <div className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-accent cursor-pointer">
-                        <Icon className="h-4 w-4" />
-                        <span className="text-sm font-medium">{lane.title[lang]}</span>
+                        <BookOpen className="h-4 w-4" />
+                        <span className="text-sm font-medium">{t.knowledge}</span>
                       </div>
                     </Link>
-                    <div className="flex flex-wrap gap-1 pl-8 pr-2 pb-1">
-                      {navCategories(lane.id).map((cat) => (
-                        <Link
-                          key={cat.key}
-                          href={`${lane.routeBase}?cat=${cat.key}`}
-                          onClick={() => setMobileOpen(false)}
-                        >
-                          <span className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-xs hover:bg-accent cursor-pointer">
-                            <span>{cat.label.emoji}</span>
-                            {lang === "zh" ? cat.label.zh : cat.label.en}
-                          </span>
-                        </Link>
-                      ))}
+                    <div className="grid grid-cols-2 gap-1 pl-8 pr-2 pb-1">
+                      {categories.map((cat, idx) => {
+                        const count = articleCountByCategory[cat.key] ?? 0;
+                        const seq = String(idx + 1).padStart(2, "0");
+                        const catName = lang === "zh" ? cat.name : cat.nameEn;
+                        return (
+                          <Link
+                            key={cat.key}
+                            href={`/blog?cat=${cat.key}`}
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            <div className={cn(
+                              "flex items-center gap-1.5 rounded-md px-2 py-2 hover:bg-accent cursor-pointer",
+                              count === 0 && "opacity-50"
+                            )}>
+                              <div className={cn("rounded p-1 shrink-0", cat.bgColor)}>
+                                <CategoryIcon iconName={cat.icon} className={cn("h-3.5 w-3.5", cat.color)} />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-xs font-medium leading-tight">
+                                  <span className="text-muted-foreground mr-0.5">{seq}.</span>
+                                  {catName}
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  {lang === "zh" ? cat.nameEn : cat.name}
+                                  {" "}
+                                  <span className={cn(
+                                    "font-medium",
+                                    count > 0 ? "text-primary" : ""
+                                  )}>({count})</span>
+                                </p>
+                              </div>
+                            </div>
+                          </Link>
+                        );
+                      })}
                     </div>
-                  </div>
-                );
-              })}
+              </div>
+
+              {!ADSENSE_REVIEW_HIDE_UNDERBUILT_LANE_NAV && (
+                <>
+                  {/* ── 四賽道（行動版，navLanes() 驅動）+ 各自內部分類 ── */}
+                  {navLanes().map((lane) => {
+                    const Icon = LANE_ICONS[lane.id] ?? Layers;
+                    return (
+                      <div key={lane.id}>
+                        <Link href={lane.routeBase} onClick={() => setMobileOpen(false)}>
+                          <div className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-accent cursor-pointer">
+                            <Icon className="h-4 w-4" />
+                            <span className="text-sm font-medium">{lane.title[lang]}</span>
+                          </div>
+                        </Link>
+                        <div className="flex flex-wrap gap-1 pl-8 pr-2 pb-1">
+                          {navCategories(lane.id).map((cat) => (
+                            <Link
+                              key={cat.key}
+                              href={`${lane.routeBase}?cat=${cat.key}`}
+                              onClick={() => setMobileOpen(false)}
+                            >
+                              <span className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-xs hover:bg-accent cursor-pointer">
+                                <span>{cat.label.emoji}</span>
+                                {lang === "zh" ? cat.label.zh : cat.label.en}
+                              </span>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </>
+              )}
 
               {/* 關於我們：例外，維持單純連結，不加分類 */}
               <Link href="/about" onClick={() => setMobileOpen(false)}>
