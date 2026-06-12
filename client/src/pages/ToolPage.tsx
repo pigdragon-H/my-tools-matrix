@@ -11,6 +11,7 @@ import { getToolByPath } from "@shared/toolsConfig";
 import { lazy, Suspense, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { setSeoMeta } from "@/lib/seo";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const GOLDEN_SUMMARY_TYPO_SCOPE = {
   mode: "all" as "prototype" | "finance" | "all",
@@ -21,6 +22,29 @@ function isGoldenSummaryTypographyEnabled(toolPath: string) {
   if (GOLDEN_SUMMARY_TYPO_SCOPE.mode === "all") return true;
   if (GOLDEN_SUMMARY_TYPO_SCOPE.mode === "finance") return toolPath.startsWith("/tools/finance/");
   return GOLDEN_SUMMARY_TYPO_SCOPE.paths.has(toolPath);
+}
+
+type ToolConfig = NonNullable<ReturnType<typeof getToolByPath>>;
+
+function titleCaseFromSlug(value: string) {
+  return value
+    .split("-")
+    .filter(Boolean)
+    .map((word) => {
+      const upperWord = word.toUpperCase();
+      if (["AI", "API", "BMI", "BMR", "TDEE", "UTM", "CPM", "CPC", "RGB", "HSL", "JSON", "HTML", "FAQ"].includes(upperWord)) {
+        return upperWord;
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" ");
+}
+
+function getEnglishToolName(toolConfig: ToolConfig) {
+  const configuredNameEn = (toolConfig as ToolConfig & { nameEn?: string }).nameEn;
+  if (configuredNameEn && !/[\u3400-\u9fff]/.test(configuredNameEn)) return configuredNameEn;
+  const slug = toolConfig.path.split("/").filter(Boolean).at(-1) ?? toolConfig.id;
+  return titleCaseFromSlug(slug);
 }
 
 // ============================================================
@@ -444,17 +468,48 @@ function ToolCrawlerStaticBlock({
   categoryName,
   categoryNameEn,
 }: {
-  toolConfig: NonNullable<ReturnType<typeof getToolByPath>>;
+  toolConfig: ToolConfig;
   categoryName: string;
   categoryNameEn?: string;
 }) {
-  const categoryLabel = categoryNameEn ? `${categoryName} / ${categoryNameEn}` : categoryName;
-  const adPolicyText = toolConfig.showAds
-    ? "本工具頁允許在內容區顯示 Google AdSense 或等效廣告版位，並以不遮擋主要工具輸入與結果為原則。"
-    : "本工具頁目前不啟用廣告版位；若未來啟用，仍會維持主要工具內容可讀與可操作。";
-  const premiumText = toolConfig.isPremium
-    ? "此工具包含 Premium 功能或進階內容入口，基礎摘要與主要說明仍保留為可讀文字。"
-    : "此工具目前可免費使用；頁面仍保留 Premium 升級與延伸內容的靜態說明位置。";
+  const { lang } = useLanguage();
+  const categoryLabel = lang === "zh" && categoryNameEn ? `${categoryName} / ${categoryNameEn}` : categoryNameEn ?? titleCaseFromSlug(toolConfig.category);
+  const statusLabel = toolConfig.status ?? "GOLD";
+  const toolDisplayName = lang === "zh" ? toolConfig.nameZh ?? toolConfig.name : getEnglishToolName(toolConfig);
+  const summaryCopy =
+    lang === "zh"
+      ? {
+          eyebrow: "靜態工具摘要",
+          heading: `${toolDisplayName}：可被搜尋引擎讀取的工具頁摘要`,
+          description: toolConfig.description,
+          metadata: `分類：${categoryLabel}。正式路徑：${toolConfig.path}。狀態：${statusLabel}。本頁提供可直接閱讀的工具用途、輸入情境、結果解讀、FAQ、信任聲明與相關資源摘要，避免搜尋引擎只看到互動元件或空白容器。`,
+          policy: `${
+            toolConfig.showAds
+              ? "本工具頁允許在內容區顯示 Google AdSense 或等效廣告版位，並以不遮擋主要工具輸入與結果為原則。"
+              : "本工具頁目前不啟用廣告版位；若未來啟用，仍會維持主要工具內容可讀與可操作。"
+          } 本頁可能包含站內推薦或聯盟連結；若透過部分連結購買，我們可能獲得佣金。${
+            toolConfig.isPremium
+              ? "此工具包含 Premium 功能或進階內容入口，基礎摘要與主要說明仍保留為可讀文字。"
+              : "此工具目前可免費使用；頁面仍保留 Premium 升級與延伸內容的靜態說明位置。"
+          }`,
+          crawlerNote: `中文摘要：${toolDisplayName} 是 Formula Universe 收錄於 ${categoryLabel} 分類的工具頁，包含工具用途、輸入指引、結果解讀、FAQ、廣告政策、聯盟揭露、付費功能說明與信任參考。`,
+        }
+      : {
+          eyebrow: "Static tool summary",
+          heading: `${toolDisplayName}: crawler-readable tool page summary`,
+          description: `Use ${toolDisplayName} to review this ${categoryLabel} workflow with a clear, browser-readable overview before the interactive tool finishes loading. The summary is written in English only for international visitors and search crawlers.`,
+          metadata: `Category: ${categoryLabel}. Canonical path: ${toolConfig.path}. Status: ${statusLabel}. This page provides readable context for the tool purpose, input scenario, result interpretation, FAQ, trust statements, and related resources so crawlers do not see only interactive widgets or empty containers.`,
+          policy: `${
+            toolConfig.showAds
+              ? "This tool page may display Google AdSense or equivalent advertising placements in the content area, without covering the main inputs or results."
+              : "This tool page does not currently enable advertising placements; if ads are enabled later, the main tool content will remain readable and usable."
+          } This page may include internal recommendations or affiliate links; we may earn a commission from qualifying purchases made through some links. ${
+            toolConfig.isPremium
+              ? "This tool includes Premium features or advanced content entry points, while the core summary and main explanation remain readable text."
+              : "This tool is currently free to use; the page still reserves static explanatory space for Premium upgrades and extended content."
+          }`,
+          crawlerNote: `English summary: ${toolDisplayName} is a Formula Universe tool in the ${categoryLabel} category. It includes static, crawler-readable context for the tool purpose, input guidance, result interpretation, FAQ, advertising policy, affiliate disclosure, premium access notes, and trust references.`,
+        };
   const isGoldenSummaryTypography = isGoldenSummaryTypographyEnabled(toolConfig.path);
 
   return (
@@ -465,24 +520,22 @@ function ToolCrawlerStaticBlock({
     >
       <div className={isGoldenSummaryTypography ? "container py-5 text-base leading-[1.6] text-muted-foreground md:text-[16px]" : "container py-5 text-sm leading-7 text-muted-foreground"}>
         <p className={isGoldenSummaryTypography ? "font-semibold uppercase tracking-[0.2em] text-primary" : "text-xs font-semibold uppercase tracking-[0.2em] text-primary"}>
-          Static tool summary
+          {summaryCopy.eyebrow}
         </p>
         <h2 className="mt-2 text-xl font-bold text-foreground">
-          {toolConfig.name}：可被搜尋引擎讀取的工具頁摘要
+          {summaryCopy.heading}
         </h2>
         <p className="mt-2">
-          {toolConfig.description}
+          {summaryCopy.description}
         </p>
         <p className="mt-2">
-          分類：{categoryLabel}。正式路徑：{toolConfig.path}。狀態：{toolConfig.status ?? "GOLD"}。
-          本頁提供可直接閱讀的工具用途、輸入情境、結果解讀、FAQ、信任聲明與相關資源摘要，避免搜尋引擎只看到互動元件或空白容器。
+          {summaryCopy.metadata}
         </p>
         <p className="mt-2">
-          {adPolicyText} 本頁可能包含站內推薦或聯盟連結；若透過部分連結購買，我們可能獲得佣金。{premiumText}
+          {summaryCopy.policy}
         </p>
         <p className={isGoldenSummaryTypography ? "mt-2" : "mt-2 text-xs"}>
-          English summary: {toolConfig.name} is a Formula Universe tool in the {categoryLabel} category.
-          It includes static, crawler-readable context for the tool purpose, input guidance, result interpretation, FAQ, advertising policy, affiliate disclosure, premium access notes, and trust references.
+          {summaryCopy.crawlerNote}
         </p>
       </div>
     </section>
@@ -508,6 +561,7 @@ function ToolSkeleton() {
 }
 
 export default function ToolPage() {
+  const { lang } = useLanguage();
   const { category, toolName } = useParams<{ category: string; toolName: string }>();
   const toolKey = `${category}/${toolName}`;
   const toolPath = `/tools/${toolKey}`;
@@ -521,15 +575,24 @@ export default function ToolPage() {
   const catInfo = getCategoryByKey(category ?? "");
   const toolConfig = getToolByPath(toolPath);
   const ToolComponent = toolComponentMap[toolKey];
+  const breadcrumbHomeLabel = lang === "zh" ? "首頁" : "Home";
+  const breadcrumbCategoryLabel = lang === "zh" ? catInfo?.name ?? category : catInfo?.nameEn ?? titleCaseFromSlug(category ?? "");
+  const breadcrumbToolLabel = toolConfig ? (lang === "zh" ? toolConfig.nameZh ?? toolConfig.name : getEnglishToolName(toolConfig)) : titleCaseFromSlug(toolName ?? "");
 
   useEffect(() => {
     if (!toolConfig) return;
 
+    const seoToolName = lang === "zh" ? toolConfig.nameZh ?? toolConfig.name : getEnglishToolName(toolConfig);
+    const seoDescription =
+      lang === "zh"
+        ? toolConfig.description
+        : `Use ${seoToolName} on Formula Universe to review the ${breadcrumbCategoryLabel} workflow with English guidance, crawler-readable context, input notes, and result interpretation.`;
+
     setSeoMeta({
-      title: `${toolConfig.name}｜Formula Universe`,
-      description: toolConfig.description,
+      title: `${seoToolName}｜Formula Universe`,
+      description: seoDescription,
     });
-  }, [toolConfig]);
+  }, [breadcrumbCategoryLabel, lang, toolConfig]);
 
   if (!ToolComponent || !toolConfig) {
     return (
@@ -557,14 +620,14 @@ export default function ToolPage() {
         <div className="container py-3">
           <nav className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <Link href="/" className="hover:text-foreground transition-colors">
-              首頁
+              {breadcrumbHomeLabel}
             </Link>
             <span>/</span>
             <Link href={`/category/${category}`} className="hover:text-foreground transition-colors">
-              {catInfo?.name ?? category}
+              {breadcrumbCategoryLabel}
             </Link>
             <span>/</span>
-            <span className="text-foreground font-medium">{toolConfig.name}</span>
+            <span className="text-foreground font-medium">{breadcrumbToolLabel}</span>
           </nav>
         </div>
       </div>
