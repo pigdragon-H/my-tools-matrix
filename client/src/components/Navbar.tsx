@@ -36,7 +36,7 @@ const LANE_ICONS: Record<string, typeof Rocket> = {
   knowledge: Library,
 };
 
-const ADSENSE_REVIEW_HIDE_UNDERBUILT_LANE_NAV = true;
+const ADSENSE_REVIEW_HIDE_UNDERBUILT_LANE_NAV = false;
 
 const navbarI18n = {
   zh: {

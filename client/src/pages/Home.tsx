@@ -14,14 +14,12 @@ import {
   ArrowUp,
   Banknote,
   BarChart3,
-  Binary,
   BookOpen,
   Brain,
   Calculator,
   Code2,
   CreditCard,
   Dumbbell,
-  Github,
   Globe2,
   HeartPulse,
   Library,
@@ -212,21 +210,6 @@ const journeyStepStyles = [
   "border-purple-200 bg-purple-100/50 text-purple-900 dark:border-purple-800 dark:bg-purple-950/60 dark:text-purple-100",
   "border-amber-200 bg-amber-100/50 text-amber-900 dark:border-amber-800 dark:bg-amber-950/60 dark:text-amber-100",
   "border-sky-200 bg-sky-100/50 text-sky-900 dark:border-sky-800 dark:bg-sky-950/60 dark:text-sky-100",
-];
-
-const footerCategories = [
-  { label: { zh: "財經投資", en: "Finance" }, href: "/tools/finance" },
-  { label: { zh: "健康生活", en: "Health" }, href: "/tools/health" },
-  { label: { zh: "職場效率", en: "Productivity" }, href: "/tools/productivity" },
-  { label: { zh: "開發工具", en: "Developer" }, href: "/tools/developer" },
-  { label: { zh: "教育學習", en: "Education" }, href: "/tools/education" },
-  { label: { zh: "法律法規", en: "Legal" }, href: "/tools/legal" },
-  { label: { zh: "創意設計", en: "Design" }, href: "/tools/design" },
-  { label: { zh: "科學工程", en: "Science" }, href: "/tools/science" },
-  { label: { zh: "語言文字", en: "Language" }, href: "/tools/language" },
-  { label: { zh: "電商零售", en: "E-Commerce" }, href: "/tools/ecommerce" },
-  { label: { zh: "旅遊地理", en: "Travel" }, href: "/tools/travel" },
-  { label: { zh: "AI 工具", en: "AI Tools" }, href: "/tools/ai" },
 ];
 
 // Autoplay tuning: dwell ≈ 7s per slide so users have time to read,
@@ -695,34 +678,6 @@ export default function Home() {
         </button>
       )}
 
-      <footer className="border-t border-border bg-slate-950 text-slate-100">
-        <div className="container py-12 md:py-16">
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr_0.8fr]">
-            <div>
-              <div className="flex items-center gap-3"><div className="rounded-2xl bg-primary/20 p-3"><Binary className="h-6 w-6 text-primary" /></div><div><p className="text-lg font-bold">Formula Universe</p><p className="t-small text-slate-400">AI Native Knowledge Infrastructure</p></div></div>
-              <p className="mt-5 max-w-md t-body text-slate-300">{lang === "zh" ? "AI Native Knowledge Infrastructure 的首頁入口。" : "Homepage entry to the AI Native Knowledge Infrastructure."}</p>
-              <p className="mt-6 t-small text-slate-500">© {new Date().getFullYear()} PiGragon-H. All rights reserved.</p>
-            </div>
-            <div>
-              <h3 className="t-small font-semibold text-white">{lang === "zh" ? "分類連結" : "Categories"}</h3>
-              <div className="mt-5 flex flex-col gap-3 text-sm text-slate-300">
-                {footerCategories.map((item) => <Link key={item.href} href={item.href} className="transition-colors hover:text-white">{item.label[lang]}</Link>)}
-              </div>
-            </div>
-            <div>
-              <h3 className="t-small font-semibold text-white">{lang === "zh" ? "更多" : "More"}</h3>
-              <div className="mt-5 grid gap-3 text-sm text-slate-300">
-                <Link href="/blog" className="transition-colors hover:text-white">{lang === "zh" ? "工具知識庫" : "Tool Knowledge"}</Link>
-                <Link href="/about" className="transition-colors hover:text-white">{lang === "zh" ? "關於我們" : "About"}</Link>
-                <Link href="/privacy" className="transition-colors hover:text-white">{lang === "zh" ? "隱私政策" : "Privacy"}</Link>
-                <Link href="/terms" className="transition-colors hover:text-white">{lang === "zh" ? "使用條款" : "Terms"}</Link>
-                <Link href="/editorial" className="transition-colors hover:text-white">{lang === "zh" ? "編輯方針" : "Editorial"}</Link>
-                <a href="https://github.com/pigdragon-H/my-tools-matrix" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 transition-colors hover:text-white"><Github className="h-4 w-4" />GitHub</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
