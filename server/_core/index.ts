@@ -137,8 +137,14 @@ app.use(
   })
 );
 
-app.get("*", (_req, res) => {
-  res.sendFile(path.join(publicDir, "index.html"));
+app.get("*", (req, res) => {
+  // SSR prerender: serve route-specific HTML if exists
+  const routeHtml = path.join(publicDir, req.path, "index.html");
+  if (require("fs").existsSync(routeHtml)) {
+    res.sendFile(routeHtml);
+  } else {
+    res.sendFile(path.join(publicDir, "index.html"));
+  }
 });
 
 app.listen(port, "0.0.0.0", () => {
