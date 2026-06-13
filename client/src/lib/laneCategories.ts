@@ -73,6 +73,25 @@ export function getCategoryLabel(laneId: string, key: string): CategoryLabel {
   return { zh: key || "其他", en: key || "Other", emoji: "📄" };
 }
 
+export const BLOG_CATEGORY_ORDER = [
+  "finance",
+  "health",
+  "productivity",
+  "developer",
+  "education",
+  "legal",
+  "design",
+  "science",
+  "language",
+  "ecommerce",
+  "travel",
+  "ai",
+] as const;
+
+const BLOG_CATEGORY_RANK = new Map<string, number>(
+  BLOG_CATEGORY_ORDER.map((key, index) => [key, index])
+);
+
 const BLOG_LEGACY_CATEGORY_REDIRECTS: Record<string, string> = {
   "ai-business": "ai",
   "ai-automation": "ai",
@@ -222,6 +241,10 @@ export function groupByKeyAndDate<T>(
   }
 
   groups.sort((a, b) => {
+    const ar = BLOG_CATEGORY_RANK.get(a.key) ?? Number.MAX_SAFE_INTEGER;
+    const br = BLOG_CATEGORY_RANK.get(b.key) ?? Number.MAX_SAFE_INTEGER;
+    if (ar !== br) return ar - br;
+
     const ad = a.items[0] ? dateOf(a.items[0]) : "";
     const bd = b.items[0] ? dateOf(b.items[0]) : "";
     return bd.localeCompare(ad);

@@ -11,7 +11,6 @@ import { getPublicTools } from "@shared/toolsConfig";
 import { navLanes } from "@shared/laneRegistry";
 import {
   ArrowRight,
-  ArrowUp,
   Banknote,
   BarChart3,
   BookOpen,
@@ -402,22 +401,10 @@ const homepageAffiliateItems: AffiliateItem[] = [
 
 export default function Home() {
   const { lang } = useLanguage();
-  const [showBackToTop, setShowBackToTop] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     setSeoMeta(defaultSeo);
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 400);
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const sectionMotion = prefersReducedMotion ? {} : { initial: { opacity: 0, y: 18 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, amount: 0.2 }, transition: { duration: 0.45 } };
@@ -666,17 +653,6 @@ export default function Home() {
 
       {/* L17 — Trust strip (privacy / terms / editorial) */}
       <TrustStrip lang={lang} variant="default" />
-
-      {showBackToTop && (
-        <button
-          type="button"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-opacity hover:opacity-90"
-          aria-label={lang === "zh" ? "回到頂部" : "Back to top"}
-        >
-          <ArrowUp className="h-5 w-5" />
-        </button>
-      )}
 
     </div>
   );
