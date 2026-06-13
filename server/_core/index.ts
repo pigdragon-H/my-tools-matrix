@@ -2,6 +2,7 @@ import "./ws-polyfill"; // MUST be first: polyfills globalThis.WebSocket for Nod
 import "dotenv/config";
 import express from "express";
 import path from "node:path";
+import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { appRouter } from "../routers";
@@ -140,7 +141,7 @@ app.use(
 app.get("*", (req, res) => {
   // SSR prerender: serve route-specific HTML if exists
   const routeHtml = path.join(publicDir, req.path, "index.html");
-  if (require("fs").existsSync(routeHtml)) {
+  if (existsSync(routeHtml)) {
     res.sendFile(routeHtml);
   } else {
     res.sendFile(path.join(publicDir, "index.html"));
