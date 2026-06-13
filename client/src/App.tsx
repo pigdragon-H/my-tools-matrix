@@ -43,12 +43,12 @@ function AdminPage({ children }: { children: ReactNode }) {
   );
 }
 
-export default function App() {
+export default function App({ ssrPath }: { ssrPath?: string } = {}) {
   return (
     <ThemeProvider defaultTheme="light" switchable>
       <LanguageProvider>
         <TrpcProvider>
-          <Router>
+          <Router ssrPath={ssrPath}>
             <div className="min-h-screen flex flex-col bg-background text-foreground">
               <Navbar />
               <main className="flex-1">
