@@ -1,3 +1,4 @@
+import "../../server/_core/ws-polyfill";
 import { renderToString } from "react-dom/server";
 import App from "./App";
 
