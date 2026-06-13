@@ -6,7 +6,7 @@ keywords: " 中古車賣車時機、二手車殘值最高點、中古車出售�
 category: finance
 publishedAt: 2026-05-17
 toolId: car-depreciation-calculator
-toolPath: /tools/finance/car-depreciation-calculator
+toolPath: /tools/finance/car-depreciation
 ---
 
 # 中古車怎麼賣最划算？掌握殘值最高點的完整攻略
@@ -157,4 +157,4 @@ toolPath: /tools/finance/car-depreciation-calculator
 想知道你的車現在的市場殘值，以及最佳的賣車時機嗎？使用我們的免費中古車折舊估算工具，輸入你的車款資訊，系統將立即生成未來 5 年的殘值預測，幫你找到賣車的最佳時間點。
 掌握數據，才能掌握主動權。現在就試算，讓你的愛車賣出最好的價格！
 
-**[→ 立即使用 中古車折舊計算機（/tools/finance/car-depreciation-calculator）](/tools/finance/car-depreciation-calculator)**
+**[→ 立即使用 中古車折舊計算機（/tools/finance/car-depreciation）](/tools/finance/car-depreciation)**

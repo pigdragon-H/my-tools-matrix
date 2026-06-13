@@ -147,6 +147,6 @@ toolPath: /tools/legal/overtime-calculator
 ### 公司說加班費只能給本薪的 1 倍，不給 1.34 倍，因為公司沒賺錢，這樣可以嗎？
 **絕對不行。** 勞基法是保護勞工的「最低標準（底線）」，雇主與勞工私下達成的任何「低於勞基法標準」的協議，在法律上都是無效的。就算你簽了同意書說願意只領 1 倍加班費，那張紙也是廢紙，你事後一樣可以去勞工局檢舉並討回差額。
 
-**[立即計算你應得的合法加班費 →](/tools/legal/overtime-pay-calculator)**
+**[立即計算你應得的合法加班費 →](/tools/legal/overtime-calculator)**
 
 **[立即使用加班費計算機 →](/tools/legal/overtime-calculator)**

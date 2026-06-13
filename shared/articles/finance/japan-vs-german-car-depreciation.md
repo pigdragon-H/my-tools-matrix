@@ -6,7 +6,7 @@ keywords: " 日系德系中古車比較、Toyota 保值率、BMW 折舊、中古
 category: finance
 publishedAt: 2026-05-17
 toolId: car-depreciation-calculator
-toolPath: /tools/finance/car-depreciation-calculator
+toolPath: /tools/finance/car-depreciation
 ---
 
 # 日系 vs 德系中古車折舊率大比較：買哪個品牌最保值？
@@ -142,4 +142,4 @@ BMW 和 Benz 的原廠認證中古車計畫，提供延伸保固和嚴格的車�
 5. 計算年均折舊成本，加入你的月度預算
 輸入你正在考慮的兩款車，系統將同時生成兩張殘值階梯表，讓你一眼看清 5 年內的折舊差距。做出最聰明的購車決策，從數字開始！
 
-**[→ 立即使用 中古車折舊計算機（/tools/finance/car-depreciation-calculator）](/tools/finance/car-depreciation-calculator)**
+**[→ 立即使用 中古車折舊計算機（/tools/finance/car-depreciation）](/tools/finance/car-depreciation)**

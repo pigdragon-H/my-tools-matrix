@@ -6,7 +6,7 @@ keywords: " 中古車殘值評估、買中古車注意事項、中古車折舊�
 category: finance
 publishedAt: 2026-05-17
 toolId: car-depreciation-calculator
-toolPath: /tools/finance/car-depreciation-calculator
+toolPath: /tools/finance/car-depreciation
 ---
 
 # 買中古車前必做的 5 個殘值評估，避免買到「越開越虧」的車
@@ -142,4 +142,4 @@ toolPath: /tools/finance/car-depreciation-calculator
 在做出購車決定之前，花 2 分鐘用我們的免費中古車折舊估算工具，輸入你考慮購買的車款資訊，系統將立即生成未來 5 年的殘值預測表，讓你清楚知道這筆投資的真實成本。
 聰明的買車決策，從精準的數字開始。現在就試算，讓你的下一輛車成為最值得的財務決策！
 
-**[→ 立即使用 中古車折舊計算機（/tools/finance/car-depreciation-calculator）](/tools/finance/car-depreciation-calculator)**
+**[→ 立即使用 中古車折舊計算機（/tools/finance/car-depreciation）](/tools/finance/car-depreciation)**

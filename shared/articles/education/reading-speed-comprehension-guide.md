@@ -126,6 +126,6 @@ WPM = 450 / 1.5 = 300 WPM
 ### 我該多久進行一次閱讀速度測試？
 如果你正在進行速讀訓練或準備語言考試，建議每兩週進行一次測試。頻繁的測試可以幫助你追蹤進度，並在速度與理解力之間找到最佳的平衡點。記住，測試的目的是為了了解自己，而不是為了追求虛高的數字。
 
-**[立即進行閱讀速度與理解力測試 →](/tools/education/reading-speed-test)**
+**[立即進行閱讀速度與理解力測試 →](/tools/education/reading-speed-calculator)**
 
 **[立即使用閱讀速度計算器 →](/tools/education/reading-speed-calculator)**

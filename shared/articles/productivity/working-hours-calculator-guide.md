@@ -140,6 +140,6 @@ toolPath: /tools/legal/working-hours-calculator
 ### 如果我算出來的真實時薪比去便利商店打工還低，我該立刻辭職嗎？
 數字是客觀的，但決策需要考量全面。如果這份工作雖然時薪低，但能讓你學到核心技術、累積重要的人脈與作品集，那這些「無形的資產」或許能彌補目前的低薪。但如果這份工作既學不到東西，真實時薪又低於基本工資，那你確實應該立刻開始更新履歷了。
 
-**[立即計算你的真實工時與時薪 →](/tools/productivity/working-hours-calculator)**
+**[立即計算你的真實工時與時薪 →](/tools/legal/working-hours-calculator)**
 
 **[立即使用工時計算機 →](/tools/legal/working-hours-calculator)**
