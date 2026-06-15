@@ -284,6 +284,65 @@ export const getBlueprint = (slug: string) => BLUEPRINTS.find((c) => c.slug === 
 export const getOpportunity = (slug: string) => OPPORTUNITIES.find((c) => c.slug === slug);
 export const getKnowledge = (slug: string) => KNOWLEDGE.find((c) => c.slug === slug);
 
+// ── 三主軸關聯內容解析（給 RelatedContent UI 用）─────────────────────────
+/** 單一關聯卡片的最小可渲染資料（已解析路徑與雙語標題）。 */
+export interface RelatedRef {
+  laneId: "blueprints" | "opportunities" | "knowledge";
+  slug: string;
+  title: Bilingual;
+  description: Bilingual;
+  path: string;
+}
+
+/** 三軸分組的關聯內容；任一軸無資料時為空陣列。 */
+export interface RelatedGroups {
+  blueprints: RelatedRef[];
+  opportunities: RelatedRef[];
+  knowledge: RelatedRef[];
+  /** 任一軸有資料時為 true，方便 UI 判斷是否整塊隱藏。 */
+  hasAny: boolean;
+}
+
+function toRef(c: LoadedContent | undefined, laneId: RelatedRef["laneId"]): RelatedRef | undefined {
+  if (!c) return undefined;
+  return { laneId, slug: c.slug, title: c.meta.title, description: c.meta.description, path: c.path };
+}
+
+/**
+ * 依一篇內容的 meta（relatedBlueprints / relatedOpportunities / relatedKnowledge）
+ * 解析出三軸關聯卡片。會自動排除「自己」（同賽道同 slug），並過濾掉找不到的 slug。
+ * 完全向下相容：無關聯欄位的舊文章回傳 hasAny=false。
+ */
+export function resolveRelations(
+  meta: { relatedBlueprints?: string[]; relatedOpportunities?: string[]; relatedKnowledge?: string[] },
+  self?: { laneId: string; slug: string }
+): RelatedGroups {
+  const dedupeSelf = (laneId: string, slug: string) =>
+    !(self && self.laneId === laneId && self.slug === slug);
+
+  const blueprints = (meta.relatedBlueprints ?? [])
+    .filter((s) => dedupeSelf("blueprints", s))
+    .map((s) => toRef(getBlueprint(s), "blueprints"))
+    .filter((r): r is RelatedRef => r !== undefined);
+
+  const opportunities = (meta.relatedOpportunities ?? [])
+    .filter((s) => dedupeSelf("opportunities", s))
+    .map((s) => toRef(getOpportunity(s), "opportunities"))
+    .filter((r): r is RelatedRef => r !== undefined);
+
+  const knowledge = (meta.relatedKnowledge ?? [])
+    .filter((s) => dedupeSelf("knowledge", s))
+    .map((s) => toRef(getKnowledge(s), "knowledge"))
+    .filter((r): r is RelatedRef => r !== undefined);
+
+  return {
+    blueprints,
+    opportunities,
+    knowledge,
+    hasAny: blueprints.length + opportunities.length + knowledge.length > 0,
+  };
+}
+
 /** 依賽道 id 取全部內容（給 hub 頁通用）。 */
 export function contentByLane(laneId: string): LoadedContent[] {
   switch (laneId) {

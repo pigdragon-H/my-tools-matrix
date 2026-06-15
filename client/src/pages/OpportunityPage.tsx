@@ -14,7 +14,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { ArticleShell } from "@/components/ArticleShell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getOpportunity } from "@/lib/laneContent";
+import { getOpportunity, resolveRelations } from "@/lib/laneContent";
 import { filterAffiliatesByTags } from "@/lib/laneAffiliates";
 import { LaneNotFound } from "@/components/LaneNotFound";
 
@@ -73,6 +73,7 @@ export default function OpportunityPage() {
       adsEnabled={meta.adsEnabled}
       premiumGate={meta.premiumGate}
       newsletterCta={meta.newsletterCta}
+      relations={resolveRelations(meta, { laneId: "opportunities", slug })}
       headerSlot={
         <div className="flex flex-wrap gap-2 mt-4">
           <Badge variant="outline">

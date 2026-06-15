@@ -13,7 +13,7 @@ import { useRoute } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ArticleShell } from "@/components/ArticleShell";
 import { Badge } from "@/components/ui/badge";
-import { getBlueprint } from "@/lib/laneContent";
+import { getBlueprint, resolveRelations } from "@/lib/laneContent";
 import { filterAffiliatesByTags } from "@/lib/laneAffiliates";
 import { LaneNotFound } from "@/components/LaneNotFound";
 
@@ -78,6 +78,7 @@ export default function BlueprintPage() {
       premiumGate={meta.premiumGate}
       premiumGatePosition={meta.premiumGatePosition}
       newsletterCta={meta.newsletterCta}
+      relations={resolveRelations(meta, { laneId: "blueprints", slug })}
       headerSlot={
         <div className="flex flex-wrap gap-2 mt-4">
           {industryLabel && (

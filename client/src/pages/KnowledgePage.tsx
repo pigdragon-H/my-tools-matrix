@@ -13,7 +13,7 @@ import { useRoute } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ArticleShell } from "@/components/ArticleShell";
 import { Badge } from "@/components/ui/badge";
-import { getKnowledge } from "@/lib/laneContent";
+import { getKnowledge, resolveRelations } from "@/lib/laneContent";
 import { filterAffiliatesByTags } from "@/lib/laneAffiliates";
 import { LaneNotFound } from "@/components/LaneNotFound";
 
@@ -62,6 +62,7 @@ export default function KnowledgePage() {
       adsEnabled={meta.adsEnabled}
       premiumGate={meta.premiumGate}
       newsletterCta={meta.newsletterCta}
+      relations={resolveRelations(meta, { laneId: "knowledge", slug })}
       headerSlot={
         <div className="flex flex-wrap gap-2 mt-4">
           {domainLabel && <Badge variant="secondary">{domainLabel[lang]}</Badge>}

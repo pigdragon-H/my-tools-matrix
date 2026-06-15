@@ -30,6 +30,8 @@ import { AffiliateGrid, type AffiliateItem } from "@/components/business/Affilia
 import { PremiumTeaser } from "@/components/business/PremiumTeaser";
 import { NewsletterCta } from "@/components/business/NewsletterCta";
 import { TrustStrip } from "@/components/business/TrustStrip";
+import { RelatedContent } from "@/components/business/RelatedContent";
+import type { RelatedGroups } from "@/lib/laneContent";
 import { setSeoMeta } from "@/lib/seo";
 import { useReadProgress } from "@/hooks/useReadProgress";
 
@@ -71,6 +73,10 @@ export interface ArticleShellProps {
   premiumGatePosition?: "top" | "middle" | "bottom";
   /** false = 本篇隱藏 Newsletter CTA；未設定/true = 顯示。 */
   newsletterCta?: boolean;
+
+  // ── 三主軸關聯內容（跨軸導流；未給 = 整塊隱藏，向下相容）──
+  /** 已解析的三軸關聯卡片（laneContent.resolveRelations 產出）。 */
+  relations?: RelatedGroups;
 }
 
 const DEFAULT_AFFILIATES: AffiliateItem[] = [
@@ -191,6 +197,9 @@ export function ArticleShell(props: ArticleShellProps) {
       )}
 
       {props.footerExtra}
+
+      {/* 三主軸關聯內容 — 跨軸導流（無資料時自動隱藏） */}
+      {props.relations && <RelatedContent lang={lang} groups={props.relations} />}
 
       <div className="mt-10 space-y-8">
         <AffiliateGrid lang={lang} items={affiliates} />
