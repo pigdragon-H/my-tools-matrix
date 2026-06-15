@@ -56,10 +56,10 @@ export function LaneHub({ laneId }: { laneId: string }) {
     activeCat === ALL_KEY ? groups : groups.filter((g) => g.key === activeCat);
 
   return (
-    <div className="fu-typo max-w-5xl mx-auto px-4 py-10">
+    <div className="fu-typo max-w-5xl mx-auto px-5 sm:px-6 py-10">
       <header className="mb-8">
         <h1 className="t-h1">{lane.title[lang]}</h1>
-        <p className="t-lead text-muted-foreground mt-3 max-w-2xl">{lane.tagline[lang]}</p>
+        <p className="t-lead text-muted-foreground mt-4 mb-2 max-w-2xl leading-relaxed">{lane.tagline[lang]}</p>
       </header>
 
       {total === 0 ? (
@@ -80,7 +80,7 @@ export function LaneHub({ laneId }: { laneId: string }) {
             <button
               type="button"
               onClick={() => setActiveCat(ALL_KEY)}
-              className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-semibold transition ${
+              className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-semibold leading-normal transition ${
                 activeCat === ALL_KEY
                   ? "border-primary bg-primary text-primary-foreground"
                   : "border-border bg-background hover:border-primary/50"
@@ -96,7 +96,7 @@ export function LaneHub({ laneId }: { laneId: string }) {
                 key={g.key}
                 type="button"
                 onClick={() => setActiveCat(g.key)}
-                className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-semibold transition ${
+                className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-semibold leading-normal transition ${
                   activeCat === g.key
                     ? "border-primary bg-primary text-primary-foreground"
                     : "border-border bg-background hover:border-primary/50"
@@ -121,7 +121,7 @@ export function LaneHub({ laneId }: { laneId: string }) {
           <div className="space-y-12">
             {visibleGroups.map((g) => (
               <section key={g.key} aria-label={g.label[lang]}>
-                <div className="mb-4 flex items-center gap-2.5 border-b pb-2">
+                <div className="mb-5 flex items-center gap-2.5 border-b pb-3">
                   <span className="text-xl" aria-hidden>
                     {g.label.emoji}
                   </span>
@@ -138,7 +138,7 @@ export function LaneHub({ laneId }: { laneId: string }) {
                     return (
                       <Link key={item.path} href={item.path}>
                         <div
-                          className={`group relative h-full rounded-xl border p-5 transition cursor-pointer hover:border-primary hover:shadow-md ${
+                          className={`group relative h-full rounded-xl border p-6 transition cursor-pointer hover:border-primary hover:shadow-md ${
                             read ? "opacity-70" : ""
                           }`}
                         >
@@ -147,7 +147,7 @@ export function LaneHub({ laneId }: { laneId: string }) {
                             {ordinal(num)}
                           </span>
 
-                          <div className="mb-2 flex flex-wrap items-center gap-2 pr-8">
+                          <div className="mb-3 flex flex-wrap items-center gap-2 pr-8">
                             {/* ④ 已讀 ✓ 角標 */}
                             {read && (
                               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
@@ -156,12 +156,12 @@ export function LaneHub({ laneId }: { laneId: string }) {
                               </span>
                             )}
                             {item.meta.pillar && (
-                              <Badge variant="outline" className="text-xs">
+                              <Badge variant="outline" className="px-2.5 py-1 text-xs leading-normal">
                                 {item.meta.pillar}
                               </Badge>
                             )}
                             {item.meta.publishedAt && (
-                              <Badge variant="secondary" className="text-xs">
+                              <Badge variant="secondary" className="px-2.5 py-1 text-xs leading-normal">
                                 {item.meta.publishedAt}
                               </Badge>
                             )}
@@ -170,7 +170,7 @@ export function LaneHub({ laneId }: { laneId: string }) {
                           <h3 className="t-h3 leading-snug group-hover:text-primary">
                             {item.meta.title[lang]}
                           </h3>
-                          <p className="t-small text-muted-foreground mt-2 line-clamp-3">
+                          <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground line-clamp-3">
                             {item.meta.description[lang]}
                           </p>
                         </div>

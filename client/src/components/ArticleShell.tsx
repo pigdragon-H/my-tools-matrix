@@ -120,7 +120,7 @@ export function ArticleShell(props: ArticleShellProps) {
   const premiumPos = props.premiumGatePosition ?? "bottom";
 
   return (
-    <article className="fu-typo max-w-3xl mx-auto px-4 py-8">
+    <article className="fu-typo max-w-3xl mx-auto px-5 sm:px-6 py-10">
       <Link href={props.backHref}>
         <Button variant="ghost" size="sm" className="mb-4 -ml-2">
           <ArrowLeft className="w-4 h-4 mr-1" />
@@ -128,10 +128,10 @@ export function ArticleShell(props: ArticleShellProps) {
         </Button>
       </Link>
 
-      <header className="mb-6">
-        <div className="flex items-center gap-3 text-sm text-muted-foreground mb-3">
+      <header className="mb-8">
+        <div className="flex items-center gap-3 text-sm text-muted-foreground mb-4">
           {props.categoryLabel && (
-            <Badge variant="secondary" className="gap-1">
+            <Badge variant="secondary" className="gap-1 px-3 py-1 text-xs leading-normal">
               <Tag className="w-3 h-3" />
               {props.categoryLabel[lang]}
             </Badge>
@@ -144,7 +144,7 @@ export function ArticleShell(props: ArticleShellProps) {
           )}
         </div>
         <h1 className="t-h1">{props.title[lang]}</h1>
-        <p className="t-lead text-muted-foreground mt-3">{props.description[lang]}</p>
+        <p className="t-lead text-muted-foreground mt-4 mb-6 max-w-2xl leading-relaxed">{props.description[lang]}</p>
       </header>
 
       {props.headerSlot}
@@ -163,7 +163,7 @@ export function ArticleShell(props: ArticleShellProps) {
         </div>
       )}
 
-      <div className="prose prose-slate dark:prose-invert max-w-none">
+      <div className="prose prose-slate dark:prose-invert max-w-none text-base leading-relaxed">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{firstHalf}</ReactMarkdown>
       </div>
 
@@ -182,7 +182,7 @@ export function ArticleShell(props: ArticleShellProps) {
               <AdSlot slot={`${props.slotPrefix}-mid`} position="middle" variant="responsive" />
             </div>
           )}
-          <div className="prose prose-slate dark:prose-invert max-w-none">
+          <div className="prose prose-slate dark:prose-invert max-w-none text-base leading-relaxed">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{secondHalf}</ReactMarkdown>
           </div>
         </>
@@ -191,7 +191,7 @@ export function ArticleShell(props: ArticleShellProps) {
       {props.keywords && props.keywords.length > 0 && (
         <div className="flex flex-wrap gap-2 mt-8">
           {props.keywords.map((k) => (
-            <Badge key={k} variant="outline">{k}</Badge>
+            <Badge key={k} variant="outline" className="px-3 py-1 text-xs leading-normal">{k}</Badge>
           ))}
         </div>
       )}
