@@ -52,7 +52,7 @@ type JourneyCard = {
 };
 
 type ClusterCard = {
-  websiteKey: "finance" | "health" | "productivity" | "developer" | "education" | "legal" | "design" | "science" | "language" | "ecommerce" | "travel" | "ai";
+  websiteKey: "finance" | "health" | "productivity" | "developer" | "education" | "legal" | "design" | "science" | "language" | "ecommerce" | "travel" | "ai" | "converter";
   title: Record<Lang, string>;
   description: Record<Lang, string>;
   href: string;
@@ -149,7 +149,7 @@ const publicToolPaths = new Set(publicTools.map((tool) => tool.path));
 const stats: StatItem[] = [
   { value: 4, suffix: "", label: { zh: "大賽道·滿漢全席", en: "lanes · full banquet" } },
   { value: publicTools.length, suffix: "+", label: { zh: "個免費工具·開胃菜", en: "free tools · appetizers" } },
-  { value: 12, suffix: "", label: { zh: "大知識領域·招牌湯底", en: "knowledge domains" } },
+  { value: 13, suffix: "", label: { zh: "大知識領域·招牌湯底", en: "knowledge domains" } },
   { value: 0, suffix: "", label: { zh: "AI Native·永遠上菜中", en: "AI Native · always serving" }, isText: true },
 ];
 
@@ -182,6 +182,7 @@ const clusterCards: ClusterCard[] = [
   { websiteKey: "ecommerce", title: { zh: "ecommerce｜電商零售", en: "ecommerce" }, description: { zh: "定價策略、毛利試算、廣告 ROAS 與銷售決策。", en: "Pricing strategy, margin estimates, ad ROAS, and sales decisions." }, href: "/tools/ecommerce" },
   { websiteKey: "travel", title: { zh: "travel｜旅遊地理", en: "travel" }, description: { zh: "匯率換算、距離計算、預算、時區與行程規劃。", en: "Currency conversion, distance, budget, time zones, and itinerary planning." }, href: "/tools/travel" },
   { websiteKey: "ai", title: { zh: "ai｜AI 工具", en: "ai" }, description: { zh: "Prompt 工具、Token、成本、模型比較、評估與 AI 工作流。", en: "Prompt tools, tokens, cost, model comparison, evaluation, and AI workflows." }, href: "/tools/ai" },
+  { websiteKey: "converter", title: { zh: "converter｜轉換器", en: "converter" }, description: { zh: "Word 轉 PDF、文件格式轉換、編碼轉換與可搜尋向量 PDF 工作流。", en: "Word to PDF, document conversion, encoding conversion, and searchable vector PDF workflows." }, href: "/tools/converter" },
 ];
 
 const journeyCardStyles = [
