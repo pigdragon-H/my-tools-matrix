@@ -150,7 +150,7 @@ export function ArticleShell(props: ArticleShellProps) {
           )}
         </div>
         <h1 className="t-h1">{props.title[lang]}</h1>
-        <p className="t-body text-muted-foreground mt-4 mb-6 max-w-2xl">{props.description[lang]}</p>
+        <p className="t-lead text-muted-foreground mt-4 mb-6 max-w-2xl leading-relaxed">{props.description[lang]}</p>
       </header>
 
       {props.headerSlot}
