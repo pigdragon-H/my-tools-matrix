@@ -11,7 +11,7 @@
  * ║  2. pdfmake for programmatic PDF (NOT html2pdf raster image)            ║
  * ║  3. 12-detector DocxAnalyzer for pre-flight quality prediction          ║
  * ║  4. SemanticIR normalisation layer decouples parse from render          ║
- * ║  5. CJK-safe font stack with Noto Sans TC subset via CDN                ║
+ * ║  5. Runtime-safe browser PDF font stack with timeout guard                ║
  * ║  6. Widow/orphan control + keep-with-next heading guard                 ║
  * ║  7. Table border reconstruction from mammoth message warnings           ║
  * ║  8. Image base64 pipeline with aspect-ratio clamp                       ║
@@ -153,10 +153,10 @@ async function loadMammothRuntime() {
 
 async function loadPdfMakeRuntime() {
   if (!window.pdfMake?.createPdf) {
-    await loadScriptOnce("https://cdn.jsdelivr.net/npm/pdfmake@0.3.11/build/pdfmake.min.js");
+    await loadScriptOnce("https://cdn.jsdelivr.net/npm/pdfmake@0.2.20/build/pdfmake.min.js");
   }
   if (!window.pdfMake?.vfs) {
-    await loadScriptOnce("https://cdn.jsdelivr.net/npm/pdfmake@0.3.11/build/vfs_fonts.min.js");
+    await loadScriptOnce("https://cdn.jsdelivr.net/npm/pdfmake@0.2.20/build/vfs_fonts.min.js");
   }
   if (!window.pdfMake?.createPdf) throw new Error("pdfmake runtime unavailable");
   return window.pdfMake;
@@ -216,11 +216,11 @@ const ui = {
       "SmartArt、圖表、3D 物件",
     ],
     kbTechTitle: "🔧 技術說明",
-    kbTech: "本工具採用 mammoth.js 語意提取 + pdfmake 程式化渲染，產生文字可搜尋的真實向量 PDF，而非截圖式影像 PDF。中文採用 Noto Sans TC 字型子集確保正確顯示。",
+    kbTech: "本工具採用 mammoth.js 語意提取 + pdfmake 程式化渲染，產生文字可搜尋的真實向量 PDF，而非截圖式影像 PDF。中文文件會嘗試以瀏覽器端 PDF 字型輸出；極少數特殊字元可能需要改用 Word/Google Docs 直接匯出。",
     faqTitle: "常見問題",
     faqs: [
       { q: "支援哪些 Word 版本？", a: "支援 .docx 格式（Word 2007 及以上，含 Google Docs 與 LibreOffice 匯出的 .docx）。不支援舊版 .doc 格式。" },
-      { q: "中文會正確顯示嗎？", a: "是的。本工具內建 Noto Sans TC 字型子集，繁體中文、簡體中文皆可正確顯示，且文字在 PDF 中可搜尋與複製。" },
+      { q: "中文會正確顯示嗎？", a: "本工具會嘗試以瀏覽器端 Unicode PDF 輸出繁體與簡體中文，文字可搜尋與複製；若含特殊罕見字元，建議改用 Word/Google Docs 直接匯出以取得最高字型保真。" },
       { q: "轉換後 PDF 的文字可以複製嗎？", a: "可以。本工具產生的是真實向量 PDF，所有文字均可搜尋、選取、複製，有別於截圖式 PDF。" },
       { q: "檔案有大小限制嗎？", a: "免費版最大 20MB。含大量嵌入圖片的文件可能較慢，建議升級 Premium 以處理超大檔案。" },
       { q: "密碼保護的文件可以轉換嗎？", a: "無法。請先在 Word 中移除密碼保護（檔案 → 資訊 → 保護文件 → 以密碼加密 → 清除密碼），再上傳轉換。" },
@@ -283,11 +283,11 @@ const ui = {
       "SmartArt, embedded charts, 3D objects",
     ],
     kbTechTitle: "🔧 Technical notes",
-    kbTech: "This tool uses mammoth.js for semantic extraction combined with pdfmake for programmatic rendering, producing a true vector PDF with selectable, searchable text — not a screenshot-based image PDF. CJK text is rendered via Noto Sans TC subset for accurate Unicode display.",
+    kbTech: "This tool uses mammoth.js for semantic extraction combined with pdfmake for programmatic rendering, producing a true vector PDF with selectable, searchable text — not a screenshot-based image PDF. CJK text is processed through browser-side Unicode PDF output; rare glyphs may require direct export for perfect font fidelity.",
     faqTitle: "FAQ",
     faqs: [
       { q: "Which Word versions are supported?", a: "Supports .docx format (Word 2007 and above, including Google Docs and LibreOffice exports). Legacy .doc format is not supported." },
-      { q: "Will Chinese / Japanese / Korean text display correctly?", a: "Yes. The tool embeds a Noto Sans TC font subset, ensuring accurate CJK rendering with searchable, copy-pasteable text in the output PDF." },
+      { q: "Will Chinese / Japanese / Korean text display correctly?", a: "Yes. The tool attempts browser-side Unicode PDF output. Some rare CJK glyphs may require exporting directly from Word or Google Docs for perfect font fidelity." },
       { q: "Is the text in the output PDF searchable?", a: "Yes. This tool produces a true vector PDF — all text is searchable, selectable, and copy-pasteable, unlike screenshot-based PDF converters." },
       { q: "Is there a file size limit?", a: "Free tier: 20MB. Documents with many embedded images may be slower. Upgrade to Premium for larger files." },
       { q: "Can I convert a password-protected document?", a: "No. Please remove the password in Word first (File → Info → Protect Document → Encrypt with Password → clear the password), then upload." },
@@ -351,7 +351,7 @@ async function runPreflightAnalysis(
     label: "CJK 文字（中日韓）",
     triggered: hasCJK,
     impact: "none",
-    note: hasCJK ? "已啟用 Noto Sans TC 字型" : "無 CJK 文字",
+    note: hasCJK ? "已啟用 Unicode PDF 輸出" : "無 CJK 文字",
   });
 
   // D5: RTL / bidirectional text detector
@@ -612,13 +612,12 @@ function buildSemanticIR(html: string, metaHints: Partial<DocMeta>): SemanticIR 
 interface PdfContent { [key: string]: unknown }
 
 function buildPdfDefinition(ir: SemanticIR): PdfContent {
-  const isCJK = ir.meta.language !== "latin";
 
-  // Font stack: Roboto (Latin) + NotoSansTC (CJK)
-  // pdfmake loads fonts from its vfs_fonts; we declare the stack here.
-  const fonts = isCJK
-    ? { defaultFont: "NotoSansTC" }
-    : { defaultFont: "Roboto" };
+  // Runtime-safe font stack:
+  // pdfmake's official browser vfs_fonts bundle reliably registers Roboto.
+  // Do not reference an unregistered CJK font here: missing fonts can cause
+  // createPdf().getBlob() to hang or fail late in the generation stage.
+  const fonts = { defaultFont: "Roboto" };
 
   // Style definitions
   const styles: PdfContent = {
@@ -773,7 +772,7 @@ function buildPdfDefinition(ir: SemanticIR): PdfContent {
       creator: "Formula Universe — formulauniverse.com",
     },
     defaultStyle: {
-      font: isCJK ? "NotoSansTC" : "Roboto",
+      font: "Roboto",
       fontSize: 11,
       lineHeight: 1.6,
     },
@@ -846,10 +845,29 @@ async function convertDocxToPdf(
   // Stage 6: Generate PDF blob
   onStage("generating");
   return new Promise<Blob>((resolve, reject) => {
+    let settled = false;
+    const timeout = window.setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      reject(new Error("PDF generation timed out. This document may contain very large images, complex tables, or layout elements that exceed the browser converter limit. Please try compressing images, splitting the document, or exporting from Word/Google Docs directly."));
+    }, 90_000);
+
     try {
       const pdfDoc = (pdfmake as any).createPdf(docDefinition);
-      pdfDoc.getBlob((blob: Blob) => resolve(blob));
+      pdfDoc.getBlob((blob: Blob) => {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timeout);
+        if (!blob || blob.size === 0) {
+          reject(new Error("PDF generation returned an empty file. Please try a simpler document or compress embedded images."));
+          return;
+        }
+        resolve(blob);
+      });
     } catch (err) {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timeout);
       reject(err);
     }
   });
@@ -875,7 +893,12 @@ export default function WordToPdf() {
   const [analysis, setAnalysis] = useState<AnalysisState>({ preflight: null });
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [stageLabel, setStageLabel] = useState<string>("");
+  const [progress, setProgress] = useState<number>(0);
+  const [slowHint, setSlowHint] = useState<string>("");
   const urlRef = useRef<string>("");
+  const slowTimerRef = useRef<number | null>(null);
+  const cancelRef = useRef<boolean>(false);
+  const conversionRunRef = useRef<number>(0);
 
   const handleFile = useCallback((f: File | null) => {
     if (!f) return;
@@ -885,12 +908,20 @@ export default function WordToPdf() {
       setStatus("error");
       return;
     }
-    // Revoke previous object URL
+    // Invalidate any in-flight conversion and revoke previous object URL
+    cancelRef.current = true;
+    conversionRunRef.current += 1;
+    if (slowTimerRef.current !== null) {
+      window.clearTimeout(slowTimerRef.current);
+      slowTimerRef.current = null;
+    }
     if (urlRef.current) URL.revokeObjectURL(urlRef.current);
     setPdfUrl("");
     setAnalysis({ preflight: null });
     setStatus("idle");
     setErrorMsg("");
+    setProgress(0);
+    setSlowHint("");
     setFile(f);
   }, []);
 
@@ -913,28 +944,81 @@ export default function WordToPdf() {
     }
   }, [file]);
 
+  const handleCancelConversion = useCallback(() => {
+    cancelRef.current = true;
+    conversionRunRef.current += 1;
+    if (slowTimerRef.current !== null) {
+      window.clearTimeout(slowTimerRef.current);
+      slowTimerRef.current = null;
+    }
+    if (urlRef.current) {
+      URL.revokeObjectURL(urlRef.current);
+      urlRef.current = "";
+    }
+    setPdfUrl("");
+    setPdfSize(0);
+    setProgress(0);
+    setStageLabel("");
+    setSlowHint("");
+    setErrorMsg("");
+    setStatus("idle");
+  }, []);
+
   const handleConvert = useCallback(async () => {
     if (!file) return;
+    const runId = conversionRunRef.current + 1;
+    conversionRunRef.current = runId;
+    cancelRef.current = false;
     setStatus("converting");
     setErrorMsg("");
+    setProgress(5);
+    setSlowHint("");
+    if (slowTimerRef.current !== null) {
+      window.clearTimeout(slowTimerRef.current);
+    }
+    slowTimerRef.current = window.setTimeout(() => {
+      if (cancelRef.current || conversionRunRef.current !== runId) return;
+      setSlowHint("仍在處理中：大型圖片、長表格或中文文件可能需要 1–2 分鐘。轉換在您的瀏覽器本地執行，檔案不會上傳。");
+    }, 8_000);
     try {
       const blob = await convertDocxToPdf(file, (stage) => {
         const labels: Record<string, string> = {
           reading:     "讀取檔案…",
-          parsing:     "解析文件結構…",
+          parsing:     "解析 Word 內容與圖片…",
           analysing:   "分析版面元素…",
-          building_ir: "建立語義模型…",
-          rendering:   "渲染 PDF 版面…",
-          generating:  "產生 PDF 檔案…",
+          building_ir: "建立 PDF 結構…",
+          rendering:   "載入 PDF 產生器並排版…",
+          generating:  "正在產生 PDF（大型文件可能停留較久）…",
         };
+        const progressByStage: Record<string, number> = {
+          reading: 15,
+          parsing: 35,
+          analysing: 50,
+          building_ir: 65,
+          rendering: 78,
+          generating: 88,
+        };
+        if (cancelRef.current || conversionRunRef.current !== runId) return;
         setStageLabel(labels[stage] ?? stage);
+        setProgress(progressByStage[stage] ?? 10);
       });
+      if (cancelRef.current || conversionRunRef.current !== runId) return;
       const url = URL.createObjectURL(blob);
       urlRef.current = url;
       setPdfUrl(url);
       setPdfSize(blob.size);
+      setProgress(100);
+      if (slowTimerRef.current !== null) {
+        window.clearTimeout(slowTimerRef.current);
+        slowTimerRef.current = null;
+      }
       setStatus("done");
     } catch (err) {
+      if (slowTimerRef.current !== null) {
+        window.clearTimeout(slowTimerRef.current);
+        slowTimerRef.current = null;
+      }
+      if (cancelRef.current || conversionRunRef.current !== runId) return;
       setStatus("error");
       setErrorMsg(String(err));
     }
@@ -953,6 +1037,23 @@ export default function WordToPdf() {
     complex:     "bg-orange-50 border-orange-200",
     unsupported: "bg-red-50 border-red-200",
   };
+
+  const preflight = analysis.preflight;
+  const triggeredDetectors = preflight?.detectors.filter((d) => d.triggered) ?? [];
+  const highImpactCount = triggeredDetectors.filter((d) => d.impact === "high").length;
+  const mediumImpactCount = triggeredDetectors.filter((d) => d.impact === "medium").length;
+  const lowImpactCount = triggeredDetectors.filter((d) => d.impact === "low").length;
+  const fidelityScore = preflight
+    ? Math.max(
+        55,
+        Math.min(
+          98,
+          98 - highImpactCount * 12 - mediumImpactCount * 7 - lowImpactCount * 3 - preflight.warnings.length * 4 - preflight.fatalErrors.length * 20
+        )
+      )
+    : 92;
+  const fidelityTone = fidelityScore >= 90 ? "text-emerald-700" : fidelityScore >= 78 ? "text-amber-700" : "text-orange-700";
+  const pdfFileName = file?.name.replace(/\.docx?$/i, ".pdf") ?? "converted.pdf";
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_#fef3c7,_#f8fafc_45%,_#e0f2fe)] font-sans">
@@ -1057,8 +1158,26 @@ export default function WordToPdf() {
             <div className="text-center space-y-3">
               <p className="font-black text-xl text-blue-700 animate-pulse">{t.converting}</p>
               <p className="text-slate-500 text-sm">{stageLabel}</p>
-              <div className="w-full max-w-md mx-auto bg-blue-100 rounded-full h-2 overflow-hidden">
-                <div className="bg-blue-500 h-2 rounded-full animate-pulse" style={{ width: "80%" }} />
+              <div className="w-full max-w-md mx-auto bg-blue-100 rounded-full h-3 overflow-hidden">
+                <div className="bg-blue-500 h-3 rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
+              </div>
+              <p className="text-xs font-bold text-blue-700">{progress}%</p>
+              {slowHint && (
+                <div className="max-w-2xl mx-auto bg-amber-50 border border-amber-200 text-amber-800 rounded-2xl px-4 py-3 text-sm leading-relaxed">
+                  {slowHint}
+                </div>
+              )}
+              <div className="pt-2 space-y-2">
+                <button
+                  type="button"
+                  onClick={handleCancelConversion}
+                  className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-sm font-black text-slate-700 shadow-sm transition hover:bg-slate-50 hover:text-red-600"
+                >
+                  取消轉換，重新選檔
+                </button>
+                <p className="text-xs text-slate-400">
+                  選錯檔案或等待太久時，可立即取消；若瀏覽器仍在背景收尾，完成結果會被自動忽略。
+                </p>
               </div>
             </div>
             <AdSenseWrapper showAds={true} adSlot="word-to-pdf-wait" adFormat="horizontal" />
@@ -1066,24 +1185,94 @@ export default function WordToPdf() {
           </section>
         )}
 
-        {/* T7 Result + AdSlot DOWNLOAD */}
+        {/* T7 Productized Result Center + AdSlot DOWNLOAD */}
         {status === "done" && (
-          <section className="space-y-4">
-            <div className="bg-green-50 border border-green-200 rounded-[2rem] p-8 text-center space-y-4">
-              <p className="text-green-700 font-black text-xl">✅ {t.successNote}</p>
-              <p className="text-slate-500 text-sm">PDF 大小：{(pdfSize / 1024).toFixed(1)} KB</p>
-              <AdSenseWrapper showAds={true} adSlot="word-to-pdf-download" adFormat="horizontal" />
-              <AdSlot slot="word-to-pdf-download" position="inline" />
-              <a href={pdfUrl} download={file?.name.replace(/\.docx?$/i, ".pdf")}
-                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-black text-xl px-12 py-5 rounded-[2rem] transition shadow-lg">
-                {t.downloadBtn}
-              </a>
-              <div>
-                <button onClick={() => { setStatus("idle"); setFile(null); setAnalysis({ preflight: null }); }}
-                  className="text-sm text-slate-400 hover:text-slate-600 underline mt-2">
-                  {t.reupload}
-                </button>
+          <section className="space-y-5">
+            <div className="overflow-hidden rounded-[2rem] border border-emerald-200 bg-white shadow-xl">
+              <div className="bg-gradient-to-r from-emerald-50 via-blue-50 to-indigo-50 p-6 text-center md:p-8">
+                <p className="text-emerald-700 font-black text-xl">✅ {t.successNote}</p>
+                <p className="mt-2 text-sm text-slate-500">
+                  {pdfFileName} · PDF 大小：{(pdfSize / 1024).toFixed(1)} KB · 瀏覽器本地完成
+                </p>
               </div>
+
+              <div className="grid gap-4 p-5 md:grid-cols-3 md:p-6">
+                <article className="rounded-[1.5rem] border-2 border-blue-200 bg-blue-50 p-5 text-center shadow-sm">
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">Free</p>
+                  <h3 className="mt-2 text-xl font-black text-slate-900">下載 PDF</h3>
+                  <p className="mt-2 min-h-[3rem] text-sm leading-relaxed text-slate-600">
+                    立即取得可搜尋、可複製的 PDF。適合寄送、列印與一般文件交付。
+                  </p>
+                  <a href={pdfUrl} download={pdfFileName}
+                    className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-blue-600 px-6 py-4 text-lg font-black text-white shadow-lg transition hover:bg-blue-700">
+                    {t.downloadBtn}
+                  </a>
+                </article>
+
+                <article className="rounded-[1.5rem] border border-violet-200 bg-violet-50 p-5 text-center shadow-sm">
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-violet-600">Premium Export</p>
+                  <h3 className="mt-2 text-xl font-black text-slate-900">專業匯出</h3>
+                  <p className="mt-2 min-h-[3rem] text-sm leading-relaxed text-slate-600">
+                    規劃支援 PDF/A、壓縮、加密、浮水印、批量轉換與 ZIP 交付。
+                  </p>
+                  <button type="button" disabled
+                    className="mt-5 inline-flex w-full cursor-not-allowed items-center justify-center rounded-2xl border border-violet-200 bg-white px-6 py-4 text-sm font-black text-violet-700 opacity-80">
+                    Premium 功能規劃中
+                  </button>
+                </article>
+
+                <article className="rounded-[1.5rem] border border-amber-200 bg-amber-50 p-5 text-center shadow-sm">
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-amber-700">Premium Share</p>
+                  <h3 className="mt-2 text-xl font-black text-slate-900">安全分享</h3>
+                  <p className="mt-2 min-h-[3rem] text-sm leading-relaxed text-slate-600">
+                    規劃支援短連結、到期日、密碼、權限控管與團隊交付紀錄。
+                  </p>
+                  <button type="button" disabled
+                    className="mt-5 inline-flex w-full cursor-not-allowed items-center justify-center rounded-2xl border border-amber-200 bg-white px-6 py-4 text-sm font-black text-amber-700 opacity-80">
+                    需雲端帳戶 / 訂閱
+                  </button>
+                </article>
+              </div>
+
+              <div className="border-t border-slate-100 bg-slate-50 p-5 md:p-6">
+                <div className="grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
+                  <div className="rounded-[1.5rem] bg-white p-5 shadow-sm">
+                    <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-500">Document Fidelity Engine</p>
+                    <div className="mt-3 flex items-end gap-3">
+                      <span className={`text-5xl font-black ${fidelityTone}`}>{fidelityScore}</span>
+                      <span className="pb-2 text-sm font-black text-slate-500">/ 100</span>
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                      基於 12 項版面偵測器估算：{triggeredDetectors.length} 項風險訊號、{highImpactCount} 項高影響元素。
+                    </p>
+                  </div>
+
+                  <PremiumGate plan="PRO">
+                    <article className="rounded-[1.5rem] border border-indigo-200 bg-gradient-to-br from-indigo-50 to-white p-5 shadow-sm">
+                      <p className="text-xs font-black uppercase tracking-[0.18em] text-indigo-600">Upgrade Path</p>
+                      <h3 className="mt-2 text-2xl font-black text-slate-900">解鎖完整 Fidelity Report</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                        將 12 個偵測器轉成完整交付報告：表格、圖片、CJK、RTL、連結、列表、頁數、警告與高風險段落，協助商務文件在交付前先做品質控管。
+                      </p>
+                      <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                        {["完整 12-detector 風險報告", "批量 Word→PDF 工作流", "安全分享連結與到期日", "PDF/A、加密、壓縮與浮水印"].map((item) => (
+                          <span key={item} className="rounded-2xl bg-white px-4 py-3 text-sm font-black text-indigo-900 shadow-sm">{item}</span>
+                        ))}
+                      </div>
+                    </article>
+                  </PremiumGate>
+                </div>
+              </div>
+            </div>
+
+            <AdSenseWrapper showAds={true} adSlot="word-to-pdf-download" adFormat="horizontal" />
+            <AdSlot slot="word-to-pdf-download" position="inline" />
+
+            <div className="text-center">
+              <button onClick={() => { setStatus("idle"); setFile(null); setAnalysis({ preflight: null }); }}
+                className="text-sm text-slate-400 hover:text-slate-600 underline mt-2">
+                {t.reupload}
+              </button>
             </div>
           </section>
         )}
