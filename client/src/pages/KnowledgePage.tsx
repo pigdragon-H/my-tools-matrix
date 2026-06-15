@@ -64,8 +64,8 @@ export default function KnowledgePage() {
       newsletterCta={meta.newsletterCta}
       relations={resolveRelations(meta, { laneId: "knowledge", slug })}
       headerSlot={
-        <div className="flex flex-wrap gap-2 mt-4">
-          {domainLabel && <Badge variant="secondary">{domainLabel[lang]}</Badge>}
+        <div className="flex flex-wrap gap-2.5 mt-4">
+          {domainLabel && <Badge variant="secondary" className="px-3 py-1 text-xs leading-normal">{domainLabel[lang]}</Badge>}
         </div>
       }
     />

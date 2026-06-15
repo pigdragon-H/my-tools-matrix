@@ -80,17 +80,17 @@ export default function BlueprintPage() {
       newsletterCta={meta.newsletterCta}
       relations={resolveRelations(meta, { laneId: "blueprints", slug })}
       headerSlot={
-        <div className="flex flex-wrap gap-2 mt-4">
+        <div className="flex flex-wrap gap-2.5 mt-4">
           {industryLabel && (
-            <Badge variant="secondary">{industryLabel[lang]}</Badge>
+            <Badge variant="secondary" className="px-3 py-1 text-xs leading-normal">{industryLabel[lang]}</Badge>
           )}
-          <Badge variant="outline">
+          <Badge variant="outline" className="px-3 py-1 text-xs leading-normal">
             {lang === "zh"
               ? `難度：${meta.difficulty}`
               : `Difficulty: ${meta.difficulty}`}
           </Badge>
           {meta.revenueModel?.map((r) => (
-            <Badge key={r} variant="outline">
+            <Badge key={r} variant="outline" className="px-3 py-1 text-xs leading-normal">
               {r}
             </Badge>
           ))}

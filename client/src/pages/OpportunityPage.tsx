@@ -75,18 +75,18 @@ export default function OpportunityPage() {
       newsletterCta={meta.newsletterCta}
       relations={resolveRelations(meta, { laneId: "opportunities", slug })}
       headerSlot={
-        <div className="flex flex-wrap gap-2 mt-4">
-          <Badge variant="outline">
+        <div className="flex flex-wrap gap-2.5 mt-4">
+          <Badge variant="outline" className="px-3 py-1 text-xs leading-normal">
             {lang === "zh"
               ? `需求：${meta.marketDemand}`
               : `Demand: ${meta.marketDemand}`}
           </Badge>
-          <Badge variant="outline">
+          <Badge variant="outline" className="px-3 py-1 text-xs leading-normal">
             {lang === "zh"
               ? `難度：${meta.difficulty}`
               : `Difficulty: ${meta.difficulty}`}
           </Badge>
-          <Badge variant={meta.worthDoing ? "default" : "secondary"}>
+          <Badge variant={meta.worthDoing ? "default" : "secondary"} className="px-3 py-1 text-xs leading-normal">
             {meta.worthDoing
               ? lang === "zh"
                 ? "值得做"
@@ -96,7 +96,7 @@ export default function OpportunityPage() {
                 : "Watch"}
           </Badge>
           {meta.signalSource?.map((s) => (
-            <Badge key={s} variant="secondary">
+            <Badge key={s} variant="secondary" className="px-3 py-1 text-xs leading-normal">
               {s}
             </Badge>
           ))}
