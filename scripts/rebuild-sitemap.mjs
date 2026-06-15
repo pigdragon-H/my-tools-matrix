@@ -3,7 +3,7 @@
 // 靜態頁 + 12 分類頁原樣保留；工具 URL 補齊到全部 341 支
 import fs from 'fs';
 
-const BASE = 'https://my-tools-matrix-production.up.railway.app';
+const BASE = process.env.SITE_URL ?? 'https://my-tools-matrix-production.up.railway.app';
 const TODAY = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
 // 1. 從 registry 抽出全部工具路由（path: "/tools/cat/slug"）

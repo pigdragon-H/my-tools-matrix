@@ -27,7 +27,7 @@ import { useReadProgress } from "@/hooks/useReadProgress";
 import { getToolByPath, getToolById } from "@shared/toolsConfig";
 import { getStaticArticle, type StaticArticle } from "@/lib/staticArticles";
 
-const SITE_ORIGIN = "https://my-tools-matrix-production.up.railway.app";
+const SITE_ORIGIN = import.meta.env.VITE_SITE_URL ?? "https://my-tools-matrix-production.up.railway.app";
 
 const CATEGORY_LABELS: Record<string, string> = {
   finance: "財經投資",

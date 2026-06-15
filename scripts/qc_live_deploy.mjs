@@ -33,7 +33,7 @@ const getOpt = (name, def) => {
   const hit = args.find((a) => a.startsWith(`--${name}=`));
   return hit ? hit.split("=").slice(1).join("=") : def;
 };
-const BASE = getOpt("base", "https://my-tools-matrix-production.up.railway.app");
+const BASE = getOpt("base", process.env.SITE_URL ?? "https://my-tools-matrix-production.up.railway.app");
 const RETRIES = parseInt(getOpt("retries", "8"), 10);
 const INTERVAL = parseInt(getOpt("interval", "30"), 10);
 const MARKER = getOpt("marker", "");

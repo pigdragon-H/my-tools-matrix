@@ -93,7 +93,7 @@ app.get("/llms.txt", async (_req, res) => {
     "> A 5000+ calculator and decision-tool matrix across 12 domains, with curated knowledge base articles.",
     "",
     "## About",
-    "- Site: https://my-tools-matrix-production.up.railway.app",
+    `- Site: ${process.env.SITE_URL ?? "https://my-tools-matrix-production.up.railway.app"}` as string,
     "- Knowledge base API: /api/articles  (JSON)",
     "- Single article API: /api/articles/{slug}  (JSON, includes content_mdx + ai_summary)",
     "",

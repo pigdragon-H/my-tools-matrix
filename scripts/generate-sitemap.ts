@@ -28,7 +28,7 @@ const KNOWLEDGE_DIR = join(ROOT, "shared/knowledge");
 const OUT_PUBLIC = join(ROOT, "public/sitemap.xml");
 const OUT_CLIENT = join(ROOT, "client/public/sitemap.xml");
 
-const BASE = "https://my-tools-matrix-production.up.railway.app";
+const BASE = process.env.SITE_URL ?? "https://my-tools-matrix-production.up.railway.app";
 const TODAY = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
 // ── 靜態頁 ──────────────────────────────────────────────────────────
