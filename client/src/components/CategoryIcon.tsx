@@ -3,7 +3,7 @@ import {
   TrendingUp, Heart, Briefcase, Code2, GraduationCap,
   Scale, Palette, FlaskConical, Languages, ShoppingCart,
   Globe, Sparkles, Car, Dumbbell, Calculator, BookOpen,
-  Layers, LucideProps,
+  Layers, Repeat, LucideProps,
 } from "lucide-react";
 
 const iconMap: Record<string, React.ComponentType<LucideProps>> = {
@@ -24,6 +24,7 @@ const iconMap: Record<string, React.ComponentType<LucideProps>> = {
   Calculator,
   BookOpen,
   Layers,
+  Repeat,
 };
 
 interface CategoryIconProps extends LucideProps {

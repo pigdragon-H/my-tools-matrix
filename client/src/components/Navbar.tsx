@@ -180,7 +180,7 @@ function BlogToolCategoryDropdown({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-80 p-2" sideOffset={4}>
         <DropdownMenuLabel className="text-xs text-muted-foreground font-normal px-2 py-1.5">
-          12 {lang === "zh" ? "個工具分類" : "Tool Categories"}
+          {categories.length} {lang === "zh" ? "個工具分類" : "Tool Categories"}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <div className="grid grid-cols-2 gap-0.5">
@@ -273,7 +273,7 @@ export function Navbar() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-80 p-2" sideOffset={4}>
               <DropdownMenuLabel className="text-xs text-muted-foreground font-normal px-2 py-1.5">
-                12 {t.toolCount}
+                {categories.length} {t.toolCount}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <div className="grid grid-cols-2 gap-0.5">

@@ -185,8 +185,8 @@ const copy = {
   heroTitle: { zh: "工具知識庫", en: "Tool Knowledge" },
   themesTitle: { zh: "工具文章的四種閱讀價值", en: "Four ways tool articles help" },
   themesDesc: {
-    zh: "工具知識庫依照 12 個工具分類收納文章；每一篇內容都希望回答的不只是「答案是多少」，而是「為什麼、怎麼用、下一步、何時別用」。",
-    en: "Tool Knowledge is organized by the same 12 categories as the tool library. Every piece aims to answer not just 'what's the number', but 'why, how to use it, what's next, and when not to'.",
+    zh: "工具知識庫依照 13 個工具分類收納文章；每一篇內容都希望回答的不只是「答案是多少」，而是「為什麼、怎麼用、下一步、何時別用」。",
+    en: "Tool Knowledge is organized by the same 13 categories as the tool library. Every piece aims to answer not just 'what's the number', but 'why, how to use it, what's next, and when not to'.",
   },
   heroDesc: {
     zh: "從公式、工具、範例與限制說明開始,把每一次計算延伸成可理解、可行動的知識脈絡。",
@@ -198,10 +198,10 @@ const copy = {
     en: "Start with common decision scenarios, pair them with tools, and turn concepts into action right away.",
   },
   backHome: { zh: "回首頁", en: "Back to home" },
-  domainsTitle: { zh: "依 12 個工具分類探索", en: "Explore by 12 tool categories" },
+  domainsTitle: { zh: "依 13 個工具分類探索", en: "Explore by 13 tool categories" },
   domainsDesc: {
-    zh: "工具知識庫與工具矩陣使用同一套 12 個分類，文章、公式解釋、工具範例與決策路徑都會依此歸檔。",
-    en: "Tool Knowledge uses the same 12 categories as the tool library; articles, formula explanations, examples, and decision paths are filed under those categories.",
+    zh: "工具知識庫與工具矩陣使用同一套 13 個分類，文章、公式解釋、工具範例與決策路徑都會依此歸檔。",
+    en: "Tool Knowledge uses the same 13 categories as the tool library; articles, formula explanations, examples, and decision paths are filed under those categories.",
   },
 } as const;
 
@@ -283,7 +283,7 @@ export default function BlogList() {
         <AdSlot slot="blog-after-hero" position="top" variant="responsive" />
       </section>
 
-      {/* 工具知識庫內容支柱 — 文章依 12 個工具分類收納 */}
+      {/* 工具知識庫內容支柱 — 文章依 13 個工具分類收納 */}
       <section className="container py-14 md:py-20">
         <div className="mx-auto mb-10 max-w-3xl text-center">
           <h2 className="t-h2 tracking-tight">{copy.themesTitle[lang]}</h2>
