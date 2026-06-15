@@ -61,6 +61,16 @@ export interface ArticleShellProps {
   footerExtra?: ReactNode;
   /** [階段A] 已讀進度：進頁時把此 slug 標記為已讀（純前端）。 */
   readProgress?: { laneId: string; slug: string };
+
+  // ── metadata 驅動商業層（per-article 覆寫；未設定 = 維持現狀） ──
+  /** false = 本篇隱藏廣告位；未設定/true = 顯示（與全站 ENABLE_ADS 仍為 AND）。 */
+  adsEnabled?: boolean;
+  /** false = 本篇隱藏 PremiumTeaser；未設定/true = 顯示。 */
+  premiumGate?: boolean;
+  /** PremiumTeaser 位置：top（正文前）/ middle（正文中段）/ bottom（預設，正文後）。 */
+  premiumGatePosition?: "top" | "middle" | "bottom";
+  /** false = 本篇隱藏 Newsletter CTA；未設定/true = 顯示。 */
+  newsletterCta?: boolean;
 }
 
 const DEFAULT_AFFILIATES: AffiliateItem[] = [
@@ -97,6 +107,12 @@ export function ArticleShell(props: ArticleShellProps) {
   const [firstHalf, secondHalf] = splitBody(props.body);
   const affiliates = props.affiliateItems ?? DEFAULT_AFFILIATES;
 
+  // metadata 驅動：未設定一律維持現狀（向下相容）。
+  const showAds = props.adsEnabled !== false;
+  const showPremium = props.premiumGate !== false;
+  const showNewsletter = props.newsletterCta !== false;
+  const premiumPos = props.premiumGatePosition ?? "bottom";
+
   return (
     <article className="fu-typo max-w-3xl mx-auto px-4 py-8">
       <Link href={props.backHref}>
@@ -127,21 +143,39 @@ export function ArticleShell(props: ArticleShellProps) {
 
       {props.headerSlot}
 
+      {/* PremiumTeaser — top 位置（正文前） */}
+      {showPremium && premiumPos === "top" && (
+        <div className="my-6">
+          <PremiumTeaser lang={lang} />
+        </div>
+      )}
+
       {/* #8 — AdSlot after intro */}
-      <div className="my-6">
-        <AdSlot slot={`${props.slotPrefix}-after-intro`} position="top" variant="responsive" />
-      </div>
+      {showAds && (
+        <div className="my-6">
+          <AdSlot slot={`${props.slotPrefix}-after-intro`} position="top" variant="responsive" />
+        </div>
+      )}
 
       <div className="prose prose-slate dark:prose-invert max-w-none">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{firstHalf}</ReactMarkdown>
       </div>
 
+      {/* PremiumTeaser — middle 位置（正文中段） */}
+      {showPremium && premiumPos === "middle" && (
+        <div className="my-6">
+          <PremiumTeaser lang={lang} />
+        </div>
+      )}
+
       {secondHalf && (
         <>
           {/* #14 — AdSlot mid-article */}
-          <div className="my-6">
-            <AdSlot slot={`${props.slotPrefix}-mid`} position="middle" variant="responsive" />
-          </div>
+          {showAds && (
+            <div className="my-6">
+              <AdSlot slot={`${props.slotPrefix}-mid`} position="middle" variant="responsive" />
+            </div>
+          )}
           <div className="prose prose-slate dark:prose-invert max-w-none">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{secondHalf}</ReactMarkdown>
           </div>
@@ -160,8 +194,8 @@ export function ArticleShell(props: ArticleShellProps) {
 
       <div className="mt-10 space-y-8">
         <AffiliateGrid lang={lang} items={affiliates} />
-        <PremiumTeaser lang={lang} />
-        <NewsletterCta lang={lang} source={props.newsletterSource} />
+        {showPremium && premiumPos === "bottom" && <PremiumTeaser lang={lang} />}
+        {showNewsletter && <NewsletterCta lang={lang} source={props.newsletterSource} />}
       </div>
 
       <div className="mt-10">

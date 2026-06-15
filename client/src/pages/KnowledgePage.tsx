@@ -14,7 +14,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { ArticleShell } from "@/components/ArticleShell";
 import { Badge } from "@/components/ui/badge";
 import { getKnowledge } from "@/lib/laneContent";
-import { getLaneAffiliates } from "@/lib/laneAffiliates";
+import { filterAffiliatesByTags } from "@/lib/laneAffiliates";
 import { LaneNotFound } from "@/components/LaneNotFound";
 
 const DOMAIN_LABELS: Record<string, { zh: string; en: string }> = {
@@ -56,9 +56,12 @@ export default function KnowledgePage() {
       backHref="/knowledge"
       backLabel={{ zh: "返回 AI知識庫", en: "Back to AI Knowledge" }}
       slotPrefix="knowledge"
-      affiliateItems={getLaneAffiliates("knowledge")}
+      affiliateItems={filterAffiliatesByTags("knowledge", meta.affiliateTags)}
       newsletterSource="knowledge"
       readProgress={{ laneId: "knowledge", slug }}
+      adsEnabled={meta.adsEnabled}
+      premiumGate={meta.premiumGate}
+      newsletterCta={meta.newsletterCta}
       headerSlot={
         <div className="flex flex-wrap gap-2 mt-4">
           {domainLabel && <Badge variant="secondary">{domainLabel[lang]}</Badge>}

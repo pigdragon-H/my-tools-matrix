@@ -25,3 +25,63 @@ export const LANE_AFFILIATES: Record<string, AffiliateItem[]> = {
 
 export const getLaneAffiliates = (laneId: string): AffiliateItem[] =>
   LANE_AFFILIATES[laneId] ?? LANE_AFFILIATES.knowledge;
+
+// ============================================================
+// affiliateTags 動態匹配（per-article）
+// ============================================================
+// 通用機制：文章 frontmatter 的 affiliateTags 用來從全站聯盟池挑出相關卡片。
+// 設計原則：
+//  • 每張卡片用 href 末段（如 "automation"、"course"）當作隱含 tag，
+//    再加上集中式 ALIAS 表支援自然語意 tag（如 "saas" → website/automation）。
+//  • 有 affiliateTags 且命中 → 回傳命中卡片（去重、保序）。
+//  • 沒給或全部沒命中 → 回退 lane 預設（與舊行為一致，向下相容）。
+const ALL_AFFILIATES: AffiliateItem[] = Object.values(LANE_AFFILIATES).flat();
+
+// 由 href "#affiliate-xxx" 萃取隱含 tag。
+const hrefTag = (item: AffiliateItem): string =>
+  (item.href || "").replace(/^#affiliate-/, "").toLowerCase();
+
+// 語意別名：把 frontmatter 常用 tag 對映到聯盟卡片的隱含 tag。
+const TAG_ALIASES: Record<string, string[]> = {
+  saas: ["automation", "website", "cloud"],
+  automation: ["automation", "cloud"],
+  website: ["website"],
+  course: ["course"],
+  tools: ["ai-tools"],
+  ai: ["ai-tools", "ai-research"],
+  research: ["ai-research", "intel"],
+  cloud: ["cloud", "automation"],
+  books: ["books"],
+  newsletter: ["intel", "ai-research"],
+};
+
+/**
+ * 依文章 affiliateTags 從全站聯盟池挑出相關卡片。
+ * 無 tag 或無命中 → 回退 laneId 預設（向下相容）。
+ */
+export function filterAffiliatesByTags(
+  laneId: string,
+  tags?: string[],
+): AffiliateItem[] {
+  if (!tags || tags.length === 0) return getLaneAffiliates(laneId);
+
+  const wanted = new Set<string>();
+  for (const raw of tags) {
+    const t = raw.toLowerCase().trim();
+    if (!t) continue;
+    wanted.add(t);
+    for (const alias of TAG_ALIASES[t] ?? []) wanted.add(alias);
+  }
+
+  const seen = new Set<string>();
+  const matched: AffiliateItem[] = [];
+  for (const item of ALL_AFFILIATES) {
+    const tag = hrefTag(item);
+    if (wanted.has(tag) && !seen.has(item.href)) {
+      seen.add(item.href);
+      matched.push(item);
+    }
+  }
+
+  return matched.length > 0 ? matched : getLaneAffiliates(laneId);
+}

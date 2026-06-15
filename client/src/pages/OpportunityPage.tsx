@@ -15,7 +15,7 @@ import { ArticleShell } from "@/components/ArticleShell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getOpportunity } from "@/lib/laneContent";
-import { getLaneAffiliates } from "@/lib/laneAffiliates";
+import { filterAffiliatesByTags } from "@/lib/laneAffiliates";
 import { LaneNotFound } from "@/components/LaneNotFound";
 
 export default function OpportunityPage() {
@@ -67,9 +67,12 @@ export default function OpportunityPage() {
       backHref="/opportunities"
       backLabel={{ zh: "返回機會情報", en: "Back to Opportunities" }}
       slotPrefix="opp"
-      affiliateItems={getLaneAffiliates("opportunities")}
+      affiliateItems={filterAffiliatesByTags("opportunities", meta.affiliateTags)}
       newsletterSource="opportunity"
       readProgress={{ laneId: "opportunities", slug }}
+      adsEnabled={meta.adsEnabled}
+      premiumGate={meta.premiumGate}
+      newsletterCta={meta.newsletterCta}
       headerSlot={
         <div className="flex flex-wrap gap-2 mt-4">
           <Badge variant="outline">

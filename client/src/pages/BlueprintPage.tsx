@@ -14,7 +14,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { ArticleShell } from "@/components/ArticleShell";
 import { Badge } from "@/components/ui/badge";
 import { getBlueprint } from "@/lib/laneContent";
-import { getLaneAffiliates } from "@/lib/laneAffiliates";
+import { filterAffiliatesByTags } from "@/lib/laneAffiliates";
 import { LaneNotFound } from "@/components/LaneNotFound";
 
 const INDUSTRY_LABELS: Record<string, { zh: string; en: string }> = {
@@ -71,9 +71,13 @@ export default function BlueprintPage() {
       backHref="/blueprints"
       backLabel={{ zh: "返回 AI 創業藍圖", en: "Back to AI Blueprints" }}
       slotPrefix="blueprint"
-      affiliateItems={getLaneAffiliates("blueprints")}
+      affiliateItems={filterAffiliatesByTags("blueprints", meta.affiliateTags)}
       newsletterSource="blueprint"
       readProgress={{ laneId: "blueprints", slug }}
+      adsEnabled={meta.adsEnabled}
+      premiumGate={meta.premiumGate}
+      premiumGatePosition={meta.premiumGatePosition}
+      newsletterCta={meta.newsletterCta}
       headerSlot={
         <div className="flex flex-wrap gap-2 mt-4">
           {industryLabel && (

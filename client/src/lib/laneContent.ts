@@ -148,6 +148,46 @@ function asStringArray(v: unknown): string[] {
   return [];
 }
 
+// 把可能是布林或字串 "true"/"false" 的欄位正規化；未設定回 undefined（= 維持預設）。
+function asOptionalBool(v: unknown): boolean | undefined {
+  if (v === true || v === "true") return true;
+  if (v === false || v === "false") return false;
+  return undefined;
+}
+
+// 共用：從 raw frontmatter 取出「商業層 + 三主軸關聯」可選欄位。
+// 未設定的欄位一律回 undefined / 空陣列省略，確保向下相容（現有文章零影響）。
+function extractCommerceAndRelations(meta: Record<string, unknown>): {
+  adsEnabled?: boolean;
+  premiumGate?: boolean;
+  premiumGatePosition?: "top" | "middle" | "bottom";
+  newsletterCta?: boolean;
+  affiliateTags?: string[];
+  topicId?: string;
+  relatedBlueprints?: string[];
+  relatedOpportunities?: string[];
+  relatedKnowledge?: string[];
+} {
+  const arr = (v: unknown) => {
+    const a = asStringArray(v);
+    return a.length > 0 ? a : undefined;
+  };
+  const pos = (meta.premiumGatePosition as string) || undefined;
+  const validPos =
+    pos === "top" || pos === "middle" || pos === "bottom" ? pos : undefined;
+  return {
+    adsEnabled: asOptionalBool(meta.adsEnabled),
+    premiumGate: asOptionalBool(meta.premiumGate),
+    premiumGatePosition: validPos,
+    newsletterCta: asOptionalBool(meta.newsletterCta),
+    affiliateTags: arr(meta.affiliateTags),
+    topicId: (meta.topicId as string) || undefined,
+    relatedBlueprints: arr(meta.relatedBlueprints),
+    relatedOpportunities: arr(meta.relatedOpportunities),
+    relatedKnowledge: arr(meta.relatedKnowledge),
+  };
+}
+
 // 從檔路徑推導 slug 與 category/domain。
 // 路徑形如 ../../../shared/blueprints/<sub?>/<slug>.md
 function deriveSlugAndSub(filePath: string, laneDir: string): { slug: string; sub: string } {
@@ -179,6 +219,7 @@ function buildBlueprints(): LoadedContent<BlueprintMeta>[] {
       revenueModel: asStringArray(meta.revenueModel),
       relatedTools: asStringArray(meta.relatedTools),
       relatedWorkflows: asStringArray(meta.relatedWorkflows),
+      ...extractCommerceAndRelations(meta),
     };
     return { meta: m, body, slug, laneId: "blueprints", path: `/blueprints/${slug}` };
   });
@@ -202,6 +243,7 @@ function buildOpportunities(): LoadedContent<OpportunityMeta>[] {
       difficulty: ((meta.difficulty as string) as OpportunityMeta["difficulty"]) || "medium",
       worthDoing: meta.worthDoing === true || meta.worthDoing === "true",
       matchmakingTag: (meta.matchmakingTag as string) || undefined,
+      ...extractCommerceAndRelations(meta),
     };
     return { meta: m, body, slug, laneId: "opportunities", path: `/opportunities/${slug}` };
   });
@@ -222,6 +264,7 @@ function buildKnowledge(): LoadedContent<KnowledgeMeta>[] {
       pillar: (meta.pillar as string) || undefined,
       domain,
       relatedTools: asStringArray(meta.relatedTools),
+      ...extractCommerceAndRelations(meta),
     };
     return { meta: m, body, slug, laneId: "knowledge", path: `/knowledge/${domain}/${slug}` };
   });
