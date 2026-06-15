@@ -104,6 +104,64 @@ interface Run {
   link?: string;
 }
 
+declare global {
+  interface Window {
+    mammoth?: any;
+    pdfMake?: any;
+  }
+}
+
+const runtimeScriptPromises = new Map<string, Promise<void>>();
+
+function loadScriptOnce(src: string): Promise<void> {
+  if (typeof window === "undefined") {
+    return Promise.reject(new Error("Browser runtime is required"));
+  }
+
+  const existing = runtimeScriptPromises.get(src);
+  if (existing) return existing;
+
+  const promise = new Promise<void>((resolve, reject) => {
+    const alreadyLoaded = document.querySelector<HTMLScriptElement>(`script[data-word-to-pdf-src="${src}"]`);
+    if (alreadyLoaded) {
+      resolve();
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = src;
+    script.async = true;
+    script.defer = true;
+    script.crossOrigin = "anonymous";
+    script.dataset.wordToPdfSrc = src;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error(`Failed to load runtime script: ${src}`));
+    document.head.appendChild(script);
+  });
+
+  runtimeScriptPromises.set(src, promise);
+  return promise;
+}
+
+async function loadMammothRuntime() {
+  if (!window.mammoth) {
+    await loadScriptOnce("https://unpkg.com/mammoth@1.12.0/mammoth.browser.min.js");
+  }
+  if (!window.mammoth) throw new Error("mammoth runtime unavailable");
+  return window.mammoth;
+}
+
+async function loadPdfMakeRuntime() {
+  if (!window.pdfMake?.createPdf) {
+    await loadScriptOnce("https://cdn.jsdelivr.net/npm/pdfmake@0.3.11/build/pdfmake.min.js");
+  }
+  if (!window.pdfMake?.vfs) {
+    await loadScriptOnce("https://cdn.jsdelivr.net/npm/pdfmake@0.3.11/build/vfs_fonts.min.js");
+  }
+  if (!window.pdfMake?.createPdf) throw new Error("pdfmake runtime unavailable");
+  return window.pdfMake;
+}
+
 // ─── Language / i18n ────────────────────────────────────────────────────────
 
 const ui = {
@@ -734,7 +792,7 @@ async function convertDocxToPdf(
 
   // Stage 2: mammoth.js semantic extraction with custom style map
   onStage("parsing");
-  const mammoth = await import("mammoth");
+  const mammoth = await loadMammothRuntime();
   const styleMap = [
     "p[style-name='Heading 1'] => h1:fresh",
     "p[style-name='Heading 2'] => h2:fresh",
@@ -781,11 +839,7 @@ async function convertDocxToPdf(
 
   // Stage 5: Build pdfmake document definition
   onStage("rendering");
-  // @ts-ignore — pdfmake has no bundled type declarations
-  const pdfmake = await import("pdfmake/build/pdfmake");
-  // @ts-ignore — pdfmake has no bundled type declarations
-  const pdfFonts = await import("pdfmake/build/vfs_fonts");
-  (pdfmake as any).vfs = (pdfFonts as any).pdfMake?.vfs ?? (pdfFonts as any).default?.vfs;
+  const pdfmake = await loadPdfMakeRuntime();
 
   const docDefinition = buildPdfDefinition(ir);
 
@@ -845,7 +899,7 @@ export default function WordToPdf() {
     setStatus("analysing");
     try {
       const ab = await file.arrayBuffer();
-      const mammoth = await import("mammoth");
+      const mammoth = await loadMammothRuntime();
       const result = await mammoth.convertToHtml(
         { arrayBuffer: ab },
         { includeDefaultStyleMap: true }
