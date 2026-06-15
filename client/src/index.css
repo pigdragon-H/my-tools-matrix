@@ -260,19 +260,28 @@
    讓 ReactMarkdown 產出的正文也遵守黃金線（≥16px、行高 1.75）。
    只增不刪：僅在 .fu-typo 範圍內微調 prose，不影響其他頁。
    ──────────────────────────────────────────────────────────────── */
-.fu-typo .prose {
+.fu-typo .prose,
+.fu-typo .prose.t-body {
   font-size: var(--fs-body);
   line-height: var(--lh-body);
 }
-.fu-typo .prose :where(p, li) {
+
+/* 文章內文一律採同一套正文規格：A = B = C = D。提高選擇器權重，避免 prose 預設樣式造成切段後不一致。 */
+.fu-typo .prose p,
+.fu-typo .prose li,
+.fu-typo .prose blockquote,
+.fu-typo .prose strong,
+.fu-typo .prose em,
+.fu-typo .prose a {
   font-size: var(--fs-body);
   line-height: var(--lh-body);
 }
-.fu-typo .prose :where(h2) {
+
+.fu-typo .prose h2 {
   font-size: var(--fs-h2);
   line-height: var(--lh-h2);
 }
-.fu-typo .prose :where(h3) {
+.fu-typo .prose h3 {
   font-size: var(--fs-h3);
   line-height: var(--lh-h3);
 }

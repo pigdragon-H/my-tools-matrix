@@ -85,10 +85,16 @@ const DEFAULT_AFFILIATES: AffiliateItem[] = [
   { label: { zh: "雲端與自動化", en: "Cloud & Automation" }, description: { zh: "n8n / Zapier / 雲服務", en: "n8n / Zapier / cloud" }, href: "#affiliate-automation", emoji: "⚙️" },
 ];
 
+// ArticleShell 已在頁首渲染正式 H1；若內容 Markdown 也以 H1 開頭，先移除，避免首屏重複標題。
+function stripLeadingMarkdownH1(body: string): string {
+  return body.replace(/^\s*#(?!#)\s+[^\n\r]+\r?\n+/, "").trimStart();
+}
+
 // 在段落邊界把正文切兩半，中段插 #14 廣告位。
 function splitBody(body: string): [string, string] {
-  const paras = body.split(/\n{2,}/);
-  if (paras.length < 4) return [body, ""];
+  const cleanBody = stripLeadingMarkdownH1(body);
+  const paras = cleanBody.split(/\n{2,}/);
+  if (paras.length < 4) return [cleanBody, ""];
   const mid = Math.ceil(paras.length / 2);
   return [paras.slice(0, mid).join("\n\n"), paras.slice(mid).join("\n\n")];
 }
@@ -144,7 +150,7 @@ export function ArticleShell(props: ArticleShellProps) {
           )}
         </div>
         <h1 className="t-h1">{props.title[lang]}</h1>
-        <p className="t-lead text-muted-foreground mt-4 mb-6 max-w-2xl leading-relaxed">{props.description[lang]}</p>
+        <p className="t-body text-muted-foreground mt-4 mb-6 max-w-2xl">{props.description[lang]}</p>
       </header>
 
       {props.headerSlot}
@@ -163,7 +169,7 @@ export function ArticleShell(props: ArticleShellProps) {
         </div>
       )}
 
-      <div className="prose prose-slate dark:prose-invert max-w-none text-base leading-relaxed">
+      <div className="prose prose-slate dark:prose-invert max-w-none t-body">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{firstHalf}</ReactMarkdown>
       </div>
 
@@ -182,7 +188,7 @@ export function ArticleShell(props: ArticleShellProps) {
               <AdSlot slot={`${props.slotPrefix}-mid`} position="middle" variant="responsive" />
             </div>
           )}
-          <div className="prose prose-slate dark:prose-invert max-w-none text-base leading-relaxed">
+          <div className="prose prose-slate dark:prose-invert max-w-none t-body">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{secondHalf}</ReactMarkdown>
           </div>
         </>
