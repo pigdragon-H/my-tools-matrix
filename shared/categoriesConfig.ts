@@ -123,6 +123,15 @@ export const categories: Category[] = [
     color: "text-purple-600",
     bgColor: "bg-purple-50 dark:bg-purple-950/30",
   },
+  {
+    key: "converter",
+    name: "轉換工具",
+    nameEn: "Converters",
+    icon: "Repeat",
+    description: "文件格式轉換、編碼轉換、數字進制轉換",
+    color: "text-blue-600",
+    bgColor: "bg-blue-50 dark:bg-blue-950/30",
+  },
 ];
 
 export const categoryMap: Record<string, Category> = Object.fromEntries(

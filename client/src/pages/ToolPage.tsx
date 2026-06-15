@@ -461,6 +461,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "education/astrology-calculator-edu": lazy(() => import("@/tools/education/AstrologyCalculatorEdu")),
   "ecommerce/cpm-calculator": lazy(() => import("@/tools/ecommerce/CpmCalculator")),
   "finance/cpc-calculator": lazy(() => import("@/tools/finance/CpcCalculator")),
+  "converter/word-to-pdf": lazy(() => import("@/tools/converter/WordToPdf")),
 };
 
 function ToolCrawlerStaticBlock({

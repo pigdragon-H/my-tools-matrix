@@ -5174,6 +5174,21 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "word-to-pdf",
+    name: "Word 轉 PDF",
+    category: "converter",
+    path: "/tools/converter/word-to-pdf",
+    icon: "FileText",
+    description: "免費線上 Word 轉 PDF，瀏覽器執行，支援中文，檔案不上傳伺服器",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 10,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
