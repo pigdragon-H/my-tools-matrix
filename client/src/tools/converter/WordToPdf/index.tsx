@@ -627,7 +627,7 @@ function buildPdfDefinition(ir: SemanticIR): PdfContent {
     h4: { fontSize: 14, bold: true, margin: [0, 10, 0, 4] },
     h5: { fontSize: 12, bold: true, margin: [0, 8, 0, 2] },
     h6: { fontSize: 11, bold: true, italics: true, margin: [0, 8, 0, 2] },
-    body: { fontSize: isCJK ? 11 : 11, lineHeight: 1.6, margin: [0, 0, 0, 6] },
+    body: { fontSize: 11, lineHeight: 1.6, margin: [0, 0, 0, 6] },
     tableHeader: { bold: true, fillColor: "#F1F5F9", margin: [4, 4, 4, 4] },
     tableCell:   { margin: [4, 3, 4, 3] },
     listItem:    { margin: [0, 2, 0, 2] },
@@ -844,13 +844,23 @@ async function convertDocxToPdf(
 
   // Stage 6: Generate PDF blob
   onStage("generating");
+  const triggeredDetectors = preflight.detectors.filter((d) => d.triggered);
+  const hasHighImpactRisk = triggeredDetectors.some((d) => d.impact === "high");
+  const hasImageOrTableRisk = triggeredDetectors.some((d) => ["D2_TABLES", "D3_IMAGES", "D11_COLUMNS"].includes(d.id));
+  const pdfGenerationTimeoutMs = file.size <= 512 * 1024 && !hasHighImpactRisk && !hasImageOrTableRisk
+    ? 25_000
+    : file.size <= 2 * 1024 * 1024 && !hasHighImpactRisk
+      ? 35_000
+      : 90_000;
+
   return new Promise<Blob>((resolve, reject) => {
     let settled = false;
     const timeout = window.setTimeout(() => {
       if (settled) return;
       settled = true;
-      reject(new Error("PDF generation timed out. This document may contain very large images, complex tables, or layout elements that exceed the browser converter limit. Please try compressing images, splitting the document, or exporting from Word/Google Docs directly."));
-    }, 90_000);
+      const seconds = Math.round(pdfGenerationTimeoutMs / 1000);
+      reject(new Error(`PDF generation did not finish within ${seconds}s. For small files this usually means the browser PDF engine is stuck on a font, table, or document structure edge case. Please cancel and try exporting directly from Word/Google Docs, or simplify tables/images and retry.`));
+    }, pdfGenerationTimeoutMs);
 
     try {
       const pdfDoc = (pdfmake as any).createPdf(docDefinition);
@@ -978,7 +988,12 @@ export default function WordToPdf() {
     }
     slowTimerRef.current = window.setTimeout(() => {
       if (cancelRef.current || conversionRunRef.current !== runId) return;
-      setSlowHint("仍在處理中：大型圖片、長表格或中文文件可能需要 1–2 分鐘。轉換在您的瀏覽器本地執行，檔案不會上傳。");
+      const sizeMb = file.size / 1024 / 1024;
+      setSlowHint(
+        sizeMb <= 0.5
+          ? "這是小檔案，正常應在 20–30 秒內完成。若進度停住，通常是瀏覽器 PDF 引擎遇到字型、表格或文件結構邊界案例；可先取消重試，或改用 Word/Google Docs 直接匯出。"
+          : "仍在處理中：大型圖片、長表格或複雜中文文件可能較慢。轉換在您的瀏覽器本地執行，檔案不會上傳；若久無進展可取消重試。"
+      );
     }, 8_000);
     try {
       const blob = await convertDocxToPdf(file, (stage) => {
@@ -988,7 +1003,7 @@ export default function WordToPdf() {
           analysing:   "分析版面元素…",
           building_ir: "建立 PDF 結構…",
           rendering:   "載入 PDF 產生器並排版…",
-          generating:  "正在產生 PDF（大型文件可能停留較久）…",
+          generating:  file.size <= 512 * 1024 ? "正在產生 PDF，小檔案目標 20–30 秒內完成…" : "正在產生 PDF（大型文件可能停留較久）…",
         };
         const progressByStage: Record<string, number> = {
           reading: 15,
@@ -1054,6 +1069,8 @@ export default function WordToPdf() {
     : 92;
   const fidelityTone = fidelityScore >= 90 ? "text-emerald-700" : fidelityScore >= 78 ? "text-amber-700" : "text-orange-700";
   const pdfFileName = file?.name.replace(/\.docx?$/i, ".pdf") ?? "converted.pdf";
+  const showCommercialPreview = Boolean(file) && status !== "done";
+  const fileSizeMb = file ? file.size / 1024 / 1024 : 0;
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_#fef3c7,_#f8fafc_45%,_#e0f2fe)] font-sans">
@@ -1142,6 +1159,34 @@ export default function WordToPdf() {
           </section>
         )}
 
+
+        {/* T4A Always-visible commercial preview */}
+        {showCommercialPreview && (
+          <section className="grid gap-4 md:grid-cols-3">
+            <article className="rounded-[1.5rem] border border-emerald-200 bg-white/90 p-5 shadow-sm">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-600">Free Core</p>
+              <h3 className="mt-2 text-xl font-black text-slate-900">快速轉 PDF</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                {fileSizeMb <= 0.5 ? "小檔案目標 20–30 秒內完成；若 PDF 引擎卡住，系統會快速失敗而不是讓您等到分鐘級。" : "檔案會在瀏覽器本地轉換，不上傳伺服器；複雜圖片與表格可能較慢。"}
+              </p>
+            </article>
+            <article className="rounded-[1.5rem] border border-violet-200 bg-violet-50/90 p-5 shadow-sm">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-violet-600">Premium Export</p>
+              <h3 className="mt-2 text-xl font-black text-slate-900">專業匯出</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                PDF/A、壓縮、加密、浮水印、批量轉換與 ZIP 交付將作為進階匯出能力。
+              </p>
+            </article>
+            <article className="rounded-[1.5rem] border border-indigo-200 bg-indigo-50/90 p-5 shadow-sm">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-indigo-600">Fidelity Report</p>
+              <h3 className="mt-2 text-xl font-black text-slate-900">品質風險報告</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                目前預估分數 {fidelityScore}/100；完整報告會拆解 12 項偵測器，指出表格、圖片、中文、RTL 與版面風險。
+              </p>
+            </article>
+          </section>
+        )}
+
         {/* T5 Convert Button */}
         {file && status === "idle" && (
           <div className="text-center">
@@ -1162,6 +1207,11 @@ export default function WordToPdf() {
                 <div className="bg-blue-500 h-3 rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
               </div>
               <p className="text-xs font-bold text-blue-700">{progress}%</p>
+              {fileSizeMb <= 0.5 && (
+                <p className="text-xs font-black text-emerald-700">
+                  小檔案快速路徑：目標 20–30 秒內完成；若超時會明確停止並提示原因。
+                </p>
+              )}
               {slowHint && (
                 <div className="max-w-2xl mx-auto bg-amber-50 border border-amber-200 text-amber-800 rounded-2xl px-4 py-3 text-sm leading-relaxed">
                   {slowHint}
