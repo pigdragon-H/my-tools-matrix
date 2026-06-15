@@ -5576,4 +5576,5 @@ export const iqTestCalculator = { id: "iq-test-calculator", category: "education
 export const astrologyCalculatorEdu = { id: "astrology-calculator-edu", category: "education", name: "Astrology Calculator", path: "/tools/education/astrology-calculator-edu" };
 export const cpmCalculator = { id: "cpm-calculator", category: "ecommerce", name: "CPM Calculator", path: "/tools/ecommerce/cpm-calculator" };
 export const cpcCalculator = { id: "cpc-calculator", category: "finance", name: "CPC Calculator", path: "/tools/finance/cpc-calculator" };
+export const wordToPdf = { id: "word-to-pdf", category: "converter", name: "Word 轉 PDF", path: "/tools/converter/word-to-pdf" };
 /* === SAFE ZONE END === */
