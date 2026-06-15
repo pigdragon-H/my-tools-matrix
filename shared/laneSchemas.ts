@@ -63,6 +63,17 @@ export interface BlueprintMeta extends BaseContentMeta {
    * 階段二接手：在 BlueprintPage 讀此欄位渲染工作流卡片即可。
    */
   relatedWorkflows?: string[];
+  // === 商業層控制欄位 ===
+  adsEnabled?: boolean;
+  premiumGate?: boolean;
+  premiumGatePosition?: "top" | "middle" | "bottom";
+  newsletterCta?: boolean;
+  affiliateTags?: string[];
+  // === 三主軸關聯欄位 ===
+  topicId?: string;
+  relatedBlueprints?: string[];
+  relatedOpportunities?: string[];
+  relatedKnowledge?: string[];
 }
 
 // ── 工作流（藍圖的子內容，階段二啟用）──────────────────────
@@ -94,6 +105,16 @@ export interface OpportunityMeta extends BaseContentMeta {
    * 供給/需求方配對（見 shared/matchmaking.ts）。現在可留空。
    */
   matchmakingTag?: string;
+  // === 商業層控制欄位 ===
+  adsEnabled?: boolean;
+  premiumGate?: boolean;
+  newsletterCta?: boolean;
+  affiliateTags?: string[];
+  // === 三主軸關聯欄位 ===
+  topicId?: string;
+  relatedBlueprints?: string[];
+  relatedOpportunities?: string[];
+  relatedKnowledge?: string[];
 }
 
 // ── 3. 知識中心（現用，由 /blog 升級）──────────────────────
@@ -106,6 +127,16 @@ export interface KnowledgeMeta extends BaseContentMeta {
   domain: string;
   /** [現用] 串接工具（選填）。 */
   relatedTools?: string[];
+  // === 商業層控制欄位 ===
+  adsEnabled?: boolean;
+  premiumGate?: boolean;
+  newsletterCta?: boolean;
+  affiliateTags?: string[];
+  // === 三主軸關聯欄位 ===
+  topicId?: string;
+  relatedBlueprints?: string[];
+  relatedOpportunities?: string[];
+  relatedKnowledge?: string[];
 }
 
 // ── 通用：載入後的內容物件（meta + 正文 + 衍生欄位）─────────
