@@ -9,6 +9,18 @@ difficulty: beginner
 revenueModel: ["廣告分潤", "聯盟行銷", "訂閱會員", "客製內容外包"]
 relatedTools: ["/tools/finance/roi-calculator"]
 relatedWorkflows: []
+contentType: blueprint
+topicId: T-AI-BP-0002
+operatingStatus: seed
+ctaType: blueprint_checklist
+signal: ["AI-assisted editorial workflows", "creator monetization", "content operations automation"]
+output: ["90-day execution plan", "content studio business model", "tool stack decision path"]
+relatedOpportunities: ["ai-newsletter-curation-opportunity"]
+relatedKnowledge: ["rag-explained"]
+affiliateTags: ["ai", "automation", "content", "course"]
+newsletterCta: true
+adsEnabled: true
+validationNotes: ["Needs a dedicated content-ops knowledge article before large-scale variants."]
 ---
 
 # AI 內容工作室創業藍圖：從 0 到月入 5 萬的 90 天計畫

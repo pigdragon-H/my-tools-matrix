@@ -9,12 +9,18 @@ difficulty: intermediate
 revenueModel: ["廣告", "聯盟行銷", "lead generation", "模板包", "micro-SaaS"]
 relatedTools: ["/tools/finance/roi-calculator"]
 relatedWorkflows: []
+contentType: blueprint
 topicId: T-AI-BP-0001
+operatingStatus: active
+ctaType: blueprint_checklist
+signal: ["calculator/tool SEO demand", "AI-assisted content operations", "low-inventory digital business model"]
+output: ["30/60/90-day MVP plan", "monetization model map", "risk-aware tool-site checklist"]
 relatedOpportunities: ["ai-niche-tool-site-opportunity"]
 relatedKnowledge: ["niche-tool-site-risks"]
 affiliateTags: ["saas", "automation", "website", "course"]
 newsletterCta: true
 adsEnabled: true
+validationNotes: ["Core P0 example for closed-loop AI three-axis production."]
 ---
 
 ## 一、藍圖摘要

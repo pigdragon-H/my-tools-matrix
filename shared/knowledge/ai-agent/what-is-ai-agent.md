@@ -6,6 +6,19 @@ keywords: ["AI Agent", "AI代理", "自主代理", "LLM", "工具使用", "AI ag
 publishedAt: 2026-06-09
 domain: ai-agent
 relatedTools: ["/tools/developer/json-formatter"]
+contentType: knowledge
+topicId: T-AI-KB-0001
+operatingStatus: active
+ctaType: knowledge_next_question
+signal: ["agent workflow adoption", "customer support automation", "LLM tool-use education demand"]
+output: ["definition node", "capability boundary explainer", "business application bridge"]
+relatedBlueprints: ["ai-micro-saas-blueprint"]
+relatedOpportunities: ["ai-agent-customer-service-opportunity"]
+relatedKnowledge: ["rag-explained"]
+affiliateTags: ["ai", "automation", "developer"]
+newsletterCta: true
+adsEnabled: true
+validationNotes: ["Functions as a knowledge bridge for agent-related opportunities and SaaS blueprints."]
 ---
 
 # 什麼是 AI Agent？從聊天機器人到自主代理的完整入門

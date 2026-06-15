@@ -9,6 +9,19 @@ marketDemand: medium
 revenueModel: "付費訂閱 + 贊助廣告"
 difficulty: low
 worthDoing: true
+blueprintCandidate: true
+contentType: opportunity
+topicId: T-AI-BP-0002
+operatingStatus: seed
+ctaType: opportunity_tracking
+signal: ["information overload", "vertical curation demand", "paid newsletter subscription economy"]
+output: ["decision memo", "curation opportunity brief", "content-studio adjacency signal"]
+relatedBlueprints: ["ai-content-studio-blueprint"]
+relatedKnowledge: ["rag-explained"]
+affiliateTags: ["ai", "content", "newsletter"]
+newsletterCta: true
+adsEnabled: true
+validationNotes: ["Can support either a standalone newsletter blueprint or the AI content studio topic."]
 ---
 
 # 機會情報：垂直領域 AI 策展電子報的訂閱變現機會

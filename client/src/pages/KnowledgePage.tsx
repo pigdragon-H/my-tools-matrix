@@ -62,6 +62,10 @@ export default function KnowledgePage() {
       adsEnabled={meta.adsEnabled}
       premiumGate={meta.premiumGate}
       newsletterCta={meta.newsletterCta}
+      contentType={meta.contentType}
+      topicId={meta.topicId}
+      operatingStatus={meta.operatingStatus}
+      ctaType={meta.ctaType}
       relations={resolveRelations(meta, { laneId: "knowledge", slug })}
       headerSlot={
         <div className="flex flex-wrap gap-2.5 mt-4">

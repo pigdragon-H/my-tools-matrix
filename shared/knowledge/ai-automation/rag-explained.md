@@ -6,6 +6,19 @@ keywords: ["RAG", "檢索增強生成", "AI幻覺", "向量資料庫", "知識�
 publishedAt: 2026-06-07
 domain: ai-automation
 relatedTools: []
+contentType: knowledge
+topicId: T-AI-BP-0003
+operatingStatus: seed
+ctaType: knowledge_next_question
+signal: ["AI hallucination risk", "knowledge-base automation", "vertical SaaS reliability requirements"]
+output: ["definition node", "technical decision explainer", "risk-control knowledge bridge"]
+relatedBlueprints: ["ai-micro-saas-blueprint", "ai-content-studio-blueprint"]
+relatedOpportunities: ["ai-agent-customer-service-opportunity", "ai-newsletter-curation-opportunity"]
+relatedKnowledge: ["what-is-ai-agent"]
+affiliateTags: ["ai", "automation", "developer"]
+newsletterCta: true
+adsEnabled: true
+validationNotes: ["Shared knowledge node; topicId currently follows Micro-SaaS because reliability is its strongest business constraint."]
 ---
 
 # RAG 是什麼？讓 AI 不再胡說八道的檢索增強生成完整解析

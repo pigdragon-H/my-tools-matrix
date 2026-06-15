@@ -19,6 +19,34 @@ export interface Bilingual {
   en: string;
 }
 
+// ── AI 三主軸 P0 閉路欄位 ───────────────────────────────────────────────
+// 目的：讓內容可被 AI 穩定量產、審核、互鏈與追溯，同時保留各篇內容的個別主體性。
+export type AiContentType = "blueprint" | "knowledge" | "opportunity";
+export type AiOperatingStatus = "draft" | "seed" | "active" | "validated" | "deprecated";
+export type AiCtaType =
+  | "blueprint_checklist"
+  | "knowledge_next_question"
+  | "opportunity_tracking"
+  | "premium_template"
+  | "newsletter";
+
+export interface AiClosedLoopMeta {
+  /** [P0 必填] 三主軸內容型別；與所在 lane 對應，用於 CTA、schema 與驗證器。 */
+  contentType?: AiContentType;
+  /** [P0 必填] 掛載到 shared/aiTopics.ts 的 topic 母體 id。 */
+  topicId?: string;
+  /** [P0 必填] 內容營運狀態；量產前至少 seed/active。 */
+  operatingStatus?: AiOperatingStatus;
+  /** [P0 必填] 欄目專屬 CTA 類型；由 ArticleShell 渲染。 */
+  ctaType?: AiCtaType;
+  /** [P0 建議] 本篇對應的市場/使用者/技術訊號，用於追溯為何生產。 */
+  signal?: string[];
+  /** [P0 建議] 本篇應產出的可交付價值，例如 checklist、definition、decision memo。 */
+  output?: string[];
+  /** [P0 建議] 內容品質或商業狀態備註，供 AI/人審核。 */
+  validationNotes?: string[];
+}
+
 // ── 共用基底（所有賽道內容都有）────────────────────────────
 export interface BaseContentMeta {
   /** [現用] 穩定識別碼，等於檔名 slug。 */
@@ -47,7 +75,7 @@ export interface BaseContentMeta {
 // ── 1. AI 創業藍圖 ───────────────────────────────────────────
 // 內容正文標準九段：商業模式/市場規模/收入來源/成本分析/
 //                  AI工具/執行步驟/90天計畫/風險/FAQ
-export interface BlueprintMeta extends BaseContentMeta {
+export interface BlueprintMeta extends BaseContentMeta, AiClosedLoopMeta {
   /** [現用] 產業標籤，例：media / saas / ecommerce / service。 */
   industry: string;
   /** [現用] 執行難度。 */
@@ -88,7 +116,7 @@ export interface WorkflowMeta extends BaseContentMeta {
 
 // ── 2. 機會情報（情報流，現用）──────────────────────────────
 // 內容正文：是什麼/市場需求/收入模型/AI工具/執行難度/風險/值得做嗎
-export interface OpportunityMeta extends BaseContentMeta {
+export interface OpportunityMeta extends BaseContentMeta, AiClosedLoopMeta {
   /** [現用] 機會訊號來源，例 ["X","Reddit","ProductHunt","Economic News"]。 */
   signalSource: string[];
   /** [現用] 市場需求強度。 */
@@ -99,6 +127,8 @@ export interface OpportunityMeta extends BaseContentMeta {
   difficulty: "low" | "medium" | "high";
   /** [現用] 值得做嗎（判斷結論）。 */
   worthDoing: boolean;
+  /** [P0] 是否可升格為 AI 創業藍圖候選；供閉路驗證與後續生產排程使用。 */
+  blueprintCandidate?: boolean;
   /**
    * [預留] 媒合標籤：可媒合的「企業整廠輸出」類別，例 "ai-agency"。
    * 未來既定變化：階段二媒合上線後，此標籤用來把機會報告與
@@ -118,7 +148,7 @@ export interface OpportunityMeta extends BaseContentMeta {
 }
 
 // ── 3. 知識中心（現用，由 /blog 升級）──────────────────────
-export interface KnowledgeMeta extends BaseContentMeta {
+export interface KnowledgeMeta extends BaseContentMeta, AiClosedLoopMeta {
   /**
    * [現用] 知識領域分類：
    * ai-business / ai-automation / ai-agent / ai-side-hustle /

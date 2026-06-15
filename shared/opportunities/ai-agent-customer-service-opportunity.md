@@ -9,7 +9,20 @@ marketDemand: high
 revenueModel: "建置費 + 月維運訂閱 + 對話量計費"
 difficulty: medium
 worthDoing: true
+blueprintCandidate: true
 matchmakingTag: ai-agency
+contentType: opportunity
+topicId: T-AI-KB-0001
+operatingStatus: active
+ctaType: opportunity_tracking
+signal: ["SMB support workload", "AI agent workflow adoption", "turnkey implementation gap"]
+output: ["decision memo", "opportunity validation brief", "blueprint candidate signal"]
+relatedBlueprints: ["ai-micro-saas-blueprint"]
+relatedKnowledge: ["what-is-ai-agent", "rag-explained"]
+affiliateTags: ["ai", "automation", "saas"]
+newsletterCta: true
+adsEnabled: true
+validationNotes: ["Blueprint candidate; needs dedicated customer-service-agent blueprint if validation strengthens."]
 ---
 
 # 機會情報：中小企業 AI 客服代理的整廠輸出商機

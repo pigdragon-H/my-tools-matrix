@@ -6,12 +6,18 @@ keywords: ["利基工具站", "programmatic SEO", "薄聯盟內容", "thin affil
 publishedAt: 2026-06-17
 domain: ai-business
 relatedTools: ["/tools/finance/roi-calculator"]
+contentType: knowledge
 topicId: T-AI-BP-0001
+operatingStatus: active
+ctaType: knowledge_next_question
+signal: ["programmatic SEO risk", "thin-affiliate policy exposure", "AI scaled-content governance"]
+output: ["risk-control knowledge node", "compliance checklist", "blueprint support article"]
 relatedBlueprints: ["ai-niche-tool-site-blueprint"]
 relatedOpportunities: ["ai-niche-tool-site-opportunity"]
 affiliateTags: ["ai", "tools", "course"]
 adsEnabled: true
 newsletterCta: true
+validationNotes: ["Core risk-control node for the niche tool-site topic."]
 ---
 
 # 利基工具站、Programmatic SEO 與薄聯盟內容風險

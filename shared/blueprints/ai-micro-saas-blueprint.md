@@ -9,6 +9,18 @@ difficulty: intermediate
 revenueModel: ["月訂閱", "年訂閱", "用量計費", "終身方案"]
 relatedTools: ["/tools/developer/json-formatter"]
 relatedWorkflows: []
+contentType: blueprint
+topicId: T-AI-BP-0003
+operatingStatus: seed
+ctaType: blueprint_checklist
+signal: ["vertical SaaS demand", "AI API accessibility", "solo-founder recurring revenue"]
+output: ["90-day launch plan", "pricing and positioning model", "MVP validation checklist"]
+relatedOpportunities: ["ai-agent-customer-service-opportunity"]
+relatedKnowledge: ["rag-explained", "what-is-ai-agent"]
+affiliateTags: ["saas", "developer", "ai", "automation"]
+newsletterCta: true
+adsEnabled: true
+validationNotes: ["Needs API-cost and retention benchmarks before mass-producing sub-niches."]
 ---
 
 # AI 微型 SaaS 創業藍圖：一人公司的可重複收入引擎

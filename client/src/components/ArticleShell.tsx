@@ -31,7 +31,9 @@ import { PremiumTeaser } from "@/components/business/PremiumTeaser";
 import { NewsletterCta } from "@/components/business/NewsletterCta";
 import { TrustStrip } from "@/components/business/TrustStrip";
 import { RelatedContent } from "@/components/business/RelatedContent";
+import { AxisCta } from "@/components/business/AxisCta";
 import type { RelatedGroups } from "@/lib/laneContent";
+import type { AiContentType, AiCtaType, AiOperatingStatus } from "../../../shared/laneSchemas";
 import { setSeoMeta } from "@/lib/seo";
 import { useReadProgress } from "@/hooks/useReadProgress";
 
@@ -73,6 +75,12 @@ export interface ArticleShellProps {
   premiumGatePosition?: "top" | "middle" | "bottom";
   /** false = 本篇隱藏 Newsletter CTA；未設定/true = 顯示。 */
   newsletterCta?: boolean;
+
+  // ── AI 三主軸 P0 閉路語意（驅動欄目 CTA、DOM data 與後續機器可讀性）──
+  contentType?: AiContentType;
+  topicId?: string;
+  operatingStatus?: AiOperatingStatus;
+  ctaType?: AiCtaType;
 
   // ── 三主軸關聯內容（跨軸導流；未給 = 整塊隱藏，向下相容）──
   /** 已解析的三軸關聯卡片（laneContent.resolveRelations 產出）。 */
@@ -126,7 +134,14 @@ export function ArticleShell(props: ArticleShellProps) {
   const premiumPos = props.premiumGatePosition ?? "bottom";
 
   return (
-    <article className="fu-typo max-w-3xl mx-auto px-5 sm:px-6 py-10">
+    <article
+      className="fu-typo max-w-3xl mx-auto px-5 sm:px-6 py-10"
+      data-main-content="article"
+      data-content-type={props.contentType ?? ""}
+      data-topic-id={props.topicId ?? ""}
+      data-cta-type={props.ctaType ?? ""}
+      data-operating-status={props.operatingStatus ?? ""}
+    >
       <Link href={props.backHref}>
         <Button variant="ghost" size="sm" className="mb-4 -ml-2">
           <ArrowLeft className="w-4 h-4 mr-1" />
@@ -203,6 +218,15 @@ export function ArticleShell(props: ArticleShellProps) {
       )}
 
       {props.footerExtra}
+
+      <AxisCta
+        lang={lang}
+        contentType={props.contentType}
+        ctaType={props.ctaType}
+        topicId={props.topicId}
+        operatingStatus={props.operatingStatus}
+        title={props.title}
+      />
 
       {/* 三主軸關聯內容 — 跨軸導流（無資料時自動隱藏） */}
       {props.relations && <RelatedContent lang={lang} groups={props.relations} />}

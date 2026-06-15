@@ -163,7 +163,18 @@ function extractCommerceAndRelations(meta: Record<string, unknown>): {
   premiumGatePosition?: "top" | "middle" | "bottom";
   newsletterCta?: boolean;
   affiliateTags?: string[];
+  contentType?: "blueprint" | "knowledge" | "opportunity";
   topicId?: string;
+  operatingStatus?: "draft" | "seed" | "active" | "validated" | "deprecated";
+  ctaType?:
+    | "blueprint_checklist"
+    | "knowledge_next_question"
+    | "opportunity_tracking"
+    | "premium_template"
+    | "newsletter";
+  signal?: string[];
+  output?: string[];
+  validationNotes?: string[];
   relatedBlueprints?: string[];
   relatedOpportunities?: string[];
   relatedKnowledge?: string[];
@@ -175,13 +186,42 @@ function extractCommerceAndRelations(meta: Record<string, unknown>): {
   const pos = (meta.premiumGatePosition as string) || undefined;
   const validPos =
     pos === "top" || pos === "middle" || pos === "bottom" ? pos : undefined;
+  const contentType = (meta.contentType as string) || undefined;
+  const validContentType =
+    contentType === "blueprint" || contentType === "knowledge" || contentType === "opportunity"
+      ? contentType
+      : undefined;
+  const operatingStatus = (meta.operatingStatus as string) || undefined;
+  const validOperatingStatus =
+    operatingStatus === "draft" ||
+    operatingStatus === "seed" ||
+    operatingStatus === "active" ||
+    operatingStatus === "validated" ||
+    operatingStatus === "deprecated"
+      ? operatingStatus
+      : undefined;
+  const ctaType = (meta.ctaType as string) || undefined;
+  const validCtaType =
+    ctaType === "blueprint_checklist" ||
+    ctaType === "knowledge_next_question" ||
+    ctaType === "opportunity_tracking" ||
+    ctaType === "premium_template" ||
+    ctaType === "newsletter"
+      ? ctaType
+      : undefined;
   return {
     adsEnabled: asOptionalBool(meta.adsEnabled),
     premiumGate: asOptionalBool(meta.premiumGate),
     premiumGatePosition: validPos,
     newsletterCta: asOptionalBool(meta.newsletterCta),
     affiliateTags: arr(meta.affiliateTags),
+    contentType: validContentType,
     topicId: (meta.topicId as string) || undefined,
+    operatingStatus: validOperatingStatus,
+    ctaType: validCtaType,
+    signal: arr(meta.signal),
+    output: arr(meta.output),
+    validationNotes: arr(meta.validationNotes),
     relatedBlueprints: arr(meta.relatedBlueprints),
     relatedOpportunities: arr(meta.relatedOpportunities),
     relatedKnowledge: arr(meta.relatedKnowledge),
@@ -242,6 +282,7 @@ function buildOpportunities(): LoadedContent<OpportunityMeta>[] {
       revenueModel: (meta.revenueModel as string) || "",
       difficulty: ((meta.difficulty as string) as OpportunityMeta["difficulty"]) || "medium",
       worthDoing: meta.worthDoing === true || meta.worthDoing === "true",
+      blueprintCandidate: asOptionalBool(meta.blueprintCandidate),
       matchmakingTag: (meta.matchmakingTag as string) || undefined,
       ...extractCommerceAndRelations(meta),
     };
