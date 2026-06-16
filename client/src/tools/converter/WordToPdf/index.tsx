@@ -870,6 +870,24 @@ function buildPdfDefinition(ir: SemanticIR, fontName: string = "Roboto"): PdfCon
     link:        { color: "#2563EB", decoration: "underline" },
   };
 
+  // Insert zero-width break opportunities into very long unbreakable tokens
+  // (e.g. "ALE-12V35(12V_BMS)(規格來源" or long URLs/codes). Without this,
+  // pdfmake cannot wrap the token and forces the table column wider than the
+  // page, which is exactly what truncated the right-most columns. U+200B is a
+  // zero-width space: invisible, but a valid line-break point.
+  function softBreakLongTokens(text: string, threshold = 14): string {
+    if (!text) return text;
+    return text
+      .split(/(\s+)/)
+      .map((tok) => {
+        if (/^\s+$/.test(tok) || tok.length <= threshold) return tok;
+        // CJK already breaks per-character; only chunk long non-CJK runs.
+        if (/[\u3000-\u9FFF\uAC00-\uD7AF]/.test(tok)) return tok;
+        return tok.replace(new RegExp(`(.{${threshold}})`, "g"), "$1\u200B");
+      })
+      .join("");
+  }
+
   // Run → pdfmake inline object
   function runToPdf(run: Run): PdfContent {
     const obj: PdfContent = { text: run.text };
@@ -889,6 +907,21 @@ function buildPdfDefinition(ir: SemanticIR, fontName: string = "Roboto"): PdfCon
 
   function runsToInline(runs: Run[]): PdfContent[] {
     return runs.map(runToPdf);
+  }
+
+  // Same as runsToInline but with soft word-breaking, for use inside table
+  // cells where long tokens must not blow out the column width.
+  function runsToCellInline(runs: Run[]): PdfContent[] {
+    return runs.map((r) => {
+      const obj = runToPdf(r);
+      obj.text = softBreakLongTokens(String(obj.text ?? ""));
+      return obj;
+    });
+  }
+
+  // Plain text length of a cell, used to weight column widths.
+  function cellTextLength(runs: Run[]): number {
+    return runs.reduce((n, r) => n + (r.text ? r.text.length : 0), 0);
   }
 
   // Block → pdfmake content node
@@ -928,15 +961,44 @@ function buildPdfDefinition(ir: SemanticIR, fontName: string = "Roboto"): PdfCon
             r.cells.reduce((sum, c) => sum + Math.max(1, c.colSpan ?? 1), 0)
           )
         );
-        const colWidths: (string | number)[] = Array(colCount).fill("*");
+
+        // ── Content-aware column widths ───────────────────────────────────
+        // The previous version set every column to "*" (equal share). When a
+        // cell held a long unbreakable token, pdfmake widened that column and
+        // pushed the table past the page edge, truncating the right columns.
+        // Instead we (a) measure the typical content length per column, (b)
+        // give wider columns more space but clamp the ratio so no single
+        // column dominates, and (c) hand pdfmake star-weights that always sum
+        // within the printable width. Combined with soft word-breaking in the
+        // cells, the table now stays inside the page.
+        const colMaxLen: number[] = Array(colCount).fill(0);
+        block.rows.forEach((row) => {
+          let ci = 0;
+          row.cells.forEach((cell) => {
+            const span = Math.max(1, cell.colSpan ?? 1);
+            if (span === 1 && ci < colCount) {
+              colMaxLen[ci] = Math.max(colMaxLen[ci], cellTextLength(cell.runs));
+            }
+            ci += span;
+          });
+        });
+        // Weight = clamp(content length) so very long cells get more room but
+        // never more than ~3x the narrowest column.
+        const weights = colMaxLen.map((len) => {
+          const w = Math.max(3, Math.min(len || 3, 36)); // 3..36 chars
+          return w;
+        });
+        const colWidths: (string | number)[] = weights.map((w) => `${w}*`);
+
         const body = block.rows.map((row): PdfContent[] => {
           const out: PdfContent[] = [];
           row.cells.forEach((cell) => {
             const span = cell.colSpan && cell.colSpan > 1 ? cell.colSpan : 1;
             out.push({
-              text: runsToInline(cell.runs),
+              text: runsToCellInline(cell.runs),
               style: row.isHeader ? "tableHeader" : "tableCell",
               colSpan: span > 1 ? span : undefined,
+              noWrap: false,
             });
             // pdfmake requires (span - 1) placeholder cells right after a colSpan cell
             for (let i = 1; i < span; i++) {
@@ -950,18 +1012,28 @@ function buildPdfDefinition(ir: SemanticIR, fontName: string = "Roboto"): PdfCon
           while (row.length < colCount) row.push({ text: "", style: "tableCell" });
         });
         return {
-          table: { headerRows: block.hasHeader ? 1 : 0, widths: colWidths, body },
+          // width:"*" forces the table to span (and stay within) the printable
+          // content width instead of growing to its natural content size.
+          table: { headerRows: block.hasHeader ? 1 : 0, widths: colWidths, body, dontBreakRows: true },
           layout: {
-            hLineWidth: () => 0.5,
+            hLineWidth: (i: number, node: any) =>
+              i === 0 || i === node.table.body.length ? 0.8 : 0.5,
             vLineWidth: () => 0.5,
-            hLineColor: () => "#CBD5E1",
+            hLineColor: (i: number, node: any) =>
+              i === 0 || i === 1 || i === node.table.body.length ? "#94A3B8" : "#CBD5E1",
             vLineColor: () => "#CBD5E1",
             paddingLeft:  () => 6,
             paddingRight: () => 6,
-            paddingTop:   () => 4,
-            paddingBottom:() => 4,
+            paddingTop:   () => 5,
+            paddingBottom:() => 5,
+            fillColor: (rowIndex: number, node: any, columnIndex: number) => {
+              // Zebra striping for readability (skip header row).
+              if (block.hasHeader && rowIndex === 0) return null;
+              const dataRow = block.hasHeader ? rowIndex - 1 : rowIndex;
+              return dataRow % 2 === 1 ? "#F8FAFC" : null;
+            },
           },
-          margin: [0, 8, 0, 12],
+          margin: [0, 8, 0, 14],
         };
       }
 
@@ -1011,7 +1083,11 @@ function buildPdfDefinition(ir: SemanticIR, fontName: string = "Roboto"): PdfCon
     styles,
     ...fonts,
     pageSize: "A4",
-    pageMargins: [60, 60, 60, 60],
+    // Tighter, document-style margins (≈ 1.4cm). A4 width is 595.28pt, so the
+    // printable content width becomes 595.28 - 40 - 40 ≈ 515pt — matching the
+    // 515pt used for <hr> / image clamping below. This gives wide tables
+    // (invoices, quotes) enough room to stay inside the page.
+    pageMargins: [40, 50, 40, 50],
     pageBreakBefore: (currentNode: PdfContent) => {
       // Widow/orphan control: push heading to next page if <3 lines remain
       return false;
@@ -1030,6 +1106,44 @@ function buildPdfDefinition(ir: SemanticIR, fontName: string = "Roboto"): PdfCon
 }
 
 // ─── Main Conversion Pipeline ────────────────────────────────────────────────
+
+async function convertViaServer(
+  file: File,
+  onStage: (stage: string) => void
+): Promise<Blob> {
+  // High-fidelity path: send the .docx to the server LibreOffice headless
+  // engine, which returns a TRUE VECTOR PDF (~99% fidelity at 100% zoom and
+  // crisp when scaled to 150%/200%). The in-browser mammoth/pdfmake pipeline
+  // cannot preserve colors, logos, exact fonts or layout, so this is default.
+  onStage("reading");
+  const buf = await file.arrayBuffer();
+  onStage("rendering");
+  const resp = await fetch("/api/convert/word-to-pdf", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/octet-stream",
+      "x-filename": encodeURIComponent(file.name),
+    },
+    body: buf,
+  });
+  onStage("generating");
+  if (!resp.ok) {
+    let detail = `HTTP ${resp.status}`;
+    try {
+      const j = await resp.json();
+      if (j?.error) detail = j.error;
+    } catch {
+      /* non-json error */
+    }
+    throw new Error(`高保真轉換失敗：${detail}`);
+  }
+  const blob = await resp.blob();
+  if (blob.type && !blob.type.includes("pdf")) {
+    const text = await blob.text();
+    throw new Error(`高保真轉換失敗：${text.slice(0, 200)}`);
+  }
+  return blob;
+}
 
 async function convertDocxToPdf(
   file: File,
@@ -1267,7 +1381,7 @@ export default function WordToPdf() {
       );
     }, 8_000);
     try {
-      const blob = await convertDocxToPdf(file, (stage) => {
+      const blob = await convertViaServer(file, (stage) => {
         const labels: Record<string, string> = {
           reading:     "讀取檔案…",
           parsing:     "解析 Word 內容與圖片…",

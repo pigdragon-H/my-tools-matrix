@@ -8,6 +8,7 @@ import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { supabaseService } from "../lib/supabaseAdmin";
+import { convertWordToPdf } from "../lib/docxToPdf";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -118,6 +119,44 @@ app.get("/llms.txt", async (_req, res) => {
   }
   res.send(lines.join("\n") + "\n");
 });
+
+// ------------------------------------------------------------
+// High-fidelity Word → PDF conversion (LibreOffice headless, vector output)
+// ------------------------------------------------------------
+// The client POSTs the raw .docx bytes (Content-Type:
+// application/octet-stream) with the original filename in the
+// `x-filename` header. We return a vector PDF stream.
+app.post(
+  "/api/convert/word-to-pdf",
+  express.raw({ type: "*/*", limit: "25mb" }),
+  async (req, res) => {
+    try {
+      const body = req.body as Buffer;
+      if (!Buffer.isBuffer(body) || body.length === 0) {
+        return res.status(400).json({ error: "Empty request body" });
+      }
+      const rawName =
+        (req.headers["x-filename"] as string | undefined) || "document.docx";
+      // sanitize filename
+      const originalName = decodeURIComponent(rawName).replace(/[^\w.\- ]+/g, "_");
+
+      const { pdf, ms } = await convertWordToPdf(body, originalName);
+      const pdfName = originalName.replace(/\.(docx?|rtf|odt)$/i, "") + ".pdf";
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("X-Conversion-Ms", String(ms));
+      res.setHeader(
+        "Content-Disposition",
+        `inline; filename="${encodeURIComponent(pdfName)}"`
+      );
+      res.send(pdf);
+    } catch (e) {
+      console.error("[word-to-pdf] conversion failed:", e);
+      res
+        .status(500)
+        .json({ error: e instanceof Error ? e.message : String(e) });
+    }
+  }
+);
 
 // ------------------------------------------------------------
 // tRPC API

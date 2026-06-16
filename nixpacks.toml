@@ -2,3 +2,15 @@ providers = ["node"]
 
 [phases.setup]
 nixPkgs = ["nodejs_20"]
+# High-fidelity Word→PDF needs the LibreOffice Writer layout engine plus CJK
+# fonts so 繁/簡/日/韓 render correctly in the exported vector PDF.
+# Installed via apt on the Debian-based Nixpacks image (most reliable for
+# LibreOffice + system fonts).
+aptPkgs = [
+  "libreoffice-writer",
+  "libreoffice-core",
+  "fonts-noto-cjk",
+  "fonts-noto-cjk-extra",
+  "fonts-wqy-zenhei",
+  "fontconfig",
+]
