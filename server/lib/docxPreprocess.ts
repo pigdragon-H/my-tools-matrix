@@ -56,6 +56,7 @@ export async function preprocessQuotationDocx(input: Buffer): Promise<Buffer> {
     }
 
     const before = xml;
+    xml = fixLogoCenter(xml);
     xml = fixAddressLine(xml);
     xml = fixTitleLine(xml);
     xml = moveAttnAboveTable(xml);
@@ -89,6 +90,75 @@ export async function preprocessQuotationDocx(input: Buffer): Promise<Buffer> {
  * what Smallpdf does conceptually — "lock" the line so it never wraps and is
  * gently compressed to fit, instead of inflating and pushing other text away.
  */
+/**
+ * STEP 0 — pin the company-logo image to the page centre.
+ *
+ * The header logo (an inline <w:drawing> that contains the company name +
+ * address artwork) is "centred" in the original Word file by padding the
+ * paragraph with runs of literal spaces on BOTH sides of the image
+ * (e.g. 56 leading + 40 trailing spaces). Word renders those spaces with the
+ * 標楷體 / 新細明體 metrics; LibreOffice substitutes a font whose space width
+ * differs, so the padding no longer balances and the logo drifts off the page
+ * centre — the single most visible defect in the converted header.
+ *
+ * Fix: strip the whitespace-only padding runs around the image and centre the
+ * paragraph with <w:jc w:val="center"/>. An inline image inside a centred
+ * paragraph is placed at the exact horizontal centre of the text column,
+ * independent of any font's space width — so the logo's centre point is
+ * "pinned" to the page centre. This is template-agnostic: it works for ANY
+ * company's quotation whose header is a single inline logo image, not just
+ * SOONTOP.
+ */
+function fixLogoCenter(xml: string): string {
+  const di = xml.indexOf("<w:drawing");
+  if (di === -1) return xml;
+
+  // Find the paragraph that contains the first drawing.
+  let pStart = xml.lastIndexOf("<w:p ", di);
+  const pStartAlt = xml.lastIndexOf("<w:p>", di);
+  if (pStartAlt > pStart) pStart = pStartAlt;
+  if (pStart === -1) return xml;
+  const pEndMarker = xml.indexOf("</w:p>", di);
+  if (pEndMarker === -1) return xml;
+  const pEnd = pEndMarker + "</w:p>".length;
+  let para = xml.slice(pStart, pEnd);
+
+  // Ensure the paragraph has a <w:pPr> so we can attach <w:jc>.
+  if (!/<w:pPr\b/.test(para)) {
+    const firstGt = para.indexOf(">") + 1;
+    para = para.slice(0, firstGt) + "<w:pPr></w:pPr>" + para.slice(firstGt);
+  }
+
+  const pprEndRel = para.indexOf("</w:pPr>");
+  const head =
+    pprEndRel === -1
+      ? para.slice(0, para.indexOf(">") + 1)
+      : para.slice(0, pprEndRel + "</w:pPr>".length);
+  let body = para.slice(head.length, para.length - "</w:p>".length);
+
+  // Drop every whitespace-only run (the fake-centering padding), but keep any
+  // run that carries the <w:drawing> image itself.
+  body = body.replace(/<w:r\b[^>]*>[\s\S]*?<\/w:r>/g, (run) => {
+    if (run.includes("<w:drawing")) return run;
+    const txt = run
+      .match(/<w:t[^>]*>([\s\S]*?)<\/w:t>/g)
+      ?.map((t) => (t.match(/<w:t[^>]*>([\s\S]*?)<\/w:t>/) || [, ""])[1] ?? "")
+      .join("");
+    return txt !== undefined && /^\s*$/.test(unescapeXml(txt ?? "")) ? "" : run;
+  });
+
+  // Centre the paragraph so the inline logo is pinned to the page centre.
+  let newHead = head;
+  if (/<w:jc\b[^>]*\/>/.test(newHead)) {
+    newHead = newHead.replace(/<w:jc\b[^>]*\/>/, '<w:jc w:val="center"/>');
+  } else {
+    newHead = newHead.replace("</w:pPr>", '<w:jc w:val="center"/></w:pPr>');
+  }
+
+  const newPara = newHead + body + "</w:p>";
+  return xml.slice(0, pStart) + newPara + xml.slice(pEnd);
+}
+
 function fixAddressLine(xml: string): string {
   const WEBSITE = "soontop.com.tw";
   const wIdx = xml.indexOf(WEBSITE);
@@ -99,49 +169,72 @@ function fixAddressLine(xml: string): string {
   const pEndMarker = xml.indexOf("</w:p>", wIdx);
   if (pEndMarker === -1) return xml;
   const pEnd = pEndMarker + "</w:p>".length;
-  let para = xml.slice(pStart, pEnd);
+  const para = xml.slice(pStart, pEnd);
 
-  // --- 1) Drop the leading whitespace-only run used for pseudo-centering. ---
-  // The original Word file centers this line with ~40 literal spaces. The
-  // substituted Linux font renders those spaces at a different width, so the
-  // line drifts and the website wraps. We remove that run and center the
-  // paragraph properly instead.
+  // Split off the paragraph head (everything up to and including </w:pPr>).
   const pprEndRel = para.indexOf("</w:pPr>");
   const head =
     pprEndRel === -1
       ? para.slice(0, para.indexOf(">") + 1)
       : para.slice(0, pprEndRel + "</w:pPr>".length);
-  let body = para.slice(head.length, para.length - "</w:p>".length);
-  body = body.replace(/^<w:r>[\s\S]*?<\/w:r>/, (m) => {
-    const txt = (m.match(/<w:t[^>]*>([\s\S]*?)<\/w:t>/) || [, ""])[1] ?? "";
-    return /^\s*$/.test(unescapeXml(txt)) ? "" : m;
-  });
+  const body = para.slice(head.length, para.length - "</w:p>".length);
 
-  // --- 2) Unify the font of every run on this line. ---
-  // The address mixes 新細明體 (Chinese) runs with no-eastAsia (Times New Roman)
-  // number runs (769 / 20). LibreOffice inserts CJK<->Latin spacing at those run
-  // boundaries, making "文化路 769 巷 20 號" look loosely spaced vs Smallpdf's
-  // compact "文化路769巷20號". Forcing one eastAsia font on every run removes
-  // those boundary gaps so the line is tight and centered like Smallpdf.
-  const UNI_FONT =
+  // --- 1) Split the body at the website hyperlink (preserve it verbatim). ----
+  // Structure: [leading-space run][Chinese/digit/TEL runs]
+  //            <w:hyperlink>website</w:hyperlink>
+  // The hyperlink must remain a real hyperlink (blue + underline), so we keep
+  // it untouched and only rebuild the text that precedes it.
+  const hlMatch = body.match(/<w:hyperlink\b[\s\S]*?<\/w:hyperlink>/);
+  const hyperlink = hlMatch ? hlMatch[0] : "";
+  const preHyperlink = hyperlink
+    ? body.slice(0, body.indexOf(hyperlink))
+    : body;
+
+  // --- 2) Merge every pre-hyperlink run into ONE run. ---
+  // The address mixes 新細明體 (Chinese) runs with no-eastAsia number runs
+  // (769 / 20). LibreOffice inserts a CJK<->Latin boundary gap at every run
+  // edge, producing the loose "文化路 769 巷 20 號" instead of Smallpdf's compact
+  // "文化路769巷20號". Concatenating all visible text into a single run with one
+  // font leaves no internal run boundary for the engine to space, so the line
+  // renders tight and identical to Smallpdf.
+  let merged = "";
+  for (const m of preHyperlink.matchAll(/<w:t[^>]*>([\s\S]*?)<\/w:t>/g)) {
+    merged += unescapeXml(m[1] ?? "");
+  }
+  // Drop the ~40 leading spaces the original Word file used to fake-center the
+  // line (we center it properly with <w:jc> below); keep two spaces before the
+  // website like the original.
+  const mergedText = merged.replace(/^\s+/, "").replace(/\s+$/, "") + "  ";
+
+  const ADDR_FONT =
     '<w:rFonts w:ascii="Times New Roman" w:eastAsia="新細明體" ' +
     'w:hAnsi="Times New Roman" w:cs="新細明體" w:hint="eastAsia"/>';
-  body = body.replace(/<w:rPr>([\s\S]*?)<\/w:rPr>/g, (m) => {
-    if (/<w:rFonts\b[^>]*\/>/.test(m)) {
-      return m.replace(/<w:rFonts\b[^>]*\/>/, UNI_FONT);
-    }
-    return m.replace("<w:rPr>", "<w:rPr>" + UNI_FONT);
-  });
+  const mergedRun =
+    "<w:r><w:rPr>" +
+    ADDR_FONT +
+    '<w:sz w:val="20"/><w:szCs w:val="20"/></w:rPr>' +
+    '<w:t xml:space="preserve">' +
+    escapeXml(mergedText) +
+    "</w:t></w:r>";
 
-  // --- 3) Center the paragraph (replaces the deleted leading-space centering). ---
+  // --- 3) Disable East-Asian auto-spacing, then center the paragraph. ---
   let newHead = head;
+  if (/<w:pPr>/.test(newHead)) {
+    newHead = newHead
+      .replace(/<w:autoSpaceDE\b[^>]*\/>/g, "")
+      .replace(/<w:autoSpaceDN\b[^>]*\/>/g, "")
+      .replace(
+        "<w:pPr>",
+        '<w:pPr><w:autoSpaceDE w:val="0"/><w:autoSpaceDN w:val="0"/>',
+      );
+  }
   if (!/<w:jc\b[^>]*\/>/.test(newHead)) {
     newHead = newHead.replace("</w:pPr>", '<w:jc w:val="center"/></w:pPr>');
   } else {
     newHead = newHead.replace(/<w:jc\b[^>]*\/>/, '<w:jc w:val="center"/>');
   }
 
-  const newPara = newHead + body + "</w:p>";
+  const newPara = newHead + mergedRun + hyperlink + "</w:p>";
   return xml.slice(0, pStart) + newPara + xml.slice(pEnd);
 }
 
