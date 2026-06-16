@@ -185,7 +185,27 @@ function fixAddressLine(xml: string): string {
   // The hyperlink must remain a real hyperlink (blue + underline), so we keep
   // it untouched and only rebuild the text that precedes it.
   const hlMatch = body.match(/<w:hyperlink\b[\s\S]*?<\/w:hyperlink>/);
-  const hyperlink = hlMatch ? hlMatch[0] : "";
+  let hyperlink = hlMatch ? hlMatch[0] : "";
+
+  // --- 1a) Pin the website hyperlink's font/size. -----------------------------
+  // The hyperlink run carries the "Hyperlink" character style (rStyle "ae"),
+  // which only defines colour + underline -- it has NO font and NO size. On
+  // Windows the URL therefore inherits Times New Roman at the run's 10pt. On
+  // Linux LibreOffice resolves the missing font via the document's theme
+  // (minorHAnsi) default, which renders the URL noticeably LARGER and bolder
+  // than Smallpdf ("the website looked one size bigger"). We inject an explicit
+  // Times New Roman rFonts (matching the address) right after the rStyle so the
+  // link can no longer fall back to the oversized theme font, while keeping it a
+  // real blue underlined hyperlink.
+  if (hyperlink && !/<w:rPr>[\s\S]*?<w:rFonts/.test(hyperlink)) {
+    hyperlink = hyperlink.replace(
+      /<w:rStyle\b[^>]*\/>/,
+      (m) =>
+        m +
+        '<w:rFonts w:ascii="Times New Roman" w:eastAsia="新細明體" ' +
+        'w:hAnsi="Times New Roman" w:cs="新細明體" w:hint="eastAsia"/>',
+    );
+  }
   const preHyperlink = hyperlink
     ? body.slice(0, body.indexOf(hyperlink))
     : body;
@@ -204,7 +224,17 @@ function fixAddressLine(xml: string): string {
   // Drop the ~40 leading spaces the original Word file used to fake-center the
   // line (we center it properly with <w:jc> below); keep two spaces before the
   // website like the original.
-  const mergedText = merged.replace(/^\s+/, "").replace(/\s+$/, "") + "  ";
+  //
+  // The original Word file ALSO repeats the website URL as PLAIN text inside the
+  // pre-hyperlink runs (right before the real hyperlink), so concatenating every
+  // pre-hyperlink run would print the URL twice. Strip any trailing
+  // "http(s)://...soontop.com.tw" from the merged address text -- the real blue
+  // underlined hyperlink that follows is the single source of truth for the URL.
+  const mergedText =
+    merged
+      .replace(/https?:\/\/[^\s]*soontop\.com\.tw\/?/gi, "")
+      .replace(/^\s+/, "")
+      .replace(/\s+$/, "") + "  ";
 
   const ADDR_FONT =
     '<w:rFonts w:ascii="Times New Roman" w:eastAsia="新細明體" ' +
