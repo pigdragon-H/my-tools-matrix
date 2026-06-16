@@ -99,46 +99,50 @@ function fixAddressLine(xml: string): string {
   const pEndMarker = xml.indexOf("</w:p>", wIdx);
   if (pEndMarker === -1) return xml;
   const pEnd = pEndMarker + "</w:p>".length;
-  const para = xml.slice(pStart, pEnd);
+  let para = xml.slice(pStart, pEnd);
 
-  // Guard: only transform the centered address paragraph (leading-space run).
-  // Extract inner content (after </w:pPr>).
-  const pprEnd = para.indexOf("</w:pPr>");
-  let inner =
-    pprEnd === -1
-      ? para.slice(para.indexOf(">") + 1, para.lastIndexOf("</w:p>"))
-      : para.slice(pprEnd + "</w:pPr>".length, para.lastIndexOf("</w:p>"));
-
-  // Strip the first run if it contains only whitespace (the pseudo-centering).
-  inner = inner.replace(/^<w:r>[\s\S]*?<\/w:r>/, (m) => {
+  // --- 1) Drop the leading whitespace-only run used for pseudo-centering. ---
+  // The original Word file centers this line with ~40 literal spaces. The
+  // substituted Linux font renders those spaces at a different width, so the
+  // line drifts and the website wraps. We remove that run and center the
+  // paragraph properly instead.
+  const pprEndRel = para.indexOf("</w:pPr>");
+  const head =
+    pprEndRel === -1
+      ? para.slice(0, para.indexOf(">") + 1)
+      : para.slice(0, pprEndRel + "</w:pPr>".length);
+  let body = para.slice(head.length, para.length - "</w:p>".length);
+  body = body.replace(/^<w:r>[\s\S]*?<\/w:r>/, (m) => {
     const txt = (m.match(/<w:t[^>]*>([\s\S]*?)<\/w:t>/) || [, ""])[1] ?? "";
     return /^\s*$/.test(unescapeXml(txt)) ? "" : m;
   });
 
-  const W = PAGE_CONTENT_WIDTH;
-  const cellTable =
-    "<w:tbl><w:tblPr>" +
-    `<w:tblW w:w="${W}" w:type="dxa"/>` +
-    '<w:jc w:val="center"/>' +
-    "<w:tblBorders><w:top w:val=\"nil\"/><w:left w:val=\"nil\"/>" +
-    "<w:bottom w:val=\"nil\"/><w:right w:val=\"nil\"/>" +
-    "<w:insideH w:val=\"nil\"/><w:insideV w:val=\"nil\"/></w:tblBorders>" +
-    "<w:tblCellMar><w:left w:w=\"0\" w:type=\"dxa\"/>" +
-    "<w:right w:w=\"0\" w:type=\"dxa\"/></w:tblCellMar>" +
-    '<w:tblLook w:val="04A0"/></w:tblPr>' +
-    `<w:tblGrid><w:gridCol w:w="${W}"/></w:tblGrid>` +
-    "<w:tr><w:tc><w:tcPr>" +
-    `<w:tcW w:w="${W}" w:type="dxa"/>` +
-    "<w:noWrap/><w:tcFitText w:val=\"true\"/>" +
-    "<w:tcBorders><w:top w:val=\"nil\"/><w:left w:val=\"nil\"/>" +
-    "<w:bottom w:val=\"nil\"/><w:right w:val=\"nil\"/></w:tcBorders>" +
-    "</w:tcPr>" +
-    '<w:p><w:pPr><w:adjustRightInd w:val="0"/><w:snapToGrid w:val="0"/>' +
-    '<w:spacing w:after="0" w:line="240" w:lineRule="auto"/>' +
-    '<w:jc w:val="center"/></w:pPr>' +
-    `${inner}</w:p></w:tc></w:tr></w:tbl>`;
+  // --- 2) Unify the font of every run on this line. ---
+  // The address mixes 新細明體 (Chinese) runs with no-eastAsia (Times New Roman)
+  // number runs (769 / 20). LibreOffice inserts CJK<->Latin spacing at those run
+  // boundaries, making "文化路 769 巷 20 號" look loosely spaced vs Smallpdf's
+  // compact "文化路769巷20號". Forcing one eastAsia font on every run removes
+  // those boundary gaps so the line is tight and centered like Smallpdf.
+  const UNI_FONT =
+    '<w:rFonts w:ascii="Times New Roman" w:eastAsia="新細明體" ' +
+    'w:hAnsi="Times New Roman" w:cs="新細明體" w:hint="eastAsia"/>';
+  body = body.replace(/<w:rPr>([\s\S]*?)<\/w:rPr>/g, (m) => {
+    if (/<w:rFonts\b[^>]*\/>/.test(m)) {
+      return m.replace(/<w:rFonts\b[^>]*\/>/, UNI_FONT);
+    }
+    return m.replace("<w:rPr>", "<w:rPr>" + UNI_FONT);
+  });
 
-  return xml.slice(0, pStart) + cellTable + xml.slice(pEnd);
+  // --- 3) Center the paragraph (replaces the deleted leading-space centering). ---
+  let newHead = head;
+  if (!/<w:jc\b[^>]*\/>/.test(newHead)) {
+    newHead = newHead.replace("</w:pPr>", '<w:jc w:val="center"/></w:pPr>');
+  } else {
+    newHead = newHead.replace(/<w:jc\b[^>]*\/>/, '<w:jc w:val="center"/>');
+  }
+
+  const newPara = newHead + body + "</w:p>";
+  return xml.slice(0, pStart) + newPara + xml.slice(pEnd);
 }
 
 /** STEP 1 — convert the space-aligned title line into a 3-cell borderless table. */
