@@ -5190,6 +5190,21 @@ export const tools: Tool[] = [
     seoArticles: [],
   },
   {
+    id: "pdf-to-markdown",
+    name: "PDF 轉 Markdown",
+    category: "converter",
+    path: "/tools/converter/pdf-to-markdown",
+    icon: "FileCode2",
+    description: "免費線上 PDF 轉 Markdown，瀏覽器執行，適合 AI 知識庫建立與 RAG 前處理",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 10,
+    isNew: true,
+    isFeatured: true,
+    status: "GOLD",
+    seoArticles: [],
+  },
+  {
     id: "pdf-to-word",
     name: "PDF 轉 Word",
     category: "converter",
@@ -5593,4 +5608,5 @@ export const cpmCalculator = { id: "cpm-calculator", category: "ecommerce", name
 export const cpcCalculator = { id: "cpc-calculator", category: "finance", name: "CPC Calculator", path: "/tools/finance/cpc-calculator" };
 export const wordToPdf = { id: "word-to-pdf", category: "converter", name: "Word 轉 PDF", path: "/tools/converter/word-to-pdf" };
 export const pdfToWord = { id: "pdf-to-word", category: "converter", name: "PDF 轉 Word", path: "/tools/converter/pdf-to-word" };
+export const pdfToMarkdown = { id: "pdf-to-markdown", category: "converter", name: "PDF 轉 Markdown", path: "/tools/converter/pdf-to-markdown" };
 /* === SAFE ZONE END === */
