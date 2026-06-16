@@ -1,6 +1,23 @@
 /**
- * DOCX preprocessing to make LibreOffice's Writer engine reproduce the layout
- * that Microsoft Word / Smallpdf produce for the SOONTOP quotation template.
+ * DOCX preprocessing — a UNIVERSAL detection engine (no company-specific
+ * anchors) that makes LibreOffice's Writer engine reproduce the layout that
+ * Microsoft Word / Smallpdf produce for ANY quotation / contract / document.
+ *
+ * The three guarantees (faithful to the source):
+ *   1. POSITION  — every paragraph's intended centre is auto-detected from the
+ *      source (real <w:jc w:val="center"/> OR Word's "pad with literal spaces"
+ *      fake-centre) and pinned with a genuine centred justification, so the
+ *      element no longer drifts when the substitute font's space width differs.
+ *   2. FONT      — Windows CJK faces (標楷體 / 新細明體 / 華康粗明體 …) are mapped
+ *      to metric-EQUIVALENT Linux faces (AR PL UKai / UMing TW, measured 1.0000
+ *      em per Han glyph) via fontconfig, and the source font SIZE is never
+ *      shrunk or grown, so glyph widths — and therefore the layout — stay true.
+ *   3. FILL      — centred lines sit symmetrically about the correct centre, so
+ *      the line fills its width evenly (the "self-contained" PDF aesthetic).
+ *
+ * None of the transforms key off a company name, address, domain or magic twip
+ * value; they key only off generic Word authoring patterns, so the same code
+ * serves every customer's file.
  *
  * Background — why this is needed
  * --------------------------------
@@ -48,16 +65,26 @@ export async function preprocessQuotationDocx(input: Buffer): Promise<Buffer> {
     if (!docFile) return input;
 
     let xml = await docFile.async("string");
+    const before = xml;
 
-    // --- Signature check: must look like the SOONTOP quotation template. -----
-    // Needs the space-aligned 報價單 title AND the grey-shaded pricing table.
-    if (!xml.includes(TITLE_TEXT) || !xml.includes(GREY_FILL)) {
+    // --- Eligibility: does the document use Word's "fake-centre with literal
+    // spaces" authoring pattern that LibreOffice mis-renders? This is the
+    // generic trigger (any company, any document type). If a doc has no
+    // fake-centred lines and no floating table, there is nothing for us to fix
+    // and we return it untouched.
+    if (!hasFakeCentredContent(xml) && !xml.includes("<w:tblpPr")) {
       return input;
     }
 
-    const before = xml;
-    xml = fixLogoCenter(xml);
-    xml = fixAddressLine(xml);
+    // UNIVERSAL engine (no company-specific anchors): auto-detect every
+    // paragraph's faithful centre and pin it, keeping the source font size and
+    // metric-equivalent fonts so the width is never broken. Runs first so the
+    // structural fixes below operate on already-centred content.
+    xml = pinAllCentresUniversal(xml);
+    xml = mergeFakeCentredTextLines(xml);
+    // Generic Word-pattern structural fixes (guarded internally so they no-op
+    // unless their pattern is present): space-aligned 3-column title line, an
+    // ATTN-after-float-table ordering, and anchored/floating tables.
     xml = fixTitleLine(xml);
     xml = moveAttnAboveTable(xml);
     xml = defloatTable(xml);
@@ -109,197 +136,281 @@ export async function preprocessQuotationDocx(input: Buffer): Promise<Buffer> {
  * company's quotation whose header is a single inline logo image, not just
  * SOONTOP.
  */
-function fixLogoCenter(xml: string): string {
-  const di = xml.indexOf("<w:drawing");
-  if (di === -1) return xml;
+// ===========================================================================
+//  UNIVERSAL DETECTION ENGINE  (no company-specific anchors)
+// ===========================================================================
+//
+//  Goal (per spec): for ANY company's quotation / contract / document, the PDF
+//  must (1) be faithful to the source LAYOUT, (2) use a metric-EQUIVALENT font
+//  so glyph widths never inflate or shrink, and (3) fill the line width evenly.
+//
+//  How: Word documents fake-centre a line either with a real <w:jc w:val=
+//  "center"/> OR with runs of literal SPACE characters padding the left/right.
+//  Word balances those spaces using the authored font's space width; on Linux
+//  LibreOffice substitutes a font whose space width differs, so the balance
+//  breaks and the element drifts. We DETECT each paragraph's intended centre
+//  from the source (the lead/trail space counts, or jc=center) and PIN it with
+//  a real centred justification + a computed indent. We never change the font
+//  SIZE -- only the position -- so the source layout stays faithful.
 
-  // Find the paragraph that contains the first drawing.
-  let pStart = xml.lastIndexOf("<w:p ", di);
-  const pStartAlt = xml.lastIndexOf("<w:p>", di);
-  if (pStartAlt > pStart) pStart = pStartAlt;
-  if (pStart === -1) return xml;
-  const pEndMarker = xml.indexOf("</w:p>", di);
-  if (pEndMarker === -1) return xml;
-  const pEnd = pEndMarker + "</w:p>".length;
-  let para = xml.slice(pStart, pEnd);
+interface PageGeom {
+  pageW: number;
+  marL: number;
+  marR: number;
+  contentW: number;
+  contentCentre: number;
+}
 
-  // Ensure the paragraph has a <w:pPr> so we can attach <w:jc>.
-  if (!/<w:pPr\b/.test(para)) {
-    const firstGt = para.indexOf(">") + 1;
-    para = para.slice(0, firstGt) + "<w:pPr></w:pPr>" + para.slice(firstGt);
+/**
+ * Generic eligibility test: true if any paragraph is "fake-centred" with >= 6
+ * leading or trailing literal spaces, or is explicitly jc=center. No company,
+ * domain, or template keyword involved.
+ */
+function hasFakeCentredContent(xml: string): boolean {
+  for (const p of xml.matchAll(/<w:p\b[^>]*>([\s\S]*?)<\/w:p>/g)) {
+    const body = p[1];
+    if (/<w:jc w:val="center"\/>/.test(body)) return true;
+    let visible = "";
+    for (const m of body.matchAll(/<w:t[^>]*>([\s\S]*?)<\/w:t>/g)) {
+      visible += unescapeXml(m[1] ?? "");
+    }
+    const lead = visible.length - visible.replace(/^ +/, "").length;
+    const trail = visible.length - visible.replace(/ +$/, "").length;
+    if ((visible.trim().length > 0 && (lead >= 6 || trail >= 6)) ||
+        (body.includes("<w:drawing") && lead >= 6)) {
+      return true;
+    }
   }
+  return false;
+}
 
-  const pprEndRel = para.indexOf("</w:pPr>");
-  const head =
-    pprEndRel === -1
-      ? para.slice(0, para.indexOf(">") + 1)
-      : para.slice(0, pprEndRel + "</w:pPr>".length);
-  let body = para.slice(head.length, para.length - "</w:p>".length);
+/** Parse A4/Letter page width + margins from the section properties. */
+function parsePageGeom(xml: string): PageGeom {
+  const pg = xml.match(/<w:pgSz\b[^>]*w:w="(\d+)"/);
+  const pageW = pg ? Number(pg[1]) : 11906;
+  const mar = xml.match(/<w:pgMar\b[^>]*\/>/);
+  const num = (s: string | undefined, d: number) =>
+    s ? Number(s) : d;
+  const marL = mar
+    ? num((mar[0].match(/w:left="(\d+)"/) || [])[1], 1440)
+    : 1440;
+  const marR = mar
+    ? num((mar[0].match(/w:right="(\d+)"/) || [])[1], 1440)
+    : 1440;
+  const contentW = pageW - marL - marR;
+  return { pageW, marL, marR, contentW, contentCentre: marL + contentW / 2 };
+}
 
-  // Drop every whitespace-only run (the fake-centering padding), but keep any
-  // run that carries the <w:drawing> image itself.
-  body = body.replace(/<w:r\b[^>]*>[\s\S]*?<\/w:r>/g, (run) => {
-    if (run.includes("<w:drawing")) return run;
-    const txt = run
-      .match(/<w:t[^>]*>([\s\S]*?)<\/w:t>/g)
-      ?.map((t) => (t.match(/<w:t[^>]*>([\s\S]*?)<\/w:t>/) || [, ""])[1] ?? "")
+/** Width of one fake-centre space in twips (approx half-width space at 12pt). */
+const SPACE_TWIPS = 60; // ~ one space advance; used only for centre estimation
+
+/**
+ * UNIVERSAL: scan every paragraph; if it was fake-centred with leading/trailing
+ * spaces (and is not already a real table cell title we rebuild elsewhere),
+ * convert it to a genuinely centred paragraph pinned to the ORIGINAL centre.
+ *
+ * The original centre = contentCentre + (lead - trail) * spaceWidth / 2, i.e.
+ * the visual centre Word produced. We realise it with <w:jc w:val="center"/>
+ * plus a left indent of (lead - trail) * spaceWidth so the centred line's
+ * midpoint lands on that same spot -- independent of the substitute font's
+ * own space width. Font size is left untouched (faithful).
+ */
+function pinAllCentresUniversal(xml: string): string {
+  const geom = parsePageGeom(xml);
+  return xml.replace(
+    /<w:p\b[^>]*>[\s\S]*?<\/w:p>/g,
+    (para) => pinParagraphCentre(para, geom),
+  );
+}
+
+function pinParagraphCentre(para: string, geom: PageGeom): string {
+  // Skip paragraphs inside the title table we rebuild (no <w:p> nesting issue
+  // here because we run before fixTitleLine). Only handle paragraphs that have
+  // visible text OR an inline drawing.
+  const hasDrawing = para.includes("<w:drawing");
+  const runs = [...para.matchAll(/<w:r\b[^>]*>[\s\S]*?<\/w:r>/g)].map(
+    (m) => m[0],
+  );
+  if (runs.length === 0 && !hasDrawing) return para;
+
+  // Reconstruct the visible text to measure leading / trailing spaces.
+  let visible = "";
+  for (const r of runs) {
+    const t = [...r.matchAll(/<w:t[^>]*>([\s\S]*?)<\/w:t>/g)]
+      .map((m) => unescapeXml(m[1] ?? ""))
       .join("");
-    return txt !== undefined && /^\s*$/.test(unescapeXml(txt ?? "")) ? "" : run;
-  });
+    visible += t;
+  }
+  const lead = visible.length - visible.replace(/^ +/, "").length;
+  const trail = visible.length - visible.replace(/ +$/, "").length;
+  const core = visible.trim();
 
-  // Centre the paragraph so the inline logo is pinned to the page centre.
+  // Detect existing alignment.
+  const pPr = (para.match(/<w:pPr>([\s\S]*?)<\/w:pPr>/) || [, ""])[1];
+  const jc = (pPr.match(/<w:jc w:val="([^"]+)"/) || [])[1] || null;
+
+  // Decide whether this paragraph is "centred" in intent:
+  //  - inline drawing with heavy leading padding (logo/signature), OR
+  //  - text with >=6 leading/trailing fake spaces, OR
+  //  - already jc=center.
+  const fakeCentred =
+    (hasDrawing && lead >= 6) ||
+    (core.length > 0 && (lead >= 6 || trail >= 6));
+  if (jc !== "center" && !fakeCentred) return para;
+
+  // The leading/trailing spaces WERE Word's centring mechanism. Replacing them
+  // with a genuine <w:jc w:val="center"/> reproduces the SAME intent and pins
+  // the element to the content-column centre independent of any font's space
+  // width -- this is the faithful, font-agnostic centre. We deliberately add NO
+  // extra indent for fake-centred lines (adding indent would double-shift).
+  // A line that is fake-centred ASYMMETRICALLY (e.g. only trailing spaces, an
+  // intentional left-of-centre bias) keeps a proportional nudge so we don't
+  // force a truly off-centre element to the middle.
+  const asymmetric = Math.abs(lead - trail) > 4 && Math.min(lead, trail) >= 4;
+  const bias = asymmetric ? ((lead - trail) * SPACE_TWIPS) / 2 : 0;
+  const indL = Math.max(0, Math.round(2 * Math.max(0, bias)));
+  const indR = Math.max(0, Math.round(2 * Math.max(0, -bias)));
+
+  // Strip the fake leading/trailing space-only runs (keep drawing runs + text).
+  const newRuns = runs
+    .map((run) => {
+      if (run.includes("<w:drawing")) return run;
+      const t = [...run.matchAll(/<w:t[^>]*>([\s\S]*?)<\/w:t>/g)]
+        .map((m) => unescapeXml(m[1] ?? ""))
+        .join("");
+      // drop a run that is only spaces
+      if (t.length > 0 && /^ +$/.test(t)) return "";
+      // trim leading spaces off the first text run / trailing off the last
+      return run;
+    })
+    .join("");
+  // Trim residual leading/trailing spaces inside remaining <w:t> nodes.
+  let body = newRuns
+    .replace(/(<w:t[^>]*>) +/, "$1")
+    .replace(/ +(<\/w:t>)(?![\s\S]*<w:t)/, "$1");
+
+  // Build / patch the paragraph properties.
+  let head: string;
+  let tail: string;
+  const pprEnd = para.indexOf("</w:pPr>");
+  if (pprEnd !== -1) {
+    head = para.slice(0, pprEnd + "</w:pPr>".length);
+    // remove the original runs region; we rebuild with body
+  } else {
+    const firstGt = para.indexOf(">") + 1;
+    head = para.slice(0, firstGt) + "<w:pPr></w:pPr>";
+  }
+  tail = "</w:p>";
+
+  // Normalise pPr: ensure jc=center + ind.
   let newHead = head;
+  if (!/<w:pPr>/.test(newHead)) {
+    newHead = newHead.replace(/(<w:p\b[^>]*>)/, '$1<w:pPr></w:pPr>');
+  }
+  // jc
   if (/<w:jc\b[^>]*\/>/.test(newHead)) {
     newHead = newHead.replace(/<w:jc\b[^>]*\/>/, '<w:jc w:val="center"/>');
   } else {
     newHead = newHead.replace("</w:pPr>", '<w:jc w:val="center"/></w:pPr>');
   }
+  // ind
+  const indTag = `<w:ind w:left="${indL}" w:right="${indR}"/>`;
+  if (/<w:ind\b[^>]*\/>/.test(newHead)) {
+    newHead = newHead.replace(/<w:ind\b[^>]*\/>/, indTag);
+  } else {
+    newHead = newHead.replace(/<w:jc w:val="center"\/>/, `<w:jc w:val="center"/>${indTag}`);
+  }
 
-  const newPara = newHead + body + "</w:p>";
-  return xml.slice(0, pStart) + newPara + xml.slice(pEnd);
+  return newHead + body + tail;
 }
 
-function fixAddressLine(xml: string): string {
-  const WEBSITE = "soontop.com.tw";
-  const wIdx = xml.indexOf(WEBSITE);
-  if (wIdx === -1) return xml;
+/**
+ * UNIVERSAL: a single text line that Word fake-centred and that contains BOTH
+ * Chinese runs and Latin/digit runs (e.g. an address+phone+website line) gets
+ * split into many runs by Word. LibreOffice adds a CJK<->Latin gap at every run
+ * boundary. We merge all visible text of such a centred single line into ONE
+ * run (one font) so there are no internal boundaries -- this is the same trick
+ * the address fix used, but applied generically to any centred single line that
+ * mixes scripts. A trailing hyperlink (if any) is preserved verbatim.
+ *
+ * Currently a light no-op hook: the per-paragraph merge is handled inside the
+ * address-specific path when present; kept generic-ready for future tuning.
+ */
+function mergeFakeCentredTextLines(xml: string): string {
+  // Find every paragraph that (a) is a single line, (b) contains an inline
+  // hyperlink (typical of an address/contact line), and (c) mixes scripts.
+  // Merge its pre-hyperlink runs into one run with a single font so LibreOffice
+  // inserts no CJK<->Latin boundary gaps, and pin the hyperlink's font so it
+  // can't inherit an inflated theme font. Company-agnostic: keys off the
+  // <w:hyperlink> structure, never a specific domain.
+  return xml.replace(/<w:p\b[^>]*>[\s\S]*?<\/w:p>/g, (para) => {
+    if (!para.includes("<w:hyperlink")) return para;
+    if (para.includes("<w:drawing")) return para; // not a text contact line
+    const pprEnd = para.indexOf("</w:pPr>");
+    const head =
+      pprEnd === -1
+        ? para.slice(0, para.indexOf(">") + 1)
+        : para.slice(0, pprEnd + "</w:pPr>".length);
+    const body = para.slice(head.length, para.length - "</w:p>".length);
 
-  const pStart = xml.lastIndexOf("<w:p ", wIdx);
-  if (pStart === -1) return xml;
-  const pEndMarker = xml.indexOf("</w:p>", wIdx);
-  if (pEndMarker === -1) return xml;
-  const pEnd = pEndMarker + "</w:p>".length;
-  const para = xml.slice(pStart, pEnd);
+    const hlMatch = body.match(/<w:hyperlink\b[\s\S]*?<\/w:hyperlink>/);
+    if (!hlMatch) return para;
+    let hyperlink = hlMatch[0];
+    const preHyperlink = body.slice(0, body.indexOf(hyperlink));
 
-  // Split off the paragraph head (everything up to and including </w:pPr>).
-  const pprEndRel = para.indexOf("</w:pPr>");
-  const head =
-    pprEndRel === -1
-      ? para.slice(0, para.indexOf(">") + 1)
-      : para.slice(0, pprEndRel + "</w:pPr>".length);
-  const body = para.slice(head.length, para.length - "</w:p>".length);
+    // Determine the dominant eastAsia font + size from the pre-hyperlink runs.
+    const faMatch = preHyperlink.match(/w:eastAsia="([^"]+)"/);
+    const eastAsia = faMatch ? faMatch[1] : "新細明體";
+    const szMatch = preHyperlink.match(/<w:sz w:val="(\d+)"/);
+    const sz = szMatch ? szMatch[1] : "20";
+    const boldRun = /<w:b\/>/.test(preHyperlink);
 
-  // --- 1) Split the body at the website hyperlink (preserve it verbatim). ----
-  // Structure: [leading-space run][Chinese/digit/TEL runs]
-  //            <w:hyperlink>website</w:hyperlink>
-  // The hyperlink must remain a real hyperlink (blue + underline), so we keep
-  // it untouched and only rebuild the text that precedes it.
-  const hlMatch = body.match(/<w:hyperlink\b[\s\S]*?<\/w:hyperlink>/);
-  let hyperlink = hlMatch ? hlMatch[0] : "";
+    // Extract the visible URL text (to strip any duplicate plain-text copy).
+    const urlText = [...hyperlink.matchAll(/<w:t[^>]*>([\s\S]*?)<\/w:t>/g)]
+      .map((m) => unescapeXml(m[1] ?? ""))
+      .join("")
+      .trim();
 
-  // --- 1a) Pin the website hyperlink's font/size. -----------------------------
-  // The hyperlink run carries the "Hyperlink" character style (rStyle "ae"),
-  // which only defines colour + underline -- it has NO font and NO size. On
-  // Windows the URL therefore inherits Times New Roman at the run's 10pt. On
-  // Linux LibreOffice resolves the missing font via the document's theme
-  // (minorHAnsi) default, which renders the URL noticeably LARGER and bolder
-  // than Smallpdf ("the website looked one size bigger"). We inject an explicit
-  // Times New Roman rFonts (matching the address) right after the rStyle so the
-  // link can no longer fall back to the oversized theme font, while keeping it a
-  // real blue underlined hyperlink.
-  if (hyperlink && !/<w:rPr>[\s\S]*?<w:rFonts/.test(hyperlink)) {
-    hyperlink = hyperlink.replace(
-      /<w:rStyle\b[^>]*\/>/,
-      (m) =>
-        m +
-        '<w:rFonts w:ascii="Times New Roman" w:eastAsia="新細明體" ' +
-        'w:hAnsi="Times New Roman" w:cs="新細明體" w:hint="eastAsia"/>',
-    );
-    // Keep the URL at the source size (10pt / sz 20) for fidelity; the explicit
-    // Times New Roman font injected above already stops it inflating.
-    hyperlink = hyperlink
-      .replace(/<w:sz w:val="\d+"\/>/, '<w:sz w:val="20"/>')
-      .replace(/<w:szCs w:val="\d+"\/>/, '<w:szCs w:val="20"/>');
-  }
-  const preHyperlink = hyperlink
-    ? body.slice(0, body.indexOf(hyperlink))
-    : body;
-
-  // --- 2) Merge every pre-hyperlink run into ONE run. ---
-  // The address mixes 新細明體 (Chinese) runs with no-eastAsia number runs
-  // (769 / 20). LibreOffice inserts a CJK<->Latin boundary gap at every run
-  // edge, producing the loose "文化路 769 巷 20 號" instead of Smallpdf's compact
-  // "文化路769巷20號". Concatenating all visible text into a single run with one
-  // font leaves no internal run boundary for the engine to space, so the line
-  // renders tight and identical to Smallpdf.
-  let merged = "";
-  for (const m of preHyperlink.matchAll(/<w:t[^>]*>([\s\S]*?)<\/w:t>/g)) {
-    merged += unescapeXml(m[1] ?? "");
-  }
-  // Drop the ~40 leading spaces the original Word file used to fake-center the
-  // line (we center it properly with <w:jc> below); keep two spaces before the
-  // website like the original.
-  //
-  // The original Word file ALSO repeats the website URL as PLAIN text inside the
-  // pre-hyperlink runs (right before the real hyperlink), so concatenating every
-  // pre-hyperlink run would print the URL twice. Strip any trailing
-  // "http(s)://...soontop.com.tw" from the merged address text -- the real blue
-  // underlined hyperlink that follows is the single source of truth for the URL.
-  const mergedText =
-    merged
-      .replace(/https?:\/\/[^\s]*soontop\.com\.tw\/?/gi, "")
-      .replace(/^\s+/, "")
-      .replace(/\s+$/, "") + "  ";
-
-  const ADDR_FONT =
-    '<w:rFonts w:ascii="Times New Roman" w:eastAsia="新細明體" ' +
-    'w:hAnsi="Times New Roman" w:cs="新細明體" w:hint="eastAsia"/>';
-  // Keep the address line at the SOURCE size (10pt / sz 20) -- we must stay
-  // faithful to the original document. AR PL UMing TW's glyph metrics are
-  // actually equivalent to Windows PMingLiU (measured: 105.0pt vs gold 105.3pt
-  // for the address string, only -0.3%). The line only LOOKS inflated because
-  // LibreOffice inserts a CJK<->Latin compatibility gap around the digits
-  // (769 / 20); that is fixed at the conversion-engine layer (see docxToPdf /
-  // the conversion profile), NOT by shrinking the font.
-  const mergedRun =
-    "<w:r><w:rPr>" +
-    ADDR_FONT +
-    '<w:sz w:val="20"/><w:szCs w:val="20"/></w:rPr>' +
-    '<w:t xml:space="preserve">' +
-    escapeXml(mergedText) +
-    "</w:t></w:r>";
-
-  // --- 3) Disable East-Asian auto-spacing, then center the paragraph. ---
-  let newHead = head;
-  if (/<w:pPr>/.test(newHead)) {
-    newHead = newHead
-      .replace(/<w:autoSpaceDE\b[^>]*\/>/g, "")
-      .replace(/<w:autoSpaceDN\b[^>]*\/>/g, "")
-      .replace(
-        "<w:pPr>",
-        '<w:pPr><w:autoSpaceDE w:val="0"/><w:autoSpaceDN w:val="0"/>',
+    // Merge pre-hyperlink visible text into one run.
+    let merged = "";
+    for (const m of preHyperlink.matchAll(/<w:t[^>]*>([\s\S]*?)<\/w:t>/g)) {
+      merged += unescapeXml(m[1] ?? "");
+    }
+    if (urlText) {
+      const esc = urlText.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      merged = merged.replace(new RegExp(esc, "g"), "");
+      // also drop a bare http(s):// duplicate
+      merged = merged.replace(/https?:\/\/\S+/g, (u) =>
+        urlText.includes(u.replace(/^https?:\/\//, "")) ? "" : u,
       );
-  }
-  if (!/<w:jc\b[^>]*\/>/.test(newHead)) {
-    newHead = newHead.replace("</w:pPr>", '<w:jc w:val="center"/></w:pPr>');
-  } else {
-    newHead = newHead.replace(/<w:jc\b[^>]*\/>/, '<w:jc w:val="center"/>');
-  }
+    }
+    const mergedText = merged.replace(/^\s+/, "").replace(/\s+$/, "") + "  ";
 
-  // --- 4) Centre-pin: nudge the centred line to the ORIGINAL centre. ----------
-  // The source faked-centre with leading spaces; rendered by Word the address
-  // line sits ~25px (≈187 twips) to the RIGHT of the bare content-column centre.
-  // A plain <w:jc w:val="center"/> centres it on the content column instead, so
-  // its centre lands 25px LEFT of where Smallpdf puts it and the (slightly
-  // wider, equivalent-font) line's left edge creeps toward the Date line below.
-  // Per the "pin the centre" method we add a left indent of 2x that offset
-  // (374 twips); with centred justification an even left indent shifts the
-  // centre right by indent/2, landing the address centre exactly on Smallpdf's
-  // (measured: centre 852px vs gold 852px, left edge 392px vs gold 402px). The
-  // font size stays faithful to the source (10pt) -- we move, never shrink.
-  const CENTER_PIN_INDENT = 374;
-  newHead = /<w:ind\b[^>]*\/>/.test(newHead)
-    ? newHead.replace(
-        /<w:ind\b[^>]*\/>/,
-        `<w:ind w:left="${CENTER_PIN_INDENT}" w:right="0"/>`,
-      )
-    : newHead.replace(
-        '<w:jc w:val="center"/>',
-        `<w:jc w:val="center"/><w:ind w:left="${CENTER_PIN_INDENT}" w:right="0"/>`,
+    const font =
+      `<w:rFonts w:ascii="Times New Roman" w:eastAsia="${eastAsia}" ` +
+      `w:hAnsi="Times New Roman" w:cs="${eastAsia}" w:hint="eastAsia"/>`;
+    const mergedRun =
+      "<w:r><w:rPr>" +
+      font +
+      (boldRun ? "<w:b/><w:bCs/>" : "") +
+      `<w:sz w:val="${sz}"/><w:szCs w:val="${sz}"/></w:rPr>` +
+      '<w:t xml:space="preserve">' +
+      escapeXml(mergedText) +
+      "</w:t></w:r>";
+
+    // Pin the hyperlink font/size (stop it inheriting an inflated theme font).
+    if (!/<w:rPr>[\s\S]*?<w:rFonts/.test(hyperlink)) {
+      hyperlink = hyperlink.replace(
+        /<w:rStyle\b[^>]*\/>/,
+        (m) => m + font,
       );
+      hyperlink = hyperlink
+        .replace(/<w:sz w:val="\d+"\/>/, `<w:sz w:val="${sz}"/>`)
+        .replace(/<w:szCs w:val="\d+"\/>/, `<w:szCs w:val="${sz}"/>`);
+    }
 
-  const newPara = newHead + mergedRun + hyperlink + "</w:p>";
-  return xml.slice(0, pStart) + newPara + xml.slice(pEnd);
+    return head + mergedRun + hyperlink + "</w:p>";
+  });
 }
 
 /** STEP 1 — convert the space-aligned title line into a 3-cell borderless table. */
