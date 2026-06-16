@@ -22,6 +22,7 @@ import { mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
 import path from "node:path";
 import os from "node:os";
 import { preprocessQuotationDocx } from "./docxPreprocess";
+import { ensureCjkFonts } from "./fontSetup";
 
 export interface ConvertResult {
   pdf: Buffer;
@@ -63,6 +64,12 @@ export async function convertWordToPdf(
       docBytes = await preprocessQuotationDocx(input);
     }
     await writeFile(inPath, docBytes);
+
+    // Install the Traditional-Chinese fontconfig alias (標楷體/新細明體/華康粗明體
+    // → AR PL UKai/UMing, TW-Kai/TW-Sung) before invoking LibreOffice so CJK
+    // glyph widths match the source and the layout doesn't inflate. Idempotent
+    // and best-effort — never throws.
+    await ensureCjkFonts();
 
     const bin = resolveSofficeBin();
     const args = [

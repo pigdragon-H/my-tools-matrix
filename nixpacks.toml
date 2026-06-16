@@ -6,11 +6,26 @@ nixPkgs = ["nodejs_20"]
 # fonts so 繁/簡/日/韓 render correctly in the exported vector PDF.
 # Installed via apt on the Debian-based Nixpacks image (most reliable for
 # LibreOffice + system fonts).
+#
+# CRITICAL for Traditional-Chinese fidelity:
+#   The SOONTOP quotation references Windows-only fonts (標楷體/新細明體/
+#   華康粗明體). Without close substitutes LibreOffice falls back to the
+#   heavier/wider Noto Sans CJK black face, which inflates every line and
+#   overflows the fixed-width quotation table ("字體膨脹位移"). The AR PL
+#   UKai/UMing and TW-Kai/TW-Sung faces are Traditional-Chinese Kaiti/Mingti
+#   fonts whose glyph widths closely match the original Windows fonts, so the
+#   exported PDF matches the Smallpdf gold standard. A fontconfig alias
+#   (installed at server startup, see server/lib/fontSetup.ts) maps the
+#   Windows font names onto these faces.
 aptPkgs = [
   "libreoffice-writer",
   "libreoffice-core",
   "fonts-noto-cjk",
   "fonts-noto-cjk-extra",
   "fonts-wqy-zenhei",
+  "fonts-arphic-ukai",
+  "fonts-arphic-uming",
+  "fonts-cns11643-kai",
+  "fonts-cns11643-sung",
   "fontconfig",
 ]
