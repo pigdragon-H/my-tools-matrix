@@ -56,6 +56,7 @@ export async function preprocessQuotationDocx(input: Buffer): Promise<Buffer> {
     }
 
     const before = xml;
+    xml = fixAddressLine(xml);
     xml = fixTitleLine(xml);
     xml = moveAttnAboveTable(xml);
     xml = defloatTable(xml);
@@ -73,6 +74,71 @@ export async function preprocessQuotationDocx(input: Buffer): Promise<Buffer> {
     // Any parsing/zip error → fall back to the untouched original.
     return input;
   }
+}
+
+/**
+ * STEP 0 — keep the company address + website on ONE line.
+ *
+ * The address paragraph is centered with a run of leading spaces and ends with
+ * the website hyperlink. LibreOffice substitutes a wider font than Word's
+ * 新細明體 / Times New Roman, so the line overflows the page width and the URL
+ * wraps to its own line — shoving the whole header block out of place.
+ *
+ * Fix: wrap the address paragraph in a single-cell borderless table with
+ * <w:tcFitText/> (shrink text to fit the cell) + <w:noWrap/>. This is exactly
+ * what Smallpdf does conceptually — "lock" the line so it never wraps and is
+ * gently compressed to fit, instead of inflating and pushing other text away.
+ */
+function fixAddressLine(xml: string): string {
+  const WEBSITE = "soontop.com.tw";
+  const wIdx = xml.indexOf(WEBSITE);
+  if (wIdx === -1) return xml;
+
+  const pStart = xml.lastIndexOf("<w:p ", wIdx);
+  if (pStart === -1) return xml;
+  const pEndMarker = xml.indexOf("</w:p>", wIdx);
+  if (pEndMarker === -1) return xml;
+  const pEnd = pEndMarker + "</w:p>".length;
+  const para = xml.slice(pStart, pEnd);
+
+  // Guard: only transform the centered address paragraph (leading-space run).
+  // Extract inner content (after </w:pPr>).
+  const pprEnd = para.indexOf("</w:pPr>");
+  let inner =
+    pprEnd === -1
+      ? para.slice(para.indexOf(">") + 1, para.lastIndexOf("</w:p>"))
+      : para.slice(pprEnd + "</w:pPr>".length, para.lastIndexOf("</w:p>"));
+
+  // Strip the first run if it contains only whitespace (the pseudo-centering).
+  inner = inner.replace(/^<w:r>[\s\S]*?<\/w:r>/, (m) => {
+    const txt = (m.match(/<w:t[^>]*>([\s\S]*?)<\/w:t>/) || [, ""])[1] ?? "";
+    return /^\s*$/.test(unescapeXml(txt)) ? "" : m;
+  });
+
+  const W = PAGE_CONTENT_WIDTH;
+  const cellTable =
+    "<w:tbl><w:tblPr>" +
+    `<w:tblW w:w="${W}" w:type="dxa"/>` +
+    '<w:jc w:val="center"/>' +
+    "<w:tblBorders><w:top w:val=\"nil\"/><w:left w:val=\"nil\"/>" +
+    "<w:bottom w:val=\"nil\"/><w:right w:val=\"nil\"/>" +
+    "<w:insideH w:val=\"nil\"/><w:insideV w:val=\"nil\"/></w:tblBorders>" +
+    "<w:tblCellMar><w:left w:w=\"0\" w:type=\"dxa\"/>" +
+    "<w:right w:w=\"0\" w:type=\"dxa\"/></w:tblCellMar>" +
+    '<w:tblLook w:val="04A0"/></w:tblPr>' +
+    `<w:tblGrid><w:gridCol w:w="${W}"/></w:tblGrid>` +
+    "<w:tr><w:tc><w:tcPr>" +
+    `<w:tcW w:w="${W}" w:type="dxa"/>` +
+    "<w:noWrap/><w:tcFitText w:val=\"true\"/>" +
+    "<w:tcBorders><w:top w:val=\"nil\"/><w:left w:val=\"nil\"/>" +
+    "<w:bottom w:val=\"nil\"/><w:right w:val=\"nil\"/></w:tcBorders>" +
+    "</w:tcPr>" +
+    '<w:p><w:pPr><w:adjustRightInd w:val="0"/><w:snapToGrid w:val="0"/>' +
+    '<w:spacing w:after="0" w:line="240" w:lineRule="auto"/>' +
+    '<w:jc w:val="center"/></w:pPr>' +
+    `${inner}</w:p></w:tc></w:tr></w:tbl>`;
+
+  return xml.slice(0, pStart) + cellTable + xml.slice(pEnd);
 }
 
 /** STEP 1 — convert the space-aligned title line into a 3-cell borderless table. */
