@@ -36,16 +36,29 @@ export default defineConfig({
       output: {
         // Split heavy third-party libs into their own chunks so Rollup does
         // not have to hold one giant module graph in memory at once.
+        //
+        // IMPORTANT: react, react-dom, scheduler and the JSX runtime MUST stay
+        // in ONE chunk. Splitting react-dom from react breaks load order and
+        // throws "Cannot set properties of undefined (setting 'Activity')" with
+        // React 19. So we group the whole React core together, and only split
+        // self-contained heavy libraries that don't share React internals.
         manualChunks(id) {
           if (!id.includes("node_modules")) return undefined;
+          // React core (react + react-dom + scheduler + jsx-runtime) -> one chunk
+          if (
+            /[\\/]node_modules[\\/](react|react-dom|scheduler|react-is|use-sync-external-store)[\\/]/.test(id) ||
+            id.includes("react/jsx-runtime") ||
+            id.includes("react/jsx-dev-runtime")
+          ) {
+            return "vendor-react";
+          }
           if (id.includes("pdfmake")) return "vendor-pdfmake";
           if (id.includes("mammoth")) return "vendor-mammoth";
           if (id.includes("recharts") || id.includes("d3-")) return "vendor-charts";
-          if (id.includes("react-dom")) return "vendor-react-dom";
-          if (id.includes("/react/") || id.includes("react-router") || id.includes("wouter")) return "vendor-react";
-          if (id.includes("@radix-ui")) return "vendor-radix";
           if (id.includes("framer-motion")) return "vendor-motion";
           if (id.includes("react-markdown") || id.includes("remark") || id.includes("streamdown")) return "vendor-markdown";
+          // NOTE: do NOT separate @radix-ui — it depends heavily on React
+          // internals and is safest bundled with the main vendor chunk.
           return "vendor";
         },
       },
