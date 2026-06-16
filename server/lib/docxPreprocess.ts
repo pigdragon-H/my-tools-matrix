@@ -205,6 +205,11 @@ function fixAddressLine(xml: string): string {
         '<w:rFonts w:ascii="Times New Roman" w:eastAsia="新細明體" ' +
         'w:hAnsi="Times New Roman" w:cs="新細明體" w:hint="eastAsia"/>',
     );
+    // Match the URL size to the address line (9pt / sz 18) so the whole line is
+    // uniform and stays within the Smallpdf footprint.
+    hyperlink = hyperlink
+      .replace(/<w:sz w:val="\d+"\/>/, '<w:sz w:val="18"/>')
+      .replace(/<w:szCs w:val="\d+"\/>/, '<w:szCs w:val="18"/>');
   }
   const preHyperlink = hyperlink
     ? body.slice(0, body.indexOf(hyperlink))
@@ -239,10 +244,17 @@ function fixAddressLine(xml: string): string {
   const ADDR_FONT =
     '<w:rFonts w:ascii="Times New Roman" w:eastAsia="新細明體" ' +
     'w:hAnsi="Times New Roman" w:cs="新細明體" w:hint="eastAsia"/>';
+  // Step down the address line from 10pt (sz 20) to 9pt (sz 18). The source
+  // file is 10pt, but on Linux the AR PL UMing TW substitute renders ~21% wider
+  // than Windows PMingLiU, so a centred 10pt line grows ~187px wider than
+  // Smallpdf and its left edge overruns the "Date:" line below. Measured: at
+  // sz 18 the address left edge lands at x=412 (Smallpdf gold = 402) and the
+  // line width drops to 829px (gold = 900px), so it no longer collides with the
+  // Date row. sz 16 was tested too but rendered too narrow (739px).
   const mergedRun =
     "<w:r><w:rPr>" +
     ADDR_FONT +
-    '<w:sz w:val="20"/><w:szCs w:val="20"/></w:rPr>' +
+    '<w:sz w:val="18"/><w:szCs w:val="18"/></w:rPr>' +
     '<w:t xml:space="preserve">' +
     escapeXml(mergedText) +
     "</w:t></w:r>";
