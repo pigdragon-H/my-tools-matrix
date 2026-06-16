@@ -79,9 +79,27 @@ interface SemanticIR {
   blocks: Block[];
 }
 
+// `language` keeps the coarse bucket for backwards-compatible logic, while
+// `script` carries the precise writing system so we can load the *correct*
+// Noto font. A Simplified-Chinese subset font has NO Korean Hangul or
+// Japanese kana glyphs, so picking the wrong one produces tofu boxes (□□□).
+//
+// World-class auto-detection: we distinguish Traditional vs Simplified Chinese,
+// Japanese, and Korean. When Chinese is detected but the variant is ambiguous,
+// we default to Traditional (the site's primary audience). Latin falls back to
+// the bundled Roboto.
+type DocScript =
+  | "latin"
+  | "hant"   // Traditional Chinese (primary) -> NotoSansTC
+  | "hans"   // Simplified Chinese -> NotoSansSC
+  | "kana"   // Japanese (kana + kanji) -> NotoSansJP
+  | "hangul"; // Korean (Hangul + Hanja) -> NotoSansKR
+
 interface DocMeta {
   title: string;
   language: "cjk" | "latin" | "mixed";
+  /** Precise writing system used to choose the embedded font. */
+  script: DocScript;
   hasRTL: boolean;
   estimatedPages: number;
 }
@@ -155,17 +173,55 @@ async function loadPdfMakeRuntime(): Promise<typeof pdfMake> {
 
 // ─── CJK font strategy ──────────────────────────────────────────────────────
 // pdfmake's bundled vfs only ships Roboto (Latin). Rendering CJK text with
-// Roboto produces blank/!-tofu glyphs. When a document contains CJK, we fetch
-// a Noto Sans SC/TC TTF once, base64-inject it into the pdfmake vfs, and
-// register a "NotoCJK" font family. This keeps the Latin-only path lightweight
-// while making Chinese documents actually render.
-const NOTO_CJK_URL =
-  "https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc@5.0.13/files/noto-sans-sc-chinese-simplified-400-normal.woff";
-// Fallback TTF mirror (pdfmake needs TTF/OTF, not woff2). We use a TTF source.
-const NOTO_CJK_TTF_URL =
-  "https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/SubsetOTF/SC/NotoSansSC-Regular.otf";
+// Roboto produces blank/tofu glyphs (□□□). When a document contains CJK we
+// detect the *specific* writing system (Korean/Japanese/Chinese) and fetch the
+// matching Noto Sans subset OTF once, base64-inject it into the pdfmake vfs,
+// and register a per-script font family (NotoKR / NotoJP / NotoSC). Using a
+// Chinese-only font for a Korean document is exactly what caused the tofu bug.
+// Per-script Noto Sans fonts (subset OTF, pdfmake needs TTF/OTF not woff2).
+// CRITICAL: a Simplified-Chinese font has NO Korean/Japanese glyphs, so we map
+// each writing system to its own font to avoid tofu boxes (□□□).
+const NOTO_FONTS: Record<Exclude<DocScript, "latin">, { family: string; file: string; urls: string[] }> = {
+  // Traditional Chinese — PRIMARY audience, also the default for ambiguous CJK.
+  hant: {
+    family: "NotoTC",
+    file: "NotoSansTC-Regular.otf",
+    urls: [
+      "https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/SubsetOTF/TC/NotoSansTC-Regular.otf",
+      "https://fastly.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/SubsetOTF/TC/NotoSansTC-Regular.otf",
+    ],
+  },
+  // Simplified Chinese.
+  hans: {
+    family: "NotoSC",
+    file: "NotoSansSC-Regular.otf",
+    urls: [
+      "https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/SubsetOTF/SC/NotoSansSC-Regular.otf",
+      "https://fastly.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/SubsetOTF/SC/NotoSansSC-Regular.otf",
+    ],
+  },
+  // Japanese (kana + kanji).
+  kana: {
+    family: "NotoJP",
+    file: "NotoSansJP-Regular.otf",
+    urls: [
+      "https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/SubsetOTF/JP/NotoSansJP-Regular.otf",
+      "https://fastly.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/SubsetOTF/JP/NotoSansJP-Regular.otf",
+    ],
+  },
+  // Korean (Hangul + Hanja) — supported for world-class coverage, not promoted
+  // in the UI. Falls back to Traditional Chinese only if KR cannot be fetched.
+  hangul: {
+    family: "NotoKR",
+    file: "NotoSansKR-Regular.otf",
+    urls: [
+      "https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/SubsetOTF/KR/NotoSansKR-Regular.otf",
+      "https://fastly.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/SubsetOTF/KR/NotoSansKR-Regular.otf",
+    ],
+  },
+};
 
-let cjkFontReady = false;
+const loadedFontFamilies = new Set<string>();
 
 function arrayBufferToBase64(buf: ArrayBuffer): string {
   let binary = "";
@@ -181,13 +237,29 @@ function arrayBufferToBase64(buf: ArrayBuffer): string {
 }
 
 /**
- * Ensures a CJK-capable font is registered in pdfmake.
- * Returns the font family name to use, or "Roboto" if loading fails
- * (graceful degradation — Latin still works, CJK may be missing glyphs).
+ * Ensures the correct script-specific CJK font is registered in pdfmake and
+ * returns the font family name to use. Falls back to "Roboto" if loading
+ * fails (graceful degradation — Latin still works, CJK glyphs may be missing).
+ *
+ * @param script the detected writing system (hangul/kana/han/...).
  */
-async function ensureCjkFont(): Promise<string> {
+async function ensureCjkFont(script: DocScript): Promise<string> {
+  if (script === "latin") return "Roboto";
+  const cfg = NOTO_FONTS[script] ?? NOTO_FONTS.hant;
   const pm = pdfMake as any;
-  if (cjkFontReady && pm.fonts?.NotoCJK) return "NotoCJK";
+
+  // Always make sure Roboto (the bundled Latin font) stays registered.
+  pm.fonts = pm.fonts || {};
+  pm.fonts.Roboto = pm.fonts.Roboto || {
+    normal: "Roboto-Regular.ttf",
+    bold: "Roboto-Medium.ttf",
+    italics: "Roboto-Italic.ttf",
+    bolditalics: "Roboto-MediumItalic.ttf",
+  };
+
+  if (loadedFontFamilies.has(cfg.family) && pm.fonts?.[cfg.family]) {
+    return cfg.family;
+  }
 
   const tryLoad = async (url: string): Promise<boolean> => {
     try {
@@ -196,28 +268,21 @@ async function ensureCjkFont(): Promise<string> {
       const buf = await res.arrayBuffer();
       if (!buf || buf.byteLength < 1000) return false;
       const b64 = arrayBufferToBase64(buf);
-      const fontVfs = { "NotoSansCJK-Regular.ttf": b64 };
+      const fontVfs: Record<string, string> = { [cfg.file]: b64 };
       // pdfmake 0.3.x stores fonts in an internal virtual fs via
       // addVirtualFileSystem(). Writing pm.vfs directly does NOT update that
-      // internal store, which caused "File 'NotoSansCJK-Regular.ttf' not found
-      // in virtual file system". Register through the official API, and also
-      // mirror onto pm.vfs for 0.2.x-style fallbacks.
+      // internal store, which caused "File '...' not found in virtual file
+      // system". Register through the official API, and also mirror onto
+      // pm.vfs for 0.2.x-style fallbacks.
       if (typeof pm.addVirtualFileSystem === "function") {
         pm.addVirtualFileSystem(fontVfs);
       }
       pm.vfs = Object.assign({}, pm.vfs, fontVfs);
-      pm.fonts = pm.fonts || {};
-      pm.fonts.Roboto = pm.fonts.Roboto || {
-        normal: "Roboto-Regular.ttf",
-        bold: "Roboto-Medium.ttf",
-        italics: "Roboto-Italic.ttf",
-        bolditalics: "Roboto-MediumItalic.ttf",
-      };
-      pm.fonts.NotoCJK = {
-        normal: "NotoSansCJK-Regular.ttf",
-        bold: "NotoSansCJK-Regular.ttf",
-        italics: "NotoSansCJK-Regular.ttf",
-        bolditalics: "NotoSansCJK-Regular.ttf",
+      pm.fonts[cfg.family] = {
+        normal: cfg.file,
+        bold: cfg.file,
+        italics: cfg.file,
+        bolditalics: cfg.file,
       };
       return true;
     } catch {
@@ -225,13 +290,54 @@ async function ensureCjkFont(): Promise<string> {
     }
   };
 
-  // OTF first (full coverage), then woff fallback is not usable by pdfmake,
-  // so we only attempt TTF/OTF sources.
-  const ok = (await tryLoad(NOTO_CJK_TTF_URL)) || (await tryLoad(NOTO_CJK_URL));
-  if (ok) {
-    cjkFontReady = true;
-    return "NotoCJK";
+  // Try each mirror in order until one succeeds.
+  let ok = false;
+  for (const url of cfg.urls) {
+    ok = await tryLoad(url);
+    if (ok) break;
   }
+  if (ok) {
+    loadedFontFamilies.add(cfg.family);
+    return cfg.family;
+  }
+
+  // Network/CDN failure. Per product direction, fall back to Traditional
+  // Chinese (the primary audience) when possible — except we're already trying
+  // TC, in which case the only remaining safe option is the bundled Roboto
+  // (Latin). This avoids returning an unregistered font (which would stall
+  // getBlob) while keeping CJK readable whenever the network allows it.
+  if (script !== "hant") {
+    const tcCfg = NOTO_FONTS.hant;
+    if (loadedFontFamilies.has(tcCfg.family) && pm.fonts?.[tcCfg.family]) {
+      return tcCfg.family;
+    }
+    let tcOk = false;
+    for (const url of tcCfg.urls) {
+      // reuse tryLoad logic by temporarily pointing at the TC config
+      try {
+        const res = await fetch(url, { mode: "cors" });
+        if (!res.ok) continue;
+        const buf = await res.arrayBuffer();
+        if (!buf || buf.byteLength < 1000) continue;
+        const b64 = arrayBufferToBase64(buf);
+        const fontVfs: Record<string, string> = { [tcCfg.file]: b64 };
+        if (typeof pm.addVirtualFileSystem === "function") pm.addVirtualFileSystem(fontVfs);
+        pm.vfs = Object.assign({}, pm.vfs, fontVfs);
+        pm.fonts[tcCfg.family] = {
+          normal: tcCfg.file, bold: tcCfg.file, italics: tcCfg.file, bolditalics: tcCfg.file,
+        };
+        tcOk = true;
+        break;
+      } catch {
+        /* try next mirror */
+      }
+    }
+    if (tcOk) {
+      loadedFontFamilies.add(tcCfg.family);
+      return tcCfg.family;
+    }
+  }
+
   return "Roboto";
 }
 
@@ -666,18 +772,73 @@ function buildSemanticIR(html: string, metaHints: Partial<DocMeta>): SemanticIR 
   });
 
   const textSample = root.textContent ?? "";
-  const hasCJK = /[\u4E00-\u9FFF\u3040-\u30FF\uAC00-\uD7AF]/.test(textSample);
-  const hasLatin = /[a-zA-Z]/.test(textSample);
+  const { language, script } = detectScript(textSample);
 
   return {
     meta: {
       title: metaHints.title ?? "Document",
-      language: hasCJK && hasLatin ? "mixed" : hasCJK ? "cjk" : "latin",
+      language,
+      script,
       hasRTL: metaHints.hasRTL ?? false,
       estimatedPages: metaHints.estimatedPages ?? 1,
     },
     blocks,
   };
+}
+
+/**
+ * Detects the dominant writing system so the correct CJK font is loaded.
+ * Distinguishes Korean (Hangul), Japanese (kana), and Chinese (Han) because
+ * each needs a different Noto subset font; a Chinese-only font renders Korean
+ * and Japanese as empty tofu boxes.
+ */
+// Characters that exist ONLY in Simplified Chinese (common high-frequency set).
+// Presence strongly implies Simplified.
+const SIMPLIFIED_MARKERS = "国对说时这话让发这个们来还学习应实现产业务车书买卖东车专门间题问没办关闭电脑爱网页备语数据";
+// Characters that exist ONLY in Traditional Chinese (common high-frequency set).
+// Presence strongly implies Traditional.
+const TRADITIONAL_MARKERS = "國對說時這話讓發這個們來還學習應實現產業務車書買賣東車專門間題問沒辦關閉電腦愛網頁備語數據灣體廳廣麼點為與會經濟";
+
+function countMarkers(text: string, markers: string): number {
+  let n = 0;
+  const set = new Set(markers.split(""));
+  for (const ch of text) if (set.has(ch)) n++;
+  return n;
+}
+
+function detectScript(text: string): { language: "cjk" | "latin" | "mixed"; script: DocScript } {
+  const hangul = /[\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]/.test(text); // Korean
+  const kana = /[\u3040-\u309F\u30A0-\u30FF]/.test(text);                // Japanese hiragana/katakana
+  const han = /[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]/.test(text);    // CJK ideographs (Chinese/Kanji)
+  const latin = /[a-zA-Z]/.test(text);
+
+  const hasCJK = hangul || kana || han;
+  const language: "cjk" | "latin" | "mixed" = hasCJK && latin ? "mixed" : hasCJK ? "cjk" : "latin";
+
+  // Detection priority: Korean (Hangul) and Japanese (kana) are unambiguous
+  // because they use unique scripts. Chinese needs Traditional/Simplified
+  // disambiguation.
+  let script: DocScript = "latin";
+  if (hangul) {
+    script = "hangul"; // Korean — supported but not promoted
+  } else if (kana) {
+    script = "kana"; // Japanese — kana presence is decisive
+  } else if (han) {
+    // Disambiguate Traditional vs Simplified using marker frequency.
+    const trad = countMarkers(text, TRADITIONAL_MARKERS);
+    const simp = countMarkers(text, SIMPLIFIED_MARKERS);
+    if (simp > trad) {
+      script = "hans"; // clearly more Simplified markers
+    } else {
+      // Traditional markers win, OR it's a tie / ambiguous (e.g. shared chars
+      // only). Default to Traditional — the site's primary audience.
+      script = "hant";
+    }
+  } else {
+    script = "latin";
+  }
+
+  return { language, script };
 }
 
 // ─── pdfmake Document Definition Builder ────────────────────────────────────
@@ -687,8 +848,8 @@ interface PdfContent { [key: string]: unknown }
 function buildPdfDefinition(ir: SemanticIR, fontName: string = "Roboto"): PdfContent {
 
   // Font stack resolved by the pipeline:
-  //  - "Roboto"  for Latin-only documents (bundled, always available)
-  //  - "NotoCJK" when CJK was detected AND the font was successfully fetched
+  //  - "Roboto"        for Latin-only documents (bundled, always available)
+  //  - "NotoKR/JP/SC"  for the detected writing system, fetched on demand
   // Using an unregistered font would stall getBlob(), so the caller guarantees
   // `fontName` is registered before this runs.
   const fonts = { defaultFont: fontName };
@@ -933,7 +1094,10 @@ async function convertDocxToPdf(
   // Korean text. Falls back to Roboto if the font cannot be fetched, so Latin
   // documents are unaffected and CJK degrades gracefully instead of stalling.
   const needsCjk = ir.meta.language === "cjk" || ir.meta.language === "mixed";
-  const fontName = needsCjk ? await ensureCjkFont() : "Roboto";
+  // Pick the font that matches the actual writing system (Korean Hangul,
+  // Japanese kana, or Chinese Han). Using the wrong subset font would render
+  // tofu boxes (□□□) for unsupported scripts.
+  const fontName = needsCjk ? await ensureCjkFont(ir.meta.script) : "Roboto";
 
   const docDefinition = buildPdfDefinition(ir, fontName);
 
