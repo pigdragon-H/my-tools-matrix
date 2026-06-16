@@ -9,6 +9,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { supabaseService } from "../lib/supabaseAdmin";
 import { convertWordToPdf } from "../lib/docxToPdf";
+import { convertPdfToWord } from "../lib/pdfToWord";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -154,6 +155,50 @@ app.post(
       res
         .status(500)
         .json({ error: e instanceof Error ? e.message : String(e) });
+    }
+  }
+);
+
+// ------------------------------------------------------------
+// PDF → Word (.docx) conversion (LibreOffice headless + OCR fallback)
+// ------------------------------------------------------------
+// The client POSTs the raw .pdf bytes (Content-Type: application/octet-stream)
+// with the original filename in the `x-filename` header. We auto-detect a text
+// layer; image/scanned PDFs are routed through tesseract OCR. The response is a
+// .docx stream. X-Conversion-Mode = "text" | "ocr"; X-Pdf-Pages = page count.
+app.post(
+  "/api/convert/pdf-to-word",
+  express.raw({ type: "*/*", limit: "25mb" }),
+  async (req, res) => {
+    try {
+      const body = req.body as Buffer;
+      if (!Buffer.isBuffer(body) || body.length === 0) {
+        return res.status(400).json({ error: "Empty request body" });
+      }
+      const rawName =
+        (req.headers["x-filename"] as string | undefined) || "document.pdf";
+      const originalName = decodeURIComponent(rawName).replace(/[^\w.\- ]+/g, "_");
+
+      const { docx, ms, mode, pages } = await convertPdfToWord(body, originalName);
+      const docxName = originalName.replace(/\.pdf$/i, "") + ".docx";
+      res.setHeader(
+        "Content-Type",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      );
+      res.setHeader("X-Conversion-Ms", String(ms));
+      res.setHeader("X-Conversion-Mode", mode);
+      res.setHeader("X-Pdf-Pages", String(pages));
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename="${encodeURIComponent(docxName)}"`
+      );
+      res.send(docx);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      console.error("[pdf-to-word] conversion failed:", msg);
+      // Map known engine errors to a 422 so the client can show a friendly hint.
+      const isUserError = /INVALID_PDF|OCR_NO_TEXT|OCR_FAILED/.test(msg);
+      res.status(isUserError ? 422 : 500).json({ error: msg });
     }
   }
 );
