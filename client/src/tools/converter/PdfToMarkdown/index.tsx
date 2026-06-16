@@ -59,9 +59,12 @@ const ui = {
     kbQualityTitle: "⚠️ 轉換品質說明",
     kbQuality: [
       "🟢 純文字 PDF → 90%+ 還原，標題層級自動偵測",
-      "🟡 含表格 → 70~80%，基本結構保留",
-      "🟠 複雜多欄版面 → 60%，建議人工校對",
-      "🔴 掃描圖片型 PDF → 無法轉換，需要 OCR 工具",
+      "🟢 表格／接腳表 → 自動欄位偵測重建為 Markdown 表格",
+      "🟢 粗體／斜體 → 依字型自動還原；巢狀清單依縮排還原",
+      "🟢 目錄點線頁碼 → 自動清洗為「標題 頁碼」",
+      "🟠 複雜跨欄合併儲存格 → 啟發式重建，建議人工校對",
+      "🔴 流程圖／狀態機圖 → 向量圖形先天無文字層，僅保留文字標籤",
+      "🔴 掃描圖片型 PDF → 無文字層，需要 OCR 工具",
     ],
     kbNotTitle: "❌ 不支援",
     kbNot: [
@@ -133,9 +136,12 @@ const ui = {
     kbQualityTitle: "⚠️ Conversion quality guide",
     kbQuality: [
       "🟢 Plain text PDF → 90%+ fidelity, headings auto-detected",
-      "🟡 Tables → 70~80%, basic structure retained",
-      "🟠 Complex multi-column → 60%, manual review recommended",
-      "🔴 Scanned image PDF → cannot convert, OCR required",
+      "🟢 Tables / pinout → auto column detection, rebuilt as Markdown tables",
+      "🟢 Bold / italic → restored from font; nested lists from indentation",
+      "🟢 TOC dotted leaders → cleaned to 'Title page-number'",
+      "🟠 Complex merged-cell tables → heuristic rebuild, manual review advised",
+      "🔴 Flowcharts / state diagrams → vector graphics have no text layer; only labels kept",
+      "🔴 Scanned image PDF → no text layer, OCR required",
     ],
     kbNotTitle: "❌ Not supported",
     kbNot: [
@@ -278,9 +284,37 @@ async function convertPdfToMarkdown(
   return { markdown, grade, pageCount };
 }
 
-// ── Markdown 建構器 ───────────────────────────────────────────
+// ── 結構型別（LEVEL 1/2 欄位偵測用）─────────────────────────
+interface Cell { text: string; x: number; xEnd: number; fontSize: number; fontName: string; }
+interface Row { cells: Cell[]; y: number; fontSize: number; x: number; }
+
+// 清洗目錄點線頁碼："Title ......... 12" → "Title 12"
+function cleanTocLeader(text: string): string {
+  // 連續 3+ 個點 / Unicode 省略號 / 中點，後面接頁碼
+  const cleaned = text
+    .replace(/[ \t]*\.{3,}[ \t]*(\d+)\s*$/, " $1")
+    .replace(/[ \t]*(?:\u2026|\u00b7){2,}[ \t]*(\d+)\s*$/, " $1");
+  // 收斂多餘空白（避免清洗後留下雙空格）
+  return cleaned.replace(/[ \t]{2,}/g, " ");
+}
+
+// ── LEVEL 2：用 fontName 還原粗體/斜體 ────────────────────────
+function applyInlineStyle(text: string, fontName: string): string {
+  if (!text.trim()) return text;
+  const fn = (fontName || "").toLowerCase();
+  const bold = /bold|black|heavy|semibold|\bsb\b/.test(fn);
+  const italic = /italic|oblique/.test(fn);
+  // 不對已是標題/表格分隔的內容套用（呼叫端會避開）
+  let out = text;
+  if (bold && italic) out = `***${out}***`;
+  else if (bold) out = `**${out}**`;
+  else if (italic) out = `*${out}*`;
+  return out;
+}
+
+// ── Markdown 建構器（LEVEL 1 表格偵測 + TOC 清洗；LEVEL 2 行內樣式 + 巢狀列表）──
 function buildMarkdown(pages: PageTextData[]): string {
-  const lines: string[] = [];
+  const out: string[] = [];
 
   // 全域字體大小統計（用於標題偵測）
   const allItems = pages.flatMap(p => p.items);
@@ -293,9 +327,9 @@ function buildMarkdown(pages: PageTextData[]): string {
   for (let pi = 0; pi < pages.length; pi++) {
     const page = pages[pi];
     if (!page) continue;
-    if (pi > 0) lines.push("\n---\n");  // 頁面分隔
+    if (pi > 0) out.push("\n---\n");  // 頁面分隔
 
-    // 依 Y 座標排序（從上到下），X 座標次排序（從左到右）
+    // 1) 依 Y（上→下）、X（左→右）排序
     const sorted = [...page.items].sort((a, b) => {
       const ya = page.pageHeight - (a.transform[5] ?? 0);
       const yb = page.pageHeight - (b.transform[5] ?? 0);
@@ -303,65 +337,198 @@ function buildMarkdown(pages: PageTextData[]): string {
       return (a.transform[4] ?? 0) - (b.transform[4] ?? 0);
     });
 
-    // 合併同行文字（Y 座標差 < 3pt 視為同行）
-    const textLines: { text: string; y: number; fontSize: number; x: number }[] = [];
+    // 2) 組成「列 → 多個 cell」，保留每個 token 的 X 起訖（欄位偵測關鍵）
+    const rows: Row[] = [];
+    // 同欄位內 token 之間的空隙閾值（小於此視為同一 cell 連續文字）
+    const SAME_CELL_GAP = avgFontSize * 0.6;
     for (const item of sorted) {
-      const y = Math.round((page.pageHeight - (item.transform[5] ?? 0)) * 10) / 10;
-      const fontSize = Math.abs(item.transform[3] ?? 0);
-      const x = item.transform[4] ?? 0;
       const str = item.str;
       if (!str.trim()) continue;
+      const y = Math.round((page.pageHeight - (item.transform[5] ?? 0)) * 10) / 10;
+      const fontSize = Math.abs(item.transform[3] ?? 0) || avgFontSize;
+      const x = item.transform[4] ?? 0;
+      const w = item.width ?? (str.length * fontSize * 0.5);
+      const xEnd = x + w;
+      const fontName = item.fontName ?? "";
 
-      const last = textLines[textLines.length - 1];
-      if (last && Math.abs(last.y - y) < 3) {
-        // 同行：判斷是否需要空格
-        const needSpace = x > 0 && !last.text.endsWith(" ") && !str.startsWith(" ");
-        last.text += (needSpace ? " " : "") + str;
-        last.fontSize = Math.max(last.fontSize, fontSize);
+      const lastRow = rows[rows.length - 1];
+      if (lastRow && Math.abs(lastRow.y - y) < 3) {
+        const lastCell = lastRow.cells[lastRow.cells.length - 1];
+        const gap = lastCell ? x - lastCell.xEnd : 0;
+        if (lastCell && gap < SAME_CELL_GAP) {
+          // 同一 cell 的連續文字
+          const needSpace = gap > fontSize * 0.15 && !lastCell.text.endsWith(" ") && !str.startsWith(" ");
+          lastCell.text += (needSpace ? " " : "") + str;
+          lastCell.xEnd = xEnd;
+          lastCell.fontSize = Math.max(lastCell.fontSize, fontSize);
+        } else {
+          // 明顯空隙 → 新的 cell（潛在欄位邊界）
+          lastRow.cells.push({ text: str, x, xEnd, fontSize, fontName });
+        }
+        lastRow.fontSize = Math.max(lastRow.fontSize, fontSize);
       } else {
-        textLines.push({ text: str, y, fontSize, x });
+        rows.push({ cells: [{ text: str, x, xEnd, fontSize, fontName }], y, fontSize, x });
       }
     }
 
-    // 轉換為 Markdown
+    // 3) 逐列輸出，但先用「表格偵測」掃描連續的多 cell 列群組
+    let i = 0;
     let prevY = -1;
-    for (const line of textLines) {
-      const text = line.text.trim();
-      if (!text) continue;
+    while (i < rows.length) {
+      const row = rows[i];
 
-      // 標題偵測（依字體大小比例）
-      const ratio = avgFontSize > 0 ? line.fontSize / avgFontSize : 1;
+      // ── 表格偵測：從 i 起，連續 ≥2 列、每列都 ≥2 cell、且欄位 X 大致對齊 ──
+      const block: Row[] = [];
+      let j = i;
+      while (j < rows.length && rows[j].cells.length >= 2) {
+        block.push(rows[j]);
+        j++;
+      }
+      const isTable = block.length >= 2 && columnsAligned(block);
+
+      if (isTable) {
+        emitTable(out, block);
+        // 表格後留白
+        out.push("");
+        prevY = block[block.length - 1].y;
+        i = j;
+        continue;
+      }
+
+      // ── 非表格：單一行文字（把該列所有 cell 串起來）──
+      const merged = row.cells.map(c => c.text).join(" ").replace(/\s+/g, " ").trim();
+      const text = cleanTocLeader(merged);
+      if (!text) { i++; continue; }
+
+      const ratio = avgFontSize > 0 ? row.fontSize / avgFontSize : 1;
       let mdLine: string;
 
-      if (ratio >= 1.8 || (ratio >= 1.5 && line.fontSize === maxFontSize)) {
+      if (ratio >= 1.8 || (ratio >= 1.5 && row.fontSize === maxFontSize)) {
         mdLine = `# ${text}`;
       } else if (ratio >= 1.4) {
         mdLine = `## ${text}`;
       } else if (ratio >= 1.2) {
         mdLine = `### ${text}`;
+      } else if (/^[•‧·\-*]\s/.test(text)) {
+        // LEVEL 2：巢狀列表縮排（依 X 起點，每 ~18pt 一層）
+        const indent = Math.max(0, Math.min(3, Math.round((row.x - minX(rows)) / 18)));
+        mdLine = `${"  ".repeat(indent)}- ${styleInline(text.replace(/^[•‧·\-*]\s*/, ""), row)}`;
+      } else if (/^\d+[.。]\s/.test(text)) {
+        const indent = Math.max(0, Math.min(3, Math.round((row.x - minX(rows)) / 18)));
+        mdLine = `${"  ".repeat(indent)}${styleInline(text.replace(/^(\d+)[.。]\s*/, "$1. "), row)}`;
       } else {
-        // 列表偵測：以 • ‧ · - * 開頭
-        if (/^[•‧·\-*]\s/.test(text)) {
-          mdLine = `- ${text.replace(/^[•‧·\-*]\s*/, "")}`;
-        } else if (/^\d+[.。]\s/.test(text)) {
-          // 有序列表
-          mdLine = text.replace(/^(\d+)[.。]\s*/, "$1. ");
-        } else {
-          mdLine = text;
-        }
+        mdLine = styleInline(text, row);
       }
 
-      // 段落間距：Y 差距大時加空行
-      const yGap = line.y - prevY;
-      if (prevY > 0 && yGap > line.fontSize * 1.8) {
-        lines.push("");
-      }
-      lines.push(mdLine);
-      prevY = line.y;
+      const yGap = row.y - prevY;
+      if (prevY > 0 && yGap > row.fontSize * 1.8) out.push("");
+      out.push(mdLine);
+      prevY = row.y;
+      i++;
     }
   }
 
-  return lines.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+  return out.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+}
+
+// 取整頁最小 X（巢狀列表縮排基準）
+function minX(rows: Row[]): number {
+  let m = Infinity;
+  for (const r of rows) if (r.x < m) m = r.x;
+  return Number.isFinite(m) ? m : 0;
+}
+
+// LEVEL 2：對單列套用行內樣式（只在單一 cell 且非 TOC 時，避免破壞表格/標題）
+function styleInline(text: string, row: Row): string {
+  if (row.cells.length === 1) {
+    return applyInlineStyle(text, row.cells[0]?.fontName ?? "");
+  }
+  return text;
+}
+
+// ── 欄位對齊偵測：判斷一組列是否構成表格 ──────────────────────
+function columnsAligned(block: Row[]): boolean {
+  // 收集所有 cell 的 X 起點，分群成欄位
+  const allX: number[] = [];
+  for (const r of block) for (const c of r.cells) allX.push(c.x);
+  if (allX.length < 4) return false;
+
+  const cols = clusterPositions(allX, 12); // 12pt 容差視為同欄
+  if (cols.length < 2) return false;
+
+  // 至少一半的列要有 ≥2 個 cell 落在不同欄 → 才算表格
+  let multiColRows = 0;
+  for (const r of block) {
+    const hit = new Set<number>();
+    for (const c of r.cells) {
+      const ci = nearestCluster(cols, c.x, 14);
+      if (ci >= 0) hit.add(ci);
+    }
+    if (hit.size >= 2) multiColRows++;
+  }
+  return multiColRows >= Math.max(2, Math.ceil(block.length * 0.5));
+}
+
+// 一維座標分群（回傳每群中心，已排序）
+function clusterPositions(xs: number[], tol: number): number[] {
+  const sortedX = [...xs].sort((a, b) => a - b);
+  const centers: number[] = [];
+  let cur: number[] = [];
+  for (const x of sortedX) {
+    if (cur.length === 0 || x - cur[cur.length - 1] <= tol) {
+      cur.push(x);
+    } else {
+      centers.push(cur.reduce((a, b) => a + b, 0) / cur.length);
+      cur = [x];
+    }
+  }
+  if (cur.length) centers.push(cur.reduce((a, b) => a + b, 0) / cur.length);
+  return centers;
+}
+
+function nearestCluster(centers: number[], x: number, tol: number): number {
+  let best = -1, bestD = Infinity;
+  for (let i = 0; i < centers.length; i++) {
+    const d = Math.abs(centers[i] - x);
+    if (d < bestD) { bestD = d; best = i; }
+  }
+  return bestD <= tol ? best : -1;
+}
+
+// ── 把對齊的列群組輸出成 Markdown 表格 ────────────────────────
+function emitTable(out: string[], block: Row[]): void {
+  const allX: number[] = [];
+  for (const r of block) for (const c of r.cells) allX.push(c.x);
+  const cols = clusterPositions(allX, 12);
+  const nCols = cols.length;
+
+  // 每列：把 cell 依最近欄位放入對應格
+  const grid: string[][] = [];
+  for (const r of block) {
+    const cells = new Array<string>(nCols).fill("");
+    for (const c of r.cells) {
+      const ci = nearestCluster(cols, c.x, 20);
+      const idx = ci >= 0 ? ci : 0;
+      const txt = c.text.replace(/\|/g, "\\|").trim();
+      cells[idx] = cells[idx] ? `${cells[idx]} ${txt}` : txt;
+    }
+    grid.push(cells);
+  }
+
+  // 過濾完全空白列
+  const rowsOut = grid.filter(r => r.some(c => c.trim() !== ""));
+  if (rowsOut.length < 2) {
+    // 退化：當作普通段落輸出
+    for (const r of rowsOut) out.push(r.filter(Boolean).join(" "));
+    return;
+  }
+
+  const header = rowsOut[0];
+  out.push(`| ${header.map(c => c || " ").join(" | ")} |`);
+  out.push(`| ${header.map(() => "---").join(" | ")} |`);
+  for (let k = 1; k < rowsOut.length; k++) {
+    out.push(`| ${rowsOut[k].map(c => c || " ").join(" | ")} |`);
+  }
 }
 
 // ── React Component ───────────────────────────────────────────
