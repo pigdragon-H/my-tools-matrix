@@ -21,6 +21,7 @@ import { spawn } from "node:child_process";
 import { mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
 import path from "node:path";
 import os from "node:os";
+import { preprocessQuotationDocx } from "./docxPreprocess";
 
 export interface ConvertResult {
   pdf: Buffer;
@@ -54,7 +55,14 @@ export async function convertWordToPdf(
   const outPath = path.join(workDir, "source.pdf");
 
   try {
-    await writeFile(inPath, input);
+    // Preprocess only .docx (Office Open XML zip). The preprocessor is a no-op
+    // for documents that don't match the quotation template, and falls back to
+    // the original bytes on any error, so this is always safe.
+    let docBytes = input;
+    if (safeExt === ".docx") {
+      docBytes = await preprocessQuotationDocx(input);
+    }
+    await writeFile(inPath, docBytes);
 
     const bin = resolveSofficeBin();
     const args = [
