@@ -205,11 +205,11 @@ function fixAddressLine(xml: string): string {
         '<w:rFonts w:ascii="Times New Roman" w:eastAsia="新細明體" ' +
         'w:hAnsi="Times New Roman" w:cs="新細明體" w:hint="eastAsia"/>',
     );
-    // Match the URL size to the address line (9pt / sz 18) so the whole line is
-    // uniform and stays within the Smallpdf footprint.
+    // Keep the URL at the source size (10pt / sz 20) for fidelity; the explicit
+    // Times New Roman font injected above already stops it inflating.
     hyperlink = hyperlink
-      .replace(/<w:sz w:val="\d+"\/>/, '<w:sz w:val="18"/>')
-      .replace(/<w:szCs w:val="\d+"\/>/, '<w:szCs w:val="18"/>');
+      .replace(/<w:sz w:val="\d+"\/>/, '<w:sz w:val="20"/>')
+      .replace(/<w:szCs w:val="\d+"\/>/, '<w:szCs w:val="20"/>');
   }
   const preHyperlink = hyperlink
     ? body.slice(0, body.indexOf(hyperlink))
@@ -244,17 +244,17 @@ function fixAddressLine(xml: string): string {
   const ADDR_FONT =
     '<w:rFonts w:ascii="Times New Roman" w:eastAsia="新細明體" ' +
     'w:hAnsi="Times New Roman" w:cs="新細明體" w:hint="eastAsia"/>';
-  // Step down the address line from 10pt (sz 20) to 9pt (sz 18). The source
-  // file is 10pt, but on Linux the AR PL UMing TW substitute renders ~21% wider
-  // than Windows PMingLiU, so a centred 10pt line grows ~187px wider than
-  // Smallpdf and its left edge overruns the "Date:" line below. Measured: at
-  // sz 18 the address left edge lands at x=412 (Smallpdf gold = 402) and the
-  // line width drops to 829px (gold = 900px), so it no longer collides with the
-  // Date row. sz 16 was tested too but rendered too narrow (739px).
+  // Keep the address line at the SOURCE size (10pt / sz 20) -- we must stay
+  // faithful to the original document. AR PL UMing TW's glyph metrics are
+  // actually equivalent to Windows PMingLiU (measured: 105.0pt vs gold 105.3pt
+  // for the address string, only -0.3%). The line only LOOKS inflated because
+  // LibreOffice inserts a CJK<->Latin compatibility gap around the digits
+  // (769 / 20); that is fixed at the conversion-engine layer (see docxToPdf /
+  // the conversion profile), NOT by shrinking the font.
   const mergedRun =
     "<w:r><w:rPr>" +
     ADDR_FONT +
-    '<w:sz w:val="18"/><w:szCs w:val="18"/></w:rPr>' +
+    '<w:sz w:val="20"/><w:szCs w:val="20"/></w:rPr>' +
     '<w:t xml:space="preserve">' +
     escapeXml(mergedText) +
     "</w:t></w:r>";
@@ -275,6 +275,28 @@ function fixAddressLine(xml: string): string {
   } else {
     newHead = newHead.replace(/<w:jc\b[^>]*\/>/, '<w:jc w:val="center"/>');
   }
+
+  // --- 4) Centre-pin: nudge the centred line to the ORIGINAL centre. ----------
+  // The source faked-centre with leading spaces; rendered by Word the address
+  // line sits ~25px (≈187 twips) to the RIGHT of the bare content-column centre.
+  // A plain <w:jc w:val="center"/> centres it on the content column instead, so
+  // its centre lands 25px LEFT of where Smallpdf puts it and the (slightly
+  // wider, equivalent-font) line's left edge creeps toward the Date line below.
+  // Per the "pin the centre" method we add a left indent of 2x that offset
+  // (374 twips); with centred justification an even left indent shifts the
+  // centre right by indent/2, landing the address centre exactly on Smallpdf's
+  // (measured: centre 852px vs gold 852px, left edge 392px vs gold 402px). The
+  // font size stays faithful to the source (10pt) -- we move, never shrink.
+  const CENTER_PIN_INDENT = 374;
+  newHead = /<w:ind\b[^>]*\/>/.test(newHead)
+    ? newHead.replace(
+        /<w:ind\b[^>]*\/>/,
+        `<w:ind w:left="${CENTER_PIN_INDENT}" w:right="0"/>`,
+      )
+    : newHead.replace(
+        '<w:jc w:val="center"/>',
+        `<w:jc w:val="center"/><w:ind w:left="${CENTER_PIN_INDENT}" w:right="0"/>`,
+      );
 
   const newPara = newHead + mergedRun + hyperlink + "</w:p>";
   return xml.slice(0, pStart) + newPara + xml.slice(pEnd);
