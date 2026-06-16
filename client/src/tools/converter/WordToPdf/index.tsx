@@ -19,10 +19,36 @@
  */
 
 import { useState, useCallback, useRef } from "react";
+// Bundled runtime (NOT CDN). The previous CDN approach loaded pdfmake@0.2.20
+// while package.json ships pdfmake@0.3.x; the vfs global contract changed
+// (0.3.x uses module.exports = vfs + addVirtualFileSystem), so the old
+// `window.pdfMake.vfs` guard never resolved and getBlob() silently stalled,
+// causing "conversion never completes". Importing locally removes the CDN
+// race, the CSP risk, and the version mismatch.
+import mammoth from "mammoth";
+import pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
 import { AdSlot } from "@/components/business/AdSlot";
 import { PremiumGate } from "@/components/business/PremiumGate";
 import { useLanguage } from "@/contexts/LanguageContext";
+
+// Register the bundled Roboto virtual file system exactly once.
+// pdfmake 0.3.x ships vfs_fonts as `module.exports = vfs` (a flat map),
+// while some builds expose it under `.vfs` / `.pdfMake.vfs`. Normalise.
+(() => {
+  const anyFonts = pdfFonts as any;
+  const vfs = anyFonts?.vfs ?? anyFonts?.pdfMake?.vfs ?? anyFonts?.default?.vfs ?? anyFonts?.default ?? anyFonts;
+  const pm = pdfMake as any;
+  if (vfs && typeof vfs === "object") {
+    pm.vfs = vfs;
+    // Newer pdfmake also supports addVirtualFileSystem; call if available.
+    if (typeof pm.addVirtualFileSystem === "function" && !pm.__vfsRegistered) {
+      try { pm.addVirtualFileSystem(vfs); } catch { /* vfs already set above */ }
+    }
+    pm.__vfsRegistered = true;
+  }
+})();
 
 // ─── Type System ────────────────────────────────────────────────────────────
 
@@ -104,62 +130,109 @@ interface Run {
   link?: string;
 }
 
-declare global {
-  interface Window {
-    mammoth?: any;
-    pdfMake?: any;
+// ─── Runtime accessors (bundled, no network) ────────────────────────────────
+// Kept as async functions so the rest of the pipeline (which awaits them)
+// continues to work unchanged. They now resolve instantly with the bundled
+// modules instead of injecting CDN <script> tags.
+
+async function loadMammothRuntime(): Promise<typeof mammoth> {
+  if (!mammoth || typeof (mammoth as any).convertToHtml !== "function") {
+    throw new Error("mammoth runtime unavailable");
   }
+  return mammoth;
 }
 
-const runtimeScriptPromises = new Map<string, Promise<void>>();
-
-function loadScriptOnce(src: string): Promise<void> {
-  if (typeof window === "undefined") {
-    return Promise.reject(new Error("Browser runtime is required"));
+async function loadPdfMakeRuntime(): Promise<typeof pdfMake> {
+  const pm = pdfMake as any;
+  if (!pm || typeof pm.createPdf !== "function") {
+    throw new Error("pdfmake runtime unavailable");
   }
+  if (!pm.vfs) {
+    throw new Error("pdfmake font virtual file system (vfs) is not registered");
+  }
+  return pdfMake;
+}
 
-  const existing = runtimeScriptPromises.get(src);
-  if (existing) return existing;
+// ─── CJK font strategy ──────────────────────────────────────────────────────
+// pdfmake's bundled vfs only ships Roboto (Latin). Rendering CJK text with
+// Roboto produces blank/!-tofu glyphs. When a document contains CJK, we fetch
+// a Noto Sans SC/TC TTF once, base64-inject it into the pdfmake vfs, and
+// register a "NotoCJK" font family. This keeps the Latin-only path lightweight
+// while making Chinese documents actually render.
+const NOTO_CJK_URL =
+  "https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc@5.0.13/files/noto-sans-sc-chinese-simplified-400-normal.woff";
+// Fallback TTF mirror (pdfmake needs TTF/OTF, not woff2). We use a TTF source.
+const NOTO_CJK_TTF_URL =
+  "https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/SubsetOTF/SC/NotoSansSC-Regular.otf";
 
-  const promise = new Promise<void>((resolve, reject) => {
-    const alreadyLoaded = document.querySelector<HTMLScriptElement>(`script[data-word-to-pdf-src="${src}"]`);
-    if (alreadyLoaded) {
-      resolve();
-      return;
+let cjkFontReady = false;
+
+function arrayBufferToBase64(buf: ArrayBuffer): string {
+  let binary = "";
+  const bytes = new Uint8Array(buf);
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    binary += String.fromCharCode.apply(
+      null,
+      Array.from(bytes.subarray(i, i + chunk)) as unknown as number[]
+    );
+  }
+  return btoa(binary);
+}
+
+/**
+ * Ensures a CJK-capable font is registered in pdfmake.
+ * Returns the font family name to use, or "Roboto" if loading fails
+ * (graceful degradation — Latin still works, CJK may be missing glyphs).
+ */
+async function ensureCjkFont(): Promise<string> {
+  const pm = pdfMake as any;
+  if (cjkFontReady && pm.fonts?.NotoCJK) return "NotoCJK";
+
+  const tryLoad = async (url: string): Promise<boolean> => {
+    try {
+      const res = await fetch(url, { mode: "cors" });
+      if (!res.ok) return false;
+      const buf = await res.arrayBuffer();
+      if (!buf || buf.byteLength < 1000) return false;
+      const b64 = arrayBufferToBase64(buf);
+      const fontVfs = { "NotoSansCJK-Regular.ttf": b64 };
+      // pdfmake 0.3.x stores fonts in an internal virtual fs via
+      // addVirtualFileSystem(). Writing pm.vfs directly does NOT update that
+      // internal store, which caused "File 'NotoSansCJK-Regular.ttf' not found
+      // in virtual file system". Register through the official API, and also
+      // mirror onto pm.vfs for 0.2.x-style fallbacks.
+      if (typeof pm.addVirtualFileSystem === "function") {
+        pm.addVirtualFileSystem(fontVfs);
+      }
+      pm.vfs = Object.assign({}, pm.vfs, fontVfs);
+      pm.fonts = pm.fonts || {};
+      pm.fonts.Roboto = pm.fonts.Roboto || {
+        normal: "Roboto-Regular.ttf",
+        bold: "Roboto-Medium.ttf",
+        italics: "Roboto-Italic.ttf",
+        bolditalics: "Roboto-MediumItalic.ttf",
+      };
+      pm.fonts.NotoCJK = {
+        normal: "NotoSansCJK-Regular.ttf",
+        bold: "NotoSansCJK-Regular.ttf",
+        italics: "NotoSansCJK-Regular.ttf",
+        bolditalics: "NotoSansCJK-Regular.ttf",
+      };
+      return true;
+    } catch {
+      return false;
     }
+  };
 
-    const script = document.createElement("script");
-    script.src = src;
-    script.async = true;
-    script.defer = true;
-    script.crossOrigin = "anonymous";
-    script.dataset.wordToPdfSrc = src;
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error(`Failed to load runtime script: ${src}`));
-    document.head.appendChild(script);
-  });
-
-  runtimeScriptPromises.set(src, promise);
-  return promise;
-}
-
-async function loadMammothRuntime() {
-  if (!window.mammoth) {
-    await loadScriptOnce("https://unpkg.com/mammoth@1.12.0/mammoth.browser.min.js");
+  // OTF first (full coverage), then woff fallback is not usable by pdfmake,
+  // so we only attempt TTF/OTF sources.
+  const ok = (await tryLoad(NOTO_CJK_TTF_URL)) || (await tryLoad(NOTO_CJK_URL));
+  if (ok) {
+    cjkFontReady = true;
+    return "NotoCJK";
   }
-  if (!window.mammoth) throw new Error("mammoth runtime unavailable");
-  return window.mammoth;
-}
-
-async function loadPdfMakeRuntime() {
-  if (!window.pdfMake?.createPdf) {
-    await loadScriptOnce("https://cdn.jsdelivr.net/npm/pdfmake@0.2.20/build/pdfmake.min.js");
-  }
-  if (!window.pdfMake?.vfs) {
-    await loadScriptOnce("https://cdn.jsdelivr.net/npm/pdfmake@0.2.20/build/vfs_fonts.min.js");
-  }
-  if (!window.pdfMake?.createPdf) throw new Error("pdfmake runtime unavailable");
-  return window.pdfMake;
+  return "Roboto";
 }
 
 // ─── Language / i18n ────────────────────────────────────────────────────────
@@ -216,7 +289,7 @@ const ui = {
       "SmartArt、圖表、3D 物件",
     ],
     kbTechTitle: "🔧 技術說明",
-    kbTech: "本工具採用 mammoth.js 語意提取 + pdfmake 程式化渲染，產生文字可搜尋的真實向量 PDF，而非截圖式影像 PDF。中文文件會嘗試以瀏覽器端 PDF 字型輸出；極少數特殊字元可能需要改用 Word/Google Docs 直接匯出。",
+    kbTech: "本工具採用 mammoth.js 語意提取 + pdfmake 程式化渲染，產生文字可搜尋的真實向量 PDF，而非截圖式影像 PDF。轉換引擎內建於頁面（不依賴外部 CDN），離線或內網環境亦可運作。偵測到中文時會自動載入 Noto Sans CJK 字型以正確輸出繁簡中文；若字型載入失敗，拉丁文字仍可正常輸出，少數中文字元可能缺字，建議改用 Word/Google Docs 直接匯出。",
     faqTitle: "常見問題",
     faqs: [
       { q: "支援哪些 Word 版本？", a: "支援 .docx 格式（Word 2007 及以上，含 Google Docs 與 LibreOffice 匯出的 .docx）。不支援舊版 .doc 格式。" },
@@ -283,7 +356,7 @@ const ui = {
       "SmartArt, embedded charts, 3D objects",
     ],
     kbTechTitle: "🔧 Technical notes",
-    kbTech: "This tool uses mammoth.js for semantic extraction combined with pdfmake for programmatic rendering, producing a true vector PDF with selectable, searchable text — not a screenshot-based image PDF. CJK text is processed through browser-side Unicode PDF output; rare glyphs may require direct export for perfect font fidelity.",
+    kbTech: "This tool uses mammoth.js for semantic extraction combined with pdfmake for programmatic rendering, producing a true vector PDF with selectable, searchable text — not a screenshot-based image PDF. The conversion engine is bundled into the page (no external CDN), so it also works offline or on intranets. When CJK text is detected, a Noto Sans CJK font is loaded automatically so Chinese renders correctly; if the font fails to load, Latin text still renders and a few CJK glyphs may be missing — in that case export directly from Word/Google Docs.",
     faqTitle: "FAQ",
     faqs: [
       { q: "Which Word versions are supported?", a: "Supports .docx format (Word 2007 and above, including Google Docs and LibreOffice exports). Legacy .doc format is not supported." },
@@ -611,13 +684,14 @@ function buildSemanticIR(html: string, metaHints: Partial<DocMeta>): SemanticIR 
 
 interface PdfContent { [key: string]: unknown }
 
-function buildPdfDefinition(ir: SemanticIR): PdfContent {
+function buildPdfDefinition(ir: SemanticIR, fontName: string = "Roboto"): PdfContent {
 
-  // Runtime-safe font stack:
-  // pdfmake's official browser vfs_fonts bundle reliably registers Roboto.
-  // Do not reference an unregistered CJK font here: missing fonts can cause
-  // createPdf().getBlob() to hang or fail late in the generation stage.
-  const fonts = { defaultFont: "Roboto" };
+  // Font stack resolved by the pipeline:
+  //  - "Roboto"  for Latin-only documents (bundled, always available)
+  //  - "NotoCJK" when CJK was detected AND the font was successfully fetched
+  // Using an unregistered font would stall getBlob(), so the caller guarantees
+  // `fontName` is registered before this runs.
+  const fonts = { defaultFont: fontName };
 
   // Style definitions
   const styles: PdfContent = {
@@ -686,16 +760,31 @@ function buildPdfDefinition(ir: SemanticIR): PdfContent {
 
       case "table": {
         if (block.rows.length === 0) return null;
-        const colCount = Math.max(...block.rows.map((r) => r.cells.length));
+        // Account for colSpans when computing the real column count, otherwise
+        // pdfmake throws "Not enough/too many cells" and getBlob() rejects.
+        const colCount = Math.max(
+          ...block.rows.map((r) =>
+            r.cells.reduce((sum, c) => sum + Math.max(1, c.colSpan ?? 1), 0)
+          )
+        );
         const colWidths: (string | number)[] = Array(colCount).fill("*");
         const body = block.rows.map((row): PdfContent[] => {
-          return row.cells.map((cell): PdfContent => ({
-            text: runsToInline(cell.runs),
-            style: row.isHeader ? "tableHeader" : "tableCell",
-            colSpan: cell.colSpan && cell.colSpan > 1 ? cell.colSpan : undefined,
-          }));
+          const out: PdfContent[] = [];
+          row.cells.forEach((cell) => {
+            const span = cell.colSpan && cell.colSpan > 1 ? cell.colSpan : 1;
+            out.push({
+              text: runsToInline(cell.runs),
+              style: row.isHeader ? "tableHeader" : "tableCell",
+              colSpan: span > 1 ? span : undefined,
+            });
+            // pdfmake requires (span - 1) placeholder cells right after a colSpan cell
+            for (let i = 1; i < span; i++) {
+              out.push({ text: "", style: row.isHeader ? "tableHeader" : "tableCell" });
+            }
+          });
+          return out;
         });
-        // Pad short rows to avoid pdfmake layout crash
+        // Pad short rows to the full column count to avoid pdfmake layout crash
         body.forEach((row) => {
           while (row.length < colCount) row.push({ text: "", style: "tableCell" });
         });
@@ -772,7 +861,7 @@ function buildPdfDefinition(ir: SemanticIR): PdfContent {
       creator: "Formula Universe — formulauniverse.com",
     },
     defaultStyle: {
-      font: "Roboto",
+      font: fontName,
       fontSize: 11,
       lineHeight: 1.6,
     },
@@ -840,13 +929,19 @@ async function convertDocxToPdf(
   onStage("rendering");
   const pdfmake = await loadPdfMakeRuntime();
 
-  const docDefinition = buildPdfDefinition(ir);
+  // Resolve a CJK-capable font when the document contains Chinese/Japanese/
+  // Korean text. Falls back to Roboto if the font cannot be fetched, so Latin
+  // documents are unaffected and CJK degrades gracefully instead of stalling.
+  const needsCjk = ir.meta.language === "cjk" || ir.meta.language === "mixed";
+  const fontName = needsCjk ? await ensureCjkFont() : "Roboto";
+
+  const docDefinition = buildPdfDefinition(ir, fontName);
 
   // Stage 6: Generate PDF blob
   onStage("generating");
   const triggeredDetectors = preflight.detectors.filter((d) => d.triggered);
   const hasHighImpactRisk = triggeredDetectors.some((d) => d.impact === "high");
-  const hasImageOrTableRisk = triggeredDetectors.some((d) => ["D2_TABLES", "D3_IMAGES", "D11_COLUMNS"].includes(d.id));
+  const hasImageOrTableRisk = triggeredDetectors.some((d) => ["D2_TABLES", "D3_IMAGES", "D11_MULTICOLUMN"].includes(d.id));
   const pdfGenerationTimeoutMs = file.size <= 512 * 1024 && !hasHighImpactRisk && !hasImageOrTableRisk
     ? 25_000
     : file.size <= 2 * 1024 * 1024 && !hasHighImpactRisk
@@ -859,26 +954,38 @@ async function convertDocxToPdf(
       if (settled) return;
       settled = true;
       const seconds = Math.round(pdfGenerationTimeoutMs / 1000);
-      reject(new Error(`PDF generation did not finish within ${seconds}s. For small files this usually means the browser PDF engine is stuck on a font, table, or document structure edge case. Please cancel and try exporting directly from Word/Google Docs, or simplify tables/images and retry.`));
+      reject(new Error(`PDF generation did not finish within ${seconds}s. For small files this usually means the PDF engine is stuck on a font, table, or document structure edge case. Please cancel and try exporting directly from Word/Google Docs, or simplify tables/images and retry.`));
     }, pdfGenerationTimeoutMs);
 
-    try {
-      const pdfDoc = (pdfmake as any).createPdf(docDefinition);
-      pdfDoc.getBlob((blob: Blob) => {
-        if (settled) return;
-        settled = true;
-        window.clearTimeout(timeout);
-        if (!blob || blob.size === 0) {
-          reject(new Error("PDF generation returned an empty file. Please try a simpler document or compress embedded images."));
-          return;
-        }
-        resolve(blob);
-      });
-    } catch (err) {
+    const finishOk = (blob: Blob) => {
       if (settled) return;
       settled = true;
       window.clearTimeout(timeout);
-      reject(err);
+      if (!blob || blob.size === 0) {
+        reject(new Error("PDF generation returned an empty file. Please try a simpler document or compress embedded images."));
+        return;
+      }
+      resolve(blob);
+    };
+    const finishErr = (err: unknown) => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timeout);
+      reject(err instanceof Error ? err : new Error(String(err)));
+    };
+
+    try {
+      const pdfDoc = (pdfmake as any).createPdf(docDefinition);
+      // pdfmake 0.3.x: getBlob() returns a Promise.
+      // pdfmake 0.2.x: getBlob(cb) used a callback that NEVER fired here,
+      // which was the root cause of "conversion never completes".
+      // Support both shapes defensively.
+      const maybePromise = pdfDoc.getBlob((blob: Blob) => finishOk(blob));
+      if (maybePromise && typeof maybePromise.then === "function") {
+        maybePromise.then(finishOk).catch(finishErr);
+      }
+    } catch (err) {
+      finishErr(err);
     }
   });
 }
@@ -1035,7 +1142,7 @@ export default function WordToPdf() {
       }
       if (cancelRef.current || conversionRunRef.current !== runId) return;
       setStatus("error");
-      setErrorMsg(String(err));
+      setErrorMsg(err instanceof Error ? err.message : String(err));
     }
   }, [file]);
 
