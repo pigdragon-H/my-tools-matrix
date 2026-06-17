@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development tsx watch server/_core/index.ts",
-    "build": "NODE_OPTIONS=--max-old-space-size=7168 vite build && NODE_OPTIONS=--max-old-space-size=7168 vite build --ssr src/ssr-entry.tsx --outDir ../dist/server && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "build": "NODE_OPTIONS=--max-old-space-size=7168 vite build && NODE_OPTIONS=--max-old-space-size=7168 vite build --ssr src/ssr-entry.tsx --outDir ../dist/server && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist && cp server/lib/pdf2docx_worker.py dist/pdf2docx_worker.py",
     "start": "NODE_ENV=production node dist/index.js",
     "check": "tsc --noEmit",
     "format": "prettier --write .",

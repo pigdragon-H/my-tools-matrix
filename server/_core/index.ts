@@ -10,7 +10,6 @@ import { createContext } from "./context";
 import { supabaseService } from "../lib/supabaseAdmin";
 import { convertWordToPdf } from "../lib/docxToPdf";
 import { convertPdfToWord } from "../lib/pdfToWord";
-import { convertPdfFreezeToWord } from "../lib/pdfFreezeToWord";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -179,43 +178,19 @@ app.post(
       const rawName =
         (req.headers["x-filename"] as string | undefined) || "document.pdf";
       const originalName = decodeURIComponent(rawName).replace(/[^\w.\- ]+/g, "_");
-
-      // Conversion path selector (golden-template friendly: header-driven so the
-      // existing UI/contract is untouched for the default editable path):
-      //   X-Convert-Mode: "editable" (default) | "freeze"
-      //   X-Auto-Center : "1" to auto-center the header (freeze mode only)
-      const convertMode =
-        (req.headers["x-convert-mode"] as string | undefined) || "editable";
-      const autoCenter = (req.headers["x-auto-center"] as string | undefined) === "1";
       const docxName = originalName.replace(/\.pdf$/i, "") + ".docx";
 
-      if (convertMode === "freeze") {
-        // 完美版面（版面凍結，像素級保真、不可編輯）+ 可選自動表頭置中
-        const { docx, ms, pages, recentered } = await convertPdfFreezeToWord(body, {
-          dpi: 200,
-          autoCenterHeader: autoCenter,
-        });
-        res.setHeader(
-          "Content-Type",
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        );
-        res.setHeader("X-Conversion-Ms", String(ms));
-        res.setHeader("X-Conversion-Mode", recentered ? "freeze-centered" : "freeze");
-        res.setHeader("X-Pdf-Pages", String(pages));
-        res.setHeader(
-          "Content-Disposition",
-          `attachment; filename="${encodeURIComponent(docxName)}"`
-        );
-        return res.send(docx);
-      }
-
-      const { docx, ms, mode, pages } = await convertPdfToWord(body, originalName);
+      // Single faithful engine: pdf2docx semantic reconstruction (real
+      // paragraphs + real tables + real embedded images, opens correctly in
+      // Microsoft Word). LibreOffice is used only as an internal fallback.
+      const { docx, ms, mode, pages, engine } = await convertPdfToWord(body, originalName);
       res.setHeader(
         "Content-Type",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
       );
       res.setHeader("X-Conversion-Ms", String(ms));
       res.setHeader("X-Conversion-Mode", mode);
+      res.setHeader("X-Conversion-Engine", engine);
       res.setHeader("X-Pdf-Pages", String(pages));
       res.setHeader(
         "Content-Disposition",

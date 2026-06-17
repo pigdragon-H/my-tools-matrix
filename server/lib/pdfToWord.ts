@@ -1,45 +1,58 @@
 /**
  * High-fidelity PDF → Word (.docx) conversion — enterprise-grade pipeline.
  *
- * ╔══════════════════════════════════════════════════════════════════════╗
+ * ╔═══════════════════════════════════════════════════════════════════════╗
  * ║  Formula Universe — PDF → Word server engine                          ║
+ * ║                                                                       ║
+ * ║  PRIMARY engine: pdf2docx (semantic reconstruction).                  ║
+ * ║    Reads each glyph's real coordinate/font/weight/colour and rebuilds ║
+ * ║    REAL flowing paragraphs + REAL Word tables + REAL embedded images. ║
+ * ║    This is the same approach commercial tools (Adobe / Solid          ║
+ * ║    Documents) use, so the output opens natively & correctly in        ║
+ * ║    Microsoft Word — layout stays faithful to the original PDF.        ║
+ * ║                                                                       ║
+ * ║  Why NOT LibreOffice as primary:                                      ║
+ * ║    `writer_pdf_import` is Draw-based and emits hundreds of            ║
+ * ║    absolutely-positioned floating text-boxes (<v:shape>/<wps:>).      ║
+ * ║    They render OK inside LibreOffice but overlap/shift/break when      ║
+ * ║    re-opened in Microsoft Word ("the monster"). It is kept ONLY as    ║
+ * ║    an OCR back-end for scanned/image PDFs and as a last-resort         ║
+ * ║    fallback if pdf2docx fails.                                        ║
  * ║                                                                       ║
  * ║  Pipeline (auto-routed by content type):                              ║
  * ║   1. Detect text layer with `pdftotext` (fast, no render).            ║
- * ║   2a. TEXT PDF   → LibreOffice `writer_pdf_import` → .docx.            ║
- * ║   2b. SCANNED/IMAGE PDF (no text) → OCR:                              ║
- * ║        pdftoppm (rasterise) → tesseract (chi_tra+chi_sim+eng,         ║
- * ║        searchable-PDF output) → LibreOffice → .docx.                   ║
- * ║   3. If OCR also yields nothing usable → explicit error so the UI     ║
- * ║      can tell the user to supply a text-based PDF.                     ║
- * ║                                                                       ║
- * ║  Honesty note: PDF is a fixed-coordinate print format; Word is a      ║
- * ║  reflowable structure. LibreOffice's PDF import is Draw-based and     ║
- * ║  emits absolutely-positioned text frames rather than flowing          ║
- * ║  paragraphs + real tables. The output is fully editable but its       ║
- * ║  layout is an approximation — this is an inherent, lossy direction.   ║
+ * ║   2a. TEXT PDF   → pdf2docx → .docx   (fallback: LibreOffice).         ║
+ * ║   2b. SCANNED PDF (no text) → OCR (pdftoppm → tesseract searchable     ║
+ * ║        PDF) → pdf2docx → .docx        (fallback: LibreOffice).         ║
  * ║                                                                       ║
  * ║  Safety: isolated temp dir + private LO profile per request, hard     ║
  * ║  timeout, guaranteed cleanup.                                         ║
- * ╚══════════════════════════════════════════════════════════════════════╝
+ * ╚═══════════════════════════════════════════════════════════════════════╝
  */
 import { spawn } from "node:child_process";
 import { mkdtemp, readFile, writeFile, rm, readdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import path from "node:path";
 import os from "node:os";
 
 export interface ConvertResult {
   docx: Buffer;
   ms: number;
-  /** "text" = native text layer used; "ocr" = OCR pipeline used. */
-  mode: "text" | "ocr";
+  /**
+   * "text"  = native text layer → pdf2docx semantic reconstruction.
+   * "ocr"   = scanned PDF → OCR → pdf2docx.
+   * "text-lo" / "ocr-lo" = pdf2docx failed, LibreOffice fallback was used.
+   */
+  mode: "text" | "ocr" | "text-lo" | "ocr-lo";
   /** Number of pages detected in the source PDF. */
   pages: number;
+  /** Which engine produced the document. */
+  engine: "pdf2docx" | "libreoffice";
 }
 
-const CONVERT_TIMEOUT_MS = 120_000; // OCR can be slow; allow more headroom than W→PDF.
-const OCR_DPI = 300; // 300dpi is the sweet spot for tesseract accuracy vs. speed.
+const CONVERT_TIMEOUT_MS = 120_000; // OCR can be slow; allow headroom.
+const OCR_DPI = 300; // 300dpi: sweet spot for tesseract accuracy vs. speed.
 
 /** Tesseract language string — Traditional + Simplified Chinese + English. */
 const OCR_LANGS = process.env.OCR_LANGS || "chi_tra+chi_sim+eng";
@@ -49,6 +62,28 @@ function resolveSofficeBin(): string {
 }
 function resolveBin(name: string, envVar: string): string {
   return process.env[envVar] || name;
+}
+function resolvePythonBin(): string {
+  return process.env.PYTHON_BIN || "python3";
+}
+
+/** Absolute path to the bundled pdf2docx worker script. */
+function workerScriptPath(): string {
+  // server/lib/pdfToWord.ts → same dir holds pdf2docx_worker.py.
+  // At runtime (esbuild bundle) __dirname may differ, so try a few candidates.
+  const here = path.dirname(fileURLToPath(import.meta.url));
+  const candidates = [
+    process.env.PDF2DOCX_WORKER,
+    path.join(here, "pdf2docx_worker.py"),
+    path.join(here, "..", "lib", "pdf2docx_worker.py"),
+    path.join(process.cwd(), "server", "lib", "pdf2docx_worker.py"),
+    path.join(process.cwd(), "dist", "pdf2docx_worker.py"),
+  ].filter(Boolean) as string[];
+  for (const c of candidates) {
+    if (existsSync(c)) return c;
+  }
+  // Fall back to the most likely location even if existsSync missed it.
+  return candidates[1];
 }
 
 /**
@@ -77,27 +112,45 @@ export async function convertPdfToWord(
     const hasText = await pdfHasTextLayer(inPath);
 
     let pdfForConversion = inPath;
-    let mode: "text" | "ocr" = "text";
+    let scanned = false;
 
     if (!hasText) {
-      // Scanned / image-only PDF → run OCR to produce a searchable PDF.
-      mode = "ocr";
+      // Scanned / image-only PDF → run OCR to produce a searchable PDF first.
+      scanned = true;
       pdfForConversion = await ocrToSearchablePdf(inPath, workDir, pages);
     }
 
-    const docx = await libreofficePdfToDocx(pdfForConversion, workDir, profileDir);
+    // ── PRIMARY: pdf2docx semantic reconstruction ───────────────────────
+    let docx: Buffer | null = null;
+    let engine: "pdf2docx" | "libreoffice" = "pdf2docx";
+    try {
+      docx = await pdf2docxConvert(pdfForConversion, workDir);
+    } catch (err) {
+      // Swallow — we will try the LibreOffice fallback below.
+      docx = null;
+    }
+
+    // ── FALLBACK: LibreOffice (only if pdf2docx failed) ─────────────────
+    if (!docx || docx.length < 200) {
+      engine = "libreoffice";
+      docx = await libreofficePdfToDocx(pdfForConversion, workDir, profileDir);
+    }
 
     if (!docx || docx.length < 100) {
       throw new Error("CONVERSION_FAILED: produced an empty document.");
     }
-    return { docx, ms: Date.now() - start, mode, pages };
+
+    const mode: ConvertResult["mode"] =
+      engine === "pdf2docx" ? (scanned ? "ocr" : "text") : scanned ? "ocr-lo" : "text-lo";
+
+    return { docx, ms: Date.now() - start, mode, pages, engine };
   } finally {
     rm(workDir, { recursive: true, force: true }).catch(() => {});
     rm(profileDir, { recursive: true, force: true }).catch(() => {});
   }
 }
 
-// ── Detection ─────────────────────────────────────────────────────────────
+// ── Detection ──────────────────────────────────────────────────────────
 
 /** Count pages via `pdfinfo` (falls back to 0 if unavailable). */
 async function countPdfPages(pdfPath: string): Promise<number> {
@@ -129,7 +182,28 @@ async function pdfHasTextLayer(pdfPath: string): Promise<boolean> {
   }
 }
 
-// ── OCR path ────────────────────────────────────────────────────────────────
+// ── pdf2docx (PRIMARY engine) ────────────────────────────────────────────
+
+/**
+ * Convert a (searchable) PDF to .docx via the bundled pdf2docx Python worker.
+ * Produces real paragraphs + real tables + real embedded images that open
+ * correctly in Microsoft Word. Throws on any failure so the caller can fall
+ * back to LibreOffice.
+ */
+async function pdf2docxConvert(pdfPath: string, workDir: string): Promise<Buffer> {
+  const outPath = path.join(workDir, "pdf2docx_out.docx");
+  const script = workerScriptPath();
+  if (!existsSync(script)) {
+    throw new Error(`pdf2docx worker not found at ${script}`);
+  }
+  await runWithTimeout(resolvePythonBin(), [script, pdfPath, outPath], CONVERT_TIMEOUT_MS);
+  if (!existsSync(outPath)) {
+    throw new Error("pdf2docx produced no output file.");
+  }
+  return readFile(outPath);
+}
+
+// ── OCR path (for scanned/image PDFs) ────────────────────────────────────
 
 /**
  * OCR a scanned PDF into a searchable PDF.
@@ -182,12 +256,12 @@ async function ocrToSearchablePdf(pdfPath: string, workDir: string, pages: numbe
   return existsSync(merged) ? merged : perPagePdfs[0];
 }
 
-// ── LibreOffice conversion ────────────────────────────────────────────────
+// ── LibreOffice conversion (FALLBACK only) ───────────────────────────────
 
 /**
  * Convert a (searchable) PDF to .docx via LibreOffice headless.
- * The `writer_pdf_import` input filter routes the PDF through the Draw import
- * so text becomes editable; we then export the Word 2007 XML (.docx) filter.
+ * Kept ONLY as a fallback when pdf2docx fails — its output uses
+ * absolutely-positioned text frames and is a lossy approximation.
  */
 async function libreofficePdfToDocx(pdfPath: string, workDir: string, profileDir: string): Promise<Buffer> {
   const bin = resolveSofficeBin();
@@ -218,7 +292,7 @@ async function libreofficePdfToDocx(pdfPath: string, workDir: string, profileDir
   return readFile(outPath);
 }
 
-// ── Process helpers ───────────────────────────────────────────────────────
+// ── Process helpers ──────────────────────────────────────────────────────
 
 function runWithTimeout(bin: string, args: string[], timeoutMs: number): Promise<void> {
   return new Promise((resolve, reject) => {
