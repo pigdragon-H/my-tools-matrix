@@ -44,6 +44,13 @@ const T = {
     uploadHint: "支援 .pdf，單檔上限 25MB",
     dragHint: "檔案僅於伺服器轉換當下處理，完成後立即刪除",
     chooseFile: "選擇 PDF 檔案",
+    modeSectionTitle: "選擇轉換方式",
+    modeEditableTitle: "可再編輯 Word",
+    modeEditableDesc: "文字層／OCR 轉成可修改的 .docx，適合需要繼續編輯內容。複雜版面可能以文字框呈現、需微調。",
+    modeFreezeTitle: "完美版面 Word（凍結版面）",
+    modeFreezeDesc: "每頁以高解析影像嵌入 Word，排版跟原版一模一樣（像素級保真，商標不位移、字體不膨脹）。內容不可再編輯。",
+    autoCenterLabel: "自動置中表頭（商標＋公司全銜）",
+    autoCenterDesc: "自動偵測頂端的商標與公司全銜標題，量測其中心與頁面中心的差距並整體置中，讓版面比原版更端正。演算法自適應任何文件版本，無寫死數值。",
     convertBtn: "開始轉換為 Word",
     converting: "轉換中，請稍候…",
     convertingOcr: "偵測為掃描／圖片 PDF，正在執行 OCR 中文辨識（較花時間）…",
@@ -120,6 +127,13 @@ const T = {
     uploadHint: "Supports .pdf, up to 25MB per file",
     dragHint: "Files are processed only during conversion and deleted right after.",
     chooseFile: "Choose PDF file",
+    modeSectionTitle: "Choose conversion mode",
+    modeEditableTitle: "Editable Word",
+    modeEditableDesc: "Text-layer / OCR into an editable .docx — best when you need to keep editing the content. Complex layouts may appear as text frames and need tweaking.",
+    modeFreezeTitle: "Pixel-perfect Word (frozen layout)",
+    modeFreezeDesc: "Each page is embedded as a high-resolution image, so the layout matches the original exactly (pixel-level fidelity; logo never shifts, fonts never inflate). The content is not re-editable.",
+    autoCenterLabel: "Auto-center the header (logo + company name)",
+    autoCenterDesc: "Automatically detects the top logo + company-name title, measures its center against the page center and recenters the whole block — making the layout even tidier than the original. The algorithm adapts to any document version with no hardcoded values.",
     convertBtn: "Convert to Word",
     converting: "Converting, please wait…",
     convertingOcr: "Detected a scanned / image PDF — running OCR (this takes longer)…",
@@ -190,7 +204,8 @@ const T = {
 async function convertViaServer(
   file: File,
   onStage: (s: "reading" | "uploading" | "converting") => void,
-  onOcr: () => void
+  onOcr: () => void,
+  options: { freeze: boolean; autoCenter: boolean }
 ): Promise<{ blob: Blob; mode: ConvMode; pages: number; ms: number }> {
   onStage("reading");
   const buf = await file.arrayBuffer();
@@ -200,12 +215,18 @@ async function convertViaServer(
   let resp: Response;
   try {
     onStage("converting");
+    const headers: Record<string, string> = {
+      "Content-Type": "application/octet-stream",
+      "x-filename": encodeURIComponent(file.name),
+    };
+    if (options.freeze) {
+      // 完美版面（版面凍結）路徑；自動表頭置中為可選
+      headers["x-convert-mode"] = "freeze";
+      if (options.autoCenter) headers["x-auto-center"] = "1";
+    }
     resp = await fetch("/api/convert/pdf-to-word", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/octet-stream",
-        "x-filename": encodeURIComponent(file.name),
-      },
+      headers,
       body: buf,
     });
   } finally {
@@ -253,6 +274,11 @@ export default function PdfToWord() {
   const [pages, setPages] = useState(0);
   const [elapsedMs, setElapsedMs] = useState(0);
   const progressTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // 轉換模式：editable = 可再編輯（LibreOffice/OCR）；freeze = 完美版面（版面凍結，不可編輯）
+  const [convMode, setConvMode] = useState<"editable" | "freeze">("editable");
+  // 完美版面模式專用：自動把表頭（商標+公司全銜）置中
+  const [autoCenter, setAutoCenter] = useState(false);
 
   const fileSizeMb = file ? file.size / 1024 / 1024 : 0;
   const showCommercialPreview = status === "idle";
@@ -317,7 +343,8 @@ export default function PdfToWord() {
       const { blob, mode: m, pages: pg, ms } = await convertViaServer(
         file,
         (s) => setStageLabel(stageMap[s]),
-        () => setOcrActive(true)
+        () => setOcrActive(true),
+        { freeze: convMode === "freeze", autoCenter }
       );
       stopFakeProgress(100);
       const url = URL.createObjectURL(blob);
@@ -336,7 +363,7 @@ export default function PdfToWord() {
       else if (/INVALID_PDF/.test(code)) setErrorMsg(t.errType);
       else setErrorMsg(e?.message || code);
     }
-  }, [file, t]);
+  }, [file, t, convMode, autoCenter]);
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_#fef3c7,_#f8fafc_45%,_#e0f2fe)] font-sans">
@@ -383,6 +410,70 @@ export default function PdfToWord() {
             <p className="text-green-700 font-bold text-sm">
               ✅ {file.name} &nbsp;·&nbsp; {(file.size / 1024 / 1024).toFixed(2)} MB
             </p>
+          )}
+        </section>
+
+        {/* T3B Conversion mode selector */}
+        <section className="rounded-[1.5rem] border border-slate-200 bg-white p-5 space-y-4 shadow-sm">
+          <h3 className="font-black text-slate-800">{t.modeSectionTitle}</h3>
+          <div className="grid gap-3 md:grid-cols-2">
+            <button
+              type="button"
+              onClick={() => setConvMode("editable")}
+              className={`text-left rounded-2xl border-2 p-4 transition ${
+                convMode === "editable"
+                  ? "border-blue-500 bg-blue-50"
+                  : "border-slate-200 bg-white hover:border-blue-300"
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <span
+                  className={`inline-block h-4 w-4 rounded-full border-2 ${
+                    convMode === "editable" ? "border-blue-600 bg-blue-600" : "border-slate-300"
+                  }`}
+                />
+                <span className="font-black text-slate-900">{t.modeEditableTitle}</span>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">{t.modeEditableDesc}</p>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setConvMode("freeze")}
+              className={`text-left rounded-2xl border-2 p-4 transition ${
+                convMode === "freeze"
+                  ? "border-emerald-500 bg-emerald-50"
+                  : "border-slate-200 bg-white hover:border-emerald-300"
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <span
+                  className={`inline-block h-4 w-4 rounded-full border-2 ${
+                    convMode === "freeze" ? "border-emerald-600 bg-emerald-600" : "border-slate-300"
+                  }`}
+                />
+                <span className="font-black text-slate-900">{t.modeFreezeTitle}</span>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">{t.modeFreezeDesc}</p>
+            </button>
+          </div>
+
+          {/* 完美版面模式專屬：自動置中表頭 */}
+          {convMode === "freeze" && (
+            <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/60 p-4">
+              <input
+                type="checkbox"
+                checked={autoCenter}
+                onChange={(e) => setAutoCenter(e.target.checked)}
+                className="mt-1 h-5 w-5 accent-emerald-600"
+              />
+              <span>
+                <span className="font-black text-slate-900">{t.autoCenterLabel}</span>
+                <span className="mt-1 block text-sm leading-relaxed text-slate-600">
+                  {t.autoCenterDesc}
+                </span>
+              </span>
+            </label>
           )}
         </section>
 
