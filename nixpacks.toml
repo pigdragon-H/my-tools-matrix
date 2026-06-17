@@ -51,11 +51,12 @@ aptPkgs = [
   "build-essential",
 ]
 
-# Install the pdf2docx Python engine (and its PyMuPDF / python-docx deps).
-# `--break-system-packages` is required on Debian's externally-managed env.
-[phases.install]
+# Install the pdf2docx Python engine (PyMuPDF / python-docx) in a dedicated
+# phase that runs AFTER the auto-detected Node install, so we don't disturb
+# pnpm dependency resolution. `--break-system-packages` is required on
+# Debian's externally-managed Python environment.
+[phases.pyengine]
+dependsOn = ["install"]
 cmds = [
-  "npm install -g pnpm@10.4.1 || true",
-  "pnpm install --frozen-lockfile || pnpm install",
   "python3 -m pip install --break-system-packages --no-cache-dir 'pdf2docx==0.5.8'",
 ]
