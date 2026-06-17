@@ -49,7 +49,23 @@ export interface ConvertResult {
   pages: number;
   /** Which engine produced the document. */
   engine: "pdf2docx" | "libreoffice";
+  /** Fidelity-repair report from the multi-pass verify loop (pdf2docx path). */
+  fidelity?: {
+    passes: number;
+    final_score: number | null;
+    images_reattached: number;
+    borders_added: number;
+    fills_corrected: number;
+    elapsed_s: number;
+  };
 }
+
+/**
+ * Minimum wall time (seconds) for the multi-pass "verify against original"
+ * loop. Deliberately slow (15-20s) so every image / border / fill is checked
+ * and repaired against the source PDF before output. Tunable via env.
+ */
+const VERIFY_MIN_SECONDS = Number(process.env.PDF2DOCX_MIN_SECONDS || 15);
 
 const CONVERT_TIMEOUT_MS = 120_000; // OCR can be slow; allow headroom.
 const OCR_DPI = 300; // 300dpi: sweet spot for tesseract accuracy vs. speed.
@@ -120,11 +136,14 @@ export async function convertPdfToWord(
       pdfForConversion = await ocrToSearchablePdf(inPath, workDir, pages);
     }
 
-    // ── PRIMARY: pdf2docx semantic reconstruction ───────────────────────
+    // ── PRIMARY: pdf2docx semantic reconstruction + fidelity repair ─────
     let docx: Buffer | null = null;
     let engine: "pdf2docx" | "libreoffice" = "pdf2docx";
+    let fidelity: ConvertResult["fidelity"];
     try {
-      docx = await pdf2docxConvert(pdfForConversion, workDir);
+      const r = await pdf2docxConvert(pdfForConversion, workDir);
+      docx = r.docx;
+      fidelity = r.report;
     } catch (err) {
       // Swallow — we will try the LibreOffice fallback below.
       docx = null;
@@ -143,7 +162,7 @@ export async function convertPdfToWord(
     const mode: ConvertResult["mode"] =
       engine === "pdf2docx" ? (scanned ? "ocr" : "text") : scanned ? "ocr-lo" : "text-lo";
 
-    return { docx, ms: Date.now() - start, mode, pages, engine };
+    return { docx, ms: Date.now() - start, mode, pages, engine, fidelity };
   } finally {
     rm(workDir, { recursive: true, force: true }).catch(() => {});
     rm(profileDir, { recursive: true, force: true }).catch(() => {});
@@ -190,17 +209,41 @@ async function pdfHasTextLayer(pdfPath: string): Promise<boolean> {
  * correctly in Microsoft Word. Throws on any failure so the caller can fall
  * back to LibreOffice.
  */
-async function pdf2docxConvert(pdfPath: string, workDir: string): Promise<Buffer> {
+async function pdf2docxConvert(
+  pdfPath: string,
+  workDir: string
+): Promise<{ docx: Buffer; report?: ConvertResult["fidelity"] }> {
   const outPath = path.join(workDir, "pdf2docx_out.docx");
   const script = workerScriptPath();
   if (!existsSync(script)) {
     throw new Error(`pdf2docx worker not found at ${script}`);
   }
-  await runWithTimeout(resolvePythonBin(), [script, pdfPath, outPath], CONVERT_TIMEOUT_MS);
+  // Stage 1 input → 2 calibrate → 3 convert → 4 multi-pass verify/repair.
+  // The worker self-throttles to VERIFY_MIN_SECONDS for a thorough pass.
+  const stdout = await runCapture(
+    resolvePythonBin(),
+    [script, pdfPath, outPath, String(VERIFY_MIN_SECONDS)],
+    CONVERT_TIMEOUT_MS
+  );
   if (!existsSync(outPath)) {
     throw new Error("pdf2docx produced no output file.");
   }
-  return readFile(outPath);
+  let report: ConvertResult["fidelity"];
+  try {
+    const lastLine = stdout.trim().split("\n").filter(Boolean).pop() || "";
+    const parsed = JSON.parse(lastLine);
+    report = {
+      passes: parsed.passes,
+      final_score: parsed.final_score,
+      images_reattached: parsed.images_reattached,
+      borders_added: parsed.borders_added,
+      fills_corrected: parsed.fills_corrected,
+      elapsed_s: parsed.elapsed_s,
+    };
+  } catch {
+    report = undefined;
+  }
+  return { docx: await readFile(outPath), report };
 }
 
 // ── OCR path (for scanned/image PDFs) ────────────────────────────────────

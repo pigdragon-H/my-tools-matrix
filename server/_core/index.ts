@@ -183,7 +183,10 @@ app.post(
       // Single faithful engine: pdf2docx semantic reconstruction (real
       // paragraphs + real tables + real embedded images, opens correctly in
       // Microsoft Word). LibreOffice is used only as an internal fallback.
-      const { docx, ms, mode, pages, engine } = await convertPdfToWord(body, originalName);
+      const { docx, ms, mode, pages, engine, fidelity } = await convertPdfToWord(
+        body,
+        originalName
+      );
       res.setHeader(
         "Content-Type",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -192,6 +195,13 @@ app.post(
       res.setHeader("X-Conversion-Mode", mode);
       res.setHeader("X-Conversion-Engine", engine);
       res.setHeader("X-Pdf-Pages", String(pages));
+      if (fidelity) {
+        // Surface the multi-pass verify/repair report to the client.
+        res.setHeader("X-Fidelity-Score", String(fidelity.final_score ?? ""));
+        res.setHeader("X-Fidelity-Passes", String(fidelity.passes));
+        res.setHeader("X-Fidelity-Repairs",
+          `img:${fidelity.images_reattached},border:${fidelity.borders_added},fill:${fidelity.fills_corrected}`);
+      }
       res.setHeader(
         "Content-Disposition",
         `attachment; filename="${encodeURIComponent(docxName)}"`

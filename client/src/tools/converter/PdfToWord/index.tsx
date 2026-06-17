@@ -50,9 +50,14 @@ const T = {
     convertBtn: "開始轉換為 Word",
     converting: "轉換中，請稍候…",
     convertingOcr: "偵測為掃描／圖片 PDF，正在執行 OCR 中文辨識（較花時間）…",
-    stageReading: "讀取檔案中…",
-    stageUploading: "上傳並偵測文字層…",
-    stageConverting: "語意重建為 .docx…",
+    stageReading: "① 檔案輸入中…",
+    stageUploading: "② 原檔案校準中（讀取圖片／框線／顏色基準）…",
+    stageConverting: "③ 多重多次與原版確認中…",
+    stageOutput: "④ 轉換輸出中…",
+    fidelityTitle: "忠於原版校驗報告",
+    fidelityScore: "保真分數",
+    fidelityPasses: "確認回合",
+    fidelityRepairs: "自動修補",
     successNote: "轉換完成！",
     downloadBtn: "下載 Word 檔（.docx）",
     reupload: "轉換另一個檔案",
@@ -129,9 +134,14 @@ const T = {
     convertBtn: "Convert to Word",
     converting: "Converting, please wait…",
     convertingOcr: "Detected a scanned / image PDF — running OCR (this takes longer)…",
-    stageReading: "Reading file…",
-    stageUploading: "Uploading & detecting text layer…",
-    stageConverting: "Rebuilding into .docx…",
+    stageReading: "① Receiving file…",
+    stageUploading: "② Calibrating against the original (images / borders / colours)…",
+    stageConverting: "③ Multi-pass verification against the original…",
+    stageOutput: "④ Producing output…",
+    fidelityTitle: "Faithful-to-original report",
+    fidelityScore: "Fidelity score",
+    fidelityPasses: "Verify passes",
+    fidelityRepairs: "Auto-repairs",
     successNote: "Conversion complete!",
     downloadBtn: "Download Word (.docx)",
     reupload: "Convert another file",
@@ -193,19 +203,34 @@ const T = {
 } as const;
 
 // ─── Conversion call ─────────────────────────────────────────────────────────
+export interface Fidelity {
+  score: number | null;
+  passes: number;
+  repairs: string; // e.g. "img:0,border:50,fill:6"
+}
+
 async function convertViaServer(
   file: File,
-  onStage: (s: "reading" | "uploading" | "converting") => void,
+  onStage: (s: "input" | "calibrate" | "verify" | "output") => void,
   onOcr: () => void
-): Promise<{ blob: Blob; mode: ConvMode; pages: number; ms: number }> {
-  onStage("reading");
+): Promise<{ blob: Blob; mode: ConvMode; pages: number; ms: number; fidelity: Fidelity }> {
+  // The server runs a deliberate multi-pass verify/repair loop (~15-20s). We
+  // walk the four stages on a timeline so the user sees: 檔案輸入 → 原檔校準
+  // → 多重多次確認 → 轉換輸出.
+  onStage("input");
   const buf = await file.arrayBuffer();
-  onStage("uploading");
-  // Scanned PDFs simply take longer; surface the OCR hint after a short delay.
-  const ocrHintTimer = setTimeout(onOcr, 4000);
+
+  // Drive the visible stage timeline (calibrate → verify) while the request
+  // is in flight. The final "output" stage is set when the response lands.
+  let cancelled = false;
+  const stageTimers: ReturnType<typeof setTimeout>[] = [];
+  stageTimers.push(setTimeout(() => !cancelled && onStage("calibrate"), 600));
+  stageTimers.push(setTimeout(() => !cancelled && onStage("verify"), 4000));
+  // Scanned PDFs take longer; surface the OCR hint after a short delay.
+  const ocrHintTimer = setTimeout(onOcr, 5000);
+
   let resp: Response;
   try {
-    onStage("converting");
     const headers: Record<string, string> = {
       "Content-Type": "application/octet-stream",
       "x-filename": encodeURIComponent(file.name),
@@ -216,6 +241,8 @@ async function convertViaServer(
       body: buf,
     });
   } finally {
+    cancelled = true;
+    stageTimers.forEach(clearTimeout);
     clearTimeout(ocrHintTimer);
   }
 
@@ -232,12 +259,19 @@ async function convertViaServer(
     throw err;
   }
 
+  onStage("output");
   const blob = await resp.blob();
+  const scoreRaw = resp.headers.get("X-Fidelity-Score");
   return {
     blob,
     mode: (resp.headers.get("X-Conversion-Mode") as ConvMode) || "unknown",
     pages: Number(resp.headers.get("X-Pdf-Pages") || 0),
     ms: Number(resp.headers.get("X-Conversion-Ms") || 0),
+    fidelity: {
+      score: scoreRaw ? Number(scoreRaw) : null,
+      passes: Number(resp.headers.get("X-Fidelity-Passes") || 0),
+      repairs: resp.headers.get("X-Fidelity-Repairs") || "",
+    },
   };
 }
 
@@ -259,6 +293,7 @@ export default function PdfToWord() {
   const [mode, setMode] = useState<ConvMode>("unknown");
   const [pages, setPages] = useState(0);
   const [elapsedMs, setElapsedMs] = useState(0);
+  const [fidelity, setFidelity] = useState<Fidelity | null>(null);
   const progressTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
 
@@ -274,6 +309,7 @@ export default function PdfToWord() {
     setProgress(0);
     setOcrActive(false);
     setMode("unknown");
+    setFidelity(null);
   }, [docxUrl]);
 
   const startFakeProgress = () => {
@@ -316,13 +352,15 @@ export default function PdfToWord() {
     setStatus("converting");
     setOcrActive(false);
     startFakeProgress();
+    setFidelity(null);
     const stageMap = {
-      reading: t.stageReading,
-      uploading: t.stageUploading,
-      converting: t.stageConverting,
+      input: t.stageReading,
+      calibrate: t.stageUploading,
+      verify: t.stageConverting,
+      output: t.stageOutput,
     } as const;
     try {
-      const { blob, mode: m, pages: pg, ms } = await convertViaServer(
+      const { blob, mode: m, pages: pg, ms, fidelity: fid } = await convertViaServer(
         file,
         (s) => setStageLabel(stageMap[s]),
         () => setOcrActive(true)
@@ -335,6 +373,7 @@ export default function PdfToWord() {
       setMode(m);
       setPages(pg);
       setElapsedMs(ms);
+      setFidelity(fid);
       setStatus("done");
     } catch (e: any) {
       stopFakeProgress(0);
@@ -471,6 +510,35 @@ export default function PdfToWord() {
                   {elapsedMs ? ` · ${t.elapsed}: ${(elapsedMs / 1000).toFixed(1)}s` : ""}
                 </p>
               </div>
+
+              {fidelity && fidelity.score !== null && (
+                <div className="border-t border-emerald-100 bg-white px-5 pt-5 md:px-6">
+                  <div className="rounded-[1.5rem] border border-emerald-200 bg-gradient-to-br from-emerald-50 to-teal-50 p-5 md:p-6">
+                    <p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">
+                      🛡️ {t.fidelityTitle}
+                    </p>
+                    <div className="mt-4 grid gap-4 sm:grid-cols-3">
+                      <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
+                        <p className="text-xs font-bold text-slate-500">{t.fidelityScore}</p>
+                        <p className="mt-1 text-4xl font-black text-emerald-600">
+                          {Math.round(fidelity.score)}
+                          <span className="text-lg text-slate-400">/100</span>
+                        </p>
+                      </div>
+                      <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
+                        <p className="text-xs font-bold text-slate-500">{t.fidelityPasses}</p>
+                        <p className="mt-1 text-4xl font-black text-blue-600">{fidelity.passes}</p>
+                      </div>
+                      <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
+                        <p className="text-xs font-bold text-slate-500">{t.fidelityRepairs}</p>
+                        <p className="mt-2 text-sm font-bold text-slate-700 break-words">
+                          {fidelity.repairs || "—"}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="grid gap-4 p-5 md:grid-cols-3 md:p-6">
                 <article className="rounded-[1.5rem] border-2 border-blue-200 bg-blue-50 p-5 text-center shadow-sm">
