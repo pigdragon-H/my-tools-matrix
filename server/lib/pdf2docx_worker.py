@@ -82,6 +82,37 @@ def read_ground_truth(pdf_path):
                 "rects": [list(map(float, r)) for r in rects],
             })
 
+        # --- inline / form-XObject images: get_images() does NOT enumerate
+        # inline-drawn images (common for company-name logos on quotations).
+        # rawdict image blocks DO see them. We capture their page-space bbox
+        # so they can be rasterised and re-inserted faithfully if dropped. ---
+        inline_images = []
+        # rects already covered by enumerable xref images (avoid double-count)
+        xref_rects = [r for im in images for r in im["rects"]]
+
+        def _overlaps(bb):
+            for r in xref_rects:
+                ix0, iy0 = max(bb[0], r[0]), max(bb[1], r[1])
+                ix1, iy1 = min(bb[2], r[2]), min(bb[3], r[3])
+                if ix1 > ix0 and iy1 > iy0:
+                    inter = (ix1 - ix0) * (iy1 - iy0)
+                    a = (bb[2] - bb[0]) * (bb[3] - bb[1]) or 1
+                    if inter / a > 0.5:   # >50% overlap → same image
+                        return True
+            return False
+
+        try:
+            raw = pg.get_text("rawdict")
+            for b in raw.get("blocks", []):
+                if b.get("type") == 1:  # image block
+                    bb = b.get("bbox")
+                    if bb and not _overlaps([float(c) for c in bb]):
+                        inline_images.append({
+                            "bbox": [round(float(c), 1) for c in bb],
+                        })
+        except Exception:
+            pass
+
         # --- vector drawings: border lines + fills ---
         h_lines, v_lines, fills = [], [], []
         for dr in pg.get_drawings():
@@ -122,11 +153,13 @@ def read_ground_truth(pdf_path):
         pages.append({
             "index": pno,
             "images": images,
+            "inline_images": inline_images,
             "h_lines": h_lines,
             "v_lines": v_lines,
             "fills": fills,
             "span_colors": span_colors,
             "n_images": len(images),
+            "n_inline_images": len(inline_images),
             "n_borders": len(h_lines) + len(v_lines),
             "fill_hexes": sorted({f["hex"] for f in fills}),
         })
@@ -227,45 +260,84 @@ def color_dist(a, b):
 
 
 def ensure_table_borders(docx_path, truth):
-    """A2 — guarantee every table cell carries visible single borders in the
-    dominant original border colour, when the PDF clearly has table lines but
-    pdf2docx emitted a borderless / partly-bordered table."""
+    """A2 — guarantee every table cell carries a COMPLETE set of single borders
+    (top/left/bottom/right) plus a table outer frame, in the dominant original
+    border colour. The original quotation tables are fully gridded, but
+    pdf2docx frequently emits only horizontal borders (missing the vertical
+    column separators and the table's outer bottom frame line — the user's
+    "表尾底框一橫不見了"). We therefore FORCE a full grid + outer frame, not
+    just fill in cells that lack borders entirely."""
     # dominant border colour across the doc
     colors = {}
+    has_h = has_v = False
     for p in truth["pages"]:
-        for ln in p["h_lines"] + p["v_lines"]:
+        for ln in p["h_lines"]:
             colors[ln[3]] = colors.get(ln[3], 0) + 1
+            has_h = True
+        for ln in p["v_lines"]:
+            colors[ln[3]] = colors.get(ln[3], 0) + 1
+            has_v = True
     if not colors:
         return 0
     border_hex = max(colors, key=colors.get)
+    # If the source has both horizontal AND vertical lines it is a full grid;
+    # otherwise we only guarantee horizontal rules.
+    full_grid = has_h and has_v
+
+    edges = ["top", "left", "bottom", "right"] if full_grid else ["top", "bottom"]
+    tc_borders = "<w:tcBorders>" + "".join(
+        f'<w:{e} w:val="single" w:sz="6" w:space="0" w:color="{border_hex}"/>' for e in edges
+    ) + "</w:tcBorders>"
+    tbl_borders = "<w:tblBorders>" + "".join(
+        f'<w:{e} w:val="single" w:sz="6" w:space="0" w:color="{border_hex}"/>'
+        for e in ["top", "left", "bottom", "right", "insideH", "insideV"]
+    ) + "</w:tblBorders>"
 
     tmp = docx_path + ".tmp"
     changed = 0
-    border_xml = (
-        '<w:tcBorders>'
-        f'<w:top w:val="single" w:sz="6" w:space="0" w:color="{border_hex}"/>'
-        f'<w:left w:val="single" w:sz="6" w:space="0" w:color="{border_hex}"/>'
-        f'<w:bottom w:val="single" w:sz="6" w:space="0" w:color="{border_hex}"/>'
-        f'<w:right w:val="single" w:sz="6" w:space="0" w:color="{border_hex}"/>'
-        '</w:tcBorders>'
-    )
     with zipfile.ZipFile(docx_path) as zin, zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zout:
         for item in zin.infolist():
             data = zin.read(item.filename)
             if item.filename == "word/document.xml":
                 xml = data.decode("utf-8", "ignore")
 
-                # For every <w:tcPr> that lacks <w:tcBorders>, inject borders.
-                def add_border(m):
+                # 1) Normalise every cell: replace any existing (possibly
+                #    partial) <w:tcBorders> with the full set, and inject one
+                #    where missing. Handle both <w:tcPr>...</w:tcPr> and the
+                #    self-closing <w:tcPr/> form.
+                def fix_cell(m):
                     nonlocal changed
                     block = m.group(0)
                     if "<w:tcBorders" in block:
-                        return block
-                    changed += 1
-                    # insert right after <w:tcPr>
-                    return block.replace("<w:tcPr>", "<w:tcPr>" + border_xml, 1)
+                        new = re.sub(r"<w:tcBorders>.*?</w:tcBorders>", tc_borders, block, flags=re.DOTALL)
+                        new = re.sub(r"<w:tcBorders\s*/>", tc_borders, new)
+                    else:
+                        new = block.replace("<w:tcPr>", "<w:tcPr>" + tc_borders, 1)
+                    if new != block:
+                        changed += 1
+                    return new
 
-                xml = re.sub(r"<w:tcPr>.*?</w:tcPr>", add_border, xml, flags=re.DOTALL)
+                xml = re.sub(r"<w:tcPr>.*?</w:tcPr>", fix_cell, xml, flags=re.DOTALL)
+
+                # self-closing cells with no properties at all → give them props+borders
+                def fix_empty_cell(m):
+                    nonlocal changed
+                    changed += 1
+                    return "<w:tc><w:tcPr>" + tc_borders + "</w:tcPr>"
+                xml = re.sub(r"<w:tc>(?!\s*<w:tcPr)", fix_empty_cell, xml)
+
+                # 2) Ensure every table carries an outer frame (tblBorders) so
+                #    the bottom/outer lines are always drawn.
+                if full_grid:
+                    def fix_tbl(m):
+                        nonlocal changed
+                        block = m.group(0)
+                        if "<w:tblBorders" in block:
+                            return re.sub(r"<w:tblBorders>.*?</w:tblBorders>", tbl_borders, block, flags=re.DOTALL)
+                        changed += 1
+                        return block.replace("<w:tblPr>", "<w:tblPr>" + tbl_borders, 1)
+                    xml = re.sub(r"<w:tblPr>.*?</w:tblPr>", fix_tbl, xml, flags=re.DOTALL)
+
                 data = xml.encode("utf-8")
             zout.writestr(item, data)
     shutil.move(tmp, docx_path)
@@ -281,7 +353,10 @@ def reattach_missing_images(docx_path, in_pdf, truth, report):
 
     info = inspect_docx(docx_path)
     unique_xrefs = {im["xref"] for p in truth["pages"] for im in p["images"]}
-    want = len(unique_xrefs)
+    # Total distinct graphics we expect: enumerable xref images PLUS inline /
+    # form-XObject images (logos drawn inline that get_images misses).
+    n_inline = sum(p.get("n_inline_images", 0) for p in truth["pages"])
+    want = len(unique_xrefs) + n_inline
     have = info["n_media"]
     if have >= want:
         return 0  # nothing missing (don't risk duplicating)
@@ -289,6 +364,7 @@ def reattach_missing_images(docx_path, in_pdf, truth, report):
     doc = fitz.open(in_pdf)
     extracted = []
     seen = set()
+    # (a) enumerable xref images — extract at native resolution
     for p in truth["pages"]:
         pg = doc[p["index"]]
         for im in p["images"]:
@@ -304,9 +380,31 @@ def reattach_missing_images(docx_path, in_pdf, truth, report):
                 extracted.append((xref, png, im))
             except Exception:
                 continue
+    # (b) inline / form-XObject images — cannot be pulled by xref, so we
+    # RASTERISE the exact page region (high DPI) and re-insert at the same
+    # size. This guarantees the company-name logo block never disappears,
+    # regardless of how it was encoded in the source PDF.
+    for p in truth["pages"]:
+        pg = doc[p["index"]]
+        for ii in p.get("inline_images", []):
+            bb = ii.get("bbox")
+            if not bb:
+                continue
+            try:
+                clip = fitz.Rect(bb)
+                # pad a hair so we don't clip antialiased edges
+                clip = fitz.Rect(clip.x0 - 1, clip.y0 - 1, clip.x1 + 1, clip.y1 + 1)
+                pix = pg.get_pixmap(matrix=fitz.Matrix(4, 4), clip=clip, alpha=False)
+                png = pix.tobytes("png")
+                extracted.append(("inline", png, {
+                    "rects": [list(map(float, bb))],
+                    "w": pix.width, "h": pix.height,
+                }))
+            except Exception:
+                continue
     doc.close()
 
-    # how many UNIQUE images we still need to add
+    # how many distinct images we still need to add
     need = max(0, want - have)
     add = extracted[:need] if need else []
     if not add:
@@ -338,7 +436,8 @@ def _inject_images(docx_path, images):
 
     new_media = {}
     rel_entries = []
-    drawing_xml = ""
+    top_xml = ""     # images that belong near the top of the page (e.g. logo)
+    bottom_xml = ""  # everything else (stamps / footer graphics)
     for k, (xref, png, im) in enumerate(images):
         idx = base_idx + k + 1
         rid += 1
@@ -357,7 +456,11 @@ def _inject_images(docx_path, images):
             wpx, hpx = im["w"] * 0.75, im["h"] * 0.75
         cx, cy = _emu(wpx), _emu(hpx)
         did = 1000 + k
-        drawing_xml += (
+        # decide placement: top region (y0 < 140pt) → prepend, else append.
+        top_y = None
+        if im.get("rects"):
+            top_y = im["rects"][0][1]
+        piece = (
             '<w:p><w:r><w:drawing>'
             f'<wp:inline distT="0" distB="0" distL="0" distR="0">'
             f'<wp:extent cx="{cx}" cy="{cy}"/>'
@@ -374,17 +477,30 @@ def _inject_images(docx_path, images):
             '</pic:pic></a:graphicData></a:graphic></wp:inline>'
             '</w:drawing></w:r></w:p>'
         )
+        if top_y is not None and top_y < 140:
+            top_xml += piece
+        else:
+            bottom_xml += piece
 
     # patch rels
     rels = rels.replace("</Relationships>", "".join(rel_entries) + "</Relationships>")
     # patch content types (ensure png default)
     if 'Extension="png"' not in ct:
         ct = ct.replace("</Types>", '<Default Extension="png" ContentType="image/png"/></Types>')
-    # patch document body (before sectPr if present, else before </w:body>)
-    if "<w:sectPr" in doc_xml:
-        doc_xml = doc_xml.replace("<w:sectPr", drawing_xml + "<w:sectPr", 1)
-    else:
-        doc_xml = doc_xml.replace("</w:body>", drawing_xml + "</w:body>", 1)
+    # patch document body:
+    #  - top-region images (logo / company name) → prepend at start of body
+    #  - other images (stamps / footer) → append before sectPr (or </w:body>)
+    if top_xml:
+        m = re.search(r"<w:body[^>]*>", doc_xml)
+        if m:
+            doc_xml = doc_xml[:m.end()] + top_xml + doc_xml[m.end():]
+        else:
+            doc_xml = doc_xml.replace("<w:body>", "<w:body>" + top_xml, 1)
+    if bottom_xml:
+        if "<w:sectPr" in doc_xml:
+            doc_xml = doc_xml.replace("<w:sectPr", bottom_xml + "<w:sectPr", 1)
+        else:
+            doc_xml = doc_xml.replace("</w:body>", bottom_xml + "</w:body>", 1)
 
     with zipfile.ZipFile(docx_path) as zin, zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zout:
         for item in zin.infolist():
@@ -405,7 +521,8 @@ def _inject_images(docx_path, images):
 def fidelity_score(docx_path, truth):
     """0..100 — how faithfully the .docx matches the original ground truth."""
     info = inspect_docx(docx_path)
-    want_imgs = len({im["xref"] for p in truth["pages"] for im in p["images"]})
+    want_imgs = len({im["xref"] for p in truth["pages"] for im in p["images"]}) \
+        + sum(p.get("n_inline_images", 0) for p in truth["pages"])
     want_borders = any(p["n_borders"] > 0 for p in truth["pages"])
     want_fills = sorted({h for p in truth["pages"] for h in p["fill_hexes"]})
 
