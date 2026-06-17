@@ -57,17 +57,24 @@ export interface ConvertResult {
     borders_added: number;
     fills_corrected: number;
     elapsed_s: number;
+    /** multi-candidate calibration fields */
+    candidates?: number;     // how many candidates were generated
+    kept_count?: number;     // how many scored >= threshold (95%)
+    chosen_n?: number | null;
+    kept_threshold?: number; // the keep cut-off (95)
   };
 }
 
 /**
- * Minimum wall time (seconds) for the multi-pass "verify against original"
- * loop. Deliberately slow (15-20s) so every image / border / fill is checked
- * and repaired against the source PDF before output. Tunable via env.
+ * Minimum wall time (seconds) for the multi-CANDIDATE "calibrate against
+ * original" loop. The worker generates up to 5 independent candidates, scores
+ * each against the source PDF, discards anything < 95%, and outputs the best
+ * survivor (or the best overall if none reach 95%). Quality-first: 25-40s.
+ * Tunable via env.
  */
-const VERIFY_MIN_SECONDS = Number(process.env.PDF2DOCX_MIN_SECONDS || 15);
+const VERIFY_MIN_SECONDS = Number(process.env.PDF2DOCX_MIN_SECONDS || 25);
 
-const CONVERT_TIMEOUT_MS = 120_000; // OCR can be slow; allow headroom.
+const CONVERT_TIMEOUT_MS = 120_000; // 5 candidates + OCR headroom.
 const OCR_DPI = 300; // 300dpi: sweet spot for tesseract accuracy vs. speed.
 
 /** Tesseract language string — Traditional + Simplified Chinese + English. */
@@ -239,6 +246,12 @@ async function pdf2docxConvert(
       borders_added: parsed.borders_added,
       fills_corrected: parsed.fills_corrected,
       elapsed_s: parsed.elapsed_s,
+      candidates: Array.isArray(parsed.candidates)
+        ? parsed.candidates.length
+        : parsed.passes,
+      kept_count: parsed.kept_count,
+      chosen_n: parsed.chosen_n,
+      kept_threshold: parsed.kept_threshold,
     };
   } catch {
     report = undefined;

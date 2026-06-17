@@ -52,12 +52,14 @@ const T = {
     convertingOcr: "偵測為掃描／圖片 PDF，正在執行 OCR 中文辨識（較花時間）…",
     stageReading: "① 檔案輸入中…",
     stageUploading: "② 原檔案校準中（讀取圖片／框線／顏色基準）…",
-    stageConverting: "③ 多重多次與原版確認中…",
-    stageOutput: "④ 轉換輸出中…",
+    stageConverting: "③ 多候選與原版比對中（最多 5 份，丟棄 <95%）…",
+    stageOutput: "④ 選出最高品質並輸出中…",
     fidelityTitle: "忠於原版校驗報告",
-    fidelityScore: "保真分數",
-    fidelityPasses: "確認回合",
+    fidelityScore: "傳真精準度",
+    fidelityPasses: "生成候選數",
     fidelityRepairs: "自動修補",
+    fidelityKept: "通過 95% 候選",
+    fidelityChosen: "採用候選",
     successNote: "轉換完成！",
     downloadBtn: "下載 Word 檔（.docx）",
     reupload: "轉換另一個檔案",
@@ -136,12 +138,14 @@ const T = {
     convertingOcr: "Detected a scanned / image PDF — running OCR (this takes longer)…",
     stageReading: "① Receiving file…",
     stageUploading: "② Calibrating against the original (images / borders / colours)…",
-    stageConverting: "③ Multi-pass verification against the original…",
-    stageOutput: "④ Producing output…",
+    stageConverting: "③ Calibrating candidates vs original (up to 5, drop <95%)…",
+    stageOutput: "④ Selecting the best & producing output…",
     fidelityTitle: "Faithful-to-original report",
-    fidelityScore: "Fidelity score",
-    fidelityPasses: "Verify passes",
+    fidelityScore: "Fidelity accuracy",
+    fidelityPasses: "Candidates generated",
     fidelityRepairs: "Auto-repairs",
+    fidelityKept: "Passed 95%",
+    fidelityChosen: "Chosen candidate",
     successNote: "Conversion complete!",
     downloadBtn: "Download Word (.docx)",
     reupload: "Convert another file",
@@ -207,6 +211,10 @@ export interface Fidelity {
   score: number | null;
   passes: number;
   repairs: string; // e.g. "img:0,border:50,fill:6"
+  candidates: number; // how many candidates were generated (up to 5)
+  kept: number | null; // how many scored >= threshold (95%)
+  chosen: number | null; // which candidate number was output
+  threshold: number; // keep cut-off (95)
 }
 
 async function convertViaServer(
@@ -214,9 +222,10 @@ async function convertViaServer(
   onStage: (s: "input" | "calibrate" | "verify" | "output") => void,
   onOcr: () => void
 ): Promise<{ blob: Blob; mode: ConvMode; pages: number; ms: number; fidelity: Fidelity }> {
-  // The server runs a deliberate multi-pass verify/repair loop (~15-20s). We
-  // walk the four stages on a timeline so the user sees: 檔案輸入 → 原檔校準
-  // → 多重多次確認 → 轉換輸出.
+  // The server generates up to 5 candidates and calibrates each against the
+  // ORIGINAL pdf (~25-40s), discarding any < 95% and outputting the best.
+  // We walk the four stages on a timeline so the user sees: 檔案輸入 → 原檔校準
+  // → 多候選比對 → 轉換輸出.
   onStage("input");
   const buf = await file.arrayBuffer();
 
@@ -224,10 +233,10 @@ async function convertViaServer(
   // is in flight. The final "output" stage is set when the response lands.
   let cancelled = false;
   const stageTimers: ReturnType<typeof setTimeout>[] = [];
-  stageTimers.push(setTimeout(() => !cancelled && onStage("calibrate"), 600));
-  stageTimers.push(setTimeout(() => !cancelled && onStage("verify"), 4000));
+  stageTimers.push(setTimeout(() => !cancelled && onStage("calibrate"), 800));
+  stageTimers.push(setTimeout(() => !cancelled && onStage("verify"), 5000));
   // Scanned PDFs take longer; surface the OCR hint after a short delay.
-  const ocrHintTimer = setTimeout(onOcr, 5000);
+  const ocrHintTimer = setTimeout(onOcr, 8000);
 
   let resp: Response;
   try {
@@ -262,6 +271,8 @@ async function convertViaServer(
   onStage("output");
   const blob = await resp.blob();
   const scoreRaw = resp.headers.get("X-Fidelity-Score");
+  const keptRaw = resp.headers.get("X-Fidelity-Kept");
+  const chosenRaw = resp.headers.get("X-Fidelity-Chosen");
   return {
     blob,
     mode: (resp.headers.get("X-Conversion-Mode") as ConvMode) || "unknown",
@@ -271,6 +282,10 @@ async function convertViaServer(
       score: scoreRaw ? Number(scoreRaw) : null,
       passes: Number(resp.headers.get("X-Fidelity-Passes") || 0),
       repairs: resp.headers.get("X-Fidelity-Repairs") || "",
+      candidates: Number(resp.headers.get("X-Fidelity-Candidates") || 0),
+      kept: keptRaw ? Number(keptRaw) : null,
+      chosen: chosenRaw ? Number(chosenRaw) : null,
+      threshold: Number(resp.headers.get("X-Fidelity-Threshold") || 95),
     },
   };
 }
@@ -517,25 +532,44 @@ export default function PdfToWord() {
                     <p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">
                       🛡️ {t.fidelityTitle}
                     </p>
-                    <div className="mt-4 grid gap-4 sm:grid-cols-3">
+                    <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                       <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
                         <p className="text-xs font-bold text-slate-500">{t.fidelityScore}</p>
                         <p className="mt-1 text-4xl font-black text-emerald-600">
                           {Math.round(fidelity.score)}
-                          <span className="text-lg text-slate-400">/100</span>
+                          <span className="text-lg text-slate-400">%</span>
                         </p>
                       </div>
                       <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
                         <p className="text-xs font-bold text-slate-500">{t.fidelityPasses}</p>
-                        <p className="mt-1 text-4xl font-black text-blue-600">{fidelity.passes}</p>
+                        <p className="mt-1 text-4xl font-black text-blue-600">
+                          {fidelity.candidates || fidelity.passes}
+                          <span className="text-lg text-slate-400">/5</span>
+                        </p>
                       </div>
                       <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
-                        <p className="text-xs font-bold text-slate-500">{t.fidelityRepairs}</p>
-                        <p className="mt-2 text-sm font-bold text-slate-700 break-words">
-                          {fidelity.repairs || "—"}
+                        <p className="text-xs font-bold text-slate-500">{t.fidelityKept}</p>
+                        <p className="mt-1 text-4xl font-black text-teal-600">
+                          {fidelity.kept ?? "—"}
+                          {fidelity.kept !== null && (
+                            <span className="text-lg text-slate-400">
+                              /{fidelity.candidates || fidelity.passes}
+                            </span>
+                          )}
+                        </p>
+                      </div>
+                      <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
+                        <p className="text-xs font-bold text-slate-500">{t.fidelityChosen}</p>
+                        <p className="mt-1 text-4xl font-black text-indigo-600">
+                          {fidelity.chosen ? `#${fidelity.chosen}` : "—"}
                         </p>
                       </div>
                     </div>
+                    {fidelity.repairs && (
+                      <p className="mt-3 text-center text-xs text-slate-500">
+                        {t.fidelityRepairs}: <span className="font-bold text-slate-700">{fidelity.repairs}</span>
+                      </p>
+                    )}
                   </div>
                 </div>
               )}

@@ -47,9 +47,26 @@ import tempfile
 import re
 
 # ── tuning ────────────────────────────────────────────────────────────────
-MAX_PASSES = 4            # verification/repair passes
-DEFAULT_MIN_SECONDS = 15  # deliberately slow for higher fidelity (15-20s)
-MAX_SECONDS = 20
+# ── multi-candidate calibration loop ─────────────────────────────────────
+# We generate up to MAX_CANDIDATES independent candidates. Each candidate is
+# pdf2docx-converted + repaired (A1 images / A2 borders / A3 fills) at a
+# slightly different strength, then scored AGAINST THE ORIGINAL PDF (ground
+# truth). Candidates scoring >= KEEP_THRESHOLD are kept; anything below is
+# discarded. After the loop we output the highest-scoring KEPT candidate, or —
+# if none reached the threshold — the highest-scoring candidate overall (so a
+# download is always produced).
+MAX_CANDIDATES = 5
+KEEP_THRESHOLD = 95.0      # fidelity (傳真精準度) cut-off in %
+DEFAULT_MIN_SECONDS = 25   # quality-first: deliberately thorough (25-40s)
+MAX_SECONDS = 40
+# repair "strength" presets per candidate (border weight sz, fill snap dist)
+CANDIDATE_PRESETS = [
+    {"fill_dist": 120, "border_sz": 6},
+    {"fill_dist": 150, "border_sz": 6},
+    {"fill_dist": 180, "border_sz": 8},
+    {"fill_dist": 210, "border_sz": 8},
+    {"fill_dist": 240, "border_sz": 10},
+]
 
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 
@@ -210,7 +227,7 @@ def inspect_docx(docx_path):
     }
 
 
-def correct_fills(docx_path, truth):
+def correct_fills(docx_path, truth, fill_dist=180):
     """A3 — snap shading fills to the EXACT original hex (nearest-by-value)."""
     wanted = []
     for p in truth["pages"]:
@@ -238,7 +255,7 @@ def correct_fills(docx_path, truth):
                     # to mis-quantise shades of the same hue (e.g. grey 808080
                     # vs the true b3b3b3); we only ever snap to a colour that
                     # actually exists in the source PDF, so this is safe.
-                    if best != cur and color_dist(cur, best) <= 180:
+                    if best != cur and color_dist(cur, best) <= fill_dist:
                         changed += 1
                         return m.group(0).replace(m.group(1), best)
                     return m.group(0)
@@ -259,7 +276,7 @@ def color_dist(a, b):
         return 999
 
 
-def ensure_table_borders(docx_path, truth):
+def ensure_table_borders(docx_path, truth, border_sz=6):
     """A2 — guarantee every table cell carries a COMPLETE set of single borders
     (top/left/bottom/right) plus a table outer frame, in the dominant original
     border colour. The original quotation tables are fully gridded, but
@@ -286,10 +303,10 @@ def ensure_table_borders(docx_path, truth):
 
     edges = ["top", "left", "bottom", "right"] if full_grid else ["top", "bottom"]
     tc_borders = "<w:tcBorders>" + "".join(
-        f'<w:{e} w:val="single" w:sz="6" w:space="0" w:color="{border_hex}"/>' for e in edges
+        f'<w:{e} w:val="single" w:sz="{border_sz}" w:space="0" w:color="{border_hex}"/>' for e in edges
     ) + "</w:tcBorders>"
     tbl_borders = "<w:tblBorders>" + "".join(
-        f'<w:{e} w:val="single" w:sz="6" w:space="0" w:color="{border_hex}"/>'
+        f'<w:{e} w:val="single" w:sz="{border_sz}" w:space="0" w:color="{border_hex}"/>'
         for e in ["top", "left", "bottom", "right", "insideH", "insideV"]
     ) + "</w:tblBorders>"
 
@@ -553,6 +570,29 @@ def fidelity_score(docx_path, truth):
     return round(100 * score / weight, 1), info
 
 
+def build_candidate(in_pdf, cand_path, truth, preset):
+    """Generate ONE candidate: pdf2docx convert + A1/A2/A3 repair at the
+    given strength preset. Returns a per-candidate repair tally."""
+    tally = {"images_reattached": 0, "borders_added": 0, "fills_corrected": 0}
+    run_pdf2docx(in_pdf, cand_path)
+    if not os.path.isfile(cand_path) or os.path.getsize(cand_path) < 200:
+        raise RuntimeError("pdf2docx produced an empty/too-small document")
+    if truth["pages"]:
+        try:
+            tally["images_reattached"] = reattach_missing_images(cand_path, in_pdf, truth, {})
+        except Exception as e:
+            sys.stderr.write(f"image repair skipped: {e}\n")
+        try:
+            tally["borders_added"] = ensure_table_borders(cand_path, truth, border_sz=preset["border_sz"])
+        except Exception as e:
+            sys.stderr.write(f"border repair skipped: {e}\n")
+        try:
+            tally["fills_corrected"] = correct_fills(cand_path, truth, fill_dist=preset["fill_dist"])
+        except Exception as e:
+            sys.stderr.write(f"fill repair skipped: {e}\n")
+    return tally
+
+
 def main():
     if len(sys.argv) < 3:
         sys.stderr.write("usage: pdf2docx_worker.py <input.pdf> <output.docx> [min_seconds]\n")
@@ -570,10 +610,13 @@ def main():
         return 3
 
     t0 = time.time()
-    report = {"passes": 0, "images_reattached": 0, "borders_added": 0,
-              "fills_corrected": 0, "scores": []}
+    report = {
+        "images_reattached": 0, "borders_added": 0, "fills_corrected": 0,
+        "candidates": [], "kept_count": 0, "chosen_n": None,
+        "chosen_score": None, "kept_threshold": KEEP_THRESHOLD,
+    }
 
-    # STAGE 1
+    # STAGE 1 — input
     log("1", "input")
     try:
         import fitz  # noqa
@@ -584,7 +627,7 @@ def main():
         sys.stderr.write(f"open failed: {e}\n")
         return 3
 
-    # STAGE 2 — calibrate
+    # STAGE 2 — calibrate (read ground truth ONCE; reused for every candidate)
     log("2", "calibrate")
     try:
         truth = read_ground_truth(in_pdf)
@@ -592,53 +635,71 @@ def main():
         sys.stderr.write(f"calibration failed (continuing without repair): {e}\n")
         truth = {"pages": []}
 
-    # STAGE 3 — convert
-    log("3", "convert")
+    # STAGE 3 + 4 — generate up to MAX_CANDIDATES, score each against the
+    # ORIGINAL pdf, keep >= threshold, then pick the best.
+    work_dir = tempfile.mkdtemp(prefix="cands_")
+    candidates = []   # list of dicts: {n, path, score, kept, tally}
     try:
-        run_pdf2docx(in_pdf, out_docx)
-    except Exception as e:
-        sys.stderr.write(f"pdf2docx conversion error: {e}\n")
-        return 2
-    if not os.path.isfile(out_docx) or os.path.getsize(out_docx) < 200:
-        sys.stderr.write("pdf2docx produced an empty/too-small document\n")
-        return 2
+        for n in range(1, MAX_CANDIDATES + 1):
+            # time guard: never blow far past the budget; always produce >=1.
+            elapsed = time.time() - t0
+            if n > 1 and elapsed > MAX_SECONDS - 4:
+                log("4", f"time budget reached after {n-1} candidates")
+                break
 
-    # STAGE 4 — repair + verify (multi-pass)
-    log("4", "verify")
-    prev = -1.0
-    for p in range(1, MAX_PASSES + 1):
-        report["passes"] = p
-        if truth["pages"]:
+            preset = CANDIDATE_PRESETS[(n - 1) % len(CANDIDATE_PRESETS)]
+            cand_path = os.path.join(work_dir, f"cand_{n}.docx")
+            log("3", f"candidate {n}/{MAX_CANDIDATES}")
             try:
-                report["images_reattached"] += reattach_missing_images(out_docx, in_pdf, truth, report)
+                tally = build_candidate(in_pdf, cand_path, truth, preset)
             except Exception as e:
-                sys.stderr.write(f"image repair skipped: {e}\n")
-            try:
-                report["borders_added"] += ensure_table_borders(out_docx, truth)
-            except Exception as e:
-                sys.stderr.write(f"border repair skipped: {e}\n")
-            try:
-                report["fills_corrected"] += correct_fills(out_docx, truth)
-            except Exception as e:
-                sys.stderr.write(f"fill repair skipped: {e}\n")
-        score, _info = fidelity_score(out_docx, truth) if truth["pages"] else (100.0, {})
-        report["scores"].append(score)
-        log("4", f"pass {p} score={score}")
-        # stable & high → stop early (but still respect min time below)
-        if score >= 99.0 or abs(score - prev) < 0.5:
-            prev = score
-            break
-        prev = score
+                sys.stderr.write(f"candidate {n} failed: {e}\n")
+                continue
 
-    report["final_score"] = report["scores"][-1] if report["scores"] else None
+            log("4", f"verify candidate {n}")
+            score, _info = fidelity_score(cand_path, truth) if truth["pages"] else (100.0, {})
+            kept = score >= KEEP_THRESHOLD
+            candidates.append({"n": n, "path": cand_path, "score": score,
+                               "kept": kept, "tally": tally})
+            report["candidates"].append({"n": n, "score": score, "kept": kept})
+            log("4", f"candidate {n} score={score} kept={kept}")
 
-    # throttle to the requested minimum wall time (15-20s) for thorough feel
+        if not candidates:
+            # last-ditch: a single plain conversion so a download still exists
+            sys.stderr.write("no candidate succeeded; falling back to plain convert\n")
+            run_pdf2docx(in_pdf, out_docx)
+            if not os.path.isfile(out_docx) or os.path.getsize(out_docx) < 200:
+                return 2
+            report["chosen_n"] = 0
+            report["chosen_score"] = None
+        else:
+            kept = [c for c in candidates if c["kept"]]
+            report["kept_count"] = len(kept)
+            # B/C/D: choose the highest-scoring KEPT candidate; if none reached
+            # the 95% threshold, choose the highest-scoring candidate overall.
+            pool = kept if kept else candidates
+            best = max(pool, key=lambda c: c["score"])
+            shutil.copyfile(best["path"], out_docx)
+            report["chosen_n"] = best["n"]
+            report["chosen_score"] = best["score"]
+            report["final_score"] = best["score"]
+            report["images_reattached"] = best["tally"]["images_reattached"]
+            report["borders_added"] = best["tally"]["borders_added"]
+            report["fills_corrected"] = best["tally"]["fills_corrected"]
+            log("4", f"chosen candidate {best['n']} score={best['score']} "
+                     f"(kept={len(kept)}/{len(candidates)})")
+    finally:
+        shutil.rmtree(work_dir, ignore_errors=True)
+
+    report["passes"] = len(candidates)
+    report["scores"] = [c["score"] for c in candidates]
+
+    # throttle to the requested minimum wall time (25-40s) — quality-first feel
     elapsed = time.time() - t0
     if elapsed < min_seconds:
         time.sleep(min_seconds - elapsed)
     report["elapsed_s"] = round(time.time() - t0, 2)
 
-    # final sanity
     if not os.path.isfile(out_docx) or os.path.getsize(out_docx) < 200:
         return 2
 

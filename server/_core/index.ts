@@ -196,11 +196,16 @@ app.post(
       res.setHeader("X-Conversion-Engine", engine);
       res.setHeader("X-Pdf-Pages", String(pages));
       if (fidelity) {
-        // Surface the multi-pass verify/repair report to the client.
+        // Surface the multi-candidate calibration report to the client.
         res.setHeader("X-Fidelity-Score", String(fidelity.final_score ?? ""));
         res.setHeader("X-Fidelity-Passes", String(fidelity.passes));
         res.setHeader("X-Fidelity-Repairs",
           `img:${fidelity.images_reattached},border:${fidelity.borders_added},fill:${fidelity.fills_corrected}`);
+        // calibration: how many candidates, how many kept (>=95%), which chosen
+        res.setHeader("X-Fidelity-Candidates", String(fidelity.candidates ?? fidelity.passes));
+        res.setHeader("X-Fidelity-Kept", String(fidelity.kept_count ?? ""));
+        res.setHeader("X-Fidelity-Chosen", String(fidelity.chosen_n ?? ""));
+        res.setHeader("X-Fidelity-Threshold", String(fidelity.kept_threshold ?? 95));
       }
       res.setHeader(
         "Content-Disposition",
