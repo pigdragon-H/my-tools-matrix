@@ -146,6 +146,16 @@ export interface PendingCorpusCandidate {
   corpusEntrySnippet: string;
 }
 
+export interface PendingCorpusManifestPatch {
+  manifestPath: string;
+  ready: boolean;
+  blockingIssues: string[];
+  oldTailSnippet: string;
+  newTailSnippet: string;
+  patchText: string;
+  patchedSource: string;
+}
+
 export interface PendingCorpusIntakeResult {
   pendingDir: string;
   docxCount: number;
@@ -154,6 +164,7 @@ export interface PendingCorpusIntakeResult {
   blockedCandidateCount: number;
   candidates: PendingCorpusCandidate[];
   combinedCorpusEntrySnippet: string;
+  manifestPatch: PendingCorpusManifestPatch;
 }
 
 export interface RegressionSuiteResult {

@@ -1,9 +1,10 @@
-import { readdir } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { REGRESSION_CORPUS } from "./regressionCorpus";
 import type {
   PendingCorpusCandidate,
   PendingCorpusIntakeResult,
+  PendingCorpusManifestPatch,
   PendingCorpusSuggestedEntry,
   RegressionAssertionCode,
 } from "./types";
@@ -13,6 +14,11 @@ const DEFAULT_ASSERTIONS: RegressionAssertionCode[] = [
   "header-visual-risk-nonincrease",
   "indent-failure-cleared-or-improved",
 ];
+
+const DEFAULT_MANIFEST_PATH = path.resolve(
+  path.dirname(new URL(import.meta.url).pathname),
+  "regressionCorpus.ts",
+);
 
 function slugify(value: string): string {
   return (
@@ -163,13 +169,87 @@ function buildCandidate(args: {
   };
 }
 
-export async function scanPendingCorpusIntake(fixtureDir: string): Promise<PendingCorpusIntakeResult> {
+function countLines(source: string): number {
+  return source.length === 0 ? 0 : source.split("\n").length;
+}
+
+function buildManifestPatch(args: {
+  manifestPath: string;
+  manifestSource: string;
+  combinedCorpusEntrySnippet: string;
+  blockingIssues: string[];
+}): PendingCorpusManifestPatch {
+  if (!args.combinedCorpusEntrySnippet) {
+    return {
+      manifestPath: args.manifestPath,
+      ready: false,
+      blockingIssues: args.blockingIssues.length > 0 ? args.blockingIssues : ["no ready onboarding candidates"],
+      oldTailSnippet: "",
+      newTailSnippet: "",
+      patchText: "",
+      patchedSource: args.manifestSource,
+    };
+  }
+
+  const closingNeedle = "\n];";
+  const insertionIndex = args.manifestSource.lastIndexOf(closingNeedle);
+  if (insertionIndex < 0) {
+    return {
+      manifestPath: args.manifestPath,
+      ready: false,
+      blockingIssues: ["unable to locate REGRESSION_CORPUS closing bracket for patch generation"],
+      oldTailSnippet: "",
+      newTailSnippet: "",
+      patchText: "",
+      patchedSource: args.manifestSource,
+    };
+  }
+
+  const oldTailSnippet = args.manifestSource.slice(insertionIndex + 1);
+  const newTailSnippet = `${args.combinedCorpusEntrySnippet}\n];`;
+  const patchedSource = `${args.manifestSource.slice(0, insertionIndex + 1)}${newTailSnippet}${args.manifestSource.slice(
+    insertionIndex + closingNeedle.length,
+  )}`;
+
+  const oldStart = countLines(args.manifestSource.slice(0, insertionIndex + 1)) + 1;
+  const oldCount = countLines(oldTailSnippet);
+  const newCount = countLines(newTailSnippet);
+  const patchText = [
+    `--- ${args.manifestPath}`,
+    `+++ ${args.manifestPath}`,
+    `@@ -${oldStart},${oldCount} +${oldStart},${newCount} @@`,
+    ...oldTailSnippet.split("\n").map((line) => `-${line}`),
+    ...newTailSnippet.split("\n").map((line) => `+${line}`),
+  ].join("\n");
+
+  return {
+    manifestPath: args.manifestPath,
+    ready: args.blockingIssues.length === 0,
+    blockingIssues: args.blockingIssues,
+    oldTailSnippet,
+    newTailSnippet,
+    patchText,
+    patchedSource,
+  };
+}
+
+export async function scanPendingCorpusIntake(
+  fixtureDir: string,
+  manifestPath = DEFAULT_MANIFEST_PATH,
+): Promise<PendingCorpusIntakeResult> {
   const normalizedFixtureDir = path.resolve(fixtureDir);
+  const normalizedManifestPath = path.resolve(manifestPath);
   const pendingDir = path.resolve(normalizedFixtureDir, "pending");
   let files: string[] = [];
+  let manifestSource = "";
   try {
     files = await walkFiles(pendingDir, 3);
   } catch {
+    try {
+      manifestSource = await readFile(normalizedManifestPath, "utf8");
+    } catch {
+      manifestSource = "";
+    }
     return {
       pendingDir,
       docxCount: 0,
@@ -178,7 +258,19 @@ export async function scanPendingCorpusIntake(fixtureDir: string): Promise<Pendi
       blockedCandidateCount: 0,
       candidates: [],
       combinedCorpusEntrySnippet: "",
+      manifestPatch: buildManifestPatch({
+        manifestPath: normalizedManifestPath,
+        manifestSource,
+        combinedCorpusEntrySnippet: "",
+        blockingIssues: ["pending directory not found"],
+      }),
     };
+  }
+
+  try {
+    manifestSource = await readFile(normalizedManifestPath, "utf8");
+  } catch {
+    manifestSource = "";
   }
 
   const docxPaths = files.filter((filePath) => /\.docx$/i.test(filePath));
@@ -192,14 +284,25 @@ export async function scanPendingCorpusIntake(fixtureDir: string): Promise<Pendi
   );
 
   const readyCandidates = candidates.filter((candidate) => candidate.readyForOnboarding);
+  const blockedCandidates = candidates.filter((candidate) => !candidate.readyForOnboarding);
+  const combinedCorpusEntrySnippet = readyCandidates.map((candidate) => candidate.corpusEntrySnippet).join("\n\n");
+  const manifestPatch = buildManifestPatch({
+    manifestPath: normalizedManifestPath,
+    manifestSource,
+    combinedCorpusEntrySnippet,
+    blockingIssues: blockedCandidates.flatMap((candidate) =>
+      candidate.blockingIssues.map((issue) => `${candidate.suggestedEntry.id}: ${issue}`),
+    ),
+  });
 
   return {
     pendingDir,
     docxCount: docxPaths.length,
     pdfCount: pdfPaths.length,
     readyCandidateCount: readyCandidates.length,
-    blockedCandidateCount: candidates.length - readyCandidates.length,
+    blockedCandidateCount: blockedCandidates.length,
     candidates,
-    combinedCorpusEntrySnippet: readyCandidates.map((candidate) => candidate.corpusEntrySnippet).join("\n\n"),
+    combinedCorpusEntrySnippet,
+    manifestPatch,
   };
 }

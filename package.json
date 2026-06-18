@@ -32,7 +32,7 @@
     "validate:ai-three-axes": "node scripts/validate-ai-three-axes.mjs",
     "test:word2pdf-regression": "tsx scripts/word2pdf-regression.ts",
     "intake:word2pdf-pending": "tsx scripts/word2pdf-pending-intake.ts",
-    "onboard:word2pdf-pending": "tsx scripts/word2pdf-pending-intake.ts --snippet-out tmp/word2pdf-regression/pending-corpus-snippets.tsfrag"
+    "onboard:word2pdf-pending": "tsx scripts/word2pdf-pending-intake.ts --snippet-out tmp/word2pdf-regression/pending-corpus-snippets.tsfrag --patch-out tmp/word2pdf-regression/pending-corpus-manifest.patch --patched-manifest-out tmp/word2pdf-regression/pending-regressionCorpus.preview.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",

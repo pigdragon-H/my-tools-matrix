@@ -18,6 +18,7 @@ export type {
   ExtractedSignalCounts,
   PendingCorpusCandidate,
   PendingCorpusIntakeResult,
+  PendingCorpusManifestPatch,
   PendingCorpusSuggestedEntry,
   PreprocessChangeReport,
   PreprocessPassDecisions,

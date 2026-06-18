@@ -7,6 +7,8 @@ interface CliOptions {
   json: boolean;
   jsonOut: string | null;
   snippetOut: string | null;
+  patchOut: string | null;
+  patchedManifestOut: string | null;
 }
 
 function parseArgs(argv: string[]): CliOptions {
@@ -16,6 +18,8 @@ function parseArgs(argv: string[]): CliOptions {
     json: false,
     jsonOut: null,
     snippetOut: null,
+    patchOut: null,
+    patchedManifestOut: null,
   };
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -36,6 +40,16 @@ function parseArgs(argv: string[]): CliOptions {
     }
     if (arg === "--snippet-out") {
       options.snippetOut = argv[i + 1] ?? options.snippetOut;
+      i += 1;
+      continue;
+    }
+    if (arg === "--patch-out") {
+      options.patchOut = argv[i + 1] ?? options.patchOut;
+      i += 1;
+      continue;
+    }
+    if (arg === "--patched-manifest-out") {
+      options.patchedManifestOut = argv[i + 1] ?? options.patchedManifestOut;
       i += 1;
     }
   }
@@ -64,12 +78,33 @@ async function maybeWriteSnippetOut(snippetOut: string | null, result: Awaited<R
   await writeTextFile(snippetOut, content, "Pending intake snippet written");
 }
 
+async function maybeWritePatchOut(patchOut: string | null, result: Awaited<ReturnType<typeof scanPendingCorpusIntake>>): Promise<void> {
+  const content = result.manifestPatch.patchText || "# No manifest patch generated.\n";
+  await writeTextFile(patchOut, `${content.endsWith("\n") ? content : `${content}\n`}`, "Pending manifest patch written");
+}
+
+async function maybeWritePatchedManifestOut(
+  patchedManifestOut: string | null,
+  result: Awaited<ReturnType<typeof scanPendingCorpusIntake>>,
+): Promise<void> {
+  const content = result.manifestPatch.patchedSource || "// No patched manifest preview generated.\n";
+  await writeTextFile(
+    patchedManifestOut,
+    `${content.endsWith("\n") ? content : `${content}\n`}`,
+    "Patched manifest preview written",
+  );
+}
+
 function printHumanSummary(result: Awaited<ReturnType<typeof scanPendingCorpusIntake>>): void {
   console.log("\nWord→PDF pending corpus intake");
   console.log(`Pending dir: ${result.pendingDir}`);
   console.log(
     `Pending DOCX: ${result.docxCount}; pending PDFs: ${result.pdfCount}; candidates: ${result.candidates.length}; ready=${result.readyCandidateCount}; blocked=${result.blockedCandidateCount}`,
   );
+  console.log(`Manifest patch ready: ${result.manifestPatch.ready}`);
+  if (result.manifestPatch.blockingIssues.length > 0) {
+    console.log(`Manifest patch blocking issues: ${result.manifestPatch.blockingIssues.join("; ")}`);
+  }
 
   for (const candidate of result.candidates) {
     console.log(`\n- fixture: ${path.relative(process.cwd(), candidate.fixturePath)}`);
@@ -91,6 +126,11 @@ function printHumanSummary(result: Awaited<ReturnType<typeof scanPendingCorpusIn
     console.log("\nCombined ready-to-paste snippet:");
     console.log(result.combinedCorpusEntrySnippet);
   }
+
+  if (result.manifestPatch.patchText) {
+    console.log("\nManifest patch preview:");
+    console.log(result.manifestPatch.patchText);
+  }
 }
 
 async function main(): Promise<void> {
@@ -98,6 +138,8 @@ async function main(): Promise<void> {
   const result = await scanPendingCorpusIntake(options.fixtureDir);
   await maybeWriteJsonOut(options.jsonOut, result);
   await maybeWriteSnippetOut(options.snippetOut, result);
+  await maybeWritePatchOut(options.patchOut, result);
+  await maybeWritePatchedManifestOut(options.patchedManifestOut, result);
 
   if (options.json) {
     console.log(JSON.stringify(result, null, 2));
