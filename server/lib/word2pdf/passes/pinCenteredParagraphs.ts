@@ -1,6 +1,7 @@
 import type { PageGeom } from "../types";
 import { parsePageGeom } from "../xml/geometry";
 import { unescapeXml } from "../xml/text";
+import { normalizeSelfClosingParagraphTags } from "../xml/safety";
 
 /**
  * UNIVERSAL: scan every paragraph; if it was fake-centred with SYMMETRIC
@@ -8,8 +9,9 @@ import { unescapeXml } from "../xml/text";
  * paragraph with a real <w:jc w:val="center"/>.
  */
 export function pinAllCentresUniversal(xml: string): string {
-  const geom = parsePageGeom(xml);
-  return xml.replace(
+  const normalizedXml = normalizeSelfClosingParagraphTags(xml);
+  const geom = parsePageGeom(normalizedXml);
+  return normalizedXml.replace(
     /<w:p\b[^>]*>[\s\S]*?<\/w:p>/g,
     (para) => pinParagraphCentre(para, geom),
   );

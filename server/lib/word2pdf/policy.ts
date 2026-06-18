@@ -22,10 +22,6 @@ export function shouldRunStructuralPasses(signals: LayoutSignals): boolean {
   );
 }
 
-export function shouldReconstructTitleBand(signals: LayoutSignals): boolean {
-  return signals.fakeCenterRisk && signals.denseMetaLine;
-}
-
 export function shouldRelocateMetaLineNearTable(signals: LayoutSignals): boolean {
   return (
     signals.preTableMetaBlockRisk &&
@@ -33,17 +29,8 @@ export function shouldRelocateMetaLineNearTable(signals: LayoutSignals): boolean
   );
 }
 
-export function shouldUseLegacyQuotationCompat(signals: LayoutSignals): boolean {
-  return (
-    !signals.fragileHeaderBlock &&
-    !signals.singlePageCompressionRisk &&
-    signals.compatLegacyQuotationMetaHeaderLine
-  );
-}
-
 export function shouldDefloatTable(policy: LayoutPolicy, signals: LayoutSignals): boolean {
   if (!signals.floatingTableRisk) return false;
   if (policy !== "faithful-single-page-preferred") return false;
-  if (shouldUseLegacyQuotationCompat(signals)) return false;
   return true;
 }

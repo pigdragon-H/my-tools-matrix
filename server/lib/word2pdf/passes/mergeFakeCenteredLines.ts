@@ -1,11 +1,13 @@
 import { escapeXml, unescapeXml } from "../xml/text";
+import { normalizeSelfClosingParagraphTags } from "../xml/safety";
 
 /**
  * UNIVERSAL: merge a fake-centred mixed-script single line into one run while
  * preserving a trailing hyperlink verbatim.
  */
 export function mergeFakeCentredTextLines(xml: string): string {
-  return xml.replace(/<w:p\b[^>]*>[\s\S]*?<\/w:p>/g, (para) => {
+  const normalizedXml = normalizeSelfClosingParagraphTags(xml);
+  return normalizedXml.replace(/<w:p\b[^>]*>[\s\S]*?<\/w:p>/g, (para) => {
     if (!para.includes("<w:hyperlink")) return para;
     if (para.includes("<w:drawing")) return para;
     const pprEnd = para.indexOf("</w:pPr>");
@@ -45,8 +47,8 @@ export function mergeFakeCentredTextLines(xml: string): string {
     const mergedText = merged.replace(/^\s+/, "").replace(/\s+$/, "") + "  ";
 
     const font =
-      `<w:rFonts w:ascii="Times New Roman" w:eastAsia="${eastAsia}" ` +
-      `w:hAnsi="Times New Roman" w:cs="${eastAsia}" w:hint="eastAsia"/>`;
+      preHyperlink.match(/<w:rFonts\b[^>]*\/>/)?.[0] ??
+      `<w:rFonts w:eastAsia="${eastAsia}" w:cs="${eastAsia}" w:hint="eastAsia"/>`;
     const mergedRun =
       "<w:r><w:rPr>" +
       font +
@@ -57,10 +59,14 @@ export function mergeFakeCentredTextLines(xml: string): string {
       "</w:t></w:r>";
 
     if (!/<w:rPr>[\s\S]*?<w:rFonts/.test(hyperlink)) {
-      hyperlink = hyperlink.replace(
-        /<w:rStyle\b[^>]*\/>/,
-        (m) => m + font,
-      );
+      if (/<w:rPr>/.test(hyperlink)) {
+        hyperlink = hyperlink.replace(/<w:rPr>/, `<w:rPr>${font}`);
+      } else {
+        hyperlink = hyperlink.replace(
+          /<w:r\b([^>]*)>/,
+          `<w:r$1><w:rPr>${font}<w:sz w:val="${sz}"/><w:szCs w:val="${sz}"/></w:rPr>`,
+        );
+      }
       hyperlink = hyperlink
         .replace(/<w:sz w:val="\d+"\/>/, `<w:sz w:val="${sz}"/>`)
         .replace(/<w:szCs w:val="\d+"\/>/, `<w:szCs w:val="${sz}"/>`);

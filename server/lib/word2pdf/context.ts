@@ -5,7 +5,6 @@ import { hasFragileHeaderBlock } from "./detectors/hasFragileHeaderBlock";
 import { hasSinglePageCompressionRisk } from "./detectors/hasSinglePageCompressionRisk";
 import { chooseLayoutPolicy } from "./policy";
 import type { LayoutContext, LayoutSignals } from "./types";
-import { hasLegacyQuotationMetaHeaderLine } from "./compat/legacyQuotationHeuristics";
 import { detectPreTableMetaBlockRisk } from "./detectors/detectPreTableMetaBlockRisk";
 
 export function buildLayoutSignals(xml: string): LayoutSignals {
@@ -14,7 +13,6 @@ export function buildLayoutSignals(xml: string): LayoutSignals {
   const denseMetaLine = hasDenseMetaLine(xml);
   const fragileHeaderBlock = hasFragileHeaderBlock(xml);
   const singlePageCompressionRisk = hasSinglePageCompressionRisk(xml);
-  const compatLegacyQuotationMetaHeaderLine = hasLegacyQuotationMetaHeaderLine(xml);
   const preTableMetaBlock = detectPreTableMetaBlockRisk(xml);
 
   return {
@@ -23,7 +21,6 @@ export function buildLayoutSignals(xml: string): LayoutSignals {
     denseMetaLine,
     fragileHeaderBlock,
     singlePageCompressionRisk,
-    compatLegacyQuotationMetaHeaderLine,
     preTableMetaBlockRisk: preTableMetaBlock.detected,
     sharedLeftEdgeMismatch: preTableMetaBlock.hasSharedLeftEdgeMismatch,
     tabStopFieldClusterRisk: preTableMetaBlock.hasTabStopRisk,

@@ -1,4 +1,4 @@
-import { looksLikeSafeStoryXml } from "../xml/safety";
+import { looksLikeSafeStoryXml, normalizeSelfClosingParagraphTags } from "../xml/safety";
 
 /**
  * Apply disableSnapToGrid defensively. If the result no longer looks like a
@@ -24,7 +24,8 @@ export function safeDisableSnapToGrid(xml: string): string {
  * off any company name, address or magic value. Safe for arbitrary documents.
  */
 export function disableSnapToGrid(xml: string): string {
-  return xml.replace(/<w:p\b([^>]*)>([\s\S]*?)<\/w:p>/g, (full, pAttr, inner) => {
+  const normalizedXml = normalizeSelfClosingParagraphTags(xml);
+  return normalizedXml.replace(/<w:p\b([^>]*)>([\s\S]*?)<\/w:p>/g, (full, pAttr, inner) => {
     const pprSelf = inner.match(/^\s*<w:pPr\b([^>]*?)\/>/);
     const pprOpen = pprSelf ? null : inner.match(/^\s*<w:pPr\b([^>]*)>/);
 

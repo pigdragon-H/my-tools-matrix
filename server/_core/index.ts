@@ -15,8 +15,43 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = Number(process.env.PORT ?? 3000);
 const publicDir = path.resolve(__dirname, "public");
+const WORD_TO_PDF_UPLOAD_LIMIT_MB = 20;
+const WORD_TO_PDF_UPLOAD_LIMIT = `${WORD_TO_PDF_UPLOAD_LIMIT_MB}mb`;
+const WORD_TO_PDF_RATE_WINDOW_MS = Number(process.env.WORD_TO_PDF_RATE_WINDOW_MS ?? 60_000);
+const WORD_TO_PDF_RATE_LIMIT = Number(process.env.WORD_TO_PDF_RATE_LIMIT ?? 6);
+const wordToPdfRateBuckets = new Map<string, { count: number; resetAt: number }>();
+
+function enforceWordToPdfRateLimit(
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) {
+  const now = Date.now();
+  const ip = req.ip || req.socket.remoteAddress || "unknown";
+  const bucket = wordToPdfRateBuckets.get(ip);
+
+  if (!bucket || bucket.resetAt <= now) {
+    wordToPdfRateBuckets.set(ip, {
+      count: 1,
+      resetAt: now + WORD_TO_PDF_RATE_WINDOW_MS,
+    });
+    return next();
+  }
+
+  if (bucket.count >= WORD_TO_PDF_RATE_LIMIT) {
+    const retryAfterSeconds = Math.max(1, Math.ceil((bucket.resetAt - now) / 1000));
+    res.setHeader("Retry-After", String(retryAfterSeconds));
+    return res.status(429).json({
+      error: `Too many Word-to-PDF conversions from this IP. Please retry in ${retryAfterSeconds}s.`,
+    });
+  }
+
+  bucket.count += 1;
+  return next();
+}
 
 app.disable("x-powered-by");
+app.set("trust proxy", 1);
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 
@@ -128,7 +163,8 @@ app.get("/llms.txt", async (_req, res) => {
 // `x-filename` header. We return a vector PDF stream.
 app.post(
   "/api/convert/word-to-pdf",
-  express.raw({ type: "*/*", limit: "25mb" }),
+  enforceWordToPdfRateLimit,
+  express.raw({ type: "*/*", limit: WORD_TO_PDF_UPLOAD_LIMIT }),
   async (req, res) => {
     try {
       const body = req.body as Buffer;
@@ -151,9 +187,9 @@ app.post(
       res.send(pdf);
     } catch (e) {
       console.error("[word-to-pdf] conversion failed:", e);
-      res
-        .status(500)
-        .json({ error: e instanceof Error ? e.message : String(e) });
+      const message = e instanceof Error ? e.message : String(e);
+      const status = /busy|retry/i.test(message) ? 429 : 500;
+      res.status(status).json({ error: message });
     }
   }
 );

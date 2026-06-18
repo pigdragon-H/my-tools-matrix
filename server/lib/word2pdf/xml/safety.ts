@@ -1,5 +1,15 @@
+export function normalizeSelfClosingParagraphTags(xml: string): string {
+  return xml.replace(/<w:p\b([^>]*)\/>/g, (_full, attrs: string) => `<w:p${attrs}></w:p>`);
+}
+
 export function looksLikeSafeStoryXml(xml: string): boolean {
-  return tagBalanceOk(xml, "w:p") && tagBalanceOk(xml, "w:pPr") && tagBalanceOk(xml, "w:t");
+  const normalized = normalizeSelfClosingParagraphTags(xml);
+  return (
+    tagBalanceOk(normalized, "w:p") &&
+    tagBalanceOk(normalized, "w:pPr") &&
+    tagBalanceOk(normalized, "w:t") &&
+    tagBalanceOk(normalized, "w:tbl")
+  );
 }
 
 export function tagBalanceOk(xml: string, tag: string): boolean {

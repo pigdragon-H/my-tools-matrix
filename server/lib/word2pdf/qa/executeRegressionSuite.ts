@@ -123,7 +123,6 @@ function createEmptySignalCounter(): Record<keyof LayoutSignals, number> {
     denseMetaLine: 0,
     fragileHeaderBlock: 0,
     singlePageCompressionRisk: 0,
-    compatLegacyQuotationMetaHeaderLine: 0,
     preTableMetaBlockRisk: 0,
     sharedLeftEdgeMismatch: 0,
     tabStopFieldClusterRisk: 0,

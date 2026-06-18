@@ -16,7 +16,6 @@ export interface LayoutSignals {
   denseMetaLine: boolean;
   fragileHeaderBlock: boolean;
   singlePageCompressionRisk: boolean;
-  compatLegacyQuotationMetaHeaderLine: boolean;
   preTableMetaBlockRisk: boolean;
   sharedLeftEdgeMismatch: boolean;
   tabStopFieldClusterRisk: boolean;

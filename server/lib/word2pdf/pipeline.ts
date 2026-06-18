@@ -3,16 +3,13 @@ import { buildLayoutContext } from "./context";
 import { mergeFakeCentredTextLines } from "./passes/mergeFakeCenteredLines";
 import { normalizeSnapGridParts } from "./pipelineInternals";
 import { pinAllCentresUniversal } from "./passes/pinCenteredParagraphs";
-import { fixTitleLine } from "./passes/reconstructTitleBand";
 import { relocatePreTableMetadataBlock } from "./passes/relocatePreTableMetadataBlock";
 import { normalizePreTableMetaBlock } from "./passes/normalizePreTableMetaBlock";
 import { defloatTable } from "./passes/applyFloatingTablePolicy";
 import {
   shouldDefloatTable,
-  shouldReconstructTitleBand,
   shouldRelocateMetaLineNearTable,
   shouldRunStructuralPasses,
-  shouldUseLegacyQuotationCompat,
 } from "./policy";
 import { createPreprocessChangeReport } from "./qa/report";
 import type { PreprocessChangeReport, PreprocessPassDecisions } from "./qa/types";
@@ -50,7 +47,7 @@ export async function preprocessQuotationDocxWithReport(
     const before = snapResult.documentOriginal || originalXml;
     const afterGrid = xml;
     const initialContext = buildLayoutContext(xml);
-    const usedLegacyCompat = shouldUseLegacyQuotationCompat(initialContext.signals);
+    const usedLegacyCompat = false;
 
     const passDecisions: PreprocessPassDecisions = {
       initialPolicy: initialContext.policy,
@@ -91,14 +88,10 @@ export async function preprocessQuotationDocxWithReport(
     xml = pinAllCentresUniversal(xml);
     xml = mergeFakeCentredTextLines(xml);
 
-    passDecisions.ranTitleBandReconstruction =
-      shouldReconstructTitleBand(initialContext.signals) || usedLegacyCompat;
-    if (passDecisions.ranTitleBandReconstruction) {
-      xml = fixTitleLine(xml);
-    }
+    passDecisions.ranTitleBandReconstruction = false;
 
     passDecisions.ranMetaLineRelocation =
-      shouldRelocateMetaLineNearTable(initialContext.signals) || usedLegacyCompat;
+      shouldRelocateMetaLineNearTable(initialContext.signals);
     if (passDecisions.ranMetaLineRelocation) {
       xml = relocatePreTableMetadataBlock(xml);
     }
