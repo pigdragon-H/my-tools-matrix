@@ -6,6 +6,7 @@ export { extractSignalsFromXml } from "./qa/extractSignals";
 export { createPreprocessChangeReport } from "./qa/report";
 export { REGRESSION_CORPUS } from "./qa/regressionCorpus";
 export { evaluateRegressionReport } from "./qa/regressionRunner";
+export { executeRegressionSuite } from "./qa/executeRegressionSuite";
 export type {
   LayoutContext,
   LayoutPolicy,
@@ -20,4 +21,6 @@ export type {
   RegressionAssertionCode,
   RegressionAssertionResult,
   RegressionCorpusEntry,
+  RegressionSuiteCaseResult,
+  RegressionSuiteResult,
 } from "./qa/types";

@@ -64,3 +64,26 @@ export interface RegressionAssertionResult {
   passed: boolean;
   detail: string;
 }
+
+export interface RegressionSuiteCaseResult {
+  entry: RegressionCorpusEntry;
+  fixturePath: string;
+  status: "passed" | "failed" | "skipped";
+  passed: boolean;
+  missingFixture: boolean;
+  outputBytes: number;
+  report: PreprocessChangeReport | null;
+  assertions: RegressionAssertionResult[];
+  summary: string;
+}
+
+export interface RegressionSuiteResult {
+  startedAt: string;
+  fixtureDir: string;
+  total: number;
+  executed: number;
+  passed: number;
+  failed: number;
+  skipped: number;
+  results: RegressionSuiteCaseResult[];
+}
