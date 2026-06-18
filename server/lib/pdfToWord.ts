@@ -58,10 +58,13 @@ export interface ConvertResult {
     fills_corrected: number;
     elapsed_s: number;
     /** multi-candidate calibration fields */
-    candidates?: number;     // how many candidates were generated
-    kept_count?: number;     // how many scored >= threshold (95%)
-    chosen_n?: number | null;
-    kept_threshold?: number; // the keep cut-off (95)
+    candidates?: number;       // how many candidates were generated
+    kept_count?: number;       // how many passed the RELATIVE keep gate
+    chosen_n?: number | null;  // which candidate was output
+    kept_threshold?: number;   // legacy display constant
+    keep_ratio?: number;       // relative gate (e.g. 0.95 = within 95% of best)
+    best_score?: number;       // best candidate's visual-fidelity score
+    relative_threshold?: boolean; // true: gate is relative to best, not absolute
   };
 }
 
@@ -252,6 +255,9 @@ async function pdf2docxConvert(
       kept_count: parsed.kept_count,
       chosen_n: parsed.chosen_n,
       kept_threshold: parsed.kept_threshold,
+      keep_ratio: parsed.keep_ratio,
+      best_score: parsed.best_score,
+      relative_threshold: parsed.relative_threshold,
     };
   } catch {
     report = undefined;

@@ -52,14 +52,16 @@ const T = {
     convertingOcr: "偵測為掃描／圖片 PDF，正在執行 OCR 中文辨識（較花時間）…",
     stageReading: "① 檔案輸入中…",
     stageUploading: "② 原檔案校準中（讀取圖片／框線／顏色基準）…",
-    stageConverting: "③ 多候選與原版比對中（最多 5 份，丟棄 <95%）…",
-    stageOutput: "④ 選出最高品質並輸出中…",
+    stageConverting: "③ 多候選與原版比對中（最多 5 份，挑最接近原版）…",
+    stageOutput: "④ 選出最接近原版者並輸出中…",
     fidelityTitle: "忠於原版校驗報告",
-    fidelityScore: "傳真精準度",
+    fidelityScore: "版面相似度 vs 原版",
     fidelityPasses: "生成候選數",
     fidelityRepairs: "自動修補",
-    fidelityKept: "通過 95% 候選",
+    fidelityKept: "入選候選（接近最佳）",
     fidelityChosen: "採用候選",
+    fidelityNote:
+      "說明：PDF 為固定座標、Word 為可重排版面，受字型替換與重排影響，沒有任何轉換器能達到逐像素 100% 相同。此分數為「版面與原版的結構相似度」，我們會生成多份候選、挑出最接近原版者輸出；分數為誠實量測值，非行銷數字。",
     successNote: "轉換完成！",
     downloadBtn: "下載 Word 檔（.docx）",
     reupload: "轉換另一個檔案",
@@ -138,14 +140,16 @@ const T = {
     convertingOcr: "Detected a scanned / image PDF — running OCR (this takes longer)…",
     stageReading: "① Receiving file…",
     stageUploading: "② Calibrating against the original (images / borders / colours)…",
-    stageConverting: "③ Calibrating candidates vs original (up to 5, drop <95%)…",
-    stageOutput: "④ Selecting the best & producing output…",
+    stageConverting: "③ Comparing candidates vs original (up to 5, pick closest)…",
+    stageOutput: "④ Selecting the closest-to-original & producing output…",
     fidelityTitle: "Faithful-to-original report",
-    fidelityScore: "Fidelity accuracy",
+    fidelityScore: "Layout similarity vs original",
     fidelityPasses: "Candidates generated",
     fidelityRepairs: "Auto-repairs",
-    fidelityKept: "Passed 95%",
+    fidelityKept: "Shortlisted (near best)",
     fidelityChosen: "Chosen candidate",
+    fidelityNote:
+      "Note: PDF is fixed-coordinate while Word reflows, so font substitution and reflow make pixel-perfect 100% impossible for any converter. This score is the structural layout similarity to the original; we generate several candidates and output the one closest to the original. The number is an honest measurement, not marketing.",
     successNote: "Conversion complete!",
     downloadBtn: "Download Word (.docx)",
     reupload: "Convert another file",
@@ -212,9 +216,12 @@ export interface Fidelity {
   passes: number;
   repairs: string; // e.g. "img:0,border:50,fill:6"
   candidates: number; // how many candidates were generated (up to 5)
-  kept: number | null; // how many scored >= threshold (95%)
+  kept: number | null; // how many passed the RELATIVE keep gate
   chosen: number | null; // which candidate number was output
-  threshold: number; // keep cut-off (95)
+  threshold: number; // legacy display constant
+  keepRatio: number | null; // relative gate (0.95 = within 95% of best score)
+  bestScore: number | null; // best candidate's similarity score
+  relative: boolean; // true when the keep gate is relative (not absolute)
 }
 
 async function convertViaServer(
@@ -273,6 +280,8 @@ async function convertViaServer(
   const scoreRaw = resp.headers.get("X-Fidelity-Score");
   const keptRaw = resp.headers.get("X-Fidelity-Kept");
   const chosenRaw = resp.headers.get("X-Fidelity-Chosen");
+  const keepRatioRaw = resp.headers.get("X-Fidelity-KeepRatio");
+  const bestRaw = resp.headers.get("X-Fidelity-BestScore");
   return {
     blob,
     mode: (resp.headers.get("X-Conversion-Mode") as ConvMode) || "unknown",
@@ -286,6 +295,9 @@ async function convertViaServer(
       kept: keptRaw ? Number(keptRaw) : null,
       chosen: chosenRaw ? Number(chosenRaw) : null,
       threshold: Number(resp.headers.get("X-Fidelity-Threshold") || 95),
+      keepRatio: keepRatioRaw ? Number(keepRatioRaw) : null,
+      bestScore: bestRaw ? Number(bestRaw) : null,
+      relative: (resp.headers.get("X-Fidelity-Relative") || "") === "true",
     },
   };
 }
@@ -536,8 +548,8 @@ export default function PdfToWord() {
                       <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
                         <p className="text-xs font-bold text-slate-500">{t.fidelityScore}</p>
                         <p className="mt-1 text-4xl font-black text-emerald-600">
-                          {Math.round(fidelity.score)}
-                          <span className="text-lg text-slate-400">%</span>
+                          {fidelity.score !== null ? Math.round(fidelity.score) : "—"}
+                          {fidelity.score !== null && <span className="text-lg text-slate-400">%</span>}
                         </p>
                       </div>
                       <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
@@ -570,6 +582,9 @@ export default function PdfToWord() {
                         {t.fidelityRepairs}: <span className="font-bold text-slate-700">{fidelity.repairs}</span>
                       </p>
                     )}
+                    <p className="mt-3 text-left text-[11px] leading-relaxed text-slate-400">
+                      {t.fidelityNote}
+                    </p>
                   </div>
                 </div>
               )}

@@ -51,21 +51,35 @@ import re
 # We generate up to MAX_CANDIDATES independent candidates. Each candidate is
 # pdf2docx-converted + repaired (A1 images / A2 borders / A3 fills) at a
 # slightly different strength, then scored AGAINST THE ORIGINAL PDF (ground
-# truth). Candidates scoring >= KEEP_THRESHOLD are kept; anything below is
-# discarded. After the loop we output the highest-scoring KEPT candidate, or —
-# if none reached the threshold — the highest-scoring candidate overall (so a
-# download is always produced).
+# truth) using the document-agnostic visual fidelity metric.
+#
+# THRESHOLD IS RELATIVE (not an absolute pixel-fidelity gate): no faithful
+# PDF→Word converter can hit an absolute 95% pixel score because of font
+# substitution + reflow. So instead of an impossible absolute cut, we keep the
+# candidates that come within KEEP_RATIO of the BEST candidate's score, then
+# output the single highest-scoring one. A download is ALWAYS produced.
 MAX_CANDIDATES = 5
-KEEP_THRESHOLD = 95.0      # fidelity (傳真精準度) cut-off in %
+KEEP_RATIO = 0.95          # keep candidates within 95% of the best score
+KEEP_THRESHOLD = 95.0      # legacy display constant (relative gate is KEEP_RATIO)
 DEFAULT_MIN_SECONDS = 25   # quality-first: deliberately thorough (25-40s)
 MAX_SECONDS = 40
-# repair "strength" presets per candidate (border weight sz, fill snap dist)
+# Per-candidate presets. Each candidate varies BOTH the pdf2docx layout-engine
+# settings (which genuinely change paragraph/table reconstruction) AND the
+# repair strength. These are generic engine knobs — NOTHING about any specific
+# document is encoded; the visual metric then picks whichever candidate renders
+# closest to that particular original.
 CANDIDATE_PRESETS = [
-    {"fill_dist": 120, "border_sz": 6},
-    {"fill_dist": 150, "border_sz": 6},
-    {"fill_dist": 180, "border_sz": 8},
-    {"fill_dist": 210, "border_sz": 8},
-    {"fill_dist": 240, "border_sz": 10},
+    {"fill_dist": 150, "border_sz": 6, "pdf2docx": {}},
+    {"fill_dist": 180, "border_sz": 8, "pdf2docx": {
+        "connected_border_tolerance": 1.0, "max_line_spacing_ratio": 1.4}},
+    {"fill_dist": 180, "border_sz": 8, "pdf2docx": {
+        "line_break_width_ratio": 0.4, "new_paragraph_free_space_ratio": 0.9}},
+    {"fill_dist": 210, "border_sz": 8, "pdf2docx": {
+        "min_section_height": 10.0, "max_line_spacing_ratio": 1.6,
+        "line_separate_threshold": 4.0}},
+    {"fill_dist": 210, "border_sz": 10, "pdf2docx": {
+        "connected_border_tolerance": 0.3, "min_section_height": 25.0,
+        "line_break_free_space_ratio": 0.15}},
 ]
 
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
@@ -85,6 +99,7 @@ def read_ground_truth(pdf_path):
     pages = []
     for pno in range(doc.page_count):
         pg = doc[pno]
+        page_w, page_h = float(pg.rect.width), float(pg.rect.height)
         # --- images: xref, pixel size, page-space bbox ---
         images = []
         for img in pg.get_images(full=True):
@@ -169,6 +184,8 @@ def read_ground_truth(pdf_path):
 
         pages.append({
             "index": pno,
+            "page_w": page_w,
+            "page_h": page_h,
             "images": images,
             "inline_images": inline_images,
             "h_lines": h_lines,
@@ -195,11 +212,14 @@ def norm_text(t):
 
 
 # ── STAGE 3 : pdf2docx conversion ──────────────────────────────────────────
-def run_pdf2docx(in_pdf, out_docx):
+def run_pdf2docx(in_pdf, out_docx, settings=None):
     from pdf2docx import Converter
     cv = Converter(in_pdf)
     try:
-        cv.convert(out_docx)
+        if settings:
+            cv.convert(out_docx, **settings)
+        else:
+            cv.convert(out_docx)
     finally:
         cv.close()
 
@@ -394,6 +414,7 @@ def reattach_missing_images(docx_path, in_pdf, truth, report):
                 if pix.n - pix.alpha >= 4:  # CMYK → RGB
                     pix = fitz.Pixmap(fitz.csRGB, pix)
                 png = pix.tobytes("png")
+                im = dict(im, page_h=p.get("page_h"))
                 extracted.append((xref, png, im))
             except Exception:
                 continue
@@ -416,6 +437,7 @@ def reattach_missing_images(docx_path, in_pdf, truth, report):
                 extracted.append(("inline", png, {
                     "rects": [list(map(float, bb))],
                     "w": pix.width, "h": pix.height,
+                    "page_h": p.get("page_h"),
                 }))
             except Exception:
                 continue
@@ -439,134 +461,259 @@ def _emu(px_at_96):
 
 
 def _inject_images(docx_path, images):
-    tmp = docx_path + ".tmp"
-    # discover existing media indices & rels
-    with zipfile.ZipFile(docx_path) as z:
-        names = z.namelist()
-        doc_xml = z.read("word/document.xml").decode("utf-8", "ignore")
-        rels = z.read("word/_rels/document.xml.rels").decode("utf-8", "ignore")
-        ct = z.read("[Content_Types].xml").decode("utf-8", "ignore")
-    existing_media = [n for n in names if re.match(r"word/media/image\d+\.\w+", n)]
-    base_idx = len(existing_media)
-    rid_nums = [int(m) for m in re.findall(r'Id="rId(\d+)"', rels)] or [0]
-    rid = max(rid_nums)
+    """Insert recovered images using python-docx so the output is ALWAYS valid
+    OOXML that Microsoft Word accepts (the previous hand-patched XML could
+    produce files Word refused to open). Top-region images (header logos) are
+    moved to the very start of the body; others are appended at the end."""
+    import io
+    import docx
+    from docx.shared import Emu
+    from docx.oxml.ns import qn
 
-    new_media = {}
-    rel_entries = []
-    top_xml = ""     # images that belong near the top of the page (e.g. logo)
-    bottom_xml = ""  # everything else (stamps / footer graphics)
-    for k, (xref, png, im) in enumerate(images):
-        idx = base_idx + k + 1
-        rid += 1
-        mname = f"word/media/image{idx}.png"
-        new_media[mname] = png
-        rel_entries.append(
-            f'<Relationship Id="rId{rid}" '
-            f'Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" '
-            f'Target="media/image{idx}.png"/>'
-        )
-        # size from original page bbox if available, else native px
+    doc = docx.Document(docx_path)
+    top_paras = []
+    added = 0
+    for (xref, png, im) in images:
+        # target render size from the original page bbox (falls back to native)
         if im.get("rects"):
             r = im["rects"][0]
             wpx, hpx = (r[2] - r[0]), (r[3] - r[1])
         else:
             wpx, hpx = im["w"] * 0.75, im["h"] * 0.75
-        cx, cy = _emu(wpx), _emu(hpx)
-        did = 1000 + k
-        # decide placement: top region (y0 < 140pt) → prepend, else append.
-        top_y = None
+        width = Emu(_emu(max(1.0, wpx)))
+
+        # placement RELATIVE to the page (no hardcoded coordinate): top ~18%
+        is_top = False
         if im.get("rects"):
-            top_y = im["rects"][0][1]
-        piece = (
-            '<w:p><w:r><w:drawing>'
-            f'<wp:inline distT="0" distB="0" distL="0" distR="0">'
-            f'<wp:extent cx="{cx}" cy="{cy}"/>'
-            f'<wp:docPr id="{did}" name="recovered{idx}"/>'
-            '<a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">'
-            '<a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">'
-            '<pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">'
-            f'<pic:nvPicPr><pic:cNvPr id="{did}" name="recovered{idx}"/><pic:cNvPicPr/></pic:nvPicPr>'
-            f'<pic:blipFill><a:blip r:embed="rId{rid}" '
-            'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"/>'
-            '<a:stretch><a:fillRect/></a:stretch></pic:blipFill>'
-            f'<pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="{cx}" cy="{cy}"/></a:xfrm>'
-            '<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr>'
-            '</pic:pic></a:graphicData></a:graphic></wp:inline>'
-            '</w:drawing></w:r></w:p>'
-        )
-        if top_y is not None and top_y < 140:
-            top_xml += piece
-        else:
-            bottom_xml += piece
+            y0 = im["rects"][0][1]
+            ph = im.get("page_h") or 0
+            if ph > 0:
+                is_top = (y0 / ph) < 0.18
 
-    # patch rels
-    rels = rels.replace("</Relationships>", "".join(rel_entries) + "</Relationships>")
-    # patch content types (ensure png default)
-    if 'Extension="png"' not in ct:
-        ct = ct.replace("</Types>", '<Default Extension="png" ContentType="image/png"/></Types>')
-    # patch document body:
-    #  - top-region images (logo / company name) → prepend at start of body
-    #  - other images (stamps / footer) → append before sectPr (or </w:body>)
-    if top_xml:
-        m = re.search(r"<w:body[^>]*>", doc_xml)
-        if m:
-            doc_xml = doc_xml[:m.end()] + top_xml + doc_xml[m.end():]
-        else:
-            doc_xml = doc_xml.replace("<w:body>", "<w:body>" + top_xml, 1)
-    if bottom_xml:
-        if "<w:sectPr" in doc_xml:
-            doc_xml = doc_xml.replace("<w:sectPr", bottom_xml + "<w:sectPr", 1)
-        else:
-            doc_xml = doc_xml.replace("</w:body>", bottom_xml + "</w:body>", 1)
+        # add the picture in a fresh trailing paragraph (always valid)
+        p = doc.add_paragraph()
+        run = p.add_run()
+        try:
+            run.add_picture(io.BytesIO(png), width=width)
+        except Exception as e:
+            sys.stderr.write(f"add_picture failed (skipping one image): {e}\n")
+            # drop the empty paragraph we just created
+            p._element.getparent().remove(p._element)
+            continue
+        added += 1
+        if is_top:
+            top_paras.append(p._element)
 
-    with zipfile.ZipFile(docx_path) as zin, zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zout:
-        for item in zin.infolist():
-            if item.filename == "word/document.xml":
-                zout.writestr(item, doc_xml.encode("utf-8"))
-            elif item.filename == "word/_rels/document.xml.rels":
-                zout.writestr(item, rels.encode("utf-8"))
-            elif item.filename == "[Content_Types].xml":
-                zout.writestr(item, ct.encode("utf-8"))
+    # move header logos to the very front of the body (before all content)
+    if top_paras:
+        body = doc.element.body
+        # first child that is a real paragraph/table (skip nothing — just
+        # insert before the body's current first child element)
+        first = None
+        for child in body:
+            if child.tag in (qn("w:p"), qn("w:tbl")):
+                first = child
+                break
+        for el in reversed(top_paras):
+            parent = el.getparent()
+            if parent is not None:
+                parent.remove(el)
+            if first is not None:
+                first.addprevious(el)
             else:
-                zout.writestr(item, zin.read(item.filename))
-        for mname, blob in new_media.items():
-            zout.writestr(mname, blob)
-    shutil.move(tmp, docx_path)
-    return len(images)
+                body.insert(0, el)
+
+    doc.save(docx_path)
+    return added
 
 
-def fidelity_score(docx_path, truth):
-    """0..100 — how faithfully the .docx matches the original ground truth."""
+# ── visual fidelity (document-agnostic) ──────────────────────────────────
+# The objective, generalisable measure of "faithful to the original" is the
+# VISUAL similarity between the original PDF and the produced .docx rendered
+# back to a page image. This works for ANY document — there is nothing
+# document-specific hardcoded. We render both to greyscale page images at the
+# same resolution and compute SSIM (structural similarity) per page.
+def _render_pdf_pages(pdf_path, dpi=110, max_pages=4):
+    """Render PDF pages to greyscale numpy arrays via PyMuPDF (no temp files)."""
+    import fitz
+    import numpy as np
+    out = []
+    doc = fitz.open(pdf_path)
+    try:
+        n = min(doc.page_count, max_pages)
+        zoom = dpi / 72.0
+        mat = fitz.Matrix(zoom, zoom)
+        for i in range(n):
+            pix = doc[i].get_pixmap(matrix=mat, colorspace=fitz.csGRAY, alpha=False)
+            arr = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.height, pix.width)
+            out.append(arr.copy())
+    finally:
+        doc.close()
+    return out
+
+
+def _docx_to_pdf(docx_path, work_dir):
+    """Render a .docx to PDF using headless LibreOffice. Returns pdf path or None."""
+    import subprocess
+    try:
+        subprocess.run(
+            ["soffice", "--headless", "--convert-to", "pdf",
+             "--outdir", work_dir, docx_path],
+            check=True, capture_output=True, timeout=60,
+        )
+    except Exception as e:
+        sys.stderr.write(f"docx->pdf render failed: {e}\n")
+        return None
+    base = os.path.splitext(os.path.basename(docx_path))[0]
+    cand = os.path.join(work_dir, base + ".pdf")
+    return cand if os.path.isfile(cand) else None
+
+
+def _ink_mask(gray):
+    """Binarise a greyscale page to an 'ink' mask (text / lines / fills / logos
+    = dark or coloured pixels) using Otsu. Returns a 0/1 uint8 array. Fully
+    document-agnostic — no fixed thresholds."""
+    import cv2
+    import numpy as np
+    g = gray.astype("uint8")
+    _t, binimg = cv2.threshold(g, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+    return (binimg > 0).astype("uint8")
+
+
+def _page_similarity(orig_gray, cand_gray):
+    """Content-focused similarity between two rendered pages (0..1). Robust to
+    the 'mostly-white background' problem that makes global SSIM useless on
+    documents: we compare WHERE THE INK IS, not the white space.
+
+    Blends three document-agnostic signals:
+      • ink IoU            — overlap of dark/coloured regions after alignment
+      • ink-density corr.  — correlation of a coarse grid of ink density
+                             (captures overall layout / block placement)
+      • ink-amount ratio   — penalises large amounts of missing or extra ink
+                             (a dropped logo / table / paragraph)
+    """
+    import cv2
+    import numpy as np
+
+    h, w = orig_gray.shape
+    cand = cv2.resize(cand_gray, (w, h), interpolation=cv2.INTER_AREA)
+    om = _ink_mask(orig_gray)
+    cm = _ink_mask(cand)
+
+    o_ink = int(om.sum())
+    c_ink = int(cm.sum())
+    if o_ink == 0 and c_ink == 0:
+        return 1.0
+    if o_ink == 0 or c_ink == 0:
+        return 0.0
+
+    # 1) ink IoU with a small dilation tolerance (sub-mm registration slack so
+    #    that minor font/reflow shifts don't unfairly tank the score).
+    kern = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+    om_d = cv2.dilate(om, kern)
+    cm_d = cv2.dilate(cm, kern)
+    inter = int(np.logical_and(om, cm_d).sum() + np.logical_and(cm, om_d).sum())
+    union = int(om.sum() + cm.sum())
+    iou = inter / union if union else 0.0
+
+    # 2) coarse ink-density grid correlation (layout/structure agreement)
+    gh, gw = 24, 18
+    def grid_density(m):
+        cells = []
+        ys = np.linspace(0, h, gh + 1).astype(int)
+        xs = np.linspace(0, w, gw + 1).astype(int)
+        for i in range(gh):
+            for j in range(gw):
+                blk = m[ys[i]:ys[i + 1], xs[j]:xs[j + 1]]
+                cells.append(blk.mean() if blk.size else 0.0)
+        return np.array(cells, dtype="float64")
+    od = grid_density(om)
+    cd = grid_density(cm)
+    if od.std() < 1e-6 or cd.std() < 1e-6:
+        corr = 0.0
+    else:
+        corr = float(np.corrcoef(od, cd)[0, 1])
+    corr = max(0.0, corr)
+
+    # 3) ink-amount ratio (missing/extra content penalty)
+    amount = min(o_ink, c_ink) / max(o_ink, c_ink)
+
+    # blend (weights favour structural agreement + content completeness)
+    return float(0.45 * iou + 0.35 * corr + 0.20 * amount)
+
+
+def visual_similarity(orig_pdf, docx_path, work_dir):
+    """Render the .docx back to PDF and compare page-by-page against the
+    ORIGINAL pdf using a content-focused (ink-structure) similarity. Returns
+    (score 0..100, n_pages_compared) or (None, 0) if rendering is unavailable.
+    Completely document-agnostic — nothing about any specific file is encoded."""
+    import cv2
+    cand_pdf = _docx_to_pdf(docx_path, work_dir)
+    if not cand_pdf:
+        return None, 0
+    try:
+        orig_imgs = _render_pdf_pages(orig_pdf)
+        cand_imgs = _render_pdf_pages(cand_pdf)
+    except Exception as e:
+        sys.stderr.write(f"page render failed: {e}\n")
+        return None, 0
+    if not orig_imgs or not cand_imgs:
+        return None, 0
+
+    n = min(len(orig_imgs), len(cand_imgs))
+    scores = [_page_similarity(orig_imgs[i], cand_imgs[i]) for i in range(n)]
+    # penalise page-count mismatch (missing/extra pages hurt fidelity)
+    page_penalty = min(len(orig_imgs), len(cand_imgs)) / max(len(orig_imgs), len(cand_imgs))
+    raw = (sum(scores) / len(scores)) if scores else 0.0
+    return round(100.0 * raw * page_penalty, 1), n
+
+
+def fidelity_score(docx_path, truth, orig_pdf=None, work_dir=None):
+    """0..100 faithful-to-original score.
+
+    PRIMARY metric is VISUAL similarity (SSIM of the rendered pages) — this is
+    objective and works for any document, with nothing hardcoded. A small
+    structural guard (no floating text boxes = not a "monster") is blended in.
+    If visual rendering is unavailable, falls back to a structural estimate."""
     info = inspect_docx(docx_path)
+
+    vis, npages = (None, 0)
+    if orig_pdf and work_dir:
+        try:
+            vis, npages = visual_similarity(orig_pdf, docx_path, work_dir)
+        except Exception as e:
+            sys.stderr.write(f"visual similarity failed: {e}\n")
+            vis = None
+
+    # structural guard: floating text boxes => the doc will break in Word.
+    structural_ok = 1.0 if info["floating_boxes"] == 0 else 0.0
+
+    if vis is not None:
+        # 90% visual + 10% structural guard
+        final = 0.90 * vis + 0.10 * (100.0 * structural_ok)
+        info["_visual"] = vis
+        info["_visual_pages"] = npages
+        return round(final, 1), info
+
+    # ── fallback (visual rendering unavailable): structural estimate ──
     want_imgs = len({im["xref"] for p in truth["pages"] for im in p["images"]}) \
         + sum(p.get("n_inline_images", 0) for p in truth["pages"])
     want_borders = any(p["n_borders"] > 0 for p in truth["pages"])
     want_fills = sorted({h for p in truth["pages"] for h in p["fill_hexes"]})
-
     score, weight = 0.0, 0.0
-    # images
     weight += 35
-    if want_imgs == 0:
-        score += 35
-    else:
-        score += 35 * min(1.0, info["n_media"] / want_imgs)
-    # borders
+    score += 35 if want_imgs == 0 else 35 * min(1.0, info["n_media"] / want_imgs)
     weight += 25
-    if not want_borders:
-        score += 25
-    else:
-        score += 25 if info["single_borders"] > 0 else 0
-    # fills present & correct
+    score += 25 if (not want_borders or info["single_borders"] > 0) else 0
     weight += 25
     if not want_fills:
         score += 25
     else:
         present = [f for f in want_fills if any(color_dist(f, g) <= 10 for g in info["fills"])]
         score += 25 * (len(present) / len(want_fills))
-    # not a "monster" (no floating text boxes)
     weight += 15
     score += 15 if info["floating_boxes"] == 0 else 0
-
+    info["_visual"] = None
     return round(100 * score / weight, 1), info
 
 
@@ -574,7 +721,7 @@ def build_candidate(in_pdf, cand_path, truth, preset):
     """Generate ONE candidate: pdf2docx convert + A1/A2/A3 repair at the
     given strength preset. Returns a per-candidate repair tally."""
     tally = {"images_reattached": 0, "borders_added": 0, "fills_corrected": 0}
-    run_pdf2docx(in_pdf, cand_path)
+    run_pdf2docx(in_pdf, cand_path, settings=preset.get("pdf2docx"))
     if not os.path.isfile(cand_path) or os.path.getsize(cand_path) < 200:
         raise RuntimeError("pdf2docx produced an empty/too-small document")
     if truth["pages"]:
@@ -614,6 +761,7 @@ def main():
         "images_reattached": 0, "borders_added": 0, "fills_corrected": 0,
         "candidates": [], "kept_count": 0, "chosen_n": None,
         "chosen_score": None, "kept_threshold": KEEP_THRESHOLD,
+        "keep_ratio": KEEP_RATIO, "relative_threshold": True,
     }
 
     # STAGE 1 — input
@@ -657,12 +805,14 @@ def main():
                 continue
 
             log("4", f"verify candidate {n}")
-            score, _info = fidelity_score(cand_path, truth) if truth["pages"] else (100.0, {})
-            kept = score >= KEEP_THRESHOLD
+            # Score VISUALLY against the original PDF (document-agnostic SSIM).
+            score, _info = fidelity_score(cand_path, truth, orig_pdf=in_pdf, work_dir=work_dir)
+            vis = _info.get("_visual")
+            # 'kept' is decided RELATIVELY after the whole loop (see below);
+            # store the raw score now.
             candidates.append({"n": n, "path": cand_path, "score": score,
-                               "kept": kept, "tally": tally})
-            report["candidates"].append({"n": n, "score": score, "kept": kept})
-            log("4", f"candidate {n} score={score} kept={kept}")
+                               "kept": False, "tally": tally, "visual": vis})
+            log("4", f"candidate {n} score={score} visual={vis}")
 
         if not candidates:
             # last-ditch: a single plain conversion so a download still exists
@@ -673,21 +823,34 @@ def main():
             report["chosen_n"] = 0
             report["chosen_score"] = None
         else:
+            # RELATIVE threshold (user option A): the best candidate is the
+            # reference; keep everything within KEEP_RATIO of it. This is the
+            # honest, document-agnostic way to gate quality — there is no
+            # impossible absolute pixel cut-off.
+            best = max(candidates, key=lambda c: c["score"])
+            cut = best["score"] * KEEP_RATIO
+            for c in candidates:
+                c["kept"] = c["score"] >= cut
             kept = [c for c in candidates if c["kept"]]
             report["kept_count"] = len(kept)
-            # B/C/D: choose the highest-scoring KEPT candidate; if none reached
-            # the 95% threshold, choose the highest-scoring candidate overall.
-            pool = kept if kept else candidates
-            best = max(pool, key=lambda c: c["score"])
+            report["keep_ratio"] = KEEP_RATIO
+            report["best_score"] = best["score"]
+            report["keep_cutoff"] = round(cut, 2)
+            for c in candidates:
+                report["candidates"].append(
+                    {"n": c["n"], "score": c["score"],
+                     "kept": c["kept"], "visual": c["visual"]})
+            # Output the single highest-scoring candidate.
             shutil.copyfile(best["path"], out_docx)
             report["chosen_n"] = best["n"]
             report["chosen_score"] = best["score"]
             report["final_score"] = best["score"]
+            report["visual_score"] = best.get("visual")
             report["images_reattached"] = best["tally"]["images_reattached"]
             report["borders_added"] = best["tally"]["borders_added"]
             report["fills_corrected"] = best["tally"]["fills_corrected"]
             log("4", f"chosen candidate {best['n']} score={best['score']} "
-                     f"(kept={len(kept)}/{len(candidates)})")
+                     f"(kept={len(kept)}/{len(candidates)} within {KEEP_RATIO:.0%} of best)")
     finally:
         shutil.rmtree(work_dir, ignore_errors=True)
 

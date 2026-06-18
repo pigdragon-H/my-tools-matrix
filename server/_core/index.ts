@@ -201,11 +201,15 @@ app.post(
         res.setHeader("X-Fidelity-Passes", String(fidelity.passes));
         res.setHeader("X-Fidelity-Repairs",
           `img:${fidelity.images_reattached},border:${fidelity.borders_added},fill:${fidelity.fills_corrected}`);
-        // calibration: how many candidates, how many kept (>=95%), which chosen
+        // calibration: candidates, kept (within RELATIVE gate), which chosen
         res.setHeader("X-Fidelity-Candidates", String(fidelity.candidates ?? fidelity.passes));
         res.setHeader("X-Fidelity-Kept", String(fidelity.kept_count ?? ""));
         res.setHeader("X-Fidelity-Chosen", String(fidelity.chosen_n ?? ""));
         res.setHeader("X-Fidelity-Threshold", String(fidelity.kept_threshold ?? 95));
+        // relative threshold semantics (within keep_ratio of the best score)
+        res.setHeader("X-Fidelity-KeepRatio", String(fidelity.keep_ratio ?? ""));
+        res.setHeader("X-Fidelity-BestScore", String(fidelity.best_score ?? ""));
+        res.setHeader("X-Fidelity-Relative", String(fidelity.relative_threshold ?? false));
       }
       res.setHeader(
         "Content-Disposition",
