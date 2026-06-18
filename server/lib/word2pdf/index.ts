@@ -1,5 +1,23 @@
-export { preprocessQuotationDocx } from "./pipeline";
+export { preprocessQuotationDocx, preprocessQuotationDocxWithReport } from "./pipeline";
 export { disableSnapToGrid } from "./passes/normalizeSnapGrid";
 export { buildLayoutContext, buildLayoutSignals } from "./context";
 export { chooseLayoutPolicy } from "./policy";
-export type { LayoutContext, LayoutPolicy, LayoutSignals, PageGeom } from "./types";
+export { extractSignalsFromXml } from "./qa/extractSignals";
+export { createPreprocessChangeReport } from "./qa/report";
+export { REGRESSION_CORPUS } from "./qa/regressionCorpus";
+export { evaluateRegressionReport } from "./qa/regressionRunner";
+export type {
+  LayoutContext,
+  LayoutPolicy,
+  LayoutSignals,
+  PageGeom,
+} from "./types";
+export type {
+  ExtractedSignalCounts,
+  PreprocessChangeReport,
+  PreprocessPassDecisions,
+  PreprocessSignalSnapshot,
+  RegressionAssertionCode,
+  RegressionAssertionResult,
+  RegressionCorpusEntry,
+} from "./qa/types";

@@ -1,8 +1,66 @@
-/**
- * PR-1 placeholder QA types.
- * No runtime logic yet; these types mark the future detectors/passes/qa split.
- */
-export interface PreprocessQaNote {
-  code: string;
-  detail?: string;
+import type { LayoutContext, LayoutPolicy } from "../types";
+
+export interface ExtractedSignalCounts {
+  headerParagraphCount: number;
+  headerDenseMetaLineCount: number;
+  headerFakeCenterParagraphCount: number;
+  headerSpaceAlignedLineCount: number;
+  headerDrawingParagraphCount: number;
+  floatingTableCount: number;
+  metaLinesAfterFirstTableCount: number;
+}
+
+export interface PreprocessSignalSnapshot {
+  context: LayoutContext;
+  counts: ExtractedSignalCounts;
+  headerVisualRiskScore: number;
+  likelyVisualIndentFailure: boolean;
+}
+
+export interface PreprocessPassDecisions {
+  initialPolicy: LayoutPolicy;
+  finalPolicy: LayoutPolicy;
+  ranStructuralPasses: boolean;
+  ranTitleBandReconstruction: boolean;
+  ranMetaLineRelocation: boolean;
+  ranDefloatTable: boolean;
+  usedLegacyCompat: boolean;
+  revertedToGridNormalized: boolean;
+}
+
+export interface PreprocessChangeReport {
+  before: PreprocessSignalSnapshot;
+  after: PreprocessSignalSnapshot;
+  outputChanged: boolean;
+  headerVisualRiskDelta: number;
+  headerVisualRiskLowered: boolean;
+  visualIndentFailureBefore: boolean;
+  visualIndentFailureAfter: boolean;
+  visualIndentFailureImproved: boolean;
+  passDecisions: PreprocessPassDecisions;
+  notes: string[];
+}
+
+export type RegressionAssertionCode =
+  | "policy-visual-fidelity-first"
+  | "header-visual-risk-nonincrease"
+  | "header-visual-risk-lowered"
+  | "indent-failure-cleared-or-improved"
+  | "meta-line-after-table-nonincrease"
+  | "single-page-compression-risk-nonincrease";
+
+export interface RegressionCorpusEntry {
+  id: string;
+  family: string;
+  fixtureRef: string;
+  status: "active" | "pending-fixture";
+  expectedPolicy: LayoutPolicy;
+  assertions: RegressionAssertionCode[];
+  notes?: string;
+}
+
+export interface RegressionAssertionResult {
+  code: RegressionAssertionCode;
+  passed: boolean;
+  detail: string;
 }
