@@ -19,6 +19,12 @@ export const REGRESSION_CORPUS: RegressionCorpusEntry[] = [
       "single-page-compression-risk-nonincrease",
     ],
     notes: "GS quotation: preserve one-page elegance only if header risk does not worsen.",
+    expectedNotes: [
+      "header visual risk lowered",
+      "likely visual indent failure improved",
+    ],
+    referencePdfRefs: ["reference/gs_ref.pdf"],
+    riskTags: ["header-indent", "single-page-pressure", "floating-table"],
   },
   {
     id: "qkf-quotation-alm-12v35i",
@@ -33,6 +39,12 @@ export const REGRESSION_CORPUS: RegressionCorpusEntry[] = [
       "meta-line-after-table-nonincrease",
     ],
     notes: "QKF quotation: ATTN/meta line must not drift into a visually indented layout.",
+    expectedNotes: [
+      "header visual risk lowered",
+      "likely visual indent failure improved",
+    ],
+    referencePdfRefs: ["reference/qkf_ref.pdf"],
+    riskTags: ["header-indent", "meta-line-order", "floating-table"],
   },
   {
     id: "generic-fragile-header-quotation",
@@ -46,5 +58,7 @@ export const REGRESSION_CORPUS: RegressionCorpusEntry[] = [
       "indent-failure-cleared-or-improved",
     ],
     notes: "Attach the next user-supplied similar quotation to keep the family-level corpus growing.",
+    expectedNotes: ["header visual risk lowered"],
+    riskTags: ["header-indent", "fragile-header"],
   },
 ];

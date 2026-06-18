@@ -1,9 +1,11 @@
+import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { executeRegressionSuite } from "../server/lib/word2pdf/qa/executeRegressionSuite";
 
 interface CliOptions {
   fixtureDir: string;
   json: boolean;
+  jsonOut: string | null;
   includePending: boolean;
 }
 
@@ -12,6 +14,7 @@ function parseArgs(argv: string[]): CliOptions {
   const options: CliOptions = {
     fixtureDir: fixtureDirFromEnv,
     json: false,
+    jsonOut: null,
     includePending: false,
   };
 
@@ -28,6 +31,11 @@ function parseArgs(argv: string[]): CliOptions {
     if (arg === "--fixture-dir") {
       options.fixtureDir = argv[i + 1] ?? options.fixtureDir;
       i += 1;
+      continue;
+    }
+    if (arg === "--json-out") {
+      options.jsonOut = argv[i + 1] ?? options.jsonOut;
+      i += 1;
     }
   }
 
@@ -38,6 +46,21 @@ function printHumanSummary(result: Awaited<ReturnType<typeof executeRegressionSu
   console.log("\nWord→PDF regression suite");
   console.log(`Fixture dir: ${result.fixtureDir}`);
   console.log(`Cases: total=${result.total} executed=${result.executed} passed=${result.passed} failed=${result.failed} skipped=${result.skipped}`);
+  console.log(
+    `Risk tracker: indent before=${result.riskTracker.visualIndentFailuresBefore} after=${result.riskTracker.visualIndentFailuresAfter}; deltaTotal=${result.riskTracker.headerVisualRiskDeltaTotal}`,
+  );
+
+  const hotSignals = Object.entries(result.riskTracker.triggeredLayoutSignals)
+    .filter(([, count]) => count > 0)
+    .sort((a, b) => b[1] - a[1]);
+  if (hotSignals.length > 0) {
+    console.log(`Hot layout signals: ${hotSignals.map(([name, count]) => `${name}=${count}`).join(", ")}`);
+  }
+
+  const hotTags = Object.entries(result.riskTracker.triggeredRiskTags).sort((a, b) => b[1] - a[1]);
+  if (hotTags.length > 0) {
+    console.log(`Hot risk tags: ${hotTags.map(([name, count]) => `${name}=${count}`).join(", ")}`);
+  }
 
   for (const item of result.results) {
     const badge = item.status === "passed" ? "PASS" : item.status === "failed" ? "FAIL" : "SKIP";
@@ -59,6 +82,25 @@ function printHumanSummary(result: Awaited<ReturnType<typeof executeRegressionSu
       console.log(`  notes: ${item.report.notes.join("; ") || "(none)"}`);
     }
 
+    if (item.referencePdfPaths.length > 0) {
+      console.log(
+        `  reference pdfs: ${item.referencePdfPaths
+          .map((filePath) => path.relative(process.cwd(), filePath))
+          .join(", ")}`,
+      );
+    }
+    if (item.missingReferencePdfs.length > 0) {
+      console.log(
+        `  missing reference pdfs: ${item.missingReferencePdfs
+          .map((filePath) => path.relative(process.cwd(), filePath))
+          .join(", ")}`,
+      );
+    }
+    if (item.matchedExpectedNotes.length > 0 || item.missingExpectedNotes.length > 0) {
+      console.log(`  expected notes ok: ${item.matchedExpectedNotes.join("; ") || "(none)"}`);
+      console.log(`  expected notes missing: ${item.missingExpectedNotes.join("; ") || "(none)"}`);
+    }
+
     if (item.assertions.length > 0) {
       for (const assertion of item.assertions) {
         console.log(`    - [${assertion.passed ? "ok" : "x"}] ${assertion.code}: ${assertion.detail}`);
@@ -67,12 +109,28 @@ function printHumanSummary(result: Awaited<ReturnType<typeof executeRegressionSu
   }
 }
 
+async function maybeWriteJsonOut(
+  jsonOut: string | null,
+  result: Awaited<ReturnType<typeof executeRegressionSuite>>,
+): Promise<void> {
+  if (!jsonOut) {
+    return;
+  }
+
+  const outputPath = path.resolve(jsonOut);
+  await mkdir(path.dirname(outputPath), { recursive: true });
+  await writeFile(outputPath, `${JSON.stringify(result, null, 2)}\n`, "utf8");
+  console.log(`JSON report written: ${path.relative(process.cwd(), outputPath)}`);
+}
+
 async function main(): Promise<void> {
   const options = parseArgs(process.argv.slice(2));
   const result = await executeRegressionSuite({
     fixtureDir: options.fixtureDir,
     includePending: options.includePending,
   });
+
+  await maybeWriteJsonOut(options.jsonOut, result);
 
   if (options.json) {
     console.log(JSON.stringify(result, null, 2));

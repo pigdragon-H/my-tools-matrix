@@ -6,7 +6,8 @@
  *
  *   ① npx tsc --noEmit
  *   ② npm run validate:registry      (Gate 1)
- *   ③ npm run qc:blackhole           (Gate 2, defaults to http://localhost:5173)
+ *   ③ npm run qc:word2pdf-regression (Gate W, Word→PDF 視覺回歸守門)
+ *   ④ npm run qc:blackhole           (Gate 2, defaults to http://localhost:5173)
  *
  * Behaviour:
  *   - Each step runs in order; first failure aborts with exit 1.
@@ -17,6 +18,7 @@
  *   npm run preflight
  *   npm run preflight -- --base=http://localhost:5174   # override Gate 2 base
  *   npm run preflight -- --skip-blackhole               # if dev server is intentionally off
+ *   npm run preflight -- --skip-word2pdf-regression     # if fixtures are intentionally unavailable
  *
  * Why:
  *   Cuts the manual 3-command pre-flight from ~3 minutes of attention
@@ -45,6 +47,7 @@ for (const a of process.argv.slice(2)) {
 }
 const BASE = flags.base || "http://localhost:5173";
 const SKIP_BLACKHOLE = !!flags["skip-blackhole"];
+const SKIP_WORD2PDF_REGRESSION = !!flags["skip-word2pdf-regression"];
 
 // ── runner ───────────────────────────────────────────────────
 function run(label, cmd, args, opts = {}) {
@@ -66,7 +69,7 @@ function run(label, cmd, args, opts = {}) {
 }
 
 console.log(`${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RST}`);
-console.log(`${BOLD}🛫  PREFLIGHT  ${DIM}— TS check · Gate 1 registry · Gate 2 black-hole${RST}`);
+console.log(`${BOLD}🛫  PREFLIGHT  ${DIM}— TS check · Gate 1 registry · Gate W word2pdf regression · Gate 2 black-hole${RST}`);
 console.log(`${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RST}\n`);
 
 const overallStart = Date.now();
@@ -91,6 +94,19 @@ if (!run("② Gate 1 (validate-registry)", "node", ["scripts/validate-registry.m
 if (!run("Gate 1.5 (tool-trunk drift)", "node", ["scripts/tool-trunk.mjs", "--audit"])) {
   console.error(`\n${RED}\u{1F534} PREFLIGHT FAIL \u2014 Gate 1.5 tool-trunk conflict (dup id / export const / route key / cross-cat component)${RST}`);
   process.exit(1);
+}
+
+if (SKIP_WORD2PDF_REGRESSION) {
+  console.log(`${YEL}⚠  ③ Gate W 已用 --skip-word2pdf-regression 跳過${RST}\n`);
+} else {
+  if (!run("③ Gate W (qc:word2pdf-regression)", "node", ["scripts/qc_word2pdf_regression.mjs", "--json-out", "tmp/word2pdf-regression/preflight.json"])) {
+    console.error(`\n${RED}🔴 PREFLIGHT FAIL — Word→PDF regression 紅燈, header risk / 內縮 / reference PDF / expected notes 發生退步${RST}`);
+    console.error(`${DIM}   排錯指南:${RST}`);
+    console.error(`${DIM}   • 確認 fixtures/word2pdf 內 fixture 與 reference PDF 齊全${RST}`);
+    console.error(`${DIM}   • 先看 tmp/word2pdf-regression/preflight.json 找出失敗 assertion 與 hot risk tags${RST}`);
+    console.error(`${DIM}   • 若是新樣本，先加入 corpus expected notes 再放行${RST}`);
+    process.exit(1);
+  }
 }
 
 if (SKIP_BLACKHOLE) {

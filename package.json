@@ -23,6 +23,7 @@
     "qc:commit": "node scripts/qc_commit_integrity.mjs",
     "qc:remote": "node scripts/qc_remote_match.mjs",
     "qc:live": "node scripts/qc_live_deploy.mjs",
+    "qc:word2pdf-regression": "node scripts/qc_word2pdf_regression.mjs",
     "preflight": "node scripts/preflight.mjs",
     "safe-push": "node scripts/safe-push.mjs",
     "scaffold:tool": "node scripts/scaffold-tool.mjs",

@@ -21,6 +21,7 @@ export type {
   RegressionAssertionCode,
   RegressionAssertionResult,
   RegressionCorpusEntry,
+  RegressionRiskTracker,
   RegressionSuiteCaseResult,
   RegressionSuiteResult,
 } from "./qa/types";

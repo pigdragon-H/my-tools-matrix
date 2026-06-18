@@ -1,4 +1,4 @@
-import type { LayoutContext, LayoutPolicy } from "../types";
+import type { LayoutContext, LayoutPolicy, LayoutSignals } from "../types";
 
 export interface ExtractedSignalCounts {
   headerParagraphCount: number;
@@ -57,6 +57,9 @@ export interface RegressionCorpusEntry {
   expectedPolicy: LayoutPolicy;
   assertions: RegressionAssertionCode[];
   notes?: string;
+  expectedNotes?: string[];
+  referencePdfRefs?: string[];
+  riskTags?: string[];
 }
 
 export interface RegressionAssertionResult {
@@ -75,6 +78,22 @@ export interface RegressionSuiteCaseResult {
   report: PreprocessChangeReport | null;
   assertions: RegressionAssertionResult[];
   summary: string;
+  referencePdfPaths: string[];
+  missingReferencePdfs: string[];
+  matchedExpectedNotes: string[];
+  missingExpectedNotes: string[];
+}
+
+export interface RegressionRiskTracker {
+  casesByFamily: Record<string, number>;
+  failuresByAssertion: Record<string, number>;
+  triggeredRiskTags: Record<string, number>;
+  failedRiskTags: Record<string, number>;
+  triggeredLayoutSignals: Record<keyof LayoutSignals, number>;
+  visualIndentFailuresBefore: number;
+  visualIndentFailuresAfter: number;
+  headerVisualRiskDeltaTotal: number;
+  highestAfterRiskCases: Array<{ id: string; score: number }>;
 }
 
 export interface RegressionSuiteResult {
@@ -86,4 +105,5 @@ export interface RegressionSuiteResult {
   failed: number;
   skipped: number;
   results: RegressionSuiteCaseResult[];
+  riskTracker: RegressionRiskTracker;
 }
