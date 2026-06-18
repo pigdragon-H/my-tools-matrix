@@ -2,10 +2,10 @@ import { hasDenseMetaLine } from "./detectors/hasDenseMetaLine";
 import { hasFakeCentredContent } from "./detectors/hasFakeCenterRisk";
 import { hasFloatingTableRisk } from "./detectors/hasFloatingTableRisk";
 import { hasFragileHeaderBlock } from "./detectors/hasFragileHeaderBlock";
-import { hasQuotationMetaHeaderLine } from "./detectors/hasQuotationMetaHeaderLine";
 import { hasSinglePageCompressionRisk } from "./detectors/hasSinglePageCompressionRisk";
 import { chooseLayoutPolicy } from "./policy";
 import type { LayoutContext, LayoutSignals } from "./types";
+import { hasLegacyQuotationMetaHeaderLine } from "./compat/legacyQuotationHeuristics";
 
 export function buildLayoutSignals(xml: string): LayoutSignals {
   const fakeCenterRisk = hasFakeCentredContent(xml);
@@ -13,7 +13,7 @@ export function buildLayoutSignals(xml: string): LayoutSignals {
   const denseMetaLine = hasDenseMetaLine(xml);
   const fragileHeaderBlock = hasFragileHeaderBlock(xml);
   const singlePageCompressionRisk = hasSinglePageCompressionRisk(xml);
-  const legacyQuotationMetaHeaderLine = hasQuotationMetaHeaderLine(xml);
+  const compatLegacyQuotationMetaHeaderLine = hasLegacyQuotationMetaHeaderLine(xml);
 
   return {
     fakeCenterRisk,
@@ -21,7 +21,7 @@ export function buildLayoutSignals(xml: string): LayoutSignals {
     denseMetaLine,
     fragileHeaderBlock,
     singlePageCompressionRisk,
-    legacyQuotationMetaHeaderLine,
+    compatLegacyQuotationMetaHeaderLine,
   };
 }
 

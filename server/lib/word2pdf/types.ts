@@ -16,7 +16,7 @@ export interface LayoutSignals {
   denseMetaLine: boolean;
   fragileHeaderBlock: boolean;
   singlePageCompressionRisk: boolean;
-  legacyQuotationMetaHeaderLine: boolean;
+  compatLegacyQuotationMetaHeaderLine: boolean;
 }
 
 export interface LayoutContext {

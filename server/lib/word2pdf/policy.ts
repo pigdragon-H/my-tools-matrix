@@ -4,7 +4,7 @@ export function chooseLayoutPolicy(signals: LayoutSignals): LayoutPolicy {
   if (
     signals.fragileHeaderBlock ||
     signals.singlePageCompressionRisk ||
-    signals.legacyQuotationMetaHeaderLine
+    (signals.denseMetaLine && signals.floatingTableRisk)
   ) {
     return "visual-fidelity-first";
   }
@@ -15,7 +15,25 @@ export function shouldRunStructuralPasses(signals: LayoutSignals): boolean {
   return signals.fakeCenterRisk || signals.floatingTableRisk;
 }
 
+export function shouldReconstructTitleBand(signals: LayoutSignals): boolean {
+  return signals.fakeCenterRisk && signals.denseMetaLine;
+}
+
+export function shouldRelocateMetaLineNearTable(signals: LayoutSignals): boolean {
+  return signals.fragileHeaderBlock && signals.floatingTableRisk && signals.denseMetaLine;
+}
+
+export function shouldUseLegacyQuotationCompat(signals: LayoutSignals): boolean {
+  return (
+    !signals.fragileHeaderBlock &&
+    !signals.singlePageCompressionRisk &&
+    signals.compatLegacyQuotationMetaHeaderLine
+  );
+}
+
 export function shouldDefloatTable(policy: LayoutPolicy, signals: LayoutSignals): boolean {
   if (!signals.floatingTableRisk) return false;
-  return policy === "faithful-single-page-preferred";
+  if (policy !== "faithful-single-page-preferred") return false;
+  if (shouldUseLegacyQuotationCompat(signals)) return false;
+  return true;
 }

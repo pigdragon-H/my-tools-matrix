@@ -6,7 +6,13 @@ import { pinAllCentresUniversal } from "./passes/pinCenteredParagraphs";
 import { fixTitleLine } from "./passes/reconstructTitleBand";
 import { moveAttnAboveTable } from "./passes/relocateMetaLineNearTable";
 import { defloatTable } from "./passes/applyFloatingTablePolicy";
-import { shouldDefloatTable, shouldRunStructuralPasses } from "./policy";
+import {
+  shouldDefloatTable,
+  shouldReconstructTitleBand,
+  shouldRelocateMetaLineNearTable,
+  shouldRunStructuralPasses,
+  shouldUseLegacyQuotationCompat,
+} from "./policy";
 import { looksLikeSafeStoryXml } from "./xml/safety";
 
 /**
@@ -44,8 +50,20 @@ export async function preprocessQuotationDocx(input: Buffer): Promise<Buffer> {
 
     xml = pinAllCentresUniversal(xml);
     xml = mergeFakeCentredTextLines(xml);
-    xml = fixTitleLine(xml);
-    xml = moveAttnAboveTable(xml);
+
+    if (
+      shouldReconstructTitleBand(initialContext.signals) ||
+      shouldUseLegacyQuotationCompat(initialContext.signals)
+    ) {
+      xml = fixTitleLine(xml);
+    }
+
+    if (
+      shouldRelocateMetaLineNearTable(initialContext.signals) ||
+      shouldUseLegacyQuotationCompat(initialContext.signals)
+    ) {
+      xml = moveAttnAboveTable(xml);
+    }
 
     const postStructureContext = buildLayoutContext(xml);
     if (shouldDefloatTable(postStructureContext.policy, postStructureContext.signals)) {
