@@ -108,6 +108,8 @@ function printHumanSummary(
   console.log(`archive status: ${result.reviewReport.archiveStatus}`);
   console.log(`verification status: ${result.reviewReport.verificationStatus}`);
   console.log(`overall status: ${result.reviewReport.overallStatus}`);
+  console.log(`rollback recommended: ${result.reviewReport.rollbackRecommended}`);
+  console.log(`rollback reason: ${result.reviewReport.rollbackReason}`);
   console.log(`manifest: ${result.promoteResult.manifestPath}`);
   console.log(`candidate manifest: ${result.promoteResult.candidateManifestPath}`);
   console.log(`backup manifest: ${result.promoteResult.backupManifestPath}`);

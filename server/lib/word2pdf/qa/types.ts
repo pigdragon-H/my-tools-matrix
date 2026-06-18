@@ -215,6 +215,25 @@ export interface PendingCorpusArchiveResult {
   blockingIssues: string[];
 }
 
+export interface PendingCorpusRollbackAssistantResult {
+  attempted: boolean;
+  rolledBack: boolean;
+  rollbackStatus: "rolled-back" | "blocked";
+  rollbackRecommended: boolean;
+  rollbackReason: string;
+  promoteResultJsonPath: string;
+  manifestPath: string;
+  candidateManifestPath: string;
+  backupManifestPath: string;
+  pendingDir: string;
+  archiveBatchDir: string;
+  restoredEntryCount: number;
+  restoredFileCount: number;
+  restoredEntries: PendingCorpusArchivedEntry[];
+  reviewNotes: string[];
+  blockingIssues: string[];
+}
+
 export interface PendingCorpusPromoteReviewReport {
   generatedAt: string;
   fixtureDir: string;
@@ -232,6 +251,8 @@ export interface PendingCorpusPromoteReviewReport {
   verificationRan: boolean;
   verificationStatus: "pass" | "fail" | "skipped";
   overallStatus: "pass" | "fail" | "blocked";
+  rollbackRecommended: boolean;
+  rollbackReason: string;
   readyCandidateCountAfterPromote: number;
   blockedCandidateCountAfterPromote: number;
   pendingDocxCountAfterPromote: number;

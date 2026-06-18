@@ -165,6 +165,15 @@ function renderReviewReportMarkdown(report: PendingCorpusPromoteReviewReport): s
   }
   lines.push("");
 
+  lines.push("## Rollback assistant");
+  lines.push("");
+  lines.push(`- Rollback recommended: ${report.rollbackRecommended}`);
+  lines.push(`- Rollback reason: ${report.rollbackReason}`);
+  if (report.rollbackRecommended) {
+    lines.push("- Suggested command: pnpm rollback:word2pdf-pending");
+  }
+  lines.push("");
+
   lines.push("## Promote decision");
   lines.push("");
   if (report.overallStatus === "pass") {
@@ -206,6 +215,15 @@ function buildReviewReport(args: {
       : regressionCiSummary?.ok
         ? "pass"
         : "fail";
+  const rollbackRecommended =
+    promoteResult.promoted && (!archiveHealthy || (verificationRan && regressionCiSummary?.ok === false));
+  const rollbackReason = !promoteResult.promoted
+    ? "source manifest was not promoted, so rollback is not needed"
+    : !archiveHealthy
+      ? "archive / corpus hygiene step failed after promote"
+      : verificationRan && regressionCiSummary?.ok === false
+        ? "post-promote regression gate failed"
+        : "promote closed loop passed cleanly";
 
   return {
     generatedAt: new Date().toISOString(),
@@ -224,6 +242,8 @@ function buildReviewReport(args: {
     verificationRan,
     verificationStatus,
     overallStatus,
+    rollbackRecommended,
+    rollbackReason,
     readyCandidateCountAfterPromote: pendingIntake.readyCandidateCount,
     blockedCandidateCountAfterPromote: pendingIntake.blockedCandidateCount,
     pendingDocxCountAfterPromote: pendingIntake.docxCount,

@@ -12,6 +12,7 @@ export { applyPendingManifestPatchAssistant } from "./qa/applyPendingManifestPat
 export { archivePromotedPendingSamplesAssistant } from "./qa/archivePromotedPendingSamples";
 export { promotePendingManifestCandidateAssistant } from "./qa/promotePendingManifestCandidate";
 export { promotePendingManifestClosedLoopAssistant } from "./qa/promotePendingManifestClosedLoop";
+export { rollbackPromotedPendingManifestAssistant } from "./qa/rollbackPromotedPendingManifest";
 export type {
   LayoutContext,
   LayoutPolicy,
@@ -29,6 +30,7 @@ export type {
   PendingCorpusPromoteAssistantResult,
   PendingCorpusPromoteClosedLoopResult,
   PendingCorpusPromoteReviewReport,
+  PendingCorpusRollbackAssistantResult,
   PendingCorpusSuggestedEntry,
   PreprocessChangeReport,
   PreprocessPassDecisions,
