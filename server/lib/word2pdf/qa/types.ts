@@ -271,6 +271,41 @@ export interface PendingCorpusPromoteClosedLoopResult {
   reviewReportMarkdown: string;
 }
 
+export interface PendingCorpusRollbackReviewReport {
+  generatedAt: string;
+  fixtureDir: string;
+  promoteResultJsonPath: string;
+  manifestPath: string;
+  candidateManifestPath: string;
+  backupManifestPath: string;
+  archiveBatchDir: string;
+  attempted: boolean;
+  rolledBack: boolean;
+  rollbackStatus: "rolled-back" | "blocked";
+  rollbackRecommended: boolean;
+  rollbackReason: string;
+  restoredEntryCount: number;
+  restoredFileCount: number;
+  verificationRan: boolean;
+  verificationStatus: "pass" | "fail" | "skipped";
+  overallStatus: "pass" | "fail" | "blocked";
+  readyCandidateCountAfterRollback: number;
+  blockedCandidateCountAfterRollback: number;
+  pendingDocxCountAfterRollback: number;
+  pendingPdfCountAfterRollback: number;
+  reviewNotes: string[];
+  blockingIssues: string[];
+  regressionCiSummary: RegressionCiSummary | null;
+}
+
+export interface PendingCorpusRollbackClosedLoopResult {
+  rollbackResult: PendingCorpusRollbackAssistantResult;
+  regressionResult: RegressionSuiteResult | null;
+  pendingIntake: PendingCorpusIntakeResult;
+  reviewReport: PendingCorpusRollbackReviewReport;
+  reviewReportMarkdown: string;
+}
+
 export interface RegressionSuiteResult {
   startedAt: string;
   fixtureDir: string;
