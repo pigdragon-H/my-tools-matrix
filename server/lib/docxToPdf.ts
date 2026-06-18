@@ -21,7 +21,7 @@ import { spawn } from "node:child_process";
 import { mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
 import path from "node:path";
 import os from "node:os";
-import { preprocessQuotationDocx } from "./docxPreprocess";
+import { preprocessQuotationDocx } from "./word2pdf";
 import { ensureCjkFonts } from "./fontSetup";
 
 export interface ConvertResult {
