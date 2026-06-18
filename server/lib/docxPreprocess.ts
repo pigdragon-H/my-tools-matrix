@@ -129,7 +129,13 @@ export async function preprocessQuotationDocx(input: Buffer): Promise<Buffer> {
     // ATTN-after-float-table ordering, and anchored/floating tables.
     xml = fixTitleLine(xml);
     xml = moveAttnAboveTable(xml);
-    xml = defloatTable(xml);
+    // Smallpdf-like mode for quotation headers: if a quotation metadata line
+    // explicitly contains ATTN + 有效日期 + 幣別, preserve the table float so
+    // pagination can expand naturally instead of forcing a tighter single-page
+    // in-flow layout that makes the ATTN line look visually indented.
+    if (!hasQuotationMetaHeaderLine(xml)) {
+      xml = defloatTable(xml);
+    }
 
     if (!looksLikeSafeStoryXml(xml)) {
       xml = afterGrid;
@@ -661,6 +667,25 @@ function moveAttnAboveTable(xml: string): string {
   return (
     withoutAttn.slice(0, qtblStart2) + attnP + withoutAttn.slice(qtblStart2)
   );
+}
+
+
+function hasQuotationMetaHeaderLine(xml: string): boolean {
+  for (const p of xml.matchAll(/<w:p\b[^>]*>([\s\S]*?)<\/w:p>/g)) {
+    const para = p[1] ?? "";
+    let visible = "";
+    for (const m of para.matchAll(/<w:t[^>]*>([\s\S]*?)<\/w:t>/g)) {
+      visible += unescapeXml(m[1] ?? "");
+    }
+    if (
+      visible.includes("ATTN") &&
+      visible.includes("有效日期") &&
+      visible.includes("幣別")
+    ) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /** STEP 3 — de-float the pricing table by stripping <w:tblpPr>. */
