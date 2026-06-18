@@ -186,6 +186,35 @@ export interface PendingCorpusIntakeResult {
   manifestPatch: PendingCorpusManifestPatch;
 }
 
+export interface PendingCorpusArchivedEntry {
+  id: string;
+  sourceFixturePath: string;
+  archivedFixturePath: string;
+  sourceFixtureRef: string;
+  archivedFixtureRef: string;
+  sourceReferencePdfPaths: string[];
+  archivedReferencePdfPaths: string[];
+  sourceReferencePdfRefs: string[];
+  archivedReferencePdfRefs: string[];
+}
+
+export interface PendingCorpusArchiveResult {
+  attempted: boolean;
+  archived: boolean;
+  archiveStatus: "skipped" | "archived" | "blocked";
+  archiveRoot: string;
+  archiveBatchDir: string;
+  manifestPath: string;
+  candidateManifestPath: string;
+  pendingDir: string;
+  archivedEntryCount: number;
+  archivedFileCount: number;
+  archivedEntries: PendingCorpusArchivedEntry[];
+  pendingDirEmpty: boolean;
+  reviewNotes: string[];
+  blockingIssues: string[];
+}
+
 export interface PendingCorpusPromoteReviewReport {
   generatedAt: string;
   fixtureDir: string;
@@ -195,6 +224,11 @@ export interface PendingCorpusPromoteReviewReport {
   ready: boolean;
   promoted: boolean;
   promoteStatus: "blocked" | "promoted" | "already-promoted";
+  archiveStatus: "skipped" | "archived" | "blocked";
+  archiveBatchDir: string;
+  archivedEntryCount: number;
+  archivedFileCount: number;
+  pendingDirEmpty: boolean;
   verificationRan: boolean;
   verificationStatus: "pass" | "fail" | "skipped";
   overallStatus: "pass" | "fail" | "blocked";
@@ -209,6 +243,7 @@ export interface PendingCorpusPromoteReviewReport {
 
 export interface PendingCorpusPromoteClosedLoopResult {
   promoteResult: PendingCorpusPromoteAssistantResult;
+  archiveResult: PendingCorpusArchiveResult;
   regressionResult: RegressionSuiteResult | null;
   pendingIntake: PendingCorpusIntakeResult;
   reviewReport: PendingCorpusPromoteReviewReport;

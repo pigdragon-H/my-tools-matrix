@@ -105,13 +105,17 @@ function printHumanSummary(
   console.log(`ready: ${result.promoteResult.ready}`);
   console.log(`promoted: ${result.promoteResult.promoted}`);
   console.log(`promote status: ${result.reviewReport.promoteStatus}`);
+  console.log(`archive status: ${result.reviewReport.archiveStatus}`);
   console.log(`verification status: ${result.reviewReport.verificationStatus}`);
   console.log(`overall status: ${result.reviewReport.overallStatus}`);
   console.log(`manifest: ${result.promoteResult.manifestPath}`);
   console.log(`candidate manifest: ${result.promoteResult.candidateManifestPath}`);
   console.log(`backup manifest: ${result.promoteResult.backupManifestPath}`);
-  if (result.promoteResult.reviewNotes.length > 0) {
-    console.log(`review notes: ${result.promoteResult.reviewNotes.join("; ")}`);
+  console.log(
+    `archive hygiene: entries=${result.archiveResult.archivedEntryCount} files=${result.archiveResult.archivedFileCount} pendingDirEmpty=${result.archiveResult.pendingDirEmpty}`,
+  );
+  if (result.reviewReport.reviewNotes.length > 0) {
+    console.log(`review notes: ${result.reviewReport.reviewNotes.join("; ")}`);
   }
   if (result.promoteResult.blockingIssues.length > 0) {
     console.log(`blocking issues: ${result.promoteResult.blockingIssues.join("; ")}`);

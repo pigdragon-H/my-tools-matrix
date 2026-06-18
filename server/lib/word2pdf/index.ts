@@ -9,6 +9,7 @@ export { evaluateRegressionReport } from "./qa/regressionRunner";
 export { executeRegressionSuite } from "./qa/executeRegressionSuite";
 export { scanPendingCorpusIntake } from "./qa/pendingCorpusIntake";
 export { applyPendingManifestPatchAssistant } from "./qa/applyPendingManifestPatch";
+export { archivePromotedPendingSamplesAssistant } from "./qa/archivePromotedPendingSamples";
 export { promotePendingManifestCandidateAssistant } from "./qa/promotePendingManifestCandidate";
 export { promotePendingManifestClosedLoopAssistant } from "./qa/promotePendingManifestClosedLoop";
 export type {
@@ -21,6 +22,8 @@ export type {
   ExtractedSignalCounts,
   PendingCorpusCandidate,
   PendingCorpusApplyAssistantResult,
+  PendingCorpusArchiveResult,
+  PendingCorpusArchivedEntry,
   PendingCorpusIntakeResult,
   PendingCorpusManifestPatch,
   PendingCorpusPromoteAssistantResult,
