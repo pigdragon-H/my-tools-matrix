@@ -8,6 +8,7 @@ export { REGRESSION_CORPUS } from "./qa/regressionCorpus";
 export { evaluateRegressionReport } from "./qa/regressionRunner";
 export { executeRegressionSuite } from "./qa/executeRegressionSuite";
 export { scanPendingCorpusIntake } from "./qa/pendingCorpusIntake";
+export { applyPendingManifestPatchAssistant } from "./qa/applyPendingManifestPatch";
 export type {
   LayoutContext,
   LayoutPolicy,
@@ -17,6 +18,7 @@ export type {
 export type {
   ExtractedSignalCounts,
   PendingCorpusCandidate,
+  PendingCorpusApplyAssistantResult,
   PendingCorpusIntakeResult,
   PendingCorpusManifestPatch,
   PendingCorpusSuggestedEntry,

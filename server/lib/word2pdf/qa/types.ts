@@ -156,6 +156,15 @@ export interface PendingCorpusManifestPatch {
   patchedSource: string;
 }
 
+export interface PendingCorpusApplyAssistantResult {
+  ready: boolean;
+  applied: boolean;
+  manifestPath: string;
+  candidateManifestPath: string;
+  reviewNotes: string[];
+  blockingIssues: string[];
+}
+
 export interface PendingCorpusIntakeResult {
   pendingDir: string;
   docxCount: number;
