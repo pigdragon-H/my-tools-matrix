@@ -33,7 +33,8 @@
     "test:word2pdf-regression": "tsx scripts/word2pdf-regression.ts",
     "intake:word2pdf-pending": "tsx scripts/word2pdf-pending-intake.ts",
     "onboard:word2pdf-pending": "tsx scripts/word2pdf-pending-intake.ts --snippet-out tmp/word2pdf-regression/pending-corpus-snippets.tsfrag --patch-out tmp/word2pdf-regression/pending-corpus-manifest.patch --patched-manifest-out tmp/word2pdf-regression/pending-regressionCorpus.preview.ts",
-    "apply:word2pdf-pending": "tsx scripts/word2pdf-apply-pending-manifest.ts --candidate-manifest-out tmp/word2pdf-regression/candidate-regressionCorpus.ts --json-out tmp/word2pdf-regression/apply-pending-manifest.json"
+    "apply:word2pdf-pending": "tsx scripts/word2pdf-apply-pending-manifest.ts --candidate-manifest-out tmp/word2pdf-regression/candidate-regressionCorpus.ts --json-out tmp/word2pdf-regression/apply-pending-manifest.json",
+    "promote:word2pdf-pending": "tsx scripts/word2pdf-promote-pending-manifest.ts --candidate-manifest-in tmp/word2pdf-regression/candidate-regressionCorpus.ts --backup-manifest-out tmp/word2pdf-regression/backups/regressionCorpus.promoted.backup.ts --json-out tmp/word2pdf-regression/promote-pending-manifest.json"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",
