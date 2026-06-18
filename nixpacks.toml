@@ -20,10 +20,6 @@ nixPkgs = ["nodejs_20"]
 aptPkgs = [
   "libreoffice-writer",
   "libreoffice-core",
-  # PDF -> Word needs the Draw PDF import filter (libreoffice-draw) so
-  # `--infilter=writer_pdf_import` is available; without it the .docx export
-  # falls back to a blank document.
-  "libreoffice-draw",
   "fonts-noto-cjk",
   "fonts-noto-cjk-extra",
   "fonts-wqy-zenhei",
@@ -32,31 +28,4 @@ aptPkgs = [
   "fonts-cns11643-kai",
   "fonts-cns11643-sung",
   "fontconfig",
-  # poppler-utils: pdftotext (text-layer detection), pdfinfo (page count),
-  # pdftoppm (rasterise for OCR), pdfunite (merge OCR pages).
-  "poppler-utils",
-  # tesseract OCR for scanned / image-only PDFs (no text layer). Traditional +
-  # Simplified Chinese + English language data so CJK scans are recognised.
-  "tesseract-ocr",
-  "tesseract-ocr-chi-tra",
-  "tesseract-ocr-chi-sim",
-  "tesseract-ocr-eng",
-  # PDF -> Word PRIMARY engine: pdf2docx (Python). Performs semantic
-  # reconstruction (real paragraphs + real tables + real embedded images) so
-  # the .docx opens faithfully in Microsoft Word, unlike LibreOffice's
-  # floating-text-box output. Needs python3 + pip + build headers for PyMuPDF.
-  "python3",
-  "python3-pip",
-  "python3-dev",
-  "build-essential",
-]
-
-# Install the pdf2docx Python engine (PyMuPDF / python-docx) in a dedicated
-# phase that runs AFTER the auto-detected Node install, so we don't disturb
-# pnpm dependency resolution. `--break-system-packages` is required on
-# Debian's externally-managed Python environment.
-[phases.pyengine]
-dependsOn = ["install"]
-cmds = [
-  "python3 -m pip install --break-system-packages --no-cache-dir 'pdf2docx==0.5.8'",
 ]

@@ -5189,36 +5189,6 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
-  {
-    id: "pdf-to-markdown",
-    name: "PDF 轉 Markdown",
-    category: "converter",
-    path: "/tools/converter/pdf-to-markdown",
-    icon: "FileCode2",
-    description: "免費線上 PDF 轉 Markdown，瀏覽器執行，適合 AI 知識庫建立與 RAG 前處理",
-    isPremium: false,
-    showAds: true,
-    rateLimit: 10,
-    isNew: true,
-    isFeatured: true,
-    status: "GOLD",
-    seoArticles: [],
-  },
-  {
-    id: "pdf-to-word",
-    name: "PDF 轉 Word",
-    category: "converter",
-    path: "/tools/converter/pdf-to-word",
-    icon: "FileType2",
-    description: "免費線上 PDF 轉 Word（.docx），自動偵測文字層，掃描／圖片 PDF 內建 OCR 中文辨識，輸出可編輯文件",
-    isPremium: false,
-    showAds: true,
-    rateLimit: 10,
-    isNew: true,
-    isFeatured: true,
-    status: "GOLD",
-    seoArticles: [],
-  },
 ];
 
 // ============================================================
@@ -5607,6 +5577,4 @@ export const astrologyCalculatorEdu = { id: "astrology-calculator-edu", category
 export const cpmCalculator = { id: "cpm-calculator", category: "ecommerce", name: "CPM Calculator", path: "/tools/ecommerce/cpm-calculator" };
 export const cpcCalculator = { id: "cpc-calculator", category: "finance", name: "CPC Calculator", path: "/tools/finance/cpc-calculator" };
 export const wordToPdf = { id: "word-to-pdf", category: "converter", name: "Word 轉 PDF", path: "/tools/converter/word-to-pdf" };
-export const pdfToWord = { id: "pdf-to-word", category: "converter", name: "PDF 轉 Word", path: "/tools/converter/pdf-to-word" };
-export const pdfToMarkdown = { id: "pdf-to-markdown", category: "converter", name: "PDF 轉 Markdown", path: "/tools/converter/pdf-to-markdown" };
 /* === SAFE ZONE END === */

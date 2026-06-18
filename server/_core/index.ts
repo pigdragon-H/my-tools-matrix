@@ -9,7 +9,6 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { supabaseService } from "../lib/supabaseAdmin";
 import { convertWordToPdf } from "../lib/docxToPdf";
-import { convertPdfToWord } from "../lib/pdfToWord";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -155,73 +154,6 @@ app.post(
       res
         .status(500)
         .json({ error: e instanceof Error ? e.message : String(e) });
-    }
-  }
-);
-
-// ------------------------------------------------------------
-// PDF → Word (.docx) conversion (LibreOffice headless + OCR fallback)
-// ------------------------------------------------------------
-// The client POSTs the raw .pdf bytes (Content-Type: application/octet-stream)
-// with the original filename in the `x-filename` header. We auto-detect a text
-// layer; image/scanned PDFs are routed through tesseract OCR. The response is a
-// .docx stream. X-Conversion-Mode = "text" | "ocr"; X-Pdf-Pages = page count.
-app.post(
-  "/api/convert/pdf-to-word",
-  express.raw({ type: "*/*", limit: "25mb" }),
-  async (req, res) => {
-    try {
-      const body = req.body as Buffer;
-      if (!Buffer.isBuffer(body) || body.length === 0) {
-        return res.status(400).json({ error: "Empty request body" });
-      }
-      const rawName =
-        (req.headers["x-filename"] as string | undefined) || "document.pdf";
-      const originalName = decodeURIComponent(rawName).replace(/[^\w.\- ]+/g, "_");
-      const docxName = originalName.replace(/\.pdf$/i, "") + ".docx";
-
-      // Single faithful engine: pdf2docx semantic reconstruction (real
-      // paragraphs + real tables + real embedded images, opens correctly in
-      // Microsoft Word). LibreOffice is used only as an internal fallback.
-      const { docx, ms, mode, pages, engine, fidelity } = await convertPdfToWord(
-        body,
-        originalName
-      );
-      res.setHeader(
-        "Content-Type",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      );
-      res.setHeader("X-Conversion-Ms", String(ms));
-      res.setHeader("X-Conversion-Mode", mode);
-      res.setHeader("X-Conversion-Engine", engine);
-      res.setHeader("X-Pdf-Pages", String(pages));
-      if (fidelity) {
-        // Surface the multi-candidate calibration report to the client.
-        res.setHeader("X-Fidelity-Score", String(fidelity.final_score ?? ""));
-        res.setHeader("X-Fidelity-Passes", String(fidelity.passes));
-        res.setHeader("X-Fidelity-Repairs",
-          `img:${fidelity.images_reattached},border:${fidelity.borders_added},fill:${fidelity.fills_corrected}`);
-        // calibration: candidates, kept (within RELATIVE gate), which chosen
-        res.setHeader("X-Fidelity-Candidates", String(fidelity.candidates ?? fidelity.passes));
-        res.setHeader("X-Fidelity-Kept", String(fidelity.kept_count ?? ""));
-        res.setHeader("X-Fidelity-Chosen", String(fidelity.chosen_n ?? ""));
-        res.setHeader("X-Fidelity-Threshold", String(fidelity.kept_threshold ?? 95));
-        // relative threshold semantics (within keep_ratio of the best score)
-        res.setHeader("X-Fidelity-KeepRatio", String(fidelity.keep_ratio ?? ""));
-        res.setHeader("X-Fidelity-BestScore", String(fidelity.best_score ?? ""));
-        res.setHeader("X-Fidelity-Relative", String(fidelity.relative_threshold ?? false));
-      }
-      res.setHeader(
-        "Content-Disposition",
-        `attachment; filename="${encodeURIComponent(docxName)}"`
-      );
-      res.send(docx);
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
-      console.error("[pdf-to-word] conversion failed:", msg);
-      // Map known engine errors to a 422 so the client can show a friendly hint.
-      const isUserError = /INVALID_PDF|OCR_NO_TEXT|OCR_FAILED/.test(msg);
-      res.status(isUserError ? 422 : 500).json({ error: msg });
     }
   }
 );

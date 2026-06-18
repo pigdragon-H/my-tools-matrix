@@ -405,10 +405,7 @@ const ui = {
       { q: "密碼保護的文件可以轉換嗎？", a: "無法。請先在 Word 中移除密碼保護（檔案 → 資訊 → 保護文件 → 以密碼加密 → 清除密碼），再上傳轉換。" },
     ],
     relatedTitle: "相關轉換工具",
-    related: [
-      { name: "PDF 轉 Markdown", path: "/tools/converter/pdf-to-markdown", desc: "PDF 轉為 AI 可讀的 Markdown 格式" },
-      { name: "PDF 轉 Word", path: "/tools/converter/pdf-to-word", desc: "PDF 還原為可編輯的 Word 文件" },
-    ],
+    related: [],
     poweredBy: "本工具採用開源技術：mammoth.js（BSD-2）· pdfmake（MIT）· Noto Fonts（OFL）",
   },
   en: {
@@ -472,10 +469,7 @@ const ui = {
       { q: "Can I convert a password-protected document?", a: "No. Please remove the password in Word first (File → Info → Protect Document → Encrypt with Password → clear the password), then upload." },
     ],
     relatedTitle: "Related Converter Tools",
-    related: [
-      { name: "PDF to Markdown", path: "/tools/converter/pdf-to-markdown", desc: "Convert PDF to AI-ready Markdown format" },
-      { name: "PDF to Word", path: "/tools/converter/pdf-to-word", desc: "Restore PDF to editable Word document" },
-    ],
+    related: [],
     poweredBy: "Powered by open-source: mammoth.js (BSD-2) · pdfmake (MIT) · Noto Fonts (OFL)",
   },
 } as const;
