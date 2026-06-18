@@ -165,6 +165,16 @@ export interface PendingCorpusApplyAssistantResult {
   blockingIssues: string[];
 }
 
+export interface PendingCorpusPromoteAssistantResult {
+  ready: boolean;
+  promoted: boolean;
+  manifestPath: string;
+  candidateManifestPath: string;
+  backupManifestPath: string;
+  reviewNotes: string[];
+  blockingIssues: string[];
+}
+
 export interface PendingCorpusIntakeResult {
   pendingDir: string;
   docxCount: number;
@@ -174,6 +184,35 @@ export interface PendingCorpusIntakeResult {
   candidates: PendingCorpusCandidate[];
   combinedCorpusEntrySnippet: string;
   manifestPatch: PendingCorpusManifestPatch;
+}
+
+export interface PendingCorpusPromoteReviewReport {
+  generatedAt: string;
+  fixtureDir: string;
+  manifestPath: string;
+  candidateManifestPath: string;
+  backupManifestPath: string;
+  ready: boolean;
+  promoted: boolean;
+  promoteStatus: "blocked" | "promoted" | "already-promoted";
+  verificationRan: boolean;
+  verificationStatus: "pass" | "fail" | "skipped";
+  overallStatus: "pass" | "fail" | "blocked";
+  readyCandidateCountAfterPromote: number;
+  blockedCandidateCountAfterPromote: number;
+  pendingDocxCountAfterPromote: number;
+  pendingPdfCountAfterPromote: number;
+  reviewNotes: string[];
+  blockingIssues: string[];
+  regressionCiSummary: RegressionCiSummary | null;
+}
+
+export interface PendingCorpusPromoteClosedLoopResult {
+  promoteResult: PendingCorpusPromoteAssistantResult;
+  regressionResult: RegressionSuiteResult | null;
+  pendingIntake: PendingCorpusIntakeResult;
+  reviewReport: PendingCorpusPromoteReviewReport;
+  reviewReportMarkdown: string;
 }
 
 export interface RegressionSuiteResult {

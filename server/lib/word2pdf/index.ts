@@ -10,6 +10,7 @@ export { executeRegressionSuite } from "./qa/executeRegressionSuite";
 export { scanPendingCorpusIntake } from "./qa/pendingCorpusIntake";
 export { applyPendingManifestPatchAssistant } from "./qa/applyPendingManifestPatch";
 export { promotePendingManifestCandidateAssistant } from "./qa/promotePendingManifestCandidate";
+export { promotePendingManifestClosedLoopAssistant } from "./qa/promotePendingManifestClosedLoop";
 export type {
   LayoutContext,
   LayoutPolicy,
@@ -23,6 +24,8 @@ export type {
   PendingCorpusIntakeResult,
   PendingCorpusManifestPatch,
   PendingCorpusPromoteAssistantResult,
+  PendingCorpusPromoteClosedLoopResult,
+  PendingCorpusPromoteReviewReport,
   PendingCorpusSuggestedEntry,
   PreprocessChangeReport,
   PreprocessPassDecisions,
