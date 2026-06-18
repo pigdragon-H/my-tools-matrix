@@ -288,19 +288,21 @@ function parsePageGeom(xml: string): PageGeom {
   return { pageW, marL, marR, contentW, contentCentre: marL + contentW / 2 };
 }
 
-/** Width of one fake-centre space in twips (approx half-width space at 12pt). */
-const SPACE_TWIPS = 60; // ~ one space advance; used only for centre estimation
-
 /**
- * UNIVERSAL: scan every paragraph; if it was fake-centred with leading/trailing
- * spaces (and is not already a real table cell title we rebuild elsewhere),
- * convert it to a genuinely centred paragraph pinned to the ORIGINAL centre.
+ * UNIVERSAL: scan every paragraph; if it was fake-centred with SYMMETRIC
+ * leading+trailing spaces (lead ~= trail), convert it to a genuinely centred
+ * paragraph with a real <w:jc w:val="center"/>. This is the ONLY transform we
+ * apply here, and it uses NO magic coefficient -- centring is font-agnostic by
+ * definition.
  *
- * The original centre = contentCentre + (lead - trail) * spaceWidth / 2, i.e.
- * the visual centre Word produced. We realise it with <w:jc w:val="center"/>
- * plus a left indent of (lead - trail) * spaceWidth so the centred line's
- * midpoint lands on that same spot -- independent of the substitute font's
- * own space width. Font size is left untouched (faithful).
+ * Paragraphs that are NOT symmetrically padded -- e.g. an inline image placed
+ * at a SPECIFIC horizontal spot with LEFT-only padding (lead >> trail, the
+ * signature case) -- are LEFT COMPLETELY UNTOUCHED (原封不動). We never invent a
+ * left-indent from a guessed space width, because a space's width depends on
+ * the actual font + render engine; any fixed factor would fit one document and
+ * break others (後遺症). Engine space-width differences are addressed at the
+ * FONT layer (fontSetup.ts metric-compatible substitution), never by rewriting
+ * document content with magic numbers.
  */
 function pinAllCentresUniversal(xml: string): string {
   const geom = parsePageGeom(xml);
@@ -330,33 +332,43 @@ function pinParagraphCentre(para: string, geom: PageGeom): string {
   }
   const lead = visible.length - visible.replace(/^ +/, "").length;
   const trail = visible.length - visible.replace(/ +$/, "").length;
-  const core = visible.trim();
 
   // Detect existing alignment.
   const pPr = (para.match(/<w:pPr>([\s\S]*?)<\/w:pPr>/) || [, ""])[1];
   const jc = (pPr.match(/<w:jc w:val="([^"]+)"/) || [])[1] || null;
 
-  // Decide whether this paragraph is "centred" in intent:
-  //  - inline drawing with heavy leading padding (logo/signature), OR
-  //  - text with >=6 leading/trailing fake spaces, OR
-  //  - already jc=center.
-  const fakeCentred =
-    (hasDrawing && lead >= 6) ||
-    (core.length > 0 && (lead >= 6 || trail >= 6));
-  if (jc !== "center" && !fakeCentred) return para;
+  // ── Distinguish CENTRE intent from LEFT/RIGHT-POSITION intent ──────────────
+  // Word uses literal spaces in two distinct ways:
+  //   • CENTRED        — padded on BOTH sides (lead ≈ trail). The author wants
+  //                      the element on the content-column centre. We reproduce
+  //                      this with a genuine <w:jc w:val="center"/>: font-agnostic,
+  //                      needs NO magic coefficient, and is the faithful intent.
+  //   • POSITIONED     — padded on ONE side only (lead ≫ trail, or trail ≫ lead).
+  //                      The author wants the element at a SPECIFIC horizontal
+  //                      spot, NOT the centre (the signature is left-positioned).
+  //                      We MUST NOT centre it (that is the "drifts to middle"
+  //                      bug) and we MUST NOT convert its spaces to an indent via
+  //                      any guessed space width (that is hardcoding). The only
+  //                      faithful, zero-hardcode action is to leave it UNTOUCHED.
+  //
+  // "Symmetric" = both sides padded and roughly equal. We use a relative test
+  // (the smaller side is a substantial fraction of the larger) so it scales with
+  // any padding amount and needs no absolute magic constant.
+  const maxPad = Math.max(lead, trail);
+  const minPad = Math.min(lead, trail);
+  const symmetric = minPad >= 6 && minPad >= maxPad * 0.5;
 
-  // The leading/trailing spaces WERE Word's centring mechanism. Replacing them
-  // with a genuine <w:jc w:val="center"/> reproduces the SAME intent and pins
-  // the element to the content-column centre independent of any font's space
-  // width -- this is the faithful, font-agnostic centre. We deliberately add NO
-  // extra indent for fake-centred lines (adding indent would double-shift).
-  // A line that is fake-centred ASYMMETRICALLY (e.g. only trailing spaces, an
-  // intentional left-of-centre bias) keeps a proportional nudge so we don't
-  // force a truly off-centre element to the middle.
-  const asymmetric = Math.abs(lead - trail) > 4 && Math.min(lead, trail) >= 4;
-  const bias = asymmetric ? ((lead - trail) * SPACE_TWIPS) / 2 : 0;
-  const indL = Math.max(0, Math.round(2 * Math.max(0, bias)));
-  const indR = Math.max(0, Math.round(2 * Math.max(0, -bias)));
+  // Already-real centring (jc=center authored in the doc) we keep as centre.
+  // Otherwise we only act on SYMMETRICALLY space-padded paragraphs.
+  const centreIntent = jc === "center" || symmetric;
+  if (!centreIntent) {
+    // Left/right-positioned, or not space-centred at all → 原封不動.
+    return para;
+  }
+
+  // No indent is ever synthesised. Centring alone is font-independent.
+  const indL = 0;
+  const indR = 0;
 
   // Strip the fake leading/trailing space-only runs (keep drawing runs + text).
   const newRuns = runs
