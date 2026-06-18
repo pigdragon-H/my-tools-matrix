@@ -103,6 +103,12 @@ function printHumanSummary(
   if (result.reviewReport.reviewNotes.length > 0) {
     console.log(`review notes: ${result.reviewReport.reviewNotes.join("; ")}`);
   }
+  console.log(`repair checklist: ${result.reviewReport.repairChecklist.length} open item(s)`);
+  if (result.reviewReport.repairChecklist.length > 0) {
+    for (const item of result.reviewReport.repairChecklist) {
+      console.log(`- [${item.severity}/${item.category}] ${item.caseId}: ${item.summary}`);
+    }
+  }
   if (result.rollbackResult.blockingIssues.length > 0) {
     console.log(`blocking issues: ${result.rollbackResult.blockingIssues.join("; ")}`);
   }

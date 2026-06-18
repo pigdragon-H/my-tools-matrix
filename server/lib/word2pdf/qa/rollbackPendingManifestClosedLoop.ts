@@ -4,11 +4,14 @@ import path from "node:path";
 import { scanPendingCorpusIntake } from "./pendingCorpusIntake";
 import { rollbackPromotedPendingManifestAssistant } from "./rollbackPromotedPendingManifest";
 import type {
+  PendingCorpusIntakeResult,
   PendingCorpusPromoteClosedLoopResult,
+  PendingCorpusRepairChecklistItem,
   PendingCorpusRollbackClosedLoopResult,
   PendingCorpusRollbackReviewReport,
   RegressionCiSummary,
   RegressionHotCount,
+  RegressionSuiteCaseResult,
   RegressionSuiteResult,
 } from "./types";
 
@@ -29,6 +32,27 @@ function renderHighestRiskCases(items: Array<{ id: string; score: number }>): st
     return "(none)";
   }
   return items.map((item) => `${item.id}(${item.score})`).join(", ");
+}
+
+function renderRepairChecklistCategory(category: PendingCorpusRepairChecklistItem["category"]): string {
+  switch (category) {
+    case "missing-fixture":
+      return "missing fixture";
+    case "missing-reference-pdf":
+      return "missing reference PDF";
+    case "missing-expected-note":
+      return "missing expected note";
+    case "failed-assertion":
+      return "failed assertion";
+    case "pending-candidate-blocker":
+      return "pending candidate blocker";
+    default:
+      return category;
+  }
+}
+
+function renderStringArray(items: string[]): string {
+  return items.length > 0 ? items.join(", ") : "(none)";
 }
 
 function runFreshRegressionSuite(args: {
@@ -75,6 +99,151 @@ async function loadPromoteResultJson(
 ): Promise<PendingCorpusPromoteClosedLoopResult> {
   const source = await readFile(promoteResultJsonPath, "utf8");
   return JSON.parse(source) as PendingCorpusPromoteClosedLoopResult;
+}
+
+function buildCaseRepairChecklistItems(result: RegressionSuiteCaseResult): PendingCorpusRepairChecklistItem[] {
+  const items: PendingCorpusRepairChecklistItem[] = [];
+  const base = {
+    caseId: result.entry.id,
+    family: result.entry.family,
+    fixtureRef: result.entry.fixtureRef,
+    fixturePath: result.fixturePath,
+    referencePdfRefs: result.entry.referencePdfRefs ?? [],
+    referencePdfPaths: result.referencePdfPaths,
+  };
+
+  if (result.missingFixture) {
+    items.push({
+      itemId: `${result.entry.id}:missing-fixture`,
+      severity: "high",
+      category: "missing-fixture",
+      ...base,
+      missingPaths: [result.fixturePath],
+      missingExpectedNotes: [],
+      failedAssertions: [],
+      blockingIssues: [],
+      summary: `restore the regression fixture for ${result.entry.id}`,
+      manualAction:
+        "Restore the missing DOCX fixture at the recorded fixture path, or update regressionCorpus.ts if the canonical fixture was intentionally moved.",
+    });
+  }
+
+  if (result.missingReferencePdfs.length > 0) {
+    items.push({
+      itemId: `${result.entry.id}:missing-reference-pdf`,
+      severity: "high",
+      category: "missing-reference-pdf",
+      ...base,
+      missingPaths: [...result.missingReferencePdfs],
+      missingExpectedNotes: [],
+      failedAssertions: [],
+      blockingIssues: [],
+      summary: `restore or relink ${result.missingReferencePdfs.length} missing reference PDF(s) for ${result.entry.id}`,
+      manualAction:
+        "Restore the missing reference PDF files under the expected fixture directory, or update referencePdfRefs in regressionCorpus.ts if the canonical reference moved.",
+    });
+  }
+
+  if (result.missingExpectedNotes.length > 0) {
+    items.push({
+      itemId: `${result.entry.id}:missing-expected-note`,
+      severity: "medium",
+      category: "missing-expected-note",
+      ...base,
+      missingPaths: [],
+      missingExpectedNotes: [...result.missingExpectedNotes],
+      failedAssertions: [],
+      blockingIssues: [],
+      summary: `reconcile ${result.missingExpectedNotes.length} missing expected note(s) for ${result.entry.id}`,
+      manualAction:
+        "Compare the current preprocess report notes with expectedNotes in regressionCorpus.ts, then either restore the lost signal/note in the pipeline or consciously update expectedNotes if the expectation changed.",
+    });
+  }
+
+  const failedAssertions = result.assertions
+    .filter((item) => !item.passed)
+    .map((item) => `${item.code}: ${item.detail}`);
+  if (failedAssertions.length > 0) {
+    items.push({
+      itemId: `${result.entry.id}:failed-assertion`,
+      severity: "medium",
+      category: "failed-assertion",
+      ...base,
+      missingPaths: [],
+      missingExpectedNotes: [],
+      failedAssertions,
+      blockingIssues: [],
+      summary: `inspect ${failedAssertions.length} failed regression assertion(s) for ${result.entry.id}`,
+      manualAction:
+        "Inspect the generated output against the reference PDF and fix the layout pipeline; only update regression expectations if the visual baseline was intentionally redefined.",
+    });
+  }
+
+  if (
+    !result.passed &&
+    items.length === 0 &&
+    !result.report &&
+    !result.missingFixture &&
+    result.missingReferencePdfs.length === 0 &&
+    result.missingExpectedNotes.length === 0
+  ) {
+    items.push({
+      itemId: `${result.entry.id}:failed-without-report`,
+      severity: "high",
+      category: "failed-assertion",
+      ...base,
+      missingPaths: [],
+      missingExpectedNotes: [],
+      failedAssertions: ["no preprocess change report was produced"],
+      blockingIssues: [],
+      summary: `inspect why ${result.entry.id} failed without a preprocess report`,
+      manualAction:
+        "Reproduce the case locally and inspect why preprocessQuotationDocxWithReport did not yield a report before adjusting corpus expectations.",
+    });
+  }
+
+  return items;
+}
+
+function buildPendingCandidateRepairChecklistItems(
+  pendingIntake: PendingCorpusIntakeResult,
+): PendingCorpusRepairChecklistItem[] {
+  return pendingIntake.candidates
+    .filter((candidate) => candidate.blockingIssues.length > 0)
+    .map((candidate) => ({
+      itemId: `${candidate.suggestedEntry.id}:pending-candidate-blocker`,
+      severity: "medium" as const,
+      category: "pending-candidate-blocker" as const,
+      caseId: candidate.suggestedEntry.id,
+      family: candidate.suggestedEntry.family,
+      fixtureRef: candidate.suggestedEntry.fixtureRef,
+      fixturePath: candidate.fixturePath,
+      referencePdfRefs: candidate.suggestedEntry.referencePdfRefs,
+      referencePdfPaths: candidate.referencePdfPaths,
+      missingPaths: [],
+      missingExpectedNotes: [],
+      failedAssertions: [],
+      blockingIssues: [...candidate.blockingIssues],
+      summary: `clear ${candidate.blockingIssues.length} onboarding blocker(s) for pending candidate ${candidate.suggestedEntry.id}`,
+      manualAction:
+        "Resolve the blocking issues listed for this pending sample, then rerun intake/apply so the candidate can re-enter the promote pipeline cleanly.",
+    }));
+}
+
+function buildRepairChecklist(args: {
+  regressionResult: RegressionSuiteResult | null;
+  pendingIntake: PendingCorpusIntakeResult;
+}): PendingCorpusRepairChecklistItem[] {
+  const checklist: PendingCorpusRepairChecklistItem[] = [];
+
+  if (args.regressionResult) {
+    for (const result of args.regressionResult.results) {
+      checklist.push(...buildCaseRepairChecklistItems(result));
+    }
+  }
+
+  checklist.push(...buildPendingCandidateRepairChecklistItems(args.pendingIntake));
+  return checklist;
 }
 
 function renderReviewReportMarkdown(report: PendingCorpusRollbackReviewReport): string {
@@ -149,6 +318,36 @@ function renderReviewReportMarkdown(report: PendingCorpusRollbackReviewReport): 
   }
   lines.push("");
 
+  lines.push("## Manual repair checklist");
+  lines.push("");
+  if (report.repairChecklist.length === 0) {
+    lines.push("- (none)");
+  } else {
+    for (const item of report.repairChecklist) {
+      lines.push(
+        `- [ ] ${item.severity.toUpperCase()} / ${renderRepairChecklistCategory(item.category)} / ${item.caseId} — ${item.summary}`,
+      );
+      lines.push(`  - Fixture ref: ${item.fixtureRef}`);
+      lines.push(`  - Fixture path: ${item.fixturePath}`);
+      lines.push(`  - Reference refs: ${renderStringArray(item.referencePdfRefs)}`);
+      lines.push(`  - Reference paths: ${renderStringArray(item.referencePdfPaths)}`);
+      if (item.missingPaths.length > 0) {
+        lines.push(`  - Missing paths: ${renderStringArray(item.missingPaths)}`);
+      }
+      if (item.missingExpectedNotes.length > 0) {
+        lines.push(`  - Missing expected notes: ${renderStringArray(item.missingExpectedNotes)}`);
+      }
+      if (item.failedAssertions.length > 0) {
+        lines.push(`  - Failed assertions: ${renderStringArray(item.failedAssertions)}`);
+      }
+      if (item.blockingIssues.length > 0) {
+        lines.push(`  - Blocking issues: ${renderStringArray(item.blockingIssues)}`);
+      }
+      lines.push(`  - Manual action: ${item.manualAction}`);
+    }
+  }
+  lines.push("");
+
   lines.push("## Rollback decision");
   lines.push("");
   if (report.overallStatus === "pass") {
@@ -166,10 +365,18 @@ function buildReviewReport(args: {
   fixtureDir: string;
   promoteResultJsonPath: string;
   rollbackResult: Awaited<ReturnType<typeof rollbackPromotedPendingManifestAssistant>>;
-  pendingIntake: Awaited<ReturnType<typeof scanPendingCorpusIntake>>;
+  pendingIntake: PendingCorpusIntakeResult;
   regressionCiSummary: RegressionCiSummary | null;
+  repairChecklist: PendingCorpusRepairChecklistItem[];
 }): PendingCorpusRollbackReviewReport {
-  const { fixtureDir, promoteResultJsonPath, rollbackResult, pendingIntake, regressionCiSummary } = args;
+  const {
+    fixtureDir,
+    promoteResultJsonPath,
+    rollbackResult,
+    pendingIntake,
+    regressionCiSummary,
+    repairChecklist,
+  } = args;
   const verificationRan = rollbackResult.rolledBack;
   const verificationStatus = !verificationRan
     ? "skipped"
@@ -207,6 +414,7 @@ function buildReviewReport(args: {
     reviewNotes: [...rollbackResult.reviewNotes],
     blockingIssues: [...rollbackResult.blockingIssues],
     regressionCiSummary,
+    repairChecklist,
   };
 }
 
@@ -234,17 +442,27 @@ export async function rollbackPendingManifestClosedLoopAssistant(args?: {
   }
 
   const pendingIntake = await scanPendingCorpusIntake(fixtureDir, rollbackResult.manifestPath);
+  const repairChecklist = buildRepairChecklist({
+    regressionResult,
+    pendingIntake,
+  });
   const reviewReport = buildReviewReport({
     fixtureDir,
     promoteResultJsonPath,
     rollbackResult,
     pendingIntake,
     regressionCiSummary: regressionResult?.ciSummary ?? null,
+    repairChecklist,
   });
 
   if (regressionResult && !regressionResult.ciSummary.ok) {
     reviewReport.reviewNotes.push(
       "post-rollback regression gate still failed; inspect restored fixture set and backup manifest lineage",
+    );
+  }
+  if (reviewReport.repairChecklist.length > 0) {
+    reviewReport.reviewNotes.push(
+      `manual repair checklist generated: ${reviewReport.repairChecklist.length} open item(s)`,
     );
   }
 

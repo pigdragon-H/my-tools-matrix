@@ -31,6 +31,7 @@ export type {
   PendingCorpusPromoteAssistantResult,
   PendingCorpusPromoteClosedLoopResult,
   PendingCorpusPromoteReviewReport,
+  PendingCorpusRepairChecklistItem,
   PendingCorpusRollbackAssistantResult,
   PendingCorpusRollbackClosedLoopResult,
   PendingCorpusRollbackReviewReport,

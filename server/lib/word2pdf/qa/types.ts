@@ -271,6 +271,29 @@ export interface PendingCorpusPromoteClosedLoopResult {
   reviewReportMarkdown: string;
 }
 
+export interface PendingCorpusRepairChecklistItem {
+  itemId: string;
+  severity: "high" | "medium";
+  category:
+    | "missing-fixture"
+    | "missing-reference-pdf"
+    | "missing-expected-note"
+    | "failed-assertion"
+    | "pending-candidate-blocker";
+  caseId: string;
+  family: string;
+  fixtureRef: string;
+  fixturePath: string;
+  referencePdfRefs: string[];
+  referencePdfPaths: string[];
+  missingPaths: string[];
+  missingExpectedNotes: string[];
+  failedAssertions: string[];
+  blockingIssues: string[];
+  summary: string;
+  manualAction: string;
+}
+
 export interface PendingCorpusRollbackReviewReport {
   generatedAt: string;
   fixtureDir: string;
@@ -296,6 +319,7 @@ export interface PendingCorpusRollbackReviewReport {
   reviewNotes: string[];
   blockingIssues: string[];
   regressionCiSummary: RegressionCiSummary | null;
+  repairChecklist: PendingCorpusRepairChecklistItem[];
 }
 
 export interface PendingCorpusRollbackClosedLoopResult {
