@@ -53,6 +53,7 @@ import JSZip from "jszip";
 const PAGE_CONTENT_WIDTH = 10466; // 11906 (A4) − 720 − 720 twips margins
 const GREY_FILL = "B3B3B3";
 const TITLE_TEXT = "報價單";
+const SNAP_GRID_PART_RE = /^word\/(?:document|footnotes|endnotes|comments|header\d+|footer\d+)\.xml$/;
 
 /**
  * Preprocess a .docx buffer. Returns a (possibly modified) .docx buffer.
@@ -64,22 +65,39 @@ export async function preprocessQuotationDocx(input: Buffer): Promise<Buffer> {
     const docFile = zip.file("word/document.xml");
     if (!docFile) return input;
 
-    let xml = await docFile.async("string");
-    const before = xml;
+    let anyPartChanged = false;
+    let xml = "";
+    let before = "";
 
     // --- UNCONDITIONAL, UNIVERSAL normalisation (runs for EVERY document) ---
-    // Disable "snap to document grid" (w:snapToGrid) on every paragraph.
+    // Disable "snap to document grid" (w:snapToGrid) on every paragraph-like
+    // story part we can safely reach inside the DOCX package.
     //
-    // Why: Microsoft Word lays an invisible CJK "document grid" under the page.
+    // Why: Microsoft Word lays an invisible CJK document grid under the page.
     // Paragraphs pasted from e-mail / web / PDF frequently carry snapToGrid=on
     // together with a foreign indent. Word and LibreOffice interpret grid-snap
-    // DIFFERENTLY, so LibreOffice inflates such a paragraph's leading indent —
-    // the line visibly shifts right by a few CJK characters in the exported
-    // PDF. Forcing snapToGrid=off (exactly what unticking Word's "對齊文件格線"
-    // box does) makes the PDF match Word. This is what commercial converters
-    // (Smallpdf / Adobe) do. It changes NO font, size, line-spacing or indent
-    // value — it only stops the grid from re-flowing the line.
-    xml = disableSnapToGrid(xml);
+    // DIFFERENTLY, so LibreOffice inflates such a paragraph's leading indent.
+    // We normalise all main OOXML story parts (document, headers, footers,
+    // footnotes, endnotes, comments) with the exact same zero-hardcode fix.
+    for (const path of listSnapGridPartPaths(zip)) {
+      const part = zip.file(path);
+      if (!part) continue;
+      const original = await part.async("string");
+      const normalized = safeDisableSnapToGrid(original);
+      if (normalized !== original) {
+        zip.file(path, normalized);
+        anyPartChanged = true;
+      }
+      if (path === "word/document.xml") {
+        xml = normalized;
+        before = original;
+      }
+    }
+
+    if (!xml) {
+      xml = await docFile.async("string");
+      before = xml;
+    }
 
     // If grid-snap normalisation was the only change needed, write it back even
     // when the quotation-specific fixes below do not apply.
@@ -91,7 +109,7 @@ export async function preprocessQuotationDocx(input: Buffer): Promise<Buffer> {
     // fake-centred lines and no floating table, the quotation-specific fixes
     // are skipped — but we still keep the grid normalisation above.
     if (!hasFakeCentredContent(xml) && !xml.includes("<w:tblpPr")) {
-      if (afterGrid === before) return input; // truly nothing changed
+      if (!anyPartChanged && afterGrid === before) return input; // truly nothing changed
       zip.file("word/document.xml", afterGrid);
       return await zip.generateAsync({
         type: "nodebuffer",
@@ -113,7 +131,11 @@ export async function preprocessQuotationDocx(input: Buffer): Promise<Buffer> {
     xml = moveAttnAboveTable(xml);
     xml = defloatTable(xml);
 
-    if (xml === before) return input; // nothing changed → keep original bytes
+    if (!looksLikeSafeStoryXml(xml)) {
+      xml = afterGrid;
+    }
+
+    if (!anyPartChanged && xml === before) return input; // nothing changed → keep original bytes
 
     zip.file("word/document.xml", xml);
     const out = await zip.generateAsync({
@@ -126,6 +148,33 @@ export async function preprocessQuotationDocx(input: Buffer): Promise<Buffer> {
     // Any parsing/zip error → fall back to the untouched original.
     return input;
   }
+}
+
+/** Return the OOXML story parts that can safely receive snapToGrid normalisation. */
+function listSnapGridPartPaths(zip: JSZip): string[] {
+  return Object.keys(zip.files)
+    .filter((path) => SNAP_GRID_PART_RE.test(path))
+    .sort();
+}
+
+/**
+ * Apply disableSnapToGrid defensively. If the result no longer looks like a
+ * balanced story XML part, keep the original bytes untouched.
+ */
+function safeDisableSnapToGrid(xml: string): string {
+  const out = disableSnapToGrid(xml);
+  return looksLikeSafeStoryXml(out) ? out : xml;
+}
+
+function looksLikeSafeStoryXml(xml: string): boolean {
+  return tagBalanceOk(xml, "w:p") && tagBalanceOk(xml, "w:pPr") && tagBalanceOk(xml, "w:t");
+}
+
+function tagBalanceOk(xml: string, tag: string): boolean {
+  const open = (xml.match(new RegExp(`<${tag}\\b`, "g")) || []).length;
+  const close = (xml.match(new RegExp(`</${tag}>`, "g")) || []).length;
+  const self = (xml.match(new RegExp(`<${tag}\\b[^>]*?/>`, "g")) || []).length;
+  return open === close + self;
 }
 
 /**

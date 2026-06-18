@@ -13,9 +13,10 @@
  * proportions closely match the originals — so the exported PDF matches the
  * Smallpdf gold standard.
  *
- * This runs once at server startup. It is best-effort: any failure is logged
- * and swallowed so it can never crash the server. If the alias or fonts are
- * unavailable the conversion still works (it just falls back to Noto).
+ * This is ensured before the first conversion attempt, then cached in-process.
+ * It is best-effort: any failure is logged and swallowed so it can never crash
+ * the server. If the alias or fonts are unavailable the conversion still works
+ * (it just falls back to a less-faithful substitute face).
  */
 import { execFile } from "node:child_process";
 import { mkdir, writeFile, access } from "node:fs/promises";
@@ -35,6 +36,12 @@ const ALIAS_CONF = `<?xml version="1.0"?>
     <test name="family"><string>標楷體</string></test>
     <edit name="family" mode="prepend" binding="strong">
       <string>AR PL UKai TW</string><string>TW-Kai</string><string>AR PL UKai HK</string>
+    </edit>
+  </match>
+  <match target="pattern">
+    <test name="family"><string>DFKai</string></test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>AR PL UKai TW</string><string>TW-Kai</string>
     </edit>
   </match>
   <match target="pattern">
@@ -80,15 +87,48 @@ const ALIAS_CONF = `<?xml version="1.0"?>
     </edit>
   </match>
   <match target="pattern">
+    <test name="family"><string>微軟正黑體</string></test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>Noto Sans CJK TC</string><string>WenQuanYi Zen Hei</string>
+    </edit>
+  </match>
+  <match target="pattern">
+    <test name="family"><string>Microsoft JhengHei</string></test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>Noto Sans CJK TC</string><string>WenQuanYi Zen Hei</string>
+    </edit>
+  </match>
+  <match target="pattern">
+    <test name="family"><string>Microsoft JhengHei UI</string></test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>Noto Sans CJK TC</string><string>WenQuanYi Zen Hei</string>
+    </edit>
+  </match>
+  <match target="pattern">
     <test name="family"><string>serif</string></test>
     <edit name="family" mode="append" binding="weak">
       <string>AR PL UMing TW</string><string>TW-Sung</string>
+    </edit>
+  </match>
+  <match target="pattern">
+    <test name="family"><string>sans-serif</string></test>
+    <edit name="family" mode="append" binding="weak">
+      <string>Noto Sans CJK TC</string><string>WenQuanYi Zen Hei</string>
     </edit>
   </match>
 </fontconfig>
 `;
 
 let done = false;
+const VERIFY_FAMILIES: Array<{ requested: string; expected: string[] }> = [
+  { requested: "標楷體", expected: ["AR PL UKai TW", "TW-Kai", "AR PL UKai HK"] },
+  { requested: "DFKai", expected: ["AR PL UKai TW", "TW-Kai"] },
+  { requested: "DFKai-SB", expected: ["AR PL UKai TW", "TW-Kai"] },
+  { requested: "新細明體", expected: ["AR PL UMing TW", "TW-Sung", "AR PL UMing HK"] },
+  { requested: "PMingLiU", expected: ["AR PL UMing TW", "TW-Sung"] },
+  { requested: "微軟正黑體", expected: ["Noto Sans CJK TC", "WenQuanYi Zen Hei"] },
+  { requested: "Microsoft JhengHei", expected: ["Noto Sans CJK TC", "WenQuanYi Zen Hei"] },
+];
 
 /**
  * Install the CJK fontconfig alias and refresh the font cache. Idempotent and
@@ -136,8 +176,35 @@ export async function ensureCjkFonts(): Promise<void> {
   } catch {
     /* noop */
   }
+
+  await verifyFontAliases();
+
   // eslint-disable-next-line no-console
   console.log(`[fontSetup] CJK alias installed at ${installedTo}`);
+}
+
+async function verifyFontAliases(): Promise<void> {
+  for (const { requested, expected } of VERIFY_FAMILIES) {
+    try {
+      const { stdout } = await execFileAsync("fc-match", [requested, "--format=%{family}\n"], {
+        timeout: 10_000,
+      });
+      const resolved = stdout.trim();
+      const ok = expected.some((name) => resolved.includes(name));
+      if (ok) {
+        // eslint-disable-next-line no-console
+        console.log(`[fontSetup] alias OK: ${requested} -> ${resolved}`);
+      } else {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `[fontSetup] alias VERIFY mismatch: ${requested} -> ${resolved || "(empty)"}; expected one of ${expected.join(", ")}`
+        );
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn(`[fontSetup] alias VERIFY skipped for ${requested}: ${(error as Error).message}`);
+    }
+  }
 }
 
 // Keep a reference to dirname for potential future asset loading.

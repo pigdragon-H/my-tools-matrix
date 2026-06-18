@@ -62,13 +62,18 @@ export async function convertWordToPdf(
     let docBytes = input;
     if (safeExt === ".docx") {
       docBytes = await preprocessQuotationDocx(input);
+    } else {
+      // Non-OOXML inputs are handed directly to LibreOffice. This preserves
+      // compatibility, but means OOXML-only normalisations such as snapToGrid=0
+      // cannot be applied before import.
+      // eslint-disable-next-line no-console
+      console.warn(`[docxToPdf] OOXML preprocessing skipped for ${safeExt} input`);
     }
     await writeFile(inPath, docBytes);
 
-    // Install the Traditional-Chinese fontconfig alias (標楷體/新細明體/華康粗明體
-    // → AR PL UKai/UMing, TW-Kai/TW-Sung) before invoking LibreOffice so CJK
-    // glyph widths match the source and the layout doesn't inflate. Idempotent
-    // and best-effort — never throws.
+    // Ensure the Traditional-Chinese fontconfig alias is installed before the
+    // first effective conversion in this process. The helper is idempotent and
+    // best-effort, so calling it here is safe even under concurrent requests.
     await ensureCjkFonts();
 
     const bin = resolveSofficeBin();
