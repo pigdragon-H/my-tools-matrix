@@ -5,7 +5,6 @@ import { normalizeSnapGridParts } from "./pipelineInternals";
 import { pinAllCentresUniversal } from "./passes/pinCenteredParagraphs";
 import { fixTitleLine } from "./passes/reconstructTitleBand";
 import { moveAttnAboveTable } from "./passes/relocateMetaLineNearTable";
-import { normalizeAttnMetaBlock } from "./passes/normalizeAttnMetaBlock";
 import { defloatTable } from "./passes/applyFloatingTablePolicy";
 import {
   shouldDefloatTable,
@@ -58,7 +57,6 @@ export async function preprocessQuotationDocxWithReport(
       ranStructuralPasses: false,
       ranTitleBandReconstruction: false,
       ranMetaLineRelocation: false,
-      ranAttnMetaNormalization: false,
       ranDefloatTable: false,
       usedLegacyCompat,
       revertedToGridNormalized: false,
@@ -101,12 +99,6 @@ export async function preprocessQuotationDocxWithReport(
       shouldRelocateMetaLineNearTable(initialContext.signals) || usedLegacyCompat;
     if (passDecisions.ranMetaLineRelocation) {
       xml = moveAttnAboveTable(xml);
-    }
-
-    passDecisions.ranAttnMetaNormalization =
-      passDecisions.ranMetaLineRelocation || usedLegacyCompat;
-    if (passDecisions.ranAttnMetaNormalization) {
-      xml = normalizeAttnMetaBlock(xml);
     }
 
     const postStructureContext = buildLayoutContext(xml);
