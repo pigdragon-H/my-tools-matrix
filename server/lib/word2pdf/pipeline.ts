@@ -1,13 +1,12 @@
 import JSZip from "jszip";
-import { hasFakeCentredContent } from "./detectors/hasFakeCenterRisk";
-import { hasFloatingTableRisk } from "./detectors/hasFloatingTableRisk";
-import { hasQuotationMetaHeaderLine } from "./detectors/hasQuotationMetaHeaderLine";
+import { buildLayoutContext } from "./context";
 import { mergeFakeCentredTextLines } from "./passes/mergeFakeCenteredLines";
 import { normalizeSnapGridParts } from "./pipelineInternals";
 import { pinAllCentresUniversal } from "./passes/pinCenteredParagraphs";
 import { fixTitleLine } from "./passes/reconstructTitleBand";
 import { moveAttnAboveTable } from "./passes/relocateMetaLineNearTable";
 import { defloatTable } from "./passes/applyFloatingTablePolicy";
+import { shouldDefloatTable, shouldRunStructuralPasses } from "./policy";
 import { looksLikeSafeStoryXml } from "./xml/safety";
 
 /**
@@ -31,8 +30,9 @@ export async function preprocessQuotationDocx(input: Buffer): Promise<Buffer> {
     }
 
     const afterGrid = xml;
+    const initialContext = buildLayoutContext(xml);
 
-    if (!hasFakeCentredContent(xml) && !hasFloatingTableRisk(xml)) {
+    if (!shouldRunStructuralPasses(initialContext.signals)) {
       if (!anyPartChanged && afterGrid === before) return input;
       zip.file("word/document.xml", afterGrid);
       return await zip.generateAsync({
@@ -46,7 +46,9 @@ export async function preprocessQuotationDocx(input: Buffer): Promise<Buffer> {
     xml = mergeFakeCentredTextLines(xml);
     xml = fixTitleLine(xml);
     xml = moveAttnAboveTable(xml);
-    if (!hasQuotationMetaHeaderLine(xml)) {
+
+    const postStructureContext = buildLayoutContext(xml);
+    if (shouldDefloatTable(postStructureContext.policy, postStructureContext.signals)) {
       xml = defloatTable(xml);
     }
 
