@@ -99,11 +99,11 @@ if (!run("Gate 1.5 (tool-trunk drift)", "node", ["scripts/tool-trunk.mjs", "--au
 if (SKIP_WORD2PDF_REGRESSION) {
   console.log(`${YEL}⚠  ③ Gate W 已用 --skip-word2pdf-regression 跳過${RST}\n`);
 } else {
-  if (!run("③ Gate W (qc:word2pdf-regression)", "node", ["scripts/qc_word2pdf_regression.mjs", "--json-out", "tmp/word2pdf-regression/preflight.json"])) {
+  if (!run("③ Gate W (qc:word2pdf-regression)", "node", ["scripts/qc_word2pdf_regression.mjs", "--json-out", "tmp/word2pdf-regression/preflight.json", "--summary-out", "tmp/word2pdf-regression/preflight-summary.json", "--pending-intake-out", "tmp/word2pdf-regression/preflight-pending-intake.json"])) {
     console.error(`\n${RED}🔴 PREFLIGHT FAIL — Word→PDF regression 紅燈, header risk / 內縮 / reference PDF / expected notes 發生退步${RST}`);
     console.error(`${DIM}   排錯指南:${RST}`);
     console.error(`${DIM}   • 確認 fixtures/word2pdf 內 fixture 與 reference PDF 齊全${RST}`);
-    console.error(`${DIM}   • 先看 tmp/word2pdf-regression/preflight.json 找出失敗 assertion 與 hot risk tags${RST}`);
+    console.error(`${DIM}   • 先看 tmp/word2pdf-regression/preflight-summary.json 抓 CI 摘要，再回看 preflight.json 細節${RST}`);
     console.error(`${DIM}   • 若是新樣本，先加入 corpus expected notes 再放行${RST}`);
     process.exit(1);
   }

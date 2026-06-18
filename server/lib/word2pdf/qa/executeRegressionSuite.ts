@@ -7,7 +7,9 @@ import { evaluateRegressionReport } from "./regressionRunner";
 import type {
   PreprocessChangeReport,
   RegressionAssertionResult,
+  RegressionCiSummary,
   RegressionCorpusEntry,
+  RegressionHotCount,
   RegressionRiskTracker,
   RegressionSuiteCaseResult,
   RegressionSuiteResult,
@@ -129,6 +131,13 @@ function incrementCounter(counter: Record<string, number>, key: string): void {
   counter[key] = (counter[key] ?? 0) + 1;
 }
 
+function sortHotCounts(counter: Record<string, number>): RegressionHotCount[] {
+  return Object.entries(counter)
+    .filter(([, count]) => count > 0)
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([name, count]) => ({ name, count }));
+}
+
 function buildRiskTracker(results: RegressionSuiteCaseResult[]): RegressionRiskTracker {
   const highestAfterRiskCases = results
     .filter((item) => item.report)
@@ -191,10 +200,53 @@ function buildRiskTracker(results: RegressionSuiteCaseResult[]): RegressionRiskT
       if (result.missingExpectedNotes.length > 0) {
         incrementCounter(tracker.failuresByAssertion, "missing-expected-note");
       }
+      if (result.missingFixture) {
+        incrementCounter(tracker.failuresByAssertion, "missing-fixture");
+      }
     }
   }
 
   return tracker;
+}
+
+function buildCiSummary(args: {
+  results: RegressionSuiteCaseResult[];
+  riskTracker: RegressionRiskTracker;
+  totals: Pick<RegressionSuiteResult, "total" | "executed" | "passed" | "failed" | "skipped">;
+}): RegressionCiSummary {
+  const activeCases = REGRESSION_CORPUS.filter((entry) => entry.status === "active").length;
+  const pendingCases = REGRESSION_CORPUS.filter((entry) => entry.status === "pending-fixture").length;
+  const missingActiveFixtures = args.results
+    .filter((item) => item.missingFixture && item.entry.status === "active")
+    .map((item) => `${item.entry.id}:${item.fixturePath}`);
+  const casesMissingReferencePdfs = args.results
+    .filter((item) => item.missingReferencePdfs.length > 0)
+    .map((item) => item.entry.id);
+  const casesMissingExpectedNotes = args.results
+    .filter((item) => item.missingExpectedNotes.length > 0)
+    .map((item) => item.entry.id);
+
+  return {
+    ok: args.totals.failed === 0,
+    status: args.totals.failed === 0 ? "pass" : "fail",
+    total: args.totals.total,
+    executed: args.totals.executed,
+    passed: args.totals.passed,
+    failed: args.totals.failed,
+    skipped: args.totals.skipped,
+    activeCases,
+    pendingCases,
+    missingActiveFixtures,
+    casesMissingReferencePdfs,
+    casesMissingExpectedNotes,
+    topFailedAssertions: sortHotCounts(args.riskTracker.failuresByAssertion),
+    hotRiskTags: sortHotCounts(args.riskTracker.triggeredRiskTags),
+    hotLayoutSignals: sortHotCounts(args.riskTracker.triggeredLayoutSignals),
+    highestAfterRiskCases: args.riskTracker.highestAfterRiskCases,
+    visualIndentFailuresBefore: args.riskTracker.visualIndentFailuresBefore,
+    visualIndentFailuresAfter: args.riskTracker.visualIndentFailuresAfter,
+    headerVisualRiskDeltaTotal: args.riskTracker.headerVisualRiskDeltaTotal,
+  };
 }
 
 export async function executeRegressionSuite(args: {
@@ -247,6 +299,17 @@ export async function executeRegressionSuite(args: {
   const failed = results.filter((item) => item.status === "failed").length;
   const skipped = results.filter((item) => item.status === "skipped").length;
   const riskTracker = buildRiskTracker(results);
+  const ciSummary = buildCiSummary({
+    results,
+    riskTracker,
+    totals: {
+      total: results.length,
+      executed,
+      passed,
+      failed,
+      skipped,
+    },
+  });
 
   return {
     startedAt,
@@ -258,5 +321,6 @@ export async function executeRegressionSuite(args: {
     skipped,
     results,
     riskTracker,
+    ciSummary,
   };
 }

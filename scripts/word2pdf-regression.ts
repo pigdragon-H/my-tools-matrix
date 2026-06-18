@@ -1,11 +1,14 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { executeRegressionSuite } from "../server/lib/word2pdf/qa/executeRegressionSuite";
+import { scanPendingCorpusIntake } from "../server/lib/word2pdf/qa/pendingCorpusIntake";
 
 interface CliOptions {
   fixtureDir: string;
   json: boolean;
   jsonOut: string | null;
+  summaryOut: string | null;
+  pendingIntakeOut: string | null;
   includePending: boolean;
 }
 
@@ -15,6 +18,8 @@ function parseArgs(argv: string[]): CliOptions {
     fixtureDir: fixtureDirFromEnv,
     json: false,
     jsonOut: null,
+    summaryOut: null,
+    pendingIntakeOut: null,
     includePending: false,
   };
 
@@ -36,31 +41,44 @@ function parseArgs(argv: string[]): CliOptions {
     if (arg === "--json-out") {
       options.jsonOut = argv[i + 1] ?? options.jsonOut;
       i += 1;
+      continue;
+    }
+    if (arg === "--summary-out") {
+      options.summaryOut = argv[i + 1] ?? options.summaryOut;
+      i += 1;
+      continue;
+    }
+    if (arg === "--pending-intake-out") {
+      options.pendingIntakeOut = argv[i + 1] ?? options.pendingIntakeOut;
+      i += 1;
     }
   }
 
   return options;
 }
 
-function printHumanSummary(result: Awaited<ReturnType<typeof executeRegressionSuite>>): void {
+function printHumanSummary(result: Awaited<ReturnType<typeof executeRegressionSuite>>, pendingIntake: Awaited<ReturnType<typeof scanPendingCorpusIntake>>): void {
   console.log("\nWord→PDF regression suite");
   console.log(`Fixture dir: ${result.fixtureDir}`);
+  console.log(`CI summary: ${result.ciSummary.status.toUpperCase()} | total=${result.ciSummary.total} passed=${result.ciSummary.passed} failed=${result.ciSummary.failed} skipped=${result.ciSummary.skipped}`);
   console.log(`Cases: total=${result.total} executed=${result.executed} passed=${result.passed} failed=${result.failed} skipped=${result.skipped}`);
   console.log(
     `Risk tracker: indent before=${result.riskTracker.visualIndentFailuresBefore} after=${result.riskTracker.visualIndentFailuresAfter}; deltaTotal=${result.riskTracker.headerVisualRiskDeltaTotal}`,
   );
 
-  const hotSignals = Object.entries(result.riskTracker.triggeredLayoutSignals)
-    .filter(([, count]) => count > 0)
-    .sort((a, b) => b[1] - a[1]);
-  if (hotSignals.length > 0) {
-    console.log(`Hot layout signals: ${hotSignals.map(([name, count]) => `${name}=${count}`).join(", ")}`);
+  if (result.ciSummary.hotLayoutSignals.length > 0) {
+    console.log(
+      `Hot layout signals: ${result.ciSummary.hotLayoutSignals.map((item) => `${item.name}=${item.count}`).join(", ")}`,
+    );
   }
-
-  const hotTags = Object.entries(result.riskTracker.triggeredRiskTags).sort((a, b) => b[1] - a[1]);
-  if (hotTags.length > 0) {
-    console.log(`Hot risk tags: ${hotTags.map(([name, count]) => `${name}=${count}`).join(", ")}`);
+  if (result.ciSummary.hotRiskTags.length > 0) {
+    console.log(
+      `Hot risk tags: ${result.ciSummary.hotRiskTags.map((item) => `${item.name}=${item.count}`).join(", ")}`,
+    );
   }
+  console.log(
+    `Pending intake: candidates=${pendingIntake.candidates.length} docx=${pendingIntake.docxCount} pdf=${pendingIntake.pdfCount}`,
+  );
 
   for (const item of result.results) {
     const badge = item.status === "passed" ? "PASS" : item.status === "failed" ? "FAIL" : "SKIP";
@@ -109,18 +127,14 @@ function printHumanSummary(result: Awaited<ReturnType<typeof executeRegressionSu
   }
 }
 
-async function maybeWriteJsonOut(
-  jsonOut: string | null,
-  result: Awaited<ReturnType<typeof executeRegressionSuite>>,
-): Promise<void> {
-  if (!jsonOut) {
+async function writeJsonFile(targetPath: string | null, payload: unknown, label: string): Promise<void> {
+  if (!targetPath) {
     return;
   }
-
-  const outputPath = path.resolve(jsonOut);
+  const outputPath = path.resolve(targetPath);
   await mkdir(path.dirname(outputPath), { recursive: true });
-  await writeFile(outputPath, `${JSON.stringify(result, null, 2)}\n`, "utf8");
-  console.log(`JSON report written: ${path.relative(process.cwd(), outputPath)}`);
+  await writeFile(outputPath, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+  console.log(`${label}: ${path.relative(process.cwd(), outputPath)}`);
 }
 
 async function main(): Promise<void> {
@@ -129,13 +143,16 @@ async function main(): Promise<void> {
     fixtureDir: options.fixtureDir,
     includePending: options.includePending,
   });
+  const pendingIntake = await scanPendingCorpusIntake(options.fixtureDir);
 
-  await maybeWriteJsonOut(options.jsonOut, result);
+  await writeJsonFile(options.jsonOut, result, "JSON report written");
+  await writeJsonFile(options.summaryOut, result.ciSummary, "CI summary written");
+  await writeJsonFile(options.pendingIntakeOut, pendingIntake, "Pending intake written");
 
   if (options.json) {
     console.log(JSON.stringify(result, null, 2));
   } else {
-    printHumanSummary(result);
+    printHumanSummary(result, pendingIntake);
   }
 
   if (result.failed > 0) {

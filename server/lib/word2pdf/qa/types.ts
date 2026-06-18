@@ -96,6 +96,60 @@ export interface RegressionRiskTracker {
   highestAfterRiskCases: Array<{ id: string; score: number }>;
 }
 
+export interface RegressionHotCount {
+  name: string;
+  count: number;
+}
+
+export interface RegressionCiSummary {
+  ok: boolean;
+  status: "pass" | "fail";
+  total: number;
+  executed: number;
+  passed: number;
+  failed: number;
+  skipped: number;
+  activeCases: number;
+  pendingCases: number;
+  missingActiveFixtures: string[];
+  casesMissingReferencePdfs: string[];
+  casesMissingExpectedNotes: string[];
+  topFailedAssertions: RegressionHotCount[];
+  hotRiskTags: RegressionHotCount[];
+  hotLayoutSignals: RegressionHotCount[];
+  highestAfterRiskCases: Array<{ id: string; score: number }>;
+  visualIndentFailuresBefore: number;
+  visualIndentFailuresAfter: number;
+  headerVisualRiskDeltaTotal: number;
+}
+
+export interface PendingCorpusSuggestedEntry {
+  id: string;
+  family: string;
+  fixtureRef: string;
+  status: "pending-fixture";
+  expectedPolicy: LayoutPolicy;
+  assertions: RegressionAssertionCode[];
+  expectedNotes: string[];
+  referencePdfRefs: string[];
+  riskTags: string[];
+  notes: string;
+}
+
+export interface PendingCorpusCandidate {
+  fixturePath: string;
+  referencePdfPaths: string[];
+  suggestedEntry: PendingCorpusSuggestedEntry;
+  notes: string[];
+}
+
+export interface PendingCorpusIntakeResult {
+  pendingDir: string;
+  docxCount: number;
+  pdfCount: number;
+  candidates: PendingCorpusCandidate[];
+}
+
 export interface RegressionSuiteResult {
   startedAt: string;
   fixtureDir: string;
@@ -106,4 +160,5 @@ export interface RegressionSuiteResult {
   skipped: number;
   results: RegressionSuiteCaseResult[];
   riskTracker: RegressionRiskTracker;
+  ciSummary: RegressionCiSummary;
 }

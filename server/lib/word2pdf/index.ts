@@ -7,6 +7,7 @@ export { createPreprocessChangeReport } from "./qa/report";
 export { REGRESSION_CORPUS } from "./qa/regressionCorpus";
 export { evaluateRegressionReport } from "./qa/regressionRunner";
 export { executeRegressionSuite } from "./qa/executeRegressionSuite";
+export { scanPendingCorpusIntake } from "./qa/pendingCorpusIntake";
 export type {
   LayoutContext,
   LayoutPolicy,
@@ -15,12 +16,17 @@ export type {
 } from "./types";
 export type {
   ExtractedSignalCounts,
+  PendingCorpusCandidate,
+  PendingCorpusIntakeResult,
+  PendingCorpusSuggestedEntry,
   PreprocessChangeReport,
   PreprocessPassDecisions,
   PreprocessSignalSnapshot,
   RegressionAssertionCode,
   RegressionAssertionResult,
+  RegressionCiSummary,
   RegressionCorpusEntry,
+  RegressionHotCount,
   RegressionRiskTracker,
   RegressionSuiteCaseResult,
   RegressionSuiteResult,

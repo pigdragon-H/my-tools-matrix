@@ -27,6 +27,14 @@ const jsonOut = getOpt(
   "json-out",
   process.env.WORD2PDF_REGRESSION_JSON_OUT || "./tmp/word2pdf-regression/latest.json",
 );
+const summaryOut = getOpt(
+  "summary-out",
+  process.env.WORD2PDF_REGRESSION_SUMMARY_OUT || "./tmp/word2pdf-regression/summary.json",
+);
+const pendingIntakeOut = getOpt(
+  "pending-intake-out",
+  process.env.WORD2PDF_PENDING_INTAKE_OUT || "./tmp/word2pdf-regression/pending-intake.json",
+);
 const includePending = hasFlag("include-pending");
 
 const forwardedArgs = [
@@ -36,6 +44,10 @@ const forwardedArgs = [
   fixtureDir,
   "--json-out",
   jsonOut,
+  "--summary-out",
+  summaryOut,
+  "--pending-intake-out",
+  pendingIntakeOut,
 ];
 if (includePending) {
   forwardedArgs.push("--include-pending");
@@ -47,6 +59,8 @@ if (hasFlag("json")) {
 console.log(`${BOLD}[QC]${RST} Word→PDF regression gate`);
 console.log(`${DIM}fixture-dir=${fixtureDir}${RST}`);
 console.log(`${DIM}json-out=${jsonOut}${RST}`);
+console.log(`${DIM}summary-out=${summaryOut}${RST}`);
+console.log(`${DIM}pending-intake-out=${pendingIntakeOut}${RST}`);
 
 const run = spawnSync("npx", forwardedArgs, {
   cwd: ROOT,
@@ -56,6 +70,8 @@ const run = spawnSync("npx", forwardedArgs, {
     ...process.env,
     WORD2PDF_REGRESSION_FIXTURE_DIR: fixtureDir,
     WORD2PDF_REGRESSION_JSON_OUT: jsonOut,
+    WORD2PDF_REGRESSION_SUMMARY_OUT: summaryOut,
+    WORD2PDF_PENDING_INTAKE_OUT: pendingIntakeOut,
   },
 });
 
