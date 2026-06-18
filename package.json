@@ -31,7 +31,8 @@
     "postbuild": "node scripts/prerender.mjs",
     "validate:ai-three-axes": "node scripts/validate-ai-three-axes.mjs",
     "test:word2pdf-regression": "tsx scripts/word2pdf-regression.ts",
-    "intake:word2pdf-pending": "tsx scripts/word2pdf-pending-intake.ts"
+    "intake:word2pdf-pending": "tsx scripts/word2pdf-pending-intake.ts",
+    "onboard:word2pdf-pending": "tsx scripts/word2pdf-pending-intake.ts --snippet-out tmp/word2pdf-regression/pending-corpus-snippets.tsfrag"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",

@@ -77,7 +77,7 @@ function printHumanSummary(result: Awaited<ReturnType<typeof executeRegressionSu
     );
   }
   console.log(
-    `Pending intake: candidates=${pendingIntake.candidates.length} docx=${pendingIntake.docxCount} pdf=${pendingIntake.pdfCount}`,
+    `Pending intake: candidates=${pendingIntake.candidates.length} ready=${pendingIntake.readyCandidateCount} blocked=${pendingIntake.blockedCandidateCount} docx=${pendingIntake.docxCount} pdf=${pendingIntake.pdfCount}`,
   );
 
   for (const item of result.results) {

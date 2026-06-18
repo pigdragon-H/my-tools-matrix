@@ -140,14 +140,20 @@ export interface PendingCorpusCandidate {
   fixturePath: string;
   referencePdfPaths: string[];
   suggestedEntry: PendingCorpusSuggestedEntry;
+  readyForOnboarding: boolean;
+  blockingIssues: string[];
   notes: string[];
+  corpusEntrySnippet: string;
 }
 
 export interface PendingCorpusIntakeResult {
   pendingDir: string;
   docxCount: number;
   pdfCount: number;
+  readyCandidateCount: number;
+  blockedCandidateCount: number;
   candidates: PendingCorpusCandidate[];
+  combinedCorpusEntrySnippet: string;
 }
 
 export interface RegressionSuiteResult {
