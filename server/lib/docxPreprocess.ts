@@ -67,13 +67,37 @@ export async function preprocessQuotationDocx(input: Buffer): Promise<Buffer> {
     let xml = await docFile.async("string");
     const before = xml;
 
+    // --- UNCONDITIONAL, UNIVERSAL normalisation (runs for EVERY document) ---
+    // Disable "snap to document grid" (w:snapToGrid) on every paragraph.
+    //
+    // Why: Microsoft Word lays an invisible CJK "document grid" under the page.
+    // Paragraphs pasted from e-mail / web / PDF frequently carry snapToGrid=on
+    // together with a foreign indent. Word and LibreOffice interpret grid-snap
+    // DIFFERENTLY, so LibreOffice inflates such a paragraph's leading indent —
+    // the line visibly shifts right by a few CJK characters in the exported
+    // PDF. Forcing snapToGrid=off (exactly what unticking Word's "對齊文件格線"
+    // box does) makes the PDF match Word. This is what commercial converters
+    // (Smallpdf / Adobe) do. It changes NO font, size, line-spacing or indent
+    // value — it only stops the grid from re-flowing the line.
+    xml = disableSnapToGrid(xml);
+
+    // If grid-snap normalisation was the only change needed, write it back even
+    // when the quotation-specific fixes below do not apply.
+    const afterGrid = xml;
+
     // --- Eligibility: does the document use Word's "fake-centre with literal
     // spaces" authoring pattern that LibreOffice mis-renders? This is the
     // generic trigger (any company, any document type). If a doc has no
-    // fake-centred lines and no floating table, there is nothing for us to fix
-    // and we return it untouched.
+    // fake-centred lines and no floating table, the quotation-specific fixes
+    // are skipped — but we still keep the grid normalisation above.
     if (!hasFakeCentredContent(xml) && !xml.includes("<w:tblpPr")) {
-      return input;
+      if (afterGrid === before) return input; // truly nothing changed
+      zip.file("word/document.xml", afterGrid);
+      return await zip.generateAsync({
+        type: "nodebuffer",
+        compression: "DEFLATE",
+        compressionOptions: { level: 6 },
+      });
     }
 
     // UNIVERSAL engine (no company-specific anchors): auto-detect every
@@ -102,6 +126,69 @@ export async function preprocessQuotationDocx(input: Buffer): Promise<Buffer> {
     // Any parsing/zip error → fall back to the untouched original.
     return input;
   }
+}
+
+/**
+ * UNIVERSAL — disable "snap to document grid" on every paragraph.
+ *
+ * Forces `<w:snapToGrid w:val="0"/>` into each paragraph's <w:pPr>. This is the
+ * programmatic equivalent of unticking Word's
+ *   段落 → 縮排與行距 → 「文件格線被設定時，貼齊格線 / 自動調整右側縮排」
+ * It is the ONLY change made — no font, size, line-spacing or indent value is
+ * touched — so the layout is otherwise byte-faithful while stopping LibreOffice
+ * from re-flowing grid-snapped (often e-mail/web-pasted) lines and inflating
+ * their indent in the exported PDF.
+ *
+ * Template-agnostic: keys off the generic <w:p>/<w:pPr> structure only, never
+ * off any company name, address or magic value. Safe for arbitrary documents.
+ */
+export function disableSnapToGrid(xml: string): string {
+  // Each <w:p ...> ... </w:p>. We only adjust the paragraph's own pPr; runs and
+  // text are left exactly as-is.
+  return xml.replace(/<w:p\b([^>]*)>([\s\S]*?)<\/w:p>/g, (full, pAttr, inner) => {
+    // Locate this paragraph's <w:pPr> (it must be the FIRST child of <w:p>).
+    // Check the self-closing form FIRST — the open-tag regex below would also
+    // match "<w:pPr/>" (its [^>]* swallows the slash), so order matters.
+    const pprSelf = inner.match(/^\s*<w:pPr\b([^>]*?)\/>/);
+    const pprOpen = pprSelf ? null : inner.match(/^\s*<w:pPr\b([^>]*)>/);
+
+    if (pprOpen) {
+      // <w:pPr ...> ... </w:pPr> — normalise the snapToGrid child inside it.
+      const startTag = pprOpen[0];
+      const closeIdx = inner.indexOf("</w:pPr>");
+      if (closeIdx === -1) return full; // malformed; leave untouched
+      const pprInner = inner.slice(startTag.length, closeIdx);
+      const rest = inner.slice(closeIdx + "</w:pPr>".length);
+      const newPprInner = setSnapToGridOff(pprInner);
+      return `<w:p${pAttr}>${startTag}${newPprInner}</w:pPr>${rest}</w:p>`;
+    }
+
+    if (pprSelf) {
+      // Self-closing <w:pPr/> — expand it so we can add the child.
+      const rest = inner.slice(pprSelf[0].length);
+      const attrs = pprSelf[1] || "";
+      return `<w:p${pAttr}><w:pPr${attrs}><w:snapToGrid w:val="0"/></w:pPr>${rest}</w:p>`;
+    }
+
+    // No <w:pPr> at all — insert one at the very start of the paragraph.
+    return `<w:p${pAttr}><w:pPr><w:snapToGrid w:val="0"/></w:pPr>${inner}</w:p>`;
+  });
+}
+
+/**
+ * Ensure the contents of a <w:pPr> contain exactly one snapToGrid set to off.
+ * Per the OOXML schema, <w:snapToGrid> must appear before <w:spacing>/<w:ind>;
+ * we place it at the start of the pPr to stay schema-valid.
+ */
+function setSnapToGridOff(pprInner: string): string {
+  if (/<w:snapToGrid\b/.test(pprInner)) {
+    // Replace any existing snapToGrid (on or off) with an explicit off.
+    return pprInner
+      .replace(/<w:snapToGrid\b[^>]*\/>/g, '<w:snapToGrid w:val="0"/>')
+      .replace(/<w:snapToGrid\b[^>]*>[\s\S]*?<\/w:snapToGrid>/g, '<w:snapToGrid w:val="0"/>');
+  }
+  // No existing tag — prepend one (valid as the first pPr child).
+  return `<w:snapToGrid w:val="0"/>${pprInner}`;
 }
 
 /**
