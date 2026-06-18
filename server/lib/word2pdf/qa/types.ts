@@ -23,6 +23,7 @@ export interface PreprocessPassDecisions {
   ranStructuralPasses: boolean;
   ranTitleBandReconstruction: boolean;
   ranMetaLineRelocation: boolean;
+  ranPreTableMetaBlockNormalization: boolean;
   ranDefloatTable: boolean;
   usedLegacyCompat: boolean;
   revertedToGridNormalized: boolean;

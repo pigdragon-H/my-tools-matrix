@@ -4,6 +4,8 @@ export function chooseLayoutPolicy(signals: LayoutSignals): LayoutPolicy {
   if (
     signals.fragileHeaderBlock ||
     signals.singlePageCompressionRisk ||
+    signals.preTableMetaBlockRisk ||
+    signals.sharedLeftEdgeMismatch ||
     (signals.denseMetaLine && signals.floatingTableRisk)
   ) {
     return "visual-fidelity-first";
@@ -12,7 +14,12 @@ export function chooseLayoutPolicy(signals: LayoutSignals): LayoutPolicy {
 }
 
 export function shouldRunStructuralPasses(signals: LayoutSignals): boolean {
-  return signals.fakeCenterRisk || signals.floatingTableRisk;
+  return (
+    signals.fakeCenterRisk ||
+    signals.floatingTableRisk ||
+    signals.preTableMetaBlockRisk ||
+    signals.sharedLeftEdgeMismatch
+  );
 }
 
 export function shouldReconstructTitleBand(signals: LayoutSignals): boolean {
@@ -20,7 +27,10 @@ export function shouldReconstructTitleBand(signals: LayoutSignals): boolean {
 }
 
 export function shouldRelocateMetaLineNearTable(signals: LayoutSignals): boolean {
-  return signals.fragileHeaderBlock && signals.floatingTableRisk && signals.denseMetaLine;
+  return (
+    signals.preTableMetaBlockRisk &&
+    (signals.floatingTableRisk || signals.tabStopFieldClusterRisk || signals.denseMetaLine)
+  );
 }
 
 export function shouldUseLegacyQuotationCompat(signals: LayoutSignals): boolean {

@@ -38,7 +38,7 @@ export const REGRESSION_CORPUS: RegressionCorpusEntry[] = [
       "indent-failure-cleared-or-improved",
       "meta-line-after-table-nonincrease",
     ],
-    notes: "QKF quotation: pre-table metadata lines must not drift into a visually indented layout.",
+    notes: "QKF quotation: pre-table metadata block must keep a stable shared left edge instead of depending on tabs or space runs.",
     expectedNotes: [
       "header visual risk lowered",
       "likely visual indent failure improved",

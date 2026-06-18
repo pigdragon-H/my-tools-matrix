@@ -17,6 +17,9 @@ export interface LayoutSignals {
   fragileHeaderBlock: boolean;
   singlePageCompressionRisk: boolean;
   compatLegacyQuotationMetaHeaderLine: boolean;
+  preTableMetaBlockRisk: boolean;
+  sharedLeftEdgeMismatch: boolean;
+  tabStopFieldClusterRisk: boolean;
 }
 
 export interface LayoutContext {

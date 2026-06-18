@@ -74,6 +74,9 @@ function computeHeaderVisualRiskScore(snapshot: {
   if (snapshot.context.signals.fragileHeaderBlock) score += 1;
   if (snapshot.context.signals.floatingTableRisk) score += 1;
   if (snapshot.context.signals.singlePageCompressionRisk) score += 1;
+  if (snapshot.context.signals.preTableMetaBlockRisk) score += 1;
+  if (snapshot.context.signals.sharedLeftEdgeMismatch) score += 1;
+  if (snapshot.context.signals.tabStopFieldClusterRisk) score += 1;
   if (snapshot.counts.headerSpaceAlignedLineCount > 0) score += 1;
   if (snapshot.counts.metaLinesAfterFirstTableCount > 0) score += 1;
   if (snapshot.counts.headerFakeCenterParagraphCount > 0) score += 1;
@@ -87,7 +90,12 @@ function computeLikelyVisualIndentFailure(snapshot: {
 }): boolean {
   return (
     snapshot.counts.headerDenseMetaLineCount > 0 &&
-    (snapshot.counts.metaLinesAfterFirstTableCount > 0 || snapshot.counts.headerSpaceAlignedLineCount > 0) &&
+    (
+      snapshot.counts.metaLinesAfterFirstTableCount > 0 ||
+      snapshot.counts.headerSpaceAlignedLineCount > 0 ||
+      snapshot.context.signals.sharedLeftEdgeMismatch ||
+      snapshot.context.signals.tabStopFieldClusterRisk
+    ) &&
     snapshot.headerVisualRiskScore >= 4
   );
 }

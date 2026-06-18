@@ -4,7 +4,8 @@ import { mergeFakeCentredTextLines } from "./passes/mergeFakeCenteredLines";
 import { normalizeSnapGridParts } from "./pipelineInternals";
 import { pinAllCentresUniversal } from "./passes/pinCenteredParagraphs";
 import { fixTitleLine } from "./passes/reconstructTitleBand";
-import { moveAttnAboveTable } from "./passes/relocateMetaLineNearTable";
+import { relocatePreTableMetadataBlock } from "./passes/relocatePreTableMetadataBlock";
+import { normalizePreTableMetaBlock } from "./passes/normalizePreTableMetaBlock";
 import { defloatTable } from "./passes/applyFloatingTablePolicy";
 import {
   shouldDefloatTable,
@@ -57,6 +58,7 @@ export async function preprocessQuotationDocxWithReport(
       ranStructuralPasses: false,
       ranTitleBandReconstruction: false,
       ranMetaLineRelocation: false,
+      ranPreTableMetaBlockNormalization: false,
       ranDefloatTable: false,
       usedLegacyCompat,
       revertedToGridNormalized: false,
@@ -98,7 +100,13 @@ export async function preprocessQuotationDocxWithReport(
     passDecisions.ranMetaLineRelocation =
       shouldRelocateMetaLineNearTable(initialContext.signals) || usedLegacyCompat;
     if (passDecisions.ranMetaLineRelocation) {
-      xml = moveAttnAboveTable(xml);
+      xml = relocatePreTableMetadataBlock(xml);
+    }
+
+    passDecisions.ranPreTableMetaBlockNormalization =
+      initialContext.signals.preTableMetaBlockRisk || initialContext.signals.sharedLeftEdgeMismatch;
+    if (passDecisions.ranPreTableMetaBlockNormalization) {
+      xml = normalizePreTableMetaBlock(xml);
     }
 
     const postStructureContext = buildLayoutContext(xml);
