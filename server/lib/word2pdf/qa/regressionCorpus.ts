@@ -42,9 +42,31 @@ export const REGRESSION_CORPUS: RegressionCorpusEntry[] = [
     expectedNotes: [
       "header visual risk lowered",
       "likely visual indent failure improved",
+      "ATTN/meta block normalized for stable alignment",
     ],
     referencePdfRefs: ["reference/qkf_ref.pdf"],
-    riskTags: ["header-indent", "meta-line-order", "floating-table"],
+    riskTags: ["header-indent", "meta-line-order", "floating-table", "tab-stop-drift"],
+  },
+  {
+    id: "qkf-attn-meta-block-alignment",
+    family: "fragile-header-quotation",
+    fixtureRef: "qkf_source.docx",
+    status: "active",
+    expectedPolicy: "visual-fidelity-first",
+    assertions: [
+      "policy-visual-fidelity-first",
+      "header-visual-risk-nonincrease",
+      "indent-failure-cleared-or-improved",
+      "meta-line-after-table-nonincrease",
+    ],
+    notes: "Real-world ATTN/meta block report: split the legacy ATTN/date/currency line so PDF output no longer depends on unstable space-run alignment.",
+    expectedNotes: [
+      "header visual risk lowered",
+      "likely visual indent failure improved",
+      "ATTN/meta block normalized for stable alignment",
+    ],
+    referencePdfRefs: ["reference/qkf_ref.pdf"],
+    riskTags: ["header-indent", "meta-line-order", "floating-table", "tab-stop-drift"],
   },
   {
     id: "generic-fragile-header-quotation",

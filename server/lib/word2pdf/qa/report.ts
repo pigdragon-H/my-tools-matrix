@@ -34,6 +34,10 @@ export function createPreprocessChangeReport(args: {
     notes.push("meta lines after first table reduced");
   }
 
+  if (args.passDecisions.ranAttnMetaNormalization) {
+    notes.push("ATTN/meta block normalized for stable alignment");
+  }
+
   if (args.passDecisions.ranDefloatTable) {
     notes.push("floating table removed for tighter in-flow layout");
   } else if (after.context.signals.floatingTableRisk) {
