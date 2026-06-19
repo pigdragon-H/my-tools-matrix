@@ -9,6 +9,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { supabaseService } from "../lib/supabaseAdmin";
 import { convertWordToPdf } from "../lib/docxToPdf";
+import { convertPdfToDocx } from "../lib/pdfToDocx";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +21,41 @@ const WORD_TO_PDF_UPLOAD_LIMIT = `${WORD_TO_PDF_UPLOAD_LIMIT_MB}mb`;
 const WORD_TO_PDF_RATE_WINDOW_MS = Number(process.env.WORD_TO_PDF_RATE_WINDOW_MS ?? 60_000);
 const WORD_TO_PDF_RATE_LIMIT = Number(process.env.WORD_TO_PDF_RATE_LIMIT ?? 6);
 const wordToPdfRateBuckets = new Map<string, { count: number; resetAt: number }>();
+
+const PDF_TO_WORD_UPLOAD_LIMIT_MB = 25;
+const PDF_TO_WORD_UPLOAD_LIMIT = `${PDF_TO_WORD_UPLOAD_LIMIT_MB}mb`;
+const PDF_TO_WORD_RATE_WINDOW_MS = Number(process.env.PDF_TO_WORD_RATE_WINDOW_MS ?? 60_000);
+const PDF_TO_WORD_RATE_LIMIT = Number(process.env.PDF_TO_WORD_RATE_LIMIT ?? 6);
+const pdfToWordRateBuckets = new Map<string, { count: number; resetAt: number }>();
+
+function enforcePdfToWordRateLimit(
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) {
+  const now = Date.now();
+  const ip = req.ip || req.socket.remoteAddress || "unknown";
+  const bucket = pdfToWordRateBuckets.get(ip);
+
+  if (!bucket || bucket.resetAt <= now) {
+    pdfToWordRateBuckets.set(ip, {
+      count: 1,
+      resetAt: now + PDF_TO_WORD_RATE_WINDOW_MS,
+    });
+    return next();
+  }
+
+  if (bucket.count >= PDF_TO_WORD_RATE_LIMIT) {
+    const retryAfterSeconds = Math.max(1, Math.ceil((bucket.resetAt - now) / 1000));
+    res.setHeader("Retry-After", String(retryAfterSeconds));
+    return res.status(429).json({
+      error: `Too many PDF-to-Word conversions from this IP. Please retry in ${retryAfterSeconds}s.`,
+    });
+  }
+
+  bucket.count += 1;
+  return next();
+}
 
 function enforceWordToPdfRateLimit(
   req: express.Request,
@@ -187,6 +223,49 @@ app.post(
       res.send(pdf);
     } catch (e) {
       console.error("[word-to-pdf] conversion failed:", e);
+      const message = e instanceof Error ? e.message : String(e);
+      const status = /busy|retry/i.test(message) ? 429 : 500;
+      res.status(status).json({ error: message });
+    }
+  }
+);
+
+// ------------------------------------------------------------
+// High-fidelity PDF -> Word (.docx) conversion (LibreOffice headless)
+// ------------------------------------------------------------
+// The client POSTs the raw PDF bytes (Content-Type: application/octet-stream)
+// with the original filename in the `x-filename` header. We return an editable
+// .docx stream. The uploaded file is processed in an isolated temp dir and
+// deleted immediately after conversion (nothing is persisted).
+app.post(
+  "/api/convert/pdf-to-word",
+  enforcePdfToWordRateLimit,
+  express.raw({ type: "*/*", limit: PDF_TO_WORD_UPLOAD_LIMIT }),
+  async (req, res) => {
+    try {
+      const body = req.body as Buffer;
+      if (!Buffer.isBuffer(body) || body.length === 0) {
+        return res.status(400).json({ error: "Empty request body" });
+      }
+      const rawName =
+        (req.headers["x-filename"] as string | undefined) || "document.pdf";
+      // sanitize filename
+      const originalName = decodeURIComponent(rawName).replace(/[^\w.\- ]+/g, "_");
+
+      const { docx, ms } = await convertPdfToDocx(body, originalName);
+      const docxName = originalName.replace(/\.pdf$/i, "") + ".docx";
+      res.setHeader(
+        "Content-Type",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      );
+      res.setHeader("X-Conversion-Ms", String(ms));
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename="${encodeURIComponent(docxName)}"`
+      );
+      res.send(docx);
+    } catch (e) {
+      console.error("[pdf-to-word] conversion failed:", e);
       const message = e instanceof Error ? e.message : String(e);
       const status = /busy|retry/i.test(message) ? 429 : 500;
       res.status(status).json({ error: message });

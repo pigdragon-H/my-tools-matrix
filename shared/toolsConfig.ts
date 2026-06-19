@@ -5203,6 +5203,20 @@ export const tools: Tool[] = [
     isFeatured: false,
     seoArticles: [],
   },
+  {
+    id: "pdf-to-word",
+    name: "PDF 轉 Word",
+    category: "converter",
+    path: "/tools/converter/pdf-to-word",
+    icon: "FileType",
+    description: "免費線上 PDF 轉 Word 工具，採伺服器端 LibreOffice 引擎高保真還原版面與文字，輸出可編輯的 .docx；檔案加密上傳、轉換後立即刪除，不留存任何資料。",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: false,
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5593,3 +5607,4 @@ export const cpcCalculator = { id: "cpc-calculator", category: "finance", name: 
 export const wordToPdf = { id: "word-to-pdf", category: "converter", name: "Word 轉 PDF", path: "/tools/converter/word-to-pdf" };
 /* === SAFE ZONE END === */
 export const pdfMerge = { id: "pdf-merge", category: "converter", name: "Merge PDF", path: "/tools/converter/pdf-merge" };
+export const pdfToWord = { id: "pdf-to-word", category: "converter", name: "PDF to Word", path: "/tools/converter/pdf-to-word" };
