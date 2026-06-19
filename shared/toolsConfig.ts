@@ -5189,6 +5189,20 @@ export const tools: Tool[] = [
     status: "GOLD",
     seoArticles: [],
   },
+  {
+    id: "pdf-merge",
+    name: "PDF 合併",
+    category: "converter",
+    path: "/tools/converter/pdf-merge",
+    icon: "Combine",
+    description: "免費線上 PDF 合併，瀏覽器執行，可拖曳排序多個 PDF 後合併為一份，檔案不上傳伺服器",
+    isPremium: false,
+    showAds: true,
+    rateLimit: 30,
+    isNew: true,
+    isFeatured: false,
+    seoArticles: [],
+  },
 ];
 
 // ============================================================
@@ -5578,3 +5592,4 @@ export const cpmCalculator = { id: "cpm-calculator", category: "ecommerce", name
 export const cpcCalculator = { id: "cpc-calculator", category: "finance", name: "CPC Calculator", path: "/tools/finance/cpc-calculator" };
 export const wordToPdf = { id: "word-to-pdf", category: "converter", name: "Word 轉 PDF", path: "/tools/converter/word-to-pdf" };
 /* === SAFE ZONE END === */
+export const pdfMerge = { id: "pdf-merge", category: "converter", name: "Merge PDF", path: "/tools/converter/pdf-merge" };
