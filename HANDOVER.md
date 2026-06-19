@@ -1,13 +1,20 @@
 # 任務交接手冊 — Formula Universe / Word→PDF 轉換引擎
 > 給「接手的 AI 視窗」的承接重點、注意事項、瓶頸、以及指揮官（使用者）嚴格要求與禁令。
-> 最後更新：2026-06-18（commit `55cda63`，已上線 production 並驗證通過）
+> 最後更新：2026-06-20（PDF→Word 以「偵測器＋三引擎路由」重新上線；分支 feature/pdf-to-word-router）
 
 ---
 
 ## 0. 一句話現況
-PDF→Word、PDF→Markdown 兩個工具**已整個刪除**，目前唯一的轉換工具是 **Word→PDF**。
-最近兩個 bug（郵件貼上那行右移、尾頁簽名漂移到頁面正中央）**都已修復、上線、實測通過**。
-工作樹乾淨，沒有待提交的程式碼。
+兩個轉換工具：**Word→PDF**（LibreOffice，未變）與**重新上線的 PDF→Word**。
+
+**PDF→Word 已從單一 pdf2docx 升級為「強前置偵測器＋三引擎路由」**（對標 Smallpdf，經使用者授權重新引入；注意這與第 6 節記載的「3387987 整套刪除」是不同決策，本次是刻意、乾淨地重建）：
+- 偵測器 `server/lib/pdf_classify_worker.py`：掃前 3 頁，輸出 route ∈ {structured, overlay, scanned} + 特徵值。
+- `structured`（規則表格、低色塊，如報價單）→ `pdf2docx_worker.py`：真 `<w:tbl>` 表格、可編輯。
+- `overlay`（設計海報/彩色卡/白底黑字文件，如 IEC 報告、充電器規格書）→ `overlay_worker.py`：**text-over-image 雙層**（PyMuPDF 去字背景圖＋原生文字依座標疊放），視覺忠實又可編輯、零 OCR 錯字；同時是任何含文字層 PDF 的 SAFE fallback。
+- `scanned`（無文字層）→ overlay 產出純圖片版 Word，header 標 `X-Needs-Ocr: true`（OCR 為 Phase 2，尚未接）。
+- **韌性**：structured 走 pdf2docx 設內部時限 `PDF2DOCX_INNER_TIMEOUT_MS`（預設 45s），逾時/失敗**自動降級 overlay**（pdf2docx 對重向量 PDF 會 hang，這是關鍵保護），故「永不硬失敗」。
+- 路由主檔 `server/lib/pdfToDocx.ts`；API route 回傳診斷 header：`X-Engine / X-Route / X-Needs-Ocr / X-Fell-Back`。
+- 沙盒模擬 production 端到端實測：報價單→pdf2docx(3表/0框)、規格書→overlay、IEC→overlay、worker 缺失→自動降級 overlay(X-Fell-Back=true) 全綠；validate:registry PASS。
 
 ---
 

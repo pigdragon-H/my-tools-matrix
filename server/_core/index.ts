@@ -252,13 +252,24 @@ app.post(
       // sanitize filename
       const originalName = decodeURIComponent(rawName).replace(/[^\w.\- ]+/g, "_");
 
-      const { docx, ms } = await convertPdfToDocx(body, originalName);
+      const { docx, ms, engine, route, needsOcr, fellBack } =
+        await convertPdfToDocx(body, originalName);
       const docxName = originalName.replace(/\.pdf$/i, "") + ".docx";
       res.setHeader(
         "Content-Type",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
       );
       res.setHeader("X-Conversion-Ms", String(ms));
+      // Diagnostics for the UI: which engine ran, the classifier route, whether
+      // the file is scanned (needs OCR to be editable), and whether we fell back.
+      res.setHeader("X-Engine", engine);
+      res.setHeader("X-Route", route);
+      res.setHeader("X-Needs-Ocr", String(needsOcr));
+      res.setHeader("X-Fell-Back", String(fellBack));
+      res.setHeader(
+        "Access-Control-Expose-Headers",
+        "X-Conversion-Ms, X-Engine, X-Route, X-Needs-Ocr, X-Fell-Back"
+      );
       res.setHeader(
         "Content-Disposition",
         `attachment; filename="${encodeURIComponent(docxName)}"`
