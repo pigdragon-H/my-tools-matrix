@@ -39,11 +39,17 @@ aptPkgs = [
   "python3-pip",
 ]
 
-[phases.install]
-# Run the default Node install, then install the Python PDF->Word engine.
-# `--break-system-packages` is required on Debian/PEP-668 images to install
-# into the system Python; this build image is single-purpose so that is safe.
+# IMPORTANT: do NOT override [phases.install] here. The project is managed with
+# pnpm (pnpm-lock.yaml + packageManager: pnpm@10.4.1). Nixpacks auto-generates
+# the correct `pnpm install` for the install phase; replacing it with npm would
+# break the dependency tree and fail the build (Railway would then keep serving
+# the previous deploy). Instead we add the Python engine in a SEPARATE phase
+# that runs AFTER install, leaving the Node install flow untouched.
+#
+# `--break-system-packages` is required on Debian/PEP-668 images to install into
+# the system Python; this build image is single-purpose so that is safe.
+[phases.pyengine]
+dependsOn = ["install"]
 cmds = [
-  "npm ci || npm install",
   "python3 -m pip install --no-cache-dir --break-system-packages 'pdf2docx==0.5.13'",
 ]
