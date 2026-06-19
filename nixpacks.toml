@@ -2,21 +2,28 @@ providers = ["node"]
 
 [phases.setup]
 nixPkgs = ["nodejs_20"]
-# High-fidelity Word→PDF needs the LibreOffice Writer layout engine plus CJK
-# fonts so 繁/簡/日/韓 render correctly in the exported vector PDF.
-# Installed via apt on the Debian-based Nixpacks image (most reliable for
-# LibreOffice + system fonts).
+# This deployment hosts two server-side converters:
 #
-# CRITICAL for Traditional-Chinese fidelity:
+#   1. Word -> PDF : LibreOffice Writer's layout engine + CJK fonts (vector PDF).
+#   2. PDF  -> Word: the pdf2docx Python engine, which performs *structural*
+#                    recovery (real paragraphs + real <w:tbl> tables) rather
+#                    than LibreOffice's PDF import filter, whose visual-fidelity
+#                    output is ~150 floating text boxes + 0 real tables and is
+#                    effectively un-editable.
+#
+# CRITICAL for Traditional-Chinese fidelity (Word->PDF):
 #   The SOONTOP quotation references Windows-only fonts (標楷體/新細明體/
 #   華康粗明體). Without close substitutes LibreOffice falls back to the
 #   heavier/wider Noto Sans CJK black face, which inflates every line and
 #   overflows the fixed-width quotation table ("字體膨脹位移"). The AR PL
 #   UKai/UMing and TW-Kai/TW-Sung faces are Traditional-Chinese Kaiti/Mingti
-#   fonts whose glyph widths closely match the original Windows fonts, so the
-#   exported PDF matches the Smallpdf gold standard. A fontconfig alias
-#   (installed at server startup, see server/lib/fontSetup.ts) maps the
-#   Windows font names onto these faces.
+#   fonts whose glyph widths closely match the original Windows fonts. A
+#   fontconfig alias (installed at server startup, see server/lib/fontSetup.ts)
+#   maps the Windows font names onto these faces.
+#
+# python3 + python3-pip provide the runtime for the pdf2docx worker; the actual
+# pdf2docx wheel (and its PyMuPDF / python-docx deps) is installed in the
+# install phase below so it lands in the build image.
 aptPkgs = [
   "libreoffice-writer",
   "libreoffice-core",
@@ -28,4 +35,15 @@ aptPkgs = [
   "fonts-cns11643-kai",
   "fonts-cns11643-sung",
   "fontconfig",
+  "python3",
+  "python3-pip",
+]
+
+[phases.install]
+# Run the default Node install, then install the Python PDF->Word engine.
+# `--break-system-packages` is required on Debian/PEP-668 images to install
+# into the system Python; this build image is single-purpose so that is safe.
+cmds = [
+  "npm ci || npm install",
+  "python3 -m pip install --no-cache-dir --break-system-packages 'pdf2docx==0.5.13'",
 ]
