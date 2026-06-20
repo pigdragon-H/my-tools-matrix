@@ -346,8 +346,8 @@ async function ensureCjkFont(script: DocScript): Promise<string> {
 const ui = {
   zh: {
     title: "Word 轉 PDF",
-    subtitle: "企業級精準轉換 · 瀏覽器執行 · 資料不離開您的裝置",
-    badge1: "完全免費", badge2: "瀏覽器執行", badge3: "支援中文",
+    subtitle: "企業級精準轉換 · 伺服器端高保真引擎 · 轉換後立即刪除",
+    badge1: "完全免費", badge2: "高保真向量輸出", badge3: "支援中文",
     uploadLabel: "上傳 Word 檔案（.docx）",
     uploadHint: "支援 .docx 格式；免費版最大 20 MB",
     dragHint: "拖放至此，或點擊選擇檔案",
@@ -362,11 +362,11 @@ const ui = {
     gradeComplex: "🟠 複雜版面 — 預期 70% 還原度，建議人工校對",
     gradeUnsupported: "🔴 此文件含不支援元素，轉換結果可能差異較大",
     convertBtn: "開始轉換",
-    successNote: "轉換完成 · 文字可搜尋 · 支援複製",
+    successNote: "轉換完成 · 文字可搜尋 · 檔案已於伺服器端處理並即時刪除",
     errorTitle: "轉換失敗",
     errorHint: "請確認檔案為有效 .docx 格式，且未設定密碼保護",
-    privacyTitle: "🔒 隱私保障",
-    privacyDesc: "全程瀏覽器本地執行。您的檔案從未上傳至任何伺服器。關閉頁面後所有資料立即清除。",
+    privacyTitle: "🔒 隱私與資料處理",
+    privacyDesc: "高保真 Word 轉 PDF 需要伺服器端的文件引擎，您的檔案會以加密連線上傳至伺服器，於隔離的暫存目錄中轉換。轉換完成後您的原始檔案與輸出檔案都會立即從伺服器刪除，全程不寫入資料庫、不做備份、不外傳任何第三方。",
     premiumTitle: "Premium 進階功能",
     premiumDesc: "批量轉換、50MB 大檔、PDF/A 合規輸出、頁眉頁腳自訂、浮水印移除",
     kbTitle: "📚 Word 轉 PDF 知識庫",
@@ -395,23 +395,24 @@ const ui = {
       "SmartArt、圖表、3D 物件",
     ],
     kbTechTitle: "🔧 技術說明",
-    kbTech: "本工具採用 mammoth.js 語意提取 + pdfmake 程式化渲染，產生文字可搜尋的真實向量 PDF，而非截圖式影像 PDF。轉換引擎內建於頁面（不依賴外部 CDN），離線或內網環境亦可運作。偵測到中文時會自動載入 Noto Sans CJK 字型以正確輸出繁簡中文；若字型載入失敗，拉丁文字仍可正常輸出，少數中文字元可能缺字，建議改用 Word/Google Docs 直接匯出。",
+    kbTech: "本工具在伺服器端採用開源的 LibreOffice（MPL 2.0）headless 引擎，以 Word 的版面引擎渲染 .docx 並匯出為真實向量 PDF：文字可搜尋、可複製，放大至 150%/200% 仍清晰，而非截圖式影像 PDF。針對繁體中文文件，伺服器端已配置對應的中文字型替換，盡量貼近原始版面。檔案於轉換後立即刪除，不留存。",
     faqTitle: "常見問題",
     faqs: [
       { q: "支援哪些 Word 版本？", a: "支援 .docx 格式（Word 2007 及以上，含 Google Docs 與 LibreOffice 匯出的 .docx）。不支援舊版 .doc 格式。" },
-      { q: "中文會正確顯示嗎？", a: "本工具會嘗試以瀏覽器端 Unicode PDF 輸出繁體與簡體中文，文字可搜尋與複製；若含特殊罕見字元，建議改用 Word/Google Docs 直接匯出以取得最高字型保真。" },
+      { q: "中文會正確顯示嗎？", a: "會。伺服器端以 LibreOffice 引擎輸出繁體與簡體中文，文字可搜尋與複製，並已配置中文字型替換以貼近原始版面；少數罕見字元若伺服器字型未涵蓋，建議改用 Word/Google Docs 直接匯出以取得最高字型保真。" },
       { q: "轉換後 PDF 的文字可以複製嗎？", a: "可以。本工具產生的是真實向量 PDF，所有文字均可搜尋、選取、複製，有別於截圖式 PDF。" },
+      { q: "我的檔案會被儲存嗎？", a: "不會。檔案僅在轉換當下短暫存在於伺服器的隔離暫存區，轉換完成後立即刪除，全程不寫入資料庫、不做備份、不外傳第三方。" },
       { q: "檔案有大小限制嗎？", a: "免費版最大 20MB。含大量嵌入圖片的文件可能較慢，建議升級 Premium 以處理超大檔案。" },
       { q: "密碼保護的文件可以轉換嗎？", a: "無法。請先在 Word 中移除密碼保護（檔案 → 資訊 → 保護文件 → 以密碼加密 → 清除密碼），再上傳轉換。" },
     ],
     relatedTitle: "相關轉換工具",
     related: [],
-    poweredBy: "本工具採用開源技術：mammoth.js（BSD-2）· pdfmake（MIT）· Noto Fonts（OFL）",
+    poweredBy: "本工具採用開源的 LibreOffice（MPL 2.0）於伺服器端轉換。檔案於處理後立即刪除，不予留存。",
   },
   en: {
     title: "Word to PDF",
-    subtitle: "Enterprise-grade conversion · Runs in browser · Your file never leaves your device",
-    badge1: "100% Free", badge2: "Browser-based", badge3: "CJK & Unicode",
+    subtitle: "Enterprise-grade conversion · Server-side high-fidelity engine · Deleted immediately after conversion",
+    badge1: "100% Free", badge2: "True Vector Output", badge3: "CJK & Unicode",
     uploadLabel: "Upload Word File (.docx)",
     uploadHint: "Supports .docx format. Free tier: max 20 MB.",
     dragHint: "Drag & drop here, or click to browse",
@@ -426,11 +427,11 @@ const ui = {
     gradeComplex: "🟠 Complex layout — expected 70% fidelity, manual review recommended",
     gradeUnsupported: "🔴 Unsupported elements detected — output may differ significantly",
     convertBtn: "Convert Now",
-    successNote: "Conversion complete · Text is searchable · Copy-paste enabled",
+    successNote: "Conversion complete · Searchable text · File processed server-side and deleted immediately",
     errorTitle: "Conversion Failed",
     errorHint: "Please ensure the file is a valid .docx format and is not password-protected.",
-    privacyTitle: "🔒 Privacy Guarantee",
-    privacyDesc: "Entirely local browser processing. Your file is never uploaded to any server. All data is cleared when you close or refresh the page.",
+    privacyTitle: "🔒 Privacy & Data Handling",
+    privacyDesc: "High-fidelity Word-to-PDF requires a server-side document engine, so your file is uploaded over an encrypted connection and converted in an isolated temporary directory. Once conversion finishes, both your original and output files are deleted from the server immediately — never written to a database, never backed up, never shared with any third party.",
     premiumTitle: "Premium Features",
     premiumDesc: "Batch conversion, 50MB large files, PDF/A compliance, custom headers/footers, watermark removal",
     kbTitle: "📚 Word to PDF Knowledge Base",
@@ -459,18 +460,19 @@ const ui = {
       "SmartArt, embedded charts, 3D objects",
     ],
     kbTechTitle: "🔧 Technical notes",
-    kbTech: "This tool uses mammoth.js for semantic extraction combined with pdfmake for programmatic rendering, producing a true vector PDF with selectable, searchable text — not a screenshot-based image PDF. The conversion engine is bundled into the page (no external CDN), so it also works offline or on intranets. When CJK text is detected, a Noto Sans CJK font is loaded automatically so Chinese renders correctly; if the font fails to load, Latin text still renders and a few CJK glyphs may be missing — in that case export directly from Word/Google Docs.",
+    kbTech: "This tool uses the open-source LibreOffice (MPL 2.0) headless engine on the server to render the .docx with Word's layout engine and export a true vector PDF: text is searchable, selectable, and stays crisp at 150%/200% zoom — not a screenshot-based image PDF. For Traditional Chinese documents, the server is configured with matching CJK font substitution to stay close to the original layout. Files are deleted immediately after conversion and never retained.",
     faqTitle: "FAQ",
     faqs: [
       { q: "Which Word versions are supported?", a: "Supports .docx format (Word 2007 and above, including Google Docs and LibreOffice exports). Legacy .doc format is not supported." },
-      { q: "Will Chinese / Japanese / Korean text display correctly?", a: "Yes. The tool attempts browser-side Unicode PDF output. Some rare CJK glyphs may require exporting directly from Word or Google Docs for perfect font fidelity." },
+      { q: "Will Chinese / Japanese / Korean text display correctly?", a: "Yes. The server-side LibreOffice engine outputs Traditional and Simplified Chinese with searchable, copyable text, and is configured with CJK font substitution to stay close to the original layout. A few rare glyphs not covered by server fonts may render best by exporting directly from Word or Google Docs." },
       { q: "Is the text in the output PDF searchable?", a: "Yes. This tool produces a true vector PDF — all text is searchable, selectable, and copy-pasteable, unlike screenshot-based PDF converters." },
+      { q: "Are my files stored?", a: "No. Files exist only briefly in an isolated temporary area on the server during conversion, are deleted immediately afterward, and are never written to a database, backed up, or shared with third parties." },
       { q: "Is there a file size limit?", a: "Free tier: 20MB. Documents with many embedded images may be slower. Upgrade to Premium for larger files." },
       { q: "Can I convert a password-protected document?", a: "No. Please remove the password in Word first (File → Info → Protect Document → Encrypt with Password → clear the password), then upload." },
     ],
     relatedTitle: "Related Converter Tools",
     related: [],
-    poweredBy: "Powered by open-source: mammoth.js (BSD-2) · pdfmake (MIT) · Noto Fonts (OFL)",
+    poweredBy: "Powered by open-source LibreOffice (MPL 2.0) for server-side conversion. Files are deleted immediately after processing and never retained.",
   },
 } as const;
 
@@ -1370,8 +1372,8 @@ export default function WordToPdf() {
       const sizeMb = file.size / 1024 / 1024;
       setSlowHint(
         sizeMb <= 0.5
-          ? "這是小檔案，正常應在 20–30 秒內完成。若進度停住，通常是瀏覽器 PDF 引擎遇到字型、表格或文件結構邊界案例；可先取消重試，或改用 Word/Google Docs 直接匯出。"
-          : "仍在處理中：大型圖片、長表格或複雜中文文件可能較慢。轉換在您的瀏覽器本地執行，檔案不會上傳；若久無進展可取消重試。"
+          ? "這是小檔案，正常應在 20–30 秒內完成。若進度停住，通常是伺服器端轉換引擎遇到字型、表格或文件結構邊界案例；可先取消重試，或改用 Word/Google Docs 直接匯出。"
+          : "仍在處理中：大型圖片、長表格或複雜中文文件可能較慢。伺服器正在轉換並將於完成後立即刪除檔案；若久無進展可取消重試。"
       );
     }, 8_000);
     try {
@@ -1546,7 +1548,7 @@ export default function WordToPdf() {
               <p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-600">Free Core</p>
               <h3 className="mt-2 text-xl font-black text-slate-900">快速轉 PDF</h3>
               <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                {fileSizeMb <= 0.5 ? "小檔案目標 20–30 秒內完成；若 PDF 引擎卡住，系統會快速失敗而不是讓您等到分鐘級。" : "檔案會在瀏覽器本地轉換，不上傳伺服器；複雜圖片與表格可能較慢。"}
+                {fileSizeMb <= 0.5 ? "小檔案目標 20–30 秒內完成；若 PDF 引擎卡住，系統會快速失敗而不是讓您等到分鐘級。" : "檔案以加密連線上傳至伺服器轉換並於完成後立即刪除；複雜圖片與表格可能較慢。"}
               </p>
             </article>
             <article className="rounded-[1.5rem] border border-violet-200 bg-violet-50/90 p-5 shadow-sm">
@@ -1621,7 +1623,7 @@ export default function WordToPdf() {
               <div className="bg-gradient-to-r from-emerald-50 via-blue-50 to-indigo-50 p-6 text-center md:p-8">
                 <p className="text-emerald-700 font-black text-xl">✅ {t.successNote}</p>
                 <p className="mt-2 text-sm text-slate-500">
-                  {pdfFileName} · PDF 大小：{(pdfSize / 1024).toFixed(1)} KB · 瀏覽器本地完成
+                  {pdfFileName} · PDF 大小：{(pdfSize / 1024).toFixed(1)} KB · 伺服器端轉換、完成後即刪除
                 </p>
               </div>
 
