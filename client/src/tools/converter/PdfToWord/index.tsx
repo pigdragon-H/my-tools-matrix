@@ -1,15 +1,17 @@
 /**
  * ╔══════════════════════════════════════════════════════════════════════════╗
  * ║  Formula Universe — PdfToWord Converter                                    ║
- * ║  Engineering Standard: Enterprise-Grade, High-Fidelity                     ║
+ * ║  Engineering Standard: Honest L1 (free) text-recovery converter            ║
  * ║                                                                            ║
  * ║  Architecture:                                                             ║
  * ║  File (PDF)  →  POST raw bytes /api/convert/pdf-to-word                     ║
- * ║              →  LibreOffice headless (server)  →  editable .docx Blob       ║
+ * ║              →  pdf2docx engine (server)  →  editable .docx Blob            ║
  * ║                                                                            ║
  * ║  Key Design Decisions:                                                     ║
- * ║  1. High-fidelity conversion needs a real office engine, so this tool      ║
- * ║     uploads to the server (LibreOffice). We disclose this honestly.        ║
+ * ║  1. Server-side parsing is required (pdf2docx cannot run in a browser),    ║
+ * ║     so this tool uploads to the server. We disclose this honestly. This    ║
+ * ║     L1 engine handles text + simple layouts; complex/visual fidelity is    ║
+ * ║     deferred to the upcoming paid L2+ (CloudConvert) path.                  ║
  * ║  2. The uploaded file is processed in an isolated temp dir and deleted      ║
  * ║     immediately after conversion — nothing is persisted server-side.       ║
  * ║  3. Single-file flow: pick / drag one PDF, convert, download .docx.        ║
@@ -88,8 +90,8 @@ const ui: Record<Lang, {
   zh: {
     title: "PDF 轉 Word",
     subtitle:
-      "免費線上將 PDF 轉換為可編輯的 Word（.docx）文件，採用伺服器端 LibreOffice 引擎進行高保真版面還原。",
-    badge1: "100% 免費", badge2: "高保真還原", badge3: "處理後即刪",
+      "免費線上將 PDF 轉換為可編輯的 Word（.docx）文件，採用伺服器端結構化還原引擎，擅長純文字與簡單版面的 PDF。",
+    badge1: "100% 免費", badge2: "可編輯文字輸出", badge3: "處理後即刪",
     uploadLabel: "上傳 PDF 檔案",
     uploadHint: `支援 .pdf 格式。免費版單檔上限 ${FREE_MAX_MB}MB。`,
     dragHint: "將 PDF 拖曳到此處，或點擊選擇檔案",
@@ -98,7 +100,7 @@ const ui: Record<Lang, {
     selectedLabel: "已選擇檔案",
     convertBtn: "立即轉換為 Word",
     converting: "轉換中，請稍候…",
-    convertingHint: "檔案已加密傳輸至伺服器進行高保真轉換，完成後將立即刪除。",
+    convertingHint: "檔案已加密傳輸至伺服器進行轉換，完成後將立即刪除。",
     successNote: "轉換完成 · 檔案已於伺服器端處理並即時刪除",
     downloadBtn: "⬇ 下載 Word（.docx）",
     reset: "重新開始",
@@ -108,7 +110,7 @@ const ui: Record<Lang, {
     notPdf: "請選擇 PDF 檔案。",
     uploadNoticeTitle: "ℹ️ 關於檔案處理方式",
     uploadNoticeDesc:
-      "與本站多數純瀏覽器工具不同，高保真 PDF 轉 Word 需要伺服器端的文件引擎，因此您的檔案會以加密連線上傳至伺服器進行轉換。轉換在隔離的暫存目錄中完成，產生結果後您的原始檔案與輸出檔案都會立即從伺服器刪除，不會被儲存或留存。",
+      "與本站多數純瀏覽器工具不同，PDF 轉 Word 需要伺服器端的文件引擎，因此您的檔案會以加密連線上傳至伺服器進行轉換。轉換在隔離的暫存目錄中完成，產生結果後您的原始檔案與輸出檔案都會立即從伺服器刪除，不會被儲存或留存。",
     privacyTitle: "🔒 隱私與資料處理",
     privacyDesc:
       "檔案僅在轉換當下短暫存在於伺服器的隔離暫存區，轉換完成後立即刪除，全程不寫入資料庫、不做備份、不用於任何其他用途。",
@@ -137,12 +139,12 @@ const ui: Record<Lang, {
     ],
     kbTechTitle: "🔧 技術說明",
     kbTech:
-      "本工具在伺服器端採用開源的 LibreOffice（MPL 2.0）headless 引擎，透過其 PDF 匯入與 Word 匯出濾鏡，將 PDF 的文字、段落與版面結構重建為標準 .docx 文件。相較於純前端方案，伺服器端引擎能更完整地還原版面與可編輯文字。",
+      "本工具在伺服器端採用開源的 pdf2docx 引擎，解析 PDF 的文字、段落與表格結構，重建為標準且可編輯的 .docx 文件。它擅長純文字與簡單版面的 PDF；對於複雜的多欄、密集表格或圖文混排版面，還原效果有限，建議使用即將推出的進階（高保真）轉換。",
     faqTitle: "常見問題",
     faqs: [
       { q: "我的檔案會被儲存嗎？", a: "不會。檔案僅在轉換當下短暫存在於伺服器的隔離暫存區，轉換完成後立即刪除，不會寫入資料庫或做任何備份。" },
-      { q: "為什麼這個工具需要上傳，其他工具卻不用？", a: "高保真的 PDF 轉 Word 需要完整的文件引擎（LibreOffice），這無法在瀏覽器內高品質完成，因此需在伺服器端處理。我們已誠實揭露此差異，並在處理後立即刪除檔案。" },
-      { q: "轉換後的 Word 會和原始 PDF 完全一樣嗎？", a: "文字型 PDF 的還原通常相當接近原版；但複雜的多欄、表格或特殊字體版面可能需要少量手動微調。" },
+      { q: "為什麼這個工具需要上傳，其他工具卻不用？", a: "PDF 轉 Word 需要伺服器端的文件解析引擎（pdf2docx），這無法在瀏覽器內完成，因此需在伺服器端處理。我們已誠實揭露此差異，並在處理後立即刪除檔案。" },
+      { q: "轉換後的 Word 會和原始 PDF 完全一樣嗎？", a: "純文字與簡單版面 PDF 的文字還原通常相當完整且可編輯；但複雜的多欄、密集表格或圖文混排版面可能會跑版，需手動調整，或改用即將推出的進階轉換。" },
       { q: "掃描的 PDF 可以轉嗎？", a: "純掃描影像型 PDF 內並無可選取文字，需要 OCR 文字辨識才能轉為可編輯內容，此能力規劃於 Premium 提供。" },
       { q: "有檔案大小限制嗎？", a: `免費版單檔上限為 ${FREE_MAX_MB}MB。更大的檔案與批次轉換規劃於 Premium 提供。` },
     ],
@@ -151,7 +153,7 @@ const ui: Record<Lang, {
       { name: "Word 轉 PDF", path: "/tools/converter/word-to-pdf", desc: "將 Word 文件轉為可搜尋的向量 PDF" },
       { name: "PDF 合併", path: "/tools/converter/pdf-merge", desc: "在瀏覽器端合併多個 PDF，檔案不上傳" },
     ],
-    poweredBy: "本工具採用開源的 LibreOffice（MPL 2.0）於伺服器端轉換。檔案於處理後立即刪除，不予留存。",
+    poweredBy: "本工具採用開源的 pdf2docx 引擎於伺服器端轉換。檔案於處理後立即刪除，不予留存。",
     premiumPlanned: "Premium 功能規劃中",
     premiumOcrTitle: "掃描件 OCR",
     premiumNeedAccount: "需雲端帳戶 / 訂閱",
@@ -160,8 +162,8 @@ const ui: Record<Lang, {
   en: {
     title: "PDF to Word",
     subtitle:
-      "Free online tool to convert PDF into an editable Word (.docx) document, using a server-side LibreOffice engine for high-fidelity layout reconstruction.",
-    badge1: "100% Free", badge2: "High fidelity", badge3: "Deleted after processing",
+      "Free online tool to convert PDF into an editable Word (.docx) document, using a server-side structural-recovery engine that works best on text and simple layouts.",
+    badge1: "100% Free", badge2: "Editable text output", badge3: "Deleted after processing",
     uploadLabel: "Upload a PDF file",
     uploadHint: `Supports .pdf format. Free tier: up to ${FREE_MAX_MB}MB per file.`,
     dragHint: "Drag a PDF here, or click to browse",
@@ -170,7 +172,7 @@ const ui: Record<Lang, {
     selectedLabel: "Selected file",
     convertBtn: "Convert to Word now",
     converting: "Converting, please wait…",
-    convertingHint: "Your file is uploaded over an encrypted connection for high-fidelity conversion, then deleted immediately.",
+    convertingHint: "Your file is uploaded over an encrypted connection for conversion, then deleted immediately.",
     successNote: "Conversion complete · Processed server-side and deleted immediately",
     downloadBtn: "⬇ Download Word (.docx)",
     reset: "Start over",
@@ -180,7 +182,7 @@ const ui: Record<Lang, {
     notPdf: "Please choose a PDF file.",
     uploadNoticeTitle: "ℹ️ How your file is handled",
     uploadNoticeDesc:
-      "Unlike most in-browser tools on this site, high-fidelity PDF-to-Word needs a server-side office engine, so your file is uploaded over an encrypted connection for conversion. It is processed in an isolated temporary directory, and both your original file and the output are deleted from the server immediately after conversion — nothing is stored or retained.",
+      "Unlike most in-browser tools on this site, PDF-to-Word needs a server-side document engine, so your file is uploaded over an encrypted connection for conversion. It is processed in an isolated temporary directory, and both your original file and the output are deleted from the server immediately after conversion — nothing is stored or retained.",
     privacyTitle: "🔒 Privacy & data handling",
     privacyDesc:
       "Files exist only briefly in an isolated server temp area during conversion and are deleted immediately afterward. Nothing is written to a database, backed up, or used for any other purpose.",
@@ -209,12 +211,12 @@ const ui: Record<Lang, {
     ],
     kbTechTitle: "🔧 Technical notes",
     kbTech:
-      "This tool uses the open-source LibreOffice (MPL 2.0) headless engine on the server, applying its PDF import and Word export filters to rebuild the PDF's text, paragraphs and layout structure into a standard .docx file. Compared with a browser-only approach, a server-side engine reconstructs layout and editable text more completely.",
+      "This tool uses the open-source pdf2docx engine on the server to parse the PDF's text, paragraphs and table structure and rebuild them into a standard, editable .docx file. It works best on text-based PDFs with simple layouts; for complex multi-column, dense-table or mixed text-and-graphic pages, reconstruction is limited — we recommend the upcoming advanced (high-fidelity) conversion.",
     faqTitle: "FAQ",
     faqs: [
       { q: "Are my files stored?", a: "No. Files exist only briefly in an isolated server temp area during conversion and are deleted immediately afterward — never written to a database or backed up." },
-      { q: "Why does this tool upload, when other tools don't?", a: "High-fidelity PDF-to-Word needs a full office engine (LibreOffice), which cannot be done at high quality inside a browser, so it runs server-side. We disclose this honestly and delete files right after processing." },
-      { q: "Will the Word output be identical to the original PDF?", a: "Text-based PDFs usually reconstruct very close to the original; complex multi-column, table or special-font layouts may need minor manual tweaks." },
+      { q: "Why does this tool upload, when other tools don't?", a: "PDF-to-Word needs a server-side document-parsing engine (pdf2docx), which cannot run inside a browser, so it runs server-side. We disclose this honestly and delete files right after processing." },
+      { q: "Will the Word output be identical to the original PDF?", a: "Text and simple-layout PDFs usually recover their text faithfully and editably; complex multi-column, dense-table or mixed text-and-graphic layouts may break and need manual fixes, or the upcoming advanced conversion." },
       { q: "Can I convert scanned PDFs?", a: "Pure scanned image PDFs contain no selectable text and need OCR to become editable — that capability is planned for Premium." },
       { q: "Is there a file size limit?", a: `The free tier allows up to ${FREE_MAX_MB}MB per file. Larger files and batch conversion are planned for Premium.` },
     ],
@@ -223,7 +225,7 @@ const ui: Record<Lang, {
       { name: "Word to PDF", path: "/tools/converter/word-to-pdf", desc: "Convert Word documents into searchable vector PDFs" },
       { name: "Merge PDF", path: "/tools/converter/pdf-merge", desc: "Combine multiple PDFs in the browser, no upload" },
     ],
-    poweredBy: "Powered by open-source LibreOffice (MPL 2.0) on the server. Files are deleted immediately after processing and never retained.",
+    poweredBy: "Powered by the open-source pdf2docx engine on the server. Files are deleted immediately after processing and never retained.",
     premiumPlanned: "Premium feature planned",
     premiumOcrTitle: "Scanned OCR",
     premiumNeedAccount: "Cloud account / subscription required",
