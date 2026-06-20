@@ -48,6 +48,37 @@ function makeSimpleTextPdf(): Buffer {
   return execFileSync(bin, ["-c", code], { maxBuffer: 16 * 1024 * 1024 });
 }
 
+/**
+ * Single-column text whose long lines wrap and cross the page center. This is
+ * the classic false-positive case: naive column detection mistook it for two
+ * columns and wrongly escalated to L1+. It must stay L1.
+ */
+function makeWrappedSingleColumnPdf(): Buffer {
+  const bin = process.env.PYTHON_BIN || "python3";
+  const code = [
+    "import sys, fitz",
+    "d = fitz.open(); p = d.new_page()",
+    "para = 'This is a continuous single column paragraph that wraps across many lines and even crosses the horizontal center of the page repeatedly because the text is long. '",
+    "p.insert_textbox(fitz.Rect(40, 40, 560, 760), para * 20, fontsize=11)",
+    "sys.stdout.buffer.write(d.tobytes())",
+  ].join("\n");
+  return execFileSync(bin, ["-c", code], { maxBuffer: 16 * 1024 * 1024 });
+}
+
+/** Genuine two-column layout with a clear central gutter -> must be L1+. */
+function makeTwoColumnPdf(): Buffer {
+  const bin = process.env.PYTHON_BIN || "python3";
+  const code = [
+    "import sys, fitz",
+    "d = fitz.open(); p = d.new_page()",
+    "col = 'Column text line that stays within its own narrow column without crossing the central gutter at all. '",
+    "p.insert_textbox(fitz.Rect(40, 40, 280, 760), col * 18, fontsize=10)",
+    "p.insert_textbox(fitz.Rect(320, 40, 560, 760), col * 18, fontsize=10)",
+    "sys.stdout.buffer.write(d.tobytes())",
+  ].join("\n");
+  return execFileSync(bin, ["-c", code], { maxBuffer: 16 * 1024 * 1024 });
+}
+
 const HAVE_PY = pythonAvailable();
 
 describe.skipIf(!HAVE_PY)("analyzePdf", () => {
@@ -58,6 +89,20 @@ describe.skipIf(!HAVE_PY)("analyzePdf", () => {
     expect(res.tier).toBe("L1");
     expect(res.previewUrl.startsWith("data:image/png;base64,")).toBe(true);
     expect(res.previewUrl.length).toBeGreaterThan(100);
+  }, 60_000);
+
+  it("does NOT misclassify wrapped single-column text as multi-column (stays L1)", async () => {
+    const { analyzePdf } = await import("./analyzePdf");
+    const pdf = makeWrappedSingleColumnPdf();
+    const res = await analyzePdf(pdf, "wrapped.pdf");
+    expect(res.tier).toBe("L1");
+  }, 60_000);
+
+  it("classifies a genuine two-column layout as L1+", async () => {
+    const { analyzePdf } = await import("./analyzePdf");
+    const pdf = makeTwoColumnPdf();
+    const res = await analyzePdf(pdf, "twocol.pdf");
+    expect(res.tier).toBe("L1plus");
   }, 60_000);
 
   it("rejects a non-PDF buffer", async () => {

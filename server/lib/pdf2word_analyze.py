@@ -45,22 +45,51 @@ def _envi(name, default):
 
 
 def estimate_columns(page, words):
-    """Very rough column estimate from the x-distribution of word boxes."""
+    """Detect true multi-column layout by looking for a vertical "gutter" — a
+    near-empty vertical band near the page center that text columns straddle.
+
+    Plain single-column text (even with long lines that cross the page center)
+    has NO gutter: word boxes continuously span the middle. Genuine two-column
+    layouts leave a clear vertical whitespace channel between columns, and few
+    or no word boxes cross the center line. This avoids the common false
+    positive where wrapped single-column text was mistaken for two columns.
+    """
     if not words:
         return 1
-    page_w = float(page.rect.width) or 1.0
-    # Bucket word left-edges into 10 vertical bands; count how many bands hold
-    # a meaningful share of words. Dense multi-column text spreads across two
-    # well-separated x-clusters.
-    left_centers = [(w[0] + w[2]) / 2.0 for w in words]
-    mid = page_w / 2.0
-    left_count = sum(1 for c in left_centers if c < mid * 0.85)
-    right_count = sum(1 for c in left_centers if c > mid * 1.15)
-    total = len(left_centers)
+    total = len(words)
     if total < 40:
         return 1
-    # If both halves carry a substantial, balanced share of words -> 2 columns.
-    if left_count > total * 0.25 and right_count > total * 0.25:
+
+    page_w = float(page.rect.width) or 1.0
+    mid = page_w / 2.0
+    # Gutter band = central 16% of page width.
+    band_lo = mid - page_w * 0.08
+    band_hi = mid + page_w * 0.08
+
+    crossing = 0          # word boxes that span across the center line
+    in_band = 0           # word boxes whose horizontal extent lies in the band
+    left_count = 0
+    right_count = 0
+    for w in words:
+        x0, x1 = float(w[0]), float(w[2])
+        if x0 < mid < x1:
+            crossing += 1
+        if x1 > band_lo and x0 < band_hi:
+            in_band += 1
+        c = (x0 + x1) / 2.0
+        if c < mid * 0.9:
+            left_count += 1
+        elif c > mid * 1.1:
+            right_count += 1
+
+    crossing_ratio = crossing / float(total)
+    band_ratio = in_band / float(total)
+
+    # Two columns require: balanced text on both sides AND a clear central
+    # gutter (very few boxes crossing the center / sitting in the band).
+    balanced = left_count > total * 0.3 and right_count > total * 0.3
+    has_gutter = crossing_ratio < 0.03 and band_ratio < 0.18
+    if balanced and has_gutter:
         return 2
     return 1
 
