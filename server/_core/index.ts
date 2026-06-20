@@ -10,6 +10,7 @@ import { createContext } from "./context";
 import { supabaseService } from "../lib/supabaseAdmin";
 import { convertWordToPdf } from "../lib/docxToPdf";
 import { convertPdfToDocx } from "../lib/pdfToDocx";
+import { analyzePdf } from "../lib/analyzePdf";
 import { getFontHealth } from "../lib/fontSetup";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -293,6 +294,41 @@ app.post(
       res.send(docx);
     } catch (e) {
       console.error("[pdf-to-word] conversion failed:", e);
+      const message = e instanceof Error ? e.message : String(e);
+      const status = /busy|retry/i.test(message) ? 429 : 500;
+      res.status(status).json({ error: message });
+    }
+  }
+);
+
+// ------------------------------------------------------------
+// PDF tier-analysis + first-page preview (L1 / L1+ routing)
+// ------------------------------------------------------------
+// The client POSTs the raw PDF bytes (Content-Type: application/octet-stream)
+// with the original filename in the `x-filename` header. We return JSON:
+//   { tier: "L1" | "L1plus", previewUrl: <base64 data URL of page 1>, signals }
+// This NEVER calls CloudConvert — the preview is a cheap local raster so the
+// paid engine cost falls only on paying users. The uploaded file is processed
+// in an isolated temp dir and deleted immediately (nothing is persisted).
+app.post(
+  "/api/pdf2word/analyze",
+  enforcePdfToWordRateLimit,
+  express.raw({ type: "*/*", limit: PDF_TO_WORD_UPLOAD_LIMIT }),
+  async (req, res) => {
+    try {
+      const body = req.body as Buffer;
+      if (!Buffer.isBuffer(body) || body.length === 0) {
+        return res.status(400).json({ error: "Empty request body" });
+      }
+      const rawName =
+        (req.headers["x-filename"] as string | undefined) || "document.pdf";
+      const originalName = decodeURIComponent(rawName).replace(/[^\w.\- ]+/g, "_");
+
+      const { tier, previewUrl, signals, ms } = await analyzePdf(body, originalName);
+      res.setHeader("X-Analyze-Ms", String(ms));
+      res.json({ tier, previewUrl, signals });
+    } catch (e) {
+      console.error("[pdf2word/analyze] failed:", e);
       const message = e instanceof Error ? e.message : String(e);
       const status = /busy|retry/i.test(message) ? 429 : 500;
       res.status(status).json({ error: message });
