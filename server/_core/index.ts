@@ -91,8 +91,22 @@ app.set("trust proxy", 1);
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 
+// Build/version stamp for provable deploy verification (local == remote == production).
+// Railway injects RAILWAY_GIT_COMMIT_SHA at build/runtime; fall back to other common envs.
+const BUILD_COMMIT =
+  process.env.RAILWAY_GIT_COMMIT_SHA ??
+  process.env.GIT_COMMIT_SHA ??
+  process.env.SOURCE_COMMIT ??
+  process.env.COMMIT_SHA ??
+  "unknown";
+
 app.get("/healthz", (_req, res) => {
-  res.status(200).json({ ok: true });
+  res.status(200).json({
+    ok: true,
+    commit: BUILD_COMMIT,
+    commitShort: BUILD_COMMIT.slice(0, 7),
+    env: process.env.NODE_ENV ?? "unknown",
+  });
 });
 
 // ------------------------------------------------------------
