@@ -1141,6 +1141,21 @@ async function convertViaServer(
   return blob;
 }
 
+/**
+ * @deprecated DEAD CODE — retained for reference only, do NOT call.
+ *
+ * This is the original browser-side Word→PDF renderer (mammoth.js semantic
+ * extraction → PdfMake). It was superseded by server-side LibreOffice
+ * conversion (convertViaServer → /api/convert/word-to-pdf) because LibreOffice
+ * produces a true vector PDF with far higher layout fidelity. As of B4 this
+ * function has NO callers: handleConvert() uses convertViaServer().
+ *
+ * It is intentionally not deleted (repo rule: add-only, never remove existing
+ * code paths) AND because the underlying helpers it shares — loadMammothRuntime()
+ * and the pdfmake CJK font setup — are still used by handleAnalyse() for
+ * document pre-flight analysis. Removing this function alone is safe, but is
+ * deferred to avoid churn in a large interdependent file on a live site.
+ */
 async function convertDocxToPdf(
   file: File,
   onStage: (stage: string) => void

@@ -10,6 +10,7 @@ import { createContext } from "./context";
 import { supabaseService } from "../lib/supabaseAdmin";
 import { convertWordToPdf } from "../lib/docxToPdf";
 import { convertPdfToDocx } from "../lib/pdfToDocx";
+import { getFontHealth } from "../lib/fontSetup";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -101,11 +102,23 @@ const BUILD_COMMIT =
   "unknown";
 
 app.get("/healthz", (_req, res) => {
+  const fonts = getFontHealth();
   res.status(200).json({
     ok: true,
     commit: BUILD_COMMIT,
     commitShort: BUILD_COMMIT.slice(0, 7),
     env: process.env.NODE_ENV ?? "unknown",
+    // B3: CJK font-alias health for Word→PDF fidelity. "unknown" until the
+    // first conversion triggers ensureCjkFonts(); "degraded" if any Windows
+    // CJK font failed to map onto its Kaiti/Mingti substitute.
+    fonts: {
+      status: fonts.status,
+      installed: fonts.installed,
+      ok: fonts.okCount,
+      degraded: fonts.degradedCount,
+      unknown: fonts.unknownCount,
+      checkedAt: fonts.checkedAt,
+    },
   });
 });
 

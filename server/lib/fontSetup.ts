@@ -120,6 +120,53 @@ const ALIAS_CONF = `<?xml version="1.0"?>
 `;
 
 let done = false;
+
+/**
+ * B3 — Font health observability.
+ *
+ * The alias verification used to be logged and forgotten (silent degradation):
+ * if a Windows CJK font failed to map onto its Kaiti/Mingti substitute, the
+ * conversion still "worked" but produced a less faithful PDF, with no signal
+ * anyone could query. We now record the outcome into a module-level snapshot
+ * exposed via getFontHealth(), which /healthz surfaces so operators can detect
+ * a degraded font environment without reading logs.
+ */
+export type FontAliasStatus = "ok" | "degraded" | "unknown";
+
+export interface FontAliasResult {
+  requested: string;
+  resolved: string;
+  status: FontAliasStatus;
+}
+
+export interface FontHealth {
+  /** overall: ok = all aliases resolved; degraded = at least one fell back; unknown = not yet checked / fc tools missing */
+  status: FontAliasStatus;
+  installed: boolean;
+  installedTo: string | null;
+  checkedAt: number | null;
+  okCount: number;
+  degradedCount: number;
+  unknownCount: number;
+  aliases: FontAliasResult[];
+}
+
+const fontHealth: FontHealth = {
+  status: "unknown",
+  installed: false,
+  installedTo: null,
+  checkedAt: null,
+  okCount: 0,
+  degradedCount: 0,
+  unknownCount: 0,
+  aliases: [],
+};
+
+/** Returns a copy of the current CJK font-alias health snapshot. */
+export function getFontHealth(): FontHealth {
+  return { ...fontHealth, aliases: fontHealth.aliases.map((a) => ({ ...a })) };
+}
+
 const VERIFY_FAMILIES: Array<{ requested: string; expected: string[] }> = [
   { requested: "標楷體", expected: ["AR PL UKai TW", "TW-Kai", "AR PL UKai HK"] },
   { requested: "DFKai", expected: ["AR PL UKai TW", "TW-Kai"] },
@@ -157,10 +204,17 @@ export async function ensureCjkFonts(): Promise<void> {
   }
 
   if (!installedTo) {
+    fontHealth.installed = false;
+    fontHealth.installedTo = null;
+    fontHealth.status = "degraded";
+    fontHealth.checkedAt = Date.now();
     // eslint-disable-next-line no-console
     console.warn("[fontSetup] could not install CJK alias (no writable conf.d)");
     return;
   }
+
+  fontHealth.installed = true;
+  fontHealth.installedTo = installedTo;
 
   // Refresh fontconfig cache so soffice picks up the alias immediately.
   try {
@@ -184,6 +238,11 @@ export async function ensureCjkFonts(): Promise<void> {
 }
 
 async function verifyFontAliases(): Promise<void> {
+  const results: FontAliasResult[] = [];
+  let okCount = 0;
+  let degradedCount = 0;
+  let unknownCount = 0;
+
   for (const { requested, expected } of VERIFY_FAMILIES) {
     try {
       const { stdout } = await execFileAsync("fc-match", [requested, "--format=%{family}\n"], {
@@ -192,19 +251,35 @@ async function verifyFontAliases(): Promise<void> {
       const resolved = stdout.trim();
       const ok = expected.some((name) => resolved.includes(name));
       if (ok) {
+        okCount += 1;
+        results.push({ requested, resolved, status: "ok" });
         // eslint-disable-next-line no-console
         console.log(`[fontSetup] alias OK: ${requested} -> ${resolved}`);
       } else {
+        degradedCount += 1;
+        results.push({ requested, resolved: resolved || "(empty)", status: "degraded" });
         // eslint-disable-next-line no-console
         console.warn(
           `[fontSetup] alias VERIFY mismatch: ${requested} -> ${resolved || "(empty)"}; expected one of ${expected.join(", ")}`
         );
       }
     } catch (error) {
+      unknownCount += 1;
+      results.push({ requested, resolved: "(fc-match unavailable)", status: "unknown" });
       // eslint-disable-next-line no-console
       console.warn(`[fontSetup] alias VERIFY skipped for ${requested}: ${(error as Error).message}`);
     }
   }
+
+  fontHealth.aliases = results;
+  fontHealth.okCount = okCount;
+  fontHealth.degradedCount = degradedCount;
+  fontHealth.unknownCount = unknownCount;
+  fontHealth.checkedAt = Date.now();
+  // Overall: degraded if any alias fell back; unknown if we couldn't probe any;
+  // otherwise ok.
+  fontHealth.status =
+    degradedCount > 0 ? "degraded" : okCount > 0 ? "ok" : "unknown";
 }
 
 // Keep a reference to dirname for potential future asset loading.

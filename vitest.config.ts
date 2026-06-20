@@ -15,5 +15,15 @@ export default defineConfig({
   test: {
     environment: "node",
     include: ["server/**/*.test.ts", "server/**/*.spec.ts"],
+    // Several suites (docxToPdf, fontSetup) touch shared, process-global system
+    // state: they install a fontconfig alias and run `fc-cache`. Running them in
+    // parallel pools causes a race where the alias is mid-rewrite while another
+    // suite probes it. Force a single, sequential worker so the font
+    // environment is deterministic across the whole run.
+    fileParallelism: false,
+    pool: "forks",
+    poolOptions: {
+      forks: { singleFork: true },
+    },
   },
 });
