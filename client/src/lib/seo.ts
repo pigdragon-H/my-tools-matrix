@@ -17,6 +17,26 @@ function upsertMeta(selector: string, createAttributes: Record<string, string>, 
   element.setAttribute("content", content);
 }
 
+// Inject (or update) a single self-referencing <link rel="canonical"> in <head>.
+// Uses origin + pathname only, so query strings (?cat=, ?lang=, …) and #hash are
+// stripped — every page declares its own clean URL as the canonical. This is the
+// standard Google-recommended fix for "Duplicate, Google chose different canonical
+// than user". It only touches <head>; it changes no routing and cannot cause 404.
+function upsertCanonical() {
+  if (typeof document === "undefined" || typeof window === "undefined") return;
+
+  const href = window.location.origin + window.location.pathname;
+
+  let link = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (!link) {
+    link = document.createElement("link");
+    link.setAttribute("rel", "canonical");
+    document.head.appendChild(link);
+  }
+
+  link.setAttribute("href", href);
+}
+
 export interface SeoOptions {
   title?: string;
   description?: string;
@@ -29,6 +49,7 @@ export function setSeoMeta({ title = DEFAULT_TITLE, description = DEFAULT_DESCRI
   upsertMeta('meta[name="description"]', { name: "description" }, description);
   upsertMeta('meta[property="og:title"]', { property: "og:title" }, title);
   upsertMeta('meta[property="og:description"]', { property: "og:description" }, description);
+  upsertCanonical();
 }
 
 export const defaultSeo = {
