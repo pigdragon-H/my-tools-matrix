@@ -13,6 +13,7 @@ import { STATIC_ARTICLES } from "@/lib/staticArticles";
 import { getStaticArticleTitle, getStaticArticleDescription } from "@/lib/staticArticleI18n";
 import { groupByKeyAndDate, getCategoryLabel, normalizeBlogCategoryKey, ordinal } from "@/lib/laneCategories";
 import { useReadProgress } from "@/hooks/useReadProgress";
+import { setSeoMeta } from "@/lib/seo";
 
 type Lang = "zh" | "en";
 
@@ -202,6 +203,24 @@ const copy = {
 
 export default function BlogList() {
   const { lang } = useLanguage();
+
+  // 部落格首頁 SEO：原本完全沒有 setSeoMeta（無 title/description/canonical），
+  // 補上後可被 Google 正確收錄，並自動帶入自我指向 canonical（去除 ?cat= 參數）。
+  useEffect(() => {
+    setSeoMeta(
+      lang === "en"
+        ? {
+            title: "Tool Knowledge Base｜Formula Universe Guides & Tutorials",
+            description:
+              "Browse Formula Universe guides and tutorials across finance, health, productivity, developer, and more — learn how to use each calculator with real input scenarios and result interpretation.",
+          }
+        : {
+            title: "工具知識庫｜Formula Universe 使用指南與教學文章",
+            description:
+              "瀏覽 Formula Universe 涵蓋財經、健康、職場、開發等情境的工具使用指南與教學文章，透過實際輸入範例與結果解讀，快速學會每個計算工具的用法。",
+          }
+    );
+  }, [lang]);
 
   // 工具應用文章篩選命名空間（與三賽道頁一致）。
   const ALL_KEY = "__all__";
