@@ -32,10 +32,13 @@ export function Footer() {
   ];
 
   // 探索 / 內容連結
+  // 重要對應（與 Navbar / laneRegistry 一致，勿混淆）：
+  //   /blog      → 工具知識庫 (Tool Knowledge)
+  //   /knowledge → AI 知識庫 (AI Knowledge)
   const exploreLinks = [
     { href: "/tools", label: t("所有工具", "All Tools") },
-    { href: "/knowledge", label: t("工具知識庫", "Tool Knowledge") },
-    { href: "/blog", label: t("部落格", "Blog") },
+    { href: "/blog", label: t("工具知識庫", "Tool Knowledge") },
+    { href: "/knowledge", label: t("AI 知識庫", "AI Knowledge") },
     { href: "/about", label: t("關於我們", "About") },
   ];
 
