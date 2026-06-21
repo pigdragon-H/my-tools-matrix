@@ -173,6 +173,18 @@ for (const t of publicTools) addUrl(t.path, "monthly", "0.7");
 // knowledge-base articles (/blog/<category>/<slug>) — GSC-indexed, must stay alive
 for (const ap of articlePaths) addUrl(ap, "monthly", "0.8");
 
+// Supabase DB articles (published) — these live in the `articles` table, NOT as
+// Markdown files, so the walkMd scan above cannot see them. They render via
+// /blog/<slug> (BlogPost → getBySlug) and must be in the sitemap for GSC.
+// Hard-coded list (stable, known set) so the build needs no DB connection.
+const DB_ARTICLE_SLUGS: string[] = [
+  "getting-started-with-formula-universe",
+  "bmi-bmr-health-planning",
+  "cagr-and-compounding",
+  "developer-workflows-json-regex-api",
+];
+for (const slug of DB_ARTICLE_SLUGS) addUrl(`/blog/${slug}`, "monthly", "0.8");
+
 // 四賽道 hub 入口頁（只增不刪）
 addUrl("/blueprints", "weekly", "0.8");
 addUrl("/opportunities", "daily", "0.8");
