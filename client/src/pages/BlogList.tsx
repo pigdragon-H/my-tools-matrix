@@ -262,6 +262,146 @@ export default function BlogList() {
     [staticGroups, activeStaticCat]
   );
 
+  // ── 工具應用文章分頁（方案 A，如 Finance）：每頁 60 張 ──────────────
+  // 「全部」模式 → 把所有可見群組攤平成單一清單分頁；
+  // 單一分類模式 → 該分類獨立分頁。整頁只有一組分頁列。
+  const STATIC_PAGE_SIZE = 60;
+  const [staticPage, setStaticPage] = useState<number>(1);
+
+  // 攤平全部可見文章（保留所屬群組資訊），用於計算總數與切片。
+  const flatStaticItems = useMemo(
+    () =>
+      visibleStaticGroups.flatMap((g) =>
+        g.items.map((a) => ({ group: g, item: a }))
+      ),
+    [visibleStaticGroups]
+  );
+  const staticTotal = flatStaticItems.length;
+  const staticTotalPages = Math.max(1, Math.ceil(staticTotal / STATIC_PAGE_SIZE));
+  const curStaticPage = Math.min(staticPage, staticTotalPages);
+
+  // 取得本頁切片，並重新依群組分區（保留群組標題、emoji、count）。
+  // 每筆附上「該群組內的全域序號」(globalIdx) 與「群組內當頁的本地序號」(localIdx)，
+  // localIdx 用來計算 2×4+1 廣告位（每滿 8 卡插一條）。
+  const staticPageGroups = useMemo(() => {
+    const start = (curStaticPage - 1) * STATIC_PAGE_SIZE;
+    const slice = flatStaticItems.slice(start, start + STATIC_PAGE_SIZE);
+    const out: {
+      group: (typeof visibleStaticGroups)[number];
+      items: { item: (typeof flatStaticItems)[number]["item"]; globalIdx: number; localIdx: number }[];
+    }[] = [];
+    // 計算每筆在「其所屬群組整體」中的序號（用於卡片左上角 ordinal 標記，與分頁前一致）。
+    const groupSeen: Record<string, number> = {};
+    for (const g of visibleStaticGroups) groupSeen[g.key] = 0;
+    // 先建立 group → 全域序號對照（依群組原順序）
+    const globalCounter: Record<string, number> = {};
+    for (const g of visibleStaticGroups) globalCounter[g.key] = 0;
+    const globalIdxMap = new Map<string, number>();
+    for (const { group, item } of flatStaticItems) {
+      globalIdxMap.set(item.path, globalCounter[group.key]);
+      globalCounter[group.key] += 1;
+    }
+    for (const { group, item } of slice) {
+      let bucket = out.find((b) => b.group.key === group.key);
+      if (!bucket) {
+        bucket = { group, items: [] };
+        out.push(bucket);
+      }
+      bucket.items.push({
+        item,
+        globalIdx: globalIdxMap.get(item.path) ?? 0,
+        localIdx: bucket.items.length,
+      });
+    }
+    return out;
+  }, [flatStaticItems, visibleStaticGroups, curStaticPage]);
+
+  // 切換分類晶片時，回到第 1 頁。
+  const selectStaticCat = (key: string) => {
+    setActiveStaticCat(key);
+    setStaticPage(1);
+  };
+
+  // 分頁列（樣式與 Finance CategoryPage 一致）。
+  const renderStaticPagination = () => {
+    const pages = staticTotalPages;
+    if (pages <= 1) return null;
+    const cur = curStaticPage;
+    const nums: (number | "...")[] = [];
+    const push = (n: number) => nums.push(n);
+    const range = (a: number, b: number) => {
+      for (let i = a; i <= b; i++) push(i);
+    };
+    if (pages <= 7) {
+      range(1, pages);
+    } else {
+      push(1);
+      if (cur > 4) nums.push("...");
+      range(Math.max(2, cur - 2), Math.min(pages - 1, cur + 2));
+      if (cur < pages - 3) nums.push("...");
+      push(pages);
+    }
+    const scrollToTop = () => {
+      const el = document.getElementById("static-articles");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      else window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    return (
+      <nav
+        className="mt-10 flex flex-wrap items-center justify-center gap-2"
+        aria-label={lang === "zh" ? "分頁導覽" : "Pagination"}
+      >
+        <Button
+          variant="outline"
+          size="sm"
+          disabled={cur <= 1}
+          onClick={() => {
+            setStaticPage(cur - 1);
+            scrollToTop();
+          }}
+        >
+          {lang === "zh" ? "上一頁" : "Previous"}
+        </Button>
+        {nums.map((n, i) =>
+          n === "..." ? (
+            <span key={`s-dots-${i}`} className="px-2 text-muted-foreground">
+              …
+            </span>
+          ) : (
+            <Button
+              key={n}
+              variant={n === cur ? "default" : "outline"}
+              size="sm"
+              className="min-w-9"
+              onClick={() => {
+                setStaticPage(n);
+                scrollToTop();
+              }}
+            >
+              {n}
+            </Button>
+          )
+        )}
+        <Button
+          variant="outline"
+          size="sm"
+          disabled={cur >= pages}
+          onClick={() => {
+            setStaticPage(cur + 1);
+            scrollToTop();
+          }}
+        >
+          {lang === "zh" ? "下一頁" : "Next"}
+        </Button>
+        <span className="ml-2 text-xs text-muted-foreground">
+          {lang === "zh"
+            ? `第 ${cur} / ${pages} 頁 · 共 ${staticTotal} 篇`
+            : `Page ${cur} / ${pages} · ${staticTotal} articles`}
+        </span>
+      </nav>
+    );
+  };
+
   return (
     <div className="fu-typo min-h-screen bg-background text-foreground">
       <section className="border-b border-blue-200/70 bg-[linear-gradient(135deg,#eff6ff_0%,#f5f3ff_48%,#ecfeff_100%)] dark:border-blue-950/60 dark:bg-slate-950">
@@ -366,7 +506,7 @@ export default function BlogList() {
 
       {/* Tool application articles (MANUS-authored static Markdown). */}
       {STATIC_ARTICLES.length > 0 && (
-        <section className="container py-14 md:py-20">
+        <section id="static-articles" className="container scroll-mt-24 py-14 md:py-20">
           <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
               <h2 className="t-h2 tracking-tight inline-flex items-center gap-2">
@@ -391,7 +531,7 @@ export default function BlogList() {
           <div className="mb-8 flex flex-wrap gap-2">
             <button
               type="button"
-              onClick={() => setActiveStaticCat(ALL_KEY)}
+              onClick={() => selectStaticCat(ALL_KEY)}
               className={`rounded-full border px-4 py-1.5 text-sm font-bold transition ${
                 activeStaticCat === ALL_KEY
                   ? "border-blue-600 bg-blue-600 text-white shadow-sm"
@@ -405,7 +545,7 @@ export default function BlogList() {
               <button
                 key={g.key}
                 type="button"
-                onClick={() => setActiveStaticCat(g.key)}
+                onClick={() => selectStaticCat(g.key)}
                 className={`rounded-full border px-4 py-1.5 text-sm font-bold transition ${
                   activeStaticCat === g.key
                     ? "border-blue-600 bg-blue-600 text-white shadow-sm"
@@ -423,18 +563,18 @@ export default function BlogList() {
               商業化版型：小卡片、桌機 4 卡（手機 1 / 平板 2 / 桌機 4），
               每個分類 grid 內每滿 8 卡（2×4）插入一條整行 AdSlot 廣告位（循環到底）。 */}
           <div className="space-y-12">
-            {visibleStaticGroups.map((g) => (
-              <div key={g.key}>
+            {staticPageGroups.map((b) => (
+              <div key={b.group.key}>
                 <h3 className="t-h3 mb-5 flex items-center gap-2 tracking-tight">
-                  <span>{g.label.emoji}</span>
-                  {g.label[lang]}
-                  <span className="text-sm font-medium text-muted-foreground">({g.count})</span>
+                  <span>{b.group.label.emoji}</span>
+                  {b.group.label[lang]}
+                  <span className="text-sm font-medium text-muted-foreground">({b.group.count})</span>
                 </h3>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                  {g.items.map((a, idx) => {
+                  {b.items.map(({ item: a, globalIdx, localIdx }) => {
                     const read = isStaticRead(a.slug);
-                    // 2×4+1 廣告：每滿 8 卡（idx 為 7、15、23…）之後，插入一條整行廣告。
-                    const showAdAfter = (idx + 1) % 8 === 0;
+                    // 2×4+1 廣告：本頁內每群組每滿 8 卡（localIdx 為 7、15、23…）後插入一條整行廣告。
+                    const showAdAfter = (localIdx + 1) % 8 === 0;
                     return (
                       <Fragment key={a.path}>
                         <Link href={a.path}>
@@ -444,7 +584,7 @@ export default function BlogList() {
                             }`}
                           >
                             <span className="absolute right-3 top-3 text-xs font-black tabular-nums text-blue-300 dark:text-blue-700">
-                              {ordinal(idx + 1)}
+                              {ordinal(globalIdx + 1)}
                             </span>
                             {read && (
                               <span className="absolute right-3 top-8 inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
@@ -477,7 +617,7 @@ export default function BlogList() {
                         {showAdAfter && (
                           <div className="col-span-full my-2">
                             <AdSlot
-                              slot={`blog-static-${g.key}-${(idx + 1) / 8}`}
+                              slot={`blog-static-${b.group.key}-p${curStaticPage}-${(localIdx + 1) / 8}`}
                               position="inline"
                               variant="responsive"
                             />
@@ -490,6 +630,9 @@ export default function BlogList() {
               </div>
             ))}
           </div>
+
+          {/* 分頁列（方案 A，每頁 60 張，整頁僅此一組，樣式同 Finance） */}
+          {renderStaticPagination()}
         </section>
       )}
 
