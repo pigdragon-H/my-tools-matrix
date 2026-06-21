@@ -1,6 +1,6 @@
-import { Link, useSearch } from "wouter";
+import { Link } from "wouter";
 import { Fragment, useMemo, useState } from "react";
-import { ArrowRight, BookOpen, FileText, Sparkles, Sigma, Compass, Route as RouteIcon, ShieldAlert, Check } from "lucide-react";
+import { ArrowRight, BookOpen, FileText, Sigma, Compass, Route as RouteIcon, ShieldAlert, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +12,7 @@ import { TrustStrip } from "@/components/business/TrustStrip";
 import { trpc } from "@/lib/trpc";
 import { STATIC_ARTICLES } from "@/lib/staticArticles";
 import { getStaticArticleTitle, getStaticArticleDescription } from "@/lib/staticArticleI18n";
-import { groupBlogByCategory, groupByKeyAndDate, getCategoryLabel, normalizeBlogCategoryKey, ordinal } from "@/lib/laneCategories";
+import { groupByKeyAndDate, getCategoryLabel, normalizeBlogCategoryKey, ordinal } from "@/lib/laneCategories";
 import { useReadProgress } from "@/hooks/useReadProgress";
 
 type Lang = "zh" | "en";
@@ -209,10 +209,13 @@ const copy = {
 export default function BlogList() {
   const { lang } = useLanguage();
 
-  // Latest published articles from Supabase via tRPC.
-  // Returns [] gracefully if backend / table not yet provisioned.
+  // ── Supabase 後台文章（透過 tRPC）────────────────────────────────
+  // 決策（用戶授權）：原「最新文章」獨立單元因後台無法管理而關閉；
+  // 但這些 DB 文章「保留」（可能有 GSC 索引、內頁 /blog/:slug 仍可訪問），
+  // 故在此「歸回原屬分類」—— 合併進「工具應用文章」清單一起顯示。
+  // 仍保留 listPublished 呼叫：後台連結與資料庫照常運作。
   const articlesQuery = trpc.articles.listPublished.useQuery(
-    { locale: lang, limit: 12 },
+    { locale: lang, limit: 100 },
     { retry: false }
   );
   const dbArticles = (articlesQuery.data ?? []) as Array<{
@@ -228,32 +231,44 @@ export default function BlogList() {
 
   // Phase A 結構：分類晶片 + 分類分區 + 序號 + 已讀進度（與三賽道頁一致）
   const ALL_KEY = "__all__";
-  // 友善導航：若網址帶 ?cat=xxx（來自導航下拉），預設就篩到該分類。
-  const blogSearch = useSearch();
-  const initialBlogCat = useMemo(() => {
-    const cat = new URLSearchParams(blogSearch).get("cat");
-    return cat ? cat : ALL_KEY;
-  }, [blogSearch]);
-  const [activeCat, setActiveCat] = useState<string>(initialBlogCat);
-  const { isRead, readCount } = useReadProgress("blog");
-
-  const groups = useMemo(() => groupBlogByCategory(dbArticles), [dbArticles]);
-  const visibleGroups = useMemo(
-    () => (activeCat === ALL_KEY ? groups : groups.filter((g) => g.key === activeCat)),
-    [groups, activeCat]
-  );
 
   // 工具應用文章（靜態 Markdown）：套同一套 Phase A 結構，獨立篩選與已讀命名空間
   const [activeStaticCat, setActiveStaticCat] = useState<string>(ALL_KEY);
   const { isRead: isStaticRead, readCount: staticReadCount } = useReadProgress("blog-static");
+
+  // 把 DB 文章正規化成與 STATIC_ARTICLES 相容的形狀，並標記來源（isDb）。
+  // isDb=true 的項目已有後台真實中英 title/description（依 locale 取回），
+  // 因此渲染時直接用其 title/description，不走 slug 推導的 i18n helper。
+  const mergedArticles = useMemo(() => {
+    const fromStatic = STATIC_ARTICLES.map((a) => ({
+      ...a,
+      isDb: false as const,
+    }));
+    const fromDb = dbArticles.map((a) => ({
+      isDb: true as const,
+      slug: a.slug,
+      category: a.category_key || "",
+      title: a.title,
+      description: a.description || a.ai_summary || "",
+      keywords: "",
+      publishedAt: a.published_at || "",
+      content: "",
+      path: `/blog/${a.slug}`,
+    }));
+    // DB 文章若與某篇 markdown 同 slug，以 markdown 為準（避免重複）。
+    const staticSlugs = new Set(fromStatic.map((a) => a.slug));
+    const dedupedDb = fromDb.filter((a) => !staticSlugs.has(a.slug));
+    return [...fromStatic, ...dedupedDb];
+  }, [dbArticles]);
+
   const staticGroups = useMemo(
     () =>
       groupByKeyAndDate(
-        STATIC_ARTICLES,
+        mergedArticles,
         (a) => normalizeBlogCategoryKey(a.category),
         (a) => a.publishedAt || ""
       ),
-    []
+    [mergedArticles]
   );
   const visibleStaticGroups = useMemo(
     () =>
@@ -540,7 +555,7 @@ export default function BlogList() {
               }`}
             >
               {lang === "zh" ? "全部" : "All"}
-              <span className="ml-1.5 opacity-70">{STATIC_ARTICLES.length}</span>
+              <span className="ml-1.5 opacity-70">{mergedArticles.length}</span>
             </button>
             {staticGroups.map((g) => (
               <button
@@ -603,14 +618,18 @@ export default function BlogList() {
                                 )}
                               </div>
                               <h3 className="pr-7 text-lg font-bold leading-[1.4]">
-                                {getStaticArticleTitle(a, lang)}
+                                {a.isDb ? a.title : getStaticArticleTitle(a, lang)}
                               </h3>
                               {(() => {
-                                const desc = getStaticArticleDescription(
-                                  a,
-                                  lang,
-                                  getCategoryLabel("blog", normalizeBlogCategoryKey(a.category)).en,
-                                );
+                                // DB 文章（後台）已有真實中英 title/description（依 locale 取回），直接用；
+                                // markdown 文章走 slug 推導的雙語 helper。
+                                const desc = a.isDb
+                                  ? a.description
+                                  : getStaticArticleDescription(
+                                      a,
+                                      lang,
+                                      getCategoryLabel("blog", normalizeBlogCategoryKey(a.category)).en,
+                                    );
                                 return desc ? (
                                   <p className="mt-2 text-base leading-[1.6] text-muted-foreground line-clamp-3">
                                     {desc}
@@ -646,119 +665,7 @@ export default function BlogList() {
         </section>
       )}
 
-      {/* Latest articles from the knowledge base (Supabase-backed). */}
-      {dbArticles.length > 0 && (
-        <section className="container py-14 md:py-20">
-          <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-2xl">
-              <h2 className="t-h2 tracking-tight inline-flex items-center gap-2">
-                <Sparkles className="h-6 w-6 text-blue-600" />
-                {lang === "zh" ? "最新文章" : "Latest articles"}
-              </h2>
-              <p className="mt-3 text-muted-foreground">
-                {lang === "zh"
-                  ? "由團隊與 AI 協作撰寫,經過反機械語感檢測後發布。"
-                  : "Co-authored by our team and AI, post anti-machine-tone review."}
-              </p>
-            </div>
-            {readCount > 0 && (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-sm font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
-                <Check className="h-4 w-4" />
-                {lang === "zh" ? `已讀 ${readCount} 篇` : `${readCount} read`}
-              </span>
-            )}
-          </div>
-
-          {/* 分類晶片 */}
-          <div className="mb-8 flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={() => setActiveCat(ALL_KEY)}
-              className={`rounded-full border px-4 py-1.5 text-sm font-bold transition ${
-                activeCat === ALL_KEY
-                  ? "border-blue-600 bg-blue-600 text-white shadow-sm"
-                  : "border-blue-200 bg-white text-blue-700 hover:border-blue-400 dark:border-blue-950/60 dark:bg-white/5 dark:text-blue-200"
-              }`}
-            >
-              {lang === "zh" ? "全部" : "All"}
-              <span className="ml-1.5 opacity-70">{dbArticles.length}</span>
-            </button>
-            {groups.map((g) => (
-              <button
-                key={g.key}
-                type="button"
-                onClick={() => setActiveCat(g.key)}
-                className={`rounded-full border px-4 py-1.5 text-sm font-bold transition ${
-                  activeCat === g.key
-                    ? "border-blue-600 bg-blue-600 text-white shadow-sm"
-                    : "border-blue-200 bg-white text-blue-700 hover:border-blue-400 dark:border-blue-950/60 dark:bg-white/5 dark:text-blue-200"
-                }`}
-              >
-                <span className="mr-1">{g.label.emoji}</span>
-                {g.label[lang]}
-                <span className="ml-1.5 opacity-70">{g.count}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* 分類分區 + 序號 + 已讀 */}
-          <div className="space-y-12">
-            {visibleGroups.map((g) => (
-              <div key={g.key}>
-                <h3 className="t-h3 mb-5 flex items-center gap-2 tracking-tight">
-                  <span>{g.label.emoji}</span>
-                  {g.label[lang]}
-                  <span className="text-sm font-medium text-muted-foreground">({g.count})</span>
-                </h3>
-                <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-                  {g.items.map((a, idx) => {
-                    const read = isRead(a.slug);
-                    return (
-                      <Link key={a.id} href={`/blog/${a.slug}`}>
-                        <Card
-                          className={`relative h-full cursor-pointer border-blue-100 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-xl dark:border-blue-950/60 dark:bg-white/5 ${
-                            read ? "opacity-70" : ""
-                          }`}
-                        >
-                          <span className="absolute right-4 top-4 text-xs font-black tabular-nums text-blue-300 dark:text-blue-700">
-                            {ordinal(idx + 1)}
-                          </span>
-                          {read && (
-                            <span className="absolute right-4 top-9 inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
-                              <Check className="h-3 w-3" />
-                              {lang === "zh" ? "已讀" : "Read"}
-                            </span>
-                          )}
-                          <CardContent className="p-6">
-                            <div className="flex items-center gap-2 mb-4">
-                              <FileText className="h-6 w-6 text-blue-600" />
-                              {a.category_key && (
-                                <Badge variant="secondary" className="t-small">
-                                  {getCategoryLabel("blog", normalizeBlogCategoryKey(a.category_key))[lang]}
-                                </Badge>
-                              )}
-                            </div>
-                            <h3 className="t-h3 leading-snug pr-8">{a.title}</h3>
-                            {(a.description || a.ai_summary) && (
-                              <p className="mt-3 t-body text-muted-foreground line-clamp-3">
-                                {a.description || a.ai_summary}
-                              </p>
-                            )}
-                            <p className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">
-                              {lang === "zh" ? "閱讀文章" : "Read article"}{" "}
-                              <ArrowRight className="h-4 w-4" />
-                            </p>
-                          </CardContent>
-                        </Card>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
+      {/* 「最新文章」(Supabase-backed) 區塊已依授權移除。 */}
 
       <section className="border-t border-blue-200/70 bg-blue-50/60 dark:border-blue-950/60 dark:bg-slate-950">
         <div className="container py-14 md:py-20">
