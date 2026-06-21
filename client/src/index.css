@@ -153,19 +153,35 @@
   @apply text-foreground/90 leading-relaxed;
 }
 .prose table {
-  @apply w-full border-collapse;
+  @apply w-full border-collapse my-6 overflow-hidden rounded-lg text-sm;
 }
 .prose th {
-  @apply bg-muted text-foreground font-semibold text-left px-3 py-2 border border-border;
+  @apply bg-secondary/70 text-foreground font-semibold text-left px-3 py-2.5 border border-border;
 }
 .prose td {
-  @apply px-3 py-2 border border-border text-foreground/80;
+  @apply px-3 py-2.5 border border-border text-foreground/90;
+}
+/* 斑馬紋淡色底：提升大表格可讀性，淡色中文字清楚 */
+.prose tbody tr:nth-child(even) td {
+  @apply bg-muted/40;
 }
 .prose blockquote {
   @apply border-l-4 border-primary pl-4 italic text-muted-foreground;
 }
 .prose code {
   @apply bg-muted text-foreground px-1.5 py-0.5 rounded text-sm font-mono;
+}
+/* code block / 文字架構圖 / 流程圖容器：淡色系背景 + 深色清楚文字（取代預設深色 pre） */
+.prose pre {
+  @apply bg-secondary/60 text-foreground border border-border rounded-xl px-4 py-4 my-6 overflow-x-auto leading-relaxed;
+}
+.prose pre code {
+  @apply bg-transparent text-foreground p-0 text-[0.92em] font-mono;
+  white-space: pre;
+}
+/* 深色模式：仍維持「相對淡」的卡片色，確保文字清楚不刺眼 */
+.dark .prose pre {
+  @apply bg-muted/40 text-foreground border-border;
 }
 .prose hr {
   @apply border-border my-8;
