@@ -1,69 +1,126 @@
 // ============================================================
 // CategoryPage - /category/:category 分類工具列表頁
+// ------------------------------------------------------------
+// 設計（最高指揮官確認）：
+//   1. 全部分類沿用 finance 的「新小卡」樣式（renderToolCard）。
+//   2. 各分類各自獨立的「次級分類（細分組）」：
+//        - finance(#1) 由 financeSubgroups.ts 提供（保持現狀、不改）。
+//        - 其他分類由 categorySubgroups.ts 提供（互不影響、留擴充空間）。
+//        - converter(#13) 無細分組 → 走單一平鋪清單（維持現狀、完全不碰）。
+//   3. 完整中英雙語：所有 UI 文字依 useLanguage() 的 lang 切換 zh/en。
 // ============================================================
 
 import { useEffect, useState } from "react";
 import { Link, useParams } from "wouter";
-import { ArrowLeft, Search, Lock, AlertTriangle } from "lucide-react";
+import { ArrowLeft, Search, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card } from "@/components/ui/card";
 import { getCategoryByKey } from "@shared/categoriesConfig";
 import { getPublicToolsByCategory } from "@shared/toolsConfig";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { AdSlot } from "@/components/business/AdSlot";
 import { groupFinanceTools, getFinanceSubgroupKey } from "@/lib/financeSubgroups";
+import {
+  groupToolsBySubgroup,
+  getSubgroupKey,
+  hasSubgroups,
+} from "@/lib/categorySubgroups";
 import { setSeoMeta } from "@/lib/seo";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { Tool } from "@shared/toolsConfig";
 
+// 統一的「群組」型別（finance 與其他分類共用此形狀）
+interface UnifiedGroup {
+  key: string;
+  label: string;
+  labelEn: string;
+}
+
 export default function CategoryPage() {
   const { lang } = useLanguage();
+  const t = (zh: string, en: string) => (lang === "zh" ? zh : en);
+
   const { category } = useParams<{ category: string }>();
+  const cat = category ?? "";
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "free" | "premium">("all");
-  // 次級分類選擇（目前用於 finance）；"all" 表示全部
+  // 次級分類選擇；"all" 表示全部
   const [subgroup, setSubgroup] = useState<string>("all");
-  // 分頁狀態（第幾頁，從 1 起算）。禁止無限捲動，工具數超過 PAGE_SIZE 才出現分頁控制。
+  // 分頁狀態（第幾頁，從 1 起算）
   const [page, setPage] = useState<number>(1);
 
   // 每頁工具數（桌機 5 欄 × 12 列 = 60；手機 2 欄 × 30 列）
   const PAGE_SIZE = 60;
 
-  const isFinance = category === "finance";
+  const isFinance = cat === "finance";
+  // 此分類是否有「次級分類」：finance 走 financeSubgroups；其他走 categorySubgroups。
+  const hasGroups = isFinance || hasSubgroups(cat);
 
-  const catInfo = getCategoryByKey(category ?? "");
-  const allTools = getPublicToolsByCategory(category ?? "");
-  const categoryDisclaimer = category === "finance"
-    ? lang === "zh"
-      ? "財經工具僅供教育與估算參考，不構成投資、稅務、保險或理財建議；重大決策前請諮詢合格專業人士。"
-      : "Finance tools are for education and estimation only. They are not investment, tax, insurance, or financial advice; consult qualified professionals before major decisions."
-    : category === "health"
-      ? lang === "zh"
-        ? "健康工具僅供一般資訊參考，不能取代醫師、營養師或其他醫療專業人員的診斷與建議。"
-        : "Health tools are for general information only and do not replace diagnosis or advice from doctors, dietitians, or qualified medical professionals."
-      : category === "developer"
-        ? lang === "zh"
-          ? "開發工具在瀏覽器端處理輸入內容；處理敏感程式碼或資料前，請先確認資料安全與授權限制。"
-          : "Developer tools process inputs in the browser. Confirm data security and authorization limits before handling sensitive code or data."
-        : undefined;
+  const catInfo = getCategoryByKey(cat);
+  const allTools = getPublicToolsByCategory(cat);
+
+  // ── 各分類的免責聲明（雙語）─────────────────────────────────
+  const categoryDisclaimer =
+    cat === "finance"
+      ? t(
+          "財經工具僅供教育與估算參考，不構成投資、稅務、保險或理財建議；重大決策前請諮詢合格專業人士。",
+          "Finance tools are for education and estimation only. They are not investment, tax, insurance, or financial advice; consult qualified professionals before major decisions.",
+        )
+      : cat === "health"
+        ? t(
+            "健康工具僅供一般資訊參考，不能取代醫師、營養師或其他醫療專業人員的診斷與建議。",
+            "Health tools are for general information only and do not replace diagnosis or advice from doctors, dietitians, or qualified medical professionals.",
+          )
+        : cat === "developer"
+          ? t(
+              "開發工具在瀏覽器端處理輸入內容；處理敏感程式碼或資料前，請先確認資料安全與授權限制。",
+              "Developer tools process inputs in the browser. Confirm data security and authorization limits before handling sensitive code or data.",
+            )
+          : cat === "legal"
+            ? t(
+                "法律工具僅供一般參考，不構成法律意見；具體個案請諮詢合格律師或專業人士。",
+                "Legal tools are for general reference only and do not constitute legal advice; consult a qualified lawyer for specific cases.",
+              )
+            : undefined;
 
   // 切換子分組／篩選／搜尋時，分頁重設回第 1 頁
   useEffect(() => {
     setPage(1);
-  }, [subgroup, filter, search, category]);
+  }, [subgroup, filter, search, cat]);
 
   useEffect(() => {
     if (!catInfo) return;
-
     setSeoMeta({
-      title: `${catInfo.name}工具｜Formula Universe`,
-      description: `${catInfo.name}工具集合：${catInfo.description}。Formula Universe提供免費、快速、適合台灣使用情境的線上計算與決策輔助工具。`,
+      title:
+        lang === "zh"
+          ? `${catInfo.name}工具｜Formula Universe`
+          : `${catInfo.name} Tools | Formula Universe`,
+      description:
+        lang === "zh"
+          ? `${catInfo.name}工具集合：${catInfo.description}。Formula Universe提供免費、快速、適合台灣使用情境的線上計算與決策輔助工具。`
+          : `${catInfo.name} tools collection: ${catInfo.description}. Formula Universe offers free, fast online calculators and decision-support tools.`,
     });
-  }, [catInfo]);
+  }, [catInfo, lang]);
 
+  // ── 取得此分類的次級分類群組（統一形狀）────────────────────
+  // groupAll：全部工具依細分組後、僅保留有工具的群組（用於 chips 計數與分段標題）
+  const groupAll: Array<{ group: UnifiedGroup; tools: Tool[] }> = isFinance
+    ? groupFinanceTools(allTools).map(({ group, tools }) => ({
+        group: { key: group.key, label: group.label, labelEn: financeEnLabel(group.key, group.label) },
+        tools,
+      }))
+    : groupToolsBySubgroup(cat, allTools).map(({ group, tools }) => ({
+        group: { key: group.key, label: group.label, labelEn: group.labelEn },
+        tools,
+      }));
+
+  // 取得單一工具所屬群組 key（finance / 其他分類）
+  const subgroupKeyOf = (tool: Tool): string =>
+    isFinance ? getFinanceSubgroupKey(tool) : getSubgroupKey(cat, tool);
+
+  // ── 篩選 ────────────────────────────────────────────────
   const filteredTools = allTools.filter((tool: Tool) => {
     const q = search.toLowerCase();
     const matchSearch =
@@ -74,37 +131,26 @@ export default function CategoryPage() {
       filter === "all" ||
       (filter === "free" && !tool.isPremium) ||
       (filter === "premium" && tool.isPremium);
-    // 次級分類過濾（僅 finance 啟用；"all" 不過濾）
+    // 次級分類過濾（僅有細分組的分類啟用；"all" 不過濾）
     const matchSubgroup =
-      !isFinance ||
-      subgroup === "all" ||
-      getFinanceSubgroupKey(tool) === subgroup;
+      !hasGroups || subgroup === "all" || subgroupKeyOf(tool) === subgroup;
     return matchSearch && matchFilter && matchSubgroup;
   });
 
-  // finance：把過濾後的工具依次級分類分段（顯示群組標題 + 群組間插入廣告位）。
-  // 若使用者已選定單一次級分類（subgroup !== "all"），就不再分段，直接平鋪。
-  const financeGrouped =
-    isFinance && subgroup === "all" ? groupFinanceTools(filteredTools) : [];
-
-  // 單張工具卡片渲染（finance 分類頁專用・精簡小卡）
-  // 只保留 3 要素：① 編號 ② 工具名稱（不去尾，可換行） ③ 內容簡述（超過 3 行去尾）
+  // ── 單張工具卡片渲染（沿用 finance 精簡小卡，全分類共用）──
+  // 3 要素：① 編號 ② 工具名稱（可換行）③ 內容簡述（最多 3 行）
   const renderToolCard = (tool: Tool, index: number) => (
     <Link key={tool.id} href={tool.path}>
       <Card className="group h-full cursor-pointer p-3 transition-all duration-200 hover:border-primary/50 hover:shadow-md">
-        {/* 第一行：序號 → 工具名稱（同一行，序號在前；名稱禁止去尾，允許換行）。
-            ＊禁止改變字型：沿用全站 body 預設字型，不施加特殊字重／字族。 */}
         <h3 className="text-sm leading-snug text-foreground group-hover:text-primary transition-colors">
           <span className="mr-1.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white/80 align-middle text-[10px] text-slate-600 shadow-sm">
             {index + 1}
           </span>
           {tool.name}
-          {/* 文章數：固定顯示，緊接於工具名後面 */}
           <span className="ml-1.5 align-middle text-[10px] text-muted-foreground">
-            · {tool.seoArticles.length} 篇文章
+            · {tool.seoArticles.length} {t("篇文章", "articles")}
           </span>
         </h3>
-        {/* 內容簡述：最多 3 行，超出自動去尾 */}
         <p className="mt-1 text-xs leading-relaxed text-muted-foreground line-clamp-3">
           {tool.description}
         </p>
@@ -112,18 +158,15 @@ export default function CategoryPage() {
     </Link>
   );
 
-  // 將工具陣列每 ADS_EVERY 個切成一段（每段後面放一個廣告位）。
-  // ＊尾段合併規則（Q3）：若最後一段不足 MIN_TAIL 張，就「不另插廣告」，
-  //   把這幾張併入前一段（前一段卡片變 11/12 張，只保留前一段那個廣告）。
+  // ── 分段插廣告：每 ADS_EVERY 個工具切一段，尾段 < MIN_TAIL 併入前段 ──
   const ADS_EVERY = 10;
-  const MIN_TAIL = 3; // 尾段 < 3 張就併入前一段
+  const MIN_TAIL = 3;
   const chunkTools = (tools: Tool[]): Tool[][] => {
     const chunks: Tool[][] = [];
     for (let i = 0; i < tools.length; i += ADS_EVERY) {
       chunks.push(tools.slice(i, i + ADS_EVERY));
     }
     if (chunks.length === 0) return [[]];
-    // 尾段不足 MIN_TAIL 且有前一段可併 → 併入前一段
     if (chunks.length >= 2) {
       const last = chunks[chunks.length - 1];
       if (last.length < MIN_TAIL) {
@@ -135,8 +178,7 @@ export default function CategoryPage() {
     return chunks;
   };
 
-  // 渲染一個子分組的工具：每段（10 個，尾段視合併規則）之後插入一個廣告位。
-  // startOffset：用於分頁／全部視圖時，讓卡片序號維持全域連續編號。
+  // 渲染一個子分組的工具：每段（10 個）之後插入一個廣告位。
   const renderGroupWithAds = (
     tools: Tool[],
     keyPrefix: string,
@@ -154,7 +196,6 @@ export default function CategoryPage() {
               renderToolCard(tool, startOffset + startIndex + j),
             )}
           </div>
-          {/* 每段之後插一個廣告位（尾段已依規則併入，不會出現孤兒卡＋雙廣告） */}
           <div className="mt-6 mb-2">
             <AdSlot
               slot={`${keyPrefix}-ad-${ci}`}
@@ -167,21 +208,17 @@ export default function CategoryPage() {
     });
   };
 
-  // ── 分頁工具函式 ────────────────────────────────────────────────
-  // 計算總頁數
+  // ── 分頁工具函式 ────────────────────────────────────────
   const totalPages = (count: number) => Math.max(1, Math.ceil(count / PAGE_SIZE));
-  // 取得目前頁的切片（含起始索引，供連續編號使用）
   const pageSlice = <T,>(items: T[]): { items: T[]; startOffset: number } => {
     const start = (page - 1) * PAGE_SIZE;
     return { items: items.slice(start, start + PAGE_SIZE), startOffset: start };
   };
 
-  // 分頁控制列（頁碼 + 上/下頁）。禁止無限捲動。
   const renderPagination = (count: number) => {
     const pages = totalPages(count);
     if (pages <= 1) return null;
     const cur = Math.min(page, pages);
-    // 產生頁碼按鈕（最多顯示當前頁 ±2，加首尾與省略號）
     const nums: (number | "...")[] = [];
     const push = (n: number) => nums.push(n);
     const range = (a: number, b: number) => {
@@ -199,7 +236,7 @@ export default function CategoryPage() {
     return (
       <nav
         className="mt-10 flex flex-wrap items-center justify-center gap-2"
-        aria-label="分頁導覽"
+        aria-label={t("分頁導覽", "Pagination")}
       >
         <Button
           variant="outline"
@@ -210,7 +247,7 @@ export default function CategoryPage() {
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         >
-          上一頁
+          {t("上一頁", "Previous")}
         </Button>
         {nums.map((n, i) =>
           n === "..." ? (
@@ -241,10 +278,13 @@ export default function CategoryPage() {
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         >
-          下一頁
+          {t("下一頁", "Next")}
         </Button>
         <span className="ml-2 text-xs text-muted-foreground">
-          第 {cur} / {pages} 頁 · 共 {count} 個工具
+          {t(
+            `第 ${cur} / ${pages} 頁 · 共 ${count} 個工具`,
+            `Page ${cur} / ${pages} · ${count} tools`,
+          )}
         </span>
       </nav>
     );
@@ -253,9 +293,9 @@ export default function CategoryPage() {
   if (!catInfo) {
     return (
       <div className="container py-20 text-center">
-        <p className="text-muted-foreground">找不到此分類</p>
+        <p className="text-muted-foreground">{t("找不到此分類", "Category not found")}</p>
         <Button asChild variant="outline" className="mt-4">
-          <Link href="/">返回首頁</Link>
+          <Link href="/">{t("返回首頁", "Back to Home")}</Link>
         </Button>
       </div>
     );
@@ -263,13 +303,13 @@ export default function CategoryPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* ── Category Header ─────────────────────────────────── */}
+      {/* ── Category Header ──────────────────────────────── */}
       <div className={`border-b border-border ${catInfo.bgColor}`}>
         <div className="container py-10">
           <Button asChild variant="ghost" size="sm" className="mb-4 -ml-2">
             <Link href="/">
               <ArrowLeft className="h-4 w-4 mr-1" />
-              返回首頁
+              {t("返回首頁", "Back to Home")}
             </Link>
           </Button>
           <div className="flex items-center gap-4">
@@ -293,13 +333,13 @@ export default function CategoryPage() {
         </div>
       )}
 
-      {/* ── Filters ─────────────────────────────────────────── */}
+      {/* ── Filters ──────────────────────────────────────── */}
       <div className="container py-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="relative max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="搜尋工具..."
+              placeholder={t("搜尋工具...", "Search tools...")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-9"
@@ -307,15 +347,15 @@ export default function CategoryPage() {
           </div>
           <Tabs value={filter} onValueChange={(v) => setFilter(v as typeof filter)}>
             <TabsList>
-              <TabsTrigger value="all">全部</TabsTrigger>
-              <TabsTrigger value="free">免費</TabsTrigger>
-              <TabsTrigger value="premium">付費</TabsTrigger>
+              <TabsTrigger value="all">{t("全部", "All")}</TabsTrigger>
+              <TabsTrigger value="free">{t("免費", "Free")}</TabsTrigger>
+              <TabsTrigger value="premium">{t("付費", "Premium")}</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
 
-        {/* ── 次級分類 chips（finance）──────────────────────────── */}
-        {isFinance && (
+        {/* ── 次級分類 chips（有細分組的分類才顯示）────────── */}
+        {hasGroups && groupAll.length > 0 && (
           <div className="mt-4 flex flex-wrap gap-2">
             <button
               type="button"
@@ -326,9 +366,9 @@ export default function CategoryPage() {
                   : "border-border bg-background text-muted-foreground hover:border-primary/50 hover:text-foreground"
               }`}
             >
-              全部 ({allTools.length})
+              {t("全部", "All")} ({allTools.length})
             </button>
-            {groupFinanceTools(allTools).map(({ group, tools }) => (
+            {groupAll.map(({ group, tools }) => (
               <button
                 key={group.key}
                 type="button"
@@ -339,44 +379,49 @@ export default function CategoryPage() {
                     : "border-border bg-background text-muted-foreground hover:border-primary/50 hover:text-foreground"
                 }`}
               >
-                {group.label} ({tools.length})
+                {lang === "zh" ? group.label : group.labelEn} ({tools.length})
               </button>
             ))}
           </div>
         )}
       </div>
 
-      {/* ── Tools Grid ──────────────────────────────────────── */}
+      {/* ── Tools Grid ───────────────────────────────────── */}
       <div className="container pb-16">
         {filteredTools.length === 0 ? (
           <div className="py-20 text-center">
             {allTools.length === 0 ? (
               <>
-                <p className="text-lg font-medium">此分類目前沒有公開工具</p>
+                <p className="text-lg font-medium">
+                  {t("此分類目前沒有公開工具", "No public tools in this category yet")}
+                </p>
                 <p className="text-muted-foreground mt-2 text-sm">
-                  請先探索其他分類，或使用上方搜尋尋找相關工具。
+                  {t(
+                    "請先探索其他分類，或使用上方搜尋尋找相關工具。",
+                    "Please explore other categories, or use the search above to find relevant tools.",
+                  )}
                 </p>
                 <Button asChild variant="outline" className="mt-6">
-                  <Link href="/">探索其他分類</Link>
+                  <Link href="/">{t("探索其他分類", "Explore Other Categories")}</Link>
                 </Button>
               </>
             ) : (
-              <p className="text-muted-foreground">沒有符合條件的工具</p>
+              <p className="text-muted-foreground">
+                {t("沒有符合條件的工具", "No tools match your filters")}
+              </p>
             )}
           </div>
-        ) : isFinance && subgroup === "all" ? (
-          /* finance「全部」：先把所有子分組的工具攤平成連續序列做分頁，
+        ) : hasGroups && subgroup === "all" ? (
+          /* 有細分組且選「全部」：把所有子分組的工具攤平成連續序列做分頁，
              再於目前頁的可見範圍內，依子分組重新分段顯示（保留群組標題）。 */
           (() => {
-            // 攤平：保留每個工具所屬的群組資訊與全域連續索引
-            const flat: { group: typeof financeGrouped[number]["group"]; tool: Tool }[] = [];
-            financeGrouped.forEach(({ group, tools }) => {
+            const flat: { group: UnifiedGroup; tool: Tool }[] = [];
+            groupAll.forEach(({ group, tools }) => {
               tools.forEach((tool) => flat.push({ group, tool }));
             });
             const total = flat.length;
             const { items: pageItems, startOffset } = pageSlice(flat);
-            // 把目前頁的可見項目，依群組重新聚合（維持原群組順序）
-            const sections: { group: typeof flat[number]["group"]; tools: Tool[] }[] = [];
+            const sections: { group: UnifiedGroup; tools: Tool[] }[] = [];
             pageItems.forEach(({ group, tool }) => {
               const last = sections[sections.length - 1];
               if (last && last.group.key === group.key) {
@@ -392,17 +437,18 @@ export default function CategoryPage() {
                   {sections.map((sec, si) => {
                     const offset = acc;
                     acc += sec.tools.length;
+                    const heading = lang === "zh" ? sec.group.label : sec.group.labelEn;
                     return (
-                      <section key={`${sec.group.key}-${si}`} aria-label={sec.group.label}>
+                      <section key={`${sec.group.key}-${si}`} aria-label={heading}>
                         <div className="mb-4 flex items-center gap-2">
-                          <h2 className="text-lg font-bold">{sec.group.label}</h2>
+                          <h2 className="text-lg font-bold">{heading}</h2>
                           <span className="text-sm text-muted-foreground">
                             ({sec.tools.length})
                           </span>
                         </div>
                         {renderGroupWithAds(
                           sec.tools,
-                          `finance-group-${sec.group.key}-p${page}`,
+                          `${cat}-group-${sec.group.key}-p${page}`,
                           offset,
                         )}
                       </section>
@@ -413,33 +459,51 @@ export default function CategoryPage() {
               </>
             );
           })()
+        ) : hasGroups ? (
+          /* 有細分組且已選定單一子分類：分頁 + 每 10 個工具插一個廣告位 */
+          (() => {
+            const total = filteredTools.length;
+            const { items: pageItems, startOffset } = pageSlice(filteredTools);
+            return (
+              <>
+                <div>
+                  {renderGroupWithAds(
+                    pageItems,
+                    `${cat}-sub-${subgroup}-p${page}`,
+                    startOffset,
+                  )}
+                </div>
+                {renderPagination(total)}
+              </>
+            );
+          })()
         ) : (
-          isFinance ? (
-            /* finance 已選定單一子分類：分頁 + 每 10 個工具插一個廣告位 */
-            (() => {
-              const total = filteredTools.length;
-              const { items: pageItems, startOffset } = pageSlice(filteredTools);
-              return (
-                <>
-                  <div>
-                    {renderGroupWithAds(
-                      pageItems,
-                      `finance-sub-${subgroup}-p${page}`,
-                      startOffset,
-                    )}
-                  </div>
-                  {renderPagination(total)}
-                </>
-              );
-            })()
-          ) : (
-            /* 其他分類：平鋪網格（不插廣告，維持原狀，不分頁） */
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
-              {filteredTools.map((tool: Tool, index: number) => renderToolCard(tool, index))}
-            </div>
-          )
+          /* 無細分組的分類（productivity / design / converter 等）：
+             平鋪網格，不插廣告、不分頁，維持現狀。 */
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
+            {filteredTools.map((tool: Tool, index: number) =>
+              renderToolCard(tool, index),
+            )}
+          </div>
         )}
       </div>
     </div>
   );
+}
+
+// finance 的群組物件沒有 labelEn 欄位，這裡提供一個對照表補上英文標籤。
+// （財經為現狀沿用，不改 financeSubgroups.ts，故在此補英文以支援雙語顯示。）
+const FINANCE_EN_LABELS: Record<string, string> = {
+  "credit-debt": "Credit Card, Debt & Credit Score",
+  "loan-mortgage": "Loans, Mortgage & Financing",
+  "invest-return": "Investing, Stocks, Returns & Compounding",
+  "tax-salary": "Tax, Salary & Income",
+  "fx-inflation": "FX, Inflation & Currency",
+  "insurance-risk": "Insurance, Risk & Planning",
+  "business-cashflow": "Business, Cash Flow & Valuation",
+  other: "Personal Finance & Others",
+};
+
+function financeEnLabel(key: string, fallback: string): string {
+  return FINANCE_EN_LABELS[key] ?? fallback;
 }
