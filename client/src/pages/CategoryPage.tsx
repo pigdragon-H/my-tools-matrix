@@ -144,16 +144,16 @@ export default function CategoryPage() {
   const renderToolCard = (tool: Tool, index: number) => (
     <Link key={tool.id} href={tool.path}>
       <Card className="group h-full cursor-pointer p-3 transition-all duration-200 hover:border-primary/50 hover:shadow-md">
-        <h3 className="text-base leading-snug text-foreground group-hover:text-primary transition-colors">
-          <span className="mr-1.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white/80 align-middle text-xs text-slate-600 shadow-sm">
+        <h3 className="text-lg leading-[1.4] text-foreground group-hover:text-primary transition-colors">
+          <span className="mr-1.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white/80 align-middle text-sm text-slate-600 shadow-sm">
             {index + 1}
           </span>
           {getToolName(tool, lang)}
-          <span className="ml-1.5 align-middle text-xs text-muted-foreground">
+          <span className="ml-1.5 align-middle text-sm text-muted-foreground">
             · {tool.seoArticles.length} {t("篇文章", "articles")}
           </span>
         </h3>
-        <p className="mt-1 text-sm leading-relaxed text-muted-foreground line-clamp-3">
+        <p className="mt-1 text-base leading-[1.6] text-muted-foreground line-clamp-3">
           {getToolDescription(tool, lang, catInfo?.nameEn)}
         </p>
       </Card>
@@ -319,7 +319,10 @@ export default function CategoryPage() {
               <CategoryIcon iconName={catInfo.icon} className="h-8 w-8" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold md:text-3xl">
+              <h1
+                className="font-bold"
+                style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: 1.2 }}
+              >
                 {lang === "zh" ? catInfo.name : catInfo.nameEn ?? catInfo.name}
               </h1>
               <p className="text-muted-foreground mt-1">
