@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { categories } from "@shared/categoriesConfig";
-import { CategoryIcon } from "@/components/CategoryIcon";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { AdSlot } from "@/components/business/AdSlot";
 import { TrustStrip } from "@/components/business/TrustStrip";
@@ -199,11 +198,6 @@ const copy = {
     en: "Start with common decision scenarios, pair them with tools, and turn concepts into action right away.",
   },
   backHome: { zh: "回首頁", en: "Back to home" },
-  domainsTitle: { zh: "依 13 個工具分類探索", en: "Explore by 13 tool categories" },
-  domainsDesc: {
-    zh: "工具知識庫與工具矩陣使用同一套 13 個分類，文章、公式解釋、工具範例與決策路徑都會依此歸檔。",
-    en: "Tool Knowledge uses the same 13 categories as the tool library; articles, formula explanations, examples, and decision paths are filed under those categories.",
-  },
 } as const;
 
 export default function BlogList() {
@@ -214,7 +208,7 @@ export default function BlogList() {
 
   // 友善導航：Navbar「工具知識庫」下拉的 13 分類項連到 /blog?cat=xxx。
   // 在此恢復讀取 ?cat= 參數 → 點分類即篩到「工具應用文章」的該分類。
-  // 注意：上方所有引導單元（Hero、四種閱讀價值、推薦閱讀路徑、依13分類探索）皆照常顯示，
+  // 注意：上方所有引導單元（Hero、四種閱讀價值、推薦閱讀路徑）皆照常顯示，
   //       ?cat= 只篩「工具應用文章」那一段，不隱藏任何前綴引導單元。
   const blogSearch = useSearch();
   const catFromUrl = useMemo(() => {
@@ -542,41 +536,10 @@ export default function BlogList() {
         </div>
       </section>
 
-      {/* 廣告① — 推薦閱讀路徑 與 依13分類探索 之間 */}
-      <section className="container py-6">
-        <AdSlot slot="blog-before-domains" position="middle" variant="responsive" />
-      </section>
-
-      {/* 「依 13 個工具分類探索」— 真正有效的直型選單（連到 /category/:key）。
-          已依授權自頁面最底移到此處：推薦閱讀路徑 下面、工具應用文章 上面，
-          作為 Navbar 下拉之外的補救導引；上下各夾一則廣告位。 */}
-      <section className="border-y border-blue-200/70 bg-blue-50/60 dark:border-blue-950/60 dark:bg-slate-950">
-        <div className="container py-14 md:py-20">
-          <div className="mb-10 max-w-2xl">
-            <h2 className="t-h2 tracking-tight">{copy.domainsTitle[lang]}</h2>
-            <p className="mt-3 text-muted-foreground">{copy.domainsDesc[lang]}</p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {categories.map((cat) => (
-              <Link key={cat.key} href={`/category/${cat.key}`}>
-                <Card className="h-full cursor-pointer bg-white/90 transition hover:-translate-y-1 hover:shadow-lg dark:bg-white/5">
-                  <CardContent className="p-5">
-                    <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-100 text-blue-700 dark:bg-blue-950/50 dark:text-blue-200">
-                      <CategoryIcon iconName={cat.icon} className="h-5 w-5" />
-                    </div>
-                    <h3 className="font-bold">{lang === "zh" ? cat.name : cat.nameEn}</h3>
-                    {lang === "zh" && (
-                      <p className="mt-2 t-body text-muted-foreground">{cat.description}</p>
-                    )}
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 廣告② — 依13分類探索 與 工具應用文章 之間 */}
+      {/* 廣告 — 推薦閱讀路徑 與 工具應用文章 之間。
+          原本此處有「依 13 個工具分類探索」直型選單（連到 /category/:key），
+          但 Navbar「工具知識庫」下拉已恢復同樣功能，故依授權移除以避免重複；
+          僅保留一則廣告位。 */}
       <section className="container py-6">
         <AdSlot slot="blog-before-articles" position="middle" variant="responsive" />
       </section>
@@ -727,7 +690,7 @@ export default function BlogList() {
       )}
 
       {/* 「最新文章」(Supabase-backed) 區塊已依授權移除。
-          「依 13 個工具分類探索」已上移至「推薦閱讀路徑」與「工具應用文章」之間（補救導引）。 */}
+          「依 13 個工具分類探索」直型選單已依授權移除（與 Navbar「工具知識庫」下拉重複）。 */}
 
       {/* L17 — Trust strip */}
       <TrustStrip lang={lang} variant="default" />
