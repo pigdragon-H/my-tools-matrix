@@ -1,5 +1,5 @@
 import { Link, useSearch } from "wouter";
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { ArrowRight, BookOpen, FileText, Sparkles, Sigma, Compass, Route as RouteIcon, ShieldAlert, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -419,7 +419,9 @@ export default function BlogList() {
             ))}
           </div>
 
-          {/* 分類分區 + 序號 + 已讀 */}
+          {/* 分類分區 + 序號 + 已讀
+              商業化版型：小卡片、桌機 4 卡（手機 1 / 平板 2 / 桌機 4），
+              每個分類 grid 內每滿 8 卡（2×4）插入一條整行 AdSlot 廣告位（循環到底）。 */}
           <div className="space-y-12">
             {visibleStaticGroups.map((g) => (
               <div key={g.key}>
@@ -428,47 +430,60 @@ export default function BlogList() {
                   {g.label[lang]}
                   <span className="text-sm font-medium text-muted-foreground">({g.count})</span>
                 </h3>
-                <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   {g.items.map((a, idx) => {
                     const read = isStaticRead(a.slug);
+                    // 2×4+1 廣告：每滿 8 卡（idx 為 7、15、23…）之後，插入一條整行廣告。
+                    const showAdAfter = (idx + 1) % 8 === 0;
                     return (
-                      <Link key={a.path} href={a.path}>
-                        <Card
-                          className={`relative h-full cursor-pointer border-blue-100 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-xl dark:border-blue-950/60 dark:bg-white/5 ${
-                            read ? "opacity-70" : ""
-                          }`}
-                        >
-                          <span className="absolute right-4 top-4 text-xs font-black tabular-nums text-blue-300 dark:text-blue-700">
-                            {ordinal(idx + 1)}
-                          </span>
-                          {read && (
-                            <span className="absolute right-4 top-9 inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
-                              <Check className="h-3 w-3" />
-                              {lang === "zh" ? "已讀" : "Read"}
+                      <Fragment key={a.path}>
+                        <Link href={a.path}>
+                          <Card
+                            className={`relative h-full cursor-pointer border-blue-100 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-xl dark:border-blue-950/60 dark:bg-white/5 ${
+                              read ? "opacity-70" : ""
+                            }`}
+                          >
+                            <span className="absolute right-3 top-3 text-xs font-black tabular-nums text-blue-300 dark:text-blue-700">
+                              {ordinal(idx + 1)}
                             </span>
-                          )}
-                          <CardContent className="p-6">
-                            <div className="flex items-center gap-2 mb-4">
-                              <FileText className="h-6 w-6 text-blue-600" />
-                              {a.category && (
-                                <Badge variant="secondary" className="t-small">
-                                  {getCategoryLabel("blog", normalizeBlogCategoryKey(a.category))[lang]}
-                                </Badge>
-                              )}
-                            </div>
-                            <h3 className="t-h3 leading-snug pr-8">{a.title}</h3>
-                            {a.description && (
-                              <p className="mt-3 t-body text-muted-foreground line-clamp-3">
-                                {a.description}
-                              </p>
+                            {read && (
+                              <span className="absolute right-3 top-8 inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+                                <Check className="h-3 w-3" />
+                                {lang === "zh" ? "已讀" : "Read"}
+                              </span>
                             )}
-                            <p className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">
-                              {lang === "zh" ? "閱讀文章" : "Read article"}{" "}
-                              <ArrowRight className="h-4 w-4" />
-                            </p>
-                          </CardContent>
-                        </Card>
-                      </Link>
+                            <CardContent className="p-4">
+                              <div className="mb-3 flex items-center gap-2">
+                                <FileText className="h-5 w-5 shrink-0 text-blue-600" />
+                                {a.category && (
+                                  <Badge variant="secondary" className="text-sm">
+                                    {getCategoryLabel("blog", normalizeBlogCategoryKey(a.category))[lang]}
+                                  </Badge>
+                                )}
+                              </div>
+                              <h3 className="pr-7 text-lg font-bold leading-[1.4]">{a.title}</h3>
+                              {a.description && (
+                                <p className="mt-2 text-base leading-[1.6] text-muted-foreground line-clamp-3">
+                                  {a.description}
+                                </p>
+                              )}
+                              <p className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">
+                                {lang === "zh" ? "閱讀文章" : "Read article"}{" "}
+                                <ArrowRight className="h-4 w-4" />
+                              </p>
+                            </CardContent>
+                          </Card>
+                        </Link>
+                        {showAdAfter && (
+                          <div className="col-span-full my-2">
+                            <AdSlot
+                              slot={`blog-static-${g.key}-${(idx + 1) / 8}`}
+                              position="inline"
+                              variant="responsive"
+                            />
+                          </div>
+                        )}
+                      </Fragment>
                     );
                   })}
                 </div>
