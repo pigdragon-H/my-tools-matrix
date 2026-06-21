@@ -138,6 +138,48 @@ export function ArticleShell(props: ArticleShellProps) {
   const [firstHalf, secondHalf, thirdPart] = splitBody(props.body);
   const affiliates = props.affiliateItems ?? DEFAULT_AFFILIATES;
 
+  // 大表格 / 流程圖 / 架構圖（pre code block）下方注入「曝光型響應式廣告」。
+  // 商業邏輯：讀者閱讀大表/架構圖時專注度與停留時間最高，是曝光黃金位。
+  // 用 ReactMarkdown components 覆寫 table / pre，渲染原元素後緊接一個 AdSlot。
+  // showAds 關閉時不注入；每個注入廣告以遞增 index 取得唯一 slot。
+  const showAdsFlag = props.adsEnabled !== false;
+  let inlineAdIdx = 0;
+  const mdComponents = showAdsFlag
+    ? {
+        table: ({ node: _node, ...rest }: any) => {
+          const idx = ++inlineAdIdx;
+          return (
+            <>
+              <div className="overflow-x-auto">
+                <table {...rest} />
+              </div>
+              <div className="my-6 not-prose" data-ad-context="table">
+                <AdSlot slot={`${props.slotPrefix}-table-${idx}`} position="inline" variant="responsive" />
+              </div>
+            </>
+          );
+        },
+        pre: ({ node: _node, children, ...rest }: any) => {
+          // 只在「流程圖／架構圖」（含框線繪圖字元）下方注入廣告；
+          // 一般 code block（如 Prompt / JSON）不注入，避免廣告氾濫。
+          const raw = JSON.stringify(children ?? "");
+          const isDiagram = /[┌┐└┘├┤┬┴┼─│╔╗╚╝═║▶►→↓↑]/.test(raw);
+          if (!isDiagram) {
+            return <pre {...rest}>{children}</pre>;
+          }
+          const idx = ++inlineAdIdx;
+          return (
+            <>
+              <pre {...rest}>{children}</pre>
+              <div className="my-6 not-prose" data-ad-context="diagram">
+                <AdSlot slot={`${props.slotPrefix}-diagram-${idx}`} position="inline" variant="responsive" />
+              </div>
+            </>
+          );
+        },
+      }
+    : undefined;
+
   // metadata 驅動：未設定一律維持現狀（向下相容）。
   const showAds = props.adsEnabled !== false;
   const showPremium = props.premiumGate !== false;
@@ -196,7 +238,7 @@ export function ArticleShell(props: ArticleShellProps) {
       )}
 
       <div className="prose prose-slate dark:prose-invert max-w-none t-body">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{firstHalf}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>{firstHalf}</ReactMarkdown>
       </div>
 
       {/* PremiumTeaser — middle 位置（正文中段） */}
@@ -215,7 +257,7 @@ export function ArticleShell(props: ArticleShellProps) {
             </div>
           )}
           <div className="prose prose-slate dark:prose-invert max-w-none t-body">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{secondHalf}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>{secondHalf}</ReactMarkdown>
           </div>
         </>
       )}
@@ -229,7 +271,7 @@ export function ArticleShell(props: ArticleShellProps) {
             </div>
           )}
           <div className="prose prose-slate dark:prose-invert max-w-none t-body">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{thirdPart}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>{thirdPart}</ReactMarkdown>
           </div>
         </>
       )}
