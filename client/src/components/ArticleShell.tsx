@@ -98,13 +98,24 @@ function stripLeadingMarkdownH1(body: string): string {
   return body.replace(/^\s*#(?!#)\s+[^\n\r]+\r?\n+/, "").trimStart();
 }
 
-// 在段落邊界把正文切兩半，中段插 #14 廣告位。
-function splitBody(body: string): [string, string] {
+// 在段落邊界把正文切三段，每段之間各插一個廣告位（長文加密廣告密度）。
+// 段落數不足時自動降級，確保短文不被過度切割。
+function splitBody(body: string): [string, string, string] {
   const cleanBody = stripLeadingMarkdownH1(body);
   const paras = cleanBody.split(/\n{2,}/);
-  if (paras.length < 4) return [cleanBody, ""];
+  if (paras.length < 4) return [cleanBody, "", ""];
+  // 段落夠多（長文）才切三段；否則只切兩段（維持原行為）。
+  if (paras.length >= 9) {
+    const a = Math.ceil(paras.length / 3);
+    const b = Math.ceil((paras.length * 2) / 3);
+    return [
+      paras.slice(0, a).join("\n\n"),
+      paras.slice(a, b).join("\n\n"),
+      paras.slice(b).join("\n\n"),
+    ];
+  }
   const mid = Math.ceil(paras.length / 2);
-  return [paras.slice(0, mid).join("\n\n"), paras.slice(mid).join("\n\n")];
+  return [paras.slice(0, mid).join("\n\n"), paras.slice(mid).join("\n\n"), ""];
 }
 
 export function ArticleShell(props: ArticleShellProps) {
@@ -124,7 +135,7 @@ export function ArticleShell(props: ArticleShellProps) {
     });
   }, [lang, props.title, props.description]);
 
-  const [firstHalf, secondHalf] = splitBody(props.body);
+  const [firstHalf, secondHalf, thirdPart] = splitBody(props.body);
   const affiliates = props.affiliateItems ?? DEFAULT_AFFILIATES;
 
   // metadata 驅動：未設定一律維持現狀（向下相容）。
@@ -197,7 +208,7 @@ export function ArticleShell(props: ArticleShellProps) {
 
       {secondHalf && (
         <>
-          {/* #14 — AdSlot mid-article */}
+          {/* #14 — AdSlot mid-article (1/3 處) */}
           {showAds && (
             <div className="my-6">
               <AdSlot slot={`${props.slotPrefix}-mid`} position="middle" variant="responsive" />
@@ -207,6 +218,27 @@ export function ArticleShell(props: ArticleShellProps) {
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{secondHalf}</ReactMarkdown>
           </div>
         </>
+      )}
+
+      {thirdPart && (
+        <>
+          {/* #14b — AdSlot mid-article 2 (2/3 處，長文加密) */}
+          {showAds && (
+            <div className="my-6">
+              <AdSlot slot={`${props.slotPrefix}-mid2`} position="middle" variant="responsive" />
+            </div>
+          )}
+          <div className="prose prose-slate dark:prose-invert max-w-none t-body">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{thirdPart}</ReactMarkdown>
+          </div>
+        </>
+      )}
+
+      {/* #20 — AdSlot bottom (正文結束後) */}
+      {showAds && (
+        <div className="my-6">
+          <AdSlot slot={`${props.slotPrefix}-bottom`} position="bottom" variant="responsive" />
+        </div>
       )}
 
       {props.keywords && props.keywords.length > 0 && (
