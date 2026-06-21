@@ -171,17 +171,42 @@
 .prose code {
   @apply bg-muted text-foreground px-1.5 py-0.5 rounded text-sm font-mono;
 }
-/* code block / 文字架構圖 / 流程圖容器：淡色系背景 + 深色清楚文字（取代預設深色 pre） */
-.prose pre {
-  @apply bg-secondary/60 text-foreground border border-border rounded-xl px-4 py-4 my-6 overflow-x-auto leading-relaxed;
+/* code block / 文字架構圖 / 流程圖容器：淡色系背景 + 深色清楚文字
+   注意：文章容器用 Tailwind Typography 的 prose-slate，其對 pre 內建深色背景，
+   必須覆寫其 CSS 變數 + 提高 specificity 才能生效。 */
+.prose {
+  /* 覆寫 Tailwind Typography 的 pre 變數為淡色系 */
+  --tw-prose-pre-bg: var(--secondary);
+  --tw-prose-pre-code: var(--foreground);
+  --tw-prose-invert-pre-bg: var(--muted);
+  --tw-prose-invert-pre-code: var(--foreground);
 }
-.prose pre code {
-  @apply bg-transparent text-foreground p-0 text-[0.92em] font-mono;
+.prose pre,
+.fu-typo .prose pre,
+.prose.prose-slate pre {
+  background-color: color-mix(in oklab, var(--secondary) 75%, transparent) !important;
+  color: var(--foreground) !important;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1rem 1.1rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  line-height: 1.7;
+}
+.prose pre code,
+.fu-typo .prose pre code {
+  background-color: transparent !important;
+  color: var(--foreground) !important;
+  padding: 0;
+  font-size: 0.92em;
   white-space: pre;
 }
-/* 深色模式：仍維持「相對淡」的卡片色，確保文字清楚不刺眼 */
-.dark .prose pre {
-  @apply bg-muted/40 text-foreground border-border;
+/* 深色模式：維持「相對淡」的卡片色，文字仍清楚不刺眼 */
+.dark .prose pre,
+.dark .fu-typo .prose pre {
+  background-color: color-mix(in oklab, var(--muted) 55%, transparent) !important;
+  color: var(--foreground) !important;
+  border-color: var(--border);
 }
 .prose hr {
   @apply border-border my-8;
