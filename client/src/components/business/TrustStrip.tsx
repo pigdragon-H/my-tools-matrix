@@ -5,7 +5,7 @@
 import { Link } from "wouter";
 import { isEnabled } from "@/config/featureFlags";
 import type { Lang } from "@/contexts/LanguageContext";
-import { ShieldCheck, BookOpenCheck, FileText, Mail, Github, ArrowRight, ExternalLink } from "lucide-react";
+import { ShieldCheck, BookOpenCheck, FileText, Mail, ArrowRight, ExternalLink } from "lucide-react";
 
 interface TrustStripProps {
   lang: Lang;
@@ -61,15 +61,15 @@ export function TrustStrip({ lang, variant = "default" }: TrustStripProps) {
       external: false,
     },
     {
-      icon: Github,
-      label: { zh: "原始碼", en: "Source code" },
+      icon: ShieldCheck,
+      label: { zh: "隱私與條款", en: "Privacy & Terms" },
       description: {
-        zh: "查看公開程式碼、提交 issue，或追蹤更新紀錄。",
-        en: "Review public code, file issues, or follow release history.",
+        zh: "了解我們如何處理資料、Cookie 與廣告，以及使用條款。",
+        en: "Learn how we handle data, cookies, and ads, plus our terms of use.",
       },
-      action: { zh: "查看 GitHub", en: "View GitHub" },
-      href: "https://github.com/pigdragon-H/my-tools-matrix",
-      external: true,
+      action: { zh: "查看隱私權政策", en: "View privacy policy" },
+      href: "/privacy",
+      external: false,
     },
   ];
 

@@ -30,6 +30,7 @@ import KnowledgePage from "./pages/KnowledgePage";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { Navbar } from "./components/Navbar";
+import { Footer } from "./components/Footer";
 import { TrpcProvider } from "./_core/TrpcProvider";
 import { ProtectedAdminRoute } from "./_core/ProtectedAdminRoute";
 import { AdminLayout } from "./components/admin/AdminLayout";
@@ -112,6 +113,7 @@ export default function App({ ssrPath }: { ssrPath?: string } = {}) {
                   </Route>
                 </Switch>
               </main>
+              <Footer />
             </div>
           </Router>
         </TrpcProvider>
