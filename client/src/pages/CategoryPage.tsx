@@ -29,6 +29,7 @@ import {
 } from "@/lib/categorySubgroups";
 import { setSeoMeta } from "@/lib/seo";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { getToolName, getToolDescription } from "@/lib/toolI18n";
 import type { Tool } from "@shared/toolsConfig";
 
 // 統一的「群組」型別（finance 與其他分類共用此形狀）
@@ -92,15 +93,16 @@ export default function CategoryPage() {
 
   useEffect(() => {
     if (!catInfo) return;
+    const catNameEn = catInfo.nameEn ?? catInfo.name;
     setSeoMeta({
       title:
         lang === "zh"
           ? `${catInfo.name}工具｜Formula Universe`
-          : `${catInfo.name} Tools | Formula Universe`,
+          : `${catNameEn} Tools | Formula Universe`,
       description:
         lang === "zh"
           ? `${catInfo.name}工具集合：${catInfo.description}。Formula Universe提供免費、快速、適合台灣使用情境的線上計算與決策輔助工具。`
-          : `${catInfo.name} tools collection: ${catInfo.description}. Formula Universe offers free, fast online calculators and decision-support tools.`,
+          : `${catNameEn} tools collection. Formula Universe offers free, fast online calculators and decision-support tools.`,
     });
   }, [catInfo, lang]);
 
@@ -146,13 +148,13 @@ export default function CategoryPage() {
           <span className="mr-1.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white/80 align-middle text-[10px] text-slate-600 shadow-sm">
             {index + 1}
           </span>
-          {tool.name}
+          {getToolName(tool, lang)}
           <span className="ml-1.5 align-middle text-[10px] text-muted-foreground">
             · {tool.seoArticles.length} {t("篇文章", "articles")}
           </span>
         </h3>
         <p className="mt-1 text-xs leading-relaxed text-muted-foreground line-clamp-3">
-          {tool.description}
+          {getToolDescription(tool, lang, catInfo?.nameEn)}
         </p>
       </Card>
     </Link>
@@ -317,8 +319,14 @@ export default function CategoryPage() {
               <CategoryIcon iconName={catInfo.icon} className="h-8 w-8" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold md:text-3xl">{catInfo.name}</h1>
-              <p className="text-muted-foreground mt-1">{catInfo.description}</p>
+              <h1 className="text-2xl font-bold md:text-3xl">
+                {lang === "zh" ? catInfo.name : catInfo.nameEn ?? catInfo.name}
+              </h1>
+              <p className="text-muted-foreground mt-1">
+                {lang === "zh"
+                  ? catInfo.description
+                  : `Free, fast online ${catInfo.nameEn ?? catInfo.name} calculators and decision-support tools.`}
+              </p>
             </div>
           </div>
         </div>
