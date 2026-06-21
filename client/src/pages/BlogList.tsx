@@ -1,5 +1,5 @@
-import { Link } from "wouter";
-import { Fragment, useMemo, useState } from "react";
+import { Link, useSearch } from "wouter";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { ArrowRight, BookOpen, FileText, Sigma, Compass, Route as RouteIcon, ShieldAlert, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -209,6 +209,20 @@ const copy = {
 export default function BlogList() {
   const { lang } = useLanguage();
 
+  // 工具應用文章篩選命名空間（與三賽道頁一致）。
+  const ALL_KEY = "__all__";
+
+  // 友善導航：Navbar「工具知識庫」下拉的 13 分類項連到 /blog?cat=xxx。
+  // 在此恢復讀取 ?cat= 參數 → 點分類即篩到「工具應用文章」的該分類。
+  // 注意：上方所有引導單元（Hero、四種閱讀價值、推薦閱讀路徑、依13分類探索）皆照常顯示，
+  //       ?cat= 只篩「工具應用文章」那一段，不隱藏任何前綴引導單元。
+  const blogSearch = useSearch();
+  const catFromUrl = useMemo(() => {
+    const raw = new URLSearchParams(blogSearch).get("cat");
+    if (!raw) return ALL_KEY;
+    return categories.some((c) => c.key === raw) ? raw : ALL_KEY;
+  }, [blogSearch]);
+
   // ── Supabase 後台文章（透過 tRPC）────────────────────────────────
   // 決策（用戶授權）：原「最新文章」獨立單元因後台無法管理而關閉；
   // 但這些 DB 文章「保留」（可能有 GSC 索引、內頁 /blog/:slug 仍可訪問），
@@ -230,11 +244,25 @@ export default function BlogList() {
   }>;
 
   // Phase A 結構：分類晶片 + 分類分區 + 序號 + 已讀進度（與三賽道頁一致）
-  const ALL_KEY = "__all__";
-
   // 工具應用文章（靜態 Markdown）：套同一套 Phase A 結構，獨立篩選與已讀命名空間
-  const [activeStaticCat, setActiveStaticCat] = useState<string>(ALL_KEY);
+  // 初始值依 URL ?cat= 帶入（來自 Navbar「工具知識庫」下拉）。
+  const [activeStaticCat, setActiveStaticCat] = useState<string>(catFromUrl);
+  const [staticPage, setStaticPage] = useState<number>(1);
   const { isRead: isStaticRead, readCount: staticReadCount } = useReadProgress("blog-static");
+
+  // URL ?cat= 變動時（例如已在 /blog 又從 Navbar 下拉點另一個分類）→ 同步篩選、回第1頁、
+  // 並捲到「工具應用文章」區，但保留上方所有引導單元照常顯示。
+  useEffect(() => {
+    setActiveStaticCat(catFromUrl);
+    setStaticPage(1);
+    if (catFromUrl !== ALL_KEY) {
+      requestAnimationFrame(() => {
+        document
+          .getElementById("static-articles")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  }, [catFromUrl]);
 
   // 把 DB 文章正規化成與 STATIC_ARTICLES 相容的形狀，並標記來源（isDb）。
   // isDb=true 的項目已有後台真實中英 title/description（依 locale 取回），
@@ -282,7 +310,6 @@ export default function BlogList() {
   // 「全部」模式 → 把所有可見群組攤平成單一清單分頁；
   // 單一分類模式 → 該分類獨立分頁。整頁只有一組分頁列。
   const STATIC_PAGE_SIZE = 60;
-  const [staticPage, setStaticPage] = useState<number>(1);
 
   // 攤平全部可見文章（保留所屬群組資訊），用於計算總數與切片。
   const flatStaticItems = useMemo(
@@ -515,9 +542,43 @@ export default function BlogList() {
         </div>
       </section>
 
-      {/* L14 — AdSlot (between guides and domains) */}
+      {/* 廣告① — 推薦閱讀路徑 與 依13分類探索 之間 */}
       <section className="container py-6">
         <AdSlot slot="blog-before-domains" position="middle" variant="responsive" />
+      </section>
+
+      {/* 「依 13 個工具分類探索」— 真正有效的直型選單（連到 /category/:key）。
+          已依授權自頁面最底移到此處：推薦閱讀路徑 下面、工具應用文章 上面，
+          作為 Navbar 下拉之外的補救導引；上下各夾一則廣告位。 */}
+      <section className="border-y border-blue-200/70 bg-blue-50/60 dark:border-blue-950/60 dark:bg-slate-950">
+        <div className="container py-14 md:py-20">
+          <div className="mb-10 max-w-2xl">
+            <h2 className="t-h2 tracking-tight">{copy.domainsTitle[lang]}</h2>
+            <p className="mt-3 text-muted-foreground">{copy.domainsDesc[lang]}</p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {categories.map((cat) => (
+              <Link key={cat.key} href={`/category/${cat.key}`}>
+                <Card className="h-full cursor-pointer bg-white/90 transition hover:-translate-y-1 hover:shadow-lg dark:bg-white/5">
+                  <CardContent className="p-5">
+                    <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-100 text-blue-700 dark:bg-blue-950/50 dark:text-blue-200">
+                      <CategoryIcon iconName={cat.icon} className="h-5 w-5" />
+                    </div>
+                    <h3 className="font-bold">{lang === "zh" ? cat.name : cat.nameEn}</h3>
+                    {lang === "zh" && (
+                      <p className="mt-2 t-body text-muted-foreground">{cat.description}</p>
+                    )}
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 廣告② — 依13分類探索 與 工具應用文章 之間 */}
+      <section className="container py-6">
+        <AdSlot slot="blog-before-articles" position="middle" variant="responsive" />
       </section>
 
       {/* Tool application articles (MANUS-authored static Markdown). */}
@@ -665,33 +726,8 @@ export default function BlogList() {
         </section>
       )}
 
-      {/* 「最新文章」(Supabase-backed) 區塊已依授權移除。 */}
-
-      <section className="border-t border-blue-200/70 bg-blue-50/60 dark:border-blue-950/60 dark:bg-slate-950">
-        <div className="container py-14 md:py-20">
-          <div className="mb-10 max-w-2xl">
-            <h2 className="t-h2 tracking-tight">{copy.domainsTitle[lang]}</h2>
-            <p className="mt-3 text-muted-foreground">{copy.domainsDesc[lang]}</p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {categories.map((cat) => (
-              <Link key={cat.key} href={`/category/${cat.key}`}>
-                <Card className="h-full cursor-pointer bg-white/90 transition hover:-translate-y-1 hover:shadow-lg dark:bg-white/5">
-                  <CardContent className="p-5">
-                    <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-100 text-blue-700 dark:bg-blue-950/50 dark:text-blue-200">
-                      <CategoryIcon iconName={cat.icon} className="h-5 w-5" />
-                    </div>
-                    <h3 className="font-bold">{lang === "zh" ? cat.name : cat.nameEn}</h3>
-                    {lang === "zh" && (
-                      <p className="mt-2 t-body text-muted-foreground">{cat.description}</p>
-                    )}
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* 「最新文章」(Supabase-backed) 區塊已依授權移除。
+          「依 13 個工具分類探索」已上移至「推薦閱讀路徑」與「工具應用文章」之間（補救導引）。 */}
 
       {/* L17 — Trust strip */}
       <TrustStrip lang={lang} variant="default" />
