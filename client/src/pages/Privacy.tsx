@@ -51,6 +51,45 @@ export default function Privacy() {
           <h2>{lang === "zh" ? "2. Cookie、分析與廣告" : "2. Cookies, analytics, and advertising"}</h2>
           <p>{lang === "zh" ? "本網站可能使用 Cookie、本機儲存或類似技術保存語言、主題、偏好設定、流量分析與廣告投放狀態。您可以透過瀏覽器設定封鎖或刪除 Cookie，但部分偏好設定或廣告相關功能可能因此無法正常運作。" : "This site may use cookies, local storage, or similar technologies for language, theme, preferences, analytics, and advertising state. You can block or delete cookies through your browser settings, but some preferences or ad-related features may not work normally."}</p>
           <p>{lang === "zh" ? "我們可能使用 Google Analytics、Google Search Console、Google AdSense 或同等服務。第三方服務可能依其政策處理 Cookie、廣告識別碼、IP 位址、裝置資訊與互動資料。Google 如何使用資料，請參考 Google 的公開政策與廣告設定頁。" : "We may use Google Analytics, Google Search Console, Google AdSense, or equivalent services. Third-party services may process cookies, ad identifiers, IP addresses, device information, and interaction data according to their own policies. For Google's use of data, review Google's public policies and ad settings."}</p>
+          <p>
+            {lang === "zh"
+              ? "Google 等第三方廠商會使用 Cookie，根據您先前造訪本網站或其他網站的紀錄向您放送廣告（包含個人化廣告）。您可以隨時透過下列方式停用個人化廣告或管理廣告偏好："
+              : "Third-party vendors, including Google, use cookies to serve ads (including personalized ads) based on your prior visits to this website or other websites. You can opt out of personalized advertising or manage your ad preferences at any time through the following options:"}
+          </p>
+          <ul>
+            <li>
+              {lang === "zh" ? "前往 " : "Visit "}
+              <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer nofollow">
+                Google 廣告設定（Google Ads Settings）
+              </a>
+              {lang === "zh"
+                ? " 停用 Google 個人化廣告。"
+                : " to opt out of Google personalized advertising."}
+            </li>
+            <li>
+              {lang === "zh" ? "前往 " : "Visit "}
+              <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer nofollow">
+                www.aboutads.info
+              </a>
+              {lang === "zh"
+                ? " 退出部分第三方廠商的個人化廣告（適用於參與的 NAI／DAA 廠商）。"
+                : " to opt out of some third-party vendors' use of cookies for personalized advertising (participating NAI/DAA vendors)."}
+            </li>
+            <li>
+              {lang === "zh"
+                ? "Google 第三方廠商與廣告聯播網清單，請參考 "
+                : "For Google's list of third-party vendors and ad networks, see "}
+              <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer nofollow">
+                {lang === "zh" ? "Google 合作夥伴網站政策" : "Google's partner sites policy"}
+              </a>
+              {lang === "zh" ? "。" : "."}
+            </li>
+          </ul>
+          <p>
+            {lang === "zh"
+              ? "若您停用個人化廣告，您仍可能看到廣告，但這些廣告將不再依您的興趣個人化。"
+              : "If you opt out of personalized advertising, you may still see ads, but they will no longer be personalized based on your interests."}
+          </p>
 
           <h2>{lang === "zh" ? "3. 聯盟連結與 Premium" : "3. Affiliate links and Premium"}</h2>
           <p>{lang === "zh" ? "部分頁面可能包含站內推薦、聯盟連結或商業合作連結。若您透過部分連結購買產品或服務，我們可能獲得佣金，這不會增加您的購買成本，也不會改變我們對公式、工具限制或風險提示的揭露義務。" : "Some pages may include on-site recommendations, affiliate links, or commercial partner links. If you purchase through certain links, we may earn a commission. This does not increase your cost and does not change our obligation to disclose formula limits, tool limitations, or risk notices."}</p>
