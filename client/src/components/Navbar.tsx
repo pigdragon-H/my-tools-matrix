@@ -255,7 +255,7 @@ export function Navbar() {
         </Link>
 
         {/* ── Desktop Nav ───────────────────────────────────── */}
-        <nav className="hidden md:flex min-w-0 flex-1 items-center justify-center gap-1 overflow-hidden">
+        <nav className="hidden md:flex min-w-0 items-center gap-1 overflow-hidden px-2 lg:px-4">
           {/* 工具分類下拉選單 - 核心導航 */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
