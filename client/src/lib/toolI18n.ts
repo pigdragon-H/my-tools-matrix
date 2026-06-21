@@ -23,6 +23,11 @@
 const ACRONYMS = [
   "AI", "API", "BMI", "BMR", "TDEE", "UTM", "CPM", "CPC",
   "RGB", "HSL", "JSON", "HTML", "FAQ",
+  // 文章 slug 常見縮寫（沿用同一套 titleCaseFromSlug 推導英文標題）
+  "CAGR", "ROI", "ROE", "ROA", "EPS", "EBITDA", "CAPM", "FIRE",
+  "GST", "VAT", "CD", "CSV", "JWT", "UUID", "QR", "IP", "URL",
+  "PX", "REM", "SHA", "MD5", "PE", "PB", "IRR", "NPV", "APR",
+  "APY", "EAR", "DTI", "LTV",
 ];
 
 /** 由 slug（如 bmi-calculator）推導 Title Case 英文名（如 BMI Calculator）。 */

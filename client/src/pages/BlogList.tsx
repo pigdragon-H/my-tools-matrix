@@ -11,6 +11,7 @@ import { AdSlot } from "@/components/business/AdSlot";
 import { TrustStrip } from "@/components/business/TrustStrip";
 import { trpc } from "@/lib/trpc";
 import { STATIC_ARTICLES } from "@/lib/staticArticles";
+import { getStaticArticleTitle, getStaticArticleDescription } from "@/lib/staticArticleI18n";
 import { groupBlogByCategory, groupByKeyAndDate, getCategoryLabel, normalizeBlogCategoryKey, ordinal } from "@/lib/laneCategories";
 import { useReadProgress } from "@/hooks/useReadProgress";
 
@@ -601,12 +602,21 @@ export default function BlogList() {
                                   </Badge>
                                 )}
                               </div>
-                              <h3 className="pr-7 text-lg font-bold leading-[1.4]">{a.title}</h3>
-                              {a.description && (
-                                <p className="mt-2 text-base leading-[1.6] text-muted-foreground line-clamp-3">
-                                  {a.description}
-                                </p>
-                              )}
+                              <h3 className="pr-7 text-lg font-bold leading-[1.4]">
+                                {getStaticArticleTitle(a, lang)}
+                              </h3>
+                              {(() => {
+                                const desc = getStaticArticleDescription(
+                                  a,
+                                  lang,
+                                  getCategoryLabel("blog", normalizeBlogCategoryKey(a.category)).en,
+                                );
+                                return desc ? (
+                                  <p className="mt-2 text-base leading-[1.6] text-muted-foreground line-clamp-3">
+                                    {desc}
+                                  </p>
+                                ) : null;
+                              })()}
                               <p className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-blue-700 dark:text-blue-300">
                                 {lang === "zh" ? "閱讀文章" : "Read article"}{" "}
                                 <ArrowRight className="h-4 w-4" />
