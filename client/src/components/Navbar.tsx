@@ -247,7 +247,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
       <div className="container flex h-14 items-center justify-between">
         {/* ── Logo ──────────────────────────────────────────── */}
-        <Link href="/" aria-label={t.homeAria} className="flex items-center gap-2 cursor-pointer select-none">
+        <Link href="/" aria-label={t.homeAria} className="flex shrink-0 items-center gap-2 cursor-pointer select-none">
           <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary">
             <Layers className="h-4 w-4 text-primary-foreground" />
           </div>
@@ -255,7 +255,7 @@ export function Navbar() {
         </Link>
 
         {/* ── Desktop Nav ───────────────────────────────────── */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden md:flex min-w-0 flex-1 items-center justify-center gap-1 overflow-hidden">
           {/* 工具分類下拉選單 - 核心導航 */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -364,7 +364,7 @@ export function Navbar() {
         </nav>
 
         {/* ── Right Actions ─────────────────────────────────── */}
-        <div className="flex items-center gap-1">
+        <div className="flex shrink-0 items-center gap-1">
           {/* Search button */}
           <Button
             variant="ghost"
