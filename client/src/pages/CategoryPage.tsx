@@ -144,16 +144,16 @@ export default function CategoryPage() {
   const renderToolCard = (tool: Tool, index: number) => (
     <Link key={tool.id} href={tool.path}>
       <Card className="group h-full cursor-pointer p-3 transition-all duration-200 hover:border-primary/50 hover:shadow-md">
-        <h3 className="text-sm leading-snug text-foreground group-hover:text-primary transition-colors">
-          <span className="mr-1.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white/80 align-middle text-[10px] text-slate-600 shadow-sm">
+        <h3 className="text-base leading-snug text-foreground group-hover:text-primary transition-colors">
+          <span className="mr-1.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white/80 align-middle text-xs text-slate-600 shadow-sm">
             {index + 1}
           </span>
           {getToolName(tool, lang)}
-          <span className="ml-1.5 align-middle text-[10px] text-muted-foreground">
+          <span className="ml-1.5 align-middle text-xs text-muted-foreground">
             · {tool.seoArticles.length} {t("篇文章", "articles")}
           </span>
         </h3>
-        <p className="mt-1 text-xs leading-relaxed text-muted-foreground line-clamp-3">
+        <p className="mt-1 text-sm leading-relaxed text-muted-foreground line-clamp-3">
           {getToolDescription(tool, lang, catInfo?.nameEn)}
         </p>
       </Card>
