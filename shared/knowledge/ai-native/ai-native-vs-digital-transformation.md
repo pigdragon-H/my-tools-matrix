@@ -7,12 +7,8 @@ domain: ai-native
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active
-title:
-  zh: "AI Native 與數位轉型有何不同：兩種思維的根本分野"
-  en: "AI Native vs Digital Transformation: The Fundamental Divide Between Two Mindsets"
-description:
-  zh: "釐清 AI Native 與數位轉型的本質差異，從流程改良到能力重生，理解為何兩者不是同一條路的延伸，而是兩種截然不同的組織設計哲學。"
-  en: "Clarify the essential difference between AI Native and digital transformation, from process improvement to capability rebirth, and understand why they are not the same path but two distinct organizational design philosophies."
+title: { zh: "AI Native 與數位轉型有何不同：兩種思維的根本分野", en: "AI Native vs Digital Transformation: The Fundamental Divide Between Two Mindsets" }
+description: { zh: "釐清 AI Native 與數位轉型的本質差異，從流程改良到能力重生，理解為何兩者不是同一條路的延伸，而是兩種截然不同的組織設計哲學。", en: "Clarify the essential difference between AI Native and digital transformation, from process improvement to capability rebirth, and understand why they are not the same path but two distinct organizational design philosophies." }
 ctaType: knowledge_next_question
 adsEnabled: true
 relatedKnowledge:
