@@ -19,19 +19,23 @@
 ## 1. 檔案位置與命名
 
 - 路徑：`shared/knowledge/<domain>/<slug>.md`
-- `<domain>` **只能**用以下七個（由 `KnowledgePage.tsx` 的 `DOMAIN_LABELS` 決定，用錯不會顯示分類標籤）：
+- `<domain>` **只能**用以下九個（由 `KnowledgePage.tsx` 的 `DOMAIN_LABELS` 決定，用錯不會顯示分類標籤）：
 
 | domain | 中文標籤 | 用途 |
 |---|---|---|
 | `ai-business` | AI 商業 | 商業策略、組織、領導、轉型 |
-| `ai-automation` | AI 自動化 | 工作流、知識庫、RAG、內容工廠、基礎建設 |
-| `ai-agent` | AI Agent | Agent 概念、導入、比較、ROI |
+| `ai-native` | AI 原生 | AI 原生世界觀、原生組織、人才重定義、AI Company |
+| `ai-knowledge` | AI 知識基礎 | 知識基礎設施、向量庫、知識圖譜、知識管理、知識治理 |
+| `ai-automation` | AI 自動化 | 工作流、RAG、內容工廠、自動化實戰、工具教學 |
+| `ai-agent` | AI Agent | Agent 概念、導入、比較、ROI、記憶、安全 |
 | `ai-side-hustle` | AI 副業 | 個人變現、副業 |
 | `future-industry` | 未來產業 | 趨勢、產業展望 |
 | `learning-center` | 學習中心 | 教學、入門 |
 | `formula-insights` | 公式洞察 | 站方觀點、洞察 |
 
-> 對應規則：ai-native 類歸 `ai-business`；ai-knowledge 類歸 `ai-automation`。
+> **九主貨架定案（Victor 2026-06-22 授權，commit 6e8f937 已落地）**：
+> `ai-native` 與 `ai-knowledge` 為新增的獨立 L1 主貨架，依企劃書 domain 命名、按「L1 可依 SOP 增加」定案模型建立。
+> **舊版「ai-native 歸 ai-business、ai-knowledge 歸 ai-automation」的歸併規則已作廢**——這兩類文章一律用各自的獨立 domain。
 
 - `<slug>`：英文小寫、連字號分隔、語意清楚、全站唯一（例：`enterprise-ai-agent-deployment`）。新增前先 `ls shared/knowledge/<domain>/` 確認不撞名。
 
@@ -186,3 +190,20 @@ adsEnabled: true                             # 正式文 true；草稿 false（�
 - 永不 `git push --force`；push 被拒 → `git pull --rebase` 後重推。
 - 本地 PASS ≠ GitHub 有檔 ≠ Railway 上線——三者都驗到才算數。
 - 全部工作完成後，提醒 Victor 撤銷 GitHub PAT。
+
+---
+
+## 11. 新增 L1 主貨架（domain）SOP — 三層倉庫模型
+
+> 定案模型（Victor 2026-06-22）：**L1 主貨架可依 SOP 增加（不鎖死）、L2 pillar 無限細分（zero code）、L3 keywords/topicId**。
+> L1 預設 9 個（含 ai-native、ai-knowledge）；需要再增時，依下列三檔 SOP，不可只改一處。
+
+新增一個 L1 主貨架，必須同步改 **3 個檔**（缺一前端會跑錯貨架或無標籤）：
+
+1. `client/src/lib/laneCategories.ts`（約 27-35 行）：加 `"<domain>": { zh, en, emoji }`。
+2. `client/src/lib/laneCategories.ts`（約 96-104 行）：加 `"<domain>": "ai"`（或 "education"）group 歸屬。
+3. `client/src/pages/KnowledgePage.tsx`（DOMAIN_LABELS）：加 `"<domain>": { zh, en }`。
+
+改完跑 `tsc --noEmit`（exit 0），再 commit。L2 pillar 只是 frontmatter 欄位，無限新增、零程式碼。
+
+> 已落地紀錄：commit `6e8f937` 新增 ai-native（🧬）、ai-knowledge（🧠），TSC exit 0。

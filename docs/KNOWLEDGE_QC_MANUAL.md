@@ -75,10 +75,16 @@ sed -n '/讀完後，先問自己/,/## 結語/p' "$F" | grep -cE '\*\*.*？\*\*'
 - [ ] 開頭兩個 `---` 正確包住 YAML。
 - [ ] `id` == 檔名 slug。
 - [ ] `title` / `description` 皆有 `zh` 與 `en`。
-- [ ] `domain` ∈ {ai-business, ai-automation, ai-agent, ai-side-hustle, future-industry, learning-center, formula-insights}。
+- [ ] `domain` ∈ {ai-business, ai-native, ai-knowledge, ai-automation, ai-agent, ai-side-hustle, future-industry, learning-center, formula-insights}（九個合法值，見下方註記）。
 - [ ] `relatedKnowledge` 內每個 slug **真實存在**（用 `validate-ai-three-axes` 驗，見 §6）。
 - [ ] 正式文 `adsEnabled: true`；草稿 `adsEnabled: false`。
 - [ ] `topicId` 全站唯一（grep 確認）。
+
+> **九主貨架定案（Victor 2026-06-22 授權，commit 6e8f937 已落地）**：
+> 原 7 主貨架擴充為 **9 個**，新增 `ai-native`（🧬 AI 原生）與 `ai-knowledge`（🧠 AI 知識基礎）兩個獨立 L1 主貨架。
+> 這是依《AI Native 知識基礎設施執行企劃書 v1.0》的 domain 命名、按「L1 可依 SOP 增加」定案模型新增。
+> 已改 3 檔：`laneCategories.ts`（zh/en/emoji + group 歸 ai）、`KnowledgePage.tsx`（DOMAIN_LABELS）。
+> **舊版「ai-native 歸 ai-business、ai-knowledge 歸 ai-automation」的歸併規則已作廢**，QC 時這兩個 domain 為合法獨立值。
 
 ---
 
