@@ -19,6 +19,8 @@ import { LaneNotFound } from "@/components/LaneNotFound";
 
 const DOMAIN_LABELS: Record<string, { zh: string; en: string }> = {
   "ai-business": { zh: "AI 商業", en: "AI Business" },
+  "ai-native": { zh: "AI 原生", en: "AI Native" },
+  "ai-knowledge": { zh: "AI 知識基礎", en: "AI Knowledge" },
   "ai-automation": { zh: "AI 自動化", en: "AI Automation" },
   "ai-agent": { zh: "AI Agent", en: "AI Agent" },
   "ai-side-hustle": { zh: "AI 副業", en: "AI Side Hustle" },

@@ -25,6 +25,8 @@ const CATEGORY_LABELS: Record<string, Record<string, CategoryLabel>> = {
   // AI 知識庫：依 domain
   knowledge: {
     "ai-business": { zh: "AI 商業應用", en: "AI Business", emoji: "💼" },
+    "ai-native": { zh: "AI 原生", en: "AI Native", emoji: "🧬" },
+    "ai-knowledge": { zh: "AI 知識基礎", en: "AI Knowledge", emoji: "🧠" },
     "ai-automation": { zh: "AI 自動化", en: "AI Automation", emoji: "⚙️" },
     "ai-agent": { zh: "AI Agent", en: "AI Agent", emoji: "🤖" },
     "ai-side-hustle": { zh: "AI 副業", en: "AI Side Hustle", emoji: "💡" },
@@ -94,6 +96,8 @@ const BLOG_CATEGORY_RANK = new Map<string, number>(
 
 const BLOG_LEGACY_CATEGORY_REDIRECTS: Record<string, string> = {
   "ai-business": "ai",
+  "ai-native": "ai",
+  "ai-knowledge": "ai",
   "ai-automation": "ai",
   "ai-agent": "ai",
   "ai-side-hustle": "ai",
