@@ -7,7 +7,7 @@ publishedAt: 2026-06-22
 domain: ai-agent
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/chatbot-cost-calculator", "/tools/ai/ai-project-cost-calculator"]
 contentType: knowledge
-topicId: T-AI-KB-0001
+topicId: T-AI-KB-0002
 operatingStatus: active
 ctaType: knowledge_next_question
 signal: ["enterprise agent adoption", "agentic workflow demand", "AI automation ROI scrutiny"]

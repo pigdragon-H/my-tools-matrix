@@ -7,7 +7,7 @@ publishedAt: 2026-06-22
 domain: ai-business
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/ai-project-cost-calculator"]
 contentType: knowledge
-topicId: T-AI-KB-0016
+topicId: T-AI-KB-0008
 operatingStatus: active
 ctaType: knowledge_next_question
 signal: ["executive ai adoption", "leadership transformation", "decision augmentation"]

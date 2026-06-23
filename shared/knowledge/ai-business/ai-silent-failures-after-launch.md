@@ -7,7 +7,7 @@ publishedAt: 2026-06-22
 domain: ai-business
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/automation-savings-calculator"]
 contentType: knowledge
-topicId: T-AI-KB-0082
+topicId: T-AI-KB-0004
 operatingStatus: active
 ctaType: knowledge_next_question
 relatedKnowledge: ["why-every-company-becomes-ai-company", "what-is-ai-native", "ai-native-organization"]
