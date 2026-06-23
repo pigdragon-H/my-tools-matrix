@@ -35,6 +35,10 @@ const TODAY = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 const STATIC_PAGES: { path: string; changefreq: string; priority: string }[] = [
   { path: "/", changefreq: "weekly", priority: "1.0" },
   { path: "/about", changefreq: "monthly", priority: "0.8" },
+  { path: "/privacy", changefreq: "monthly", priority: "0.7" },
+  { path: "/terms", changefreq: "monthly", priority: "0.7" },
+  { path: "/contact", changefreq: "monthly", priority: "0.7" },
+  { path: "/editorial", changefreq: "monthly", priority: "0.7" },
   { path: "/blog", changefreq: "weekly", priority: "0.8" },
 ];
 

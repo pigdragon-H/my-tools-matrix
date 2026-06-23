@@ -26,6 +26,7 @@ const routes = [
   "/privacy",
   "/terms",
   "/contact",
+  "/editorial",
   "/knowledge",
   "/blueprints",
   "/opportunities",

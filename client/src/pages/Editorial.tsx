@@ -59,8 +59,8 @@ export default function Editorial() {
             </li>
             <li>
               {lang === "zh"
-                ? "邊界值與單位轉換以單元測試覆蓋,並在 GitHub 公開測試結果。"
-                : "Edge cases and unit conversions are covered by unit tests; results are public on GitHub."}
+                ? "邊界值與單位轉換以內部 QC 檢查與回歸測試覆蓋；重大錯誤修正會同步更新頁面內容與相關說明。"
+                : "Edge cases and unit conversions are covered by internal QC checks and regression tests; major corrections are reflected in page content and related notes."}
             </li>
             <li>
               {lang === "zh"
@@ -86,8 +86,8 @@ export default function Editorial() {
           <h2>{lang === "zh" ? "5. 修正與回饋" : "5. Corrections and feedback"}</h2>
           <p>
             {lang === "zh"
-              ? "如果您發現公式錯誤、引用過時或解釋有疑慮,請寄信到 pigragonh@gmail.com,或在 GitHub 開 issue。重大修正會在版本歷史中留下紀錄。"
-              : "If you spot an error, outdated citation, or unclear explanation, email pigragonh@gmail.com or open a GitHub issue. Major corrections are recorded in the version history."}
+              ? "如果您發現公式錯誤、引用過時或解釋有疑慮，請寄信到 pigragonh@gmail.com，並附上頁面 URL、問題段落與可查證來源。我們會依風險與影響範圍優先處理；重大修正會同步更新相關頁面。"
+              : "If you spot an error, outdated citation, or unclear explanation, email pigragonh@gmail.com with the page URL, affected section, and a verifiable source. We prioritize by risk and impact; major corrections are reflected on the relevant pages."}
           </p>
 
           <h2>{lang === "zh" ? "6. AI 輔助與作者責任" : "6. AI assistance and author accountability"}</h2>
