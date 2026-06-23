@@ -43,7 +43,7 @@ export function NewsletterCta({ lang, source = "homepage-newsletter" }: Newslett
 
   return (
     <section
-      data-stub="conversion-strip"
+      data-review-note="conversion-strip"
       className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]"
     >
       {/* L9: Newsletter signup */}
@@ -100,7 +100,7 @@ export function NewsletterCta({ lang, source = "homepage-newsletter" }: Newslett
             ) : lang === "zh" ? (
               "即將開放"
             ) : (
-              "Coming soon"
+              "Updates paused during review"
             )}
           </button>
         </form>

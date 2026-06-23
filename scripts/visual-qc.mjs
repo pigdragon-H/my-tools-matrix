@@ -1,5 +1,5 @@
 // Visual QC: capture full-page screenshots of two routes for side-by-side
-// comparison against the gold template (JsonFormatter).
+// comparison against the reference implementation.
 import { chromium } from 'playwright';
 import { mkdirSync } from 'node:fs';
 

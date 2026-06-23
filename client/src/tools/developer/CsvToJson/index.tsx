@@ -76,7 +76,7 @@ const ui = {
     q6: "可以用本工具做資料清理或合規檢查嗎?", a6: "不建議。本工具只處理語法解析與型別推斷,不檢查 schema、欄位敏感性或注入風險;資料清理請使用 OpenRefine、pandas 或專業 ETL 工具,合規檢查請使用 CSV Schema 驗證器或專業安全廠商服務。",
   },
   en: {
-    badge: "Developer · CSV to JSON · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Developer · CSV to JSON", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "CSV to JSON Converter", subtitle: "Paste CSV to convert into a structured JSON array — quote escaping, custom delimiters, and type inference",
     intro: "This tool parses CSV in the browser (an RFC 4180 subset), uses the first row as field names, and turns every row into an object. It supports double-quoted fields with embedded commas/newlines/quotes, custom delimiters (comma/semicolon/tab), and type inference (number/boolean/null), with row and byte counts. No data is uploaded, so it is safe for customer lists, order exports, or ETL intermediate files containing sensitive fields.",
     trustNoteLabel: "Note:", trustNote: "Everything runs in the browser via a hand-written RFC 4180 parser; nothing leaves your machine. Type inference only handles plain numbers, true/false, and empty strings — it does not auto-convert dates or currency. For more than 100k rows, prefer a Node CLI or dedicated ETL tool.",

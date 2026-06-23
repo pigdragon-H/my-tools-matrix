@@ -37,7 +37,7 @@ repls={
 '{fmt(result.breakTime)}m':'{fmt(result.breakTime)} 分鐘',
 '{fmt(result.totalFocus)}m':'{fmt(result.totalFocus)} 分鐘',
 'Meeting Cost · Hourly Rate · Budget Ratio · Salary After Tax':'會議成本 · 時薪 · 預算比例 · 稅後薪資',
-'aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement"':'aria-label="L14 常見問題後廣告位：廣告位"',
+'aria-label="L14 FAQ support section"':'aria-label="L14 常見問題補充區"',
 }
 for old,new in repls.items():
     if old not in text:

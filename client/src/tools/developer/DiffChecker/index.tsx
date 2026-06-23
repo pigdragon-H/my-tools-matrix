@@ -1,5 +1,5 @@
 // @profile B
-// Profile B · 計算機-YMYL · DiffChecker (Developer · JsonFormatter gold template)
+// Profile B · 計算機-YMYL · DiffChecker (Developer · standard implementation)
 
 import { useMemo, useState } from "react";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
@@ -71,7 +71,7 @@ const ui = {
     q6: "Diff 顯示的順序為什麼怪怪的?", a6: "LCS 不偵測「移動 (move)」,搬動的段落會被算成「刪除 + 新增」。如需移動偵測請用 Beyond Compare 或 git diff --color-moved。",
   },
   en: {
-    badge: "Developer · Diff · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese",
+    badge: "Developer · Diff", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese",
     title: "Diff Checker", subtitle: "Line-level + char-level diff with a six-band similarity matrix",
     intro: "Compares two texts line by line in the browser, marks add/remove/unchanged, computes LCS similarity and diff ratio, and places the result into a six-band reading matrix. Nothing is uploaded — safe for PRs, contracts, configs, logs, and Markdown drafts.",
     trustNoteLabel: "Note:", trustNote: "Uses LCS (longest common subsequence) line diff; whitespace and case are sensitive by default; for >10000 lines prefer git diff or a difftool.",

@@ -6,7 +6,7 @@ slugs = [
 ]
 base='https://my-tools-matrix-production.up.railway.app/tools/finance/'
 out=[]
-ignore_phrases=['Formula Universe','Tools','Knowledge','About','Search tools','Sign in','AD','Advertisement']
+ignore_phrases=['Formula Universe','Tools','Knowledge','About','Search tools','Sign in','sponsored content']
 for i, slug in enumerate(slugs,1):
     url=base+slug+f'?audit=zh-{int(time.time())}'
     cp=subprocess.run(['browser-tool','navigate',url], text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=45)

@@ -71,7 +71,7 @@ const ui = {
     q6: "可以用本工具算複利或長期報酬率嗎?", a6: "不行。本工具只算單期百分比;複利(compound interest)需要 (1+r)^n 公式,長期報酬率應用 CAGR(Compound Annual Growth Rate)。請使用本站專業版工具或 spreadsheet 的 RATE() / FV() 函數。",
   },
   en: {
-    badge: "Education · Percentage Calculator · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Education · Percentage Calculator", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "Percentage Calculator", subtitle: "Three percentage modes — % of Y, X is what %, and % change — with a six-band real-world matrix",
     intro: "This tool runs three percentage calculations entirely in your browser: mode 1 (X% of Y) for amounts, mode 2 (X is what % of Y) for ratios, mode 3 (% change) for increase/decrease. Designed for students, shoppers, investors, and business analysts — nothing is uploaded.",
     trustNoteLabel: "Note:", trustNote: "Three modes for different scenarios: tip & tax → mode 1, share & ratio → mode 2, growth & discount → mode 3. For money decisions (investment, tax, loans), follow the official figures — this tool is for quick estimation only. All calculations run in-browser; no data is uploaded.",

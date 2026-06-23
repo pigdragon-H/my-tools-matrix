@@ -71,7 +71,7 @@ const ui = {
     q6: "Capture group 與 named group 有什麼差別？", a6: "Capture group `(...)` 會把括號內匹配內容存到 group 1, 2, 3...（group 0 = 整個 match）；named group `(?<name>...)` 同時可用名稱存取，例如 `match.groups.name`。本工具會自動列出所有 group（含 named）方便除錯。Non-capturing group `(?:...)` 不佔 group 編號，僅作為分組用。",
   },
   en: {
-    badge: "Developer · Regex testing · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Developer · Regex testing", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "Regex Tester", subtitle: "Compile patterns instantly, visualize every match and capture group, with a six-band density matrix for coverage",
     intro: "This tool runs JavaScript's native RegExp engine in the browser to compile patterns, list all matches and capture groups, compute coverage and density, and surface common syntax errors. Supports all g/i/m/s/u/y flags and multi-line input; no data is uploaded — safe for logs, PII, or sensitive payloads.",
     trustNoteLabel: "Note:", trustNote: "Everything runs in the browser via the native RegExp engine; nothing leaves your machine. Regex syntax follows the ECMAScript 2024 spec. Regex is a pattern-matching tool — not a complete input-validation or security solution on its own.",

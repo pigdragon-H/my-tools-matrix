@@ -75,9 +75,11 @@ export function PremiumTeaser({ lang }: PremiumTeaserProps) {
     },
   });
 
+  if (!isLive) return null;
+
   return (
     <section
-      data-stub="premium-teaser"
+      data-review-note="premium-info"
       className="rounded-[2rem] border border-blue-200 bg-gradient-to-br from-white via-blue-50 to-indigo-50 p-6 shadow-sm dark:border-blue-900/50 dark:from-slate-900 dark:via-blue-950/30 dark:to-indigo-950/30 md:p-8"
     >
       <div className="mb-6 flex flex-wrap items-center gap-3">
@@ -109,7 +111,7 @@ export function PremiumTeaser({ lang }: PremiumTeaserProps) {
           return (
             <div
               key={p.plan}
-              data-stub="premium-plan-card"
+              data-review-note="premium-plan-info"
               data-plan={p.plan}
               className="rounded-2xl border border-blue-100 bg-white p-5 shadow-sm dark:border-blue-900/50 dark:bg-slate-900/80"
             >

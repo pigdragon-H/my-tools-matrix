@@ -114,7 +114,7 @@ const ui = {
     q6: "可以用本工具做正式印刷品稽核嗎?", a6: "不建議。本工具只做數學容量推導,不檢查實際印刷品 DPI、紙張色差、QR 邊界靜區(quiet zone)、logo 遮蔽率。正式印刷稽核請用 ISO 18004 認證測試儀(GS1 解碼器、Honeywell 認證 scanner),或委由印刷廠 QC 流程。",
   },
   en: {
-    badge: "Developer · QR code · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Developer · QR code", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "QR Code Generator", subtitle: "Estimate QR capacity, version, and module count per ISO/IEC 18004 with a six-band density matrix",
     intro: "This tool parses input UTF-8 byte length entirely in the browser, applying ISO/IEC 18004:2015 Table 7 to derive the required QR version (V1–V40), module side length, and Reed-Solomon error-correction level (L/M/Q/H). It estimates scan distance and print-size guidance, placing capacity demand into a six-band density matrix. Content never uploads — safe for QR planning containing unreleased promo codes or internal vCards.",
     trustNoteLabel: "Note:", trustNote: "Everything runs in the browser (UTF-8 byte counting + ISO Table 7 lookup); content stays on your machine. This version provides capacity planning and version selection — actual QR image generation (full Reed-Solomon encoding) belongs to the Pro pack. Six-band density is a planning aid; verify final print with real-device scans.",

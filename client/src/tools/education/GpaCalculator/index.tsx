@@ -90,7 +90,7 @@ const ui = {
     q6: "可以用本工具做正式學業申訴或申請文件嗎?", a6: "不建議。本工具只做加權平均,不取代學校註冊組蓋章的 official transcript、不處理特殊狀況(如疫情期間 P/F 選擇、軍人加分),正式申請或申訴請以學校系統的數字為準。",
   },
   en: {
-    badge: "Education · GPA Calculator · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Education · GPA Calculator", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "GPA Calculator", subtitle: "Enter courses, letter grades and credits to compute a 4.0-scale GPA — with a six-band academic matrix",
     intro: "This tool computes weighted GPA (Grade Point Average) on the US 4.0 scale entirely in your browser. Nothing is uploaded. Designed for undergraduates, grad-school applicants, and exchange students to assess whether the current academic standing meets thresholds for graduate admissions, scholarship retention, or Latin Honors.",
     trustNoteLabel: "Note:", trustNote: "Uses the US-standard 4.0 scale (A=4.0, B=3.0, F=0.0) weighted by credit hours. Other systems (Taiwan 100-point, UK First-class, Canadian 4.3) may map differently — official applications must follow the school transcript. Calculations run in-browser; no data is uploaded.",

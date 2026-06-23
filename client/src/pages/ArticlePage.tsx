@@ -45,7 +45,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 // Category-relevant affiliate items. Placeholder hrefs ("#...") follow the
-// existing "coming soon" pattern (real hrefs filled when partner signed).
+// commercial links remain disabled until partner destinations are final.
 const AFFILIATE_ITEMS: Record<string, AffiliateItem[]> = {
   finance: [
     { label: { zh: "理財入門書單", en: "Investing Books" }, description: { zh: "定期定額、複利、ETF", en: "DCA, compounding, ETFs" }, href: "#affiliate-finance-books", emoji: "📚" },

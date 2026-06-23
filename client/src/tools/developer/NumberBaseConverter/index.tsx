@@ -121,7 +121,7 @@ const ui = {
     q6: "可以用本工具做正式系統的進位轉換規格嗎?", a6: "可以做核心轉換驗證,但實際系統規格還需要考慮:目標語言 ABI(C99 vs C++、Rust vs Go)、有號 vs 無號邊界、endianness、padding、alignment、bit-field 排列。本工具給出位元寬度建議,正式系統設計仍須查 ISO C/C++ 標準、目標平台 ABI 文件,或用 sizeof() / static_assert 在編譯期驗證。",
   },
   en: {
-    badge: "Developer · Number base converter · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Developer · Number base converter", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "Number Base Converter", subtitle: "Convert between Bin / Oct / Dec / Hex with BigInt precision in the browser, plus a six-band bit-width matrix",
     intro: "This tool uses JavaScript BigInt to convert integers between binary, octal, decimal, and hexadecimal in the browser with arbitrary precision (no 32-bit ceiling). It auto-detects prefixes (0b / 0o / 0x), ignores _ separators, and places the result into a six-band bit-width matrix (byte / word / dword / qword / wide / huge) to suggest matching type, register, or storage format. Content never uploads — safe for private keys, UUIDs, internal IDs.",
     trustNoteLabel: "Note:", trustNote: "Everything runs in the browser via BigInt; input stays on your machine. This version supports unsigned-integer conversion only (Bin/Oct/Dec/Hex). Two's-complement negative-number representation, IEEE-754 floats, arbitrary radix (3/7/36), and signed boundary checks are NOT supported. Six-band bit width is a type-selection aid, not an ABI or memory-layout guarantee.",

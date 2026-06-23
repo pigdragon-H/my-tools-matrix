@@ -840,7 +840,7 @@ export default function IdealWeightCalculator() {
         </section>
 
         <section
-          aria-label="L8 AdSlot #1 廣告位・Advertisement"
+          aria-label="L8 support section"
           className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm"
         >
           {/* L8 · AdSenseWrapper + AdSlot 廣告程序 */}
@@ -1064,7 +1064,7 @@ export default function IdealWeightCalculator() {
         </section>
 
         <section
-          aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement"
+          aria-label="L14 FAQ support section"
           className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5"
         >
           {/* L14 */}

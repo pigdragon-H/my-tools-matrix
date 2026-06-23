@@ -41,7 +41,7 @@ repls2={
 '<div className="text-xs font-black uppercase text-slate-500">Rate</div>':'<div className="text-xs font-black text-slate-500">時薪</div>',
 '<div className="mt-1 text-3xl font-black">${hourlyDisplay}/hr</div>':'<div className="mt-1 text-3xl font-black">${hourlyDisplay}/小時</div>',
 '{[{ label: "Hourly", note: t.bmrStep }, { label: "Tax", note: t.deficitStep }, { label: "Budget", note: t.trendStep }, { label: "Net Worth", note: t.mealStep }]':'{[{ label: "時薪", note: t.bmrStep }, { label: "稅後", note: t.deficitStep }, { label: "預算", note: t.trendStep }, { label: "淨資產", note: t.mealStep }]',
-'aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement"':'aria-label="L14 常見問答後廣告位：廣告位"',
+'aria-label="L14 FAQ support section"':'aria-label="L14 常見問答補充區"',
 '<p className="mt-3 text-xs text-amber-700">{lang === "zh" ? "* 聯盟連結，購買後我們可能獲得佣金。" : "* Affiliate links. We may earn a commission."}</p>':'<p className="mt-3 text-xs text-amber-700">推薦連結揭露：部分連結可能帶來佣金收入。</p>',
 '{["Trends", "Compare", "Freelance", "Report"].map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-violet-900 shadow-sm">{item}</div>)}':'{["趨勢", "比較", "自由工作", "報告"].map((item) => <div key={item} className="rounded-2xl bg-white p-4 text-center text-sm font-black text-violet-900 shadow-sm">{item}</div>)}',
 }

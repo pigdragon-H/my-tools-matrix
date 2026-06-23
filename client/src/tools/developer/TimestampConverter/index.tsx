@@ -1,5 +1,5 @@
 // @profile B
-// Profile B · 計算機-YMYL · TimestampConverter (Developer · MeetingCost-aligned · JsonFormatter gold template)
+// Profile B · 計算機-YMYL · TimestampConverter (Developer · MeetingCost-aligned · standard implementation)
 
 import { useMemo, useState } from "react";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
@@ -69,7 +69,7 @@ const ui = {
     q6: "為什麼 -1 秒會被解析成 1969-12-31?", a6: "Unix 時間戳允許負值,代表 epoch 之前;-1 = 1969-12-31T23:59:59Z。部分舊系統 (32 位 PHP、舊 MySQL TIMESTAMP) 不支援負時間戳,Year 2038 Problem 也是 32 位元邊界。",
   },
   en: {
-    badge: "Developer · Timestamps · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese",
+    badge: "Developer · Timestamps", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese",
     title: "Timestamp Converter", subtitle: "Unix sec/ms ↔ ISO 8601/UTC/RFC 2822 \u2014 with a six-band time-distance reading matrix",
     intro: "This tool converts Unix timestamps (seconds or milliseconds) and human-readable dates (ISO 8601 / UTC / RFC 2822 / local time) in the browser, and places the parsed time into a six-band distance matrix. Nothing is uploaded \u2014 safe for log timestamps, API responses, JWT exp, and business-sensitive time fields.",
     trustNoteLabel: "Note:", trustNote: "Uses the browser\u2019s built-in Date object (IEEE 754 double-precision ms), Unix epoch at 1970-01-01T00:00:00Z. Heuristic: length \u2265 13 \u2192 ms. For cross-timezone precision use Luxon or date-fns-tz.",

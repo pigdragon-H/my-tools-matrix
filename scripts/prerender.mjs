@@ -3,25 +3,18 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const root = path.resolve(__dirname, "..");
 const distDir = path.resolve(__dirname, "../dist/public");
 const templatePath = path.resolve(distDir, "index.html");
+const reviewPathsFile = path.join(root, "shared/adsenseReviewPaths.json");
+const reviewPaths = fs.existsSync(reviewPathsFile)
+  ? JSON.parse(fs.readFileSync(reviewPathsFile, "utf8"))
+  : [];
 
-const routes = [
+const baseRoutes = [
   "/",
   "/blog",
   "/tools",
-  "/tools/finance",
-  "/tools/health",
-  "/tools/developer",
-  "/tools/productivity",
-  "/tools/ai",
-  "/tools/education",
-  "/tools/science",
-  "/tools/travel",
-  "/tools/ecommerce",
-  "/tools/legal",
-  "/tools/design",
-  "/tools/language",
   "/about",
   "/privacy",
   "/terms",
@@ -31,6 +24,7 @@ const routes = [
   "/blueprints",
   "/opportunities",
 ];
+const routes = [...new Set([...baseRoutes, ...reviewPaths])];
 
 async function prerender() {
   const template = fs.readFileSync(templatePath, "utf-8");

@@ -61,7 +61,7 @@ def check(path: Path):
     # 紅燈8：L14 不夾在 L12/L13 之間
     # 找 L12-Knowledge 與 L13-FAQ 的位置，再找 L14-FAQAfterAdSlot 的位置
     pos_l12 = src.find("L12-Knowledge · L13-FAQ")
-    pos_l14 = src.find('aria-label="L14 FAQ after ad slot')
+    pos_l14 = src.find('aria-label="L14 support section')
     if pos_l12 > -1 and pos_l14 > -1:
         results.append(("R8 L14 在 L12/L13 之後", pos_l14 > pos_l12))
     else:

@@ -1,6 +1,34 @@
+import adsenseReviewPaths from "@shared/adsenseReviewPaths.json";
+
 const DEFAULT_TITLE = "Formula Universe｜免費線上計算工具與決策輔助平台";
 const DEFAULT_DESCRIPTION =
   "Formula Universe提供免費線上計算工具與決策輔助服務，涵蓋財經投資、健康生活、職場效率、開發工具、電商旅遊等情境，協助您快速取得清楚可靠的試算結果。";
+
+const ADSENSE_REVIEW_MODE = true;
+const REVIEW_PATHS = new Set<string>(adsenseReviewPaths as string[]);
+
+function normalizePath(pathname: string) {
+  return pathname.replace(/\/$/, "") || "/";
+}
+
+function isReviewProtectedPath(pathname: string) {
+  return (
+    pathname.startsWith("/tools/") ||
+    pathname.startsWith("/blog/") ||
+    pathname.startsWith("/knowledge/") ||
+    pathname.startsWith("/blueprints/") ||
+    pathname.startsWith("/opportunities/")
+  );
+}
+
+function shouldNoindexCurrentPath(explicitNoindex?: boolean) {
+  if (explicitNoindex) return true;
+  if (!ADSENSE_REVIEW_MODE || typeof window === "undefined") return false;
+
+  const pathname = normalizePath(window.location.pathname);
+  if (REVIEW_PATHS.has(pathname)) return false;
+  return isReviewProtectedPath(pathname);
+}
 
 function upsertMeta(selector: string, createAttributes: Record<string, string>, content: string) {
   if (typeof document === "undefined") return;
@@ -15,6 +43,11 @@ function upsertMeta(selector: string, createAttributes: Record<string, string>, 
   }
 
   element.setAttribute("content", content);
+}
+
+function upsertRobotsMeta(noindex: boolean) {
+  const content = noindex ? "noindex,follow" : "index,follow";
+  upsertMeta('meta[name="robots"]', { name: "robots" }, content);
 }
 
 // Inject (or update) a single self-referencing <link rel="canonical"> in <head>.
@@ -40,9 +73,10 @@ function upsertCanonical() {
 export interface SeoOptions {
   title?: string;
   description?: string;
+  noindex?: boolean;
 }
 
-export function setSeoMeta({ title = DEFAULT_TITLE, description = DEFAULT_DESCRIPTION }: SeoOptions = {}) {
+export function setSeoMeta({ title = DEFAULT_TITLE, description = DEFAULT_DESCRIPTION, noindex = false }: SeoOptions = {}) {
   if (typeof document === "undefined") return;
 
   document.title = title;
@@ -50,6 +84,7 @@ export function setSeoMeta({ title = DEFAULT_TITLE, description = DEFAULT_DESCRI
   upsertMeta('meta[property="og:title"]', { property: "og:title" }, title);
   upsertMeta('meta[property="og:description"]', { property: "og:description" }, description);
   upsertCanonical();
+  upsertRobotsMeta(shouldNoindexCurrentPath(noindex));
 }
 
 export const defaultSeo = {

@@ -96,7 +96,7 @@ const ui = {
     q6: "可以用本工具規劃 GMAT/MCAT 等標準化考試讀書時間嗎?", a6: "不建議。本工具設計為大學課程 Carnegie Unit 計算;標準化考試(MCAT、GMAT、LSAT)的準備時間有獨立的研究數據(MCAT 平均 300-400 hr、GMAT 平均 100-120 hr),不適用 Carnegie 公式。請參考各考試官方建議或專業準備機構的時數估算。",
   },
   en: {
-    badge: "Education · Study Time Calculator · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Education · Study Time Calculator", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "Study Time Calculator", subtitle: "Compute weekly study hours from credits × difficulty × target GPA — based on the Carnegie Unit",
     intro: "This tool uses the Carnegie Unit standard (2-3 hr out-of-class study per credit) combined with per-course difficulty and target GPA to compute recommended weekly study hours in your browser. Designed for college, graduate, and self-study learners planning a term — nothing is uploaded.",
     trustNoteLabel: "Note:", trustNote: "Estimates based on the Carnegie Unit (1 credit ≈ 2-3 hr out-of-class study); actual time varies with prior knowledge, study efficiency, and instructor style. Output is the recommended floor — Pre-med and engineering honors tracks typically need 20-30% more. Data is never uploaded; everything runs in-browser.",

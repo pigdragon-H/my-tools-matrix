@@ -193,7 +193,7 @@ const ui = {
     q6: "可以用本工具做安全或合規審查嗎?", a6: "不建議。本工具只解析語法,不檢查 job 內容、權限、單例鎖或漂移風險;合規審查請使用排程治理平台、SAST 工具,或委由 SRE/Security 團隊。",
   },
   en: {
-    badge: "Developer · Cron expression · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Developer · Cron expression", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "Cron Expression Parser", subtitle: "Paste a cron expression to decompose fields, list the next 5 fires, and read a six-band frequency matrix",
     intro: "This tool parses cron expressions in the browser, supporting POSIX 5-field, Quartz 6-field (with second), and Quartz 7-field (with year). It decomposes each field into token / range / matched set, computes the next 5 fire times, and places the fires-per-day count into a six-band frequency matrix to support scheduling decisions. Expressions are never uploaded, so it is safe for cron entries containing internal resource IDs.",
     trustNoteLabel: "Note:", trustNote: "Everything runs in the browser (field decomposition + step scanning); expressions stay on your machine. Fire times use the browser's local time zone — confirm against UTC when deploying. Six-band frequency is approximate; actual hits depend on dom/dow/month intersections.",

@@ -40,7 +40,7 @@ pairs={
 '<p className="text-sm font-bold text-slate-700">meetings/yr</p>':'<p className="text-sm font-bold text-slate-700">場/年</p>',
 '<div className="text-xs font-black uppercase text-slate-500">Per meeting</div>':'<div className="text-xs font-black text-slate-500">每場會議</div>',
 '{[{ label: "Meeting", note: t.bmrStep }, { label: "Tax", note: t.deficitStep }, { label: "Budget", note: t.trendStep }, { label: "Net Worth", note: t.mealStep }]':'{[{ label: "會議", note: t.bmrStep }, { label: "稅後", note: t.deficitStep }, { label: "預算", note: t.trendStep }, { label: "淨資產", note: t.mealStep }]',
-'aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement"':'aria-label="L14 常見問題後廣告位：廣告位"',
+'aria-label="L14 FAQ support section"':'aria-label="L14 常見問題補充區"',
 '* Affiliate links. We may earn a commission.':'推薦連結揭露：部分連結可能帶來佣金收入。',
 }
 for old,new in pairs.items():

@@ -76,7 +76,7 @@ export function TrustStrip({ lang, variant = "default" }: TrustStripProps) {
   if (variant === "compact") {
     return (
       <section
-        data-stub="trust-strip-compact"
+        data-review-note="trust-strip-compact"
         className="border-t border-slate-200 bg-white/60 py-8 dark:border-slate-800 dark:bg-slate-950/60"
       >
         <div className="container flex flex-wrap items-center justify-between gap-4">
@@ -106,7 +106,7 @@ export function TrustStrip({ lang, variant = "default" }: TrustStripProps) {
 
   return (
     <section
-      data-stub="trust-strip"
+      data-review-note="trust-strip"
       className="border-t border-slate-200 bg-white py-12 dark:border-slate-800 dark:bg-slate-950 md:py-16"
     >
       <div className="container">

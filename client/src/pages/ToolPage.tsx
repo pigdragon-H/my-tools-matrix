@@ -466,7 +466,7 @@ const toolComponentMap: Record<string, React.LazyExoticComponent<() => React.Rea
   "converter/pdf-to-word": lazy(() => import("@/tools/converter/PdfToWord")),
 };
 
-function ToolCrawlerStaticBlock({
+function ToolReaderSummaryBlock({
   toolConfig,
   categoryName,
   categoryNameEn,
@@ -482,44 +482,28 @@ function ToolCrawlerStaticBlock({
   const summaryCopy =
     lang === "zh"
       ? {
-          eyebrow: "靜態工具摘要",
-          heading: `${toolDisplayName}：可被搜尋引擎讀取的工具頁摘要`,
+          eyebrow: "工具頁摘要",
+          heading: `${toolDisplayName}：清楚可讀的工具頁摘要`,
           description: toolConfig.description,
-          metadata: `分類：${categoryLabel}。正式路徑：${toolConfig.path}。狀態：${statusLabel}。本頁提供可直接閱讀的工具用途、輸入情境、結果解讀、FAQ、信任聲明與相關資源摘要，避免搜尋引擎只看到互動元件或空白容器。`,
-          policy: `${
-            toolConfig.showAds
-              ? "本工具頁允許在內容區顯示 Google AdSense 或等效廣告版位，並以不遮擋主要工具輸入與結果為原則。"
-              : "本工具頁目前不啟用廣告版位；若未來啟用，仍會維持主要工具內容可讀與可操作。"
-          } 本頁可能包含站內推薦或聯盟連結；若透過部分連結購買，我們可能獲得佣金。${
-            toolConfig.isPremium
-              ? "此工具包含 Premium 功能或進階內容入口，基礎摘要與主要說明仍保留為可讀文字。"
-              : "此工具目前可免費使用；頁面仍保留 Premium 升級與延伸內容的靜態說明位置。"
-          }`,
-          crawlerNote: `中文摘要：${toolDisplayName} 是 Formula Universe 收錄於 ${categoryLabel} 分類的工具頁，包含工具用途、輸入指引、結果解讀、FAQ、廣告政策、聯盟揭露、付費功能說明與信任參考。`,
+          metadata: `分類：${categoryLabel}。正式路徑：${toolConfig.path}。狀態：${statusLabel}。本頁提供可直接閱讀的工具用途、輸入情境、結果解讀、FAQ、信任聲明與相關資源摘要，協助讀者在使用前了解適用情境與限制。`,
+          policy: "本工具提供一般資訊與估算輔助，計算結果會受輸入值、假設條件與資料更新影響。財務、健康或法律相關結果不應視為專業建議；做出重大決策前，請依實際情況查核來源並諮詢合格專業人士。",
+          readerNote: `中文摘要：${toolDisplayName} 是 Formula Universe 收錄於 ${categoryLabel} 分類的工具頁，包含工具用途、輸入指引、結果解讀、FAQ、資料來源、限制說明與責任參考。`,
         }
       : {
-          eyebrow: "Static tool summary",
-          heading: `${toolDisplayName}: crawler-readable tool page summary`,
-          description: `Use ${toolDisplayName} to review this ${categoryLabel} workflow with a clear, browser-readable overview before the interactive tool finishes loading. The summary is written in English only for international visitors and search crawlers.`,
-          metadata: `Category: ${categoryLabel}. Canonical path: ${toolConfig.path}. Status: ${statusLabel}. This page provides readable context for the tool purpose, input scenario, result interpretation, FAQ, trust statements, and related resources so crawlers do not see only interactive widgets or empty containers.`,
-          policy: `${
-            toolConfig.showAds
-              ? "This tool page may display Google AdSense or equivalent advertising placements in the content area, without covering the main inputs or results."
-              : "This tool page does not currently enable advertising placements; if ads are enabled later, the main tool content will remain readable and usable."
-          } This page may include internal recommendations or affiliate links; we may earn a commission from qualifying purchases made through some links. ${
-            toolConfig.isPremium
-              ? "This tool includes Premium features or advanced content entry points, while the core summary and main explanation remain readable text."
-              : "This tool is currently free to use; the page still reserves static explanatory space for Premium upgrades and extended content."
-          }`,
-          crawlerNote: `English summary: ${toolDisplayName} is a Formula Universe tool in the ${categoryLabel} category. It includes static, crawler-readable context for the tool purpose, input guidance, result interpretation, FAQ, advertising policy, affiliate disclosure, premium access notes, and trust references.`,
+          eyebrow: "Tool page overview",
+          heading: `${toolDisplayName}: reader-friendly tool page summary`,
+          description: `Use ${toolDisplayName} to review this ${categoryLabel} workflow with a clear, browser-readable overview before the interactive tool finishes loading. The summary is written in English only for international visitors and readers.`,
+          metadata: `Category: ${categoryLabel}. Canonical path: ${toolConfig.path}. Status: ${statusLabel}. This page provides readable context for the tool purpose, input scenario, result interpretation, FAQ, trust statements, and related resources so readers can understand the workflow before using the interactive calculator.`,
+          policy: "This tool provides general information and estimate support. Results can vary based on input values, assumptions, and source updates. Finance, health, or legal outputs should not be treated as professional advice; verify the source context and consult a qualified professional before making significant decisions.",
+          readerNote: `English summary: ${toolDisplayName} is a Formula Universe tool in the ${categoryLabel} category. It includes reader-friendly context for the tool purpose, input guidance, result interpretation, FAQ, source notes, limitations, and trust references.`,
         };
   const isGoldenSummaryTypography = isGoldenSummaryTypographyEnabled(toolConfig.path);
 
   return (
     <section
-      aria-label="Crawler-readable tool summary"
+      aria-label="Reader-friendly tool summary"
       className="border-b border-border bg-background/95"
-      data-crawler-static="tool-summary"
+      data-reader-summary="tool-summary"
     >
       <div className={isGoldenSummaryTypography ? "container py-5 text-base leading-[1.6] text-muted-foreground md:text-[16px]" : "container py-5 text-sm leading-7 text-muted-foreground"}>
         <p className={isGoldenSummaryTypography ? "font-semibold uppercase tracking-[0.2em] text-primary" : "text-xs font-semibold uppercase tracking-[0.2em] text-primary"}>
@@ -538,7 +522,7 @@ function ToolCrawlerStaticBlock({
           {summaryCopy.policy}
         </p>
         <p className={isGoldenSummaryTypography ? "mt-2" : "mt-2 text-xs"}>
-          {summaryCopy.crawlerNote}
+          {summaryCopy.readerNote}
         </p>
       </div>
     </section>
@@ -589,7 +573,7 @@ export default function ToolPage() {
     const seoDescription =
       lang === "zh"
         ? toolConfig.description
-        : `Use ${seoToolName} on Formula Universe to review the ${breadcrumbCategoryLabel} workflow with English guidance, crawler-readable context, input notes, and result interpretation.`;
+        : `Use ${seoToolName} on Formula Universe to review the ${breadcrumbCategoryLabel} workflow with English guidance, reader-friendly context, input notes, and result interpretation.`;
 
     setSeoMeta({
       title: `${seoToolName}｜Formula Universe`,
@@ -635,8 +619,8 @@ export default function ToolPage() {
         </div>
       </div>
 
-      {/* Crawler-readable static text block: rendered before lazy tool code so bots can read real content immediately. */}
-      <ToolCrawlerStaticBlock
+      {/* Reader-friendly static text block: rendered before lazy tool code so readers can understand the page immediately. */}
+      <ToolReaderSummaryBlock
         toolConfig={toolConfig}
         categoryName={catInfo?.name ?? category ?? toolConfig.category}
         categoryNameEn={catInfo?.nameEn}

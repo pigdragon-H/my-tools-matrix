@@ -76,7 +76,7 @@ const ui = {
     q6: "可以用本工具做合規或安全審計嗎?", a6: "不建議。本工具只做編碼/解碼語法處理,不檢查內容是否含 PII、API key 洩漏或惡意 payload;合規審計請使用 DLP 系統、靜態分析工具或專業安全廠商服務。",
   },
   en: {
-    badge: "Developer · Base64 encoding · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Developer · Base64 encoding", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "Base64 Encoder", subtitle: "Paste text or Base64 for instant two-way conversion — with a six-band size matrix",
     intro: "This tool encodes and decodes Base64 in the browser with full UTF-8 multi-byte support (Chinese, emoji), URL-safe variant, padding toggle, and output byte/expansion-ratio metrics. No data is uploaded, so it's safe for content with API keys, PII, signatures, or sensitive payloads.",
     trustNoteLabel: "Note:", trustNote: "Everything runs in the browser via TextEncoder + btoa/atob; nothing leaves your machine. UTF-8 follows RFC 3629, Base64 follows RFC 4648. Base64 is NOT encryption — it's a text-safe representation of binary data.",

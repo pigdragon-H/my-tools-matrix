@@ -11,6 +11,9 @@ interface AdSlotProps {
 
 export function AdSlot({ slot, position, variant = "horizontal" }: AdSlotProps) {
   const adsEnabled = isEnabled("ENABLE_ADS")
+
+  if (!adsEnabled) return null
+
   const minHeight = variant === "square" ? "250px" : "90px"
 
   return (
@@ -20,11 +23,11 @@ export function AdSlot({ slot, position, variant = "horizontal" }: AdSlotProps) 
         data-position={position}
         data-variant={variant}
         data-ads-enabled={adsEnabled ? "true" : "false"}
-        aria-label="AD 廣告位 · Advertisement"
+        aria-label="Sponsored content area"
         className="flex items-center justify-center rounded-lg border border-dashed border-muted-foreground/30 bg-muted/20 text-xs text-muted-foreground"
         style={{ minHeight }}
       >
-        <span className="select-none">AD 廣告位 · Advertisement</span>
+        <span className="select-none">Sponsored content area</span>
       </div>
     </div>
   )

@@ -1,5 +1,5 @@
 // @profile B
-// Profile B · 計算機-YMYL · MarkdownPreview (Developer · MeetingCost-aligned · JsonFormatter gold template)
+// Profile B · 計算機-YMYL · MarkdownPreview (Developer · MeetingCost-aligned · standard implementation)
 
 import { useMemo, useState } from "react";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
@@ -69,7 +69,7 @@ const ui = {
     q6: "Markdown 文件多大算太大?", a6: "經驗法則:單檔 ≤20k 字元最舒服;20k–100k 開始需要 TOC + anchor;>100k 應拆檔或改用 mdBook / Docusaurus。本工具的「六段判讀矩陣」就是依此分區,協助判斷是否該重構文件結構。",
   },
   en: {
-    badge: "Developer · Markdown · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese",
+    badge: "Developer · Markdown", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese",
     title: "Markdown Preview", subtitle: "Live GFM rendering + structure stats + a six-band length matrix",
     intro: "Renders Markdown (CommonMark + GFM) to HTML live in the browser, counts characters, lines, headings, links, code fences, and images, and places the document length into a six-band reading matrix. Nothing is uploaded — safe for READMEs, issues, blog drafts, and PR descriptions.",
     trustNoteLabel: "Note:", trustNote: "Supports a GFM subset (headings, lists, tables, fences, links, images, blockquotes, bold, italic, strikethrough). Does not support custom HTML, math, mermaid, or front-matter. For full rendering use marked + DOMPurify or unified/remark-rehype.",

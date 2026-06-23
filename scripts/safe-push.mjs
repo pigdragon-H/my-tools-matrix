@@ -10,7 +10,7 @@
  *   --nn=<NN>               batch label (e.g. D-10, E-02). Used in commit message.
  *
  * Optional:
- *   --message=<override>    custom commit message (default: feat(<cat>): <id> — JsonFormatter gold template)
+ *   --message=<override>    custom commit message (default: feat(<cat>): <id> — standard tool implementation)
  *   --dry-run               retroactive verification mode:
  *                              - SKIPS 5a (no git add)
  *                              - SKIPS 5b (no new commit; uses HEAD)
@@ -24,7 +24,7 @@
  *
  * Five-Gates execution model:
  *   5a  git add (explicit trio)
- *   5b  git commit -m "feat(<cat>): <id> — JsonFormatter gold template"
+ *   5b  git commit -m "feat(<cat>): <id> — standard tool implementation"
  *   5c  Gate 3   qc_commit_integrity        → on FAIL: git reset HEAD~1, exit 1
  *   5d  git push origin main                  (pre-push hook auto re-runs Gate 3)
  *   5e  Gate 4   qc_remote_match             → on FAIL: 🔴 black-hole alarm, exit 1
@@ -94,7 +94,7 @@ const Pascal      = toPascal(id);
 const indexFile   = `client/src/tools/${category}/${Pascal}/index.tsx`;
 const cfgFile     = "shared/toolsConfig.ts";
 const pageFile    = "client/src/pages/ToolPage.tsx";
-const commitMsg   = customMsg || `feat(${category}): ${id} — JsonFormatter gold template`;
+const commitMsg   = customMsg || `feat(${category}): ${id} — standard tool implementation`;
 
 // ── helpers ──────────────────────────────────────────────────
 function sh(cmd, opts = {}) {

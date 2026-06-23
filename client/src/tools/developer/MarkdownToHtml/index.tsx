@@ -199,7 +199,7 @@ const ui = {
     q6: "可以反向把 HTML 轉回 Markdown 嗎?", a6: "本工具不支援。HTML → Markdown 反向轉換需要處理巢狀結構展平、保留語意、正確 escape 等,實務上常用 Turndown 或 html-to-md;專業版整合 Turndown 並可選擇 GFM 方言輸出。",
   },
   en: {
-    badge: "Developer · Markdown → HTML · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Developer · Markdown → HTML", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "Markdown to HTML", subtitle: "Convert CommonMark-subset Markdown to clean HTML in real time, with a six-band structure-density matrix",
     intro: "This tool parses ATX headings, ordered/unordered lists, fenced code blocks, blockquotes, and inline formatting (bold/italic/links/images/inline code) in the browser, emitting HTML plus an element-count breakdown, and placing total structure into a six-band density matrix to assess single-page suitability. Content never uploads — safe for unreleased drafts, internal wikis, and private READMEs.",
     trustNoteLabel: "Note:", trustNote: "Everything runs in the browser (regex parsing + DOM-free output); content stays on your machine. This version implements a CommonMark subset (ATX headings, lists, fenced code, inline bold/italic/links/images) — no nested lists, setext headings, reference-style links, HTML passthrough, or tables. Six-band density is a planning aid; verify with real SEO/readability testing.",

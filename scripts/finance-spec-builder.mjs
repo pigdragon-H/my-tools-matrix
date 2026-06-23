@@ -85,7 +85,7 @@ function buildBands(brief) {
   if (!labels || labels.length !== 6) throw new Error("brief.bands must have 6 entries");
   if (!thr || thr.length !== 5) throw new Error("brief.bandThresholds must have 5 entries");
   const keys = ["tiny","normal","notable","high","major","executive"];
-  // Canonical ENGLISH band-tier labels (match MeetingCostCalculator gold template).
+  // Canonical ENGLISH band-tier labels (match MeetingCostCalculator reference implementation).
   // NEVER reuse the zh `labels[]` inside English strings — that was the EN-pollution root cause.
   const enLabels = brief.bandsEn && brief.bandsEn.length === 6
     ? brief.bandsEn

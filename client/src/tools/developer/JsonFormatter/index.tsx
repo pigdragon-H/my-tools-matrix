@@ -1,5 +1,5 @@
 // @profile B
-// Profile B · 計算機-YMYL · JsonFormatter (Developer GOLD TEMPLATE proposal · MeetingCost-aligned)
+// Profile B · 計算機-YMYL · JsonFormatter (Developer STANDARD IMPLEMENTATION proposal · MeetingCost-aligned)
 
 import { useMemo, useState } from "react";
 import { AdSenseWrapper } from "@/components/AdSenseWrapper";
@@ -84,7 +84,7 @@ const ui = {
     q6: "可以用本工具做合規或安全審計嗎?", a6: "不建議。本工具只驗證語法,不檢查 schema、欄位敏感性或注入風險;合規審計請使用 JSON Schema 驗證器、靜態分析工具或專業安全廠商服務。",
   },
   en: {
-    badge: "Developer · JSON formatter · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Developer · JSON formatter", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "JSON Formatter", subtitle: "Paste JSON to format / minify / validate — with a six-band size matrix",
     intro: "This tool parses JSON in the browser, with format (indent), minify, key sort, syntax validation, and byte/depth/token metrics. No data is uploaded, so it is safe for API responses and configuration files containing sensitive fields, and it helps decide whether the payload should be streamed or paginated instead.",
     trustNoteLabel: "Note:", trustNote: "Everything runs in the browser via JSON.parse / JSON.stringify; nothing leaves your machine. Key sort uses recursive stable ordering. For very large JSON (>10 MB) prefer a server-side tool or NDJSON streaming.",

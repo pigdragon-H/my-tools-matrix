@@ -552,12 +552,6 @@ export default function BmrCalculator() {
             <div className="mt-5 space-y-3">{faqKeys.map(([q, a]) => <details key={t[q]} className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><summary className="cursor-pointer font-black">{t[q]}</summary><p className="mt-2 text-sm leading-6 text-slate-700">{t[a]}</p></details>)}</div>          </div>
         </section>
 
-
-        {/* L14-AdSlot · FAQ 後獨立廣告位 */}
-        <section aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5">
-          <AdSlot slot="bmr-faq" position="inline" />
-        </section>
-
         {/* L15-L16 · 推薦商品 + Premium Gate 並排 */}
         <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]">
           {/* L15-Affiliate */}

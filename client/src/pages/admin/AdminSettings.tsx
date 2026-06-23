@@ -24,7 +24,7 @@ import {
 const flagDescriptions: Record<string, { zh: string; en: string }> = {
   ENABLE_ADS: {
     zh: "顯示 AdSlot 廣告位容器（佔位/真廣告皆受此控）",
-    en: "Show AdSlot containers (both placeholder and real ads).",
+    en: "Show approved ad containers after inventory is ready.",
   },
   ENABLE_REAL_ADSENSE: {
     zh: "注入真實 Google AdSense script(需先填 Publisher ID)",
@@ -32,7 +32,7 @@ const flagDescriptions: Record<string, { zh: string; en: string }> = {
   },
   ENABLE_AFFILIATE: {
     zh: "聯盟連結變成可點擊(否則顯示「即將推出」)",
-    en: "Make affiliate links clickable (else show 'Coming soon').",
+    en: "Make affiliate links clickable after destinations are final.",
   },
   ENABLE_PREMIUM: {
     zh: "PremiumTeaser 升級按鈕變成可點擊",
@@ -96,8 +96,8 @@ export default function AdminSettings() {
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {lang === "zh"
-              ? "調整 17 層商業化骨架的所有 placeholder。儲存後即時生效,無需重新部署。"
-              : "Tune all placeholders for the 17-layer monetization scaffold. Save to apply instantly (no redeploy)."}
+              ? "調整商業化設定。儲存後即時生效，無需重新部署。"
+              : "Tune monetization settings. Save to apply instantly (no redeploy)."}
           </p>
         </div>
         <Button
@@ -287,7 +287,7 @@ export default function AdminSettings() {
               <CardDescription>
                 {lang === "zh"
                   ? "首頁 AffiliateGrid 的 4 個主題連結。空白表示「即將推出」。"
-                  : "4 theme links shown on homepage AffiliateGrid. Blank = 'Coming soon'."}
+                  : "4 resource links shown when review-safe commercial features are enabled."}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">

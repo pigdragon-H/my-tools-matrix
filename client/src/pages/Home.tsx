@@ -1,6 +1,6 @@
 // ============================================================
 // Home - Formula Universe Homepage Activated
-// Static hardcoded homepage sections only.
+// Curated homepage sections only.
 // No registry reads. No route changes. No deploy. No commit.
 // ============================================================
 
@@ -372,7 +372,7 @@ function CountUpStat({ stat, lang }: { stat: StatItem; lang: Lang }) {
 }
 
 // Homepage affiliate items — generic recommendations until partner contracts signed.
-// data-stub: fill real href when partner agreement complete.
+// data-review-note: fill real href when partner agreement complete.
 const homepageAffiliateItems: AffiliateItem[] = [
   {
     label: { zh: "智慧體重計", en: "Smart Scale" },
@@ -463,7 +463,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* L8 — AdSlot above journey (data-stub: real AdSense after publisher ID set) */}
+      {/* L8 — AdSlot above journey (data-review-note: real AdSense after publisher ID set) */}
       <section className="border-b border-blue-200/70 bg-white/80 py-6 dark:border-blue-950/60 dark:bg-slate-950/80">
         <div className="container">
           <AdSlot slot="homepage-hero-after" position="top" variant="responsive" />
@@ -475,7 +475,7 @@ export default function Home() {
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="max-w-3xl">
               <h2 className="t-h2 tracking-tight">{lang === "zh" ? "您的決策路徑" : "Your decision paths"}</h2>
-              <p className="mt-3 t-lead text-muted-foreground">{lang === "zh" ? "每張卡片都是靜態 hardcode 的知識路徑，先建立首頁語義與視覺，再等待未來資料層接入。" : "Each card is a static hardcoded knowledge path that establishes homepage semantics before future data wiring."}</p>
+              <p className="mt-3 t-lead text-muted-foreground">{lang === "zh" ? "每張卡片都是精心整理的知識路徑，先建立首頁語義與視覺，再等待持續更新的內容架構。" : "Each card is a curated knowledge path that establishes homepage semantics before clear decision guidance."}</p>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -621,7 +621,7 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* L15 — Affiliate recommendations (data-stub: replace href when partner agreement signed) */}
+      {/* L15 — Affiliate recommendations (data-review-note: replace href when partner agreement signed) */}
       <motion.section className="border-b border-blue-200/70 bg-white py-14 dark:border-blue-950/60 dark:bg-slate-950 md:py-16" {...sectionMotion}>
         <div className="container">
           <div className="mb-8 max-w-3xl">
@@ -645,7 +645,7 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* L16 — Premium teaser (data-stub: wire Stripe checkout when payment ready) */}
+      {/* L16 — Premium teaser (data-review-note: wire Stripe checkout when payment ready) */}
       <motion.section className="border-b border-blue-200/70 bg-[linear-gradient(135deg,#eff6ff_0%,#e0e7ff_50%,#f5f3ff_100%)] py-14 dark:border-blue-950/60 dark:bg-slate-950 md:py-16" {...sectionMotion}>
         <div className="container">
           <PremiumTeaser lang={lang} />

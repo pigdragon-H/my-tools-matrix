@@ -67,7 +67,7 @@ const ui = {
     q6: "OKLCH 跟 HSL 差在哪？我該換嗎？", a6: "OKLCH 是感知均勻色彩空間（CSS Color Module Level 4），同樣的 L 在不同 hue 看起來亮度真的一樣，HSL 不是；OKLCH 是 2023 年起新一代設計系統的趨勢（Tailwind CSS、Radix Colors 都已支援）。本工具目前提供 HSL 為主，OKLCH 在專業版開放。",
   },
   en: {
-    badge: "Developer · Color formats · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Developer · Color formats", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "Color Converter", subtitle: "Two-way conversion across HEX/RGB/HSL/HSV/CMYK with a six-band hue matrix and WCAG contrast read-out",
     intro: "This tool runs HEX, RGB, HSL, HSV, and CMYK conversions in the browser; computes luminance and WCAG 2.1 contrast; and places the current hue into a six-band reading matrix. No data is uploaded — safe for brand colours, design tokens, and sensitive visual assets.",
     trustNoteLabel: "Note:", trustNote: "Everything runs in the browser within the sRGB colour space; nothing leaves your machine. CMYK uses a simplified formula (no ICC profile) — for print-grade colour, defer to Adobe / Pantone tools. WCAG contrast follows the W3C formula and is a readability reference only.",

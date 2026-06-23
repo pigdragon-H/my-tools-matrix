@@ -59,7 +59,7 @@ lines.forEach((raw, idx) => {
   if (!CJK.test(line)) return;
   line = stripZhTernary(line);
   line = stripZhLiteral(line);
-  // structural L-layer aria-label markers (Chinese by design — identical to gold template, not user-visible copy)
+  // structural L-layer aria-label markers (Chinese by design — identical to reference implementation, not user-visible copy)
   line = line.replace(/aria-label="L[0-9][^"]*"/g, 'aria-label=""');
   // en-block legitimate Chinese keys
   for (const k of ["switchToChinese", "chineseShort", "premiumChips_zh"]) line = stripKey(line, k);

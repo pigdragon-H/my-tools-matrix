@@ -699,11 +699,6 @@ export default function BmiCalculator() {
             </article>
           </section>
 
-          {/* L14-AdSlot · FAQ 後獨立廣告位 */}
-          <section aria-label="L14 FAQ after ad slot: AD 廣告位 · Advertisement" className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm md:p-5">
-          <AdSlot slot="bmi-faq" position="inline" />
-          </section>
-
           {/* L15-L16 · 推薦商品 + Premium Gate 並排 */}
           <section className="grid items-stretch gap-6 lg:grid-cols-[1fr_1fr]">
           {/* L15-Affiliate */}

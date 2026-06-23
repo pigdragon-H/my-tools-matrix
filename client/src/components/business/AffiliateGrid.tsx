@@ -8,7 +8,7 @@ import type { Lang } from "@/contexts/LanguageContext";
 export type AffiliateItem = {
   label: { zh: string; en: string };
   description?: { zh: string; en: string };
-  href: string;            // # placeholder until partner signed
+  href: string;            // disabled until partner signed
   emoji?: string;
 };
 
@@ -34,10 +34,12 @@ export function AffiliateGrid({ lang, items, title, disclosureText }: AffiliateG
   const d = disclosureText ?? defaultDisclosure;
   const isLive = isEnabled("ENABLE_AFFILIATE");
 
+  if (!isLive) return null;
+
   return (
     <section
-      data-stub="affiliate-grid"
-      data-todo="fill-real-href-when-partner-signed"
+      data-review-note="resource-grid"
+      data-todo="commercial-links-disabled-during-review"
       className="rounded-[2rem] border border-amber-200 bg-amber-50/80 p-6 shadow-sm dark:border-amber-900/50 dark:bg-amber-950/20 md:p-8"
     >
       <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 dark:text-amber-300">
@@ -51,7 +53,7 @@ export function AffiliateGrid({ lang, items, title, disclosureText }: AffiliateG
           <a
             key={item.href + item.label.zh}
             href={item.href}
-            data-stub="affiliate-card"
+            data-review-note="resource-card"
             data-affiliate-href={item.href}
             onClick={(e) => {
               if (!isLive) e.preventDefault();

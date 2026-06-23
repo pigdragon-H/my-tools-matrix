@@ -4,6 +4,7 @@
 // ============================================================
 
 import { useEffect, useRef, useState } from "react";
+import { isEnabled } from "@/config/featureFlags";
 
 interface AdSenseWrapperProps {
   showAds: boolean;
@@ -18,6 +19,7 @@ export function AdSenseWrapper({
   adFormat = "auto",
   className = "",
 }: AdSenseWrapperProps) {
+  const realAdsEnabled = isEnabled("ENABLE_REAL_ADSENSE");
   const containerRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [adLoaded, setAdLoaded] = useState(false);
@@ -57,7 +59,7 @@ export function AdSenseWrapper({
     setAdLoaded(true);
   }, [isVisible, adLoaded]);
 
-  if (!showAds) return null;
+  if (!showAds || !realAdsEnabled) return null;
 
   return (
     <div ref={containerRef} className={`w-full ${className}`}>
@@ -79,7 +81,7 @@ export function AdSenseWrapper({
               data-full-width-responsive="true"
             />
           */}
-          <span className="select-none">廣告位 · Advertisement</span>
+          <span className="select-none">Sponsored content area</span>
         </div>
       ) : (
         <div

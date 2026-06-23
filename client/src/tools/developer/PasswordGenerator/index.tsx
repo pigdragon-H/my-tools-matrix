@@ -114,7 +114,7 @@ const ui = {
     q6: "可以用本工具做正式密碼政策稽核嗎?", a6: "不建議。本工具只做熵值計算,不檢查 MFA、速率限制、密碼歷史、HIBP 比對、credential stuffing 偵測。正式稽核請使用 BeyondTrust、Microsoft Entra Password Protection,或委由 IAM/Security 團隊。",
   },
   en: {
-    badge: "Developer · Password generator · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Developer · Password generator", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "Password Generator", subtitle: "Generate cryptographically secure passwords via Web Crypto, with live Shannon entropy and a six-band strength matrix",
     intro: "This tool generates cryptographically secure passwords entirely in the browser via the Web Crypto API (crypto.getRandomValues), with adjustable length and charset (lower / upper / digit / symbol). Shannon entropy H = L × log₂(N) is computed live and placed into a six-band strength matrix. Passwords are produced in-browser and never uploaded — safe as primary accounts, vault masters, or API-key drafts.",
     trustNoteLabel: "Note:", trustNote: "Everything runs in the browser (Web Crypto + Shannon formula); passwords stay on your machine. Shannon entropy assumes uniformly random characters — real security is also affected by dictionary attacks, credential stuffing, and social engineering. Six-band strength is theoretical; for formal threat models defer to OWASP ASVS and NIST SP 800-63B.",

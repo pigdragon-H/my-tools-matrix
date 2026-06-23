@@ -73,7 +73,7 @@ repls={
 'ROAS · Budget Ratio · Net Worth · Salary After Tax':'廣告投報率 · 預算比例 · 淨資產 · 稅後薪資',
 'References':'參考資料',
 'SBA pricing guidance; IRS business expense guidance; Investopedia margin definitions; Harvard Business Review pricing strategy.':'美國小型企業署定價指南；美國國稅局商業費用說明；Investopedia 利潤率定義；哈佛商業評論定價策略。',
-'L14 FAQ after ad slot: AD 廣告位 · Advertisement':'L14 常見問題後廣告位：廣告位',
+'L14 FAQ support section':'L14 常見問題補充區',
 }
 for old,new in repls.items():
     text=text.replace(old,new)

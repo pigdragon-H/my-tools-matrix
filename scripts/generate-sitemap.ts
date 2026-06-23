@@ -27,6 +27,7 @@ const OPPORTUNITIES_DIR = join(ROOT, "shared/opportunities");
 const KNOWLEDGE_DIR = join(ROOT, "shared/knowledge");
 const OUT_PUBLIC = join(ROOT, "public/sitemap.xml");
 const OUT_CLIENT = join(ROOT, "client/public/sitemap.xml");
+const OUT_REVIEW_PATHS = join(ROOT, "shared/adsenseReviewPaths.json");
 
 const BASE = process.env.SITE_URL ?? "https://my-tools-matrix-production.up.railway.app";
 const TODAY = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
@@ -153,10 +154,35 @@ for (const file of walkMd(KNOWLEDGE_DIR)) {
   lanePaths.push(`/knowledge/${domain}/${slug}`);
 }
 
+const publicTools = tools.filter((tool) => tool.status === "GOLD");
+
+const ADSENSE_REVIEW_SITEMAP = process.env.ADSENSE_REVIEW_SITEMAP !== "false";
+const CORE_REVIEW_TOOL_PATHS = publicTools.slice(0, 60).map((tool) => tool.path);
+const CORE_REVIEW_ARTICLE_PATHS = articlePaths.slice(0, 10);
+const DB_REVIEW_ARTICLE_PATHS = [
+  "/blog/getting-started-with-formula-universe",
+  "/blog/bmi-bmr-health-planning",
+  "/blog/cagr-and-compounding",
+  "/blog/developer-workflows-json-regex-api",
+];
+const REVIEW_SITEMAP_PATHS = new Set<string>([
+  ...STATIC_PAGES.map((page) => page.path),
+  "/tools",
+  ...uniqueCats.map((cat) => "/category/" + cat),
+  ...CORE_REVIEW_TOOL_PATHS,
+  ...CORE_REVIEW_ARTICLE_PATHS,
+  ...DB_REVIEW_ARTICLE_PATHS,
+  "/blueprints",
+  "/opportunities",
+  "/knowledge",
+]);
+const REVIEW_PATHS = [...REVIEW_SITEMAP_PATHS].sort();
+
 const entries: string[] = [];
 const seen = new Set<string>(); // 防重複 + 防舊命名分歧殘留
 
 const addUrl = (path: string, changefreq: string, priority: string) => {
+  if (ADSENSE_REVIEW_SITEMAP && !REVIEW_SITEMAP_PATHS.has(path)) return;
   if (seen.has(path)) return;
   seen.add(path);
   entries.push(
@@ -167,11 +193,13 @@ const addUrl = (path: string, changefreq: string, priority: string) => {
 // 靜態頁
 for (const p of STATIC_PAGES) addUrl(p.path, p.changefreq, p.priority);
 
+// 工具總覽頁
+addUrl("/tools", "weekly", "0.9");
+
 // 分類頁
 for (const cat of uniqueCats) addUrl(`/category/${cat}`, "weekly", "0.9");
 
 // 工具頁：正式 sitemap 只收錄 GOLD 公開工具，REBUILDING / LEGACY / 預留項不得公開曝光
-const publicTools = tools.filter((tool) => tool.status === "GOLD");
 for (const t of publicTools) addUrl(t.path, "monthly", "0.7");
 
 // knowledge-base articles (/blog/<category>/<slug>) — GSC-indexed, must stay alive
@@ -205,6 +233,7 @@ const xml =
   `\n</urlset>\n`;
 
 writeFileSync(OUT_PUBLIC, xml, "utf8");
+writeFileSync(OUT_REVIEW_PATHS, JSON.stringify(REVIEW_PATHS, null, 2) + "\n", "utf8");
 // client/public 也同步一份（build 來源）
 try {
   writeFileSync(OUT_CLIENT, xml, "utf8");
@@ -213,7 +242,8 @@ try {
 }
 
 console.log(
-  `✓ sitemap regenerated: ${STATIC_PAGES.length} static + ${uniqueCats.length} categories + ${publicTools.length} public tools + ${articlePaths.length} articles + ${lanePaths.length} lane-pages = ${seen.size} URLs`
+  `✓ sitemap regenerated: ${STATIC_PAGES.length} static + ${uniqueCats.length} categories + ${publicTools.length} public tools + ${articlePaths.length} articles + ${lanePaths.length} lane-pages = ${seen.size} URLs` +
+    (ADSENSE_REVIEW_SITEMAP ? " (AdSense review whitelist mode)" : " (full sitemap mode)")
 );
 console.log(`  → ${OUT_PUBLIC}`);
 console.log(`  → ${OUT_CLIENT}`);

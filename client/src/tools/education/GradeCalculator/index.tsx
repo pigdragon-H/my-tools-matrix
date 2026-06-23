@@ -98,7 +98,7 @@ const ui = {
     q6: "可以用本工具算 weighted GPA(高中 AP/IB 加權)嗎?", a6: "不建議。本工具計算的是單一課程內的加權成績,不處理高中 weighted GPA 的 AP/IB 加分(A 變 5.0)機制。如需高中 weighted GPA,請等本站專業版工具或自行加上對應加權點數。",
   },
   en: {
-    badge: "Education · Grade Calculator · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Education · Grade Calculator", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "Grade Calculator", subtitle: "Enter weighted items and scores to compute the total grade and letter — with a Final Grade Needed reverse mode",
     intro: "This tool computes weighted course grades and the Final Grade Needed reverse calculation entirely in your browser. Nothing is uploaded. Designed for college, high-school, and self-study learners to assess current standing and answer the key question: 'What do I need on the final to get an A?'",
     trustNoteLabel: "Note:", trustNote: "Uses the standard US 13-band letter scale (A+ 97+/A 93/A- 90/B+ 87/B 83/B- 80/C+ 77/C 73/C- 70/D+ 67/D 63/D- 60/F <60). Individual syllabi may differ — follow your instructor's announced cutoffs. Data is never uploaded; everything runs in-browser.",

@@ -209,7 +209,7 @@ const ui = {
     q6: "可以用本工具做合規或安全審查嗎?", a6: "不建議。本工具只做 CIDR 數學推導,不檢查 IP 是否屬於敏感區段、ACL 是否衝突、route-leak 風險,或 RIR 合法持有狀態。合規審查請使用 IPAM 平台、CMDB、或委由 NetOps/Security 團隊。",
   },
   en: {
-    badge: "Developer · IP / CIDR · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Developer · IP / CIDR", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "IP / CIDR Calculator", subtitle: "Enter an IPv4 address and prefix to derive network address, broadcast, usable host range, and read a six-band subnet-size matrix",
     intro: "This tool parses IPv4 CIDR entirely in the browser, applying RFC 4632 (CIDR), RFC 1918 (private space), RFC 6890 (special-purpose registry), and RFC 3021 (/31 point-to-point) to derive network address, broadcast, first/last usable host, subnet mask, wildcard, and host count. The prefix length is placed into a six-band subnet-size matrix to support VLAN / VPC planning. Inputs are never uploaded, so it is safe for IP plans containing sensitive topology data.",
     trustNoteLabel: "Note:", trustNote: "Everything runs in the browser (integer-bit decomposition + RFC rules); IPs stay on your machine. Six-band sizing is a planning reference, not security or compliance advice. /31 and /32 follow RFC 3021 / RFC 6890 — slightly different from the legacy \"always subtract 2\" formula.",

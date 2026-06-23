@@ -68,7 +68,7 @@ const ui = {
     q6: "為什麼空格編碼成 %20 而不是 +？", a6: "RFC 3986 規定空格編碼為 %20；+ 代表空格是 application/x-www-form-urlencoded（HTML form POST）的慣例。本工具遵循 URI 規範使用 %20；若需 + 編碼，請改用 form-urlencoded 序列化工具。",
   },
   en: {
-    badge: "Developer · URL encoding · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Developer · URL encoding", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "URL Encoder", subtitle: "Paste text or a percent-encoded URL for instant two-way conversion — with a five-band inflation matrix",
     intro: "This tool encodes and decodes URLs in the browser with full UTF-8 multi-byte support (Chinese, emoji), component vs full-URI modes, and output-length / inflation-ratio metrics. No data is uploaded, so it's safe for URLs containing API keys, PII, signatures, or sensitive payloads.",
     trustNoteLabel: "Note:", trustNote: "Everything runs in the browser via encodeURIComponent / decodeURIComponent; nothing leaves your machine. URL encoding follows RFC 3986. URL encoding is NOT encryption — it's a transport-safe text representation.",

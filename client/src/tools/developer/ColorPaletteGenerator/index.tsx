@@ -179,7 +179,7 @@ const ui = {
     q6: "可以用本工具做正式的無障礙稽核嗎?", a6: "不建議。本工具只做數學公式推導,不檢查實際 DOM 互動狀態(focus ring、disabled、placeholder、error)、字級權重、跨瀏覽器渲染差異、或色盲模擬。正式稽核請使用 axe DevTools、WAVE、Pa11y,或委由 a11y 專業團隊。",
   },
   en: {
-    badge: "Developer · Color palette · Gold template", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
+    badge: "Developer · Color palette", switchToEnglish: "English mode", switchToChinese: "Switch to Chinese", chineseShort: "中", englishShort: "EN",
     title: "Color Palette Generator", subtitle: "Enter a seed color to derive a 5-swatch scheme, plus a six-band luminance matrix and WCAG 2.2 contrast readout",
     intro: "This tool parses hex codes entirely in the browser, applying HSL color theory's complementary (180°), analogous (±30°), triadic (120°), tetradic (90°), and monochromatic (same hue, different lightness) schemes to derive a 5-swatch palette. For each swatch it computes WCAG 2.2 relative luminance plus contrast against white/black text, and places the luminance into a six-band matrix. Codes never upload, safe for brand IDs and unreleased mockups.",
     trustNoteLabel: "Note:", trustNote: "Everything runs in the browser (HSL rotation + WCAG 2.2 formula); codes stay on your machine. Contrast values are theoretical — actual perception depends on display, font weight, and size. The six-band matrix is a planning aid; formal a11y audits should defer to the WCAG official standard.",
