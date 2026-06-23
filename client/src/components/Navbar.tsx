@@ -23,7 +23,8 @@ import { categories } from "@shared/categoriesConfig";
 import { getPublicTools } from "@shared/toolsConfig";
 import { STATIC_ARTICLES } from "@/lib/staticArticles";
 import { navLanes } from "@shared/laneRegistry";
-import { navCategories } from "@/lib/laneCategories";
+import { getCategoryKey, navCategories } from "@/lib/laneCategories";
+import { contentByLane } from "@/lib/laneContent";
 import { CategoryIcon } from "./CategoryIcon";
 import { cn } from "@/lib/utils";
 
@@ -82,6 +83,20 @@ for (const article of STATIC_ARTICLES) {
   articleCountByCategory[article.category] = (articleCountByCategory[article.category] ?? 0) + 1;
 }
 
+// 預先計算三大內容賽道每個分類的內容數量（同源於 LaneHub：contentByLane + getCategoryKey）。
+// 新增 AI 知識庫／AI 創業藍圖／機會情報 Markdown 後，build 時會自動更新導覽板數量。
+const laneCountByCategory: Record<string, Record<string, number>> = {};
+for (const lane of navLanes()) {
+  const navCatKeys = new Set(navCategories(lane.id).map((cat) => cat.key));
+  const counts: Record<string, number> = {};
+  for (const item of contentByLane(lane.id)) {
+    const rawKey = getCategoryKey(item);
+    const key = navCatKeys.has(rawKey) ? rawKey : "other";
+    counts[key] = (counts[key] ?? 0) + 1;
+  }
+  laneCountByCategory[lane.id] = counts;
+}
+
 
 // ── 賽道／知識庫「分類下拉」共用元件（桌機版）──────────────────────────────
 // 友善對待新訪客：點主軸類別即可看到內部分類；無法分類者歸到最後一類「其它」。
@@ -125,18 +140,28 @@ function LaneNavDropdown({
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <div className="grid grid-cols-1 gap-0.5">
-          {cats.map((cat) => (
-            <DropdownMenuItem key={cat.key} asChild>
-              <Link href={`${routeBase}?cat=${cat.key}`}>
-                <div className="flex items-center gap-2 px-2 py-1.5 cursor-pointer w-full">
-                  <span className="text-sm shrink-0">{cat.label.emoji}</span>
-                  <span className="text-xs font-medium truncate">
-                    {lang === "zh" ? cat.label.zh : cat.label.en}
-                  </span>
-                </div>
-              </Link>
-            </DropdownMenuItem>
-          ))}
+          {cats.map((cat) => {
+            const count = laneCountByCategory[laneId]?.[cat.key] ?? 0;
+            return (
+              <DropdownMenuItem key={cat.key} asChild>
+                <Link href={`${routeBase}?cat=${cat.key}`}>
+                  <div className={cn(
+                    "flex items-center gap-2 px-2 py-1.5 cursor-pointer w-full",
+                    count === 0 && "opacity-50"
+                  )}>
+                    <span className="text-sm shrink-0">{cat.label.emoji}</span>
+                    <span className="text-xs font-medium truncate flex-1">
+                      {lang === "zh" ? cat.label.zh : cat.label.en}
+                    </span>
+                    <span className={cn(
+                      "text-xs font-medium shrink-0",
+                      count > 0 ? "text-primary" : "text-muted-foreground"
+                    )}>({count})</span>
+                  </div>
+                </Link>
+              </DropdownMenuItem>
+            );
+          })}
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
@@ -572,18 +597,28 @@ export function Navbar() {
                           </div>
                         </Link>
                         <div className="flex flex-wrap gap-1 pl-8 pr-2 pb-1">
-                          {navCategories(lane.id).map((cat) => (
-                            <Link
-                              key={cat.key}
-                              href={`${lane.routeBase}?cat=${cat.key}`}
-                              onClick={() => setMobileOpen(false)}
-                            >
-                              <span className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-xs hover:bg-accent cursor-pointer">
-                                <span>{cat.label.emoji}</span>
-                                {lang === "zh" ? cat.label.zh : cat.label.en}
-                              </span>
-                            </Link>
-                          ))}
+                          {navCategories(lane.id).map((cat) => {
+                            const count = laneCountByCategory[lane.id]?.[cat.key] ?? 0;
+                            return (
+                              <Link
+                                key={cat.key}
+                                href={`${lane.routeBase}?cat=${cat.key}`}
+                                onClick={() => setMobileOpen(false)}
+                              >
+                                <span className={cn(
+                                  "inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-xs hover:bg-accent cursor-pointer",
+                                  count === 0 && "opacity-50"
+                                )}>
+                                  <span>{cat.label.emoji}</span>
+                                  {lang === "zh" ? cat.label.zh : cat.label.en}
+                                  <span className={cn(
+                                    "font-medium",
+                                    count > 0 ? "text-primary" : "text-muted-foreground"
+                                  )}>({count})</span>
+                                </span>
+                              </Link>
+                            );
+                          })}
                         </div>
                       </div>
                     );
