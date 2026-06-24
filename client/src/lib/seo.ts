@@ -102,6 +102,17 @@ export interface SsrMetaTagsMap {
   [key: string]: string;
 }
 
+function escapeHtml(text: string): string {
+  const map: Record<string, string> = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  };
+  return text.replace(/[&<>"']/g, (char) => map[char]);
+}
+
 export function setSeoMeta({ title = DEFAULT_TITLE, description = DEFAULT_DESCRIPTION, noindex = false }: SeoOptions = {}, ssrPathname?: string) {
   // SSR 時收集 meta 信息
   if (typeof document === "undefined") {
@@ -155,57 +166,4 @@ export function renderSsrMetaTags(): string {
   }
   
   return tags.join("\n  ");
-}
-
-function escapeHtml(text: string): string {
-  const map: Record<string, string> = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;",
-  };
-  return text.replace(/[&<>"']/g, (char) => map[char]);
-}
-
-// 輔助函數：將 SSR meta tags 轉換為 HTML 字符串
-export function renderSsrMetaTags(): string {
-  const tags: string[] = [];
-  
-  // 添加 robots meta
-  const robots = ssrMetaTags.get("robots");
-  if (robots) {
-    tags.push(`<meta name="robots" content="${robots}">`);
-  }
-  
-  // 添加 description meta
-  const description = ssrMetaTags.get("description");
-  if (description) {
-    tags.push(`<meta name="description" content="${escapeHtml(description)}">`);
-  }
-  
-  // 添加 og:title
-  const ogTitle = ssrMetaTags.get("og:title");
-  if (ogTitle) {
-    tags.push(`<meta property="og:title" content="${escapeHtml(ogTitle)}">`);
-  }
-  
-  // 添加 og:description
-  const ogDescription = ssrMetaTags.get("og:description");
-  if (ogDescription) {
-    tags.push(`<meta property="og:description" content="${escapeHtml(ogDescription)}">`);
-  }
-  
-  return tags.join("\n  ");
-}
-
-function escapeHtml(text: string): string {
-  const map: Record<string, string> = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;",
-  };
-  return text.replace(/[&<>"']/g, (char) => map[char]);
 }
