@@ -348,9 +348,13 @@ app.use(
 );
 
 // Static + SPA fallback
+// Note: redirect: false prevents Express from issuing 301 redirects for trailing slashes.
+// Since we have SSR prerendered HTML at /tools/health/bmi-calculator/index.html,
+// we want to serve it directly without redirect. The SPA fallback below handles all routes.
 app.use(
   express.static(publicDir, {
     index: false,
+    redirect: false,
     maxAge: process.env.NODE_ENV === "production" ? "1h" : 0,
   })
 );
