@@ -137,34 +137,3 @@ export const defaultSeo = {
   description: DEFAULT_DESCRIPTION,
 };
 
-// 輔助函數：將 SSR meta tags 轉換為 HTML 字符串
-// 註：this function is no longer used - title and meta tags are now injected directly in prerender.mjs
-export function renderSsrMetaTags(): string {
-  const tags: string[] = [];
-  
-  // 添加 robots meta
-  const robots = ssrMetaTags.get("robots");
-  if (robots) {
-    tags.push(`<meta name="robots" content="${robots}">`);
-  }
-  
-  // 添加 description meta
-  const description = ssrMetaTags.get("description");
-  if (description) {
-    tags.push(`<meta name="description" content="${escapeHtml(description)}">`);
-  }
-  
-  // 添加 og:title
-  const ogTitle = ssrMetaTags.get("og:title");
-  if (ogTitle) {
-    tags.push(`<meta property="og:title" content="${escapeHtml(ogTitle)}">`);
-  }
-  
-  // 添加 og:description
-  const ogDescription = ssrMetaTags.get("og:description");
-  if (ogDescription) {
-    tags.push(`<meta property="og:description" content="${escapeHtml(ogDescription)}">`);
-  }
-  
-  return tags.join("\n  ");
-}
