@@ -41,7 +41,7 @@ async function prerender() {
     // 重置 SSR meta tags（每個路由都要重新開始）
     resetSsrMetaTags();
     
-    const html = render(route);
+    const html = await render(route);
     
     // 獲取本次渲染收集的 meta tags
     const ssrMetaTags = getSsrMetaTags();
