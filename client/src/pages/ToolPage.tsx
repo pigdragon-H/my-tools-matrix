@@ -498,6 +498,7 @@ function ToolReaderSummaryBlock({
           readerNote: `English summary: ${toolDisplayName} is a Formula Universe tool in the ${categoryLabel} category. It includes reader-friendly context for the tool purpose, input guidance, result interpretation, FAQ, source notes, limitations, and trust references.`,
         };
   const isGoldenSummaryTypography = isGoldenSummaryTypographyEnabled(toolConfig.path);
+  const lastUpdatedDate = toolConfig.lastUpdated ? new Date(toolConfig.lastUpdated).toLocaleDateString(lang === "zh" ? "zh-TW" : "en-US", { year: "numeric", month: "short", day: "numeric" }) : null;
 
   return (
     <section
@@ -524,6 +525,21 @@ function ToolReaderSummaryBlock({
         <p className={isGoldenSummaryTypography ? "mt-2" : "mt-2 text-xs"}>
           {summaryCopy.readerNote}
         </p>
+        {/* Last Updated & Editorial Review Statement */}
+        {lastUpdatedDate && (
+          <div className="mt-4 pt-4 border-t border-border/50">
+            <p className="text-xs text-muted-foreground">
+              {lang === "zh" ? "最後更新：" : "Last updated: "}
+              <span className="font-semibold">{lastUpdatedDate}</span>
+            </p>
+            <p className="text-xs text-muted-foreground mt-2">
+              {lang === "zh" 
+                ? "本頁面由 Formula Universe 編輯團隊審核並維護。我們定期更新工具內容、驗證計算邏輯和資料來源準確性，以確保提供讀者最新、最可靠的資訊。"
+                : "This page is reviewed and maintained by the Formula Universe editorial team. We regularly update tool content, verify calculation logic, and validate data source accuracy to ensure readers receive the most current and reliable information."
+              }
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );
