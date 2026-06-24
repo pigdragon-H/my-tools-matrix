@@ -35,14 +35,58 @@ async function prerender() {
     process.exit(1);
   }
 
-  const { render } = await import(ssrEntryPath);
+  const { render, getSsrMetaTags, resetSsrMetaTags } = await import(ssrEntryPath);
 
   for (const route of routes) {
+    // 重置 SSR meta tags（每個路由都要重新開始）
+    resetSsrMetaTags();
+    
     const html = render(route);
-    const fullHtml = template.replace(
+    
+    // 獲取本次渲染收集的 meta tags
+    const ssrMetaTags = getSsrMetaTags();
+    
+    // 構建 meta tags HTML
+    let metaTagsHtml = "";
+    if (ssrMetaTags.size > 0) {
+      const metaTags = [];
+      
+      // 添加 robots meta
+      const robots = ssrMetaTags.get("robots");
+      if (robots) {
+        metaTags.push(`<meta name="robots" content="${robots}">`);
+      }
+      
+      // 添加 description meta
+      const description = ssrMetaTags.get("description");
+      if (description) {
+        metaTags.push(`<meta name="description" content="${escapeHtml(description)}">`);
+      }
+      
+      // 添加 og:title
+      const ogTitle = ssrMetaTags.get("og:title");
+      if (ogTitle) {
+        metaTags.push(`<meta property="og:title" content="${escapeHtml(ogTitle)}">`);
+      }
+      
+      // 添加 og:description
+      const ogDescription = ssrMetaTags.get("og:description");
+      if (ogDescription) {
+        metaTags.push(`<meta property="og:description" content="${escapeHtml(ogDescription)}">`);
+      }
+      
+      metaTagsHtml = metaTags.join("\n    ");
+    }
+    
+    // 將 meta tags 注入到 template 中（在 </head> 前）
+    let fullHtml = template.replace(
       '<div id="root"></div>',
       `<div id="root">${html}</div>`
     );
+    
+    if (metaTagsHtml) {
+      fullHtml = fullHtml.replace("</head>", `    ${metaTagsHtml}\n  </head>`);
+    }
 
     const outDir =
       route === "/"
@@ -55,6 +99,17 @@ async function prerender() {
   }
 
   console.log("\n🎉 Prerender 完成！");
+}
+
+function escapeHtml(text) {
+  const map = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  };
+  return text.replace(/[&<>"']/g, (char) => map[char]);
 }
 
 prerender().catch((e) => {
