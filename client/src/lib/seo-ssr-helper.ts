@@ -76,9 +76,11 @@ export function getSsrMetaInfo(pathname: string): SsrMetaInfo {
   // 文章頁：/blog/[category]/[slug] 或 /blog/[slug]
   if (normalizedPath.startsWith("/blog/")) {
     const parts = normalizedPath.slice(1).split("/");
+    let category: string | undefined;
     let slug = "";
     if (parts.length === 3) {
       // /blog/[category]/[slug]
+      category = parts[1];
       slug = parts[2];
     } else if (parts.length === 2) {
       // /blog/[slug]
@@ -86,7 +88,7 @@ export function getSsrMetaInfo(pathname: string): SsrMetaInfo {
     }
 
     if (slug) {
-      const article = getStaticArticle(slug);
+      const article = getStaticArticle(category, slug);
       if (article) {
         return {
           title: `${article.title}｜Formula Universe 工具知識庫`,
