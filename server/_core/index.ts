@@ -2,7 +2,7 @@ import "./ws-polyfill"; // MUST be first: polyfills globalThis.WebSocket for Nod
 import "dotenv/config";
 import express from "express";
 import path from "node:path";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { appRouter } from "../routers";
@@ -359,8 +359,25 @@ app.get("*", (req, res) => {
   // SSR prerender: serve route-specific HTML if exists
   const routeHtml = path.join(publicDir, req.path, "index.html");
   if (existsSync(routeHtml)) {
-    res.sendFile(routeHtml);
-  } else {
+    return res.sendFile(routeHtml);
+  }
+  
+  // Non-whitelist/unprerendered paths: serve homepage HTML with forced noindex
+  try {
+    const homepageHtml = readFileSync(path.join(publicDir, "index.html"), "utf-8");
+    const noindexHtml = homepageHtml.includes('name="robots"')
+      ? homepageHtml.replace(
+          /<meta name="robots"[^>]*>/,
+          '<meta name="robots" content="noindex,follow">'
+        )
+      : homepageHtml.replace(
+          "</head>",
+          '  <meta name="robots" content="noindex,follow">\n</head>'
+        );
+    res.set("Content-Type", "text/html");
+    res.send(noindexHtml);
+  } catch (e) {
+    console.error("[fallback] failed to inject noindex:", e);
     res.sendFile(path.join(publicDir, "index.html"));
   }
 });

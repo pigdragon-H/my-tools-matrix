@@ -40,7 +40,7 @@ jobs:
       - name: Run build
         run: npm run build
 
-      - name: Verify SEO meta tags
+      - name: Verify SEO meta tags (prerendered pages)
         run: |
           echo '=== BMI Calculator title ==='
           grep -A1 '<title>' dist/public/tools/health/bmi-calculator/index.html
@@ -53,12 +53,28 @@ jobs:
           echo ''
           echo '=== Compound Interest Calculator description ==='
           grep 'name="description"' dist/public/tools/finance/compound-interest-calculator/index.html
+
+      - name: Start server and verify fallback noindex
+        run: |
+          # Start server in background
+          npm run start &
+          SERVER_PID=$!
+          
+          # Wait for server to start
+          sleep 3
+          
+          # Test whitelist page (BMI) - should NOT have noindex
+          echo '=== Whitelist page (BMI) - should NOT have noindex ==='
+          curl -s http://localhost:3000/tools/health/bmi-calculator | grep -i 'name="robots"' || echo 'No robots meta (expected for whitelist pages)'
           echo ''
-          echo '=== Whitelist page (BMI) robots meta - should NOT have noindex ==='
-          grep 'name="robots"' dist/public/tools/health/bmi-calculator/index.html || echo 'No robots meta (expected for whitelist pages)'
+          
+          # Test non-whitelist page (Rental Yield) - should have noindex,follow
+          echo '=== Non-whitelist page (Rental Yield) - should have noindex,follow ==='
+          curl -s http://localhost:3000/tools/finance/rental-yield-calculator | grep -i 'name="robots"'
           echo ''
-          echo '=== Non-whitelist page (Rental Yield) robots meta - should have noindex ==='
-          grep 'name="robots"' dist/public/tools/finance/rental-yield-calculator/index.html || echo 'No robots meta found'
+          
+          # Kill server
+          kill $SERVER_PID 2>/dev/null || true
 
       - name: Upload build artifacts
         if: success()
