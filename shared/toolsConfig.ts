@@ -36,6 +36,7 @@ export interface Tool {
   universe?: string;
   websiteKey?: string;
   status?: "GOLD" | "REBUILDING" | "LEGACY"; // 工具狀態
+  lastUpdated?: string; // YYYY-MM-DD，僅白名單工具填寫
 }
 
 // ============================================================
@@ -56,6 +57,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -71,6 +73,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -86,6 +89,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -101,6 +105,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -116,6 +121,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -131,6 +137,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -146,6 +153,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -161,6 +169,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   // ── 財務工具（Profile B 試產第 3 件 · 跨領域驗證樣本）──────────────────────────
@@ -177,6 +186,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -192,6 +202,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -207,6 +218,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -222,6 +234,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -237,6 +250,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -252,6 +266,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -267,6 +282,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -282,6 +298,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -297,6 +314,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -312,6 +330,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -327,6 +346,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -342,6 +362,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -357,6 +378,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -372,6 +394,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -387,6 +410,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -402,6 +426,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -417,6 +442,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -432,6 +458,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-12",
     seoArticles: [],
   },
   {
@@ -447,6 +474,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-12",
     seoArticles: [],
   },
   // ── 職場效率（Productivity Batch 1）──────────────────────────────────
@@ -463,6 +491,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -478,6 +507,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -493,6 +523,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-12",
     seoArticles: [],
   },
   {
@@ -508,6 +539,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-12",
     seoArticles: [],
   },
   {
@@ -523,6 +555,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-12",
     seoArticles: [],
   },
   {
@@ -538,6 +571,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
     {
@@ -553,6 +587,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
     {
@@ -568,6 +603,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
     {
@@ -583,6 +619,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
     {
@@ -598,6 +635,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -613,6 +651,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -628,6 +667,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -643,6 +683,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -658,6 +699,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -674,6 +716,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-12",
     seoArticles: [],
   },
   {
@@ -690,6 +733,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-12",
     seoArticles: [],
   },
   {
@@ -706,6 +750,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-12",
     seoArticles: [],
   },
   {
@@ -722,6 +767,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -738,6 +784,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -754,6 +801,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -770,6 +818,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -786,6 +835,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -802,6 +852,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -818,6 +869,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -834,6 +886,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -850,6 +903,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -866,6 +920,7 @@ export const tools: Tool[] = [
     isFeatured: true,
     isNew: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -882,6 +937,7 @@ export const tools: Tool[] = [
     isFeatured: true,
     isNew: true,
     status: "GOLD",
+    lastUpdated: "2026-06-23",
     seoArticles: [],
   },
   {
@@ -897,6 +953,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-12",
     seoArticles: [],
   },
   {
@@ -912,6 +969,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-12",
     seoArticles: [],
   },
   {
@@ -927,6 +985,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-12",
     seoArticles: [],
   },
   {
@@ -942,6 +1001,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-12",
     seoArticles: [],
   },
   {
@@ -957,6 +1017,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    lastUpdated: "2026-06-12",
     seoArticles: [],
   },
   {
