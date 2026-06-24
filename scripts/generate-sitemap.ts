@@ -223,7 +223,19 @@ addUrl("/opportunities", "daily", "0.8");
 addUrl("/knowledge", "weekly", "0.8");
 
 // 四賽道內容頁（blueprints / opportunities / knowledge）
-for (const lp of lanePaths) addUrl(lp, "weekly", "0.7");
+for (const lp of lanePaths) {
+  if (lp.startsWith("/knowledge/")) {
+    // 知識庫文章已全面擴大prerender覆蓋，不受AdSense審查白名單限制，一律收錄進sitemap
+    if (!seen.has(lp)) {
+      seen.add(lp);
+      entries.push(
+        `  <url>\n    <loc>${BASE}${lp}</loc>\n    <lastmod>${TODAY}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>`
+      );
+    }
+  } else {
+    addUrl(lp, "weekly", "0.7");
+  }
+}
 
 // ── Step 4: 輸出 ────────────────────────────────────────────────────
 const xml =

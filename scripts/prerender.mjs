@@ -24,7 +24,35 @@ const baseRoutes = [
   "/blueprints",
   "/opportunities",
 ];
-const routes = [...new Set([...baseRoutes, ...reviewPaths])];
+
+// 新增：掃描shared/knowledge/**/*.md，產生全部知識庫文章的路徑
+// 不依賴adsenseReviewPaths.json，這份白名單仍只服務工具/部落格的AdSense審查邏輯
+function getAllKnowledgeRoutes() {
+  const knowledgeDir = path.join(root, "shared/knowledge");
+  const result = [];
+  function walk(dir) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        walk(full);
+      } else if (entry.name.endsWith(".md")) {
+        const raw = fs.readFileSync(full, "utf8");
+        const domainMatch = raw.match(/^domain:\s*(\S+)/m);
+        const slug = entry.name.replace(/\.md$/, "");
+        const relDir = path.relative(knowledgeDir, dir);
+        const domain = domainMatch ? domainMatch[1] : relDir;
+        result.push(`/knowledge/${domain}/${slug}`);
+      }
+    }
+  }
+  walk(knowledgeDir);
+  return result;
+}
+const knowledgeRoutes = getAllKnowledgeRoutes();
+console.log(`📚 知識庫文章數量: ${knowledgeRoutes.length}`);
+
+const routes = [...new Set([...baseRoutes, ...reviewPaths, ...knowledgeRoutes])];
+console.log(`🔗 總路由數量: ${routes.length}`);
 
 async function prerender() {
   const template = fs.readFileSync(templatePath, "utf-8");
