@@ -57,22 +57,23 @@ jobs:
 
       - name: Verify SSR Suspense content completeness
         run: |
-          echo '=== Compound Interest 頁面 <div id="root"> 開頭500字元 ==='
-          grep -o '<div id="root">.[^<]*' dist/public/tools/finance/compound-interest-calculator/index.html | head -c 500
+          echo '=== 完整看一次root內容，確認FAQ區塊 ==='
+          grep -o '<div id="root">.*</div></div>' dist/public/tools/finance/compound-interest-calculator/index.html | head -c 3000
+          echo ''
+          echo ''
+          echo '=== 換用更寬的關鍵字找FAQ區塊 ==='
+          grep -o '.[^<]{50}[Ff][Aa][Qq].[^<]{50}\|.[^<]{50}常見.[^<]{50}' dist/public/tools/finance/compound-interest-calculator/index.html || echo "No FAQ found"
           echo ''
           echo ''
           echo '=== 是否包含真正的公式內容（FV = P）==='
           grep -c "FV = P" dist/public/tools/finance/compound-interest-calculator/index.html || echo "0"
           echo ''
-          echo '=== 是否包含FAQ內容（常見問題）==='
-          grep -c "常見問題\|常見問答" dist/public/tools/finance/compound-interest-calculator/index.html || echo "0"
-          echo ''
           echo '=== title/description仍然正確（不要因為這次改動而退步）==='
           grep -A1 "<title>" dist/public/tools/health/bmi-calculator/index.html
           grep 'name="description"' dist/public/tools/health/bmi-calculator/index.html
           echo ''
-          echo '=== noindex邏輯仍然正確（不要因為這次改動而退步）==='
-          grep -i 'name="robots"' dist/public/tools/health/bmi-calculator/index.html || echo "No robots meta (expected for whitelist)"
+          echo '=== 確認非白名單頁這次仍然正確noindex（沒有因SSR改動而退步）==='
+          grep -i 'name="robots"' dist/public/tools/finance/rental-yield-calculator/index.html
 
       - name: Start server and verify fallback noindex
         run: |
