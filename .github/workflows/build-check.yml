@@ -39,6 +39,23 @@ jobs:
       - name: Run build
         run: npm run build
 
+      - name: Verify SEO meta tags
+        run: |
+          echo '=== BMI Calculator title ==='
+          grep -A1 '<title>' dist/public/tools/health/bmi-calculator/index.html
+          echo ''
+          echo '=== BMI Calculator description ==='
+          grep 'name="description"' dist/public/tools/health/bmi-calculator/index.html
+          echo ''
+          echo '=== Compound Interest Calculator title ==='
+          grep -A1 '<title>' dist/public/tools/finance/compound-interest-calculator/index.html
+          echo ''
+          echo '=== Compound Interest Calculator description ==='
+          grep 'name="description"' dist/public/tools/finance/compound-interest-calculator/index.html
+          echo ''
+          echo '=== Non-whitelist page (BMI) robots meta ==='
+          grep 'name="robots"' dist/public/tools/health/bmi-calculator/index.html || echo 'No robots meta found'
+
       - name: Upload build artifacts
         if: success()
         uses: actions/upload-artifact@v4
