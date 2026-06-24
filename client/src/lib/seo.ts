@@ -1,4 +1,5 @@
 import adsenseReviewPaths from "@shared/adsenseReviewPaths.json";
+import { getSsrMetaInfo } from "./seo-ssr-helper";
 
 const DEFAULT_TITLE = "Formula Universe｜免費線上計算工具與決策輔助平台";
 const DEFAULT_DESCRIPTION =
@@ -40,9 +41,9 @@ function shouldNoindexCurrentPath(explicitNoindex?: boolean, pathname?: string) 
   const targetPath = pathname || (typeof window !== "undefined" ? window.location.pathname : undefined);
   if (!targetPath) return false;
 
-  const normalizedPath = normalizePath(targetPath);
-  if (REVIEW_PATHS.has(normalizedPath)) return false;
-  return isReviewProtectedPath(normalizedPath);
+  // 使用 getSsrMetaInfo 的邏輯確保 SSR 和 client-side 一致
+  const metaInfo = getSsrMetaInfo(targetPath);
+  return metaInfo.noindex;
 }
 
 function upsertMeta(selector: string, createAttributes: Record<string, string>, content: string) {
