@@ -53,8 +53,11 @@ jobs:
           echo '=== Compound Interest Calculator description ==='
           grep 'name="description"' dist/public/tools/finance/compound-interest-calculator/index.html
           echo ''
-          echo '=== Non-whitelist page (BMI) robots meta ==='
-          grep 'name="robots"' dist/public/tools/health/bmi-calculator/index.html || echo 'No robots meta found'
+          echo '=== Whitelist page (BMI) robots meta - should NOT have noindex ==='
+          grep 'name="robots"' dist/public/tools/health/bmi-calculator/index.html || echo 'No robots meta (expected for whitelist pages)'
+          echo ''
+          echo '=== Non-whitelist page (Rental Yield) robots meta - should have noindex ==='
+          grep 'name="robots"' dist/public/tools/finance/rental-yield-calculator/index.html || echo 'No robots meta found'
 
       - name: Upload build artifacts
         if: success()

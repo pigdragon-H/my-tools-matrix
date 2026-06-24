@@ -3,6 +3,7 @@
  * 確保 SSR 和 client-side 取得的 title/description 邏輯完全一致
  */
 
+import adsenseReviewPaths from "@shared/adsenseReviewPaths.json";
 import { getToolByPath } from "@shared/toolsConfig";
 import { getStaticArticle } from "@/lib/staticArticles";
 import { getKnowledge } from "@/lib/laneContent";
@@ -18,6 +19,11 @@ const DEFAULT_DESCRIPTION =
   "Formula Universe提供免費線上計算工具與決策輔助服務，涵蓋財經投資、健康生活、職場效率、開發工具、電商旅遊等情境，協助您快速取得清楚可靠的試算結果。";
 
 const ADSENSE_REVIEW_MODE = true;
+
+// 這份才是真正的 98 篇白名單，跟 prerender.mjs 用的是同一份（來自 shared/adsenseReviewPaths.json）
+const WHITELISTED_PATHS = new Set<string>(adsenseReviewPaths as string[]);
+
+// 這份維持不變，是真正「永遠可索引」的固定頁面
 const REVIEW_PATHS = new Set<string>([
   "/",
   "/about",
@@ -51,7 +57,11 @@ function shouldNoindex(pathname: string): boolean {
 
   const normalizedPath = normalizePath(pathname);
   if (REVIEW_PATHS.has(normalizedPath)) return false;
-  return isReviewProtectedPath(normalizedPath);
+  if (isReviewProtectedPath(normalizedPath)) {
+    // 深層頁：只有在真正的 98 篇白名單裡才不 noindex
+    return !WHITELISTED_PATHS.has(normalizedPath);
+  }
+  return false;
 }
 
 /**
