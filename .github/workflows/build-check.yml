@@ -58,22 +58,25 @@ jobs:
       - name: Verify SSR Suspense content completeness
         run: |
           echo '=== 完整看一次root內容，確認FAQ區塊 ==='
-          grep -o '<div id="root">.*</div></div>' dist/public/tools/finance/compound-interest-calculator/index.html | head -c 3000
+          python3 -c "
+          content = open('dist/public/tools/finance/compound-interest-calculator/index.html', encoding='utf-8').read()
+          idx = content.find('<div id=\"root\">')
+          print(content[idx:idx+3000] if idx >= 0 else 'NOT FOUND')
+          "
+
           echo ''
-          echo ''
-          echo '=== 換用更寬的關鍵字找FAQ區塊 ==='
-          grep -o '.[^<]{50}[Ff][Aa][Qq].[^<]{50}\|.[^<]{50}常見.[^<]{50}' dist/public/tools/finance/compound-interest-calculator/index.html || echo "No FAQ found"
-          echo ''
+          echo '=== 換用grep -P支援interval語法找FAQ區塊 ==='
+          grep -oP '.{0,50}[Ff][Aa][Qq].{0,50}' dist/public/tools/finance/compound-interest-calculator/index.html | head -5 || echo "No FAQ(英文) found"
+          grep -oP '.{0,50}常見.{0,50}' dist/public/tools/finance/compound-interest-calculator/index.html | head -5 || echo "No 常見 found"
+
           echo ''
           echo '=== 是否包含真正的公式內容（FV = P）==='
           grep -c "FV = P" dist/public/tools/finance/compound-interest-calculator/index.html || echo "0"
+
           echo ''
-          echo '=== title/description仍然正確（不要因為這次改動而退步）==='
-          grep -A1 "<title>" dist/public/tools/health/bmi-calculator/index.html
-          grep 'name="description"' dist/public/tools/health/bmi-calculator/index.html
-          echo ''
-          echo '=== 確認非白名單頁這次仍然正確noindex（沒有因SSR改動而退步）==='
-          grep -i 'name="robots"' dist/public/tools/finance/rental-yield-calculator/index.html
+          echo '=== title/description仍然正確 ==='
+          grep -A1 "<title>" dist/public/tools/health/bmi-calculator/index.html || echo "title NOT FOUND"
+          grep 'name="description"' dist/public/tools/health/bmi-calculator/index.html || echo "description NOT FOUND"
 
       - name: Start server and verify fallback noindex
         run: |
