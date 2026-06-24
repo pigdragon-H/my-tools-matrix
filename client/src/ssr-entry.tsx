@@ -14,7 +14,7 @@ export function render(url: string): string {
     title: metaInfo.title,
     description: metaInfo.description,
     noindex: metaInfo.noindex,
-  });
+  }, url);
   
   return renderToString(<App ssrPath={url} />);
 }
