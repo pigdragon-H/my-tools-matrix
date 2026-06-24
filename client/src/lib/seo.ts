@@ -141,6 +141,12 @@ export const defaultSeo = {
 export function renderSsrMetaTags(): string {
   const tags: string[] = [];
   
+  // 添加 title（注意：title 不是 meta 標籤，但需要在 SSR 時返回）
+  const title = ssrMetaTags.get("title");
+  if (title) {
+    tags.push(`<title>${escapeHtml(title)}</title>`);
+  }
+  
   // 添加 robots meta
   const robots = ssrMetaTags.get("robots");
   if (robots) {
