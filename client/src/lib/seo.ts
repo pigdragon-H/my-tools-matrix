@@ -138,14 +138,9 @@ export const defaultSeo = {
 };
 
 // 輔助函數：將 SSR meta tags 轉換為 HTML 字符串
+// 註：this function is no longer used - title and meta tags are now injected directly in prerender.mjs
 export function renderSsrMetaTags(): string {
   const tags: string[] = [];
-  
-  // 添加 title（注意：title 不是 meta 標籤，但需要在 SSR 時返回）
-  const title = ssrMetaTags.get("title");
-  if (title) {
-    tags.push(`<title>${escapeHtml(title)}</title>`);
-  }
   
   // 添加 robots meta
   const robots = ssrMetaTags.get("robots");

@@ -84,20 +84,18 @@ async function prerender() {
       `<div id="root">${html}</div>`
     );
     
+    // 獨立處理 title（直接從 ssrMetaTags 取出）
+    const title = ssrMetaTags.get("title");
+    if (title) {
+      fullHtml = fullHtml.replace(
+        /<title>.*?<\/title>/,
+        `<title>${escapeHtml(title)}</title>`
+      );
+    }
+    
+    // 注入其他 meta 標籤到 </head> 前
     if (metaTagsHtml) {
-      // 先小心地提取 title 標籤（如果存在）
-      const titleMatch = metaTagsHtml.match(/<title>.*?<\/title>/);
-      if (titleMatch) {
-        // 替換現有的 title 標籤
-        fullHtml = fullHtml.replace(/<title>.*?<\/title>/, titleMatch[0]);
-        // 移除 metaTagsHtml 中的 title，以免重複
-        metaTagsHtml = metaTagsHtml.replace(titleMatch[0], "").trim();
-      }
-      
-      // 注入其他 meta 標籤到 </head> 前
-      if (metaTagsHtml) {
-        fullHtml = fullHtml.replace("</head>", `    ${metaTagsHtml}\n  </head>`);
-      }
+      fullHtml = fullHtml.replace("</head>", `    ${metaTagsHtml}\n  </head>`);
     }
 
     const outDir =
