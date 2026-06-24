@@ -54,6 +54,21 @@ jobs:
           echo '=== Compound Interest Calculator description ==='
           grep 'name="description"' dist/public/tools/finance/compound-interest-calculator/index.html
 
+      - name: Diagnose SSR content completeness (lazy/Suspense)
+        run: |
+          echo '=== Compound Interest 頁面 <div id="root"> 開頭300字元 ==='
+          grep -o '<div id="root">.[^<]*' dist/public/tools/finance/compound-interest-calculator/index.html | head -c 300
+          echo ''
+          echo ''
+          echo '=== 是否包含真正的公式內容（FV = P）==='
+          grep -c "FV = P" dist/public/tools/finance/compound-interest-calculator/index.html || echo "0"
+          echo ''
+          echo '=== 是否包含FAQ內容（常見問題）==='
+          grep -c "常見問題\|常見問答" dist/public/tools/finance/compound-interest-calculator/index.html || echo "0"
+          echo ''
+          echo '=== 是否包含骨架/loading字樣 ==='
+          grep -ci "skeleton\|loading" dist/public/tools/finance/compound-interest-calculator/index.html || echo "0"
+
       - name: Start server and verify fallback noindex
         run: |
           # Start server in background
