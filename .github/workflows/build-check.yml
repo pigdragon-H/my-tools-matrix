@@ -8,6 +8,7 @@ on:
       - fix/ssr-suspense-streaming
       - feat/knowledge-base-full-unlock
       - feat/tools-blog-full-unlock
+      - feat/adsense-trust-content
   pull_request:
     branches:
       - main
