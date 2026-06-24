@@ -160,9 +160,17 @@ export function ArticleShell(props: ArticleShellProps) {
           );
         },
         pre: ({ node: _node, children, ...rest }: any) => {
-          // 只在「流程圖／架構圖」（含框線繪圖字元）下方注入廣告；
-          // 一般 code block（如 Prompt / JSON）不注入，避免廣告氾濫。
-          const raw = JSON.stringify(children ?? "");
+          // 安全抽取純文字內容，不對React元素樹做JSON.stringify（避免Provider等物件造成circular structure錯誤）
+          const extractText = (node: any): string => {
+            if (node == null) return "";
+            if (typeof node === "string" || typeof node === "number") return String(node);
+            if (Array.isArray(node)) return node.map(extractText).join("");
+            if (typeof node === "object" && "props" in node && node.props?.children) {
+              return extractText(node.props.children);
+            }
+            return "";
+          };
+          const raw = extractText(children);
           const isDiagram = /[┌┐└┘├┤┬┴┼─│╔╗╚╝═║▶►→↓↑]/.test(raw);
           if (!isDiagram) {
             return <pre {...rest}>{children}</pre>;
