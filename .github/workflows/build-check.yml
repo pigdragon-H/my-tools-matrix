@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - fix/build-memory-ssr-noindex
+      - fix/robots-meta-whitelist-fix
   pull_request:
     branches:
       - main
