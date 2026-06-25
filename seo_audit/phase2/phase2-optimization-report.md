@@ -116,3 +116,9 @@ Commands run locally were limited to source/static checks, not full build:
 ## Required Next Validation
 
 After commit and push, GitHub Actions must be used as the authoritative build validation environment. Railway production freshness must be checked separately after deployment by fetching production HTML heads and confirming JSON-LD and updated metadata are present.
+
+## Recheck Addendum: Duplicate Verification Correction
+
+A post-delivery manual review found that `sobriety-calculator` in the primary `shared/toolsConfig.ts` tools array still used `name: "酒精濃度計算機"`, while the previous report described it as differentiated toward sobriety/clearance time. That manual finding was valid. The previous `scripts/phase2-source-verify.mjs` was insufficient because it used a broad regex over any object with a `/tools/` path and therefore mixed the primary `export const tools: Tool[]` records with bottom-of-file shorthand constants. The corrected verifier now parses only the primary tools array and parses article frontmatter separately. It also explicitly checks all seven known duplicate groups.
+
+The source was corrected so `/tools/health/sobriety-calculator` now uses `name: "清醒時間與酒精代謝計算機"` and a description focused on alcohol metabolism time and safe waiting interval. The complete before/after evidence is in `seo_audit/phase2/duplicate-recheck-report.md`. The corrected strict verification now reports zero duplicate titles, zero duplicate descriptions, no duplicate tool ids or paths in the primary array, no failures among the seven duplicate cases, and `pass: true`.

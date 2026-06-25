@@ -4187,11 +4187,11 @@ export const tools: Tool[] = [
   },
   {
     id: "sobriety-calculator",
-    name: "酒精濃度計算機",
+    name: "清醒時間與酒精代謝計算機",
     category: "health",
     path: "/tools/health/sobriety-calculator",
     icon: "Wine",
-    description: "輸入飲酒量與體重，估算血液酒精濃度(BAC)與大致代謝所需時間。",
+    description: "輸入飲酒量、體重、飲用時間與代謝假設，估算酒精代謝所需時間與安全等待區間，提醒結果不能作為駕駛或醫療判斷依據。",
     isPremium: false,
     showAds: true,
     rateLimit: 30,
