@@ -1,8 +1,8 @@
 ---
 id: alcohol-calculator-guide
 category: health
-title: "酒精濃度計算機使用指南：如何理解身體數據與估算結果的限制"
-description: "酒精濃度計算機可協助使用者整理與估算相關數字。本文說明適用情境、輸入檢查、結果解讀與限制，提醒工具結果僅作估算參考，不能取代專業意見。"
+title: "飲酒量與 BAC 估算器指南：用酒精容量、體重與時間理解風險範圍"
+description: "飲酒量與 BAC 估算器協助整理酒精容量、杯數、體重與飲用時間，估算血液酒精濃度範圍。本文說明輸入檢查、健康風險解讀與重要限制。"
 keywords: "酒精濃度計算機,alcohol-calculator,使用指南,health,工具知識庫,估算參考,身體狀況,運動強度"
 publishedAt: "2025-01-01"
 toolId: alcohol-calculator

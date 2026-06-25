@@ -1,8 +1,8 @@
 ---
 id: home-affordability-calculator-guide
 category: finance
-title: "購屋負擔能力計算機使用指南：如何把財務數字整理成可判斷的估算參考"
-description: "購屋負擔能力計算機可協助使用者整理與估算相關數字。本文說明適用情境、輸入檢查、結果解讀與限制，提醒工具結果僅作估算參考，不能取代專業意見。"
+title: "購屋負擔能力計算機指南：從頭期款、利率與收入估算可承受房價"
+description: "購屋負擔能力計算機聚焦可承受房價與每月房貸上限。本文說明如何整理收入、頭期款、利率與既有債務，並解讀估算結果與使用限制。"
 keywords: "購屋負擔能力計算機,home-affordability-calculator,使用指南,finance,工具知識庫,估算參考,現金流,風險承受度"
 publishedAt: "2025-01-01"
 toolId: home-affordability-calculator

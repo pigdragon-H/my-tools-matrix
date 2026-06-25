@@ -1,8 +1,8 @@
 ---
 id: sobriety-calculator-guide
 category: health
-title: "酒精濃度計算機使用指南：如何理解身體數據與估算結果的限制"
-description: "酒精濃度計算機可協助使用者整理與估算相關數字。本文說明適用情境、輸入檢查、結果解讀與限制，提醒工具結果僅作估算參考，不能取代專業意見。"
+title: "清醒時間計算機指南：估算酒精代謝時間與安全等待區間"
+description: "清醒時間計算機聚焦酒精代謝時間與等待區間估算。本文說明如何輸入飲酒量、體重與時間，並提醒結果不能作為駕駛或醫療判斷依據。"
 keywords: "酒精濃度計算機,sobriety-calculator,使用指南,health,工具知識庫,估算參考,身體狀況,運動強度"
 publishedAt: "2025-01-01"
 toolId: sobriety-calculator

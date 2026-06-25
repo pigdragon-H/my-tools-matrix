@@ -117,6 +117,239 @@ console.log(`🧭 AI lane 內容頁數量: ${laneRoutes.length}`);
 const routes = [...new Set([...baseRoutes, ...reviewPaths, ...knowledgeRoutes, ...toolRoutes, ...blogRoutes, ...laneRoutes])];
 console.log(`🔗 總路由數量: ${routes.length}`);
 
+const SITE_BASE = (process.env.VITE_SITE_URL || "https://my-tools-matrix-production.up.railway.app").replace(/\/$/, "");
+const ORGANIZATION_ID = `${SITE_BASE}/#organization`;
+const WEBSITE_ID = `${SITE_BASE}/#website`;
+
+const toolIndex = buildToolIndex();
+const contentIndex = buildContentIndex();
+
+function buildToolIndex() {
+  const toolsConfigPath = path.join(root, "shared/toolsConfig.ts");
+  const raw = fs.readFileSync(toolsConfigPath, "utf8");
+  const index = new Map();
+  const blocks = raw.match(/\{[\s\S]*?path:\s*"\/tools\/[^"]+"[\s\S]*?\n\s*\},/g) || [];
+  for (const block of blocks) {
+    const toolPath = pickString(block, "path");
+    if (!toolPath) continue;
+    index.set(toolPath, {
+      id: pickString(block, "id"),
+      name: pickString(block, "name"),
+      category: pickString(block, "category"),
+      description: pickString(block, "description"),
+      lastUpdated: pickString(block, "lastUpdated"),
+    });
+  }
+  return index;
+}
+
+function buildContentIndex() {
+  const index = new Map();
+  for (const route of blogRoutes) index.set(route, readMarkdownMetaForRoute(route, "shared/articles"));
+  for (const route of knowledgeRoutes) index.set(route, readMarkdownMetaForRoute(route, "shared/knowledge"));
+  for (const route of laneRoutes) {
+    const base = route.startsWith("/blueprints/") ? "shared/blueprints" : "shared/opportunities";
+    index.set(route, readMarkdownMetaForRoute(route, base));
+  }
+  return index;
+}
+
+function readMarkdownMetaForRoute(route, contentDir) {
+  const baseDir = path.join(root, contentDir);
+  const slug = route.split("/").filter(Boolean).at(-1);
+  let found = null;
+  function walk(dir) {
+    if (found || !fs.existsSync(dir)) return;
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) walk(full);
+      if (!found && entry.isFile() && entry.name === `${slug}.md`) found = full;
+    }
+  }
+  walk(baseDir);
+  if (!found) return {};
+  const raw = fs.readFileSync(found, "utf8");
+  const fm = parseFrontmatter(raw);
+  return {
+    title: stringOrBilingual(fm.title) || stringOrBilingual(fm.title_zh) || slug,
+    description: stringOrBilingual(fm.description) || stringOrBilingual(fm.summary) || "",
+    category: String(fm.category || fm.domain || ""),
+    publishedAt: String(fm.publishedAt || fm.date || ""),
+    updatedAt: String(fm.updatedAt || fm.lastUpdated || fm.publishedAt || fm.date || ""),
+    author: stringOrBilingual(fm.author) || "Formula Universe Editorial Team",
+  };
+}
+
+function parseFrontmatter(raw) {
+  const match = raw.replace(/^\uFEFF/, "").match(/^---\s*\n([\s\S]*?)\n---/);
+  if (!match) return {};
+  const out = {};
+  for (const line of match[1].split("\n")) {
+    const idx = line.indexOf(":");
+    if (idx < 0) continue;
+    const key = line.slice(0, idx).trim();
+    let val = line.slice(idx + 1).trim();
+    if (!key || !val) continue;
+    if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) val = val.slice(1, -1).replace(/\\"/g, '"');
+    out[key] = val;
+  }
+  return out;
+}
+
+function stringOrBilingual(value) {
+  if (!value) return "";
+  const text = String(value).trim();
+  const zh = text.match(/zh:\s*["']([^"']+)["']/);
+  if (zh) return zh[1];
+  return text.replace(/^['"]|['"]$/g, "");
+}
+
+function pickString(block, key) {
+  const match = block.match(new RegExp(`${key}:\\s*"([^"]*)"`));
+  return match ? match[1] : "";
+}
+
+function buildJsonLd(route, ssrMetaTags) {
+  const canonical = ssrMetaTags.get("canonical") || `${SITE_BASE}${route === "/" ? "" : route}`;
+  const title = ssrMetaTags.get("title") || "Formula Universe";
+  const description = ssrMetaTags.get("description") || "Formula Universe 提供免費線上計算工具與決策輔助內容。";
+  const graph = [
+    {
+      "@type": "Organization",
+      "@id": ORGANIZATION_ID,
+      name: "Formula Universe",
+      url: SITE_BASE,
+      description: "Formula Universe 是提供免費線上計算工具、AI 創業藍圖、機會情報與知識文章的決策輔助平台。",
+      founder: { "@type": "Person", name: "PiGragon-H" },
+      sameAs: [SITE_BASE],
+    },
+    {
+      "@type": "WebSite",
+      "@id": WEBSITE_ID,
+      name: "Formula Universe",
+      url: SITE_BASE,
+      publisher: { "@id": ORGANIZATION_ID },
+      inLanguage: ["zh-Hant", "en"],
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${SITE_BASE}/tools?search={search_term_string}`,
+        "query-input": "required name=search_term_string",
+      },
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${canonical}#webpage`,
+      url: canonical,
+      name: title,
+      description,
+      isPartOf: { "@id": WEBSITE_ID },
+      publisher: { "@id": ORGANIZATION_ID },
+      inLanguage: "zh-Hant",
+      breadcrumb: { "@id": `${canonical}#breadcrumb` },
+    },
+    buildBreadcrumbList(route, canonical),
+  ];
+
+  const routeType = classifyRouteForSchema(route);
+  if (routeType === "tool") {
+    const tool = toolIndex.get(route) || {};
+    graph.push({
+      "@type": "SoftwareApplication",
+      "@id": `${canonical}#softwareapplication`,
+      name: tool.name || title.replace(/｜Formula Universe$/, ""),
+      description: tool.description || description,
+      url: canonical,
+      applicationCategory: "UtilitiesApplication",
+      operatingSystem: "Web browser",
+      isAccessibleForFree: true,
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      publisher: { "@id": ORGANIZATION_ID },
+      dateModified: tool.lastUpdated || new Date().toISOString().slice(0, 10),
+    });
+  }
+
+  if (["article", "knowledge", "blueprint", "opportunity"].includes(routeType)) {
+    const meta = contentIndex.get(route) || {};
+    graph.push({
+      "@type": "Article",
+      "@id": `${canonical}#article`,
+      mainEntityOfPage: { "@id": `${canonical}#webpage` },
+      headline: meta.title || title.replace(/｜Formula Universe$/, ""),
+      description: meta.description || description,
+      url: canonical,
+      author: { "@type": "Organization", name: meta.author || "Formula Universe Editorial Team", url: `${SITE_BASE}/editorial` },
+      publisher: { "@id": ORGANIZATION_ID },
+      editor: { "@type": "Organization", name: "Formula Universe Editorial Team", url: `${SITE_BASE}/editorial` },
+      datePublished: meta.publishedAt || undefined,
+      dateModified: meta.updatedAt || meta.publishedAt || new Date().toISOString().slice(0, 10),
+      articleSection: meta.category || routeType,
+      inLanguage: "zh-Hant",
+      isAccessibleForFree: true,
+    });
+  }
+
+  return `<script type="application/ld+json">${safeJsonForHtml({ "@context": "https://schema.org", "@graph": graph })}</script>`;
+}
+
+function classifyRouteForSchema(route) {
+  if (route.startsWith("/tools/") && route.split("/").length > 3) return "tool";
+  if (route.startsWith("/blog/")) return "article";
+  if (route.startsWith("/knowledge/")) return "knowledge";
+  if (route.startsWith("/blueprints/")) return "blueprint";
+  if (route.startsWith("/opportunities/") && route !== "/opportunities/matchmaking") return "opportunity";
+  return "webpage";
+}
+
+function buildBreadcrumbList(route, canonical) {
+  const items = [{ "@type": "ListItem", position: 1, name: "首頁", item: SITE_BASE }];
+  const parts = route.split("/").filter(Boolean);
+  let current = "";
+  parts.forEach((part, idx) => {
+    current += `/${part}`;
+    items.push({
+      "@type": "ListItem",
+      position: idx + 2,
+      name: breadcrumbName(part, idx, parts),
+      item: idx === parts.length - 1 ? canonical : `${SITE_BASE}${current}`,
+    });
+  });
+  return { "@type": "BreadcrumbList", "@id": `${canonical}#breadcrumb`, itemListElement: items };
+}
+
+function breadcrumbName(part, idx, parts) {
+  const labels = {
+    tools: "工具",
+    blog: "文章",
+    knowledge: "AI知識庫",
+    blueprints: "AI創業藍圖",
+    opportunities: "機會情報",
+    category: "分類",
+    finance: "財務",
+    health: "健康",
+    productivity: "生產力",
+    developer: "開發者",
+    education: "教育",
+    legal: "法律",
+    design: "設計",
+    science: "科學",
+    language: "語言",
+    ecommerce: "電商",
+    travel: "旅遊",
+    ai: "AI",
+    converter: "轉換工具",
+  };
+  const route = `/${parts.slice(0, idx + 1).join("/")}`;
+  const tool = toolIndex.get(route);
+  if (tool?.name) return tool.name;
+  const content = contentIndex.get(route);
+  if (content?.title) return content.title;
+  return labels[part] || part.replace(/-/g, " ");
+}
+
+function safeJsonForHtml(value) {
+  return JSON.stringify(value).replace(/</g, "\\u003c").replace(/>/g, "\\u003e").replace(/&/g, "\\u0026");
+}
+
 async function prerender() {
   const template = fs.readFileSync(templatePath, "utf-8");
 
@@ -174,6 +407,7 @@ async function prerender() {
       
       metaTagsHtml = metaTags.join("\n    ");
     }
+    const jsonLdHtml = buildJsonLd(route, ssrMetaTags);
     
     // 將 meta tags 注入到 template 中（在 </head> 前）
     let fullHtml = template.replace(
@@ -192,9 +426,10 @@ async function prerender() {
     
     // 注入其他 meta 標籤到 </head> 前。先移除模板中的預設 SEO tags，
     // 避免同一個 prerender HTML 同時存在首頁描述與 route-specific 描述。
-    if (metaTagsHtml) {
+    if (metaTagsHtml || jsonLdHtml) {
       fullHtml = removeManagedSeoTags(fullHtml);
-      fullHtml = fullHtml.replace("</head>", `    ${metaTagsHtml}\n  </head>`);
+      const managedHeadHtml = [metaTagsHtml, jsonLdHtml].filter(Boolean).join("\n    ");
+      fullHtml = fullHtml.replace("</head>", `    ${managedHeadHtml}\n  </head>`);
     }
 
     const outDir =
@@ -218,7 +453,8 @@ function removeManagedSeoTags(html) {
     .replace(/\s*<meta\s+[^>]*property=["']og:title["'][^>]*>\s*/gi, "\n")
     .replace(/\s*<meta\s+[^>]*property=["']og:description["'][^>]*>\s*/gi, "\n")
     .replace(/\s*<meta\s+[^>]*name=["']twitter:title["'][^>]*>\s*/gi, "\n")
-    .replace(/\s*<meta\s+[^>]*name=["']twitter:description["'][^>]*>\s*/gi, "\n");
+    .replace(/\s*<meta\s+[^>]*name=["']twitter:description["'][^>]*>\s*/gi, "\n")
+    .replace(/\s*<script\s+[^>]*type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>\s*/gi, "\n");
 }
 
 function escapeHtml(text) {

@@ -1,0 +1,15 @@
+{
+  "generatedAt": "2026-06-25T22:50:03.544Z",
+  "checkedRows": 627,
+  "duplicateTitles": [],
+  "duplicateDescriptions": [],
+  "schemaChecks": {
+    "hasJsonLdScript": true,
+    "hasOrganization": true,
+    "hasWebSite": true,
+    "hasBreadcrumbList": true,
+    "hasSoftwareApplication": true,
+    "hasArticle": true
+  },
+  "pass": true
+}
