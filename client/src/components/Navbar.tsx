@@ -2,7 +2,7 @@
 // 導覽列絕對不平鋪工具名稱，採用「分類下拉選單」設計
 // ============================================================
 
-import { useState, useCallback } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { Link } from "wouter";
 import { Menu, X, Sun, Moon, ChevronDown, Layers, BookOpen, LogOut, Search, Info, Globe, ShieldCheck, Rocket, Lightbulb, Library } from "lucide-react";
 import { SearchDialog } from "./SearchDialog";
@@ -23,10 +23,11 @@ import { categories } from "@shared/categoriesConfig";
 import { getPublicTools } from "@shared/toolsConfig";
 import { STATIC_ARTICLES } from "@/lib/staticArticles";
 import { navLanes } from "@shared/laneRegistry";
-import { getCategoryKey, navCategories } from "@/lib/laneCategories";
+import { getCategoryKey, navCategories, normalizeBlogCategoryKey } from "@/lib/laneCategories";
 import { contentByLane } from "@/lib/laneContent";
 import { CategoryIcon } from "./CategoryIcon";
 import { cn } from "@/lib/utils";
+import { trpc } from "@/lib/trpc";
 
 type Lang = "zh" | "en";
 
@@ -77,10 +78,13 @@ for (const tool of publicTools) {
   toolCountByCategory[tool.category] = (toolCountByCategory[tool.category] ?? 0) + 1;
 }
 
-// 預先計算工具知識庫每個分類的文章數量（動態，新增 Markdown 文章自動更新）
-const articleCountByCategory: Record<string, number> = {};
+// 預先計算工具知識庫每個分類的靜態文章數量。
+// Navbar 實際顯示會在元件內再合併 DB published articles，
+// 以對齊 BlogList.tsx 的「靜態 markdown + DB + normalize + slug 去重」實際列表數量。
+const staticArticleCountByCategory: Record<string, number> = {};
 for (const article of STATIC_ARTICLES) {
-  articleCountByCategory[article.category] = (articleCountByCategory[article.category] ?? 0) + 1;
+  const key = normalizeBlogCategoryKey(article.category);
+  staticArticleCountByCategory[key] = (staticArticleCountByCategory[key] ?? 0) + 1;
 }
 
 // 預先計算三大內容賽道每個分類的內容數量（同源於 LaneHub：contentByLane + getCategoryKey）。
@@ -181,10 +185,12 @@ function BlogToolCategoryDropdown({
   title,
   lang,
   location,
+  articleCountByCategory,
 }: {
   title: string;
   lang: Lang;
   location: string;
+  articleCountByCategory: Record<string, number>;
 }) {
   const viewAll = lang === "zh" ? "查看全部" : "View all";
   return (
@@ -261,6 +267,21 @@ export function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const { lang, setLang } = useLanguage();
   const { theme, toggleTheme } = useTheme();
+  const articlesQuery = trpc.articles.listPublished.useQuery(
+    { locale: lang, limit: 100 },
+    { retry: false }
+  );
+
+  const articleCountByCategory = useMemo(() => {
+    const counts: Record<string, number> = { ...staticArticleCountByCategory };
+    const staticSlugs = new Set(STATIC_ARTICLES.map((article) => article.slug));
+    for (const article of articlesQuery.data ?? []) {
+      if (staticSlugs.has(article.slug)) continue;
+      const key = normalizeBlogCategoryKey(article.category_key || "");
+      counts[key] = (counts[key] ?? 0) + 1;
+    }
+    return counts;
+  }, [articlesQuery.data]);
   const { user, isAuthenticated, logout } = useAuth();
   const [location, setLocation] = useLocation();
 
@@ -351,6 +372,7 @@ export function Navbar() {
             title={t.knowledge}
             lang={lang}
             location={location}
+            articleCountByCategory={articleCountByCategory}
           />
 
           {!ADSENSE_REVIEW_HIDE_UNDERBUILT_LANE_NAV && (
