@@ -29,6 +29,89 @@ const PDF_TO_WORD_UPLOAD_LIMIT = `${PDF_TO_WORD_UPLOAD_LIMIT_MB}mb`;
 const PDF_TO_WORD_RATE_WINDOW_MS = Number(process.env.PDF_TO_WORD_RATE_WINDOW_MS ?? 60_000);
 const PDF_TO_WORD_RATE_LIMIT = Number(process.env.PDF_TO_WORD_RATE_LIMIT ?? 6);
 const pdfToWordRateBuckets = new Map<string, { count: number; resetAt: number }>();
+const SITE_URL = (process.env.VITE_SITE_URL || "https://my-tools-matrix-production.up.railway.app").replace(/\/$/, "");
+
+function escapeHtml(text: string): string {
+  return text.replace(/[&<>"']/g, (char) => {
+    const map: Record<string, string> = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    };
+    return map[char] || char;
+  });
+}
+
+function humanizeSlug(slug: string): string {
+  return slug
+    .split("-")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function fallbackSeoForPath(requestPath: string) {
+  const cleanPath = requestPath.split("?")[0].split("#")[0].replace(/\/$/, "") || "/";
+  const slug = cleanPath.split("/").filter(Boolean).pop() || "Formula Universe";
+  const label = humanizeSlug(slug);
+  if (cleanPath.startsWith("/blog/")) {
+    return {
+      title: `${label}｜Formula Universe 工具知識庫`,
+      description: `閱讀 Formula Universe 工具知識庫的 ${label} 指南，取得可索引、可分享的線上工具教學、公式說明與決策輔助內容。`,
+    };
+  }
+  if (cleanPath.startsWith("/blueprints/")) {
+    return {
+      title: `${label}｜Formula Universe AI 創業藍圖`,
+      description: `探索 Formula Universe 的 ${label} AI 創業藍圖，整理商業模式、工作流、執行步驟與可落地的成長方向。`,
+    };
+  }
+  if (cleanPath.startsWith("/opportunities/")) {
+    return {
+      title: `${label}｜Formula Universe 機會情報`,
+      description: `追蹤 Formula Universe 的 ${label} 機會情報，掌握 AI 商業機會、市場訊號與可行動的下一步。`,
+    };
+  }
+  if (cleanPath.startsWith("/knowledge/")) {
+    return {
+      title: `${label}｜Formula Universe AI知識庫`,
+      description: `閱讀 Formula Universe AI知識庫的 ${label} 主題內容，建立產業、技術與自動化應用的長期理解。`,
+    };
+  }
+  if (cleanPath.startsWith("/tools/")) {
+    return {
+      title: `${label}｜Formula Universe`,
+      description: `使用 Formula Universe 的 ${label} 免費線上工具，快速完成試算、轉換、檢查與決策輔助。`,
+    };
+  }
+  return {
+    title: "Formula Universe｜免費線上計算工具與決策輔助平台",
+    description: "Formula Universe 提供免費線上計算工具、AI 創業藍圖、機會情報與知識文章，協助使用者把問題轉換成清楚可執行的決策。",
+  };
+}
+
+function injectFallbackSeo(html: string, requestPath: string): string {
+  const cleanPath = requestPath.split("?")[0].split("#")[0].replace(/\/$/, "") || "/";
+  const canonical = `${SITE_URL}${cleanPath}`;
+  const seo = fallbackSeoForPath(cleanPath);
+  let out = html;
+  out = out.replace(/<title>.*?<\/title>/i, `<title>${escapeHtml(seo.title)}</title>`);
+  const managedHead = [
+    `<link rel="canonical" href="${escapeHtml(canonical)}">`,
+    `<meta name="robots" content="index,follow">`,
+    `<meta name="description" content="${escapeHtml(seo.description)}">`,
+    `<meta property="og:title" content="${escapeHtml(seo.title)}">`,
+    `<meta property="og:description" content="${escapeHtml(seo.description)}">`,
+  ].join("\n    ");
+  out = out.replace(/\s*<link\s+[^>]*rel=["']canonical["'][^>]*>\s*/gi, "\n");
+  out = out.replace(/\s*<meta\s+[^>]*name=["']robots["'][^>]*>\s*/gi, "\n");
+  out = out.replace(/\s*<meta\s+[^>]*name=["']description["'][^>]*>\s*/gi, "\n");
+  out = out.replace(/\s*<meta\s+[^>]*property=["']og:title["'][^>]*>\s*/gi, "\n");
+  out = out.replace(/\s*<meta\s+[^>]*property=["']og:description["'][^>]*>\s*/gi, "\n");
+  return out.replace("</head>", `    ${managedHead}\n  </head>`);
+}
 
 function enforcePdfToWordRateLimit(
   req: express.Request,
@@ -362,9 +445,12 @@ app.get("*", (req, res) => {
     return res.sendFile(routeHtml);
   }
   
-  // SPA fallback. Production SEO policy: missing route-specific HTML should be
-  // fixed by prerender coverage, not by hiding URLs from search engines.
-  return res.sendFile(path.join(publicDir, "index.html"));
+  // SPA fallback. Production SEO policy: never hide valid public URLs.
+  // If a route-specific prerender file is missing, still emit a self canonical
+  // and route-specific indexable metadata instead of leaking homepage SEO.
+  const fallbackHtml = readFileSync(path.join(publicDir, "index.html"), "utf8");
+  res.setHeader("Content-Type", "text/html; charset=UTF-8");
+  return res.send(injectFallbackSeo(fallbackHtml, req.path));
 
 });
 
