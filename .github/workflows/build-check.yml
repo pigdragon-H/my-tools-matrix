@@ -80,7 +80,7 @@ jobs:
           grep -A1 "<title>" dist/public/tools/health/bmi-calculator/index.html || echo "title NOT FOUND"
           grep 'name="description"' dist/public/tools/health/bmi-calculator/index.html || echo "description NOT FOUND"
 
-      - name: Start server and verify fallback noindex
+      - name: Start server and verify robots meta tags
         run: |
           # Start server in background
           npm run start &
@@ -94,9 +94,9 @@ jobs:
           curl -s http://localhost:3000/tools/health/bmi-calculator | grep -i 'name="robots"' || echo 'No robots meta (expected for whitelist pages)'
           echo ''
           
-          # Test non-whitelist page (Rental Yield) - should have noindex,follow
-          echo '=== Non-whitelist page (Rental Yield) - should have noindex,follow ==='
-          curl -s http://localhost:3000/tools/finance/rental-yield-calculator | grep -i 'name="robots"'
+          # Test tools (now unlocked) - should have index,follow
+          echo '=== 確認原本非白名單工具(rental-yield-calculator)現在也是index,follow(這是這次改動的目標,不是bug) ==='
+          curl -s http://localhost:3000/tools/finance/rental-yield-calculator/ | grep 'name="robots"'
           echo ''
           
           # Kill server
