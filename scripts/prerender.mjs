@@ -23,6 +23,7 @@ const baseRoutes = [
   "/knowledge",
   "/blueprints",
   "/opportunities",
+  "/opportunities/matchmaking",
 ];
 
 // 新增：掃描shared/knowledge/**/*.md，產生全部知識庫文章的路徑
@@ -110,6 +111,12 @@ async function prerender() {
     if (ssrMetaTags.size > 0) {
       const metaTags = [];
       
+      // 添加 canonical link
+      const canonical = ssrMetaTags.get("canonical");
+      if (canonical) {
+        metaTags.push(`<link rel="canonical" href="${escapeHtml(canonical)}">`);
+      }
+
       // 添加 robots meta
       const robots = ssrMetaTags.get("robots");
       if (robots) {

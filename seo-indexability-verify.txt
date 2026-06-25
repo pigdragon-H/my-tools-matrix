@@ -1,0 +1,12 @@
+PASS no code-level hidden-directive mentions
+PASS robots fixed to index,follow
+PASS SSR canonical stored
+PASS prerender emits canonical link
+PASS server fallback does not hide URLs
+PASS sitemap has unique locs
+PASS sitemap URL count >= 806
+PASS previous issue URLs remain exposed
+PASS SSR helper has static page metadata
+PASS SSR helper covers blueprint details
+PASS SSR helper covers opportunity details
+SUMMARY sitemap_locs=806 unique_locs=806 hidden_directive_hits=0

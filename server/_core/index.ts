@@ -362,24 +362,10 @@ app.get("*", (req, res) => {
     return res.sendFile(routeHtml);
   }
   
-  // Non-whitelist/unprerendered paths: serve homepage HTML with forced noindex
-  try {
-    const homepageHtml = readFileSync(path.join(publicDir, "index.html"), "utf-8");
-    const noindexHtml = homepageHtml.includes('name="robots"')
-      ? homepageHtml.replace(
-          /<meta name="robots"[^>]*>/,
-          '<meta name="robots" content="noindex,follow">'
-        )
-      : homepageHtml.replace(
-          "</head>",
-          '  <meta name="robots" content="noindex,follow">\n</head>'
-        );
-    res.set("Content-Type", "text/html");
-    res.send(noindexHtml);
-  } catch (e) {
-    console.error("[fallback] failed to inject noindex:", e);
-    res.sendFile(path.join(publicDir, "index.html"));
-  }
+  // SPA fallback. Production SEO policy: missing route-specific HTML should be
+  // fixed by prerender coverage, not by hiding URLs from search engines.
+  return res.sendFile(path.join(publicDir, "index.html"));
+
 });
 
 app.listen(port, "0.0.0.0", () => {

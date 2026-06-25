@@ -44,8 +44,8 @@ function isReviewProtectedPath(pathname: string) {
   );
 }
 
-function shouldNoindexCurrentPath(explicitNoindex?: boolean) {
-  if (explicitNoindex) return true;
+function shouldIndexCurrentPath(explicitIndexing?: boolean) {
+  if (explicitIndexing) return true;
   if (!ADSENSE_REVIEW_MODE || typeof window === "undefined") return false;
 
   const pathname = normalizePath(window.location.pathname);
@@ -68,8 +68,8 @@ function upsertMeta(selector: string, createAttributes: Record<string, string>, 
   element.setAttribute("content", content);
 }
 
-function upsertRobotsMeta(noindex: boolean) {
-  const content = noindex ? "noindex,follow" : "index,follow";
+function upsertRobotsMeta() {
+  const content = "index,follow";
   upsertMeta('meta[name="robots"]', { name: "robots" }, content);
 }
 
@@ -96,10 +96,9 @@ function upsertCanonical() {
 export interface SeoOptions {
   title?: string;
   description?: string;
-  noindex?: boolean;
 }
 
-export function setSeoMeta({ title = DEFAULT_TITLE, description = DEFAULT_DESCRIPTION, noindex = false }: SeoOptions = {}) {
+export function setSeoMeta({ title = DEFAULT_TITLE, description = DEFAULT_DESCRIPTION }: SeoOptions = {}) {
   if (typeof document === "undefined") return;
 
   document.title = title;
@@ -107,7 +106,7 @@ export function setSeoMeta({ title = DEFAULT_TITLE, description = DEFAULT_DESCRI
   upsertMeta('meta[property="og:title"]', { property: "og:title" }, title);
   upsertMeta('meta[property="og:description"]', { property: "og:description" }, description);
   upsertCanonical();
-  upsertRobotsMeta(shouldNoindexCurrentPath(noindex));
+  upsertRobotsMeta();
 }
 
 export const defaultSeo = {

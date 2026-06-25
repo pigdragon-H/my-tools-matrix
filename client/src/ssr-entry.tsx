@@ -15,7 +15,6 @@ export function render(url: string): Promise<string> {
     setSeoMeta({
       title: metaInfo.title,
       description: metaInfo.description,
-      noindex: metaInfo.noindex,
     }, url);
 
     let html = "";

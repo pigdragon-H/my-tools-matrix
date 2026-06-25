@@ -1,14 +1,6 @@
-import adsenseReviewPaths from "@shared/adsenseReviewPaths.json";
-import { getSsrMetaInfo } from "./seo-ssr-helper";
-
 const DEFAULT_TITLE = "Formula Universe｜免費線上計算工具與決策輔助平台";
 const DEFAULT_DESCRIPTION =
   "Formula Universe提供免費線上計算工具與決策輔助服務，涵蓋財經投資、健康生活、職場效率、開發工具、電商旅遊等情境，協助您快速取得清楚可靠的試算結果。";
-
-// Production default must index valid public URLs. The AdSense review noindex
-// gate is opt-in only and should be enabled explicitly when needed.
-const ADSENSE_REVIEW_MODE = import.meta.env.VITE_ADSENSE_REVIEW_MODE === "true";
-const REVIEW_PATHS = new Set<string>(adsenseReviewPaths as string[]);
 
 // SSR 時用來收集 meta 標籤的全局狀態
 let ssrMetaTags: Map<string, string> = new Map();
@@ -25,27 +17,9 @@ function normalizePath(pathname: string) {
   return pathname.replace(/\/$/, "") || "/";
 }
 
-function isReviewProtectedPath(pathname: string) {
-  return (
-    pathname.startsWith("/tools/") ||
-    pathname.startsWith("/blog/") ||
-    pathname.startsWith("/knowledge/") ||
-    pathname.startsWith("/blueprints/") ||
-    pathname.startsWith("/opportunities/")
-  );
-}
-
-function shouldNoindexCurrentPath(explicitNoindex?: boolean, pathname?: string) {
-  if (explicitNoindex) return true;
-  if (!ADSENSE_REVIEW_MODE) return false;
-
-  // SSR 時使用傳入的 pathname，否則使用 window.location.pathname
-  const targetPath = pathname || (typeof window !== "undefined" ? window.location.pathname : undefined);
-  if (!targetPath) return false;
-
-  // 使用 getSsrMetaInfo 的邏輯確保 SSR 和 client-side 一致
-  const metaInfo = getSsrMetaInfo(targetPath);
-  return metaInfo.noindex;
+function canonicalHrefFromPath(pathname: string) {
+  const base = (import.meta.env.VITE_SITE_URL || "https://my-tools-matrix-production.up.railway.app").replace(/\/$/, "");
+  return `${base}${normalizePath(pathname)}`;
 }
 
 function upsertMeta(selector: string, createAttributes: Record<string, string>, content: string) {
@@ -63,10 +37,10 @@ function upsertMeta(selector: string, createAttributes: Record<string, string>, 
   element.setAttribute("content", content);
 }
 
-function upsertRobotsMeta(noindex: boolean) {
-  const content = noindex ? "noindex,follow" : "index,follow";
+function upsertRobotsMeta() {
+  const content = "index,follow";
   
-  // SSR 時存儲到 ssrMetaTags
+  // SSR stores the robots directive for prerender output.
   if (typeof document === "undefined") {
     ssrMetaTags.set("robots", content);
     return;
@@ -80,10 +54,14 @@ function upsertRobotsMeta(noindex: boolean) {
 // stripped — every page declares its own clean URL as the canonical. This is the
 // standard Google-recommended fix for "Duplicate, Google chose different canonical
 // than user". It only touches <head>; it changes no routing and cannot cause 404.
-function upsertCanonical() {
-  if (typeof document === "undefined" || typeof window === "undefined") return;
+function upsertCanonical(ssrPathname?: string) {
+  if (typeof document === "undefined") {
+    if (ssrPathname) ssrMetaTags.set("canonical", canonicalHrefFromPath(ssrPathname));
+    return;
+  }
+  if (typeof window === "undefined") return;
 
-  const href = window.location.origin + window.location.pathname;
+  const href = window.location.origin + normalizePath(window.location.pathname);
 
   let link = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
   if (!link) {
@@ -98,7 +76,6 @@ function upsertCanonical() {
 export interface SeoOptions {
   title?: string;
   description?: string;
-  noindex?: boolean;
 }
 
 export interface SsrMetaTagsMap {
@@ -116,14 +93,15 @@ function escapeHtml(text: string): string {
   return text.replace(/[&<>"']/g, (char) => map[char]);
 }
 
-export function setSeoMeta({ title = DEFAULT_TITLE, description = DEFAULT_DESCRIPTION, noindex = false }: SeoOptions = {}, ssrPathname?: string) {
+export function setSeoMeta({ title = DEFAULT_TITLE, description = DEFAULT_DESCRIPTION }: SeoOptions = {}, ssrPathname?: string) {
   // SSR 時收集 meta 信息
   if (typeof document === "undefined") {
     ssrMetaTags.set("title", title);
     ssrMetaTags.set("description", description);
     ssrMetaTags.set("og:title", title);
     ssrMetaTags.set("og:description", description);
-    upsertRobotsMeta(shouldNoindexCurrentPath(noindex, ssrPathname));
+    upsertCanonical(ssrPathname);
+    upsertRobotsMeta();
     return;
   }
 
@@ -132,7 +110,7 @@ export function setSeoMeta({ title = DEFAULT_TITLE, description = DEFAULT_DESCRI
   upsertMeta('meta[property="og:title"]', { property: "og:title" }, title);
   upsertMeta('meta[property="og:description"]', { property: "og:description" }, description);
   upsertCanonical();
-  upsertRobotsMeta(shouldNoindexCurrentPath(noindex, ssrPathname));
+  upsertRobotsMeta();
 }
 
 export const defaultSeo = {

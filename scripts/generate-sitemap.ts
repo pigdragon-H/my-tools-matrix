@@ -238,6 +238,7 @@ for (const slug of DB_ARTICLE_SLUGS) addUrl(`/blog/${slug}`, "monthly", "0.8");
 // 四賽道 hub 入口頁（只增不刪）
 addUrl("/blueprints", "weekly", "0.8");
 addUrl("/opportunities", "daily", "0.8");
+addUrl("/opportunities/matchmaking", "monthly", "0.6");
 addUrl("/knowledge", "weekly", "0.8");
 
 // 四賽道內容頁（blueprints / opportunities / knowledge）
