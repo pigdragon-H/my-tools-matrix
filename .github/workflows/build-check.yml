@@ -3,6 +3,7 @@ name: Build & Check
 on:
   push:
     branches:
+      - main
       - fix/build-memory-ssr-noindex
       - fix/robots-meta-whitelist-fix
       - fix/ssr-suspense-streaming
