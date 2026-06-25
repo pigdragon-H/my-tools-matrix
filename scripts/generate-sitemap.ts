@@ -200,10 +200,25 @@ addUrl("/tools", "weekly", "0.9");
 for (const cat of uniqueCats) addUrl(`/category/${cat}`, "weekly", "0.9");
 
 // 工具頁：正式 sitemap 只收錄 GOLD 公開工具，REBUILDING / LEGACY / 預留項不得公開曝光
-for (const t of publicTools) addUrl(t.path, "monthly", "0.7");
+// 工具已全面擴大prerender覆蓋，不受AdSense審查白名單限制
+for (const t of publicTools) {
+  if (!seen.has(t.path)) {
+    seen.add(t.path);
+    entries.push(
+      `  <url>\n    <loc>${BASE}${t.path}</loc>\n    <lastmod>${TODAY}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>`
+    );
+  }
+}
 
-// knowledge-base articles (/blog/<category>/<slug>) — GSC-indexed, must stay alive
-for (const ap of articlePaths) addUrl(ap, "monthly", "0.8");
+// 部落格文章已全面擴大prerender覆蓋，不受AdSense審查白名單限制
+for (const ap of articlePaths) {
+  if (!seen.has(ap)) {
+    seen.add(ap);
+    entries.push(
+      `  <url>\n    <loc>${BASE}${ap}</loc>\n    <lastmod>${TODAY}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>`
+    );
+  }
+}
 
 // Supabase DB articles (published) — these live in the `articles` table, NOT as
 // Markdown files, so the walkMd scan above cannot see them. They render via

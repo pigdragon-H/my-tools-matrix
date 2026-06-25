@@ -59,8 +59,10 @@ function shouldNoindex(pathname: string): boolean {
   if (REVIEW_PATHS.has(normalizedPath)) return false;
   // 知識庫文章已全面擴大prerender，內容真實存在，不再需要noindex保護
   if (normalizedPath.startsWith("/knowledge/")) return false;
+  // 工具與部落格已全面擴大prerender，內容真實存在，不再需要noindex保護
+  if (normalizedPath.startsWith("/tools/")) return false;
+  if (normalizedPath.startsWith("/blog/")) return false;
   if (isReviewProtectedPath(normalizedPath)) {
-    // 深層頁：只有在真正的 98 篇白名單裡才不 noindex
     return !WHITELISTED_PATHS.has(normalizedPath);
   }
   return false;

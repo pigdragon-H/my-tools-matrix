@@ -51,7 +51,38 @@ function getAllKnowledgeRoutes() {
 const knowledgeRoutes = getAllKnowledgeRoutes();
 console.log(`📚 知識庫文章數量: ${knowledgeRoutes.length}`);
 
-const routes = [...new Set([...baseRoutes, ...reviewPaths, ...knowledgeRoutes])];
+// 新增：掃描shared/toolsConfig.ts，產生全部工具的路徑
+function getAllToolRoutes() {
+  const toolsConfigPath = path.join(root, "shared/toolsConfig.ts");
+  const raw = fs.readFileSync(toolsConfigPath, "utf8");
+  const matches = raw.matchAll(/path:\s*"(\/tools\/[^"]+)"/g);
+  return [...new Set([...matches].map((m) => m[1]))];
+}
+const toolRoutes = getAllToolRoutes();
+console.log(`🛠️ 工具數量: ${toolRoutes.length}`);
+
+// 新增：掃描shared/articles/**/*.md，產生全部部落格文章的路徑
+function getAllBlogRoutes() {
+  const articlesDir = path.join(root, "shared/articles");
+  const result = [];
+  function walk(dir) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        walk(full);
+      } else if (entry.name.endsWith(".md")) {
+        const rel = path.relative(articlesDir, full).replace(/\.md$/, "");
+        result.push(`/blog/${rel}`);
+      }
+    }
+  }
+  walk(articlesDir);
+  return result;
+}
+const blogRoutes = getAllBlogRoutes();
+console.log(`📰 部落格數量: ${blogRoutes.length}`);
+
+const routes = [...new Set([...baseRoutes, ...reviewPaths, ...knowledgeRoutes, ...toolRoutes, ...blogRoutes])];
 console.log(`🔗 總路由數量: ${routes.length}`);
 
 async function prerender() {
