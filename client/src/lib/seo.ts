@@ -5,7 +5,9 @@ const DEFAULT_TITLE = "Formula Universe｜免費線上計算工具與決策輔�
 const DEFAULT_DESCRIPTION =
   "Formula Universe提供免費線上計算工具與決策輔助服務，涵蓋財經投資、健康生活、職場效率、開發工具、電商旅遊等情境，協助您快速取得清楚可靠的試算結果。";
 
-const ADSENSE_REVIEW_MODE = true;
+// Production default must index valid public URLs. The AdSense review noindex
+// gate is opt-in only and should be enabled explicitly when needed.
+const ADSENSE_REVIEW_MODE = import.meta.env.VITE_ADSENSE_REVIEW_MODE === "true";
 const REVIEW_PATHS = new Set<string>(adsenseReviewPaths as string[]);
 
 // SSR 時用來收集 meta 標籤的全局狀態

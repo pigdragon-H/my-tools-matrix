@@ -156,7 +156,10 @@ for (const file of walkMd(KNOWLEDGE_DIR)) {
 
 const publicTools = tools.filter((tool) => tool.status === "GOLD");
 
-const ADSENSE_REVIEW_SITEMAP = process.env.ADSENSE_REVIEW_SITEMAP !== "false";
+// Production default is the full public sitemap. The AdSense review whitelist
+// must be enabled explicitly with ADSENSE_REVIEW_SITEMAP=true; otherwise valid
+// tools/articles/knowledge URLs can be silently removed from sitemap.xml.
+const ADSENSE_REVIEW_SITEMAP = process.env.ADSENSE_REVIEW_SITEMAP === "true";
 const CORE_REVIEW_TOOL_PATHS = publicTools.slice(0, 60).map((tool) => tool.path);
 const CORE_REVIEW_ARTICLE_PATHS = articlePaths.slice(0, 10);
 const DB_REVIEW_ARTICLE_PATHS = [
