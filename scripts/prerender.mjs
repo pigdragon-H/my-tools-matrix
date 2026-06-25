@@ -72,8 +72,18 @@ function getAllBlogRoutes() {
       if (entry.isDirectory()) {
         walk(full);
       } else if (entry.name.endsWith(".md")) {
+        const raw = fs.readFileSync(full, "utf8");
         const rel = path.relative(articlesDir, full).replace(/\.md$/, "");
-        result.push(`/blog/${rel}`);
+        const relParts = rel.split(path.sep);
+        const dirCategory = relParts.length > 1 ? relParts[0] : "";
+        let category = dirCategory;
+        const fmMatch = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+        if (fmMatch) {
+          const catLine = fmMatch[1].match(/^category:\s*"?([a-z0-9-]+)"?\s*$/m);
+          if (catLine) category = catLine[1];
+        }
+        const slug = entry.name.replace(/\.md$/, "");
+        result.push(category ? `/blog/${category}/${slug}` : `/blog/${slug}`);
       }
     }
   }

@@ -52,6 +52,7 @@ const assertions = [
   ["SSR canonical stored", seoTs.includes('ssrMetaTags.set("canonical"')],
   ["prerender emits canonical link", prerender.includes('rel="canonical"')],
   ["prerender scans AI lane detail routes", prerender.includes("getAllLaneRoutes") && prerender.includes("shared/blueprints") && prerender.includes("shared/opportunities") && prerender.includes("laneRoutes")],
+  ["prerender blog routes honor frontmatter category", prerender.includes("category ? `/blog/${category}/${slug}`") && prerender.includes("category:") && prerender.includes("fmMatch")],
   ["server fallback does not hide URLs", !new RegExp("no" + "index", "i").test(server)],
   ["sitemap has unique locs", locs.length === uniqueLocs.size, { locs: locs.length, unique: uniqueLocs.size }],
   ["sitemap URL count >= 806", locs.length >= 806, locs.length],

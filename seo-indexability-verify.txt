@@ -3,6 +3,7 @@ PASS robots fixed to index,follow
 PASS SSR canonical stored
 PASS prerender emits canonical link
 PASS prerender scans AI lane detail routes
+PASS prerender blog routes honor frontmatter category
 PASS server fallback does not hide URLs
 PASS sitemap has unique locs
 PASS sitemap URL count >= 806
