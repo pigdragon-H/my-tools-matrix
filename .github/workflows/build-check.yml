@@ -7,6 +7,7 @@ on:
       - fix/robots-meta-whitelist-fix
       - fix/ssr-suspense-streaming
       - feat/knowledge-base-full-unlock
+      - feat/tools-blog-full-unlock
   pull_request:
     branches:
       - main
