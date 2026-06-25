@@ -190,8 +190,10 @@ async function prerender() {
       );
     }
     
-    // 注入其他 meta 標籤到 </head> 前
+    // 注入其他 meta 標籤到 </head> 前。先移除模板中的預設 SEO tags，
+    // 避免同一個 prerender HTML 同時存在首頁描述與 route-specific 描述。
     if (metaTagsHtml) {
+      fullHtml = removeManagedSeoTags(fullHtml);
       fullHtml = fullHtml.replace("</head>", `    ${metaTagsHtml}\n  </head>`);
     }
 
@@ -206,6 +208,17 @@ async function prerender() {
   }
 
   console.log("\n🎉 Prerender 完成！");
+}
+
+function removeManagedSeoTags(html) {
+  return html
+    .replace(/\s*<link\s+[^>]*rel=["']canonical["'][^>]*>\s*/gi, "\n")
+    .replace(/\s*<meta\s+[^>]*name=["']robots["'][^>]*>\s*/gi, "\n")
+    .replace(/\s*<meta\s+[^>]*name=["']description["'][^>]*>\s*/gi, "\n")
+    .replace(/\s*<meta\s+[^>]*property=["']og:title["'][^>]*>\s*/gi, "\n")
+    .replace(/\s*<meta\s+[^>]*property=["']og:description["'][^>]*>\s*/gi, "\n")
+    .replace(/\s*<meta\s+[^>]*name=["']twitter:title["'][^>]*>\s*/gi, "\n")
+    .replace(/\s*<meta\s+[^>]*name=["']twitter:description["'][^>]*>\s*/gi, "\n");
 }
 
 function escapeHtml(text) {
