@@ -83,7 +83,28 @@ function getAllBlogRoutes() {
 const blogRoutes = getAllBlogRoutes();
 console.log(`📰 部落格數量: ${blogRoutes.length}`);
 
-const routes = [...new Set([...baseRoutes, ...reviewPaths, ...knowledgeRoutes, ...toolRoutes, ...blogRoutes])];
+// 掃描 AI lane 內容頁，讓 sitemap 已曝光的 blueprint/opportunity detail
+// 也擁有 route-specific prerender HTML，而不是落回首頁 SPA fallback。
+function getAllLaneRoutes() {
+  const lanes = [
+    { dir: path.join(root, "shared/blueprints"), base: "/blueprints" },
+    { dir: path.join(root, "shared/opportunities"), base: "/opportunities" },
+  ];
+  const result = [];
+  for (const lane of lanes) {
+    if (!fs.existsSync(lane.dir)) continue;
+    for (const entry of fs.readdirSync(lane.dir, { withFileTypes: true })) {
+      if (!entry.isFile() || !entry.name.endsWith(".md")) continue;
+      const slug = entry.name.replace(/\.md$/, "");
+      result.push(`${lane.base}/${slug}`);
+    }
+  }
+  return result;
+}
+const laneRoutes = getAllLaneRoutes();
+console.log(`🧭 AI lane 內容頁數量: ${laneRoutes.length}`);
+
+const routes = [...new Set([...baseRoutes, ...reviewPaths, ...knowledgeRoutes, ...toolRoutes, ...blogRoutes, ...laneRoutes])];
 console.log(`🔗 總路由數量: ${routes.length}`);
 
 async function prerender() {

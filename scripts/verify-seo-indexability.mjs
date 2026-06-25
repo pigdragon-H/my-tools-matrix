@@ -51,6 +51,7 @@ const assertions = [
   ["robots fixed to index,follow", seoTs.includes('const content = "index,follow"')],
   ["SSR canonical stored", seoTs.includes('ssrMetaTags.set("canonical"')],
   ["prerender emits canonical link", prerender.includes('rel="canonical"')],
+  ["prerender scans AI lane detail routes", prerender.includes("getAllLaneRoutes") && prerender.includes("shared/blueprints") && prerender.includes("shared/opportunities") && prerender.includes("laneRoutes")],
   ["server fallback does not hide URLs", !new RegExp("no" + "index", "i").test(server)],
   ["sitemap has unique locs", locs.length === uniqueLocs.size, { locs: locs.length, unique: uniqueLocs.size }],
   ["sitemap URL count >= 806", locs.length >= 806, locs.length],
