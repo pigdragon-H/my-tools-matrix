@@ -10,6 +10,7 @@ on:
       - feat/knowledge-base-full-unlock
       - feat/tools-blog-full-unlock
       - feat/adsense-trust-content
+      - feat/remaining-tools-lastupdated
   pull_request:
     branches:
       - main
