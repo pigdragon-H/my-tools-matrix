@@ -37,6 +37,14 @@ export interface Tool {
   websiteKey?: string;
   status?: "GOLD" | "REBUILDING" | "LEGACY"; // 工具狀態
   lastUpdated?: string; // YYYY-MM-DD，僅白名單工具填寫
+  // ── 模板治理欄位（2026-06-29 補上，原本只記載於鐵律文件、程式碼端從未實作）──
+  // 預設（未填寫）視為 17 層黃金樣板（finance/health 等決策輔助型）。
+  // converter（13層 T1-T13）、ymyl-rights-v1（YMYL權益型，如資遣費計算機）
+  // 等非黃金樣板的工具，必須明確填寫，否則任何後續視窗在 QC 時看到
+  // 非17層結構會誤判成錯誤，逕自「修」回黃金樣板。
+  templateType?: "gold-17" | "converter-13" | "ymyl-rights-v1";
+  templateVersion?: string; // 例：v1.0，對應 docs/tool-templates/ 規格版本
+  governanceNote?: string; // 簡述為何此工具使用非標準模板，供人工快速理解
 }
 
 // ============================================================
@@ -5529,6 +5537,7 @@ export const tools: Tool[] = [
     isNew: true,
     isFeatured: true,
     status: "GOLD",
+    templateType: "converter-13",
     lastUpdated: "2026-06-20",
     seoArticles: [],
   },
@@ -5544,6 +5553,8 @@ export const tools: Tool[] = [
     rateLimit: 30,
     isNew: true,
     isFeatured: false,
+    status: "GOLD",
+    templateType: "converter-13",
     lastUpdated: "2026-06-19",
     seoArticles: [],
   },
@@ -5559,6 +5570,8 @@ export const tools: Tool[] = [
     rateLimit: 30,
     isNew: true,
     isFeatured: false,
+    status: "GOLD",
+    templateType: "converter-13",
     lastUpdated: "2026-06-20",
     seoArticles: [],
   },

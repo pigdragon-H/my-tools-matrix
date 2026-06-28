@@ -61,7 +61,15 @@ while ((m = blockRe.exec(arrText)) !== null) {
   const catMatch  = body.match(/category:\s*"([a-z]+)"/);
   const pathMatch = body.match(/path:\s*"([^"]+)"/);
   if (!catMatch || !pathMatch) continue;
-  tools.push({ id, category: catMatch[1], path: pathMatch[1] });
+  const statusMatch = body.match(/status:\s*"([^"]*)"/);
+  const templateTypeMatch = body.match(/templateType:\s*"([^"]*)"/);
+  tools.push({
+    id,
+    category: catMatch[1],
+    path: pathMatch[1],
+    status: statusMatch ? statusMatch[1] : null,
+    templateType: templateTypeMatch ? templateTypeMatch[1] : null,
+  });
 }
 
 // 抓 export const 區塊（變數名允許 a-z A-Z 0-9）
@@ -185,6 +193,54 @@ for (const d of diskTools) {
   }
   if (!d.hasIndex) {
     fail(`H. 資料夾 client/src/tools/${k}/ 缺少 index.tsx — 路由會載入失敗`);
+  }
+}
+
+// ── Check I: 每個工具都必須有非空的 status ──────────────────────────
+// 背景：status 缺漏或空字串時，scripts/generate-sitemap.ts 的
+// `tools.filter(t => t.status === "GOLD")` 會悄悄把這個工具排除在
+// sitemap.xml 之外，過去已發生過（converter 工具），且不會讓 build
+// 失敗，純粹是「網站上看得到、Google 永遠不會主動發現」的隱性黑洞。
+const VALID_STATUSES = new Set(["GOLD", "REBUILDING", "LEGACY"]);
+for (const t of tools) {
+  if (!t.status) {
+    fail(`I. tool "${t.id}" 沒有 status 欄位（或為空字串）— 會被 sitemap 悄悄排除，Google 永遠不會發現這個網址`);
+  } else if (!VALID_STATUSES.has(t.status)) {
+    fail(`I. tool "${t.id}" status="${t.status}" 不是合法值（合法值：${[...VALID_STATUSES].join(" / ")}）`);
+  }
+}
+
+// ── Check J: id 不可重複 ────────────────────────────────────────────
+// 背景：id 重複時，目前 A-H 的檢查（皆以 Set 做存在性判斷）不會報錯，
+// 因為兩個重複的 entry 算出來的 path/route key 剛好相同，會被 Set
+// 悄悄去重、檢查照樣通過——但實際上是兩筆不同的工具資料被當成一筆，
+// 後寫入的會在使用者看不到的地方覆蓋/混淆前一筆。
+const idSeen = new Map();
+for (const t of tools) {
+  if (idSeen.has(t.id)) {
+    fail(`J. id "${t.id}" 重複出現（至少 2 次）— 即使 path 格式都合法，Set 去重會讓這個重複被隱藏，不會被 A-H 任何檢查抓到`);
+  }
+  idSeen.set(t.id, (idSeen.get(t.id) || 0) + 1);
+}
+
+// ── Check K: path 不可重複（跟 Check J 互補，防止不同 id 算出同一個 path）
+const pathSeen = new Map();
+for (const t of tools) {
+  if (pathSeen.has(t.path)) {
+    fail(`K. path "${t.path}" 被 2 個不同的工具共用（"${pathSeen.get(t.path)}" 與 "${t.id}"）— 其中一個會在路由上互相覆蓋`);
+  }
+  pathSeen.set(t.path, t.id);
+}
+
+// ── Check L: converter 分類工具必須明確宣告 templateType ────────────
+// 背景：converter 用 13 層（T1-T13）標準，跟 finance/health 等 17 層
+// 黃金樣板不同。這個區分目前只寫在鐵律文件裡，程式碼端從未真正檢查，
+// 等於沒有任何機制能擋下「後續視窗把 converter 工具誤判成不合格、
+// 逕自改回 17 層黃金樣板」這個已知風險。新增 converter 工具時，
+// 這條會強制要求明確填寫 templateType，不能悄悄沿用預設值。
+for (const t of tools) {
+  if (t.category === "converter" && !t.templateType) {
+    fail(`L. converter 工具 "${t.id}" 沒有明確填寫 templateType（應為 "converter-13"）— 缺少這個欄位時，後續 QC 視窗無法分辨它是否故意使用非 17 層樣板，容易被誤判、誤改`);
   }
 }
 
