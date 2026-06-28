@@ -2670,11 +2670,11 @@ export const tools: Tool[] = [
   },
   {
     id: "severance-pay-calculator",
-    name: "資遣費計算機",
+    name: "非自願離職資遣費計算器",
     category: "legal",
     path: "/tools/legal/severance-pay-calculator",
     icon: "Briefcase",
-    description: "資遣費計算機 — 依勞退新舊制（勞基法第17條、勞退條例第12條）試算資遣費上限與年資基數。",
+    description: "非自願離職資遣費計算器 — 資遣費、預告工資、特休未休與失業給付資格一次檢查。",
     isPremium: false,
     showAds: true,
     rateLimit: 30,
