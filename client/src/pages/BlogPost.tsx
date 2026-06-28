@@ -3,7 +3,7 @@
 // Falls back gracefully if article not found.
 // ============================================================
 import { useEffect } from "react";
-import { Link, useRoute } from "wouter";
+import { Link, useRoute, useLocation } from "wouter";
 import { ArrowLeft, Calendar, Tag, Loader2 } from "lucide-react";
 import { useReadProgress } from "@/hooks/useReadProgress";
 import ReactMarkdown from "react-markdown";
@@ -23,10 +23,27 @@ export default function BlogPost() {
   const { lang } = useLanguage();
   const [, params] = useRoute<{ slug: string }>("/blog/:slug");
   const slug = params?.slug ?? "";
+  const [, setLocation] = useLocation();
 
-  // Static (MANUS-authored) root-level article takes priority — e.g.
-  // GSC-indexed /blog/roi-calculator-guide. Avoids the DB round-trip.
+  // Static (MANUS-authored) article lookup by slug alone, ignoring category.
+  // NOTE（修補 2026-06-29）：這個 fallback 原本會直接在 /blog/:slug 這個網址
+  // 原地渲染跟 /blog/:category/:slug 一模一樣的內容。兩個網址各自的
+  // <link rel="canonical"> 都指向自己，Google 因此把其中一個判定成
+  // 「重複網頁；使用者未選取標準網頁」（GSC 實際看到的症狀）。
+  // 修法：只要這篇文章有明確分類（category），代表它真正的標準網址是
+  // /blog/<category>/<slug>，這裡一律轉址過去，不在裸 slug 網址重複渲染。
+  // 只有極少數「真的沒有分類、裸 slug 本身就是正式網址」的根層級文章
+  // （category 為空字串）才維持原地渲染。
   const staticArticle = getStaticArticle(undefined, slug);
+  const staticArticleNeedsRedirect = Boolean(staticArticle?.category);
+
+  useEffect(() => {
+    if (staticArticle && staticArticleNeedsRedirect) {
+      setLocation(`/blog/${staticArticle.category}/${staticArticle.slug}`, {
+        replace: true,
+      });
+    }
+  }, [staticArticle, staticArticleNeedsRedirect, setLocation]);
 
   // 已讀進度（純前端 localStorage）。靜態文章由 StaticArticleView 以 "blog-static"
   // 命名空間標記,這裡只負責 DB 文章的 "blog" 命名空間,避免重複/錯置。
@@ -41,6 +58,10 @@ export default function BlogPost() {
   );
 
   if (staticArticle) {
+    if (staticArticleNeedsRedirect) {
+      // 轉址中：不渲染重複內容，避免短暫閃現跟目標頁一樣的內容。
+      return null;
+    }
     return <StaticArticleView article={staticArticle} />;
   }
 
