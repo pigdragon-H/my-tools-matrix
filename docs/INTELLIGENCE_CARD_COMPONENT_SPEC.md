@@ -31,7 +31,7 @@
 
 ## 二、TypeScript 型別定義
 
-> **鐵律（見治理文件第十一節）**：本節型別採內部/公開兩層架構。`IntelligenceCardInternal` 僅存在於伺服器端與內部治理視圖，永不透過公開API序列化；`IntelligenceCardPublic` 由白名單陣列衍生，禁止另行手動定義導致與白名單漂移不一致。
+> **鐵律（見治理文件第十節）**：本節型別採內部/公開兩層架構。`IntelligenceCardInternal` 僅存在於伺服器端與內部治理視圖，永不透過公開API序列化；`IntelligenceCardPublic` 由白名單陣列衍生，禁止另行手動定義導致與白名單漂移不一致。
 
 ```ts
 // shared/intelligenceCardTypes.ts
@@ -81,7 +81,7 @@ export interface IntelligenceCardInternal {
 }
 
 // ── 白名單：唯一事實來源，型別與執行期序列化皆由此陣列衍生 ──
-// 新增欄位須先通過治理文件第十一節第4小節審查清單，並記錄於變更紀錄表
+// 新增欄位須先通過治理文件第10.4節審查清單，並記錄於變更紀錄表
 export const PUBLIC_FIELD_WHITELIST = [
   "id",
   "date",
@@ -225,7 +225,7 @@ Grid: grid gap-4 sm:grid-cols-2 lg:grid-cols-3 md:grid-cols-3
   - 若 lineage.articleId 存在   → 顯示「已產出知識庫文章」連結卡片
   - 若 lineage.blueprintId 存在 → 顯示「已產出創業藍圖」連結卡片（若為付費內容需標示PremiumGate狀態）
 
-免責聲明區塊（呼應治理文件第十節）：
+免責聲明區塊（呼應治理文件第九節）：
   若 gapInsight 或 patternInsight 內文含具體財務數字，強制渲染標準免責聲明樣板，
   樣式沿用既有 TrustStrip 元件的視覺語言。
 ```
@@ -248,9 +248,10 @@ shared/intelligenceCardTypes.ts                （本文件第二節型別定義
 
 本文件是 `OPPORTUNITY_INTELLIGENCE_PIPELINE.md` 的技術實作層，兩者須保持同步：
 - 治理文件第三節「L4動作」五選一 ↔ 本文件 `L4Status` 型別
-- 治理文件第十節排除規則 ↔ 本文件 `IntelligenceCardGrid` 強制過濾邏輯
+- 治理文件第九節排除規則 ↔ 本文件 `IntelligenceCardGrid` 強制過濾邏輯
 - 治理文件第六節主賽道分類 ↔ 本文件 `primaryTrack` 欄位（建議後續建立 `shared/intelligenceTrackConfig.ts` 統一管理賽道清單，比照現有 `shared/categoriesConfig.ts` 的治理模式）
-- 治理文件第十一節資訊隔離原則 ↔ 本文件第二節內部/公開兩層型別、`PUBLIC_FIELD_WHITELIST` 白名單常數、`toPublicCard()` 序列化函式
+- 治理文件第十節資訊隔離原則 ↔ 本文件第二節內部/公開兩層型別、`PUBLIC_FIELD_WHITELIST` 白名單常數、`toPublicCard()` 序列化函式
+- 治理文件第10.7節公開層文字黑名單 ↔ 本文件第六節詳情頁免責聲明區塊產出流程，未來應納入 summary/patternInsight/gapInsight 公開版文字的發布前檢查
 
 ---
 
@@ -258,3 +259,4 @@ shared/intelligenceCardTypes.ts                （本文件第二節型別定義
 
 - v1.0（2026-07-01）：初版核准。
 - v1.1（2026-07-01）：因首筆正式情報卡（ic-2026-0012）產出時發現 sourceUrl 等內部欄位存在洩漏風險，改為內部/公開兩層資料模型，新增 `PUBLIC_FIELD_WHITELIST` 白名單常數與 `toPublicCard()` 強制序列化函式，`IntelligenceCardGrid` 邏輯改為列級＋欄級雙層防護。呼應治理文件同步更新至 v1.2。
+- v1.2（2026-07-01）：同步治理文件 v1.3 章節編號調整（資訊隔離原則由第十一節改為第十節），並補充 summary/patternInsight/gapInsight 公開版文字須依治理文件第10.7節黑名單詞彙表檢查後才可定稿之提醒。
