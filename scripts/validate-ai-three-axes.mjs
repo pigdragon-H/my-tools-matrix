@@ -16,6 +16,8 @@ const LANES = [
 ];
 const VALID_STATUS = new Set(['draft', 'seed', 'active', 'validated', 'deprecated']);
 const VALID_CTA = new Set(['blueprint_checklist', 'knowledge_next_question', 'opportunity_tracking', 'premium_template', 'newsletter']);
+const VALID_L4_STATUS = new Set(['watch', 'caution', 'knowledge', 'blueprint-pending', 'blueprint-ready']);
+const DERIVES_BLUEPRINT_CANDIDATE = new Set(['blueprint-pending', 'blueprint-ready']);
 const EXPECTED_CTA = {
   blueprint: 'blueprint_checklist',
   knowledge: 'knowledge_next_question',
@@ -164,7 +166,24 @@ for (const rec of records) {
   if (lane.laneId === 'blueprints' && relKnowledge.length + relOpportunities.length === 0) err(file, `blueprint must link to knowledge or opportunity`);
   if (lane.laneId === 'knowledge' && relBlueprints.length + relOpportunities.length === 0) err(file, `knowledge must link to blueprint or opportunity`);
   if (lane.laneId === 'opportunities') {
+    if (!meta.domain || typeof meta.domain !== 'string' || !meta.domain.trim()) {
+      err(file, `opportunity must define domain (non-empty string)`);
+    }
+    if (!VALID_L4_STATUS.has(meta.l4Status)) {
+      err(file, `opportunity l4Status must be one of ${[...VALID_L4_STATUS].join('/')}; got "${meta.l4Status}"`);
+    }
+    const rating = Number(meta.fuRating);
+    if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+      err(file, `opportunity fuRating must be an integer 1-5; got "${meta.fuRating}"`);
+    }
     if (meta.blueprintCandidate === undefined) err(file, `opportunity must define blueprintCandidate`);
+    if (
+      meta.blueprintCandidate !== undefined &&
+      VALID_L4_STATUS.has(meta.l4Status) &&
+      meta.blueprintCandidate !== DERIVES_BLUEPRINT_CANDIDATE.has(meta.l4Status)
+    ) {
+      warn(file, `blueprintCandidate (${meta.blueprintCandidate}) does not match value derived from l4Status "${meta.l4Status}"; run deriveBlueprintCandidate() and reconcile`);
+    }
     if (relKnowledge.length === 0) err(file, `opportunity must link to at least one knowledge item`);
     if (meta.blueprintCandidate === true && relBlueprints.length === 0) warn(file, `blueprintCandidate=true but no relatedBlueprints; ensure validationNotes explains the gap`);
   }

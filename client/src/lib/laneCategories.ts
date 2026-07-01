@@ -44,11 +44,17 @@ const CATEGORY_LABELS: Record<string, Record<string, CategoryLabel>> = {
     education: { zh: "教育學習", en: "Education", emoji: "🎓" },
     general: { zh: "綜合", en: "General", emoji: "📦" },
   },
-  // 機會情報：依 marketDemand（需求強度）
+  // 機會情報：依 domain（主賽道分類，2026-07-01 由 marketDemand 需求強度改版）
+  // 值集合可持續擴充，不鎖死固定數量；初版依治理文件第六節 + 既有內容實測結果建立。
+  // 對應治理文件：docs/OPPORTUNITY_INTELLIGENCE_PIPELINE.md 第六節「主賽道分類」。
   opportunities: {
-    high: { zh: "高需求機會", en: "High Demand", emoji: "🔥" },
-    medium: { zh: "中需求機會", en: "Medium Demand", emoji: "📈" },
-    low: { zh: "潛力觀察", en: "Emerging", emoji: "🌱" },
+    "agent-infrastructure": { zh: "Agent 基礎設施", en: "Agent Infrastructure", emoji: "🤖" },
+    "ai-content-tools": { zh: "AI 內容生成工具", en: "AI Content Tools", emoji: "🎬" },
+    "monetization-methodology": { zh: "內容變現方法論", en: "Monetization Methodology", emoji: "💰" },
+    "prompt-workflow": { zh: "提示詞與工作流", en: "Prompt & Workflow", emoji: "🧩" },
+    "knowledge-management": { zh: "知識管理與資料沉澱", en: "Knowledge Management", emoji: "🗂️" },
+    "productized-web-tools": { zh: "工具站／產品化網站", en: "Productized Web Tools", emoji: "🧰" },
+    other: { zh: "其它", en: "Other", emoji: "📦" },
   },
   // 工具知識庫 /blog（DB/靜態文章）：必須與工具矩陣 12 個頂層分類一致。
   // 使用者明確要求：工具知識庫是收納工具類文章，因此分類不可沿用 AI/內容欄目。
@@ -121,6 +127,12 @@ export function normalizeBlogCategoryKey(key?: string): string {
   return "finance";
 }
 
+/** 把 FU 團隊人工評分（1-5）轉成星號字串，供機會情報頁面顯示。 */
+export function renderFuRatingStars(rating: number): string {
+  const filled = Math.max(0, Math.min(5, Math.round(rating)));
+  return "★".repeat(filled) + "☆".repeat(5 - filled);
+}
+
 /** 從一筆內容取出它所屬的分類技術值（依賽道讀不同欄位）。 */
 export function getCategoryKey(item: LoadedContent): string {
   const m = item.meta as unknown as Record<string, unknown>;
@@ -130,7 +142,7 @@ export function getCategoryKey(item: LoadedContent): string {
     case "blueprints":
       return (m.industry as string) || "general";
     case "opportunities":
-      return (m.marketDemand as string) || "medium";
+      return (m.domain as string) || "other";
     default:
       return "other";
   }

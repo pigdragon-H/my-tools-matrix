@@ -252,6 +252,7 @@ shared/intelligenceCardTypes.ts                （本文件第二節型別定義
 - 治理文件第六節主賽道分類 ↔ 本文件 `primaryTrack` 欄位（建議後續建立 `shared/intelligenceTrackConfig.ts` 統一管理賽道清單，比照現有 `shared/categoriesConfig.ts` 的治理模式）
 - 治理文件第十節資訊隔離原則 ↔ 本文件第二節內部/公開兩層型別、`PUBLIC_FIELD_WHITELIST` 白名單常數、`toPublicCard()` 序列化函式
 - 治理文件第10.7節公開層文字黑名單 ↔ 本文件第六節詳情頁免責聲明區塊產出流程，未來應納入 summary/patternInsight/gapInsight 公開版文字的發布前檢查
+- 治理文件第十一節「與既有機會情報系統的整合對接」↔ `shared/laneSchemas.ts` 的 `OpportunityMeta`（已發布文章的schema）——注意 `IntelligenceCardInternal`/`IntelligenceCardPublic`（本文件定義，對應原始情報卡）與 `OpportunityMeta`（既有系統，對應已發布的機會情報文章）是不同海拔的兩層資料模型，不可混用或誤以為是同一份schema的重複定義
 
 ---
 
@@ -260,3 +261,4 @@ shared/intelligenceCardTypes.ts                （本文件第二節型別定義
 - v1.0（2026-07-01）：初版核准。
 - v1.1（2026-07-01）：因首筆正式情報卡（ic-2026-0012）產出時發現 sourceUrl 等內部欄位存在洩漏風險，改為內部/公開兩層資料模型，新增 `PUBLIC_FIELD_WHITELIST` 白名單常數與 `toPublicCard()` 強制序列化函式，`IntelligenceCardGrid` 邏輯改為列級＋欄級雙層防護。呼應治理文件同步更新至 v1.2。
 - v1.2（2026-07-01）：同步治理文件 v1.3 章節編號調整（資訊隔離原則由第十一節改為第十節），並補充 summary/patternInsight/gapInsight 公開版文字須依治理文件第10.7節黑名單詞彙表檢查後才可定稿之提醒。
+- v1.3（2026-07-01）：同步治理文件 v1.4，補充與既有 `OpportunityMeta`（`shared/laneSchemas.ts`）系統的整合對接說明，釐清情報卡與已發布機會情報文章屬於不同海拔的兩層資料模型。

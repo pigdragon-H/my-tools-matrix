@@ -15,6 +15,7 @@ import { ArticleShell } from "@/components/ArticleShell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getOpportunity, resolveRelations } from "@/lib/laneContent";
+import { renderFuRatingStars } from "@/lib/laneCategories";
 import { filterAffiliatesByTags } from "@/lib/laneAffiliates";
 import { LaneNotFound } from "@/components/LaneNotFound";
 
@@ -80,10 +81,10 @@ export default function OpportunityPage() {
       relations={resolveRelations(meta, { laneId: "opportunities", slug })}
       headerSlot={
         <div className="flex flex-wrap gap-2.5 mt-4">
-          <Badge variant="outline" className="px-3 py-1 text-xs leading-normal">
+          <Badge variant="outline" className="px-3 py-1 text-xs leading-normal" title={lang === "zh" ? "FU 團隊人工評分" : "FU team rating"}>
             {lang === "zh"
-              ? `需求：${meta.marketDemand}`
-              : `Demand: ${meta.marketDemand}`}
+              ? `FU 評分：${renderFuRatingStars(meta.fuRating)}`
+              : `FU rating: ${renderFuRatingStars(meta.fuRating)}`}
           </Badge>
           <Badge variant="outline" className="px-3 py-1 text-xs leading-normal">
             {lang === "zh"

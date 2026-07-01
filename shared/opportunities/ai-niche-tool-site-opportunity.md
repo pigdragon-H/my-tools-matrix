@@ -5,7 +5,9 @@ description: { zh: "AI 沒有讓工具站創業變簡單，而是縮短了 MVP �
 keywords: ["利基工具站", "AI 創業機會", "工具型網站", "MVP", "niche tool site", "AI opportunity", "programmatic SEO"]
 publishedAt: 2026-06-17
 signalSource: ["X", "Economic News"]
-marketDemand: medium
+domain: productized-web-tools
+l4Status: blueprint-ready
+fuRating: 4
 revenueModel: "工具流量 + affiliate + lead generation + 模板包 + micro-SaaS"
 difficulty: medium
 worthDoing: true

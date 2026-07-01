@@ -25,6 +25,7 @@ import type {
   LoadedContent,
   Bilingual,
 } from "../../../shared/laneSchemas";
+import { deriveBlueprintCandidate } from "../../../shared/laneSchemas";
 
 // 三賽道的原始 .md（相對本檔：client/src/lib -> ../../../shared/<lane>）
 const blueprintRaw = import.meta.glob("../../../shared/blueprints/**/*.md", {
@@ -278,11 +279,16 @@ function buildOpportunities(): LoadedContent<OpportunityMeta>[] {
       order: meta.order != null ? Number(meta.order) : undefined,
       pillar: (meta.pillar as string) || undefined,
       signalSource: asStringArray(meta.signalSource),
-      marketDemand: ((meta.marketDemand as string) as OpportunityMeta["marketDemand"]) || "medium",
+      domain: (meta.domain as string) || "other",
+      l4Status: ((meta.l4Status as string) as OpportunityMeta["l4Status"]) || "watch",
+      fuRating: (meta.fuRating != null ? Number(meta.fuRating) : 3) as OpportunityMeta["fuRating"],
       revenueModel: (meta.revenueModel as string) || "",
       difficulty: ((meta.difficulty as string) as OpportunityMeta["difficulty"]) || "medium",
       worthDoing: meta.worthDoing === true || meta.worthDoing === "true",
-      blueprintCandidate: asOptionalBool(meta.blueprintCandidate),
+      blueprintCandidate:
+        meta.blueprintCandidate !== undefined
+          ? asOptionalBool(meta.blueprintCandidate)
+          : deriveBlueprintCandidate(((meta.l4Status as string) as OpportunityMeta["l4Status"]) || "watch"),
       matchmakingTag: (meta.matchmakingTag as string) || undefined,
       ...extractCommerceAndRelations(meta),
     };

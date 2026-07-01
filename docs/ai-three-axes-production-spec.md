@@ -20,7 +20,7 @@ AI 知識庫的角色是建立可信的概念、方法與風險節點，不應�
 
 ## 機會情報模板
 
-機會情報的角色是決策文件，不是泛泛新聞摘要。建議正文包含：機會是什麼、需求訊號、目標客群、收入方式、切入難度、啟動成本、時效性、市場適配、主要風險、建議下一步、是否可升格為藍圖候選。frontmatter 中 `contentType` 必須是 `opportunity`，`ctaType` 預設為 `opportunity_tracking`，必須填 `blueprintCandidate`，並至少連到一篇知識庫；若 `blueprintCandidate: true`，應優先連到相關藍圖，或在 `validationNotes` 標示缺口。
+機會情報的角色是決策文件，不是泛泛新聞摘要。建議正文包含：機會是什麼、需求訊號、目標客群、收入方式、切入難度、啟動成本、時效性、市場適配、主要風險、建議下一步、是否可升格為藍圖候選。frontmatter 中 `contentType` 必須是 `opportunity`，`ctaType` 預設為 `opportunity_tracking`，必須填 `domain`（主賽道分類，可擴充，見 `docs/OPPORTUNITY_INTELLIGENCE_PIPELINE.md` 第六節）、`l4Status`（五選一）、`fuRating`（FU 團隊人工評分 1-5）、`blueprintCandidate`（應與 `l4Status` 衍生一致），並至少連到一篇知識庫；若 `blueprintCandidate: true`，應優先連到相關藍圖，或在 `validationNotes` 標示缺口。
 
 ## 字體與視覺穩定性
 

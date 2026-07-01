@@ -1,6 +1,7 @@
 # 06 — 機會情報（`shared/opportunities/`）操作手冊
 
-> 版本 v1.0 · 2026-06-29 · 整理者：Claude（Universe Auditor / QC）
+> 版本 v1.1 · 2026-07-01 · 整理者：Claude（Universe Auditor / QC）
+> v1.1 變更：`marketDemand`（AI推論的市場需求強度）欄位汰換，改為 `domain`（主賽道分類，可擴充）+ `l4Status`（機會情報金字塔狀態）+ `fuRating`（FU 團隊人工評分星等）三個欄位，`blueprintCandidate` 改為應與 `l4Status` 衍生一致的向後相容欄位。詳見 `docs/OPPORTUNITY_INTELLIGENCE_PIPELINE.md`。
 > 性質：**混合文件**——frontmatter 規則與量產驗證門檻完全來自既有 `docs/ai-three-axes-production-spec.md` 與 `scripts/validate-ai-three-axes.mjs`（已實測逐條對照程式碼，非憑文件猜測）；L2 人工內容品質閘門部分目前**沒有正式決議**，是比照單元 5（知識庫）的形狀新擬，**標明為新增提案，需 Victor 確認**才能視為正式規範。
 > 流程形狀（五層 QC、跨視窗紅線、雙檢）見 `00-CORE-QC-PRINCIPLES.md`。
 
@@ -12,7 +13,7 @@
 
 來源：`ai-three-axes-production-spec.md`「機會情報模板」。
 
-路徑：`shared/opportunities/<slug>.md`（無 domain 子目錄）。
+路徑：`shared/opportunities/<slug>.md`（檔案本身不分domain子目錄；domain 是 frontmatter 分類欄位，用於導覽分組，不影響檔案實體路徑，見下方 frontmatter 說明）。
 
 正文最低結構需覆蓋：
 ```
@@ -41,11 +42,17 @@ description: { zh: "...", en: "..." }
 keywords: [...]
 publishedAt: YYYY-MM-DD
 signalSource: [...]                  # 欄目原生欄位，例：["X", "Economic News"]
-marketDemand: <low/medium/high>      # 欄目原生欄位
+domain: <主賽道 slug>                 # 2026-07-01 起取代 marketDemand；值集合見
+                                      # client/src/lib/laneCategories.ts 的
+                                      # CATEGORY_LABELS.opportunities，可持續擴充
+l4Status: <watch/caution/knowledge/blueprint-pending/blueprint-ready>  # 必填，五選一
+fuRating: <1-5整數>                   # FU 團隊人工評分，取代原 AI 推論的 marketDemand
 revenueModel: "..."                  # 欄目原生欄位（字串，不是陣列）
 difficulty: <low/medium/high>
 worthDoing: true/false
-blueprintCandidate: true/false       # 必填，驗證腳本檢查 undefined 即報錯
+blueprintCandidate: true/false       # 必填，驗證腳本檢查 undefined 即報錯；
+                                      # 語意上應等於 l4Status 為 blueprint-pending/
+                                      # blueprint-ready 時為 true（見 deriveBlueprintCandidate()）
 matchmakingTag: <字串>
 contentType: opportunity             # 固定值，驗證腳本檢查必須等於 "opportunity"
 topicId: T-AI-BP-XXXX                 # 必須存在於 shared/aiTopics.ts
@@ -107,7 +114,7 @@ node scripts/validate-ai-three-axes.mjs
 ## 六、目前沒有正式決議、需要 Victor 裁定的項目
 
 - 正文最低字數（同單元 4，目前驗證腳本沒有字數檢查）
-- `marketDemand`/`difficulty` 等欄目原生欄位的合法值清單，目前只在既有範例文章裡看到 `low/medium/high`，沒有在任何文件或驗證腳本裡明確定義合法值集合，建議之後也用 `Set` 在驗證腳本裡鎖死，避免錯字（例如 `med` vs `medium`）不會被抓到
+- `difficulty` 等欄目原生欄位的合法值清單，目前只在既有範例文章裡看到 `low/medium/high`，沒有在驗證腳本裡明確定義合法值集合，建議之後也用 `Set` 在驗證腳本裡鎖死，避免錯字（例如 `med` vs `medium`）不會被抓到。`l4Status` 已於 2026-07-01 用 `VALID_L4_STATUS` 鎖死合法值。`domain` 刻意不鎖死固定集合——比照 knowledge 賽道 domain 欄位的治理精神，主賽道分類允許持續擴充，只做非空字串檢查，不做枚舉限制。
 - L2 人工審查清單（上面第五節）是否要正式採用
 
 ---

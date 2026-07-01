@@ -80,7 +80,7 @@
   - **階段二接手**：建 `shared/workflows/`（型別 `WorkflowMeta` 已預留）、新增路由 `/blueprints/:slug/workflow/:wfSlug`、在 `footerExtra` 渲染工作流卡片。這是 Premium 主力區。
 
 ### 3.2 機會情報 `/opportunities`
-- **現用**：情報流正文（是什麼/需求/收入/難度/風險/值得做）、`signalSource`/`marketDemand`/`revenueModel`/`difficulty`/`worthDoing`。
+- **現用**：情報流正文（是什麼/需求/收入/難度/風險/值得做）、`signalSource`/`domain`/`l4Status`/`fuRating`/`revenueModel`/`difficulty`/`worthDoing`（2026-07-01：`marketDemand` 已由 `domain`+`l4Status`+`fuRating` 取代，詳見 `docs/OPPORTUNITY_INTELLIGENCE_PIPELINE.md`）。
 - **[預留] 企業整廠輸出媒合**：`OpportunityMeta.matchmakingTag`。
   - 帶 tag 的機會頁會自動顯示「媒合 CTA」連到 `/opportunities/matchmaking`。
   - 配對三實體（供給/需求/配對）介面已在 `shared/matchmaking.ts` 預留；`matchScore()` 目前 throw、`MATCHMAKING_ENABLED=false`。

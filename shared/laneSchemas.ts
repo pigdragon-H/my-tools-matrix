@@ -119,15 +119,36 @@ export interface WorkflowMeta extends BaseContentMeta {
 export interface OpportunityMeta extends BaseContentMeta, AiClosedLoopMeta {
   /** [現用] 機會訊號來源，例 ["X","Reddit","ProductHunt","Economic News"]。 */
   signalSource: string[];
-  /** [現用] 市場需求強度。 */
-  marketDemand: "low" | "medium" | "high";
+  /**
+   * [現用] 主賽道分類（原「市場需求強度 marketDemand」欄位已於 2026-07-01 汰換）。
+   * 值集合定義於 client/src/lib/laneCategories.ts 的 CATEGORY_LABELS.opportunities，
+   * 可持續擴充、不鎖死固定數量，比照 knowledge 賽道 domain 欄位的治理模式。
+   * 對應治理文件：docs/OPPORTUNITY_INTELLIGENCE_PIPELINE.md 第六節「主賽道分類」。
+   */
+  domain: string;
+  /**
+   * [現用] 機會情報金字塔狀態（五選一）。
+   * 對應治理文件：docs/OPPORTUNITY_INTELLIGENCE_PIPELINE.md 第三節「L4動作」。
+   */
+  l4Status: "watch" | "caution" | "knowledge" | "blueprint-pending" | "blueprint-ready";
+  /**
+   * [現用] FU 團隊人工評分（星等 1-5）。
+   * 取代原本由 AI 主觀推論的 marketDemand 分級——星等代表「FU 團隊的判斷」，
+   * 不代表 AI 對市場熱度的猜測，兩者性質不同，不應混用。
+   */
+  fuRating: 1 | 2 | 3 | 4 | 5;
   /** [現用] 收入模型一句話。 */
   revenueModel: string;
   /** [現用] 執行難度。 */
   difficulty: "low" | "medium" | "high";
   /** [現用] 值得做嗎（判斷結論）。 */
   worthDoing: boolean;
-  /** [P0] 是否可升格為 AI 創業藍圖候選；供閉路驗證與後續生產排程使用。 */
+  /**
+   * [現用] 是否可升格為 AI 創業藍圖候選；供閉路驗證與後續生產排程使用。
+   * 為向後相容欄位，語意上應等於 deriveBlueprintCandidate(l4Status) 的結果
+   * （l4Status 為 blueprint-pending 或 blueprint-ready 時為 true）。
+   * 驗證腳本應檢查此欄位與 l4Status 是否一致，不一致視為警告。
+   */
   blueprintCandidate?: boolean;
   /**
    * [預留] 媒合標籤：可媒合的「企業整廠輸出」類別，例 "ai-agency"。
@@ -146,6 +167,16 @@ export interface OpportunityMeta extends BaseContentMeta, AiClosedLoopMeta {
   relatedOpportunities?: string[];
   relatedKnowledge?: string[];
 }
+
+/**
+ * 由 l4Status 衍生 blueprintCandidate 布林值，作為 blueprintCandidate 欄位的
+ * 單一事實來源判斷依據。build/驗證流程應用此函式檢查既有 frontmatter 的
+ * blueprintCandidate 是否與 l4Status 一致，不一致視為資料漂移警告。
+ */
+export function deriveBlueprintCandidate(l4Status: OpportunityMeta["l4Status"]): boolean {
+  return l4Status === "blueprint-pending" || l4Status === "blueprint-ready";
+}
+
 
 // ── 3. 知識中心（現用，由 /blog 升級）──────────────────────
 export interface KnowledgeMeta extends BaseContentMeta, AiClosedLoopMeta {

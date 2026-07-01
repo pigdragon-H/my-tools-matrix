@@ -5,7 +5,9 @@ description: { zh: "中小企業想用 AI 客服卻沒有技術團隊——這�
 keywords: ["AI客服", "AI agent", "整廠輸出", "中小企業AI", "AI customer service", "B2B opportunity"]
 publishedAt: 2026-06-04
 signalSource: ["X", "Reddit", "Economic News"]
-marketDemand: high
+domain: agent-infrastructure
+l4Status: blueprint-ready
+fuRating: 5
 revenueModel: "建置費 + 月維運訂閱 + 對話量計費"
 difficulty: medium
 worthDoing: true
