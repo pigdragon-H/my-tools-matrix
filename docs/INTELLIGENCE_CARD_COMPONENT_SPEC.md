@@ -31,6 +31,8 @@
 
 ## 二、TypeScript 型別定義
 
+> **鐵律（見治理文件第十一節）**：本節型別採內部/公開兩層架構。`IntelligenceCardInternal` 僅存在於伺服器端與內部治理視圖，永不透過公開API序列化；`IntelligenceCardPublic` 由白名單陣列衍生，禁止另行手動定義導致與白名單漂移不一致。
+
 ```ts
 // shared/intelligenceCardTypes.ts
 
@@ -54,17 +56,19 @@ export type SourceReputation =
   | "avoid";                 // 應規避型帳號
 
 export interface IntelligenceCardLineage {
-  parentCardIds?: string[];      // 若原料本身衍生自其他情報卡
-  articleId?: string;            // 已產出的知識庫文章ID
-  blueprintId?: string;          // 已產出的藍圖ID
+  parentCardIds?: string[];      // 內部限定：若原料本身衍生自其他情報卡
+  articleId?: string;            // 已產出的知識庫文章ID（可公開）
+  blueprintId?: string;          // 已產出的藍圖ID（可公開）
 }
 
-export interface IntelligenceCardData {
+// ── 內部層：完整欄位，伺服器端/內部治理視圖專用，永不對外序列化 ──
+export interface IntelligenceCardInternal {
   id: string;
   date: string;                          // ISO 8601
-  sourceUrl?: string;
-  sourceType: SourceType;
-  sourceReputation?: SourceReputation;
+  sourceUrl?: string;                    // 內部限定
+  sourceType: SourceType;                // 內部限定
+  sourceReputation?: SourceReputation;   // 內部限定
+  rawExcerpt?: string;                   // 內部限定：原始文字片段，僅供查證比對
   summary: string;                       // L1，建議 ≤ 40 字
   patternInsight: string;                // L2
   gapInsight: string;                    // L3
@@ -75,6 +79,54 @@ export interface IntelligenceCardData {
   lineage?: IntelligenceCardLineage;
   visibility: "internal" | "public";     // caution類必為 internal
 }
+
+// ── 白名單：唯一事實來源，型別與執行期序列化皆由此陣列衍生 ──
+// 新增欄位須先通過治理文件第十一節第4小節審查清單，並記錄於變更紀錄表
+export const PUBLIC_FIELD_WHITELIST = [
+  "id",
+  "date",
+  "summary",
+  "patternInsight",
+  "gapInsight",
+  "confidenceScore",
+  "l4Status",
+  "primaryTrack",
+  "secondaryTags",
+] as const satisfies readonly (keyof IntelligenceCardInternal)[];
+
+// ── 公開層：由白名單衍生，型別層級即不存在 sourceUrl/rawExcerpt 等欄位 ──
+export type IntelligenceCardPublic = Pick<
+  IntelligenceCardInternal,
+  (typeof PUBLIC_FIELD_WHITELIST)[number]
+> & {
+  // lineage 於公開層僅保留對外衍生物連結，不含 parentCardIds
+  lineage?: Pick<IntelligenceCardLineage, "articleId" | "blueprintId">;
+};
+```
+
+### 2.1 伺服器端序列化實作（強制走白名單，禁止整物件傳輸）
+
+```ts
+// server/lib/intelligenceCardSerializer.ts
+import { PUBLIC_FIELD_WHITELIST, type IntelligenceCardInternal, type IntelligenceCardPublic } from "@shared/intelligenceCardTypes";
+
+export function toPublicCard(card: IntelligenceCardInternal): IntelligenceCardPublic {
+  const picked = Object.fromEntries(
+    PUBLIC_FIELD_WHITELIST.map((key) => [key, card[key]])
+  ) as Pick<IntelligenceCardInternal, (typeof PUBLIC_FIELD_WHITELIST)[number]>;
+
+  return {
+    ...picked,
+    lineage: card.lineage
+      ? { articleId: card.lineage.articleId, blueprintId: card.lineage.blueprintId }
+      : undefined,
+  };
+}
+
+// API路由層規範：
+// - GET /api/intelligence-cards（公開端點）僅可回傳 toPublicCard() 的輸出
+// - 任何回傳 IntelligenceCardInternal 原始物件的寫法，一律視為QC紅燈
+// - 內部治理視圖（需登入/權限驗證）方可存取 IntelligenceCardInternal 完整欄位
 ```
 
 ---
@@ -85,8 +137,15 @@ export interface IntelligenceCardData {
 
 ```ts
 interface IntelligenceCardProps {
-  data: IntelligenceCardData;
-  variant?: "grid" | "detail";   // grid: 列表縮略；detail: 完整展開
+  data: IntelligenceCardPublic;   // 公開頁一律使用 Public 型別，元件層級即無法誤傳內部欄位
+  variant?: "grid" | "detail";    // grid: 列表縮略；detail: 完整展開
+  onClick?: (id: string) => void;
+}
+
+// 內部治理視圖專用（需權限驗證，路由與元件均獨立於公開頁）
+interface IntelligenceCardInternalViewProps {
+  data: IntelligenceCardInternal;
+  variant?: "grid" | "detail";
   onClick?: (id: string) => void;
 }
 ```
@@ -95,14 +154,18 @@ interface IntelligenceCardProps {
 
 ```ts
 interface IntelligenceCardGridProps {
-  cards: IntelligenceCardData[];
-  trackFilter?: string;          // 依主賽道篩選
-  adSlotEvery?: number;          // 預設 8，沿用 BlogList 現行密度規則
-  showInternalOnly?: boolean;    // 內部治理視圖才傳 true，公開頁一律 false
+  cards: IntelligenceCardPublic[];  // 傳入前即應為序列化後的公開資料，元件不做二次過濾內部欄位
+  trackFilter?: string;             // 依主賽道篩選
+  adSlotEvery?: number;             // 預設 8，沿用 BlogList 現行密度規則
 }
 ```
 
-**強制邏輯**：`IntelligenceCardGrid` 在 `showInternalOnly !== true` 時，必須於渲染前過濾掉 `visibility === "internal"` 或 `l4Status === "caution"` 的卡片，這是程式層面對治理文件第十節排除規則的具體落實，不可只靠人工把關。
+**強制邏輯（雙層防護，缺一不可）**：
+
+1. **列級過濾（伺服器端）**：API查詢時即排除 `visibility === "internal"` 或 `l4Status === "caution"` 的資料列，不將其納入回應。
+2. **欄級過濾（序列化層）**：即使某筆資料通過列級過濾，仍須經 `toPublicCard()` 白名單序列化才可回傳，任何內部欄位不因列級過濾通過而豁免欄級白名單。
+
+兩層防護對應不同風險：列級防護避免「不該公開的卡片」外流，欄級防護避免「該公開的卡片，夾帶不該公開的欄位」外流，兩者互不取代。
 
 ---
 
@@ -187,3 +250,11 @@ shared/intelligenceCardTypes.ts                （本文件第二節型別定義
 - 治理文件第三節「L4動作」五選一 ↔ 本文件 `L4Status` 型別
 - 治理文件第十節排除規則 ↔ 本文件 `IntelligenceCardGrid` 強制過濾邏輯
 - 治理文件第六節主賽道分類 ↔ 本文件 `primaryTrack` 欄位（建議後續建立 `shared/intelligenceTrackConfig.ts` 統一管理賽道清單，比照現有 `shared/categoriesConfig.ts` 的治理模式）
+- 治理文件第十一節資訊隔離原則 ↔ 本文件第二節內部/公開兩層型別、`PUBLIC_FIELD_WHITELIST` 白名單常數、`toPublicCard()` 序列化函式
+
+---
+
+## 九、版本記錄
+
+- v1.0（2026-07-01）：初版核准。
+- v1.1（2026-07-01）：因首筆正式情報卡（ic-2026-0012）產出時發現 sourceUrl 等內部欄位存在洩漏風險，改為內部/公開兩層資料模型，新增 `PUBLIC_FIELD_WHITELIST` 白名單常數與 `toPublicCard()` 強制序列化函式，`IntelligenceCardGrid` 邏輯改為列級＋欄級雙層防護。呼應治理文件同步更新至 v1.2。
