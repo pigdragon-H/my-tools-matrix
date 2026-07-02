@@ -1,8 +1,9 @@
 # 05 — AI 知識庫文章（`shared/knowledge/`）操作手冊（精簡版）
 
-> 版本 v1.0 · 2026-06-29 · 整理者：Claude（Universe Auditor / QC）
-> 性質：**萃取文件**，原始完整規格在 `docs/KNOWLEDGE_WRITING_SOP.md`（怎麼寫）與 `docs/KNOWLEDGE_QC_MANUAL.md`（怎麼查），另搭配 `docs/ORIGINALITY_POLICY.md`（原創性）、`docs/AD_SLOT_SPEC.md`（廣告位）。
-> 遇到本文件沒寫到的細節，以上述四份原始文件為準。
+> 版本 v1.1 · 2026-07-02 · 整理者：Claude（Universe Auditor / QC）
+> v1.1 變更說明：這份文件第四節原本就完整寫著「每題含『引導思路：』一句半開放引導」，規則本身沒有寫錯或遺漏；真正的落差在於 `scripts/validate-ai-three-axes.mjs` 從未把這條規則寫進程式碼，全站146篇文章因此全靠人工自覺執行，結果58篇整個漏了詰問區塊，另有一批雖然有做但格式不完全對。這次已把完整檢查（區塊存在、恰好3題、每題附引導思路、位置在結語之前）補進驗證腳本，往後不會再單靠記憶維持。第三節骨架示意圖同步補上這個細節的提示文字，方便對照。
+> 性質：**萃取文件**，原始完整規格在 `docs/KNOWLEDGE_WRITING_SOP.md`（怎麼寫）與 `docs/KNOWLEDGE_QC_MANUAL.md`（怎麼查），另搭配 `docs/ORIGINALITY_POLICY.md`（原創性）、`docs/AD_SLOT_SPEC.md`（廣告位）、`docs/AI_KNOWLEDGE_PRODUCTION_MANUAL.md`（Victor 核可之量產總綱，涵蓋角色分工、選題依據、成熟度分級與 L3 紅線、交付包與退件規則，本文件未涵蓋的流程性問題以它為準）。
+> 遇到本文件沒寫到的細節，以上述五份原始文件為準。
 > 流程形狀（五層 QC、跨視窗紅線、雙檢）見 `00-CORE-QC-PRINCIPLES.md`。
 
 適用範圍：所有放入 `shared/knowledge/<domain>/<slug>.md`、由 `ArticleShell.tsx` 渲染的 AI 產業知識文章。**不含** `shared/articles/`（工具知識庫文章，單元 3，目前暫緩）。
@@ -82,7 +83,7 @@ adsEnabled: true               # 正式文 true；草稿 false
 六、<導入 / 操作 SOP（五～六步）>
 七、<評估 / 陷阱 / 進階>
 八、ROI 評估：<划不划算>（含站內工具連結句，每篇措辭須不同）
-❓ 讀完後，先問自己這幾個問題（固定 3 題，見下方規範）
+❓ 讀完後，先問自己這幾個問題（固定 3 題，每題**粗體問句**後緊接「引導思路：」一句半開放引導——給讀者判斷方向，不給標準答案，見下方規範）
 結語：<一句點題的小標>
 ```
 

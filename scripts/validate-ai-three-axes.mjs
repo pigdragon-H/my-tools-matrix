@@ -11,7 +11,7 @@ import path from 'node:path';
 const ROOT = process.cwd();
 const LANES = [
   { laneId: 'blueprints', dir: 'shared/blueprints', contentType: 'blueprint', minH2: 5 },
-  { laneId: 'knowledge', dir: 'shared/knowledge', contentType: 'knowledge', minH2: 4 },
+  { laneId: 'knowledge', dir: 'shared/knowledge', contentType: 'knowledge', minH2: 8 },
   { laneId: 'opportunities', dir: 'shared/opportunities', contentType: 'opportunity', minH2: 4 },
 ];
 const VALID_STATUS = new Set(['draft', 'seed', 'active', 'validated', 'deprecated']);
@@ -186,6 +186,42 @@ for (const rec of records) {
     }
     if (relKnowledge.length === 0) err(file, `opportunity must link to at least one knowledge item`);
     if (meta.blueprintCandidate === true && relBlueprints.length === 0) warn(file, `blueprintCandidate=true but no relatedBlueprints; ensure validationNotes explains the gap`);
+  }
+  if (lane.laneId === 'knowledge') {
+    // 對應 docs/AI知識庫量產必讀手冊（Victor 2026-07-02 提供之主權威文件）第五、七章，
+    // 並取代 docs/qc-manuals/05-knowledge.md 原引用的舊萃取版本。
+    const charCount = body.replace(/\s/g, '').length;
+    if (charCount < 3000) {
+      err(file, `knowledge article body under 3000 chars (${charCount}); hard gate per 量產手冊 §7`);
+    }
+
+    // 標點不寫死：已知同批文章曾混用「讀完後。先問自己」（句號）與
+    // 「讀完後，先問自己」（逗號）兩種寫法，偵測時只認兩個詞相鄰出現，不綁死中間標點。
+    const selfQuestionRegex = /讀完後.{0,2}先問自己/g;
+    const selfQuestionHits = (body.match(selfQuestionRegex) || []).length;
+    if (selfQuestionHits !== 1) {
+      err(file, `knowledge article must contain exactly one "❓ 讀完後，先問自己這幾個問題" section (found ${selfQuestionHits}); hard gate per 量產手冊 §5/§7`);
+    } else {
+      const headingIdx = body.search(selfQuestionRegex);
+      const closingMatch = body.slice(headingIdx).match(/^##\s*結語/m);
+      const section = closingMatch
+        ? body.slice(headingIdx, headingIdx + closingMatch.index)
+        : body.slice(headingIdx);
+      const boldQuestions = section.match(/\*\*[^*]+？\*\*/g) || [];
+      if (boldQuestions.length !== 3) {
+        err(file, `self-question section must contain exactly 3 bold questions (found ${boldQuestions.length}); per 量產手冊 §5 "每題應是粗體問題"`);
+      }
+      const guidedHits = (section.match(/引導思路/g) || []).length;
+      if (guidedHits < boldQuestions.length) {
+        err(file, `each self-question must carry a "引導思路" guiding sentence (found ${guidedHits} for ${boldQuestions.length} questions); per 量產手冊 §5`);
+      }
+      if (!closingMatch) {
+        warn(file, `self-question section should be immediately followed by a "結語" closing section`);
+      }
+    }
+
+    if (!/^\s*\|/m.test(body)) err(file, `knowledge article must include at least one table (量產手冊 §5 結構要求)`);
+    if (!/[┌┐└┘├┤┬┴┼─│▶►→↓↑]/.test(body)) err(file, `knowledge article must include a box-drawing structure diagram (量產手冊 §5 結構要求)`);
   }
 }
 
