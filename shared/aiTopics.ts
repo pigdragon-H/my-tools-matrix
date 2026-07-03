@@ -156,6 +156,31 @@ export const AI_TOPICS: AiTopicRegistryEntry[] = [
       nextAction: "Promote proven customer-service opportunity into a dedicated blueprint if validation signals strengthen.",
     },
   },
+  {
+    topicId: "T-AI-KB-0202",
+    name: { zh: "OpenMontage 開源短影音生產代理", en: "OpenMontage Open-Source Video Production Agent" },
+    targetReader: {
+      zh: "想靠 AI 代理與開源工具鏈獨立產出短影音、但不具備專業剪輯背景的個人創作者與小團隊",
+      en: "Solo creators and small teams who want to produce short-form video via AI agents and open-source tooling without professional editing skills",
+    },
+    commercialIntent: ["education", "opportunity_discovery", "business_blueprint"],
+    status: "active",
+    priority: "P1",
+    signal: ["Codex+Remotion 自媒體日更方法論", "OpenMontage 開源專案星數成長", "AI agent 調度多工具的架構模式"],
+    expectedOutputs: ["opportunities", "knowledge", "blueprints"],
+    relations: {
+      blueprints: ["openmontage-solo-creator-blueprint"],
+      knowledge: ["openmontage-ai-video-agent"],
+      opportunities: ["openmontage-solo-video-opportunity"],
+    },
+    productionState: {
+      hasBlueprint: true,
+      hasKnowledge: true,
+      hasOpportunity: true,
+      blueprintCandidate: true,
+      nextAction: "企業已完整實測環境安裝與零金鑰出片流程；下一輪待人工主導腳本重測，驗證能否撐起穩定商業化產出。",
+    },
+  },
 ];
 
 export const AI_TOPIC_BY_ID = Object.fromEntries(
