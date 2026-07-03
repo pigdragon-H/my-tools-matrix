@@ -132,6 +132,29 @@ for (const lane of LANES) {
   slugByLane.set(lane.laneId, slugs);
 }
 
+// 跨賽道 topicId 對照表：同一個 topicId 出現在 opportunities/knowledge/blueprints
+// 不同賽道的檔案裡，代表這是同一條「主題線」沿著金字塔往上晉升的血緣證據
+// （見 shared/opportunities/ai-niche-tool-site-opportunity.md 與
+//  shared/blueprints/ai-niche-tool-site-blueprint.md 共用 T-AI-BP-0001 的既有實例）。
+const topicIdBySlugLane = new Map();
+for (const rec of records) {
+  topicIdBySlugLane.set(`${rec.lane.laneId}:${rec.slug}`, rec.meta.topicId);
+}
+
+// 量產手冊第四章 L3 紅線關鍵字：出現不代表自動退件，但必須觸發審核警報，
+// 提醒撰寫者這個主題是否已經越界成創業藍圖，不該留在知識庫當一般方法論文章。
+const L3_REDLINE_KEYWORDS = [
+  '收入模式', '獲利', 'MVP', '估值', '護城河', '商業模式', '創業',
+  '顧問服務', '代營運', '定價', '變現', '客群', '產品路線', '公司建立',
+  'SaaS 指南', 'affiliate 攻略',
+];
+
+// 量產手冊第五章明列的模板式開場，會讓大量文章讀起來像同一個人寫的，
+// 是「去機械化、使用人類流暢筆法」這條風格要求最容易踩到的坑。
+const CLICHE_OPENINGS = [
+  '在當今快速發展的數位時代', '隨著人工智慧的快速發展', '本文將深入探討',
+];
+
 function err(file, msg) { errors.push(`${file}: ${msg}`); }
 function warn(file, msg) { warnings.push(`${file}: ${msg}`); }
 
@@ -222,6 +245,29 @@ for (const rec of records) {
 
     if (!/^\s*\|/m.test(body)) err(file, `knowledge article must include at least one table (量產手冊 §5 結構要求)`);
     if (!/[┌┐└┘├┤┬┴┼─│▶►→↓↑]/.test(body)) err(file, `knowledge article must include a box-drawing structure diagram (量產手冊 §5 結構要求)`);
+
+    // L3 紅線：出現這些詞不代表自動退件，但必須觸發審核警報（量產手冊 §4）。
+    const hitKeywords = L3_REDLINE_KEYWORDS.filter((kw) => body.includes(kw));
+    if (hitKeywords.length > 0) {
+      warn(file, `L3 red-line keywords detected: ${hitKeywords.join('、')} — confirm this is still L1/L2 concept/methodology content, not a disguised business blueprint (量產手冊 §4)`);
+    }
+
+    // 去機械化：模板式開場是「同質化」最常見的來源（量產手冊 §5）。
+    const openingText = body.slice(0, 300);
+    const hitCliches = CLICHE_OPENINGS.filter((c) => openingText.includes(c));
+    if (hitCliches.length > 0) {
+      err(file, `opening uses a templated cliché phrase: ${hitCliches.join('、')} — rewrite to open on the reader's actual decision point (量產手冊 §5)`);
+    }
+
+    // 金字塔血緣：若這篇知識文章連到某個創業藍圖，理想狀況是兩者共用同一個
+    // topicId（同一條主題線的兩個晉升階段），沒有共用 topicId 只代表「內容相關」，
+    // 不代表「同一條血緣」，兩者語意不同，只降級為提醒，不擋 build。
+    if (relBlueprints.length > 0 && meta.topicId) {
+      const threaded = relBlueprints.some((s) => topicIdBySlugLane.get(`blueprints:${s}`) === meta.topicId);
+      if (!threaded) {
+        warn(file, `linked to blueprint(s) [${relBlueprints.join(', ')}] but none share this article's topicId (${meta.topicId}); if this knowledge article is meant to be the same topic thread graduating into a blueprint, align the topicId — otherwise this is just a related-content link, not a pyramid lineage link`);
+      }
+    }
   }
 }
 
