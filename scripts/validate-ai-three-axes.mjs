@@ -273,6 +273,33 @@ for (const rec of records) {
 
     // 去機械化：這條風格要求不是知識庫獨有，機會情報同樣適用。
     checkClicheOpening(file, body);
+
+    // AI視角區塊：Victor 2026-07-03 裁定，機會情報是決策備忘，但要在情報本體
+    // 下方加一段 300-500 字的 AI 短評（產業/世代意義、效率提升、對使用者的幫助、
+    // 未來展望），讓乏味的情報有活性，也讓頁面內容量足以撐起 AdSense。
+    // 更關鍵的是：這段短評必須包含一個訪客真的看得到、點得下去的知識庫連結，
+    // 這才是「觸發連結訊號」——relatedKnowledge 只是 frontmatter 裡的隱形欄位，
+    // 訪客看不到，不構成這條規則要的東西。
+    const aiPerspectiveMatch = body.match(/##\s*.*AI視角/);
+    if (!aiPerspectiveMatch) {
+      err(file, `opportunity article must include an "AI視角" commentary section (300-500 chars, ending with a visible link to a related knowledge article) per Victor's 2026-07-03 decision`);
+    } else {
+      const startIdx = body.indexOf(aiPerspectiveMatch[0]);
+      const afterHeading = body.slice(startIdx + aiPerspectiveMatch[0].length);
+      const nextH2Idx = afterHeading.search(/^##\s/m);
+      const section = nextH2Idx === -1 ? afterHeading : afterHeading.slice(0, nextH2Idx);
+      // 字數只算敘述文字，排除連結語法本身，避免連結長度灌水湊字數。
+      const charCount = section.replace(/\s/g, '').replace(/\[[^\]]*\]\([^)]*\)/g, '').length;
+      if (charCount < 300 || charCount > 500) {
+        err(file, `AI視角 section is ${charCount} chars (excluding link markup); must be 300-500 chars per Victor's 2026-07-03 decision`);
+      }
+      const linkMatch = section.match(/\[[^\]]+\]\(\/knowledge\/([^)]+)\)/);
+      if (!linkMatch) {
+        err(file, `AI視角 section must contain a visible markdown link to a knowledge article, e.g. [標題](/knowledge/slug) — this is the reader-facing trigger-link signal, not the invisible relatedKnowledge frontmatter field`);
+      } else if (!relKnowledge.includes(linkMatch[1])) {
+        warn(file, `AI視角 visible link points to /knowledge/${linkMatch[1]} but that slug isn't in this article's relatedKnowledge frontmatter [${relKnowledge.join(', ')}]; keep the visible link and the frontmatter relation in sync`);
+      }
+    }
   }
   if (lane.laneId === 'knowledge') {
     // 對應 docs/AI知識庫量產必讀手冊（Victor 2026-07-02 提供之主權威文件）第五、七章，
