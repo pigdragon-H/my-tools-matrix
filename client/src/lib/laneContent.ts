@@ -260,6 +260,7 @@ function buildBlueprints(): LoadedContent<BlueprintMeta>[] {
       revenueModel: asStringArray(meta.revenueModel),
       relatedTools: asStringArray(meta.relatedTools),
       relatedWorkflows: asStringArray(meta.relatedWorkflows),
+      victorReviewed: meta.victorReviewed === true || meta.victorReviewed === "true",
       ...extractCommerceAndRelations(meta),
     };
     return { meta: m, body, slug, laneId: "blueprints", path: `/blueprints/${slug}` };

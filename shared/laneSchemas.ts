@@ -97,6 +97,13 @@ export interface BlueprintMeta extends BaseContentMeta, AiClosedLoopMeta {
   premiumGatePosition?: "top" | "middle" | "bottom";
   newsletterCta?: boolean;
   affiliateTags?: string[];
+  /**
+   * [現用] Victor 是否已親自審查過此篇藍圖。這是「上架要經過我審查」這句話的
+   * 具體落地：`adsEnabled: true`（等於正式上架變現）卻沒有 `victorReviewed: true`，
+   * 驗證腳本會擋下，不能繞過去。撰寫者交付草稿時應留 `victorReviewed: false`，
+   * 由 Victor 審查通過後手動改為 `true` 才能上架。
+   */
+  victorReviewed?: boolean;
   // === 三主軸關聯欄位 ===
   topicId?: string;
   relatedBlueprints?: string[];

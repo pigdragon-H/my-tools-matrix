@@ -159,9 +159,31 @@ const L3_REDLINE_KEYWORDS = [
 
 // 量產手冊第五章明列的模板式開場，會讓大量文章讀起來像同一個人寫的，
 // 是「去機械化、使用人類流暢筆法」這條風格要求最容易踩到的坑。
+// 原本只套用在知識庫賽道，這次擴大到機會情報與創業藍圖，理由是這條風格要求
+// 本來就不是知識庫獨有，是全站寫作的共同標準。
 const CLICHE_OPENINGS = [
   '在當今快速發展的數位時代', '隨著人工智慧的快速發展', '本文將深入探討',
 ];
+
+// OPPORTUNITY_INTELLIGENCE_PIPELINE.md 第10.7節黑名單：公開發布的機會情報
+// 不得出現內部協作工具/團隊代號，這是已經拍板的剛性規範，這裡是把它從「寫在
+// 文件裡」變成「程式碼真的擋」，不是新決策。
+const INTERNAL_TOOL_NAMES = ['Manus', 'SuperNinja'];
+
+// OPPORTUNITY_INTELLIGENCE_PIPELINE.md 第九節：加密貨幣/投機性金融商品排除，
+// 理想上應該在蒐集階段就過濾掉，這裡是收尾的防線（defense in depth），
+// 用來抓萬一漏網、已經寫進正式文章的狀況。
+const CRYPTO_KEYWORDS = [
+  '加密貨幣', '比特幣', 'Bitcoin', '以太坊', 'NFT', '空氣幣', '跟單交易', '交易訊號',
+];
+
+function checkClicheOpening(file, body) {
+  const openingText = body.slice(0, 300);
+  const hits = CLICHE_OPENINGS.filter((c) => openingText.includes(c));
+  if (hits.length > 0) {
+    err(file, `opening uses a templated cliché phrase: ${hits.join('、')} — rewrite to open on the reader's actual decision point (量產手冊 §5，全站適用)`);
+  }
+}
 
 function err(file, msg) { errors.push(`${file}: ${msg}`); }
 function warn(file, msg) { warnings.push(`${file}: ${msg}`); }
@@ -175,7 +197,7 @@ for (const rec of records) {
   if (meta.contentType !== lane.contentType) err(file, `contentType must be '${lane.contentType}', got '${meta.contentType}'`);
   if (meta.topicId && !topicIds.has(meta.topicId)) err(file, `topicId '${meta.topicId}' not found in shared/aiTopics.ts`);
   if (meta.topicId && taskCardTopicIds && !taskCardTopicIds.has(meta.topicId)) {
-    warn(file, `topicId '${meta.topicId}' has no matching entry in docs/task-cards/registry.json; this is debt-tracking only (194 pre-existing articles predate the registry), not yet a hard gate — see 05-knowledge.md §十`);
+    warn(file, `topicId '${meta.topicId}' has no matching entry in docs/task-cards/registry.json; this is debt-tracking only (${records.length} pre-existing articles predate the registry), not yet a hard gate — see 05-knowledge.md §十`);
   }
   if (meta.operatingStatus && !VALID_STATUS.has(meta.operatingStatus)) err(file, `invalid operatingStatus '${meta.operatingStatus}'`);
   if (meta.ctaType && !VALID_CTA.has(meta.ctaType)) err(file, `invalid ctaType '${meta.ctaType}'`);
@@ -234,6 +256,23 @@ for (const rec of records) {
       }
     }
     if (meta.blueprintCandidate === true && relBlueprints.length === 0) warn(file, `blueprintCandidate=true but no relatedBlueprints; ensure validationNotes explains the gap`);
+
+    // 黑名單詞彙（OPPORTUNITY_INTELLIGENCE_PIPELINE.md §10.7）：這是既定規範，
+    // 這裡是把它從文件變成程式碼真的擋，不是新決策。
+    const hitInternal = INTERNAL_TOOL_NAMES.filter((kw) => body.includes(kw));
+    if (hitInternal.length > 0) {
+      err(file, `opportunity article must not name internal collaboration tools: ${hitInternal.join('、')} — replace with generic "AI agent" per OPPORTUNITY_INTELLIGENCE_PIPELINE.md §10.7`);
+    }
+
+    // 加密貨幣/投機性金融商品排除（同文件第九節）：理想上該在蒐集階段就濾掉，
+    // 這裡是收尾防線，抓漏網之魚，降級為警告，因為可能是合理引用（如評測反詐騙案例）。
+    const hitCrypto = CRYPTO_KEYWORDS.filter((kw) => body.includes(kw));
+    if (hitCrypto.length > 0) {
+      warn(file, `opportunity article mentions crypto/speculative-trading terms: ${hitCrypto.join('、')} — confirm this wasn't supposed to be excluded at collection time per OPPORTUNITY_INTELLIGENCE_PIPELINE.md §9`);
+    }
+
+    // 去機械化：這條風格要求不是知識庫獨有，機會情報同樣適用。
+    checkClicheOpening(file, body);
   }
   if (lane.laneId === 'knowledge') {
     // 對應 docs/AI知識庫量產必讀手冊（Victor 2026-07-02 提供之主權威文件）第五、七章，
@@ -278,11 +317,7 @@ for (const rec of records) {
     }
 
     // 去機械化：模板式開場是「同質化」最常見的來源（量產手冊 §5）。
-    const openingText = body.slice(0, 300);
-    const hitCliches = CLICHE_OPENINGS.filter((c) => openingText.includes(c));
-    if (hitCliches.length > 0) {
-      err(file, `opening uses a templated cliché phrase: ${hitCliches.join('、')} — rewrite to open on the reader's actual decision point (量產手冊 §5)`);
-    }
+    checkClicheOpening(file, body);
 
     // 金字塔血緣：若這篇知識文章連到某個創業藍圖，理想狀況是兩者共用同一個
     // topicId（同一條主題線的兩個晉升階段），沒有共用 topicId 只代表「內容相關」，
@@ -292,6 +327,56 @@ for (const rec of records) {
       if (!threaded) {
         warn(file, `linked to blueprint(s) [${relBlueprints.join(', ')}] but none share this article's topicId (${meta.topicId}); if this knowledge article is meant to be the same topic thread graduating into a blueprint, align the topicId — otherwise this is just a related-content link, not a pyramid lineage link`);
       }
+    }
+  }
+  if (lane.laneId === 'blueprints') {
+    // 對應 Victor 2026-07-03 裁定：創業藍圖是金字塔最稀缺的頂點，訪客點進來要有
+    // 紮實收穫，湊不到 3000 字本身就是提案不完整的訊號，字數門檻比照知識庫，
+    // 不採用「藍圖天生較短」的寬鬆假設（該假設已被 Victor 明確否決）。
+    const charCount = body.replace(/\s/g, '').length;
+    if (charCount < 3000) {
+      err(file, `blueprint body under 3000 chars (${charCount}); blueprints are the pyramid's scarce peak tier and must be substantial — hard gate per Victor's 2026-07-03 decision`);
+    }
+
+    // 創業自問區塊：故意用跟知識庫不同的標題文字（「動手之前」而非「讀完後」），
+    // 讓兩者在視覺與語意上區分開——知識庫詰問是引發反思，這裡是逼讀者面對
+    // 「真的要做嗎」的決策點，量產手冊的格式規則（3題、每題粗體+引導思路）沿用，
+    // 但定位不同，不是同一個區塊改個名字而已。
+    const selfQuestionRegex = /動手之前.{0,2}先問自己/g;
+    const selfQuestionHits = (body.match(selfQuestionRegex) || []).length;
+    if (selfQuestionHits !== 1) {
+      err(file, `blueprint must contain exactly one "🚀 動手之前，先問自己這幾個問題" section (found ${selfQuestionHits}); hard gate per Victor's 2026-07-03 decision`);
+    } else {
+      const headingIdx = body.search(selfQuestionRegex);
+      const closingMatch = body.slice(headingIdx).match(/^##\s*(結語|下一步)/m);
+      const section = closingMatch
+        ? body.slice(headingIdx, headingIdx + closingMatch.index)
+        : body.slice(headingIdx);
+      const boldQuestions = section.match(/\*\*[^*]+？\*\*/g) || [];
+      if (boldQuestions.length !== 3) {
+        err(file, `blueprint self-question section must contain exactly 3 bold questions (found ${boldQuestions.length})`);
+      }
+      const guidedHits = (section.match(/引導思路/g) || []).length;
+      if (guidedHits < boldQuestions.length) {
+        err(file, `each blueprint self-question must carry a "引導思路" guiding sentence (found ${guidedHits} for ${boldQuestions.length} questions)`);
+      }
+    }
+
+    // 讀者聯絡欄位：Victor 2026-07-03 裁定，創業藍圖要留一個小欄位邀請讀者
+    // 回饋意見，這是未來「藍圖使用數據回饋成新機會情報」閉環的第一步雛形
+    // （目前只是靜態文字+信箱，不是互動元件，互動式意見收集列為產品待辦）。
+    if (!body.includes('pigragonh@gmail.com')) {
+      err(file, `blueprint must include the reader-contact invite line (PiGragon H · pigragonh@gmail.com) per Victor's 2026-07-03 decision`);
+    }
+
+    // 去機械化：這條風格要求全站適用，創業藍圖也不例外。
+    checkClicheOpening(file, body);
+
+    // Victor 審查關卡：這是「上架要經過我審查」這句話真正被程式碼擋住的地方——
+    // 不是寫在文件裡靠自覺，是 adsEnabled=true（等於要正式上架變現）卻沒有
+    // victorReviewed=true 時直接擋下，逼流程停在這裡等人工核可，不能繞過去。
+    if (meta.adsEnabled === true && meta.victorReviewed !== true) {
+      err(file, `blueprint has adsEnabled=true (going live/monetized) but victorReviewed is not true; blueprints require Victor's explicit review before publish per Victor's 2026-07-03 decision — set adsEnabled:false until reviewed, or victorReviewed:true after Victor signs off`);
     }
   }
 }
