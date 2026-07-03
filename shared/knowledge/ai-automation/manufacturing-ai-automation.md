@@ -4,6 +4,7 @@ slug: manufacturing-ai-automation
 topicId: T-AI-KB-0135
 pillar: playbook
 domain: ai-automation
+subtopic: "industry-playbooks"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

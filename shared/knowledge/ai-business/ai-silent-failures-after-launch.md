@@ -5,6 +5,7 @@ description: { zh: "透視 AI 系統整合上線後，那些不會拋出傳統�
 keywords: ["沉默故障", "AI上線風險", "品質滑落", "成本暴衝", "護欄失效", "幻覺監控", "AI運維", "系統整合"]
 publishedAt: 2026-06-22
 domain: ai-business
+subtopic: "failure-risk"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/automation-savings-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0004

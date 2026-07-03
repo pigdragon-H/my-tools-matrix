@@ -5,6 +5,7 @@ description: { zh: "RAG 不只是「先查再答」的概念，落地時牽涉�
 keywords: ["RAG", "檢索增強生成", "向量資料庫", "RAG架構", "embedding", "RAG實作", "知識庫問答", "RAG評估"]
 publishedAt: 2026-06-22
 domain: ai-automation
+subtopic: "core-concepts"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/token-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0083

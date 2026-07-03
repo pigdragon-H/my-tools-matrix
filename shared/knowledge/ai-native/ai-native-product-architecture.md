@@ -4,6 +4,7 @@ slug: ai-native-product-architecture
 topicId: T-AI-KB-0190
 pillar: fundamentals
 domain: ai-native
+subtopic: "product-architecture"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

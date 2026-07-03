@@ -4,6 +4,7 @@ slug: enterprise-ai-agent-adoption
 topicId: T-AI-KB-0138
 pillar: playbook
 domain: ai-agent
+subtopic: "adoption-roi"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

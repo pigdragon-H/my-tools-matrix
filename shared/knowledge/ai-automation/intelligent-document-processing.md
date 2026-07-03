@@ -4,6 +4,7 @@ slug: intelligent-document-processing
 topicId: T-AI-KB-0175
 pillar: fundamentals
 domain: ai-automation
+subtopic: "system-integration"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

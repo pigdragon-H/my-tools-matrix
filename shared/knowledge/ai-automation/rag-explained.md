@@ -5,6 +5,7 @@ description: { zh: "大型語言模型最大的弱點是會「自信地說錯」
 keywords: ["RAG", "檢索增強生成", "AI幻覺", "向量資料庫", "知識庫", "retrieval augmented generation"]
 publishedAt: 2026-06-07
 domain: ai-automation
+subtopic: "core-concepts"
 relatedTools: []
 contentType: knowledge
 topicId: T-AI-BP-0003

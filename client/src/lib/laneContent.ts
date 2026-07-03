@@ -311,6 +311,7 @@ function buildKnowledge(): LoadedContent<KnowledgeMeta>[] {
       order: meta.order != null ? Number(meta.order) : undefined,
       pillar: (meta.pillar as string) || undefined,
       domain,
+      subtopic: (meta.subtopic as string) || undefined,
       relatedTools: asStringArray(meta.relatedTools),
       ...extractCommerceAndRelations(meta),
     };

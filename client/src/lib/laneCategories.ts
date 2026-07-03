@@ -134,6 +134,89 @@ export function renderFuRatingStars(rating: number): string {
 }
 
 /** 從一筆內容取出它所屬的分類技術值（依賽道讀不同欄位）。 */
+export interface SubtopicGroup {
+  key: string;
+  label: string;
+  items: LoadedContent[];
+  count: number;
+}
+
+// 次主題中文標籤對照表。2026-07-03 隨147篇知識庫文章批次回填 subtopic
+// 欄位一併建立，依各 domain 實際內容分佈設計，非憑空預設分類。
+// 目前假設 key 全站唯一（各 domain 沒有互相重複的 slug），若未來新增
+// domain 導致撞名，需改成 `${domain}:${subtopic}` 複合鍵。
+const SUBTOPIC_LABELS: Record<string, { zh: string; en: string }> = {
+  "fundamentals": { zh: "基礎概念", en: "Fundamentals" },
+  "architecture": { zh: "架構設計", en: "Architecture" },
+  "adoption-roi": { zh: "導入與 ROI", en: "Adoption & ROI" },
+  "risks-failures": { zh: "風險與失敗案例", en: "Risks & Failures" },
+  "case-studies": { zh: "實作案例", en: "Case Studies" },
+  "platform-tutorials": { zh: "平台工具教學", en: "Platform Tutorials" },
+  "system-integration": { zh: "系統整合", en: "System Integration" },
+  "industry-playbooks": { zh: "產業實戰", en: "Industry Playbooks" },
+  "governance-troubleshooting": { zh: "治理與除錯", en: "Governance & Troubleshooting" },
+  "technical-patterns": { zh: "技術模式", en: "Technical Patterns" },
+  "cost-roi": { zh: "成本與 ROI", en: "Cost & ROI" },
+  "build-vs-automate": { zh: "選型決策", en: "Build vs. Automate" },
+  "core-concepts": { zh: "核心概念", en: "Core Concepts" },
+  "ai-native-transformation": { zh: "AI 原生轉型", en: "AI-Native Transformation" },
+  "failure-risk": { zh: "風險與故障", en: "Failure & Risk" },
+  "business-models": { zh: "商業模式", en: "Business Models" },
+  "talent-org": { zh: "人才與組織", en: "Talent & Org" },
+  "commercial-applications": { zh: "商業應用案例", en: "Commercial Applications" },
+  "llm-fundamentals": { zh: "底層技術原理", en: "LLM Fundamentals" },
+  "retrieval-search": { zh: "檢索與搜尋", en: "Retrieval & Search" },
+  "risk-governance": { zh: "風險與治理", en: "Risk & Governance" },
+  "knowledge-ops": { zh: "知識庫建置實務", en: "Knowledge Ops" },
+  "future-of-work": { zh: "未來工作型態", en: "Future of Work" },
+  "worldview": { zh: "底層世界觀", en: "Worldview" },
+  "model-economics": { zh: "模型經濟學", en: "Model Economics" },
+  "product-architecture": { zh: "產品架構", en: "Product Architecture" },
+  "org-transformation": { zh: "組織轉型", en: "Org Transformation" },
+  "financial-models": { zh: "財務模型", en: "Financial Models" },
+  "infrastructure": { zh: "基礎設施", en: "Infrastructure" },
+  "frontier-science": { zh: "前沿科學", en: "Frontier Science" },
+  "governance": { zh: "治理與風險", en: "Governance" },
+  "skills": { zh: "技能與素養", en: "Skills" },
+  "general": { zh: "其它", en: "General" },
+};
+
+function subtopicLabel(key: string): CategoryLabel {
+  const found = SUBTOPIC_LABELS[key];
+  if (found) return { ...found, emoji: "" };
+  // 未登記的 subtopic key（例如未來新 domain 尚未設計分類）：
+  // 沿用 key 原文顯示，不擋渲染，比照 getCategoryLabel 的 fallback 精神。
+  return { zh: key, en: key, emoji: "" };
+}
+
+/**
+ * 在同一個 domain 分類群組內，依 subtopic 欄位做第二層分組，解決單一
+ * domain 動輒 20-40 篇文章、訪客無從選起的導覽問題（2026-07-03，
+ * Victor 指示新增）。目前只有 knowledge 賽道的內容實際填了 subtopic，
+ * 其他賽道呼叫本函式時，所有項目會落入單一 "general" 桶，等同不分組，
+ * 不影響既有頁面行為。
+ */
+export function groupBySubtopic(items: LoadedContent[]): SubtopicGroup[] {
+  const buckets = new Map<string, LoadedContent[]>();
+  for (const it of items) {
+    const meta = it.meta as unknown as Record<string, unknown>;
+    const key = (meta.subtopic as string) || "general";
+    if (!buckets.has(key)) buckets.set(key, []);
+    buckets.get(key)!.push(it);
+  }
+  const groups: SubtopicGroup[] = [];
+  for (const [key, list] of Array.from(buckets.entries())) {
+    const sorted = [...list].sort((a, b) =>
+      (b.meta.publishedAt || "").localeCompare(a.meta.publishedAt || "")
+    );
+    const label = subtopicLabel(key);
+    groups.push({ key, label: label.zh, items: sorted, count: sorted.length });
+  }
+  // 文章數多的次主題排前面，讓訪客先看到內容最豐富、選擇最多的分類。
+  groups.sort((a, b) => b.count - a.count);
+  return groups;
+}
+
 export function getCategoryKey(item: LoadedContent): string {
   const m = item.meta as unknown as Record<string, unknown>;
   switch (item.laneId) {

@@ -4,6 +4,7 @@ slug: ai-agent-future-trends
 topicId: T-AI-KB-0140
 pillar: fundamentals
 domain: ai-agent
+subtopic: "fundamentals"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

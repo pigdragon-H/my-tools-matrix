@@ -5,6 +5,7 @@ description: { zh: "把 Agent 拉進 Slack 當團隊成員，最怕的不是它�
 keywords: ["AI Agent", "Slack串接", "團隊通訊", "事件觸發", "權限控管", "頻道權限", "團隊協作", "ai-automation"]
 publishedAt: 2026-06-22
 domain: ai-automation
+subtopic: "system-integration"
 pillar: integration
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/automation-savings-calculator"]
 contentType: knowledge

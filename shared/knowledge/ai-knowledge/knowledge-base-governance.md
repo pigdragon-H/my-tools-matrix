@@ -4,6 +4,7 @@ slug: knowledge-base-governance
 topicId: T-AI-KB-0141
 pillar: playbook
 domain: ai-knowledge
+subtopic: "risk-governance"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

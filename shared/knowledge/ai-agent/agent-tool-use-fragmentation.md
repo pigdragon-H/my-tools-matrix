@@ -4,6 +4,7 @@ slug: agent-tool-use-fragmentation
 topicId: T-AI-KB-0173
 pillar: fundamentals
 domain: ai-agent
+subtopic: "risks-failures"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

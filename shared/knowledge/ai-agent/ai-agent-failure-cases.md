@@ -5,6 +5,7 @@ description: { zh: "整理 AI Agent 實務上最常見的六種翻車模式，�
 keywords: ["AI Agent失敗", "幻覺鏈", "工具誤用", "無限迴圈", "權限越界", "Agent止血"]
 publishedAt: 2026-06-22
 domain: ai-agent
+subtopic: "risks-failures"
 pillar: failure
 relatedTools: ["/tools/ai/ai-roi-calculator"]
 contentType: knowledge

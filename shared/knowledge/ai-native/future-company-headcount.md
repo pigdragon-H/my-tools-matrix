@@ -4,6 +4,7 @@ slug: future-company-headcount
 topicId: T-AI-KB-0121
 pillar: fundamentals
 domain: ai-native
+subtopic: "future-of-work"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

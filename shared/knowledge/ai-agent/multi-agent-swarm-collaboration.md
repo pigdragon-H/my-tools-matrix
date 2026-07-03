@@ -4,6 +4,7 @@ slug: multi-agent-swarm-collaboration
 topicId: T-AI-KB-0172
 pillar: fundamentals
 domain: ai-agent
+subtopic: "architecture"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

@@ -5,6 +5,7 @@ description: { zh: "「所有企業都會變成 AI 公司」不是口號，而�
 keywords: ["AI Company", "AI企業", "AI轉型", "AI成本結構", "競爭優勢", "企業AI", "AI原生", "產業重構"]
 publishedAt: 2026-06-22
 domain: ai-business
+subtopic: "ai-native-transformation"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/automation-savings-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0003

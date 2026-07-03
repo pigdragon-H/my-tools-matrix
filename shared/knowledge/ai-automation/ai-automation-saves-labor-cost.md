@@ -4,6 +4,7 @@ slug: ai-automation-saves-labor-cost
 topicId: T-AI-KB-0132
 pillar: playbook
 domain: ai-automation
+subtopic: "cost-roi"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

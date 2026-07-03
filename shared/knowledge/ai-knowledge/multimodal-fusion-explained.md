@@ -4,6 +4,7 @@ slug: multimodal-fusion-explained
 topicId: T-AI-KB-0155
 pillar: fundamentals
 domain: ai-knowledge
+subtopic: "llm-fundamentals"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

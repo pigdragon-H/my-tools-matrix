@@ -5,6 +5,7 @@ description: { zh: "深入解析企業導入 AI 系統後最常遇到的模型�
 keywords: ["模型飄移", "Model Drift", "AI監控", "機器學習監控", "數據飄移", "概念飄移", "AI維運", "MLOps"]
 publishedAt: 2026-06-22
 domain: ai-business
+subtopic: "failure-risk"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/automation-savings-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0078

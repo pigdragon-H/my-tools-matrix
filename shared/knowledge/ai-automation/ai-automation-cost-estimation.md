@@ -4,6 +4,7 @@ slug: ai-automation-cost-estimation
 topicId: T-AI-KB-0136
 pillar: playbook
 domain: ai-automation
+subtopic: "cost-roi"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

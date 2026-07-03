@@ -5,6 +5,7 @@ description: { zh: "Email Agent 最怕的不是回得慢，而是自動把不該
 keywords: ["AI Agent", "Email串接", "自動回信", "信件分類", "升級人工", "客服自動化", "回覆護欄", "ai-automation"]
 publishedAt: 2026-06-22
 domain: ai-automation
+subtopic: "system-integration"
 pillar: integration
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/automation-savings-calculator"]
 contentType: knowledge

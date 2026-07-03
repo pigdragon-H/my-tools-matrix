@@ -5,6 +5,7 @@ description: { zh: "AI 不是「整份工作消失」，而是把知識工作者
 keywords: ["知識工作者", "AI重構", "工作重組", "任務拆解", "AI自動化", "工作流程", "白領工作", "AI職場"]
 publishedAt: 2026-06-22
 domain: ai-business
+subtopic: "talent-org"
 relatedTools: ["/tools/ai/automation-savings-calculator", "/tools/ai/ai-roi-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0006

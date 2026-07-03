@@ -4,6 +4,7 @@ slug: no-code-edge-automation
 topicId: T-AI-KB-0178
 pillar: fundamentals
 domain: ai-automation
+subtopic: "technical-patterns"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

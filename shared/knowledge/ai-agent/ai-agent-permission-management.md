@@ -5,6 +5,7 @@ description: { zh: "說明 AI Agent 權限管理該怎麼依照最小權限原�
 keywords: ["AI Agent權限", "最小權限原則", "角色分級", "人工核可閘", "稽核軌跡"]
 publishedAt: 2026-06-22
 domain: ai-agent
+subtopic: "architecture"
 pillar: safety
 relatedTools: ["/tools/ai/ai-roi-calculator"]
 contentType: knowledge

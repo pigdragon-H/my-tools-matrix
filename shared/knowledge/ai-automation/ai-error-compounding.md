@@ -5,6 +5,7 @@ description: { zh: "把多步驟 AI 串接想像成一條生產線：每一站�
 keywords: ["AI串接", "多步驟AI", "錯誤累積", "誤差傳遞", "AI工作流", "檢查點", "品質控管", "自動化風險"]
 publishedAt: 2026-06-22
 domain: ai-automation
+subtopic: "governance-troubleshooting"
 relatedTools: ["/tools/ai/automation-savings-calculator", "/tools/ai/ai-roi-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0025

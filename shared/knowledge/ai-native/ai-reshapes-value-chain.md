@@ -4,6 +4,7 @@ slug: ai-reshapes-value-chain
 topicId: T-AI-KB-0130
 pillar: fundamentals
 domain: ai-native
+subtopic: "org-transformation"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

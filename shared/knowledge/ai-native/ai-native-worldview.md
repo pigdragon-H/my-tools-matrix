@@ -4,6 +4,7 @@ slug: ai-native-worldview
 topicId: T-AI-KB-0131
 pillar: fundamentals
 domain: ai-native
+subtopic: "worldview"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

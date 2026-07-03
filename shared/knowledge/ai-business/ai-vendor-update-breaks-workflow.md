@@ -5,6 +5,7 @@ description: { zh: "深度探討第三方 AI 供應商在進行底層模型無�
 keywords: ["模型更新", "API破壞", "Prompt失效", "AI工作流", "版本鎖定", "回歸測試", "LLM運維", "供應商風險"]
 publishedAt: 2026-06-22
 domain: ai-business
+subtopic: "failure-risk"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/automation-savings-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0080

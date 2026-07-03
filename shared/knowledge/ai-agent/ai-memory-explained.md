@@ -5,6 +5,7 @@ description: { zh: "你是否遇過 AI 前一句還記得、下一句就忘光�
 keywords: ["AI記憶", "AI memory", "上下文視窗", "長期記憶", "AI Agent", "向量資料庫"]
 publishedAt: 2026-06-22
 domain: ai-agent
+subtopic: "fundamentals"
 relatedTools: []
 contentType: knowledge
 topicId: T-AI-KB-0066

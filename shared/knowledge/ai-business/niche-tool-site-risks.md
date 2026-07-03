@@ -5,6 +5,7 @@ description: { zh: "AI 讓利基工具站更容易建立，但也更容易踩到
 keywords: ["利基工具站", "programmatic SEO", "薄聯盟內容", "thin affiliation", "scaled content abuse", "Google spam policy", "AI 內容風險"]
 publishedAt: 2026-06-17
 domain: ai-business
+subtopic: "business-models"
 relatedTools: ["/tools/finance/roi-calculator"]
 contentType: knowledge
 topicId: T-AI-BP-0001

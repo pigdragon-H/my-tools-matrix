@@ -5,6 +5,7 @@ description: { zh: "AI 內容工廠不是「讓 AI 一鍵寫文章」，而是�
 keywords: ["AI內容工廠", "AI自動化內容", "內容生產流水線", "AI寫作流程", "內容規模化", "AI內容品質", "內容自動化SOP", "AI批量產文"]
 publishedAt: 2026-06-22
 domain: ai-automation
+subtopic: "core-concepts"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/token-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0047

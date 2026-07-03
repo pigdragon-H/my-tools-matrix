@@ -4,6 +4,7 @@ slug: ai-literacy-fundamentals
 topicId: T-AI-KB-0180
 pillar: fundamentals
 domain: learning-center
+subtopic: "skills"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

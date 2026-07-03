@@ -4,6 +4,7 @@ slug: ai-algorithmic-risk-management
 topicId: T-AI-KB-0143
 pillar: fundamentals
 domain: ai-business
+subtopic: "commercial-applications"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

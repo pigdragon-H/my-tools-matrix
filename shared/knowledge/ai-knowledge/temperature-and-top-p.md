@@ -4,6 +4,7 @@ slug: temperature-and-top-p
 topicId: T-AI-KB-0153
 pillar: fundamentals
 domain: ai-knowledge
+subtopic: "llm-fundamentals"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

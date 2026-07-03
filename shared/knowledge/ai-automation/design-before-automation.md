@@ -5,6 +5,7 @@ description: { zh: "自動化會放大你流程的本質：好流程自動化後
 keywords: ["先設計再自動化", "流程設計", "工作流", "自動化", "流程梳理", "SOP", "業務流程", "AI導入"]
 publishedAt: 2026-06-22
 domain: ai-automation
+subtopic: "core-concepts"
 relatedTools: ["/tools/ai/automation-savings-calculator", "/tools/ai/ai-roi-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0027

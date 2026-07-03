@@ -4,6 +4,7 @@ slug: ai-native-seven-traits
 topicId: T-AI-KB-0120
 pillar: fundamentals
 domain: ai-native
+subtopic: "product-architecture"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

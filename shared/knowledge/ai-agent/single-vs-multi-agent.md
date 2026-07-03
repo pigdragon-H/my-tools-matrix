@@ -4,6 +4,7 @@ slug: single-vs-multi-agent
 topicId: T-AI-KB-0137
 pillar: fundamentals
 domain: ai-agent
+subtopic: "architecture"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

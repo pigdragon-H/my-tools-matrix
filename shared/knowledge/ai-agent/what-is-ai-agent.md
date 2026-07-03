@@ -5,6 +5,7 @@ description: { zh: "AI Agent 不只是會聊天的機器人，而是能自己規
 keywords: ["AI Agent", "AI代理", "自主代理", "LLM", "工具使用", "AI agent primer"]
 publishedAt: 2026-06-09
 domain: ai-agent
+subtopic: "fundamentals"
 relatedTools: ["/tools/developer/json-formatter"]
 contentType: knowledge
 topicId: T-AI-KB-0001

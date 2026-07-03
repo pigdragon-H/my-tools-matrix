@@ -4,6 +4,7 @@ slug: intelligence-per-employee
 topicId: T-AI-KB-0200
 pillar: fundamentals
 domain: formula-insights
+subtopic: "financial-models"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

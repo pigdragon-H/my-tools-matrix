@@ -5,6 +5,7 @@ description: { zh: "拆解 AI Agent 如何把模糊目標分解成可執行步�
 keywords: ["AI規劃", "Planning", "AI Agent", "任務分解", "多步驟推理", "重新規劃", "人機協作", "目標分解"]
 publishedAt: 2026-06-22
 domain: ai-agent
+subtopic: "fundamentals"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/ai-project-cost-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0056

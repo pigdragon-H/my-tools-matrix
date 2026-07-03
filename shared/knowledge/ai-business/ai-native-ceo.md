@@ -5,6 +5,7 @@ description: { zh: "AI Native CEO 不是「會用 ChatGPT 的老闆」，而是�
 keywords: ["AI Native CEO", "AI原生領導", "AI決策", "領導者AI轉型", "AI槓桿", "經營者AI", "AI工作模式", "高階主管AI"]
 publishedAt: 2026-06-22
 domain: ai-business
+subtopic: "ai-native-transformation"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/ai-project-cost-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0008

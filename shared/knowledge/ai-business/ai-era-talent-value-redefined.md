@@ -5,6 +5,7 @@ description: { zh: "AI 時代值錢的人才，不再是「做得最快的人」
 keywords: ["AI人才", "人才價值", "AI能力", "未來人才", "AI技能", "知識工作者", "人才培養", "AI時代職涯"]
 publishedAt: 2026-06-22
 domain: ai-business
+subtopic: "talent-org"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/ai-project-cost-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0005

@@ -4,6 +4,7 @@ slug: from-erp-to-ai-os
 topicId: T-AI-KB-0129
 pillar: fundamentals
 domain: ai-native
+subtopic: "org-transformation"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

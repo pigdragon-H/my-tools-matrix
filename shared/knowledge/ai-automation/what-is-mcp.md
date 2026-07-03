@@ -5,6 +5,7 @@ description: { zh: "AI 要能真正做事，得能連到你的檔案、資料庫
 keywords: ["MCP", "Model Context Protocol", "AI連接", "工具整合", "AI協定", "工作流整合"]
 publishedAt: 2026-06-22
 domain: ai-automation
+subtopic: "platform-tutorials"
 relatedTools: []
 contentType: knowledge
 topicId: T-AI-KB-0037

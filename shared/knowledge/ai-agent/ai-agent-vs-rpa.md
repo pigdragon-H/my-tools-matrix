@@ -5,6 +5,7 @@ description: { zh: "AI Agent 和 RPA 常被混為一談，但兩者的本質完�
 keywords: ["AI Agent vs RPA", "RPA是什麼", "AI Agent差異", "流程自動化選型", "RPA AI差別", "智能自動化", "自動化工具比較", "RPA Agent混搭"]
 publishedAt: 2026-06-22
 domain: ai-agent
+subtopic: "fundamentals"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/ai-project-cost-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0031

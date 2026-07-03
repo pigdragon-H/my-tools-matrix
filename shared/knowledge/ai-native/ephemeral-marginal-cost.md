@@ -4,6 +4,7 @@ slug: ephemeral-marginal-cost
 topicId: T-AI-KB-0199
 pillar: fundamentals
 domain: ai-native
+subtopic: "worldview"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

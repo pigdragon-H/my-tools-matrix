@@ -4,6 +4,7 @@ slug: materials-genome-ai
 topicId: T-AI-KB-0167
 pillar: fundamentals
 domain: future-industry
+subtopic: "frontier-science"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

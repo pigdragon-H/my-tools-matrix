@@ -5,6 +5,7 @@ description: { zh: "AI 工作流是把零散 AI 能力組織成穩定產線的�
 keywords: ["AI工作流", "AI workflow", "工作流設計", "自動化流程", "AI產線", "工作流方法論", "AI流程設計"]
 publishedAt: 2026-06-22
 domain: ai-automation
+subtopic: "core-concepts"
 relatedTools: ["/tools/ai/automation-savings-calculator", "/tools/ai/ai-roi-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0041

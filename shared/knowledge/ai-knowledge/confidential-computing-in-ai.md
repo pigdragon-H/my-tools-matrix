@@ -4,6 +4,7 @@ slug: confidential-computing-in-ai
 topicId: T-AI-KB-0157
 pillar: fundamentals
 domain: ai-knowledge
+subtopic: "risk-governance"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

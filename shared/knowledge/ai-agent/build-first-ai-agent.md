@@ -4,6 +4,7 @@ slug: build-first-ai-agent
 topicId: T-AI-KB-0103
 pillar: architecture
 domain: ai-agent
+subtopic: "fundamentals"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

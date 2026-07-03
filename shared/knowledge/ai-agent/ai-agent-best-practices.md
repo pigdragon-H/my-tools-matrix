@@ -4,6 +4,7 @@ slug: ai-agent-best-practices
 topicId: T-AI-KB-0105
 pillar: safety
 domain: ai-agent
+subtopic: "fundamentals"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

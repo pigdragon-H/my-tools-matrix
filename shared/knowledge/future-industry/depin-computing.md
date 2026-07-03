@@ -4,6 +4,7 @@ slug: depin-computing
 topicId: T-AI-KB-0166
 pillar: fundamentals
 domain: future-industry
+subtopic: "infrastructure"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

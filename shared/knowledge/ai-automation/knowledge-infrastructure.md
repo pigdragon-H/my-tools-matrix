@@ -5,6 +5,7 @@ description: { zh: "Knowledge Infrastructure（知識基礎建設）是 AI 時�
 keywords: ["Knowledge Infrastructure", "知識基礎建設", "知識基礎設施", "AI知識地基", "企業知識架構", "AI原生地基", "知識資產", "知識層"]
 publishedAt: 2026-06-22
 domain: ai-automation
+subtopic: "core-concepts"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/ai-project-cost-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0081

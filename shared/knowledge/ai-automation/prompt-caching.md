@@ -4,6 +4,7 @@ slug: prompt-caching
 topicId: T-AI-KB-0188
 pillar: fundamentals
 domain: ai-automation
+subtopic: "technical-patterns"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

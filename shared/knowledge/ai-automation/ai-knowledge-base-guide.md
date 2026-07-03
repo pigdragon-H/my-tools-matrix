@@ -5,6 +5,7 @@ description: { zh: "AI 知識庫不是把文件丟進資料夾，而是把分散
 keywords: ["AI知識庫", "knowledge base", "知識管理", "知識資產", "知識結構化", "企業知識庫", "AI知識管理"]
 publishedAt: 2026-06-22
 domain: ai-automation
+subtopic: "core-concepts"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/automation-savings-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0082

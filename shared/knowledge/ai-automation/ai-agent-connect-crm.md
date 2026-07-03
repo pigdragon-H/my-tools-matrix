@@ -5,6 +5,7 @@ description: { zh: "AI Agent 接 CRM 最怕的不是漏更新，而是亂更新�
 keywords: ["AI Agent", "CRM串接", "客戶資料", "商機階段", "跟進記錄", "資料品質", "業務自動化", "ai-automation"]
 publishedAt: 2026-06-22
 domain: ai-automation
+subtopic: "system-integration"
 pillar: integration
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/automation-savings-calculator"]
 contentType: knowledge

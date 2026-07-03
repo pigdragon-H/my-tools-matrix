@@ -5,6 +5,7 @@ description: { zh: "AI Native 組織不是多裝幾個 AI 工具，而是以 AI 
 keywords: ["AI Native組織", "AI原生組織", "組織轉型", "團隊重組", "AI運營模式", "AI組織設計", "未來組織"]
 publishedAt: 2026-06-22
 domain: ai-business
+subtopic: "ai-native-transformation"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/automation-savings-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0007

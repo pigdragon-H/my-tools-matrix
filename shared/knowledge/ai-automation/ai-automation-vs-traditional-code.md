@@ -4,6 +4,7 @@ slug: ai-automation-vs-traditional-code
 topicId: T-AI-KB-0097
 pillar: tooling
 domain: ai-automation
+subtopic: "build-vs-automate"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

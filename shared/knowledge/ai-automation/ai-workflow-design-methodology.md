@@ -4,6 +4,7 @@ slug: ai-workflow-design-methodology
 topicId: T-AI-KB-0098
 pillar: workflow
 domain: ai-automation
+subtopic: "core-concepts"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

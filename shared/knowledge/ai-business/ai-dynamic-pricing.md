@@ -4,6 +4,7 @@ slug: ai-dynamic-pricing
 topicId: T-AI-KB-0142
 pillar: fundamentals
 domain: ai-business
+subtopic: "commercial-applications"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

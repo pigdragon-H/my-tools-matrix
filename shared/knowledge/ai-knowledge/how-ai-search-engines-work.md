@@ -4,6 +4,7 @@ slug: how-ai-search-engines-work
 topicId: T-AI-KB-0115
 pillar: fundamentals
 domain: ai-knowledge
+subtopic: "retrieval-search"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

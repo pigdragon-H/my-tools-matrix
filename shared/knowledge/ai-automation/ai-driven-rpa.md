@@ -4,6 +4,7 @@ slug: ai-driven-rpa
 topicId: T-AI-KB-0194
 pillar: fundamentals
 domain: ai-automation
+subtopic: "core-concepts"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

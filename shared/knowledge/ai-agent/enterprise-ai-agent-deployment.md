@@ -5,6 +5,7 @@ description: { zh: "把 AI Agent 從 Demo 推進到企業正式上線，難的�
 keywords: ["企業AI Agent", "AI Agent導入", "AI Agent治理", "AI Agent上線", "人機協作", "AI Agent權限", "AI Agent風險控管", "企業AI部署"]
 publishedAt: 2026-06-22
 domain: ai-agent
+subtopic: "adoption-roi"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/ai-project-cost-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0024

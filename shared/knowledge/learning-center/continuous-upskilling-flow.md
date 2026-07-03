@@ -4,6 +4,7 @@ slug: continuous-upskilling-flow
 topicId: T-AI-KB-0184
 pillar: fundamentals
 domain: learning-center
+subtopic: "skills"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

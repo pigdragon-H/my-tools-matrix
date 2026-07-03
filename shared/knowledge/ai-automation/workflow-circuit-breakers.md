@@ -4,6 +4,7 @@ slug: workflow-circuit-breakers
 topicId: T-AI-KB-0179
 pillar: fundamentals
 domain: ai-automation
+subtopic: "governance-troubleshooting"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

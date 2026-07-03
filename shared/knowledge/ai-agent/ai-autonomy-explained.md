@@ -5,6 +5,7 @@ description: { zh: "拆解 AI 自主性的三層分級與決策迴圈，說明�
 keywords: ["AI自主性", "Autonomy", "AI Agent", "決策授權", "人機協作", "自動化邊界", "AI治理", "代理層"]
 publishedAt: 2026-06-22
 domain: ai-agent
+subtopic: "fundamentals"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/ai-project-cost-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0053

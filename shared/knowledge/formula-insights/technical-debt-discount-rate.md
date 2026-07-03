@@ -4,6 +4,7 @@ slug: technical-debt-discount-rate
 topicId: T-AI-KB-0201
 pillar: fundamentals
 domain: formula-insights
+subtopic: "financial-models"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

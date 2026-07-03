@@ -4,6 +4,7 @@ slug: ai-native-vs-digital-transformation
 topicId: T-AI-KB-0111
 pillar: fundamentals
 domain: ai-native
+subtopic: "org-transformation"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

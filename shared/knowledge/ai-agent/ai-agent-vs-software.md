@@ -4,6 +4,7 @@ slug: ai-agent-vs-software
 topicId: T-AI-KB-0101
 pillar: fundamentals
 domain: ai-agent
+subtopic: "fundamentals"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

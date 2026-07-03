@@ -5,6 +5,7 @@ description: { zh: "對照單一 Agent 與多 Agent 協作架構在成本、延�
 keywords: ["Multi-Agent", "單Agent", "多代理協作", "Agent架構選型", "協調成本"]
 publishedAt: 2026-06-22
 domain: ai-agent
+subtopic: "architecture"
 pillar: multiagent
 relatedTools: ["/tools/ai/ai-roi-calculator"]
 contentType: knowledge

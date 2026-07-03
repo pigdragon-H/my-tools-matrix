@@ -4,6 +4,7 @@ slug: model-distillation-economy
 topicId: T-AI-KB-0186
 pillar: fundamentals
 domain: ai-native
+subtopic: "model-economics"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

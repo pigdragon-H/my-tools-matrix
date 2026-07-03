@@ -5,6 +5,7 @@ description: { zh: "很多人覺得 AI 很強，卻不知道怎麼真正用它�
 keywords: ["AI工作流", "AI workflow", "工作流整合", "自動化", "AI流程", "提示工程"]
 publishedAt: 2026-06-22
 domain: ai-automation
+subtopic: "core-concepts"
 relatedTools: []
 contentType: knowledge
 topicId: T-AI-KB-0016

@@ -4,6 +4,7 @@ slug: data-flywheel-effect
 topicId: T-AI-KB-0187
 pillar: fundamentals
 domain: ai-native
+subtopic: "worldview"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

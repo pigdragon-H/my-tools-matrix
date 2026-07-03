@@ -4,6 +4,7 @@ slug: zero-budget-software
 topicId: T-AI-KB-0192
 pillar: fundamentals
 domain: ai-business
+subtopic: "business-models"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

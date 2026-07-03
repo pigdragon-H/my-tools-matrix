@@ -4,6 +4,7 @@ slug: ai-agent-memory-system
 topicId: T-AI-KB-0102
 pillar: architecture
 domain: ai-agent
+subtopic: "architecture"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

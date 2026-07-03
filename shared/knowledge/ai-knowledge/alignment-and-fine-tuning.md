@@ -4,6 +4,7 @@ slug: alignment-and-fine-tuning
 topicId: T-AI-KB-0152
 pillar: fundamentals
 domain: ai-knowledge
+subtopic: "llm-fundamentals"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

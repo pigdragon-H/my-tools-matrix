@@ -193,6 +193,15 @@ export interface KnowledgeMeta extends BaseContentMeta, AiClosedLoopMeta {
    * future-industry / learning-center / formula-insights
    */
   domain: string;
+  /**
+   * [現用] 次主題分類，隸屬於 domain 之下的第二層分組。
+   * 2026-07-03 新增：147篇既有文章已依標題語意批次回填（純分類標籤，
+   * 未動正文），值集合依 domain 各自獨立、可持續擴充，不鎖死固定集合，
+   * 治理精神與 domain 欄位相同。目的是解決訪客進入單一 domain（動輒
+   * 20-40篇）時無從選起的導覽問題，見 client/src/lib/laneCategories.ts
+   * 的二層分組邏輯。
+   */
+  subtopic?: string;
   /** [現用] 串接工具（選填）。 */
   relatedTools?: string[];
   // === 商業層控制欄位 ===

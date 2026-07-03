@@ -4,6 +4,7 @@ slug: shadow-ai-risk
 topicId: T-AI-KB-0183
 pillar: fundamentals
 domain: learning-center
+subtopic: "governance"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

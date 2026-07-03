@@ -5,6 +5,7 @@ description: { zh: "AI Native 不是「公司用了 AI」，而是企業從流�
 keywords: ["AI Native", "AI原生", "AI原生企業", "數位轉型", "AI轉型", "AI Company", "企業AI", "AI組織設計"]
 publishedAt: 2026-06-22
 domain: ai-business
+subtopic: "commercial-applications"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/automation-savings-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0100

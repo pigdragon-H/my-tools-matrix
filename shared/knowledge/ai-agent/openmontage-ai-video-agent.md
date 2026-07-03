@@ -4,6 +4,7 @@ slug: openmontage-ai-video-agent
 topicId: T-AI-KB-0202
 pillar: fundamentals
 domain: ai-agent
+subtopic: "case-studies"
 publishedAt: 2026-07-02
 contentType: knowledge
 operatingStatus: active

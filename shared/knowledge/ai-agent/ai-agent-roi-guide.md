@@ -5,6 +5,7 @@ description: { zh: "AI Agent 到底值不值得導入？本文提供一套可操
 keywords: ["AI Agent ROI", "AI Agent成本", "AI投資報酬", "Agent效益", "AI ROI計算", "Agent導入評估", "AI成本效益"]
 publishedAt: 2026-06-22
 domain: ai-agent
+subtopic: "adoption-roi"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/chatbot-cost-calculator", "/tools/ai/ai-project-cost-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0030

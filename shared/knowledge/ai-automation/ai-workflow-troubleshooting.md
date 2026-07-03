@@ -4,6 +4,7 @@ slug: ai-workflow-troubleshooting
 topicId: T-AI-KB-0110
 pillar: ops
 domain: ai-automation
+subtopic: "governance-troubleshooting"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

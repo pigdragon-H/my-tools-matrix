@@ -5,6 +5,7 @@ description: { zh: "AI Agent 不只是聊天機器人，而是能自主規劃、
 keywords: ["AI Agent", "AI代理", "自主代理", "Multi-Agent", "Agentic Workflow", "企業AI Agent", "AI Agent導入", "AI Agent ROI"]
 publishedAt: 2026-06-22
 domain: ai-agent
+subtopic: "adoption-roi"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/chatbot-cost-calculator", "/tools/ai/ai-project-cost-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0002

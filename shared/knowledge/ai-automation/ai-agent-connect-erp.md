@@ -5,6 +5,7 @@ description: { zh: "AI Agent 接 ERP 最大的風險不是接不上，而是接�
 keywords: ["AI Agent", "ERP串接", "進銷存", "權限邊界", "系統整合", "庫存", "訂單自動化", "ai-automation"]
 publishedAt: 2026-06-22
 domain: ai-automation
+subtopic: "system-integration"
 pillar: integration
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/automation-savings-calculator"]
 contentType: knowledge

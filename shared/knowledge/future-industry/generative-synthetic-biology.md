@@ -4,6 +4,7 @@ slug: generative-synthetic-biology
 topicId: T-AI-KB-0162
 pillar: fundamentals
 domain: future-industry
+subtopic: "frontier-science"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

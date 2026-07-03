@@ -4,6 +4,7 @@ slug: spatial-computing-semantic-layer
 topicId: T-AI-KB-0164
 pillar: fundamentals
 domain: future-industry
+subtopic: "infrastructure"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

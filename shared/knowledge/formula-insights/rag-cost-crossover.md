@@ -4,6 +4,7 @@ slug: rag-cost-crossover
 topicId: T-AI-KB-0197
 pillar: fundamentals
 domain: formula-insights
+subtopic: "financial-models"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

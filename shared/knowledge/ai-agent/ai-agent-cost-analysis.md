@@ -4,6 +4,7 @@ slug: ai-agent-cost-analysis
 topicId: T-AI-KB-0104
 pillar: architecture
 domain: ai-agent
+subtopic: "adoption-roi"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

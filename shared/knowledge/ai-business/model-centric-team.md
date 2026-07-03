@@ -4,6 +4,7 @@ slug: model-centric-team
 topicId: T-AI-KB-0191
 pillar: fundamentals
 domain: ai-business
+subtopic: "talent-org"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

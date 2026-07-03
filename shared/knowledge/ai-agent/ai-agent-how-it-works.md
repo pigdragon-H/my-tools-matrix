@@ -5,6 +5,7 @@ description: { zh: "把 AI Agent 一次互動背後實際跑過的五個階段�
 keywords: ["AI Agent原理", "感知規劃", "工具呼叫", "Agent迴圈", "AI Agent架構"]
 publishedAt: 2026-06-22
 domain: ai-agent
+subtopic: "fundamentals"
 pillar: fundamentals
 relatedTools: ["/tools/ai/ai-roi-calculator"]
 contentType: knowledge

@@ -5,6 +5,7 @@ description: { zh: "比較固定流程、單次問答、Agentic Workflow 三種�
 keywords: ["Agentic Workflow", "固定流程", "單次問答", "流程自動化架構", "Agent決策"]
 publishedAt: 2026-06-22
 domain: ai-agent
+subtopic: "fundamentals"
 pillar: fundamentals
 relatedTools: ["/tools/ai/ai-roi-calculator"]
 contentType: knowledge

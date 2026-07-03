@@ -5,6 +5,7 @@ description: { zh: "當 Agent 開始替你讀寫各種系統，它就成了一�
 keywords: ["AI Agent", "安全性", "身分驗證", "最小權限", "稽核軌跡", "資料外漏", "資安治理", "ai-automation"]
 publishedAt: 2026-06-22
 domain: ai-automation
+subtopic: "governance-troubleshooting"
 pillar: safety
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/automation-savings-calculator"]
 contentType: knowledge

@@ -4,6 +4,7 @@ slug: human-in-the-loop-design
 topicId: T-AI-KB-0171
 pillar: fundamentals
 domain: ai-agent
+subtopic: "architecture"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

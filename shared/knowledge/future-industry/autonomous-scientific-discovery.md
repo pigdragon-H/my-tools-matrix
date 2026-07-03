@@ -4,6 +4,7 @@ slug: autonomous-scientific-discovery
 topicId: T-AI-KB-0169
 pillar: fundamentals
 domain: future-industry
+subtopic: "frontier-science"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

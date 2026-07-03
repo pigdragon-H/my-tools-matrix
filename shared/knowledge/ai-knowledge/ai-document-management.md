@@ -4,6 +4,7 @@ slug: ai-document-management
 topicId: T-AI-KB-0124
 pillar: playbook
 domain: ai-knowledge
+subtopic: "knowledge-ops"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

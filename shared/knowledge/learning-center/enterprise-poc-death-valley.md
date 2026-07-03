@@ -4,6 +4,7 @@ slug: enterprise-poc-death-valley
 topicId: T-AI-KB-0181
 pillar: fundamentals
 domain: learning-center
+subtopic: "governance"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

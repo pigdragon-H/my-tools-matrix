@@ -4,6 +4,7 @@ slug: ai-automation-case-studies
 topicId: T-AI-KB-0109
 pillar: playbook
 domain: ai-automation
+subtopic: "industry-playbooks"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

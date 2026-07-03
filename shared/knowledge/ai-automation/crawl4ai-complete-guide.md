@@ -4,6 +4,7 @@ slug: crawl4ai-complete-guide
 topicId: T-AI-KB-0108
 pillar: tooling
 domain: ai-automation
+subtopic: "platform-tutorials"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

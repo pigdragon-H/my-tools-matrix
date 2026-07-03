@@ -5,6 +5,7 @@ description: { zh: "多數 AI 工作流整合失敗，根因不是模型不夠�
 keywords: ["AI工作流", "工作流整合", "整合失敗", "流程設計", "權責劃分", "自動化失敗", "AI導入", "業務流程"]
 publishedAt: 2026-06-22
 domain: ai-automation
+subtopic: "governance-troubleshooting"
 relatedTools: ["/tools/ai/automation-savings-calculator", "/tools/ai/ai-roi-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0033

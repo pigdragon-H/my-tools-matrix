@@ -4,6 +4,7 @@ slug: email-ai-automation-playbook
 topicId: T-AI-KB-0095
 pillar: playbook
 domain: ai-automation
+subtopic: "core-concepts"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

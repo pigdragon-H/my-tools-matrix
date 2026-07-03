@@ -4,6 +4,7 @@ slug: inverse-prompting-method
 topicId: T-AI-KB-0182
 pillar: fundamentals
 domain: learning-center
+subtopic: "skills"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

@@ -4,6 +4,7 @@ slug: vector-embedding-space
 topicId: T-AI-KB-0189
 pillar: fundamentals
 domain: ai-knowledge
+subtopic: "llm-fundamentals"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

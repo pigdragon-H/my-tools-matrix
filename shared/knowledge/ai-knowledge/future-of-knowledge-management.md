@@ -4,6 +4,7 @@ slug: future-of-knowledge-management
 topicId: T-AI-KB-0116
 pillar: fundamentals
 domain: ai-knowledge
+subtopic: "knowledge-ops"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

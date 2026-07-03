@@ -4,6 +4,7 @@ slug: regtech-ai-lifecycle
 topicId: T-AI-KB-0165
 pillar: fundamentals
 domain: future-industry
+subtopic: "infrastructure"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

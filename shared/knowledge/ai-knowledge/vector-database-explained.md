@@ -4,6 +4,7 @@ slug: vector-database-explained
 topicId: T-AI-KB-0113
 pillar: fundamentals
 domain: ai-knowledge
+subtopic: "retrieval-search"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active

@@ -4,6 +4,7 @@ slug: pydantic-schema-validation
 topicId: T-AI-KB-0177
 pillar: fundamentals
 domain: ai-automation
+subtopic: "technical-patterns"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

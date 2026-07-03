@@ -5,6 +5,7 @@ description: { zh: "拆解 AI 安全護欄的運作層次與拒答邏輯，說�
 keywords: ["AI護欄", "Guardrails", "AI拒答", "AI安全", "Jailbreak", "AI治理", "內容政策", "企業AI風控"]
 publishedAt: 2026-06-22
 domain: ai-agent
+subtopic: "fundamentals"
 relatedTools: ["/tools/ai/ai-roi-calculator", "/tools/ai/ai-project-cost-calculator"]
 contentType: knowledge
 topicId: T-AI-KB-0060

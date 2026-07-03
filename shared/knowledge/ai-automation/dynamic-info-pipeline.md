@@ -4,6 +4,7 @@ slug: dynamic-info-pipeline
 topicId: T-AI-KB-0193
 pillar: fundamentals
 domain: ai-automation
+subtopic: "core-concepts"
 publishedAt: 2026-06-23
 contentType: knowledge
 operatingStatus: active

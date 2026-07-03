@@ -4,6 +4,7 @@ slug: context-window-degeneracy
 topicId: T-AI-KB-0151
 pillar: fundamentals
 domain: ai-knowledge
+subtopic: "risk-governance"
 publishedAt: 2026-06-22
 contentType: knowledge
 operatingStatus: active
