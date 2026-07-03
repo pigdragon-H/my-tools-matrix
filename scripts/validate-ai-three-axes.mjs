@@ -413,6 +413,14 @@ for (const rec of records) {
     if (meta.adsEnabled === true && meta.victorReviewed !== true) {
       err(file, `blueprint has adsEnabled=true (going live/monetized) but victorReviewed is not true; blueprints require Victor's explicit review before publish per Victor's 2026-07-03 decision — set adsEnabled:false until reviewed, or victorReviewed:true after Victor signs off`);
     }
+
+    // 表格/框線圖：原本只有知識庫賽道強制檢查，2026-07-03 稽核發現這條規則
+    // 跟 AdSense 動態曝光廣告機制直接掛鉤（AD_SLOT_SPEC.md：每個表格、每個框線
+    // 字元架構圖下方各自動增生一個廣告位）——創業藍圖是三軸裡內容量最大、
+    // 理論上最該吃滿曝光位的單元，卻是唯一沒有這條規則的賽道，此為文件與程式碼
+    // 對不上的落差，這次補齊，機會情報維持不強制（篇幅精簡，見機會情報手冊第九節）。
+    if (!/^\s*\|/m.test(body)) err(file, `blueprint must include at least one table (AdSense inline-ad rationale, see AD_SLOT_SPEC.md)`);
+    if (!/[┌┐└┘├┤┬┴┼─│▶►→↓↑]/.test(body)) err(file, `blueprint must include a box-drawing structure diagram (AdSense inline-ad rationale, see AD_SLOT_SPEC.md)`);
   }
 }
 

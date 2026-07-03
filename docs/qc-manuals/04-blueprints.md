@@ -1,6 +1,7 @@
 # 04 — AI 創業藍圖（`shared/blueprints/`）操作手冊
 
-> 版本 v1.1 · 2026-07-03 · 整理者：Claude（Universe Auditor / QC）
+> 版本 v1.2 · 2026-07-03 · 整理者：Claude（Universe Auditor / QC）
+> v1.2 變更：稽核發現表格/框線圖硬性檢查原本只套用在知識庫賽道，但這條規則跟 AdSense 動態曝光廣告機制直接掛鉤（`AD_SLOT_SPEC.md`：每個表格、每個框線字元架構圖下方各自動增生一個廣告位），創業藍圖是三軸裡內容量最大、最該吃滿曝光位的單元，卻是唯一沒有這條規則的賽道，屬文件與程式碼對不上的落差，這次補齊。既有3篇藍圖依「舊文不動」原則未修改，會顯示為新增債務。
 > v1.1 變更：第六節列出的三個待裁定項目，這次都由 Victor 拍板定案——正文最低字數比照知識庫訂為 3000 字（不採用「藍圖天生較短」的寬鬆假設，理由是藍圖是金字塔最稀缺的頂點，訪客點進來要有紮實收穫）；新增「創業自問」區塊（格式沿用詰問區塊的 3 題+引導思路規則，但標題文字刻意跟知識庫不同，定位是逼讀者面對「真的要做嗎」的決策點，不是單純反思）；新增讀者聯絡欄位（PiGragon H · pigragonh@gmail.com），是未來「藍圖使用數據回饋成新機會情報」閉環的第一步雛形；新增 `victorReviewed` 審查關卡，`adsEnabled: true` 卻沒有 `victorReviewed: true` 會被驗證腳本擋下，「上架要經過我審查」這句話從此不是靠自覺，是程式碼真的擋。三篇既有藍圖依「舊文不動」原則暫不修改，這些新規則會讓它們在驗證時顯示錯誤，這是預期中的債務，不是這次改動搞壞的。
 > 性質：**混合文件**——frontmatter 規則與量產驗證門檻完全來自既有 `docs/ai-three-axes-production-spec.md` 與 `scripts/validate-ai-three-axes.mjs`（已實測逐條對照程式碼，非憑文件猜測）。
 > 流程形狀（五層 QC、跨視窗紅線、雙檢）見 `00-CORE-QC-PRINCIPLES.md`。
@@ -84,6 +85,8 @@ validationNotes: [...]               # 選填，留審核備註
 | `relatedBlueprints`/`relatedKnowledge`/`relatedOpportunities` 裡任何 slug 不存在於對應賽道 | error |
 | 三個 relation 欄位全部加總 = 0 | error（必須至少跨軸關聯 1 篇） |
 | **blueprint 專屬**：`relatedKnowledge` + `relatedOpportunities` 加總 = 0 | error（藍圖必須連到知識庫或機會情報，連到別的藍圖不算） |
+| **正文缺少至少一個表格**（AdSense動態曝光廣告依賴） | error（v1.2 新增，見 `AD_SLOT_SPEC.md`） |
+| **正文缺少至少一個框線字元架構圖**（同上） | error（v1.2 新增） |
 | `topicId` 未登記於 `docs/task-cards/registry.json` | warning（debt-tracking，既有文章不追溯） |
 
 ---
