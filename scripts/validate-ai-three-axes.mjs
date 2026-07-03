@@ -149,6 +149,19 @@ for (const rec of records) {
   topicIdBySlugLane.set(`${rec.lane.laneId}:${rec.slug}`, rec.meta.topicId);
 }
 
+// knowledge slug → 真實 domain 對照表：用來驗證 AI視角「往知識庫閱讀」連結
+// 是否寫成正確的 /knowledge/{domain}/{slug} 兩段式路徑（真實路由格式，
+// 見 client/src/App.tsx 的 "/knowledge/:category/:slug"）。2026-07-03
+// 發現一起真實事故：連結漏了 domain 段，寫成 /knowledge/{slug}（一段），
+// 完全沒對上任何路由規則，wouter 找不到匹配 Route 時中間內容區塊整個
+// 空白，只剩外層 header/footer——這個檢查就是為了擋下同一類錯誤再發生。
+const knowledgeDomainBySlug = new Map();
+for (const rec of records) {
+  if (rec.lane.laneId === 'knowledge') {
+    knowledgeDomainBySlug.set(rec.slug, rec.meta.domain);
+  }
+}
+
 // 量產手冊第四章 L3 紅線關鍵字：出現不代表自動退件，但必須觸發審核警報，
 // 提醒撰寫者這個主題是否已經越界成創業藍圖，不該留在知識庫當一般方法論文章。
 const L3_REDLINE_KEYWORDS = [
@@ -298,12 +311,25 @@ for (const rec of records) {
       if (charCount < 300 || charCount > 500) {
         err(file, `AI視角 section is ${charCount} chars (excluding link markup); must be 300-500 chars per Victor's 2026-07-03 decision`);
       }
-      const linkMatch = section.match(/\[[^\]]+\]\(\/knowledge\/([^)]+)\)/);
+      // 連結格式要求「/knowledge/{domain}/{slug}」兩段式路徑，對應真實路由
+      // 「/knowledge/:category/:slug」，只寫「/knowledge/{slug}」（一段）
+      // 完全不會被路由匹配到，會導致頁面內容整個空白（真實事故，2026-07-03）。
+      const wrongFormatLink = section.match(/\[[^\]]+\]\(\/knowledge\/([^/)]+)\)/);
+      const linkMatch = section.match(/\[[^\]]+\]\(\/knowledge\/([\w-]+)\/([\w-]+)\)/);
       const noArticleMatch = /往知識庫閱讀[^\n]*無知識庫文章/.test(section);
-      if (!linkMatch && !noArticleMatch) {
-        err(file, `AI視角 section must contain the explicit CTA slot "往知識庫閱讀" — either a real link [標題](/knowledge/slug), or the honest label "無知識庫文章" when no relevant knowledge article exists yet. This is the visible pyramid drive-shaft (機會情報→知識庫), not the invisible relatedKnowledge frontmatter field`);
-      } else if (linkMatch && !relKnowledge.includes(linkMatch[1])) {
-        warn(file, `AI視角 visible link points to /knowledge/${linkMatch[1]} but that slug isn't in this article's relatedKnowledge frontmatter [${relKnowledge.join(', ')}]; keep the visible link and the frontmatter relation in sync`);
+      if (wrongFormatLink && !linkMatch) {
+        err(file, `AI視角 link "/knowledge/${wrongFormatLink[1]}" is missing the domain segment — real routes are "/knowledge/{domain}/{slug}" (two segments), a one-segment link matches no route and renders a blank page. Did you mean "/knowledge/${knowledgeDomainBySlug.get(wrongFormatLink[1]) || '{domain}'}/${wrongFormatLink[1]}"?`);
+      } else if (!linkMatch && !noArticleMatch) {
+        err(file, `AI視角 section must contain the explicit CTA slot "往知識庫閱讀" — either a real two-segment link [標題](/knowledge/domain/slug), or the honest label "無知識庫文章" when no relevant knowledge article exists yet. This is the visible pyramid drive-shaft (機會情報→知識庫), not the invisible relatedKnowledge frontmatter field`);
+      } else if (linkMatch) {
+        const [, linkedDomain, linkedSlug] = linkMatch;
+        const realDomain = knowledgeDomainBySlug.get(linkedSlug);
+        if (realDomain && realDomain !== linkedDomain) {
+          err(file, `AI視角 link points to /knowledge/${linkedDomain}/${linkedSlug} but that article's real domain is "${realDomain}" — fix to /knowledge/${realDomain}/${linkedSlug}`);
+        }
+        if (!relKnowledge.includes(linkedSlug)) {
+          warn(file, `AI視角 visible link points to /knowledge/${linkedDomain}/${linkedSlug} but that slug isn't in this article's relatedKnowledge frontmatter [${relKnowledge.join(', ')}]; keep the visible link and the frontmatter relation in sync`);
+        }
       } else if (noArticleMatch && relKnowledge.length > 0) {
         warn(file, `AI視角 says "無知識庫文章" but relatedKnowledge frontmatter is non-empty [${relKnowledge.join(', ')}] — this looks inconsistent, confirm which is correct`);
       }

@@ -1,5 +1,6 @@
 /* === SAFE ZONE START === */
 import { Router, Route, Switch } from "wouter";
+import { LaneNotFound } from "./components/LaneNotFound";
 import Home from "./pages/Home";
 import BlogList from "./pages/BlogList";
 import About from "./pages/About";
@@ -110,6 +111,18 @@ export default function App({ ssrPath }: { ssrPath?: string } = {}) {
                     <AdminPage>
                       <AdminHealth />
                     </AdminPage>
+                  </Route>
+                  {/* 全站兜底 404：2026-07-03 新增。原本沒有任何 catch-all
+                      路由，網址打錯/連結寫錯（例如少一段路徑）時，Switch
+                      找不到匹配的 Route，中間內容區塊會整個空白，只剩外層
+                      header/footer，訪客也無路可退。這條必須放在 Switch
+                      最後一個，確保只在前面所有路由都沒匹配到時才生效，
+                      不影響任何既有路由的匹配順序。*/}
+                  <Route path="*">
+                    <LaneNotFound
+                      backHref="/"
+                      backLabel={{ zh: "回首頁", en: "Back to Home" }}
+                    />
                   </Route>
                 </Switch>
               </main>
