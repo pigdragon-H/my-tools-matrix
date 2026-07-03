@@ -1,0 +1,16 @@
+{
+  "$comment": "任務卡登記表。每篇 opportunities/knowledge/blueprints 文章開寫前，先在這裡登記一筆，topicId 是連結任務卡與實際檔案的唯一鍵。欄位定義見 docs/AI_KNOWLEDGE_PRODUCTION_MANUAL.md 附錄「標準任務卡模板」。",
+  "cards": [
+    {
+      "topicId": "T-AI-KB-0202",
+      "title": "OpenMontage——短影音界的開闊巨人：一套讓AI像劇組一樣工作的開源系統",
+      "targetLane": "knowledge",
+      "targetDomain": "ai-agent",
+      "maturityTarget": "L1",
+      "sourceRationale": "victor_directive",
+      "assignedTo": "Claude",
+      "createdAt": "2026-07-02",
+      "status": "delivered"
+    }
+  ]
+}

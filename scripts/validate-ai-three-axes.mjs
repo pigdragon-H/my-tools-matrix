@@ -112,9 +112,17 @@ function loadTopicIds() {
   return new Set([...text.matchAll(/topicId:\s*"([^"]+)"/g)].map((m) => m[1]));
 }
 
+function loadTaskCardTopicIds() {
+  const file = path.join(ROOT, 'docs/task-cards/registry.json');
+  if (!fs.existsSync(file)) return null; // registry 不存在時回傳 null，區分「沒有登記表」與「有登記表但這篇沒登記」
+  const registry = JSON.parse(fs.readFileSync(file, 'utf8'));
+  return new Set((registry.cards || []).map((c) => c.topicId));
+}
+
 const errors = [];
 const warnings = [];
 const topicIds = loadTopicIds();
+const taskCardTopicIds = loadTaskCardTopicIds();
 const slugByLane = new Map();
 const records = [];
 
@@ -166,6 +174,9 @@ for (const rec of records) {
   if (meta.id && meta.id !== slug) warn(file, `id '${meta.id}' differs from slug '${slug}'`);
   if (meta.contentType !== lane.contentType) err(file, `contentType must be '${lane.contentType}', got '${meta.contentType}'`);
   if (meta.topicId && !topicIds.has(meta.topicId)) err(file, `topicId '${meta.topicId}' not found in shared/aiTopics.ts`);
+  if (meta.topicId && taskCardTopicIds && !taskCardTopicIds.has(meta.topicId)) {
+    warn(file, `topicId '${meta.topicId}' has no matching entry in docs/task-cards/registry.json; this is debt-tracking only (194 pre-existing articles predate the registry), not yet a hard gate — see 05-knowledge.md §十`);
+  }
   if (meta.operatingStatus && !VALID_STATUS.has(meta.operatingStatus)) err(file, `invalid operatingStatus '${meta.operatingStatus}'`);
   if (meta.ctaType && !VALID_CTA.has(meta.ctaType)) err(file, `invalid ctaType '${meta.ctaType}'`);
   if (meta.ctaType && meta.ctaType !== EXPECTED_CTA[lane.contentType]) warn(file, `ctaType '${meta.ctaType}' differs from default '${EXPECTED_CTA[lane.contentType]}'`);
@@ -208,6 +219,20 @@ for (const rec of records) {
       warn(file, `blueprintCandidate (${meta.blueprintCandidate}) does not match value derived from l4Status "${meta.l4Status}"; run deriveBlueprintCandidate() and reconcile`);
     }
     if (relKnowledge.length === 0) err(file, `opportunity must link to at least one knowledge item`);
+
+    // 金字塔第一段血緣：l4Status 已晉升到 knowledge 以上，代表這條情報線宣稱
+    // 已經有對應的知識庫文章存在（必要條件），此時應該用 topicId 對齊來讓這個
+    // 宣稱在資料層級可被追溯，而不是只寫在 relatedKnowledge 裡當一般性連結。
+    // 注意：這條規則不反過來要求「每條機會情報都要有知識庫文章」——多數情報卡
+    // 本該停在 watch，下層是上層的必要條件，不是充分條件，這裡只檢查「宣稱已晉升」
+    // 的那些卡片，血緣是否真的對得上。
+    const PROMOTED_L4 = new Set(['knowledge', 'blueprint-pending', 'blueprint-ready']);
+    if (PROMOTED_L4.has(meta.l4Status) && relKnowledge.length > 0 && meta.topicId) {
+      const threaded = relKnowledge.some((s) => topicIdBySlugLane.get(`knowledge:${s}`) === meta.topicId);
+      if (!threaded) {
+        warn(file, `l4Status is "${meta.l4Status}" (promoted past watch) but none of relatedKnowledge [${relKnowledge.join(', ')}] share this card's topicId (${meta.topicId}); if this is the same topic thread graduating into a knowledge article, align the topicId — otherwise this is just a related-content link, not a pyramid lineage link`);
+      }
+    }
     if (meta.blueprintCandidate === true && relBlueprints.length === 0) warn(file, `blueprintCandidate=true but no relatedBlueprints; ensure validationNotes explains the gap`);
   }
   if (lane.laneId === 'knowledge') {
