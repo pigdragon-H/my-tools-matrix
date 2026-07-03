@@ -1,6 +1,7 @@
-# 05 — AI 知識庫文章（`shared/knowledge/`）操作手冊 v2.1
+# 05 — AI 知識庫文章（`shared/knowledge/`）操作手冊 v2.2
 
-> 版本 v2.1 · 2026-07-02 · 整理者：Claude（Universe Auditor / QC）
+> 版本 v2.2 · 2026-07-03 · 整理者：Claude（Universe Auditor / QC）
+> v2.2 變更：補上一則真實事故的提醒——知識庫文章自己的網址是`/knowledge/{domain}/{slug}`兩段式，機會情報跟創業藍圖都是單段（`/opportunities/{slug}`、`/blueprints/{slug}`），三軸格式不對稱。事故起因是機會情報的AI視角區塊連結漏掉了domain段，若知識庫文章之間互相引用（例如「延伸閱讀」段落）或被其他賽道引用，同樣要注意這個格式，不要假設全站網址規則統一。完整事故記錄見`FU_三軸金字塔架構與原理.md`第五節。
 > v2.1 在 v2.0 的基礎上，補齊機會情報→知識庫方向的 `topicId` 血緣檢查、建立任務卡登記表的初版程式碼對應、把三主軸金字塔各層之間「必要條件鏈、非雙向對稱」的邏輯講精確，並依 Victor 定調，把原創性查重的自動化從「待解問題」改為「刻意不做，理由見第八、十節」。
 > 性質：**操作手冊**，權威來源是 `docs/AI_KNOWLEDGE_PRODUCTION_MANUAL.md`（Victor 2026-07-02 核可的量產總綱，涵蓋角色分工、選題依據、L0-L4 成熟度分級、任務卡與交付包制度）、`docs/KNOWLEDGE_WRITING_SOP.md`（逐句怎麼寫）、`docs/KNOWLEDGE_QC_MANUAL.md`（逐項怎麼查）、`docs/OPPORTUNITY_INTELLIGENCE_PIPELINE.md`（機會情報單元的金字塔模型母文件）、`docs/ORIGINALITY_POLICY.md`、`docs/AD_SLOT_SPEC.md`、`docs/task-cards/registry.json`（任務卡登記表）。本文件是把這幾份文件對到知識庫這條賽道時，真正要動手做的部分收攏在一起，遇到本文件沒寫到的細節，以上述原始文件為準。
 > 流程形狀（五層 QC、跨視窗紅線、雙檢）見 `00-CORE-QC-PRINCIPLES.md`。
