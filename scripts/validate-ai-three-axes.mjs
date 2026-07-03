@@ -240,7 +240,12 @@ for (const rec of records) {
     ) {
       warn(file, `blueprintCandidate (${meta.blueprintCandidate}) does not match value derived from l4Status "${meta.l4Status}"; run deriveBlueprintCandidate() and reconcile`);
     }
-    if (relKnowledge.length === 0) err(file, `opportunity must link to at least one knowledge item`);
+    // 原本這裡有「relatedKnowledge 為空就無條件擋 build」的規則，2026-07-03 移除：
+    // Victor 確認金字塔架構是「情報數量 > 知識庫數量 >> 創業藍圖數量」，三軸不是
+    // 1對1衍生關係，強迫每條情報都要有知識庫文章違反這個架構，也違反第 3.4 節
+    // 「下層是上層的必要條件，不是充分條件」的邏輯。改用下方 AI視角區塊的誠實
+    // CTA（「往知識庫閱讀」或「無知識庫文章」）取代，留空不再是錯誤，含糊不寫
+    // 才是錯誤。
 
     // 金字塔第一段血緣：l4Status 已晉升到 knowledge 以上，代表這條情報線宣稱
     // 已經有對應的知識庫文章存在（必要條件），此時應該用 topicId 對齊來讓這個
@@ -294,10 +299,13 @@ for (const rec of records) {
         err(file, `AI視角 section is ${charCount} chars (excluding link markup); must be 300-500 chars per Victor's 2026-07-03 decision`);
       }
       const linkMatch = section.match(/\[[^\]]+\]\(\/knowledge\/([^)]+)\)/);
-      if (!linkMatch) {
-        err(file, `AI視角 section must contain a visible markdown link to a knowledge article, e.g. [標題](/knowledge/slug) — this is the reader-facing trigger-link signal, not the invisible relatedKnowledge frontmatter field`);
-      } else if (!relKnowledge.includes(linkMatch[1])) {
+      const noArticleMatch = /往知識庫閱讀[^\n]*無知識庫文章/.test(section);
+      if (!linkMatch && !noArticleMatch) {
+        err(file, `AI視角 section must contain the explicit CTA slot "往知識庫閱讀" — either a real link [標題](/knowledge/slug), or the honest label "無知識庫文章" when no relevant knowledge article exists yet. This is the visible pyramid drive-shaft (機會情報→知識庫), not the invisible relatedKnowledge frontmatter field`);
+      } else if (linkMatch && !relKnowledge.includes(linkMatch[1])) {
         warn(file, `AI視角 visible link points to /knowledge/${linkMatch[1]} but that slug isn't in this article's relatedKnowledge frontmatter [${relKnowledge.join(', ')}]; keep the visible link and the frontmatter relation in sync`);
+      } else if (noArticleMatch && relKnowledge.length > 0) {
+        warn(file, `AI視角 says "無知識庫文章" but relatedKnowledge frontmatter is non-empty [${relKnowledge.join(', ')}] — this looks inconsistent, confirm which is correct`);
       }
     }
   }

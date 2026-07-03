@@ -1,6 +1,8 @@
 # 06 — 機會情報（`shared/opportunities/`）操作手冊
 
 > 版本 v1.2 · 2026-07-03 · 整理者：Claude（Universe Auditor / QC）
+> 版本 v1.3 · 2026-07-03 · 整理者：Claude（Universe Auditor / QC）
+> v1.3 變更：觸發連結訊號改為「往知識庫閱讀」雙狀態接點（有連結／無知識庫文章，二選一），並移除「`relatedKnowledge` 必填」的舊硬性規則——Victor 確認金字塔真實形狀是「情報數量 > 知識庫數量 >> 創業藍圖數量」，三軸非1對1衍生關係，理由詳見 `OPPORTUNITY_INTELLIGENCE_PIPELINE.md` 第12.5節。
 > v1.2 變更：Victor 裁定機會情報要在正文下方加一個「AI視角」短評區塊（300-500字，涵蓋產業/世代意義、效率提升、對使用者的幫助、未來展望），讓決策備忘性質的情報有活性，也撐起足夠內容量供 AdSense 商業運轉；更關鍵的是這段短評必須包含一個訪客看得到、點得下去的知識庫連結，作為「觸發連結訊號」——`relatedKnowledge` frontmatter 是隱形欄位，訪客看不到，不構成這條規則要的東西，兩者要並存且對齊。已補進驗證腳本，列為硬性錯誤。同時補上黑名單詞彙、加密貨幣排除、去機械化開場三項既定規範的程式碼實作（原本只寫在 `OPPORTUNITY_INTELLIGENCE_PIPELINE.md` 裡，沒有真的被擋）。
 > 性質：**混合文件**——frontmatter 規則與量產驗證門檻完全來自既有 `docs/ai-three-axes-production-spec.md` 與 `scripts/validate-ai-three-axes.mjs`（已實測逐條對照程式碼，非憑文件猜測）；L2 人工內容品質閘門部分目前**沒有正式決議**，是比照單元 5（知識庫）的形狀新擬，**標明為新增提案，需 Victor 確認**才能視為正式規範。
 > 流程形狀（五層 QC、跨視窗紅線、雙檢）見 `00-CORE-QC-PRINCIPLES.md`。
@@ -28,7 +30,8 @@
 主要風險
 建議下一步
 是否可升格為藍圖候選
-🔭 AI視角：這則情報的追蹤價值（300-500字，結尾含指向知識庫文章的可見連結）
+🔭 AI視角：這則情報的追蹤價值（300-500字，結尾含「往知識庫閱讀」雙狀態接點：
+[標題](/knowledge/slug) 真連結，或誠實聲明「無知識庫文章」）
 ```
 
 ---
@@ -82,13 +85,16 @@ validationNotes: [...]
 | **正文 H2 數量 < 4** | error（**機會情報賽道最低 H2 = 4，目前三軸中最寬鬆**） |
 | `relatedBlueprints`/`relatedKnowledge`/`relatedOpportunities` 裡任何 slug 不存在於對應賽道 | error |
 | **機會情報專屬**：`blueprintCandidate` 欄位 undefined（沒寫） | error（這個欄位機會情報一定要填，藍圖跟知識庫不需要） |
-| **機會情報專屬**：`relatedKnowledge` 為空 | error（機會情報必須至少連 1 篇知識庫文章，這跟藍圖「連知識庫或機會情報任一即可」不同——機會情報是**指定一定要連知識庫**） |
+| ~~`relatedKnowledge` 為空~~ | ~~error~~ **已於 v1.3 移除**，改由 AI視角區塊的雙狀態接點把關，見下方 |
+| **缺少「🔭 AI視角」區塊，或字數不在300-500字（不含連結語法）** | error（v1.2，Victor 2026-07-03 裁定） |
+| **AI視角區塊缺少「往知識庫閱讀」雙狀態接點**（既無 `[標題](/knowledge/slug)` 真連結，也沒有「無知識庫文章」聲明） | error（v1.3，這是訪客看得到的傳動軸接點，跟隱形的 `relatedKnowledge` frontmatter 是兩件事） |
+| 接點為真連結時，slug 沒有出現在 `relatedKnowledge` frontmatter 裡 | warning（可見連結跟隱形欄位建議保持一致） |
+| 接點聲明「無知識庫文章」但 `relatedKnowledge` frontmatter 非空 | warning（兩者矛盾，需確認哪個才對） |
 | **內文出現內部協作工具/團隊代號**（Manus、SuperNinja） | error（v1.2，OPPORTUNITY_INTELLIGENCE_PIPELINE.md §10.7 黑名單，補上程式碼實作） |
 | 內文出現加密貨幣/投機性金融商品關鍵字 | warning（v1.2，收尾防線，理想上應在蒐集階段就排除，同文件第九節） |
 | 開場出現模板式句子 | error（v1.2，全站去機械化規範） |
 | **缺少「🔭 AI視角」區塊，或字數不在300-500字（不含連結語法）** | error（v1.2，Victor 2026-07-03 裁定） |
-| **AI視角區塊沒有可見的知識庫連結**（`[標題](/knowledge/slug)` 格式） | error（v1.2，這是訪客看得到的「觸發連結訊號」，跟隱形的 `relatedKnowledge` frontmatter 是兩件事，要並存） |
-| AI視角可見連結指向的 slug 沒有出現在 `relatedKnowledge` frontmatter 裡 | warning（可見連結跟隱形欄位建議保持一致） |
+| **AI視角區塊沒有可見的知識庫連結**（`[標題](/knowledge/slug)` 格式） | ~~error~~ **已於 v1.3 併入上方雙狀態接點規則，不再單獨要求一定要有連結** |
 | `blueprintCandidate: true` 但 `relatedBlueprints` 是空的 | warning（不是 error，但建議在 `validationNotes` 說明缺口） |
 
 ---
