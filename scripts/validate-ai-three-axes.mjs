@@ -461,33 +461,3 @@ if (errors.length) {
   process.exit(1);
 }
 console.log('AI three-axis validation passed.');
-
-// ── 新增：統一分類驗證 ────────────────────────────────────
-import { classificationSystem } from '../shared/classificationMapping.ts';
-
-export async function validateUnifiedClassifications() {
-  console.log("=== 統一分類驗證 ===");
-  
-  const report = classificationSystem.generateReport();
-  
-  console.log(`分類數：${report.activeClassifications}/${report.totalClassifications}`);
-  console.log(`映射數：${report.totalMappings}`);
-  
-  const completeness = report.validationResults.completeness;
-  const consistency = report.validationResults.consistency;
-  
-  if (!completeness.valid) {
-    console.error("❌ 完整性檢查失敗：");
-    completeness.errors.forEach(e => console.error(`  - ${e}`));
-    return false;
-  }
-  
-  if (!consistency.valid) {
-    console.error("❌ 一致性檢查失敗：");
-    consistency.errors.forEach(e => console.error(`  - ${e}`));
-    return false;
-  }
-  
-  console.log("✅ 統一分類驗證通過");
-  return true;
-}
