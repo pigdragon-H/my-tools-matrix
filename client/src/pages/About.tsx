@@ -3,6 +3,7 @@
 // with a quiet, reliable operational integrity behind the surface.
 // Brand DNA preserved: K (知) · A (行) · Joy (樂趣) trio + PiGragon-H founder name.
 
+import { useEffect } from "react";
 import { Link } from "wouter";
 import {
   ArrowRight,
@@ -23,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { TrustStrip } from "@/components/business/TrustStrip";
+import { setSeoMeta } from "@/lib/seo";
 
 type Lang = "zh" | "en";
 
@@ -232,6 +234,20 @@ const copy = {
 
 export default function About() {
   const { lang } = useLanguage();
+
+  useEffect(() => {
+    setSeoMeta(
+      lang === "zh"
+        ? {
+            title: "關於 Formula Universe｜AI Native 工具與知識決策平台",
+            description: "了解 Formula Universe 如何結合免費工具、AI 創業藍圖、機會情報與知識庫，協助使用者從理解問題到採取行動。",
+          }
+        : {
+            title: "About Formula Universe | AI-Native Tools & Knowledge Platform",
+            description: "Learn how Formula Universe combines free tools, AI startup blueprints, opportunity intelligence, and a knowledge base to help users move from understanding to action.",
+          }
+    );
+  }, [lang]);
 
   return (
     <div className="about-typo min-h-screen bg-background text-foreground">

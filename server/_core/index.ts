@@ -448,9 +448,19 @@ app.get("*", (req, res) => {
   // SPA fallback. Production SEO policy: never hide valid public URLs.
   // If a route-specific prerender file is missing, still emit a self canonical
   // and route-specific indexable metadata instead of leaking homepage SEO.
-  const fallbackHtml = readFileSync(path.join(publicDir, "index.html"), "utf8");
-  res.setHeader("Content-Type", "text/html; charset=UTF-8");
-  return res.send(injectFallbackSeo(fallbackHtml, req.path));
+  try {
+    const fallbackPath = path.join(publicDir, "index.html");
+    if (!existsSync(fallbackPath)) {
+      console.error("[SPA fallback] dist/public/index.html not found — build artifact missing.");
+      return res.status(503).send("Service temporarily unavailable. Build artifact missing.");
+    }
+    const fallbackHtml = readFileSync(fallbackPath, "utf8");
+    res.setHeader("Content-Type", "text/html; charset=UTF-8");
+    return res.send(injectFallbackSeo(fallbackHtml, req.path));
+  } catch (err) {
+    console.error("[SPA fallback] Unexpected error:", err);
+    return res.status(500).send("Internal server error.");
+  }
 
 });
 

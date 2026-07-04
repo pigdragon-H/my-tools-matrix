@@ -94,17 +94,23 @@ export default function CategoryPage() {
   useEffect(() => {
     if (!catInfo) return;
     const catNameEn = catInfo.nameEn ?? catInfo.name;
-    setSeoMeta({
-      title:
-        lang === "zh"
-          ? `${catInfo.name}工具｜Formula Universe`
-          : `${catNameEn} Tools | Formula Universe`,
-      description:
-        lang === "zh"
-          ? `${catInfo.name}工具集合：${catInfo.description}。Formula Universe提供免費、快速、適合台灣使用情境的線上計算與決策輔助工具。`
-          : `${catNameEn} tools collection. Formula Universe offers free, fast online calculators and decision-support tools.`,
-    });
-  }, [catInfo, lang]);
+    // Always canonicalize to /category/:category regardless of whether the user
+    // arrived via /tools/:category (legacy alias) or /category/:category.
+    // This prevents duplicate-URL issues in Google Search Console.
+    setSeoMeta(
+      {
+        title:
+          lang === "zh"
+            ? `${catInfo.name}工具｜Formula Universe`
+            : `${catNameEn} Tools | Formula Universe`,
+        description:
+          lang === "zh"
+            ? `${catInfo.name}工具集合：${catInfo.description}。Formula Universe提供免費、快速、適合台灣使用情境的線上計算與決策輔助工具。`
+            : `${catNameEn} tools collection. Formula Universe offers free, fast online calculators and decision-support tools.`,
+      },
+      `/category/${category}`,
+    );
+  }, [catInfo, lang, category]);
 
   // ── 取得此分類的次級分類群組（統一形狀）────────────────────
   // groupAll：全部工具依細分組後、僅保留有工具的群組（用於 chips 計數與分段標題）

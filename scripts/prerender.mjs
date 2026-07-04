@@ -417,6 +417,28 @@ async function prerender() {
           metaTags.push(`<meta property="og:description" content="${escapeHtml(ogDescription)}">`);
         }
 
+        // 添加 og:type
+        metaTags.push(`<meta property="og:type" content="website">`);
+        // 添加 og:site_name
+        metaTags.push(`<meta property="og:site_name" content="Formula Universe">`);
+        // 添加 og:url（使用 canonical URL）
+        if (canonical) {
+          metaTags.push(`<meta property="og:url" content="${escapeHtml(canonical)}">`);
+        }
+        // 添加 og:image（預設 OG 圖片，直到各頁有專屬圖片前統一使用）
+        metaTags.push(`<meta property="og:image" content="${SITE_BASE}/og-default.png">`);
+        metaTags.push(`<meta property="og:image:width" content="1200">`);
+        metaTags.push(`<meta property="og:image:height" content="630">`);
+        // 添加 Twitter Card
+        metaTags.push(`<meta name="twitter:card" content="summary_large_image">`);
+        if (ogTitle) {
+          metaTags.push(`<meta name="twitter:title" content="${escapeHtml(ogTitle)}">`);
+        }
+        if (ogDescription) {
+          metaTags.push(`<meta name="twitter:description" content="${escapeHtml(ogDescription)}">`);
+        }
+        metaTags.push(`<meta name="twitter:image" content="${SITE_BASE}/og-default.png">`);
+
         metaTagsHtml = metaTags.join("\n    ");
       }
       const jsonLdHtml = buildJsonLd(route, ssrMetaTags);
@@ -496,8 +518,16 @@ function removeManagedSeoTags(html) {
     .replace(/\s*<meta\s+[^>]*name=["']description["'][^>]*>\s*/gi, "\n")
     .replace(/\s*<meta\s+[^>]*property=["']og:title["'][^>]*>\s*/gi, "\n")
     .replace(/\s*<meta\s+[^>]*property=["']og:description["'][^>]*>\s*/gi, "\n")
+    .replace(/\s*<meta\s+[^>]*property=["']og:type["'][^>]*>\s*/gi, "\n")
+    .replace(/\s*<meta\s+[^>]*property=["']og:site_name["'][^>]*>\s*/gi, "\n")
+    .replace(/\s*<meta\s+[^>]*property=["']og:url["'][^>]*>\s*/gi, "\n")
+    .replace(/\s*<meta\s+[^>]*property=["']og:image["'][^>]*>\s*/gi, "\n")
+    .replace(/\s*<meta\s+[^>]*property=["']og:image:width["'][^>]*>\s*/gi, "\n")
+    .replace(/\s*<meta\s+[^>]*property=["']og:image:height["'][^>]*>\s*/gi, "\n")
+    .replace(/\s*<meta\s+[^>]*name=["']twitter:card["'][^>]*>\s*/gi, "\n")
     .replace(/\s*<meta\s+[^>]*name=["']twitter:title["'][^>]*>\s*/gi, "\n")
     .replace(/\s*<meta\s+[^>]*name=["']twitter:description["'][^>]*>\s*/gi, "\n")
+    .replace(/\s*<meta\s+[^>]*name=["']twitter:image["'][^>]*>\s*/gi, "\n")
     .replace(/\s*<script\s+[^>]*type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>\s*/gi, "\n");
 }
 
