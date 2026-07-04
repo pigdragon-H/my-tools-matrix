@@ -21,40 +21,50 @@ export interface CategoryLabel {
 }
 
 // 各賽道「分類技術值 → 顯示」對照表。
+// ============================================================
+// 統一編序 P01–P16（三軸聯集，2026-07-04 整改）
+// 規則：key 值（URL slug）永不改動；只調整排列順序與顯示標籤。
+// 各軸只列出「本軸實際存在」的 P 項；(增加) 項未來新增內容時再補。
+// ============================================================
 const CATEGORY_LABELS: Record<string, Record<string, CategoryLabel>> = {
   // AI 知識庫：依 domain
+  // P01 ai-agent | P02 ai-automation | P03 ai-native | P04 ai-business
+  // P07 ai-side-hustle | P12a/P12b ai-knowledge | P13 learning-center
+  // P14 future-industry | P15 formula-insights
   knowledge: {
-    "ai-business": { zh: "AI 商業應用", en: "AI Business", emoji: "💼" },
-    "ai-native": { zh: "AI 原生", en: "AI Native", emoji: "🧬" },
-    "ai-knowledge": { zh: "AI 知識基礎", en: "AI Knowledge", emoji: "🧠" },
-    "ai-automation": { zh: "AI 自動化", en: "AI Automation", emoji: "⚙️" },
-    "ai-agent": { zh: "AI Agent", en: "AI Agent", emoji: "🤖" },
-    "ai-side-hustle": { zh: "AI 副業", en: "AI Side Hustle", emoji: "💡" },
-    "future-industry": { zh: "未來產業", en: "Future Industry", emoji: "🚀" },
-    "learning-center": { zh: "學習中心", en: "Learning Center", emoji: "📚" },
-    "formula-insights": { zh: "公式洞察", en: "Formula Insights", emoji: "📐" },
+    "ai-agent":        { zh: "P01 · AI Agent",          en: "P01 · AI Agent",          emoji: "🤖" },
+    "ai-automation":   { zh: "P02 · AI 自動化",           en: "P02 · AI Automation",      emoji: "⚙️" },
+    "ai-native":       { zh: "P03 · AI 原生",             en: "P03 · AI Native",          emoji: "🧬" },
+    "ai-business":     { zh: "P04 · AI 商業應用",         en: "P04 · AI Business",        emoji: "💼" },
+    "ai-side-hustle":  { zh: "P07 · AI 副業",             en: "P07 · AI Side Hustle",     emoji: "💡" },
+    "ai-knowledge":    { zh: "P12 · AI 知識基礎",         en: "P12 · AI Knowledge",       emoji: "🧠" },
+    "learning-center": { zh: "P13 · AI 學習與培訓",       en: "P13 · AI Learning",        emoji: "📚" },
+    "future-industry": { zh: "P14 · 未來產業",            en: "P14 · Future Industry",    emoji: "🚀" },
+    "formula-insights":{ zh: "P15 · 公式洞察",            en: "P15 · Formula Insights",   emoji: "📐" },
   },
   // AI 創業藍圖：依 industry
+  // P05 media | P08 saas | P09 ecommerce | P10 service | P11 agency | P13 education | P16 general
   blueprints: {
-    media: { zh: "內容媒體", en: "Media", emoji: "🎬" },
-    saas: { zh: "SaaS 軟體", en: "SaaS", emoji: "🧩" },
-    ecommerce: { zh: "電商零售", en: "E-commerce", emoji: "🛒" },
-    service: { zh: "服務業", en: "Service", emoji: "🤝" },
-    agency: { zh: "代理／工作室", en: "Agency", emoji: "🏢" },
-    education: { zh: "教育學習", en: "Education", emoji: "🎓" },
-    general: { zh: "綜合", en: "General", emoji: "📦" },
+    media:      { zh: "P05 · 內容媒體",         en: "P05 · Media",          emoji: "🎬" },
+    saas:       { zh: "P08 · SaaS 軟體",        en: "P08 · SaaS",           emoji: "🧩" },
+    ecommerce:  { zh: "P09 · 電商零售",         en: "P09 · E-commerce",     emoji: "🛒" },
+    service:    { zh: "P10 · 服務業",           en: "P10 · Service",        emoji: "🤝" },
+    agency:     { zh: "P11 · 代理／工作室",     en: "P11 · Agency",         emoji: "🏢" },
+    education:  { zh: "P13 · 教育學習",         en: "P13 · Education",      emoji: "🎓" },
+    general:    { zh: "P16 · 綜合",             en: "P16 · General",        emoji: "📦" },
   },
-  // 機會情報：依 domain（主賽道分類，2026-07-01 由 marketDemand 需求強度改版）
-  // 值集合可持續擴充，不鎖死固定數量；初版依治理文件第六節 + 既有內容實測結果建立。
+  // 機會情報：依 domain
+  // P01 agent-infrastructure | P02 prompt-workflow | P05 ai-content-tools
+  // P06 monetization-methodology | P08 productized-web-tools | P12b knowledge-management | P16 other
   // 對應治理文件：docs/OPPORTUNITY_INTELLIGENCE_PIPELINE.md 第六節「主賽道分類」。
   opportunities: {
-    "agent-infrastructure": { zh: "Agent 基礎設施", en: "Agent Infrastructure", emoji: "🤖" },
-    "ai-content-tools": { zh: "AI 內容生成工具", en: "AI Content Tools", emoji: "🎬" },
-    "monetization-methodology": { zh: "內容變現方法論", en: "Monetization Methodology", emoji: "💰" },
-    "prompt-workflow": { zh: "提示詞與工作流", en: "Prompt & Workflow", emoji: "🧩" },
-    "knowledge-management": { zh: "知識管理與資料沉澱", en: "Knowledge Management", emoji: "🗂️" },
-    "productized-web-tools": { zh: "工具站／產品化網站", en: "Productized Web Tools", emoji: "🧰" },
-    other: { zh: "其它", en: "Other", emoji: "📦" },
+    "agent-infrastructure":    { zh: "P01 · AI Agent",              en: "P01 · AI Agent",                emoji: "🤖" },
+    "prompt-workflow":         { zh: "P02 · 提示詞與工作流",          en: "P02 · Prompt & Workflow",        emoji: "🧩" },
+    "ai-content-tools":        { zh: "P05 · AI 內容生成工具",         en: "P05 · AI Content Tools",         emoji: "🎬" },
+    "monetization-methodology":{ zh: "P06 · 內容變現方法論",          en: "P06 · Monetization Methodology", emoji: "💰" },
+    "productized-web-tools":   { zh: "P08 · 工具站／產品化網站",      en: "P08 · Productized Web Tools",    emoji: "🧰" },
+    "knowledge-management":    { zh: "P12 · 知識管理與資料沉澱",      en: "P12 · Knowledge Management",     emoji: "🗂️" },
+    other:                     { zh: "P16 · 其它",                   en: "P16 · Other",                    emoji: "📦" },
   },
   // 工具知識庫 /blog（DB/靜態文章）：必須與工具矩陣 12 個頂層分類一致。
   // 使用者明確要求：工具知識庫是收納工具類文章，因此分類不可沿用 AI/內容欄目。
