@@ -138,27 +138,27 @@ function LaneNavDropdown({
           <ChevronDown className="h-3.5 w-3.5 opacity-60" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="w-64 p-2" sideOffset={4}>
-        <DropdownMenuLabel className="text-xs text-muted-foreground font-normal px-2 py-1.5">
+      <DropdownMenuContent align="start" className="w-[520px] p-3" sideOffset={4}>
+        <DropdownMenuLabel className="text-sm text-muted-foreground font-semibold px-2 py-1.5">
           {title}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <div className="grid grid-cols-1 gap-0.5">
+        <div className="grid grid-cols-2 gap-1 py-1">
           {cats.map((cat) => {
             const count = laneCountByCategory[laneId]?.[cat.key] ?? 0;
             return (
               <DropdownMenuItem key={cat.key} asChild>
                 <Link href={`${routeBase}?cat=${cat.key}`}>
                   <div className={cn(
-                    "flex items-center gap-2 px-2 py-1.5 cursor-pointer w-full",
+                    "flex items-center gap-2 px-2 py-2 cursor-pointer w-full rounded-md",
                     count === 0 && "opacity-50"
                   )}>
-                    <span className="text-sm shrink-0">{cat.label.emoji}</span>
-                    <span className="text-xs font-medium truncate flex-1">
+                    <span className="text-base shrink-0">{cat.label.emoji}</span>
+                    <span className="text-sm font-medium truncate flex-1">
                       {lang === "zh" ? cat.label.zh : cat.label.en}
                     </span>
                     <span className={cn(
-                      "text-xs font-medium shrink-0",
+                      "text-sm font-semibold shrink-0",
                       count > 0 ? "text-primary" : "text-muted-foreground"
                     )}>({count})</span>
                   </div>
@@ -170,9 +170,9 @@ function LaneNavDropdown({
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href={routeBase}>
-            <div className="flex items-center gap-2 px-2 py-1.5 cursor-pointer w-full text-primary">
-              <Icon className="h-3.5 w-3.5" />
-              <span className="text-xs font-medium">{viewAll}</span>
+            <div className="flex items-center gap-2 px-2 py-2 cursor-pointer w-full text-primary">
+              <Icon className="h-4 w-4" />
+              <span className="text-sm font-medium">{viewAll}</span>
             </div>
           </Link>
         </DropdownMenuItem>
