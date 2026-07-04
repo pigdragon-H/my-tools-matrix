@@ -426,7 +426,7 @@ async function prerender() {
           metaTags.push(`<meta property="og:url" content="${escapeHtml(canonical)}">`);
         }
         // 添加 og:image（預設 OG 圖片，直到各頁有專屬圖片前統一使用）
-        metaTags.push(`<meta property="og:image" content="${SITE_BASE}/og-default.png">`);
+        metaTags.push(`<meta property="og:image" content="${SITE_BASE}/og-default.jpg">`);
         metaTags.push(`<meta property="og:image:width" content="1200">`);
         metaTags.push(`<meta property="og:image:height" content="630">`);
         // 添加 Twitter Card
@@ -437,7 +437,7 @@ async function prerender() {
         if (ogDescription) {
           metaTags.push(`<meta name="twitter:description" content="${escapeHtml(ogDescription)}">`);
         }
-        metaTags.push(`<meta name="twitter:image" content="${SITE_BASE}/og-default.png">`);
+        metaTags.push(`<meta name="twitter:image" content="${SITE_BASE}/og-default.jpg">`);
 
         metaTagsHtml = metaTags.join("\n    ");
       }
