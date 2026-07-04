@@ -74,6 +74,11 @@ export default function Contact() {
           <p className="mt-1 text-xs text-muted-foreground">
             {lang === "zh" ? "最後更新" : "Last updated"}: {lastUpdated} · Formula Universe Editorial Team
           </p>
+          <p className="mt-3 text-xs text-muted-foreground/70 italic">
+            {lang === "zh"
+              ? "本站目前為個人獨立開發專案，由創辦人 PiGragon-H 獨立維運。所有聯絡信件均由本人親自閱讀與回覆。"
+              : "Formula Universe is currently an independent solo project, built and maintained by founder PiGragon-H. All contact emails are read and replied to personally."}
+          </p>
         </div>
       </section>
 
