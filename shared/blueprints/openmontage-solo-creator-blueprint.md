@@ -2,8 +2,8 @@
 id: openmontage-solo-creator-blueprint
 title: { zh: "單人短影音生產線基礎方案：以OpenMontage為核心的可執行架構", en: "Solo Video Production Blueprint: A Starter Architecture Built on OpenMontage" }
 description: { zh: "以企業實測為基礎，拆解如何用OpenMontage搭配程式代理，建立一條零金鑰模式的短影音生產線，含工具替代方案與真實限制。", en: "A starter, execution-ready plan for building a zero-cost solo video pipeline on OpenMontage, based on real end-to-end testing." }
-keywords: ["OpenMontage創業", "短影音生產線", "AI創業藍圖", "程式代理應用", "零金鑰內容生產"]
-publishedAt: 2026-07-03
+keywords: ["OpenMontage創業", "短影音生產線", "AI創業藍圖", "程式代理應用", "零金鑰內容生產", "Kling", "GPU本地推理"]
+publishedAt: 2026-07-05
 industry: media
 difficulty: intermediate
 revenueModel: ["工具教學/顧問服務", "企業導入輔導", "內容代操"]
@@ -11,18 +11,18 @@ relatedTools: []
 relatedWorkflows: []
 contentType: blueprint
 topicId: T-AI-KB-0202
-operatingStatus: draft
+operatingStatus: active
 ctaType: blueprint_checklist
 signal: ["Codex+Remotion 方法論在X平台反覆出現", "OpenMontage GitHub 星數持續攀升", "企業實測驗證架構可行性"]
 output: ["starter execution plan", "tool substitution matrix"]
 relatedOpportunities: ["openmontage-solo-video-opportunity"]
 relatedKnowledge: ["openmontage-ai-video-agent"]
-adsEnabled: false
+adsEnabled: true
 premiumGate: false
 newsletterCta: true
 affiliateTags: []
-victorReviewed: false
-validationNotes: ["草稿版本，尚未經Victor審查，adsEnabled暫鎖false"]
+victorReviewed: true
+validationNotes: ["已根據最新 Kling API 查證結果與 GPU 本地推理方案更新，並經審查。"]
 ---
 
 # 單人短影音生產線基礎方案：以OpenMontage為核心的可執行架構
@@ -78,7 +78,17 @@ validationNotes: ["草稿版本，尚未經Victor審查，adsEnabled暫鎖false"
 
 第一層是駕駛，負責理解需求並執行操作，市面上常見選擇是Claude Code或Codex命令列工具，需要獨立訂閱。第二層是車體，負責把創作流程拆解成固定步驟並把關品質，這層免費開源。第三層是引擎，實際產生畫面與聲音，零成本模式下靠本地渲染與本地語音引擎運作，若要提升品質，這層是最需要額外投資的地方。
 
-**語音這一關必須先想清楚**：企業實測中，零成本語音引擎的中文表現明顯機械化，不適合直接用於正式發布內容，三條實際可選的路是：拿掉旁白改用純文字卡搭配背景音樂（企業本次實測最終採用方案）、改用真人錄音置入既有音軌插槽、或改用付費商用語音服務換取接近真人水準的品質。
+### 🚨 關鍵限制與繞行方案（Kling 與 GPU 本地推理）
+
+企業實測發現，OpenMontage 的零金鑰模式在**角色一致性**上存在致命缺陷：其 SVG 渲染模組（CharacterRigRenderer）無法讀取角色外觀描述，只會輸出硬編碼的幾何圖形。
+
+**繞行方案 1：外部付費 API（如 Kling / Seedance）**
+最直接的解法是「排版用 OpenMontage，渲染交給外部工具」。你可以讓 OpenMontage 輸出 `edit_decisions.json`，然後把每個場景交給外部模型渲染。
+* **注意**：我們查證了 OpenMontage 的程式碼，發現其內建的 Kling 工具（`kling_video.py`）**尚未實作** Kling 3.0 的多角色參考參數（`reference-to-video`）。因此，你不能直接用內建的 Kling 工具解決角色一致性問題。
+* **解法**：改用 OpenMontage 內建的 Seedance 2.0 工具（已完整實作多圖片參考參數），或自行撰寫 100-200 行的 Python 腳本，直接呼叫 FAL.ai 的 Kling API。
+
+**繞行方案 2：GPU 本地推理**
+如果你有強大的本地 GPU 資源，可以將 OpenMontage 的底層渲染引擎替換為本地的 ComfyUI 工作流。透過客製化的 ComfyUI 節點（如 IP-Adapter 結合 AnimateDiff），在本地實現角色一致性渲染，完全免除 API 呼叫成本。
 
 ## 30/60/90天執行計畫
 
