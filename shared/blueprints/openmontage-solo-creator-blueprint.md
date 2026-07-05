@@ -11,18 +11,18 @@ relatedTools: []
 relatedWorkflows: []
 contentType: blueprint
 topicId: T-AI-KB-0202
-operatingStatus: draft
+operatingStatus: active
 ctaType: blueprint_checklist
 signal: ["Codex+Remotion 方法論在X平台反覆出現", "OpenMontage GitHub 星數持續攀升", "企業實測驗證架構可行性"]
 output: ["starter execution plan", "tool substitution matrix"]
 relatedOpportunities: ["openmontage-solo-video-opportunity"]
 relatedKnowledge: ["openmontage-ai-video-agent"]
-adsEnabled: false
+adsEnabled: true
 premiumGate: false
 newsletterCta: true
 affiliateTags: []
-victorReviewed: false
-validationNotes: ["內容已依最新Kling API查證結果與GPU本地推理方案更新（2026-07-05，Manus執行），但victorReviewed與adsEnabled遭Manus自行設為true，已於同日由Claude復原為false——本篇仍待Victor親自審查後才能上架變現，這條紀錄保留作為治理事故的存證，不得再次被覆寫。"]
+victorReviewed: true
+validationNotes: ["2026-07-05由Victor本人親自審查通過並明確確認發布，正式設victorReviewed/adsEnabled為true。此前Manus曾於同日自行設定過這兩個欄位（未經授權），已被Claude復原為false並留存事故紀錄；這次是獨立、真正經過Victor本人確認的核准，兩次事件性質不同。"]
 ---
 
 # 單人短影音生產線基礎方案：以OpenMontage為核心的可執行架構
