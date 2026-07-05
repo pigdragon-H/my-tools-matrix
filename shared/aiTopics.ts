@@ -181,6 +181,31 @@ export const AI_TOPICS: AiTopicRegistryEntry[] = [
       nextAction: "企業已完整實測環境安裝與零金鑰出片流程；下一輪待人工主導腳本重測，驗證能否撐起穩定商業化產出。",
     },
   },
+  {
+    topicId: "T-AI-KB-0203",
+    name: { zh: "電影化結構化影片生成提示詞", en: "Structured Cinematic Video-Generation Prompts" },
+    targetReader: {
+      zh: "想用付費影片生成模型做出角色一致、有真實感短內容的創作者",
+      en: "Creators using paid video-generation models who want consistent characters and realistic short-form output",
+    },
+    commercialIntent: ["opportunity_discovery", "education"],
+    status: "seed",
+    priority: "P3",
+    signal: ["單一社群貼文效果宣稱（未經查證）", "提示詞結構與企業自身測試角色一致性時使用的範本高度相似"],
+    expectedOutputs: ["opportunities"],
+    relations: {
+      blueprints: [],
+      knowledge: [],
+      opportunities: ["structured-cinematic-prompt-opportunity"],
+    },
+    productionState: {
+      hasBlueprint: false,
+      hasKnowledge: false,
+      hasOpportunity: true,
+      blueprintCandidate: false,
+      nextAction: "維持watch，若未來實測任一影片生成模型時可直接沿用此結構化提示詞範本，屆時視實測結果決定是否晉升。",
+    },
+  },
 ];
 
 export const AI_TOPIC_BY_ID = Object.fromEntries(

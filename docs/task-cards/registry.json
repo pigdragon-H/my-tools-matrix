@@ -11,6 +11,17 @@
       "assignedTo": "Claude",
       "createdAt": "2026-07-02",
       "status": "delivered"
+    },
+    {
+      "topicId": "T-AI-KB-0203",
+      "title": "電影化結構提示詞：一套正在跨模型流通的影片生成範本",
+      "targetLane": "opportunities",
+      "targetDomain": "ai-content-tools",
+      "maturityTarget": "L0",
+      "sourceRationale": "victor_directive",
+      "assignedTo": "Claude",
+      "createdAt": "2026-07-05",
+      "status": "delivered"
     }
   ]
 }
