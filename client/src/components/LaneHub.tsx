@@ -6,6 +6,10 @@
 //   ② 分類分區 — 預設依分類分區塊堆疊，取代單一大平鋪 grid
 //   ③ 區內序號 01/02/03 — 閱讀次第可見（meta.order 為底，否則依日期自動編）
 //   ④ 已讀 ✓ 進度 — 純前端 localStorage，已讀卡降彩度＋打勾
+// 階段 B 次分類（2026-07-06）：
+//   ⑤ 動態關鍵字比對次分類 — 文章數 ≥ 10 的主分類自動分組（laneSubgroups.ts）
+//      比對文本：keywords 陣列（優先）→ title + description（降級）
+//      無次分類定義的分類維持原有單一列表，行為不變。
 // 只增不刪：黃金字級 .fu-typo 保留；無內容時仍顯示「籌備中」。
 import { useEffect, useMemo, useState } from "react";
 import { Link, useSearch } from "wouter";
@@ -16,9 +20,66 @@ import { setSeoMeta } from "@/lib/seo";
 import { getLane } from "../../../shared/laneRegistry";
 import { contentByLane } from "@/lib/laneContent";
 import { groupByCategory, ordinal } from "@/lib/laneCategories";
+import { groupLaneBySubgroup, hasLaneSubgroups } from "@/lib/laneSubgroups";
 import { useReadProgress } from "@/hooks/useReadProgress";
 
 const ALL_KEY = "__all__";
+
+/** 單一文章卡片（可複用於主分類列表與次分類列表）。 */
+function ArticleCard({
+  item,
+  idx,
+  isRead,
+  lang,
+}: {
+  item: ReturnType<typeof contentByLane>[number];
+  idx: number;
+  isRead: boolean;
+  lang: "zh" | "en";
+}) {
+  const num = item.meta.order ?? idx + 1;
+  return (
+    <Link href={item.path}>
+      <div
+        className={`group relative h-full rounded-xl border p-6 transition cursor-pointer hover:border-primary hover:shadow-md ${
+          isRead ? "opacity-70" : ""
+        }`}
+      >
+        {/* ③ 區內序號 */}
+        <span className="absolute right-4 top-4 font-mono text-xs font-bold text-muted-foreground/60">
+          {ordinal(num)}
+        </span>
+
+        <div className="mb-3 flex flex-wrap items-center gap-2 pr-8">
+          {/* ④ 已讀 ✓ 角標 */}
+          {isRead && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+              <Check className="h-3 w-3" />
+              {lang === "zh" ? "已讀" : "Read"}
+            </span>
+          )}
+          {item.meta.pillar && (
+            <Badge variant="outline" className="px-2.5 py-1 text-xs leading-normal">
+              {item.meta.pillar}
+            </Badge>
+          )}
+          {item.meta.publishedAt && (
+            <Badge variant="secondary" className="px-2.5 py-1 text-xs leading-normal">
+              {item.meta.publishedAt}
+            </Badge>
+          )}
+        </div>
+
+        <h3 className="t-h3 leading-snug group-hover:text-primary">
+          {item.meta.title[lang]}
+        </h3>
+        <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground line-clamp-3">
+          {item.meta.description[lang]}
+        </p>
+      </div>
+    </Link>
+  );
+}
 
 export function LaneHub({ laneId }: { laneId: string }) {
   const { lang } = useLanguage();
@@ -117,7 +178,7 @@ export function LaneHub({ laneId }: { laneId: string }) {
             )}
           </div>
 
-          {/* ② 分類分區 + ③ 區內序號 + ④ 已讀角標 */}
+          {/* ② 分類分區 + ③ 區內序號 + ④ 已讀角標 + ⑤ 次分類 */}
           <div className="space-y-12">
             {visibleGroups.map((g) => (
               <section key={g.key} aria-label={g.label[lang]}>
@@ -131,53 +192,42 @@ export function LaneHub({ laneId }: { laneId: string }) {
                   </span>
                 </div>
 
-                <div className="grid gap-5 sm:grid-cols-2">
-                  {g.items.map((item, idx) => {
-                    const num = item.meta.order ?? idx + 1;
-                    const read = isRead(item.slug);
-                    return (
-                      <Link key={item.path} href={item.path}>
-                        <div
-                          className={`group relative h-full rounded-xl border p-6 transition cursor-pointer hover:border-primary hover:shadow-md ${
-                            read ? "opacity-70" : ""
-                          }`}
-                        >
-                          {/* ③ 區內序號 */}
-                          <span className="absolute right-4 top-4 font-mono text-xs font-bold text-muted-foreground/60">
-                            {ordinal(num)}
-                          </span>
-
-                          <div className="mb-3 flex flex-wrap items-center gap-2 pr-8">
-                            {/* ④ 已讀 ✓ 角標 */}
-                            {read && (
-                              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
-                                <Check className="h-3 w-3" />
-                                {lang === "zh" ? "已讀" : "Read"}
-                              </span>
-                            )}
-                            {item.meta.pillar && (
-                              <Badge variant="outline" className="px-2.5 py-1 text-xs leading-normal">
-                                {item.meta.pillar}
-                              </Badge>
-                            )}
-                            {item.meta.publishedAt && (
-                              <Badge variant="secondary" className="px-2.5 py-1 text-xs leading-normal">
-                                {item.meta.publishedAt}
-                              </Badge>
-                            )}
-                          </div>
-
-                          <h3 className="t-h3 leading-snug group-hover:text-primary">
-                            {item.meta.title[lang]}
-                          </h3>
-                          <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground line-clamp-3">
-                            {item.meta.description[lang]}
-                          </p>
+                {/* ⑤ 次分類：有定義則分組，否則直接平鋪 */}
+                {hasLaneSubgroups(laneId, g.key) ? (
+                  <div className="space-y-8">
+                    {groupLaneBySubgroup(laneId, g.key, g.items).map(({ group: sg, items: sgItems }) => (
+                      <div key={sg.key}>
+                        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground border-l-2 border-primary/40 pl-3">
+                          {sg.label[lang]}
+                          <span className="ml-2 font-normal normal-case opacity-60">({sgItems.length})</span>
+                        </h3>
+                        <div className="grid gap-5 sm:grid-cols-2">
+                          {sgItems.map((item, idx) => (
+                            <ArticleCard
+                              key={item.path}
+                              item={item}
+                              idx={idx}
+                              isRead={isRead(item.slug)}
+                              lang={lang}
+                            />
+                          ))}
                         </div>
-                      </Link>
-                    );
-                  })}
-                </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    {g.items.map((item, idx) => (
+                      <ArticleCard
+                        key={item.path}
+                        item={item}
+                        idx={idx}
+                        isRead={isRead(item.slug)}
+                        lang={lang}
+                      />
+                    ))}
+                  </div>
+                )}
               </section>
             ))}
           </div>
