@@ -62,6 +62,7 @@ export default function KnowledgePage() {
       newsletterSource="knowledge"
       readProgress={{ laneId: "knowledge", slug }}
       adsEnabled={meta.adsEnabled}
+      videoUrl={meta.videoUrl}
       premiumGate={meta.premiumGate}
       newsletterCta={meta.newsletterCta}
       contentType={meta.contentType}

@@ -179,6 +179,7 @@ function extractCommerceAndRelations(meta: Record<string, unknown>): {
   relatedBlueprints?: string[];
   relatedOpportunities?: string[];
   relatedKnowledge?: string[];
+  videoUrl?: string;
 } {
   const arr = (v: unknown) => {
     const a = asStringArray(v);
@@ -226,6 +227,7 @@ function extractCommerceAndRelations(meta: Record<string, unknown>): {
     relatedBlueprints: arr(meta.relatedBlueprints),
     relatedOpportunities: arr(meta.relatedOpportunities),
     relatedKnowledge: arr(meta.relatedKnowledge),
+    videoUrl: (meta.videoUrl as string) || undefined,
   };
 }
 

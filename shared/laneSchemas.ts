@@ -45,6 +45,12 @@ export interface AiClosedLoopMeta {
   output?: string[];
   /** [P0 建議] 內容品質或商業狀態備註，供 AI/人審核。 */
   validationNotes?: string[];
+  /**
+   * [現用] 文章配置影片連結，選填。支援 YouTube/Vimeo 連結（快軌）或直接的
+   * 影片檔案網址（正軌，未來接 Supabase Storage）。渲染邏輯見
+   * client/src/components/ArticleShell.tsx 的 parseVideoEmbed()。
+   */
+  videoUrl?: string;
 }
 
 // ── 共用基底（所有賽道內容都有）────────────────────────────

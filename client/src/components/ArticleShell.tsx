@@ -65,6 +65,16 @@ export interface ArticleShellProps {
   footerExtra?: ReactNode;
   /** [階段A] 已讀進度：進頁時把此 slug 標記為已讀（純前端）。 */
   readProgress?: { laneId: string; slug: string };
+  /**
+   * 文章配置影片連結（選填）。支援兩種來源，元件會自動判斷渲染方式：
+   * 1. YouTube / Vimeo 連結 → 渲染成 iframe 嵌入播放器（快軌方案，2026-07-05 新增）
+   * 2. 其他直接的影片檔案網址（例如未來 Supabase Storage 公開 URL，格式為
+   *    https://<project>.supabase.co/storage/v1/object/public/... 或任何直接
+   *    以 .mp4/.webm 結尾的網址）→ 渲染成原生 <video> 標籤
+   * 兩種來源共用同一個欄位與同一套渲染邏輯，接上 Supabase Storage 時不需要
+   * 改動這支元件，只需要在文章 frontmatter 填入 Storage 的公開網址即可。
+   */
+  videoUrl?: string;
 
   // ── metadata 驅動商業層（per-article 覆寫；未設定 = 維持現狀） ──
   /** false = 本篇隱藏廣告位；未設定/true = 顯示（與全站 ENABLE_ADS 仍為 AND）。 */
@@ -94,6 +104,27 @@ const DEFAULT_AFFILIATES: AffiliateItem[] = [
 ];
 
 // ArticleShell 已在頁首渲染正式 H1；若內容 Markdown 也以 H1 開頭，先移除，避免首屏重複標題。
+/**
+ * 判斷 videoUrl 的來源類型，決定用 iframe 嵌入（YouTube/Vimeo）還是原生
+ * <video> 標籤（直接的影片檔案網址，例如未來的 Supabase Storage 公開連結）。
+ * 這個判斷邏輯是「快軌」（YouTube）跟「正軌」（Supabase Storage）共用同一套
+ * 渲染元件的關鍵——兩種來源都填同一個 videoUrl 欄位，元件自己判斷怎麼渲染，
+ * 之後接上 Supabase Storage 時不需要新增欄位或改寫這支元件。
+ */
+function parseVideoEmbed(url: string): { type: "youtube"; embedSrc: string } | { type: "vimeo"; embedSrc: string } | { type: "file"; src: string } {
+  const youtubeMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{11})/);
+  if (youtubeMatch) {
+    return { type: "youtube", embedSrc: `https://www.youtube.com/embed/${youtubeMatch[1]}` };
+  }
+  const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+  if (vimeoMatch) {
+    return { type: "vimeo", embedSrc: `https://player.vimeo.com/video/${vimeoMatch[1]}` };
+  }
+  // 其餘一律當作直接的影片檔案網址處理（涵蓋未來 Supabase Storage 的
+  // 公開 URL，格式通常是 https://<project>.supabase.co/storage/v1/object/public/...）
+  return { type: "file", src: url };
+}
+
 function stripLeadingMarkdownH1(body: string): string {
   return body.replace(/^\s*#(?!#)\s+[^\n\r]+\r?\n+/, "").trimStart();
 }
@@ -230,6 +261,38 @@ export function ArticleShell(props: ArticleShellProps) {
       </header>
 
       {props.headerSlot}
+
+      {/* 文章配置影片（選填）。快軌：YouTube/Vimeo iframe；正軌：Supabase Storage
+          等直接檔案網址用原生 <video>。兩者共用 videoUrl 欄位，見上方 parseVideoEmbed。 */}
+      {props.videoUrl && (
+        <div className="my-6 rounded-lg overflow-hidden bg-black" style={{ aspectRatio: "16 / 9" }}>
+          {(() => {
+            const embed = parseVideoEmbed(props.videoUrl!);
+            if (embed.type === "file") {
+              return (
+                <video
+                  className="w-full h-full"
+                  src={embed.src}
+                  controls
+                  preload="metadata"
+                  playsInline
+                >
+                  {lang === "zh" ? "您的瀏覽器不支援影片播放。" : "Your browser does not support video playback."}
+                </video>
+              );
+            }
+            return (
+              <iframe
+                className="w-full h-full"
+                src={embed.embedSrc}
+                title={props.title[lang]}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            );
+          })()}
+        </div>
+      )}
 
       {/* PremiumTeaser — top 位置（正文前） */}
       {showPremium && premiumPos === "top" && (

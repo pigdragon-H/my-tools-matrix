@@ -75,6 +75,7 @@ export default function BlueprintPage() {
       newsletterSource="blueprint"
       readProgress={{ laneId: "blueprints", slug }}
       adsEnabled={meta.adsEnabled}
+      videoUrl={meta.videoUrl}
       premiumGate={meta.premiumGate}
       premiumGatePosition={meta.premiumGatePosition}
       newsletterCta={meta.newsletterCta}

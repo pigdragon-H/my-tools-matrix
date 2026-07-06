@@ -72,6 +72,7 @@ export default function OpportunityPage() {
       newsletterSource="opportunity"
       readProgress={{ laneId: "opportunities", slug }}
       adsEnabled={meta.adsEnabled}
+      videoUrl={meta.videoUrl}
       premiumGate={meta.premiumGate}
       newsletterCta={meta.newsletterCta}
       contentType={meta.contentType}

@@ -190,7 +190,7 @@ export const AI_TOPICS: AiTopicRegistryEntry[] = [
     },
     commercialIntent: ["opportunity_discovery", "education"],
     status: "seed",
-    priority: "P3",
+    priority: "P2",
     signal: ["單一社群貼文效果宣稱（未經查證）", "提示詞結構與企業自身測試角色一致性時使用的範本高度相似"],
     expectedOutputs: ["opportunities"],
     relations: {
