@@ -86,7 +86,8 @@ const CATEGORY_LABELS: Record<string, Record<string, CategoryLabel>> = {
   opportunities: {
     // ── 已有內容 ──
     "agent-infrastructure":      { zh: "P01 · AI Agent",          en: "P01 · AI Agent",              emoji: "🤖" },
-    "prompt-workflow":           { zh: "P02 · 提示詞與工作流",      en: "P02 · Prompt & Workflow",      emoji: "🧩" },
+    // ── 佔位（待補內容）──
+    "_placeholder_P02_o":        { zh: "P02 · 提示詞與工作流",      en: "P02 · Prompt & Workflow",      emoji: "🧩" },
     // ── 佔位（待補內容）──
     "_placeholder_P03_o":        { zh: "P03 · AI 原生",            en: "P03 · AI Native",             emoji: "🧬" },
     "_placeholder_P04_o":        { zh: "P04 · AI 商業應用",        en: "P04 · AI Business",           emoji: "💼" },
