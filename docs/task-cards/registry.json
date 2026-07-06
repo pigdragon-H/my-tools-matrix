@@ -22,6 +22,28 @@
       "assignedTo": "Claude",
       "createdAt": "2026-07-05",
       "status": "delivered"
+    },
+    {
+      "topicId": "T-AI-KB-0203",
+      "title": "同一份提示詞，Grok畫分鏡、Gemini直接出片：企業實測揭曉真正解法",
+      "targetLane": "opportunities",
+      "targetDomain": "ai-content-tools",
+      "maturityTarget": "L1",
+      "sourceRationale": "victor_directive",
+      "assignedTo": "Claude",
+      "createdAt": "2026-07-06",
+      "status": "delivered"
+    },
+    {
+      "topicId": "T-AI-KB-0203",
+      "title": "高階提示詞讓LLM影片生成逼近真假難辨：這對短影音創作者意味著什麼",
+      "targetLane": "knowledge",
+      "targetDomain": "ai-automation",
+      "maturityTarget": "L1",
+      "sourceRationale": "victor_directive",
+      "assignedTo": "Claude",
+      "createdAt": "2026-07-06",
+      "status": "delivered"
     }
   ]
 }
