@@ -20,7 +20,7 @@ worthDoing: true
 blueprintCandidate: false
 relatedBlueprints: []
 relatedOpportunities: ["openmontage-solo-video-opportunity"]
-relatedKnowledge: []
+relatedKnowledge: ["prompt-driven-video-generation-boundaries"]
 adsEnabled: true
 ---
 
@@ -72,4 +72,4 @@ adsEnabled: true
 
 這則情報真正有意思的地方，不是貼文宣稱哪個模型比較厲害，是它意外證實了一件事：電影化結構化提示詞（鎖定角色外觀、按時間軸分場、描述鏡頭語言與環境音）已經變成一套跨模型、跨平台都通用的「共同語言」，不同的人在不同場合各自摸索，卻收斂到幾乎一樣的寫法。對想投入這個領域的人來說，與其糾結哪一款模型當下最強（這個排名變動很快），不如先把這套結構化提示詞的寫法練熟，因為它是能夠遷移到未來任何一款新模型上的技能，比綁定單一工具更長久。這跟企業稍早驗證OpenMontage角色一致性時得到的體會相互印證——技術路線會變，但「怎麼把一個角色的外觀鎖死、怎麼描述鏡頭語言」這套方法論本身，才是真正值得投資時間熟練的能力。
 
-往知識庫閱讀 → 無知識庫文章
+往知識庫閱讀 → [高階提示詞讓LLM影片生成逼近真假難辨](/knowledge/ai-automation/prompt-driven-video-generation-boundaries)
