@@ -1,0 +1,43 @@
+{
+  "_comment": "統一分類對照表 (P01-P16)。純資料文件供審核。這將對應到 client/src/lib/laneCategories.ts 中的 P 編號。",
+  "mappings": [
+    { "source": "ai-agent", "target": "P01", "sourceType": "knowledge" },
+    { "source": "agent-infrastructure", "target": "P01", "sourceType": "opportunity" },
+
+    { "source": "ai-automation", "target": "P02", "sourceType": "knowledge" },
+    { "source": "prompt-workflow", "target": "P02", "sourceType": "opportunity" },
+
+    { "source": "ai-native", "target": "P03", "sourceType": "knowledge" },
+
+    { "source": "ai-business", "target": "P04", "sourceType": "knowledge" },
+
+    { "source": "ai-content-tools", "target": "P05", "sourceType": "opportunity" },
+    { "source": "media", "target": "P05", "sourceType": "blueprint" },
+
+    { "source": "monetization-methodology", "target": "P06", "sourceType": "opportunity" },
+
+    { "source": "ai-side-hustle", "target": "P07", "sourceType": "knowledge" },
+
+    { "source": "productized-web-tools", "target": "P08", "sourceType": "opportunity" },
+    { "source": "saas", "target": "P08", "sourceType": "blueprint" },
+
+    { "source": "ecommerce", "target": "P09", "sourceType": "blueprint" },
+
+    { "source": "service", "target": "P10", "sourceType": "blueprint" },
+
+    { "source": "agency", "target": "P11", "sourceType": "blueprint" },
+
+    { "source": "ai-knowledge", "target": "P12", "sourceType": "knowledge" },
+    { "source": "knowledge-management", "target": "P12", "sourceType": "opportunity" },
+
+    { "source": "learning-center", "target": "P13", "sourceType": "knowledge" },
+    { "source": "education", "target": "P13", "sourceType": "blueprint" },
+
+    { "source": "future-industry", "target": "P14", "sourceType": "knowledge" },
+
+    { "source": "formula-insights", "target": "P15", "sourceType": "knowledge" },
+
+    { "source": "general", "target": "P16", "sourceType": "blueprint" },
+    { "source": "other", "target": "P16", "sourceType": "opportunity" }
+  ]
+}
