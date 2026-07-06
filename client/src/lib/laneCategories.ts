@@ -37,7 +37,7 @@ const CATEGORY_LABELS: Record<string, Record<string, CategoryLabel>> = {
     "ai-native":             { zh: "P03 · AI 原生",             en: "P03 · AI Native",              emoji: "🧬" },
     "ai-business":           { zh: "P04 · AI 商業應用",         en: "P04 · AI Business",            emoji: "💼" },
     // ── 佔位（待補內容）──
-    "_placeholder_P05":      { zh: "P05 · AI 內容生成",         en: "P05 · AI Content",             emoji: "🎬" },
+    "ai-content-tools":      { zh: "P05 · AI 內容生成",         en: "P05 · AI Content",             emoji: "🎬" },
     "_placeholder_P06":      { zh: "P06 · 內容變現方法論",       en: "P06 · Monetization",           emoji: "💰" },
     // ── 已有內容 ──
     "ai-side-hustle":        { zh: "P07 · AI 副業",             en: "P07 · AI Side Hustle",         emoji: "💡" },

@@ -3,7 +3,7 @@ id: prompt-driven-video-generation-boundaries
 slug: prompt-driven-video-generation-boundaries
 topicId: T-AI-KB-0203
 pillar: fundamentals
-domain: ai-automation
+domain: ai-content-tools
 subtopic: "core-concepts"
 publishedAt: 2026-07-06
 contentType: knowledge

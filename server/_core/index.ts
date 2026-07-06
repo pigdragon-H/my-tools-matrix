@@ -176,6 +176,11 @@ app.set("trust proxy", 1);
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 
+// 301 Redirect for P05 classification fix
+app.get('/knowledge/ai-automation/prompt-driven-video-generation-boundaries', (req, res) => {
+  res.redirect(301, '/knowledge/ai-content-tools/prompt-driven-video-generation-boundaries');
+});
+
 // Build/version stamp for provable deploy verification (local == remote == production).
 // Railway injects RAILWAY_GIT_COMMIT_SHA at build/runtime; fall back to other common envs.
 const BUILD_COMMIT =
