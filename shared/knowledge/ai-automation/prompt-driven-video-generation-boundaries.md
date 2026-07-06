@@ -16,7 +16,7 @@ signal: ["企業實測影片作為第一手佐證", "Gemini與Grok的能力斷�
 output: ["pillar definition node", "application boundary analysis"]
 adsEnabled: true
 relatedBlueprints: []
-relatedOpportunities: ["gemini-direct-prompt-to-video-opportunity"]
+relatedOpportunities: ["gemini-direct-prompt-to-video-opportunity", "structured-cinematic-prompt-opportunity"]
 relatedKnowledge: []
 videoUrl: "https://hxfjdfinwzmqkgaripbe.supabase.co/storage/v1/object/public/article-videos/Gemini_Shorts_Tw_girl.mp4"
 ---
