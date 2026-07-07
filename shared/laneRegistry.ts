@@ -29,6 +29,8 @@ export interface Lane {
   title: { zh: string; en: string };
   /** 雙語定位一句話（首頁入口卡 / hub 副標用）。 */
   tagline: { zh: string; en: string };
+  /** 雙語詳細描述（hub 頁面副標下方用，幫助訪客快速理解該軸的核心價值）。 */
+  description: { zh: string; en: string };
   /** live = 已上線可見；reserved = 程式預留、暫不露出。 */
   status: LaneStatus;
   /** 是否納入導航列（僅 status==="live" 時生效）。 */
@@ -57,6 +59,10 @@ export const LANES: Lane[] = [
       zh: "從商業模式到 90 天計畫，再到可落地的 AI 工作流——一站把點子變成事業。",
       en: "From business model to a 90-day plan and ready-to-run AI workflows — turn ideas into a business.",
     },
+    description: {
+      zh: "知識庫 → 實驗驗證 → 變現落地 / 經過真實驗證、證明可行性、確認變現能力的商業藍圖，代表 FU 團隊的最高智慧結晶。",
+      en: "Knowledge → Experiment & Verify → Monetize / Business blueprints proven through real-world experimentation, demonstrating viability and monetization potential — the crystallized wisdom of the FU team.",
+    },
     status: "live",
     navInclude: true,
     order: 2,
@@ -72,6 +78,10 @@ export const LANES: Lane[] = [
       zh: "全球經濟新聞與變現點子的情報流，AI 持續彙整，幫你抓住下一個機會。",
       en: "A signal stream of global economic news and monetization ideas, continuously curated by AI.",
     },
+    description: {
+      zh: "市場發現 → FU 解析 → 具體發布 / 捕捉 AI 領域的新現象、新工具、新機會，是知識發酵的種子。",
+      en: "Market Discovery → FU Analysis → Concrete Release / Capturing emerging phenomena, new tools, and opportunities in AI — seeds for knowledge fermentation.",
+    },
     status: "live",
     navInclude: true,
     order: 4,
@@ -86,6 +96,10 @@ export const LANES: Lane[] = [
     tagline: {
       zh: "產業與技術的深度文獻收集地——寫有分享價值的內容，建立主題權威。",
       en: "A library of in-depth industry & technology articles — building topical authority.",
+    },
+    description: {
+      zh: "機會情報 → 知識發酵 → 協作探討 / 同一提示詞在 Gemini 和 Grok 產生不同效應，FU 團隊記錄每一次演變。",
+      en: "Opportunity Intelligence → Knowledge Fermentation → Collaborative Exploration / The same prompt yields different responses across AI models — FU documents every evolution.",
     },
     status: "live",
     navInclude: true,
