@@ -68,7 +68,7 @@ const CATEGORY_LABELS: Record<string, Record<string, CategoryLabel>> = {
     "_placeholder_P01_b":    { zh: "P01 · AI Agent",             en: "P01 · AI Agent",               emoji: "🤖" },
     "_placeholder_P02_b":    { zh: "P02 · AI 自動化",             en: "P02 · AI Automation",          emoji: "⚙️" },
     "_placeholder_P03_b":    { zh: "P03 · AI 原生",             en: "P03 · AI Native",              emoji: "🧬" },
-    "_placeholder_P04_b":    { zh: "P04 · AI 商業應用",         en: "P04 · AI Business",            emoji: "💼" },
+    "ai-business":    { zh: "P04 · AI 商業應用",         en: "P04 · AI Business",            emoji: "💼" },
     // ── 已有內容（P05 對齊：視頻生產屬內容工具與平台）──
     "ai-content-tools":      { zh: "P05 · 內容工具與平台",       en: "P05 · Content Tools",          emoji: "🛠️" },
     "_placeholder_P06_b":    { zh: "P06 · 內容變現方法論",       en: "P06 · Monetization",           emoji: "💰" },
