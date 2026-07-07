@@ -105,7 +105,7 @@ export function LaneHub({ laneId }: { laneId: string }) {
     if (lane) {
       setSeoMeta({
         title: `${lane.title[lang]}｜Formula Universe`,
-        description: lane.tagline[lang],
+        description: lane.description[lang] || lane.tagline[lang],
       });
     }
   }, [lang, lane]);
