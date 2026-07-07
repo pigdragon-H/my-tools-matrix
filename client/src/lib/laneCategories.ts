@@ -305,9 +305,15 @@ export function groupByCategory(laneId: string, items: LoadedContent[]): Categor
     if (!buckets.has(key)) buckets.set(key, []);
     buckets.get(key)!.push(it);
   }
-
   const groups: CategoryGroup[] = [];
-  for (const [key, list] of Array.from(buckets.entries())) {
+  
+  // Get all available categories for this lane from CATEGORY_LABELS
+  const laneLabels = CATEGORY_LABELS[laneId] || {};
+  const allKeys = Object.keys(laneLabels);
+  
+  // Create groups for all categories, including empty ones
+  for (const key of allKeys) {
+    const list = buckets.get(key) || [];
     const sorted = [...list].sort((a, b) => {
       const ao = a.meta.order;
       const bo = b.meta.order;
@@ -326,15 +332,24 @@ export function groupByCategory(laneId: string, items: LoadedContent[]): Categor
       count: sorted.length,
     });
   }
-
+  
   // 分區之間：依「組內最新發布日期」新→舊排，讓有近期更新的分類浮上來。
+  // 但空分類排最後
   groups.sort((a, b) => {
+    const aHasItems = a.count > 0;
+    const bHasItems = b.count > 0;
+    if (aHasItems && !bHasItems) return -1;
+    if (!aHasItems && bHasItems) return 1;
+    if (!aHasItems && !bHasItems) return 0;
     const ad = a.items[0]?.meta.publishedAt || "";
     const bd = b.items[0]?.meta.publishedAt || "";
     return bd.localeCompare(ad);
   });
+  
   return groups;
 }
+
+
 
 /** 兩位數序號字串：1 → "01"。 */
 export function ordinal(n: number): string {
