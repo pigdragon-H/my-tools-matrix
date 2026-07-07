@@ -94,10 +94,8 @@ const CATEGORY_LABELS: Record<string, Record<string, CategoryLabel>> = {
   // 對應治理文件：docs/OPPORTUNITY_INTELLIGENCE_PIPELINE.md 第六節「主賽道分類」。
   opportunities: {
     "agent-infrastructure":      { zh: "P01 · AI Agent",          en: "P01 · AI Agent",              emoji: "🤖" },
-    "_placeholder_P02_o":        { zh: "P02 · AI 自動化",           en: "P02 · AI Automation",          emoji: "⚙️" },
-    "_placeholder_P03_o":        { zh: "P03 · AI 原生",             en: "P03 · AI Native",              emoji: "🧬" },
-    "_placeholder_P04_o":        { zh: "P04 · AI 商業應用",         en: "P04 · AI Business",            emoji: "💼" },
     "ai-content-tools":          { zh: "P02 · AI 內容生成工具",     en: "P02 · AI Content Tools",      emoji: "⚙️" },
+    "_placeholder_P03_o":        { zh: "P03 · AI 原生",             en: "P03 · AI Native",              emoji: "🧬" },
     "productized-web-tools":     { zh: "P04 · 工具站／產品化網站",  en: "P04 · Productized Web Tools", emoji: "💼" },
     "_placeholder_P05_o":        { zh: "P05 · 內容工具與平台",       en: "P05 · Content Tools",          emoji: "🛠️" },
     "_placeholder_P06_o":        { zh: "P06 · 內容變現方法論",       en: "P06 · Monetization",           emoji: "💰" },
