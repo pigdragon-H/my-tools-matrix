@@ -4,7 +4,7 @@ title: { zh: "AI 輔助利基工具站創業模型：從低成本 MVP 到可驗�
 description: { zh: "AI 沒有讓工具站創業變簡單，而是降低了試錯成本。本藍圖用保守、合規的方式拆解選題標準、30/60/90 天 MVP 路線、四層內容資產與五種變現模型，避開暴富敘事與搜尋垃圾風險。", en: "AI didn't make tool-site startups easy — it lowered the cost of trial and error. This blueprint breaks down topic selection, a 30/60/90-day MVP path, a four-layer content stack, and five monetization models — conservatively and policy-compliant." }
 keywords: ["利基工具站", "AI 創業藍圖", "工具型網站", "programmatic SEO", "MVP", "niche tool site", "AI startup blueprint"]
 publishedAt: 2026-06-17
-industry: saas
+industry: ai-business
 difficulty: intermediate
 revenueModel: ["廣告", "聯盟行銷", "lead generation", "模板包", "micro-SaaS"]
 relatedTools: ["/tools/finance/roi-calculator"]

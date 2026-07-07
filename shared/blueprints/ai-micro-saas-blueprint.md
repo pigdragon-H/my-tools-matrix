@@ -4,7 +4,7 @@ title: { zh: "AI 微型 SaaS 創業藍圖：一人公司的可重複收入引擎
 description: { zh: "不必融資、不必團隊，用 AI 打造一個解決明確痛點的微型 SaaS：定位、定價、技術棧、獲客與 90 天上線計畫完整拆解。", en: "No funding, no team. Build an AI micro-SaaS that solves a clear pain point: positioning, pricing, tech stack, acquisition, and a 90-day launch plan." }
 keywords: ["微型SaaS", "AI SaaS", "一人公司", "可重複收入", "micro-saas", "indie hacker"]
 publishedAt: 2026-06-08
-industry: saas
+industry: ai-business
 difficulty: intermediate
 revenueModel: ["月訂閱", "年訂閱", "用量計費", "終身方案"]
 relatedTools: ["/tools/developer/json-formatter"]

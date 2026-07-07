@@ -5,7 +5,7 @@ description: { zh: "資訊過載讓「精準策展」變得稀缺而值錢。用
 keywords: ["AI電子報", "策展變現", "訂閱經濟", "newsletter", "AI curation", "paid subscription"]
 publishedAt: 2026-06-05
 signalSource: ["X", "ProductHunt", "Economic News"]
-domain: monetization-methodology
+domain: ai-side-hustle
 l4Status: blueprint-ready
 fuRating: 4
 revenueModel: "付費訂閱 + 贊助廣告"

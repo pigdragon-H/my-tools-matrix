@@ -4,7 +4,7 @@ title: { zh: "單人短影音生產線基礎方案：以OpenMontage為核心的�
 description: { zh: "以企業實測為基礎，拆解如何用OpenMontage搭配程式代理，建立一條零金鑰模式的短影音生產線，含工具替代方案與真實限制。", en: "A starter, execution-ready plan for building a zero-cost solo video pipeline on OpenMontage, based on real end-to-end testing." }
 keywords: ["OpenMontage創業", "短影音生產線", "AI創業藍圖", "程式代理應用", "零金鑰內容生產", "Kling", "GPU本地推理"]
 publishedAt: 2026-07-05
-industry: media
+industry: ai-content-tools
 difficulty: intermediate
 revenueModel: ["工具教學/顧問服務", "企業導入輔導", "內容代操"]
 relatedTools: []
