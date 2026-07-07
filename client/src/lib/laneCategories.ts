@@ -64,51 +64,47 @@ const CATEGORY_LABELS: Record<string, Record<string, CategoryLabel>> = {
   },
   // AI 創業藍圖：依 industry（P01–P16 完整列出）
   blueprints: {
-    // ── 佔位（待補內容）──
-    "_placeholder_P01_b":    { zh: "P01 · AI Agent 應用",       en: "P01 · AI Agent",               emoji: "🤖" },
+    // ── P01-P16 按知識庫標準排序 ──
+    "_placeholder_P01_b":    { zh: "P01 · AI Agent",             en: "P01 · AI Agent",               emoji: "🤖" },
+    "_placeholder_P02_b":    { zh: "P02 · AI 自動化",             en: "P02 · AI Automation",          emoji: "⚙️" },
     "_placeholder_P03_b":    { zh: "P03 · AI 原生",             en: "P03 · AI Native",              emoji: "🧬" },
-    // ── 已有內容（P02 對齊：AI 內容媒體工作室屬 AI 自動化/內容生成）──
-    media:                   { zh: "P02 · AI 內容媒體",          en: "P02 · AI Content & Media",    emoji: "⚙️" },
-    // ── 佔位（待補內容）──
-    "_placeholder_P05_b":    { zh: "P05 · 內容工具與平台",       en: "P05 · Content Tools",          emoji: "🛠️" },
+    "_placeholder_P04_b":    { zh: "P04 · AI 商業應用",         en: "P04 · AI Business",            emoji: "💼" },
+    // ── 已有內容（P05 對齊：視頻生產屬內容工具與平台）──
+    "ai-content-tools":      { zh: "P05 · 內容工具與平台",       en: "P05 · Content Tools",          emoji: "🛠️" },
     "_placeholder_P06_b":    { zh: "P06 · 內容變現方法論",       en: "P06 · Monetization",           emoji: "💰" },
     "_placeholder_P07_b":    { zh: "P07 · AI 副業",             en: "P07 · AI Side Hustle",         emoji: "💡" },
     "_placeholder_P08_b":    { zh: "P08 · 工具站與產品化",       en: "P08 · Productized Tools",      emoji: "🛍️" },
-    // ── 已有內容（P04 對齊：SaaS 藍圖屬 AI 商業應用）──
-    saas:                    { zh: "P04 · SaaS 軟體",           en: "P04 · SaaS",                   emoji: "💼" },
-    ecommerce:               { zh: "P09 · 電商零售",            en: "P09 · E-commerce",             emoji: "🛒" },
-    service:                 { zh: "P10 · 服務業",              en: "P10 · Service",                emoji: "🤝" },
-    agency:                  { zh: "P11 · 代理／工作室",        en: "P11 · Agency",                 emoji: "🏢" },
-    // ── 佔位（待補內容）──
+    "_placeholder_P09_b":    { zh: "P09 · 電商零售",            en: "P09 · E-commerce",             emoji: "🛒" },
+    "_placeholder_P10_b":    { zh: "P10 · 服務業",              en: "P10 · Service",                emoji: "🤝" },
+    "_placeholder_P11_b":    { zh: "P11 · 代理／工作室",        en: "P11 · Agency",                 emoji: "🏢" },
     "_placeholder_P12_b":    { zh: "P12 · AI 知識基礎",         en: "P12 · AI Knowledge",           emoji: "🧠" },
-    // ── 已有內容 ──
-    education:               { zh: "P13 · 教育學習",            en: "P13 · Education",              emoji: "🎓" },
-    // ── 佔位（待補內容）──
+    "_placeholder_P13_b":    { zh: "P13 · AI 學習與培訓",       en: "P13 · AI Learning",            emoji: "📚" },
     "_placeholder_P14_b":    { zh: "P14 · 未來產業",            en: "P14 · Future Industry",        emoji: "🚀" },
     "_placeholder_P15_b":    { zh: "P15 · 公式洞察",            en: "P15 · Formula Insights",       emoji: "📐" },
-    // ── 已有內容 ──
-    general:                 { zh: "P16 · 綜合",               en: "P16 · General",                emoji: "📦" },
+    "_placeholder_P16_b":    { zh: "P16 · 綜合",               en: "P16 · General",                emoji: "📦" },
   },
   // 機會情報：依 domain
   // 只列出有實際內容的 domain 值（對應 shared/classificationMapping.json）。
   // 對應治理文件：docs/OPPORTUNITY_INTELLIGENCE_PIPELINE.md 第六節「主賽道分類」。
   opportunities: {
+    // ── P01-P16 按知識庫標準排序 ──
     "agent-infrastructure":      { zh: "P01 · AI Agent",          en: "P01 · AI Agent",              emoji: "🤖" },
-    "ai-content-tools":          { zh: "P02 · AI Content Tools",   en: "P02 · AI Content Tools",      emoji: "⚙️" },
-    "_placeholder_P03_o":        { zh: "P03 · AI Native",          en: "P03 · AI Native",              emoji: "🧬" },
-    "productized-web-tools":     { zh: "P04 · Productized Web Tools", en: "P04 · Productized Web Tools", emoji: "💼" },
-    "_placeholder_P05_o":        { zh: "P05 · Content Tools",      en: "P05 · Content Tools",          emoji: "🛠️" },
-    "_placeholder_P06_o":        { zh: "P06 · Monetization",       en: "P06 · Monetization",           emoji: "💰" },
-    "monetization-methodology":  { zh: "P07 · Monetization",      en: "P07 · Monetization",          emoji: "💡" },
-    "_placeholder_P08_o":        { zh: "P08 · Productized Tools",  en: "P08 · Productized Tools",      emoji: "🛍️" },
-    "_placeholder_P09_o":        { zh: "P09 · E-commerce",         en: "P09 · E-commerce",             emoji: "🛒" },
-    "_placeholder_P10_o":        { zh: "P10 · Service",            en: "P10 · Service",                emoji: "🤝" },
-    "_placeholder_P11_o":        { zh: "P11 · Agency",             en: "P11 · Agency",                 emoji: "🏢" },
-    "knowledge-management":      { zh: "P12 · Knowledge Management", en: "P12 · Knowledge Management",  emoji: "🗂️" },
-    "_placeholder_P13_o":        { zh: "P13 · Education",          en: "P13 · Education",              emoji: "🎓" },
-    "_placeholder_P14_o":        { zh: "P14 · Future Industry",    en: "P14 · Future Industry",        emoji: "🚀" },
-    "_placeholder_P15_o":        { zh: "P15 · Formula Insights",   en: "P15 · Formula Insights",       emoji: "📐" },
-    other:                       { zh: "P16 · Other",              en: "P16 · Other",                 emoji: "📦" },
+    "_placeholder_P02_o":        { zh: "P02 · AI 自動化",             en: "P02 · AI Automation",          emoji: "⚙️" },
+    "_placeholder_P03_o":        { zh: "P03 · AI 原生",             en: "P03 · AI Native",              emoji: "🧬" },
+    "productized-web-tools":     { zh: "P04 · AI 商業應用",         en: "P04 · AI Business",            emoji: "💼" },
+    // ── 已有內容（P05 對齊：視頻生產屬內容工具與平台）──
+    "ai-content-tools":          { zh: "P05 · 內容工具與平台",       en: "P05 · Content Tools",          emoji: "🛠️" },
+    "_placeholder_P06_o":        { zh: "P06 · 內容變現方法論",       en: "P06 · Monetization",           emoji: "💰" },
+    "monetization-methodology":  { zh: "P07 · 內容變現方法論",      en: "P07 · Monetization",          emoji: "💡" },
+    "_placeholder_P08_o":        { zh: "P08 · 工具站與產品化",       en: "P08 · Productized Tools",      emoji: "🛍️" },
+    "_placeholder_P09_o":        { zh: "P09 · 電商零售",            en: "P09 · E-commerce",             emoji: "🛒" },
+    "_placeholder_P10_o":        { zh: "P10 · 服務業",              en: "P10 · Service",                emoji: "🤝" },
+    "_placeholder_P11_o":        { zh: "P11 · 代理／工作室",        en: "P11 · Agency",                 emoji: "🏢" },
+    "knowledge-management":      { zh: "P12 · 知識管理與資料沉澱",  en: "P12 · Knowledge Management",  emoji: "🗂️" },
+    "_placeholder_P13_o":        { zh: "P13 · 教育學習",            en: "P13 · Education",              emoji: "🎓" },
+    "_placeholder_P14_o":        { zh: "P14 · 未來產業",            en: "P14 · Future Industry",        emoji: "🚀" },
+    "_placeholder_P15_o":        { zh: "P15 · 公式洞察",            en: "P15 · Formula Insights",       emoji: "📐" },
+    other:                       { zh: "P16 · 其它",              en: "P16 · Other",                 emoji: "📦" },
   },
   // 工具知識庫 /blog（DB/靜態文章）：必須與工具矩陣 12 個頂層分類一致。
   // 使用者明確要求：工具知識庫是收納工具類文章，因此分類不可沿用 AI/內容欄目。
