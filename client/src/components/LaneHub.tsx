@@ -121,7 +121,7 @@ export function LaneHub({ laneId }: { laneId: string }) {
       <header className="mb-8">
         <h1 className="t-h1">{lane.title[lang]}</h1>
         <p className="t-lead text-muted-foreground mt-4 mb-2 max-w-2xl leading-relaxed">{lane.tagline[lang]}</p>
-        <p className="text-base text-muted-foreground mt-3 max-w-3xl leading-relaxed">{lane.description[lang]}</p>
+        <p className="text-base text-muted-foreground mt-3 max-w-4xl leading-relaxed">{lane.description[lang]}</p>
       </header>
 
       {total === 0 ? (
