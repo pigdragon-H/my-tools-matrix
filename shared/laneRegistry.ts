@@ -60,8 +60,8 @@ export const LANES: Lane[] = [
       en: "From business model to a 90-day plan and ready-to-run AI workflows — turn ideas into a business.",
     },
     description: {
-      zh: "知識庫 → 實驗驗證 → 變現落地 / 經過真實驗證、證明可行性、確認變現能力的商業藍圖，代表 FU 團隊的最高智慧結晶。",
-      en: "Knowledge → Experiment & Verify → Monetize / Business blueprints proven through real-world experimentation, demonstrating viability and monetization potential — the crystallized wisdom of the FU team.",
+      zh: "創業藍圖位於三軸金字塔的頂層，代表著 Formula Universe 知識體系中最稀缺、最具價值的成果。從商業模式的構想到 90 天的具體計畫，再到可立即落地的 AI 工作流——每一份創業藍圖都是經過實際實驗驗證、確認商業可行性與變現能力的完整指南。並非所有的機會情報都能成為藍圖，也並非所有的知識都能轉化為可行的商業方案。只有那些經過真實測試、證明了其可行性與變現潛力的知識，才有資格晉升為創業藍圖。這種嚴格的篩選與驗證機制，確保了創業藍圖的稀少性與高價值——每一份藍圖都代表著 FU 團隊的最高智慧結晶，是從廣泛的市場信號中提煉出來的商業黃金。",
+      en: "Business Blueprints occupy the apex of the three-axis pyramid, representing the rarest and most valuable outcomes of Formula Universe's knowledge ecosystem. From initial business model conception through detailed 90-day execution plans to immediately deployable AI workflows—each blueprint is a comprehensive guide that has undergone real-world experimentation, proven commercial viability, and confirmed monetization potential. Not every opportunity intelligence becomes a blueprint, nor does every piece of knowledge translate into a viable business solution. Only knowledge that has passed rigorous real-world testing, demonstrating both feasibility and revenue-generating capability, earns elevation to blueprint status. This stringent selection and validation mechanism ensures that every blueprint represents the crystallized wisdom of the FU team—distilled from vast market signals into actionable business gold.",
     },
     status: "live",
     navInclude: true,
@@ -79,8 +79,8 @@ export const LANES: Lane[] = [
       en: "A signal stream of global economic news and monetization ideas, continuously curated by AI.",
     },
     description: {
-      zh: "市場發現 → FU 解析 → 具體發布 / 捕捉 AI 領域的新現象、新工具、新機會，是知識發酵的種子。",
-      en: "Market Discovery → FU Analysis → Concrete Release / Capturing emerging phenomena, new tools, and opportunities in AI — seeds for knowledge fermentation.",
+      zh: "在 Formula Universe 的三軸金字塔中，機會情報位於最底層，是整個知識體系的基礎與源頭。我們持續捕捉全球 AI 領域中湧現的新現象、新工具與商業機會，透過 FU 獨特的視角進行解析，賦予每一個發現在 Formula Universe 中的具體意義。這些機會情報不是單純的新聞摘要，而是經過精心篩選與解析的市場信號——它們代表著值得深入探討的知識種子，將在協作團隊的深入討論中逐步發酵，最終成為知識庫中的標準資產或創業藍圖中的可行方案。",
+      en: "Within the Formula Universe three-axis pyramid, Opportunity Intelligence occupies the foundation layer, serving as the bedrock of our entire knowledge ecosystem. We continuously capture emerging phenomena, innovative tools, and business opportunities across the global AI landscape, analyzing them through FU's unique lens to extract their specific significance within the Formula Universe context. These opportunities are not mere news summaries but carefully curated market signals—each representing a seed of knowledge worth deeper exploration. Through collaborative team discussion and experimentation, these seeds will ferment into standardized knowledge assets or actionable business blueprints.",
     },
     status: "live",
     navInclude: true,
@@ -98,8 +98,8 @@ export const LANES: Lane[] = [
       en: "A library of in-depth industry & technology articles — building topical authority.",
     },
     description: {
-      zh: "機會情報 → 知識發酵 → 協作探討 / 同一提示詞在 Gemini 和 Grok 產生不同效應，FU 團隊記錄每一次演變。",
-      en: "Opportunity Intelligence → Knowledge Fermentation → Collaborative Exploration / The same prompt yields different responses across AI models — FU documents every evolution.",
+      zh: "知識庫是 Formula Universe 三軸系統的核心樞紐，也是整個知識體系的標準與真相來源。每一篇知識庫文章都源於機會情報中具有原生知識價值的內容，經過 FU 協作團隊的深入探討、多角度驗證與實驗記錄而形成。我們不僅記錄單一 AI 模型的回應，更重要的是捕捉不同模型、不同參數、不同提示詞在相同情境下產生的差異與演變——就像同一個提示在 Gemini 和 Grok 中產生截然不同的效應一樣。這種多維度的知識沉澱，使知識庫成為 AI 時代的實驗室與參考手冊，為所有後續的創業藍圖與商業決策提供堅實的知識基礎。",
+      en: "The Knowledge Base is the central hub of Formula Universe's three-axis system and the authoritative source of truth for our entire knowledge ecosystem. Each article in the Knowledge Base originates from opportunity intelligence with inherent knowledge value, refined through deep collaborative exploration, multi-dimensional verification, and experimental documentation by the FU team. We don't merely record responses from a single AI model; rather, we capture the nuanced differences and evolutions across different models, parameters, and prompts in identical scenarios—much like how the same prompt yields distinctly different outputs in Gemini versus Grok. This multi-dimensional knowledge accumulation transforms the Knowledge Base into both a laboratory and reference manual for the AI era, providing a solid knowledge foundation for all subsequent business blueprints and strategic decisions.",
     },
     status: "live",
     navInclude: true,
