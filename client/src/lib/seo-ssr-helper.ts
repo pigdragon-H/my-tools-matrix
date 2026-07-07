@@ -203,9 +203,11 @@ export function getSsrMetaInfo(pathname: string): SsrMetaInfo {
 
   const lane = getLane(normalizedPath.replace(/^\//, ""));
   if (lane) {
+    // Use description field for richer SEO content; fall back to tagline if not available
+    const descriptionText = lane.description?.zh || lane.tagline.zh;
     return {
       title: `${lane.title.zh}｜Formula Universe`,
-      description: clipDescription(lane.tagline.zh, DEFAULT_DESCRIPTION),
+      description: clipDescription(descriptionText, DEFAULT_DESCRIPTION),
     };
   }
 
