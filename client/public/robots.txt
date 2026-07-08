@@ -29,3 +29,4 @@ Request-rate: 100/60
 User-agent: Bingbot
 Crawl-delay: 1
 Request-rate: 30/60
+
