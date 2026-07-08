@@ -16,9 +16,10 @@
  * 已掛進 prebuild，每次 npm run build 前自動更新。
  */
 import { readFileSync, writeFileSync, readdirSync, statSync } from "node:fs";
-import { resolve, join } from "node:path";
+import { basename, relative, resolve, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const ROOT = resolve(new URL(import.meta.url).pathname, "../..");
+const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const TOOLS_CONFIG = join(ROOT, "shared/toolsConfig.ts");
 const CATS_CONFIG = join(ROOT, "shared/categoriesConfig.ts");
 const ARTICLES_DIR = join(ROOT, "shared/articles");
@@ -29,8 +30,18 @@ const OUT_PUBLIC = join(ROOT, "public/sitemap.xml");
 const OUT_CLIENT = join(ROOT, "client/public/sitemap.xml");
 const OUT_REVIEW_PATHS = join(ROOT, "shared/adsenseReviewPaths.json");
 
-const BASE = process.env.SITE_URL ?? "https://my-tools-matrix-production.up.railway.app";
-const TODAY = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+const BASE = (process.env.SITE_URL ?? "https://my-tools-matrix-production.up.railway.app").replace(/\/$/, "");
+
+function canonicalPath(path: string): string {
+  const clean = path.split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
+  if (clean === "/") return "/";
+  if (/\.[a-z0-9]+$/i.test(clean)) return clean;
+  return `${clean}/`;
+}
+
+function isValidDate(value: string | undefined): value is string {
+  return Boolean(value && /^\d{4}-\d{2}-\d{2}$/.test(value));
+}
 
 // ── 靜態頁 ──────────────────────────────────────────────────────────
 const STATIC_PAGES: { path: string; changefreq: string; priority: string }[] = [
@@ -45,7 +56,7 @@ const STATIC_PAGES: { path: string; changefreq: string; priority: string }[] = [
 
 // ── Step 1: 解析 toolsConfig.ts 的 tools[] (id + category + path) ────
 const cfgText = readFileSync(TOOLS_CONFIG, "utf8");
-const tools: { id: string; category: string; path: string; status: string }[] = [];
+const tools: { id: string; category: string; path: string; status: string; lastUpdated?: string }[] = [];
 const blockRe = /\{\s*id:\s*"([a-z0-9-]+)",((?:(?!\n\s*\{)[\s\S])*?)\n\s*\},/g;
 let m: RegExpExecArray | null;
 while ((m = blockRe.exec(cfgText)) !== null) {
@@ -54,8 +65,15 @@ while ((m = blockRe.exec(cfgText)) !== null) {
   const catMatch = body.match(/category:\s*"([a-z]+)"/);
   const pathMatch = body.match(/path:\s*"([^"]+)"/);
   const statusMatch = body.match(/status:\s*"([^"]+)"/);
+  const lastUpdatedMatch = body.match(/lastUpdated:\s*"([^"]+)"/);
   if (!catMatch || !pathMatch) continue;
-  tools.push({ id, category: catMatch[1], path: pathMatch[1], status: statusMatch?.[1] ?? "" });
+  tools.push({
+    id,
+    category: catMatch[1],
+    path: pathMatch[1],
+    status: statusMatch?.[1] ?? "",
+    lastUpdated: lastUpdatedMatch?.[1],
+  });
 }
 
 // ── Step 2: 解析 categoriesConfig.ts 的所有 category key ────────────
@@ -95,12 +113,13 @@ function walkMd(dir: string): string[] {
 
 const articleFiles = walkMd(ARTICLES_DIR);
 const articlePaths: string[] = [];
+const pathLastmod = new Map<string, string>();
 for (const file of articleFiles) {
   const raw = readFileSync(file, "utf8");
-  const fileName = file.split("/").pop() || "";
+  const fileName = basename(file);
   const slug = fileName.replace(/\.md$/, "");
-  const rel = file.slice(ARTICLES_DIR.length + 1); // "finance/foo.md" | "foo.md"
-  const relParts = rel.split("/");
+  const rel = relative(ARTICLES_DIR, file); // "finance/foo.md" | "foo.md"
+  const relParts = rel.split(/[\\/]/);
   const dirCategory = relParts.length > 1 ? relParts[0] : "";
   let category = dirCategory;
   const fmMatch = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
@@ -110,6 +129,13 @@ for (const file of articleFiles) {
   }
   const path = category ? `/blog/${category}/${slug}` : `/blog/${slug}`;
   articlePaths.push(path);
+  const date =
+    readFrontmatterField(raw, "updatedAt") ||
+    readFrontmatterField(raw, "updated") ||
+    readFrontmatterField(raw, "date") ||
+    readFrontmatterField(raw, "publishedAt") ||
+    readFrontmatterField(raw, "published");
+  if (isValidDate(date)) pathLastmod.set(path, date);
 }
 
 // ── Step 2.6: scan the three lanes (blueprints / opportunities / knowledge)
@@ -122,9 +148,8 @@ for (const file of articleFiles) {
 function readFrontmatterField(raw: string, field: string): string {
   const fmMatch = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!fmMatch) return "";
-  const line = fmMatch[1].match(
-    new RegExp(`^${field}:\\s*"?([a-z0-9-]+)"?\\s*$`, "m")
-  );
+  const escapedField = field.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const line = fmMatch[1].match(new RegExp(`^${escapedField}:\\s*["']?([^"'\\r\\n]+)["']?\\s*$`, "m"));
   return line ? line[1] : "";
 }
 
@@ -136,25 +161,47 @@ for (const [dir, base] of [
   [OPPORTUNITIES_DIR, "/opportunities"],
 ] as const) {
   for (const file of walkMd(dir)) {
-    const slug = (file.split("/").pop() || "").replace(/\.md$/, "");
-    if (slug) lanePaths.push(`${base}/${slug}`);
+    const raw = readFileSync(file, "utf8");
+    const slug = basename(file).replace(/\.md$/, "");
+    if (slug) {
+      const path = `${base}/${slug}`;
+      lanePaths.push(path);
+      const date =
+        readFrontmatterField(raw, "updatedAt") ||
+        readFrontmatterField(raw, "updated") ||
+        readFrontmatterField(raw, "date") ||
+        readFrontmatterField(raw, "publishedAt") ||
+        readFrontmatterField(raw, "published");
+      if (isValidDate(date)) pathLastmod.set(path, date);
+    }
   }
 }
 
 // knowledge: /knowledge/<domain>/<slug>
 for (const file of walkMd(KNOWLEDGE_DIR)) {
   const raw = readFileSync(file, "utf8");
-  const slug = (file.split("/").pop() || "").replace(/\.md$/, "");
+  const slug = basename(file).replace(/\.md$/, "");
   if (!slug) continue;
-  const rel = file.slice(KNOWLEDGE_DIR.length + 1);
-  const relParts = rel.split("/");
+  const rel = relative(KNOWLEDGE_DIR, file);
+  const relParts = rel.split(/[\\/]/);
   const subDir = relParts.length > 1 ? relParts[0] : "";
   const domain =
     readFrontmatterField(raw, "domain") || subDir || "formula-insights";
-  lanePaths.push(`/knowledge/${domain}/${slug}`);
+  const path = `/knowledge/${domain}/${slug}`;
+  lanePaths.push(path);
+  const date =
+    readFrontmatterField(raw, "updatedAt") ||
+    readFrontmatterField(raw, "updated") ||
+    readFrontmatterField(raw, "date") ||
+    readFrontmatterField(raw, "publishedAt") ||
+    readFrontmatterField(raw, "published");
+  if (isValidDate(date)) pathLastmod.set(path, date);
 }
 
 const publicTools = tools.filter((tool) => tool.status === "GOLD");
+for (const tool of publicTools) {
+  if (isValidDate(tool.lastUpdated)) pathLastmod.set(tool.path, tool.lastUpdated);
+}
 
 // Production default is the full public sitemap. The AdSense review whitelist
 // must be enabled explicitly with ADSENSE_REVIEW_SITEMAP=true; otherwise valid
@@ -184,12 +231,14 @@ const REVIEW_PATHS = [...REVIEW_SITEMAP_PATHS].sort();
 const entries: string[] = [];
 const seen = new Set<string>(); // 防重複 + 防舊命名分歧殘留
 
-const addUrl = (path: string, changefreq: string, priority: string) => {
+const addUrl = (path: string, changefreq: string, priority: string, lastmod = pathLastmod.get(path)) => {
   if (ADSENSE_REVIEW_SITEMAP && !REVIEW_SITEMAP_PATHS.has(path)) return;
-  if (seen.has(path)) return;
-  seen.add(path);
+  const canonical = canonicalPath(path);
+  if (seen.has(canonical)) return;
+  seen.add(canonical);
+  const lastmodTag = isValidDate(lastmod) ? `\n    <lastmod>${lastmod}</lastmod>` : "";
   entries.push(
-    `  <url>\n    <loc>${BASE}${path}</loc>\n    <lastmod>${TODAY}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`
+    `  <url>\n    <loc>${BASE}${canonical}</loc>${lastmodTag}\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`
   );
 };
 
@@ -205,22 +254,12 @@ for (const cat of uniqueCats) addUrl(`/category/${cat}`, "weekly", "0.9");
 // 工具頁：正式 sitemap 只收錄 GOLD 公開工具，REBUILDING / LEGACY / 預留項不得公開曝光
 // 工具已全面擴大prerender覆蓋，不受AdSense審查白名單限制
 for (const t of publicTools) {
-  if (!seen.has(t.path)) {
-    seen.add(t.path);
-    entries.push(
-      `  <url>\n    <loc>${BASE}${t.path}</loc>\n    <lastmod>${TODAY}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>`
-    );
-  }
+  addUrl(t.path, "monthly", "0.7");
 }
 
 // 部落格文章已全面擴大prerender覆蓋，不受AdSense審查白名單限制
 for (const ap of articlePaths) {
-  if (!seen.has(ap)) {
-    seen.add(ap);
-    entries.push(
-      `  <url>\n    <loc>${BASE}${ap}</loc>\n    <lastmod>${TODAY}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>`
-    );
-  }
+  addUrl(ap, "monthly", "0.8");
 }
 
 // Supabase DB articles (published) — these live in the `articles` table, NOT as
@@ -248,7 +287,7 @@ for (const lp of lanePaths) {
     if (!seen.has(lp)) {
       seen.add(lp);
       entries.push(
-        `  <url>\n    <loc>${BASE}${lp}</loc>\n    <lastmod>${TODAY}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>`
+        `  <url>\n    <loc>${BASE}${canonicalPath(lp)}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>`
       );
     }
   } else {

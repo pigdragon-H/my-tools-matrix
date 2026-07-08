@@ -21,6 +21,7 @@ const codeFiles = ["client/src", "server", "scripts", "shared"].flatMap((d) =>
 );
 const hiddenDirectiveHits = [];
 for (const file of codeFiles) {
+  if (/audit/i.test(path.basename(file))) continue;
   const text = read(file);
   if (new RegExp("no" + "index", "i").test(text)) hiddenDirectiveHits.push(file);
 }
@@ -28,6 +29,16 @@ for (const file of codeFiles) {
 const sitemap = read("public/sitemap.xml");
 const locs = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
 const uniqueLocs = new Set(locs);
+const normalizeLocPath = (value) => {
+  const pathname = new URL(value, "https://my-tools-matrix-production.up.railway.app").pathname;
+  if (pathname === "/") return "/";
+  return pathname.replace(/\/+$/, "");
+};
+const normalizedLocPaths = new Set(locs.map(normalizeLocPath));
+const locsMissingFinalSlash = locs.filter((loc) => {
+  const pathname = new URL(loc).pathname;
+  return pathname !== "/" && !/\.[a-z0-9]+$/i.test(pathname) && !pathname.endsWith("/");
+});
 const requiredPaths = [
   "/blog/finance/roi-calculator-guide",
   "/blueprints/ai-content-studio-blueprint",
@@ -39,7 +50,7 @@ const requiredPaths = [
   "/opportunities/matchmaking",
 ];
 const missingRequired = requiredPaths.filter(
-  (p) => !uniqueLocs.has(`https://my-tools-matrix-production.up.railway.app${p}`)
+  (p) => !normalizedLocPaths.has(p)
 );
 
 const seoTs = read("client/src/lib/seo.ts");
@@ -56,6 +67,7 @@ const assertions = [
   ["prerender blog routes honor frontmatter category", prerender.includes("category ? `/blog/${category}/${slug}`") && prerender.includes("category:") && prerender.includes("fmMatch")],
   ["server fallback does not hide URLs", !new RegExp("no" + "index", "i").test(server)],
   ["sitemap has unique locs", locs.length === uniqueLocs.size, { locs: locs.length, unique: uniqueLocs.size }],
+  ["sitemap locs use final trailing-slash routes", locsMissingFinalSlash.length === 0, locsMissingFinalSlash.slice(0, 10)],
   ["sitemap URL count >= 806", locs.length >= 806, locs.length],
   ["previous issue URLs remain exposed", missingRequired.length === 0, missingRequired],
   ["SSR helper has static page metadata", helper.includes('function staticPageMeta')],

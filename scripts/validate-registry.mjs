@@ -16,8 +16,9 @@
  */
 import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 import { resolve, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const ROOT = resolve(new URL(import.meta.url).pathname, "../..");
+const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const TOOLS_CONFIG = join(ROOT, "shared/toolsConfig.ts");
 const TOOL_PAGE    = join(ROOT, "client/src/pages/ToolPage.tsx");
 const CATS_CONFIG  = join(ROOT, "shared/categoriesConfig.ts");

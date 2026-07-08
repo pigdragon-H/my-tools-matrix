@@ -52,6 +52,13 @@ function humanizeSlug(slug: string): string {
     .join(" ");
 }
 
+function canonicalPath(requestPath: string): string {
+  const cleanPath = requestPath.split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
+  if (cleanPath === "/") return "/";
+  if (/\.[a-z0-9]+$/i.test(cleanPath)) return cleanPath;
+  return `${cleanPath}/`;
+}
+
 function fallbackSeoForPath(requestPath: string) {
   const cleanPath = requestPath.split("?")[0].split("#")[0].replace(/\/$/, "") || "/";
   const slug = cleanPath.split("/").filter(Boolean).pop() || "Formula Universe";
@@ -94,7 +101,7 @@ function fallbackSeoForPath(requestPath: string) {
 
 function injectFallbackSeo(html: string, requestPath: string): string {
   const cleanPath = requestPath.split("?")[0].split("#")[0].replace(/\/$/, "") || "/";
-  const canonical = `${SITE_URL}${cleanPath}`;
+  const canonical = `${SITE_URL}${canonicalPath(cleanPath)}`;
   const seo = fallbackSeoForPath(cleanPath);
   let out = html;
   out = out.replace(/<title>.*?<\/title>/i, `<title>${escapeHtml(seo.title)}</title>`);

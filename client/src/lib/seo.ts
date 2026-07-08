@@ -13,13 +13,16 @@ export function resetSsrMetaTags(): void {
   ssrMetaTags = new Map();
 }
 
-function normalizePath(pathname: string) {
-  return pathname.replace(/\/$/, "") || "/";
+function canonicalPath(pathname: string) {
+  const clean = pathname.split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
+  if (clean === "/") return "/";
+  if (/\.[a-z0-9]+$/i.test(clean)) return clean;
+  return `${clean}/`;
 }
 
 function canonicalHrefFromPath(pathname: string) {
   const base = (import.meta.env.VITE_SITE_URL || "https://my-tools-matrix-production.up.railway.app").replace(/\/$/, "");
-  return `${base}${normalizePath(pathname)}`;
+  return `${base}${canonicalPath(pathname)}`;
 }
 
 function upsertMeta(selector: string, createAttributes: Record<string, string>, content: string) {
@@ -61,7 +64,7 @@ function upsertCanonical(ssrPathname?: string) {
   }
   if (typeof window === "undefined") return;
 
-  const href = window.location.origin + normalizePath(window.location.pathname);
+  const href = canonicalHrefFromPath(window.location.pathname);
 
   let link = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
   if (!link) {
