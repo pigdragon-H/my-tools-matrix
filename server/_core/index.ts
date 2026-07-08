@@ -12,6 +12,7 @@ import { convertWordToPdf } from "../lib/docxToPdf";
 import { convertPdfToDocx } from "../lib/pdfToDocx";
 import { analyzePdf } from "../lib/analyzePdf";
 import { getFontHealth } from "../lib/fontSetup";
+import { generatePageSchemas, injectSchemasIntoHtml } from "./_core/schema-generator";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -104,18 +105,45 @@ function injectFallbackSeo(html: string, requestPath: string): string {
   const seo = fallbackSeoForPath(cleanPath);
   let out = html;
   out = out.replace(/<title>.*?<\/title>/i, `<title>${escapeHtml(seo.title)}</title>`);
+  
+  // Determine page type for schema generation
+  let pageType: "tool" | "article" | "category" | "home" = "home";
+  if (cleanPath.startsWith("/tools/")) pageType = "tool";
+  else if (cleanPath.startsWith("/blog/") || cleanPath.startsWith("/knowledge/")) pageType = "article";
+  else if (cleanPath.startsWith("/category/")) pageType = "category";
+  
+  // Generate structured data schemas
+  const schemas = generatePageSchemas({
+    siteUrl: SITE_URL,
+    siteName: "Formula Universe",
+    requestPath: cleanPath,
+    title: seo.title,
+    description: seo.description,
+    imageUrl: `${SITE_URL}/og-default.jpg`,
+    locale: "zh-TW",
+    pageType,
+  });
+  
   const managedHead = [
     `<link rel="canonical" href="${escapeHtml(canonical)}">`,
     `<meta name="robots" content="index,follow">`,
     `<meta name="description" content="${escapeHtml(seo.description)}">`,
     `<meta property="og:title" content="${escapeHtml(seo.title)}">`,
     `<meta property="og:description" content="${escapeHtml(seo.description)}">`,
+    `<meta property="og:url" content="${escapeHtml(canonical)}">`,
+    `<meta property="og:locale" content="zh_TW">`,
   ].join("\n    ");
   out = out.replace(/\s*<link\s+[^>]*rel=["']canonical["'][^>]*>\s*/gi, "\n");
   out = out.replace(/\s*<meta\s+[^>]*name=["']robots["'][^>]*>\s*/gi, "\n");
   out = out.replace(/\s*<meta\s+[^>]*name=["']description["'][^>]*>\s*/gi, "\n");
   out = out.replace(/\s*<meta\s+[^>]*property=["']og:title["'][^>]*>\s*/gi, "\n");
   out = out.replace(/\s*<meta\s+[^>]*property=["']og:description["'][^>]*>\s*/gi, "\n");
+  out = out.replace(/\s*<meta\s+[^>]*property=["']og:url["'][^>]*>\s*/gi, "\n");
+  out = out.replace(/\s*<meta\s+[^>]*property=["']og:locale["'][^>]*>\s*/gi, "\n");
+  
+  // Inject structured data schemas
+  out = injectSchemasIntoHtml(out, schemas);
+  
   return out.replace("</head>", `    ${managedHead}\n  </head>`);
 }
 
@@ -181,6 +209,96 @@ app.disable("x-powered-by");
 app.set("trust proxy", 1);
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
+
+// ============================================================
+// HTTP 301 Redirects for legacy tool routes (SEO link equity preservation)
+// ============================================================
+// These redirects ensure that old indexed URLs pass their link equity
+// to the new canonical URLs, and Google crawlers properly understand
+// the migration. This is critical for maintaining search visibility.
+// ============================================================
+
+const LEGACY_TOOL_REDIRECTS: Record<string, string> = {
+  // dev → developer
+  '/tools/developer/json': '/tools/developer/json-formatter',
+  '/tools/dev/json-formatter': '/tools/developer/json-formatter',
+  '/tools/developer/color-contrast-checker': '/tools/design/color-contrast-ratio-calculator',
+  '/tools/developer/hex-to-hsl': '/tools/developer/hex-to-rgb',
+  '/tools/developer/html-beautifier': '/tools/developer/html-encoder',
+  '/tools/developer/rgb-to-hex': '/tools/developer/hex-to-rgb',
+  '/tools/developer/word-counter': '/tools/productivity/word-counter',
+  '/tools/ecommerce/carrying-cost-calculator': '/tools/ecommerce/inventory-turnover-calculator',
+  '/tools/ecommerce/cash-conversion-cycle-calculator': '/tools/ecommerce/inventory-turnover-calculator',
+  '/tools/ecommerce/gross-margin-calculator': '/tools/finance/gross-margin-calculator',
+  '/tools/ecommerce/margin-calculator': '/tools/finance/profit-margin-calculator',
+  '/tools/ecommerce/qr-code-generator': '/tools/developer/qr-code-generator',
+  '/tools/ecommerce/roas-calculator': '/tools/finance/roas-calculator',
+  '/tools/ecommerce/url-shortener': '/tools/ecommerce/utm-builder',
+  '/tools/education/age-calculator': '/tools/productivity/age-calculator',
+  '/tools/education/chinese-zodiac-calculator': '/tools/education/astrology-calculator-edu',
+  '/tools/education/date-difference-calculator': '/tools/productivity/date-duration-calculator',
+  '/tools/education/day-of-week-calculator': '/tools/productivity/date-duration-calculator',
+  '/tools/education/percentile-calculator': '/tools/education/iq-test-calculator',
+  '/tools/education/reading-speed-test': '/tools/education/reading-speed-calculator',
+  '/tools/education/standard-deviation-calculator': '/tools/education/iq-test-calculator',
+  '/tools/education/tuition-cost-calculator': '/tools/education/study-time-calculator',
+  '/tools/education/z-score-calculator': '/tools/education/iq-test-calculator',
+  '/tools/finance/car-depreciation-calculator': '/tools/finance/car-depreciation',
+  '/tools/finance/salary-calculator': '/tools/finance/salary-after-tax-calculator',
+  '/tools/finance/take-home-pay-calculator': '/tools/finance/salary-after-tax-calculator',
+  '/tools/health/cholesterol-ratio-calculator': '/tools/health/heart-disease-risk-calculator',
+  '/tools/health/pregnancy-weight-calculator': '/tools/health/due-date-calculator',
+  '/tools/health/target-heart-rate-calculator': '/tools/health/heart-rate-calculator',
+  '/tools/legal/overtime-pay-calculator': '/tools/legal/overtime-calculator',
+  '/tools/productivity/working-hours-calculator': '/tools/legal/working-hours-calculator',
+  '/tools/travel/baggage-fee-calculator': '/tools/travel/luggage-weight-calculator',
+  '/tools/travel/trip-budget-calculator': '/tools/travel/travel-budget-calculator',
+  '/tools/tax/estate-tax-calculator': '/tools/finance/estate-tax-calculator',
+  '/tools/tax/gift-tax-calculator': '/tools/finance/gift-tax-calculator',
+  '/tools/tax/tax-refund-calculator': '/tools/finance/tax-refund-calculator',
+  '/tools/realestate/down-payment-calculator': '/tools/finance/down-payment-calculator',
+  '/tools/realestate/home-affordability-calculator': '/tools/finance/home-affordability-calculator',
+  '/tools/health/maximum-heart-rate-calculator': '/tools/health/max-heart-rate-calculator',
+  '/tools/health/protein-intake-calculator': '/tools/health/protein-calculator',
+  '/tools/productivity/typing-speed-calculator': '/tools/education/typing-speed-calculator',
+  '/tools/finance/churn-rate-calculator': '/tools/ecommerce/churn-rate-calculator',
+  '/tools/fin/affordability-calculator': '/tools/finance/affordability-calculator',
+  '/tools/fin/cagr-calculator': '/tools/finance/cagr-calculator',
+  '/tools/fin/debt-payoff-calculator': '/tools/finance/debt-payoff-calculator',
+  '/tools/fin/dividend-yield-calculator': '/tools/finance/dividend-yield-calculator',
+  '/tools/design/css-grid-flexbox-generator': '/tools/design/grid-layout-calculator',
+  '/tools/dev/hex-to-rgb': '/tools/developer/hex-to-rgb',
+  '/tools/dev/html-to-markdown': '/tools/developer/html-to-markdown',
+  '/tools/marketing/cpm-calculator': '/tools/ecommerce/cpm-calculator',
+};
+
+// Legacy category redirects (old category names → new category names)
+const LEGACY_CATEGORY_REDIRECTS: Record<string, string> = {
+  '/category/dev': '/category/developer',
+  '/category/fin': '/category/finance',
+  '/category/tax': '/category/finance',
+  '/category/realestate': '/category/finance',
+  '/category/marketing': '/category/ecommerce',
+};
+
+// Apply legacy redirects middleware
+app.use((req, res, next) => {
+  const cleanPath = req.path.split('?')[0];
+  
+  // Check tool redirects
+  if (LEGACY_TOOL_REDIRECTS[cleanPath]) {
+    const target = LEGACY_TOOL_REDIRECTS[cleanPath];
+    return res.redirect(301, target);
+  }
+  
+  // Check category redirects
+  if (LEGACY_CATEGORY_REDIRECTS[cleanPath]) {
+    const target = LEGACY_CATEGORY_REDIRECTS[cleanPath];
+    return res.redirect(301, target);
+  }
+  
+  next();
+});
 
 // 301 Redirect for P05 classification fix
 app.get('/knowledge/ai-automation/prompt-driven-video-generation-boundaries', (req, res) => {
