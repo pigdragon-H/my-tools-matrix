@@ -35,9 +35,9 @@ const normalizeLocPath = (value) => {
   return pathname.replace(/\/+$/, "");
 };
 const normalizedLocPaths = new Set(locs.map(normalizeLocPath));
-const locsMissingFinalSlash = locs.filter((loc) => {
+const locsUsingRedirectSlash = locs.filter((loc) => {
   const pathname = new URL(loc).pathname;
-  return pathname !== "/" && !/\.[a-z0-9]+$/i.test(pathname) && !pathname.endsWith("/");
+  return pathname !== "/" && !/\.[a-z0-9]+$/i.test(pathname) && pathname.endsWith("/");
 });
 const requiredPaths = [
   "/blog/finance/roi-calculator-guide",
@@ -67,7 +67,7 @@ const assertions = [
   ["prerender blog routes honor frontmatter category", prerender.includes("category ? `/blog/${category}/${slug}`") && prerender.includes("category:") && prerender.includes("fmMatch")],
   ["server fallback does not hide URLs", !new RegExp("no" + "index", "i").test(server)],
   ["sitemap has unique locs", locs.length === uniqueLocs.size, { locs: locs.length, unique: uniqueLocs.size }],
-  ["sitemap locs use final trailing-slash routes", locsMissingFinalSlash.length === 0, locsMissingFinalSlash.slice(0, 10)],
+  ["sitemap locs preserve original no-slash routes", locsUsingRedirectSlash.length === 0, locsUsingRedirectSlash.slice(0, 10)],
   ["sitemap URL count >= 806", locs.length >= 806, locs.length],
   ["previous issue URLs remain exposed", missingRequired.length === 0, missingRequired],
   ["SSR helper has static page metadata", helper.includes('function staticPageMeta')],

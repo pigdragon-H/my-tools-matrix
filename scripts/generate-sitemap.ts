@@ -35,8 +35,7 @@ const BASE = (process.env.SITE_URL ?? "https://my-tools-matrix-production.up.rai
 function canonicalPath(path: string): string {
   const clean = path.split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
   if (clean === "/") return "/";
-  if (/\.[a-z0-9]+$/i.test(clean)) return clean;
-  return `${clean}/`;
+  return clean;
 }
 
 function isValidDate(value: string | undefined): value is string {

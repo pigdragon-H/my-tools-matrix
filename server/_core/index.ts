@@ -55,8 +55,7 @@ function humanizeSlug(slug: string): string {
 function canonicalPath(requestPath: string): string {
   const cleanPath = requestPath.split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
   if (cleanPath === "/") return "/";
-  if (/\.[a-z0-9]+$/i.test(cleanPath)) return cleanPath;
-  return `${cleanPath}/`;
+  return cleanPath;
 }
 
 function fallbackSeoForPath(requestPath: string) {
@@ -443,6 +442,19 @@ app.use(
 );
 
 // Static + SPA fallback
+app.get("*", (req, res, next) => {
+  if (req.path === "/" || req.path.endsWith("/") || path.extname(req.path)) {
+    return next();
+  }
+
+  const routeHtml = path.join(publicDir, req.path, "index.html");
+  if (existsSync(routeHtml)) {
+    return res.sendFile(routeHtml);
+  }
+
+  return next();
+});
+
 app.use(
   express.static(publicDir, {
     index: false,

@@ -16,8 +16,7 @@ export function resetSsrMetaTags(): void {
 function canonicalPath(pathname: string) {
   const clean = pathname.split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
   if (clean === "/") return "/";
-  if (/\.[a-z0-9]+$/i.test(clean)) return clean;
-  return `${clean}/`;
+  return clean;
 }
 
 function canonicalHrefFromPath(pathname: string) {
