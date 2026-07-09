@@ -12,7 +12,7 @@ import { convertWordToPdf } from "../lib/docxToPdf";
 import { convertPdfToDocx } from "../lib/pdfToDocx";
 import { analyzePdf } from "../lib/analyzePdf";
 import { getFontHealth } from "../lib/fontSetup";
-import { generatePageSchemas, injectSchemasIntoHtml } from "./_core/schema-generator";
+import { generatePageSchemas, injectSchemasIntoHtml } from "./schema-generator";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

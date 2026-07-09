@@ -46,9 +46,9 @@ export const CookieConsent: React.FC<CookieConsentProps> = ({
     localStorage.setItem('cookie-consent-date', new Date().toISOString());
     
     // Enable Google AdSense personalization
-    window.dataLayer = window.dataLayer || [];
+    const dataLayer = (window.dataLayer = window.dataLayer || []);
     function gtag(...args: any[]) {
-      window.dataLayer.push(arguments);
+      dataLayer.push(arguments);
     }
     gtag('consent', 'update', {
       ad_personalization: 'granted',
@@ -65,9 +65,9 @@ export const CookieConsent: React.FC<CookieConsentProps> = ({
     localStorage.setItem('cookie-consent-date', new Date().toISOString());
     
     // Disable personalization
-    window.dataLayer = window.dataLayer || [];
+    const dataLayer = (window.dataLayer = window.dataLayer || []);
     function gtag(...args: any[]) {
-      window.dataLayer.push(arguments);
+      dataLayer.push(arguments);
     }
     gtag('consent', 'update', {
       ad_personalization: 'denied',
