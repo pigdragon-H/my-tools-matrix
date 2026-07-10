@@ -36,10 +36,10 @@ jobs:
         run: pnpm install
 
       - name: Run TypeScript check
-        run: npm run check
+        run: pnpm run check
 
       - name: Run build
-        run: npm run build
+        run: pnpm run build
 
       - name: Verify SEO meta tags (prerendered pages)
         run: |
@@ -81,7 +81,7 @@ jobs:
       - name: Start server and verify robots meta tags
         run: |
           # Start server in background
-          npm run start &
+          pnpm run start &
           SERVER_PID=$!
           
           # Wait for server to start

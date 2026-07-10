@@ -1,2 +1,40 @@
 /**
- * Ad Disclosure Component\n * ============================================================\n * Transparent ad disclosure for AdSense compliance\n */\n\nimport React from 'react';\n\ninterface AdDisclosureProps {\n  /** Position: top, bottom, inline */\n  position?: 'top' | 'bottom' | 'inline';\n  /** Custom message */\n  message?: string;\n}\n\nexport const AdDisclosure: React.FC<AdDisclosureProps> = ({\n  position = 'top',\n  message = '此頁面包含廣告。我們使用廣告收入來維持網站運營。',\n}) => {\n  const containerStyle: React.CSSProperties = {\n    padding: '0.75rem 1rem',\n    backgroundColor: '#f3f4f6',\n    border: '1px solid #e5e7eb',\n    borderRadius: '4px',\n    fontSize: '0.85rem',\n    color: '#6b7280',\n    lineHeight: 1.5,\n    marginBottom: position === 'top' ? '1.5rem' : '0',\n    marginTop: position === 'bottom' ? '1.5rem' : '0',\n  };\n\n  return (\n    <div style={containerStyle}>\n      <strong style={{ color: '#374151' }}>廣告聲明：</strong> {message}\n    </div>\n  );\n};\n\nexport default AdDisclosure;\n
+ * Ad Disclosure Component
+ * ============================================================
+ * Transparent ad disclosure for AdSense compliance
+ */
+
+import React from 'react';
+
+interface AdDisclosureProps {
+  /** Position: top, bottom, inline */
+  position?: 'top' | 'bottom' | 'inline';
+  /** Custom message */
+  message?: string;
+}
+
+export const AdDisclosure: React.FC<AdDisclosureProps> = ({
+  position = 'top',
+  message = '此頁面包含廣告。我們使用廣告收入來維持網站運營。',
+}) => {
+  const containerStyle: React.CSSProperties = {
+    padding: '0.75rem 1rem',
+    backgroundColor: '#f3f4f6',
+    border: '1px solid #e5e7eb',
+    borderRadius: '4px',
+    fontSize: '0.85rem',
+    color: '#6b7280',
+    lineHeight: 1.5,
+    marginBottom: position === 'top' ? '1.5rem' : '0',
+    marginTop: position === 'bottom' ? '1.5rem' : '0',
+  };
+
+  return (
+    <div style={containerStyle}>
+      <strong style={{ color: '#374151' }}>廣告聲明：</strong> {message}
+    </div>
+  );
+};
+
+export default AdDisclosure;
+
