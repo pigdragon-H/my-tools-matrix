@@ -353,8 +353,218 @@ app.get("/healthz", (_req, res) => {
   });
 });
 
-// ... (保留所有 API 端點 - /api/articles, /api/convert/*, 等等)
-// [保留原始檔案中第 342-549 行的所有 API 端點]
+// ------------------------------------------------------------
+// AI-friendly REST endpoints (open, no auth — published articles only)
+// ------------------------------------------------------------
+
+app.get("/api/articles", async (req, res) => {
+  if (!supabaseService) return res.json({ articles: [] });
+  const locale = (req.query.locale as string) ?? undefined;
+  const limit = Math.min(Number(req.query.limit ?? 50) || 50, 100);
+  try {
+    let q = supabaseService
+      .from("articles")
+      .select(
+        "id,slug,locale,title,description,ai_summary,ai_keywords,category_key,tools_referenced,tags,published_at"
+      )
+      .eq("status", "published")
+      .order("published_at", { ascending: false })
+      .limit(limit);
+    if (locale === "zh" || locale === "en") q = q.eq("locale", locale);
+    const { data, error } = await q;
+    if (error) return res.status(500).json({ error: error.message });
+    res.set("Cache-Control", "public, max-age=300");
+    res.json({ articles: data ?? [], count: data?.length ?? 0 });
+  } catch (e) {
+    res.status(500).json({ error: String(e) });
+  }
+});
+
+app.get("/api/articles/:slug", async (req, res) => {
+  if (!supabaseService)
+    return res.status(404).json({ error: "Articles not configured" });
+  try {
+    // Optional locale query param. If absent or no match, fall back to any locale.
+    const localeParam =
+      typeof req.query.locale === "string" ? req.query.locale : "";
+    let q = supabaseService
+      .from("articles")
+      .select("*")
+      .eq("slug", req.params.slug)
+      .eq("status", "published")
+      .order("locale", { ascending: true });
+    if (localeParam === "zh" || localeParam === "en") {
+      q = q.eq("locale", localeParam);
+    }
+    const { data, error } = await q;
+    if (error || !data || data.length === 0)
+      return res.status(404).json({ error: "Not found" });
+    res.set("Cache-Control", "public, max-age=300");
+    // If multiple (no locale specified), return the first; expose alternates.
+    const primary = data[0];
+    if (data.length > 1) {
+      (primary as any).alternates = data
+        .filter((d: any) => d.locale !== primary.locale)
+        .map((d: any) => ({ locale: d.locale, slug: d.slug }));
+    }
+    res.json(primary);
+  } catch (e) {
+    res.status(500).json({ error: String(e) });
+  }
+});
+
+// /llms.txt — site index for AI crawlers (Perplexity, ChatGPT Search, etc.)
+app.get("/llms.txt", async (_req, res) => {
+  res.set("Content-Type", "text/plain; charset=utf-8");
+  res.set("Cache-Control", "public, max-age=600");
+  const lines: string[] = [
+    "# Formula Universe / Tool Matrix",
+    "",
+    "> A 5000+ calculator and decision-tool matrix across 12 domains, with curated knowledge base articles.",
+    "",
+    "## About",
+    `- Site: ${process.env.SITE_URL ?? "https://my-tools-matrix-production.up.railway.app"}` as string,
+    "- Knowledge base API: /api/articles  (JSON)",
+    "- Single article API: /api/articles/{slug}  (JSON, includes content_mdx + ai_summary)",
+    "",
+    "## Articles",
+  ];
+  if (supabaseService) {
+    try {
+      const { data } = await supabaseService
+        .from("articles")
+        .select("slug,title,ai_summary,locale,published_at")
+        .eq("status", "published")
+        .order("published_at", { ascending: false })
+        .limit(200);
+      for (const a of data ?? []) {
+        lines.push(
+          `- [${a.title}](/blog/${a.slug}) (${a.locale}) — ${a.ai_summary ?? ""}`
+        );
+      }
+    } catch {
+      /* ignore */
+    }
+  }
+  res.send(lines.join("\n") + "\n");
+});
+
+// ------------------------------------------------------------
+// High-fidelity Word → PDF conversion (LibreOffice headless, vector output)
+// ------------------------------------------------------------
+// The client POSTs the raw .docx bytes (Content-Type:
+// application/octet-stream) with the original filename in the
+// `x-filename` header. We return a vector PDF stream.
+app.post(
+  "/api/convert/word-to-pdf",
+  enforceWordToPdfRateLimit,
+  express.raw({ type: "*/*", limit: WORD_TO_PDF_UPLOAD_LIMIT }),
+  async (req, res) => {
+    try {
+      const body = req.body as Buffer;
+      if (!Buffer.isBuffer(body) || body.length === 0) {
+        return res.status(400).json({ error: "Empty request body" });
+      }
+      const rawName =
+        (req.headers["x-filename"] as string | undefined) || "document.docx";
+      // sanitize filename
+      const originalName = decodeURIComponent(rawName).replace(/[^\w.\- ]+/g, "_");
+
+      const { pdf, ms } = await convertWordToPdf(body, originalName);
+      const pdfName = originalName.replace(/\.(docx?|rtf|odt)$/i, "") + ".pdf";
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("X-Conversion-Ms", String(ms));
+      res.setHeader(
+        "Content-Disposition",
+        `inline; filename="${encodeURIComponent(pdfName)}"`
+      );
+      res.send(pdf);
+    } catch (e) {
+      console.error("[word-to-pdf] conversion failed:", e);
+      const message = e instanceof Error ? e.message : String(e);
+      const status = /busy|retry/i.test(message) ? 429 : 500;
+      res.status(status).json({ error: message });
+    }
+  }
+);
+
+// ------------------------------------------------------------
+// High-fidelity PDF -> Word (.docx) conversion (LibreOffice headless)
+// ------------------------------------------------------------
+// The client POSTs the raw PDF bytes (Content-Type: application/octet-stream)
+// with the original filename in the `x-filename` header. We return an editable
+// .docx stream. The uploaded file is processed in an isolated temp dir and
+// deleted immediately after conversion (nothing is persisted).
+app.post(
+  "/api/convert/pdf-to-word",
+  enforcePdfToWordRateLimit,
+  express.raw({ type: "*/*", limit: PDF_TO_WORD_UPLOAD_LIMIT }),
+  async (req, res) => {
+    try {
+      const body = req.body as Buffer;
+      if (!Buffer.isBuffer(body) || body.length === 0) {
+        return res.status(400).json({ error: "Empty request body" });
+      }
+      const rawName =
+        (req.headers["x-filename"] as string | undefined) || "document.pdf";
+      // sanitize filename
+      const originalName = decodeURIComponent(rawName).replace(/[^\w.\- ]+/g, "_");
+
+      const { docx, ms } = await convertPdfToDocx(body, originalName);
+      const docxName = originalName.replace(/\.pdf$/i, "") + ".docx";
+      res.setHeader(
+        "Content-Type",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      );
+      res.setHeader("X-Conversion-Ms", String(ms));
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename="${encodeURIComponent(docxName)}"`
+      );
+      res.send(docx);
+    } catch (e) {
+      console.error("[pdf-to-word] conversion failed:", e);
+      const message = e instanceof Error ? e.message : String(e);
+      const status = /busy|retry/i.test(message) ? 429 : 500;
+      res.status(status).json({ error: message });
+    }
+  }
+);
+
+// ------------------------------------------------------------
+// PDF tier-analysis + first-page preview (L1 / L1+ routing)
+// ------------------------------------------------------------
+// The client POSTs the raw PDF bytes (Content-Type: application/octet-stream)
+// with the original filename in the `x-filename` header. We return JSON:
+//   { tier: "L1" | "L1plus", previewUrl: <base64 data URL of page 1>, signals }
+// This NEVER calls CloudConvert — the preview is a cheap local raster so the
+// paid engine cost falls only on paying users. The uploaded file is processed
+// in an isolated temp dir and deleted immediately (nothing is persisted).
+app.post(
+  "/api/pdf2word/analyze",
+  enforcePdfToWordRateLimit,
+  express.raw({ type: "*/*", limit: PDF_TO_WORD_UPLOAD_LIMIT }),
+  async (req, res) => {
+    try {
+      const body = req.body as Buffer;
+      if (!Buffer.isBuffer(body) || body.length === 0) {
+        return res.status(400).json({ error: "Empty request body" });
+      }
+      const rawName =
+        (req.headers["x-filename"] as string | undefined) || "document.pdf";
+      const originalName = decodeURIComponent(rawName).replace(/[^\w.\- ]+/g, "_");
+
+      const { tier, previewUrl, signals, ms } = await analyzePdf(body, originalName);
+      res.setHeader("X-Analyze-Ms", String(ms));
+      res.json({ tier, previewUrl, signals });
+    } catch (e) {
+      console.error("[pdf2word/analyze] failed:", e);
+      const message = e instanceof Error ? e.message : String(e);
+      const status = /busy|retry/i.test(message) ? 429 : 500;
+      res.status(status).json({ error: message });
+    }
+  }
+);
 
 // tRPC API
 app.use(
