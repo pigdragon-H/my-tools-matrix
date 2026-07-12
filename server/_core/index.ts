@@ -11,7 +11,7 @@ import { convertWordToPdf } from "../lib/docxToPdf";
 import { convertPdfToDocx } from "../lib/pdfToDocx";
 import { analyzePdf } from "../lib/analyzePdf";
 import { getFontHealth } from "../lib/fontSetup";
-import { generatePageSchemas, injectSchemasIntoHtml } from "./_core/schema-generator";
+import { generatePageSchemas, injectSchemasIntoHtml } from "./schema-generator";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -598,34 +598,6 @@ app.get("*", (req, res, next) => {
   return next();
 });
 
-// 動態生成 robots.txt - 確保爬蟲指令被正確提供
-app.get("/robots.txt", (req, res) => {
-  const robotsTxt = `User-agent: *
-Allow: /
-# 禁止爬取 API 端點
-Disallow: /api/
-# 禁止爬取管理後台
-Disallow: /admin/
-# 禁止爬取登入頁面
-Disallow: /login
-# 禁止爬取動態篩選結果
-Disallow: /?*
-Disallow: /*?*
-# 爬蟲速率限制 (秒)
-Crawl-delay: 1
-Request-rate: 30/60
-# Sitemap 位置
-Sitemap: ${SITE_URL}/sitemap.xml
-# 特定爬蟲規則
-User-agent: Googlebot
-Crawl-delay: 0
-Request-rate: 100/60
-User-agent: Bingbot
-Crawl-delay: 1
-Request-rate: 30/60
-`;
-  res.type("text/plain").set("Cache-Control", "public, max-age=86400").send(robotsTxt);
-});
 
 app.use(
   express.static(publicDir, {
