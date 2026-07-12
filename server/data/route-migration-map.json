@@ -1,17 +1,17 @@
-{
-  "title": "FU-ROUTE-404-FIX 遷移對照表 v2（Victor 橋接政策執行版）",
-  "policy": "Victor 2026-07-12 裁定：舊工具已被新內容取代；有繼任者一律 301 橋接保資產；無繼任者 410",
+﻿{
+  "title": "FU-ROUTE-404-FIX ?瑞宏撠銵?v2嚗ictor 璈?輻??瑁???",
+  "policy": "Victor 2026-07-12 鋆?嚗?撌亙撌脰◤?啣摰孵?隞???匱隞餉?敺?301 璈靽??ｇ??∠匱隞餉?410",
   "audit_provenance": {
-    "method": "git sitemap 歷史全量挖掘（main 41 個版本 × 2 個 sitemap 檔）",
-    "round1_round2_diff": "零差異；--all 分支額外 URL = 0",
-    "cross_reference": "與 2026-05 SITEMAP_LEGACY_AUDIT.md 的 26 條 /tools/fin/ 記錄吻合"
+    "method": "git sitemap 甇瑕?券???嚗ain 41 ????? 2 ??sitemap 瑼?",
+    "round1_round2_diff": "?嗅榆?堆?--all ?憿? URL = 0",
+    "cross_reference": "??2026-05 SITEMAP_LEGACY_AUDIT.md ??26 璇?/tools/fin/ 閮??餃?"
   },
   "stats": {
     "class_A_trailing_slash_rule": 813,
     "class_B_redirects_301": 133,
     "class_C_gone_410": 72
   },
-  "class_A_rule": "全域中介層：路徑結尾為 / 且去斜線後為合法路由 → 301 至無斜線版（不逐條列舉，813 條全收）",
+  "class_A_rule": "?典?銝凋?撅歹?頝臬?蝯偏??/ 銝??敺??頝舐 ??301 ?喟????銝???嚗?13 璇?塚?",
   "class_B_redirects_301": {
     "/blog/dev/color-converter-guide": "/blog/developer/color-converter-guide",
     "/blog/dev/hash-generator-guide": "/blog/developer/hash-generator-guide",
@@ -131,7 +131,7 @@
     "/tools/dev/uuid-password-generator": "/tools/developer/uuid-generator",
     "/tools/ecommerce/roas-cpc-calculator": "/tools/finance/cpc-calculator",
     "/tools/ecommerce/social-media-roi-calculator": "/tools/finance/roi-calculator",
-    "/tools/finance/dca-calculator": "/tools/finance/crypto-dca-backtest",
+    "/tools/finance/dca-calculator": "/tools/finance/dollar-cost-averaging",
     "/tools/finance/social-media-roi-calculator": "/tools/finance/roi-calculator",
     "/tools/health/astrology-calculator": "/tools/education/astrology-calculator-edu",
     "/tools/health/pomodoro-tracker": "/tools/finance/pomodoro-calculator",
