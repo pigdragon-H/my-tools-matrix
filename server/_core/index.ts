@@ -18,6 +18,15 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = Number(process.env.PORT ?? 3000);
 const publicDir = path.resolve(__dirname, "public");
+
+// W2/R3: Legal path whitelist loaded from sitemap at startup
+const sitemapXml = readFileSync(path.join(publicDir, "sitemap.xml"), "utf8");
+const LEGAL_PATHS = new Set(
+  [...sitemapXml.matchAll(/<loc>https?:\/\/[^/<]+(\/[^<]*)<\/loc>/g)].map(
+    (m) => m[1].replace(/\/+$/, "") || "/"
+  )
+);
+
 const WORD_TO_PDF_UPLOAD_LIMIT_MB = 20;
 const WORD_TO_PDF_UPLOAD_LIMIT = `${WORD_TO_PDF_UPLOAD_LIMIT_MB}mb`;
 const WORD_TO_PDF_RATE_WINDOW_MS = Number(process.env.WORD_TO_PDF_RATE_WINDOW_MS ?? 60_000);
@@ -631,12 +640,10 @@ app.use(
 app.get("*", (req, res) => {
   const cleanPath = req.path.split("?")[0].split("#")[0];
   
-  // W2: 尾斜線規則 - 結尾為 / 且去斜線後為合法路由 → 301
+  // W2/R3: 尾斜線規則 - 結尾為 / 且去斜線後為合法路由（sitemap 白名單）→ 301
   if (cleanPath !== "/" && cleanPath.endsWith("/")) {
-    const pathWithoutSlash = cleanPath.slice(0, -1);
-    // 檢查去斜線後是否為合法路由
-    const routeHtml = path.join(publicDir, pathWithoutSlash, "index.html");
-    if (existsSync(routeHtml)) {
+    const pathWithoutSlash = cleanPath.replace(/\/+$/, "");
+    if (LEGAL_PATHS.has(pathWithoutSlash)) {
       return res.redirect(301, pathWithoutSlash);
     }
   }
