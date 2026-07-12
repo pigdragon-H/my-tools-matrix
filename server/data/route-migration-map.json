@@ -1,17 +1,17 @@
-﻿{
-  "title": "FU-ROUTE-404-FIX ?瑞宏撠銵?v2嚗ictor 璈?輻??瑁???",
-  "policy": "Victor 2026-07-12 鋆?嚗?撌亙撌脰◤?啣摰孵?隞???匱隞餉?敺?301 璈靽??ｇ??∠匱隞餉?410",
+{
+  "title": "FU-ROUTE-404-FIX migration map v2.1 (clean)",
+  "policy": "Victor 2026-07-12: 301 bridge when successor exists; 410 otherwise",
   "audit_provenance": {
-    "method": "git sitemap 甇瑕?券???嚗ain 41 ????? 2 ??sitemap 瑼?",
-    "round1_round2_diff": "?嗅榆?堆?--all ?憿? URL = 0",
-    "cross_reference": "??2026-05 SITEMAP_LEGACY_AUDIT.md ??26 璇?/tools/fin/ 閮??餃?"
+    "method": "git sitemap history mining (41 versions x 2 files)",
+    "diff": "round1 vs round2 zero diff",
+    "cross_reference": "matches 2026-05 SITEMAP_LEGACY_AUDIT 26 fin routes"
   },
   "stats": {
     "class_A_trailing_slash_rule": 813,
     "class_B_redirects_301": 133,
     "class_C_gone_410": 72
   },
-  "class_A_rule": "?典?銝凋?撅歹?頝臬?蝯偏??/ 銝??敺??頝舐 ??301 ?喟????銝???嚗?13 璇?塚?",
+  "class_A_rule": "global middleware: trailing slash on legal route -> 301 to non-slash (813 covered)",
   "class_B_redirects_301": {
     "/blog/dev/color-converter-guide": "/blog/developer/color-converter-guide",
     "/blog/dev/hash-generator-guide": "/blog/developer/hash-generator-guide",
