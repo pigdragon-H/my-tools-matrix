@@ -659,6 +659,20 @@ app.get("*", (req, res) => {
     return res.send("Gone");
   }
   
+  // R6: 合法路由（sitemap 白名單）但無 prerender 檔 → SPA fallback（index,follow）
+  if (LEGAL_PATHS.has(cleanPath)) {
+    try {
+      const fallbackPath = path.join(publicDir, "index.html");
+      if (existsSync(fallbackPath)) {
+        const fallbackHtml = readFileSync(fallbackPath, "utf8");
+        res.setHeader("Content-Type", "text/html; charset=UTF-8");
+        return res.send(injectFallbackSeo(fallbackHtml, cleanPath, true));
+      }
+    } catch (err) {
+      console.error("[SPA fallback] Error:", err);
+    }
+  }
+  
   // 404: 未知路由
   res.status(404);
   try {
